@@ -13,10 +13,10 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
+                "file": "DSP/Uge_01__to.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Electromagnetics (Applied) Fundamentals 8th Ed"
+              "title": "Uge_01__to"
             }
           }
         ]
@@ -160,12 +160,11 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,10 +178,13 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e2a2e603fbd32003",
+  "active": "193bbefd10f68968",
   "lastOpenFiles": [
-    "Electromagnetics/L02_Waves+TL.pdf",
+    "Integrated Analog Electronics",
     "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "DSP/Uge_01__to.pdf",
+    "DSP",
+    "Electromagnetics/L02_Waves+TL.pdf",
     "Electromagnetics/Lecture 2 - Introduction to Waves and TLs.md",
     "Lecture 2 - Introduction to Waves and TLs.md",
     "Untitled.canvas",
