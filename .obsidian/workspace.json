@@ -13,10 +13,10 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "DSP/Uge_01__to.pdf"
+                "file": "Integrated Analog Electronics/34630-lecture-01-intro_v1.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Uge_01__to"
+              "title": "34630-lecture-01-intro_v1"
             }
           }
         ]
@@ -178,11 +178,14 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "193bbefd10f68968",
+  "active": "e2a2e603fbd32003",
   "lastOpenFiles": [
+    "Integrated Analog Electronics/cmos_analog_ic_design_fundamentals.pdf",
+    "Integrated Analog Electronics/Problems/34630-week-01-problems.pdf",
+    "Integrated Analog Electronics/34630-lecture-01-intro_v1.pdf",
+    "DSP/Uge_01__to.pdf",
     "Integrated Analog Electronics",
     "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "DSP/Uge_01__to.pdf",
     "DSP",
     "Electromagnetics/L02_Waves+TL.pdf",
     "Electromagnetics/Lecture 2 - Introduction to Waves and TLs.md",
