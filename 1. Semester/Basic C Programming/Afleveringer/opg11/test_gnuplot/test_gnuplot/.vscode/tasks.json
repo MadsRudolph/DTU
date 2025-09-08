@@ -1,0 +1,23 @@
+{
+    "version": "2.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-o", "output.exe", 
+                "test_gnu.c",           
+                "-L", "C:/msys64/mingw64/lib", 
+                "-I", "C:/msys64/mingw64/include",
+                "-lgsl"           
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task by VS Code"
+        }
+    ]
+}

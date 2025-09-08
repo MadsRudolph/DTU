@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Worksheet>
+<Version major="2024" minor="2"/>
+<Label-Scheme value="2" prefix=""/>
+<View-Properties presentation="false" autoexpanding_sections="true" UserProfileName="Maple Default Profile" NumericFormat-ApplyInteger="true" NumericFormat-ApplyRational="true" NumericFormat-ApplyExponent="false" editable="true">
+</View-Properties>
+<MapleNet-Properties prettyprint="3" warnlevel="3" compactdisplay="false" preplot="" helpbrowser="standard" displayprecision="-1" echo="1" scientificx="true" unitattributes="&quot;fontweight&quot; = &quot;bold&quot;" imaginaryunit="I" longdelim="true" elisiontermsthreshold="10000" elisiondigitsafter="100" elisiondigitsbefore="100" plotdevice="inline" errorbreak="1" plotoptions="" plotdriver="opengl" quiet="false" elisiontermsbefore="100" elisiontermsafter="100" historytimestamp="false" screenwidth="79" indentamount="4" plotoutput="terminal" screenpixelheight="1080" rtablesize="[10, 10]" useclientjvm="true" format="worksheet" labelwidth="20" postplot="" typesetting="extended" ansi="false" ansicolor="[]" elisiondigitsthreshold="10000" showassumed="1" ansilprint="false" trailingsemicolon="true" errorcursor="false" labelling="true" screenheight="25" prompt="&gt; " verboseproc="1" latexwidth="8.0" ShowLabels="false"/>
+<Styles>
+<Font name="Ordered List 1" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Text Output" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[0,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Ordered List 2" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Ordered List 3" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Ordered List 4" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Ordered List 5" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Atomic Variable" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[175,0,175]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle258" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle256" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle257" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Code" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[255,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle260" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Author" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Warning" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[0,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle342" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Diagnostic" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[40,120,40]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Maple Input" background="[0,0,0]" bold="true" executable="true" family="Monospaced" foreground="[255,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle340" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Header and Footer" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="10" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Bullet Item" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Maple Plot" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Text" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Normal" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Maple Input Placeholder" background="[255,255,255]" bold="true" executable="true" family="Monospaced" foreground="[200,0,200]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="true"/>
+<Font name="Equation Label" background="[255,255,255]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Hyperlink" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,128,128]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="true" strikethrough="false" placeholder="false"/>
+<Font name="Caption Text" background="[255,255,255]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle328" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Heading 1" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="18" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle329" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Heading 4" background="[255,255,255]" bold="false" executable="false" family="Serif" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle324" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle325" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Heading 2" background="[0,0,0]" bold="true" executable="false" family="Serif" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="16" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle326" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Heading 3" background="[255,255,255]" bold="true" executable="false" family="Serif" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="14" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle327" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle287" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle320" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle288" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle321" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle322" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle323" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle283" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle284" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle286" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle292" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle293" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="HyperlinkWarning" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[0,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="true" strikethrough="false" placeholder="false"/>
+<Font name="Dictionary Hyperlink" background="[255,255,255]" bold="false" executable="false" family="Serif" foreground="[147,0,15]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="true" strikethrough="false" placeholder="false"/>
+<Font name="List Item" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle335" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle336" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle337" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle338" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Dash Item" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle331" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="2D Input" background="[255,255,255]" bold="false" executable="true" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle332" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle333" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle334" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle294" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle295" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle296" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle330" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle306" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle307" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle308" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle309" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="2D Output" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Line Printed Output" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[0,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle302" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle269" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle303" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Maple Output" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle304" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="2D Inert Output" background="[255,255,255]" bold="false" executable="true" family="Times New Roman" foreground="[144,144,144]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle305" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle265" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle267" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Page Number" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle301" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle268" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle261" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle262" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Annotation Title" background="[255,255,255]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="18" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle263" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle264" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle270" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle271" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="HyperlinkError" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[255,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="true" strikethrough="false" placeholder="false"/>
+<Font name="2D Math" background="[255,255,255]" bold="false" executable="true" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle317" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle318" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Annotation Text" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle319" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle313" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle314" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle315" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle316" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle276" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Error" background="[255,255,255]" bold="false" executable="false" family="Monospaced" foreground="[255,0,255]" italic="false" opaque="false" readonly="true" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Title" background="[255,255,255]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="18" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle310" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle277" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle311" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle278" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle312" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle279" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle272" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="Caption Reference" background="[255,255,255]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle273" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle274" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle275" background="[0,0,0]" bold="true" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle280" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle281" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="_cstyle282" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="true" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Font name="2D Comment" background="[0,0,0]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" strikethrough="false" placeholder="false"/>
+<Layout name="Heading 1" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="6" spacebelow="6" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Warning" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Heading 4" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Line Printed Output" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="any" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Heading 2" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="8" spacebelow="2" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Maple Output" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.3" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Heading 3" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Diagnostic" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="any" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Ordered List 1" alignment="left" bullet="numeric" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="-1" bulletsuffix=""/>
+<Layout name="Text Output" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="newline" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Ordered List 2" alignment="left" bullet="alphabetic" firstindent="0" leftmargin="36" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="-1" bulletsuffix=""/>
+<Layout name="Ordered List 3" alignment="left" bullet="roman" firstindent="0" leftmargin="72" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="-1" bulletsuffix=""/>
+<Layout name="Ordered List 4" alignment="left" bullet="ALPHABETIC" firstindent="0" leftmargin="108" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="-1" bulletsuffix=""/>
+<Layout name="Ordered List 5" alignment="left" bullet="ROMAN" firstindent="0" leftmargin="144" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="-1" bulletsuffix=""/>
+<Layout name="Annotation Title" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="12" spacebelow="12" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="HyperlinkError" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="HyperlinkWarning" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Bullet Item" alignment="left" bullet="dot" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Maple Plot" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="List Item" alignment="left" bullet="indent" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Normal256" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Dash Item" alignment="left" bullet="dash" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="3" spacebelow="3" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Error" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Title" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="12" spacebelow="12" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Normal" alignment="left" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="0" spacebelow="0" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Layout name="Author" alignment="centred" bullet="none" firstindent="0" leftmargin="0" rightmargin="0" linespacing="0.0" spaceabove="8" spacebelow="8" linebreak="space" pagebreak-before="false" initial="0" bulletsuffix=""/>
+<Pencil-style name="Pencil 1" pen-color="[0,0,0]" pen-height="1.0" pen-width="1.0" pen-opacity="1.0"/>
+<Pencil-style name="Pencil 2" pen-color="[0,0,255]" pen-height="1.0" pen-width="1.0" pen-opacity="1.0"/>
+<Pencil-style name="Pencil 3" pen-color="[0,0,0]" pen-height="3.0" pen-width="3.0" pen-opacity="1.0"/>
+<Pencil-style name="Pencil 4" pen-color="[0,0,255]" pen-height="3.0" pen-width="3.0" pen-opacity="1.0"/>
+<Pencil-style name="Pencil 5" pen-color="[255,0,0]" pen-height="5.0" pen-width="5.0" pen-opacity="1.0"/>
+<Highlighter-style name="Highlighter 5" pen-color="[255,255,0]" pen-height="48.0" pen-width="48.0" pen-opacity="0.8"/>
+<Highlighter-style name="Highlighter 3" pen-color="[51,255,0]" pen-height="24.0" pen-width="24.0" pen-opacity="0.8"/>
+<Highlighter-style name="Highlighter 4" pen-color="[0,255,255]" pen-height="32.0" pen-width="32.0" pen-opacity="0.8"/>
+<Highlighter-style name="Highlighter 1" pen-color="[255,153,255]" pen-height="12.0" pen-width="8.0" pen-opacity="0.8"/>
+<Highlighter-style name="Highlighter 2" pen-color="[255,204,0]" pen-height="14.0" pen-width="14.0" pen-opacity="0.8"/>
+</Styles>
+<Startup-Code startupcode=""/>
+<Footer left-content="" center-content="&amp;[Page]" right-content="" left-image-scale-width="100" center-image-scale-width="100" right-image-scale-width="100" left-image-scale-height="100" center-image-scale-height="100" right-image-scale-height="100" date-format="2" selected-index="0" first-number="1" first-numbered-page="1"/>
+<Task-table>
+	<Task-category name="&lt;default&gt;"/>
+</Task-table>
+<Annotation-table>
+	<Annotation-category name="&lt;default&gt;"/>
+</Annotation-table>
+<Task/>
+<Group labelreference="L132" drawlabel="true" applyint="true" applyrational="true" applyexponent="false">
+<Input><Text-field style="Text" layout="Normal" alignment="centred"><Font size="18" bold="true">Mapledemo 1 </Font></Text-field><Text-field style="Text" layout="Normal" alignment="centred"><Font size="18" bold="true">Matematisk Analyse og Modellering</Font></Text-field><Text-field style="Text" layout="Normal" alignment="centred"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L123" drawlabel="true">
+<Input><Text-field style="Text" bold="true" size="14" layout="Normal"><Font size="14" bold="true" encoding="UTF-8">L\303\246s og forst\303\245 dette worksheet, og l\303\270s opgaven der er angivet nederst!</Font></Text-field>
+</Input>
+</Group><Text-field style="Text" layout="Normal"></Text-field>
+<Section collapsed="false" isCollapsible="true" drawButton="true" MultipleChoiceAnswerIndex="-1" MultipleChoiceRandomizeChoices="false" TrueFalseAnswerIndex="-1" EssayAnswerRows="5" EssayAnswerColumns="60"><Title><Text-field style="Heading 1" layout="Heading 1">Introduktion til Maple</Text-field></Title>
+<Group labelreference="L1">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Anbring vha. piletasterne cursoren (en blinkende lodret streg) p\303\245 en </Font><Font style="_cstyle256">input-linje</Font>, dvs. en linje med symbolet  <Font style="_cstyle257" foreground="[255,0,0]">&gt;</Font>  yderst til venstre. Skriv en ordre til Maple (som f.eks. <Font style="_cstyle258">2+2;</Font><Font encoding="UTF-8"> ). Tryk derefter p\303\245 returtasten (ENTER). Maple udf\303\270rer da ordren (kommandoen) p\303\245 den p\303\245g\303\246ldende linje, hvis denne slutter med semikolon. </Font></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Cursoren kan anbringes hvor som helst p\303\245 linjen. </Font></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Cursoren g\303\245r automatisk videre til n\303\246ste input-linje. Den hopper alts\303\245 over linjer, der kun indeholder forklarende tekst. </Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field><Text-field prompt="&gt; " style="Maple Input" layout="Normal">2+2;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L2">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Enhver kommando kan afsluttes med et semikolon (;) eller med et kolon (:). Bruges kolon vil kommandoen blive udf\303\270rt, men ikke vist:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field><Text-field prompt="&gt; " style="Maple Input" layout="Normal">(17-2)/5:</Text-field>
+</Input>
+</Group>
+<Group labelreference="L133">
+<Input><Text-field style="Text" layout="Normal"></Text-field><Text-field style="Text" layout="Normal">At der alligevel skete noget, ses ved at bede Maple om det sidstudregnede resultat.</Text-field><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">I denne Maple-demo er alle input-linjer generelt afsluttet med semikolon. I tidligere versioner af Maple var dette (eller afslutning med kolon) p\303\245kr\303\246vet for ikke at f\303\245 en fejlmeddelelse, i senere versioner fik man en advarsel &quot;warning&quot;. Dette er nu \303\246ndret, trykker man p\303\245 enter, opfatter Maple det, som om man har afsluttet med semikolon. Det kan dog stadig v\303\246re en god vane at afslutte med semikolon, s\303\245 man over for sig selv markerer, at den indtastede input-linje virkelig er f\303\246rdiggjort. Men alts\303\245:</Font></Text-field><Text-field style="Text" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group hide-input="false" labelreference="L134">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">2+5</Text-field>
+</Input>
+</Group>
+<Group labelreference="L3">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">I Maple refererer et procenttegn, %, til det sidstudregnede resultat. To procenttegn, %%, refererer til det n\303\246stsidste og %%% til det tredjesidste:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field><Text-field prompt="&gt; " style="Maple Input" layout="Normal">%;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L4">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">%%%;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L5">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Det er meget bekvemt at kunne bruge % for det sidstudregnede resultat, men hopper man rundt p\303\245 sk\303\246rmen med musen eller piletasterne, s\303\245 er sidstudregnede resultat ikke n\303\270dvendigvis resultatet i linjen ovenover. </Font><Font style="_cstyle265">Det anbefales derfor, at brugen af % minimeres.</Font> Giv i stedet udtrykkene navne.</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L6">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Et udtryk kan gemmes i en variabel (gives et navn) ved brug af tilordningssymbolet, der er sammensat af et kolon efterfulgt af et lighedstegn:</Text-field><Text-field style="Normal" layout="Normal"> </Text-field>
+</Input>
+</Group>
+<Group labelreference="L7">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">abc:=14*x^3+7/sin(x*y);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L8">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Herefter kan <Font style="_cstyle276">abc</Font> bruges i stedet for <Equation executable="false" style="2D Comment" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNictSSNtbkdGJDYkUSMxNEYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy1JI21vR0YkNi5RMSZJbnZpc2libGVUaW1lcztGJ0Y3LyUmZmVuY2VHUSZmYWxzZUYnLyUqc2VwYXJhdG9yR0ZALyUpc3RyZXRjaHlHRkAvJSpzeW1tZXRyaWNHRkAvJShsYXJnZW9wR0ZALyUubW92YWJsZWxpbWl0c0dGQC8lJ2FjY2VudEdGQC8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk8vJSllcXVhbGl0eUdGQC1GIzYkLUklbXN1cEdGJDYlLUYsNiVRInhGJy8lJ2l0YWxpY0dRJXRydWVGJy9GOFEnaXRhbGljRictRjQ2JFEiM0YnRjcvJTFzdXBlcnNjcmlwdHNoaWZ0R1EiMEYnRjdGK0Y3LUY7Ni5RIitGJ0Y3Rj5GQUZDRkVGR0ZJRksvRk5RLDAuMjIyMjIyMmVtRicvRlFGZW9GUi1JJm1mcmFjR0YkNigtRiM2JC1GNDYkUSI3RidGN0Y3LUYjNiZGKy1GIzYmLUYsNiVRJHNpbkYnL0ZnbkZARjctRjs2LlEwJkFwcGx5RnVuY3Rpb247RidGN0Y+RkFGQ0ZFRkdGSUZLRk1GUEZSLUkobWZlbmNlZEdGJDYkLUYjNiZGKy1GIzYmRllGOi1GLDYlUSJ5RidGZm5GaW5GN0YrRjdGN0Y3RitGNy8lLmxpbmV0aGlja25lc3NHUSIxRicvJStkZW5vbWFsaWduR1EnY2VudGVyRicvJSludW1hbGlnbkdGaXEvJSliZXZlbGxlZEdGQEY3RitGNw==">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNictSSNtbkdGJDYkUSMxNEYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJy1JI21vR0YkNi5RMSZJbnZpc2libGVUaW1lcztGJ0Y3LyUmZmVuY2VHUSZmYWxzZUYnLyUqc2VwYXJhdG9yR0ZALyUpc3RyZXRjaHlHRkAvJSpzeW1tZXRyaWNHRkAvJShsYXJnZW9wR0ZALyUubW92YWJsZWxpbWl0c0dGQC8lJ2FjY2VudEdGQC8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk8vJSllcXVhbGl0eUdGQC1GIzYkLUklbXN1cEdGJDYlLUYsNiVRInhGJy8lJ2l0YWxpY0dRJXRydWVGJy9GOFEnaXRhbGljRictRjQ2JFEiM0YnRjcvJTFzdXBlcnNjcmlwdHNoaWZ0R1EiMEYnRjdGK0Y3LUY7Ni5RIitGJ0Y3Rj5GQUZDRkVGR0ZJRksvRk5RLDAuMjIyMjIyMmVtRicvRlFGZW9GUi1JJm1mcmFjR0YkNigtRiM2JC1GNDYkUSI3RidGN0Y3LUYjNiZGKy1GIzYmLUYsNiVRJHNpbkYnL0ZnbkZARjctRjs2LlEwJkFwcGx5RnVuY3Rpb247RidGN0Y+RkFGQ0ZFRkdGSUZLRk1GUEZSLUkobWZlbmNlZEdGJDYkLUYjNiZGKy1GIzYmRllGOi1GLDYlUSJ5RidGZm5GaW5GN0YrRjdGN0Y3RitGNy8lLmxpbmV0aGlja25lc3NHUSIxRicvJStkZW5vbWFsaWduR1EnY2VudGVyRicvJSludW1hbGlnbkdGaXEvJSliZXZlbGxlZEdGQEY3RitGNw==</Equation> . Eksempelvis har vi</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L9">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">abc/7;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L10">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Gangetegnet * kan <Font style="_cstyle260">aldrig</Font> udelades i input. I output vises gangetegnet derimod ikke. </Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Maple skelner mellem store og sm\303\245 bogstaver. Bem\303\246rk resultatet af f\303\270lgende input best\303\245ende af en f\303\270lge af tre udtryk:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L11">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">ABC,aBC,abc;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L12">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Der m\303\245 gerne st\303\245 flere kommandoer p\303\245 samme linje:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L13">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">expand( (a+b)^2 );   factor( 2*x^3+7*x-6*x^2-21 );</Text-field>
+</Input>
+</Group>
+<Group labelreference="L14">
+<Input><Text-field style="Text" layout="Normal"></Text-field><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">hvilket er smart, hvis man bruger % for sidstudregnede resultat, ligesom en kommando godt m\303\245 fylde flere linjer. Her skal man ved linjeskift blot trykke </Font><Font bold="true">Shift+Enter</Font>.</Text-field><Text-field style="Text" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L15">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">expand(
+(a+b)^3
+);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L19">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Lad os l\303\270se ligningen </Font><Equation executable="false" style="2D Comment" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNiYtSSZtZnJhY0dGJDYoLUYjNiQtSSNtbkdGJDYkUSMxMkYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJ0Y8LUYjNiZGKy1GIzYmLUYsNiVRInhGJy8lJ2l0YWxpY0dRJXRydWVGJy9GPVEnaXRhbGljRictSSNtb0dGJDYuUSgmbWludXM7RidGPC8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGUS8lKXN0cmV0Y2h5R0ZRLyUqc3ltbWV0cmljR0ZRLyUobGFyZ2VvcEdGUS8lLm1vdmFibGVsaW1pdHNHRlEvJSdhY2NlbnRHRlEvJSdsc3BhY2VHUSwwLjIyMjIyMjJlbUYnLyUncnNwYWNlR0Zqbi8lKWVxdWFsaXR5R0ZRLUY5NiRRIjFGJ0Y8RjxGK0Y8LyUubGluZXRoaWNrbmVzc0dGYW8vJStkZW5vbWFsaWduR1EnY2VudGVyRicvJSludW1hbGlnbkdGZm8vJSliZXZlbGxlZEdGUUZLRkNGPC1GTDYuUSI9RidGPEZPRlJGVEZWRlhGWkZmbi9GaW5RLDAuMjc3Nzc3OGVtRicvRlxvRl9wRl1vLUY5NiRRIjJGJ0Y8RjxGK0Y8">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNiYtSSZtZnJhY0dGJDYoLUYjNiQtSSNtbkdGJDYkUSMxMkYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJ0Y8LUYjNiZGKy1GIzYmLUYsNiVRInhGJy8lJ2l0YWxpY0dRJXRydWVGJy9GPVEnaXRhbGljRictSSNtb0dGJDYuUSgmbWludXM7RidGPC8lJmZlbmNlR1EmZmFsc2VGJy8lKnNlcGFyYXRvckdGUS8lKXN0cmV0Y2h5R0ZRLyUqc3ltbWV0cmljR0ZRLyUobGFyZ2VvcEdGUS8lLm1vdmFibGVsaW1pdHNHRlEvJSdhY2NlbnRHRlEvJSdsc3BhY2VHUSwwLjIyMjIyMjJlbUYnLyUncnNwYWNlR0Zqbi8lKWVxdWFsaXR5R0ZRLUY5NiRRIjFGJ0Y8RjxGK0Y8LyUubGluZXRoaWNrbmVzc0dGYW8vJStkZW5vbWFsaWduR1EnY2VudGVyRicvJSludW1hbGlnbkdGZm8vJSliZXZlbGxlZEdGUUZLRkNGPC1GTDYuUSI9RidGPEZPRlJGVEZWRlhGWkZmbi9GaW5RLDAuMjc3Nzc3OGVtRicvRlxvRl9wRl1vLUY5NiRRIjJGJ0Y8RjxGK0Y8</Equation><Font encoding="UTF-8"> ved hj\303\246lp af Maple. Vi v\303\246lger f\303\270rst at gemme ligningen i en variabel, som vi her kalder </Font><Font style="_cstyle264">ligning</Font>:</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L20">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">ligning:=12/(x-1)-x=2;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L21">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Hermed f\303\245r vi at se, om ligningen er tastet rigtigt ind. Havde vi glemt parenteserne, ville ligningen se s\303\245ledes ud i output:  </Font><Equation executable="false" style="2D Comment" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNigtSSZtZnJhY0dGJDYoLUYjNiQtSSNtbkdGJDYkUSMxMkYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJ0Y8LUYjNiQtRiw2JVEieEYnLyUnaXRhbGljR1EldHJ1ZUYnL0Y9USdpdGFsaWNGJ0Y8LyUubGluZXRoaWNrbmVzc0dRIjFGJy8lK2Rlbm9tYWxpZ25HUSdjZW50ZXJGJy8lKW51bWFsaWduR0ZOLyUpYmV2ZWxsZWRHUSZmYWxzZUYnLUkjbW9HRiQ2LlEoJm1pbnVzO0YnRjwvJSZmZW5jZUdGUy8lKnNlcGFyYXRvckdGUy8lKXN0cmV0Y2h5R0ZTLyUqc3ltbWV0cmljR0ZTLyUobGFyZ2VvcEdGUy8lLm1vdmFibGVsaW1pdHNHRlMvJSdhY2NlbnRHRlMvJSdsc3BhY2VHUSwwLjIyMjIyMjJlbUYnLyUncnNwYWNlR0Ziby8lKWVxdWFsaXR5R0ZTLUY5NiRGS0Y8RlRGQUY8LUZVNi5RIj1GJ0Y8RlhGWkZmbkZobkZqbkZcb0Zeby9GYW9RLDAuMjc3Nzc3OGVtRicvRmRvRl1wRmVvLUY5NiRRIjJGJ0Y8RjxGK0Y8">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2J0YrLUYjNigtSSZtZnJhY0dGJDYoLUYjNiQtSSNtbkdGJDYkUSMxMkYnLyUsbWF0aHZhcmlhbnRHUSdub3JtYWxGJ0Y8LUYjNiQtRiw2JVEieEYnLyUnaXRhbGljR1EldHJ1ZUYnL0Y9USdpdGFsaWNGJ0Y8LyUubGluZXRoaWNrbmVzc0dRIjFGJy8lK2Rlbm9tYWxpZ25HUSdjZW50ZXJGJy8lKW51bWFsaWduR0ZOLyUpYmV2ZWxsZWRHUSZmYWxzZUYnLUkjbW9HRiQ2LlEoJm1pbnVzO0YnRjwvJSZmZW5jZUdGUy8lKnNlcGFyYXRvckdGUy8lKXN0cmV0Y2h5R0ZTLyUqc3ltbWV0cmljR0ZTLyUobGFyZ2VvcEdGUy8lLm1vdmFibGVsaW1pdHNHRlMvJSdhY2NlbnRHRlMvJSdsc3BhY2VHUSwwLjIyMjIyMjJlbUYnLyUncnNwYWNlR0Ziby8lKWVxdWFsaXR5R0ZTLUY5NiRGS0Y8RlRGQUY8LUZVNi5RIj1GJ0Y8RlhGWkZmbkZobkZqbkZcb0Zeby9GYW9RLDAuMjc3Nzc3OGVtRicvRmRvRl1wRmVvLUY5NiRRIjJGJ0Y8RjxGK0Y8</Equation>. </Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">For at l\303\270se ligningen eksakt bruges proceduren </Font><Font style="_cstyle263">solve</Font>:</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L22">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">solve(ligning,x);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L23">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Der er to l\303\270sninger. Disse er adskilt ved et komma. Man har en f\303\270lge af l\303\270sninger. En udtryksf\303\270lge (</Font><Font style="_cstyle303">expression sequence</Font><Font encoding="UTF-8">) i Maple er en r\303\246kke udtryk adskilt ved kommaer. </Font></Text-field><Text-field style="Normal" layout="Normal">Kommandoen <Font style="_cstyle294">solve(ligning, x); </Font> vil vi sige er et <Font style="_cstyle335">kald</Font> til proceduren <Font style="_cstyle334">solve</Font>.</Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Ethvert kald af en procedure best\303\245r af et procedurenavn (som her </Font><Font style="_cstyle261">solve</Font><Font encoding="UTF-8">) efterfulgt af et s\303\246t parenteser, indenfor hvilke procedurens argument(-er) anbringes. </Font></Text-field><Text-field style="Normal" layout="Normal">Den nyttige kommando <Font style="_cstyle262">restart</Font> skal ikke have parenteser. Kommandoen <Font style="_cstyle326">restart;</Font><Font encoding="UTF-8">  f\303\245r Maple til at glemme alt:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L24">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">restart;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L25">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">abc,ligning;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L26">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Som det ses, har Maple glemt tilordningerne til <Font style="_cstyle283">abc</Font> og <Font style="_cstyle284">ligning.</Font></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Der kan let g\303\245 kludder i et Maple-dokument. Hvis man g\303\270r det til en vane at skrive </Font><Font bold="true">restart </Font><Font encoding="UTF-8">i begyndelsen af ethvert dokument, f\303\245r man nulstillet og genregnet dokumentet forfra, hvis man trykker p\303\245 ikonet</Font></Text-field><Text-field style="Normal" layout="Normal"><Font bold="true">!!! . </Font><Font encoding="UTF-8">Det hj\303\246lper ofte til at f\303\245 det hele til at virke, det er i hvert fald altid det f\303\270rste, man kan pr\303\270ve. </Font>E<Font encoding="UTF-8">ller i v\303\246rste fald: G\303\245 ud af Maple og ind igen. </Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L27">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Tegnet # efter (semi-)kolon kan anbringes, hvis en kommentar \303\270nskes vedf\303\270jet kommandoen:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L28">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">f:=sin(Pi*x)*exp(-x); # Her defineres udtrykket f</Text-field>
+</Input>
+</Group>
+<Group labelreference="L29">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Det er normalt bedre at have forklarende tekst skrevet over eller under kommandoen, som det jo ogs\303\245 er gjort i disse noter, der er skrevet i Maple. En inputlinje kan (i Windows) omdannes til et tekstfelt ved at holde tasten </Font><Font style="_cstyle340">Ctrl </Font><Font encoding="UTF-8">nede og s\303\245 trykke</Font><Font style="_cstyle342"> t</Font><Font style="_cstyle268">. </Font></Text-field>
+</Input>
+<Input><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">En ny input-linje kan inds\303\246ttes over eller under en given linje ved at holde </Font><Font style="_cstyle270">Ctrl</Font><Font encoding="UTF-8">-tasten nede og s\303\245 taste henholdsvis </Font><Font style="_cstyle267">k</Font> eller <Font style="_cstyle269">j</Font>. Analogt fjernes en hel linje ved tastekombinationen <Font style="_cstyle271">Ctrl+Delete</Font>. </Text-field><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Vi tegner grafen af <Font italic="true">f </Font><Font encoding="UTF-8">p\303\245</Font><Font italic="true"> </Font>intervallet [0, 4], som i Maple skrives 0..4 (mindst 2 punktummer):</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L30">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">plot(f,x=0..4);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L31">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Bem\303\246rk ved definitionen af udtrykket </Font><Font style="_cstyle277">f</Font><Font encoding="UTF-8">  ovenfor, at der blev skrevet sin(x), ikke sin x. I Maple skal alle funktionskald og (som n\303\246vnt) procedurekald have parenteser. Bem\303\246rk resultatet af f\303\270lgende input, hvor vi fors\303\270ger at finde </Font><Equation executable="false" style="2D Comment" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2Ji1GLDYlUSRzaW5GJy8lJ2l0YWxpY0dRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ25vcm1hbEYnLUkjbW9HRiQ2LlEwJkFwcGx5RnVuY3Rpb247RidGNy8lJmZlbmNlR0Y2LyUqc2VwYXJhdG9yR0Y2LyUpc3RyZXRjaHlHRjYvJSpzeW1tZXRyaWNHRjYvJShsYXJnZW9wR0Y2LyUubW92YWJsZWxpbWl0c0dGNi8lJ2FjY2VudEdGNi8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk4vJSllcXVhbGl0eUdGNi1JKG1mZW5jZWRHRiQ2JC1GIzYkLUYsNiVRJSZwaTtGJ0Y0RjdGN0Y3RjdGK0Y3">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2Ji1GLDYlUSRzaW5GJy8lJ2l0YWxpY0dRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ25vcm1hbEYnLUkjbW9HRiQ2LlEwJkFwcGx5RnVuY3Rpb247RidGNy8lJmZlbmNlR0Y2LyUqc2VwYXJhdG9yR0Y2LyUpc3RyZXRjaHlHRjYvJSpzeW1tZXRyaWNHRjYvJShsYXJnZW9wR0Y2LyUubW92YWJsZWxpbWl0c0dGNi8lJ2FjY2VudEdGNi8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk4vJSllcXVhbGl0eUdGNi1JKG1mZW5jZWRHRiQ2JC1GIzYkLUYsNiVRJSZwaTtGJ0Y0RjdGN0Y3RjdGK0Y3</Equation>:</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L32">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">sin Pi;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L33">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Pr\303\270ver man det selv, vil man se, at cursoren st\303\245r og blinker ved </Font><Font style="_cstyle304">Pi</Font><Font encoding="UTF-8">. Der er en syntaksfejl. Et navn kan ikke indeholde mellemrum, s\303\245 </Font><Font style="_cstyle305">sin Pi </Font>kan ikke tolkes som et navn. Maple ser dermed to navne adskilt af et mellemrum, nemlig <Font style="_cstyle327">sin</Font> og <Font style="_cstyle328">Pi</Font><Font encoding="UTF-8">. Den ser ingen instruktion om hvad den skal g\303\270re ved disse. Maple konkluderer, at der mangler noget. Pr\303\270ver man uden mellemrum, f\303\245s</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L34">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">sinPi;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L35">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Her opfatter Maple blot bogstavkombinationen <Font style="_cstyle292">sinPi</Font><Font encoding="UTF-8"> som et navn, som i\303\270vrigt ikke af os eller af den er blevet tillagt nogen v\303\246rdi. Vil man finde </Font><Equation executable="false" style="2D Comment" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2Ji1GLDYlUSRzaW5GJy8lJ2l0YWxpY0dRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ25vcm1hbEYnLUkjbW9HRiQ2LlEwJkFwcGx5RnVuY3Rpb247RidGNy8lJmZlbmNlR0Y2LyUqc2VwYXJhdG9yR0Y2LyUpc3RyZXRjaHlHRjYvJSpzeW1tZXRyaWNHRjYvJShsYXJnZW9wR0Y2LyUubW92YWJsZWxpbWl0c0dGNi8lJ2FjY2VudEdGNi8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk4vJSllcXVhbGl0eUdGNi1JKG1mZW5jZWRHRiQ2JC1GIzYkLUYsNiVRJSZwaTtGJ0Y0RjdGN0Y3RjdGK0Y3">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYmLUkjbWlHRiQ2I1EhRictRiM2Ji1GLDYlUSRzaW5GJy8lJ2l0YWxpY0dRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ25vcm1hbEYnLUkjbW9HRiQ2LlEwJkFwcGx5RnVuY3Rpb247RidGNy8lJmZlbmNlR0Y2LyUqc2VwYXJhdG9yR0Y2LyUpc3RyZXRjaHlHRjYvJSpzeW1tZXRyaWNHRjYvJShsYXJnZW9wR0Y2LyUubW92YWJsZWxpbWl0c0dGNi8lJ2FjY2VudEdGNi8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHRk4vJSllcXVhbGl0eUdGNi1JKG1mZW5jZWRHRiQ2JC1GIzYkLUYsNiVRJSZwaTtGJ0Y0RjdGN0Y3RjdGK0Y3</Equation>, skal man skrive</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L36">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">sin(Pi);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L44">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Som s\303\246dvanligt i matematik bruges almindelige buede parenteser ( ) til omkredsning af et udtryk, der \303\270nskes beregnet f\303\270r kontakt med omverdenen uden for parentesen:</Font></Text-field><Text-field style="Normal" layout="Normal">  </Text-field>
+</Input>
+</Group>
+<Group labelreference="L45">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">a*(b+c);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L46">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">a*(8+7^2);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L47">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">I output vises gangetegnet ikke. Det g\303\270r man normalt heller ikke, n\303\245r man ellers skriver matematik. Udelader man gangetegnet i input, dvs. skriver</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L48">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">a(b+c);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L49">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">s\303\245 bem\303\246rker man en forskel i udseende mellem de to output. I sidste tilf\303\246lde opfattes bogstavet </Font><Font style="_cstyle295">a</Font><Font encoding="UTF-8"> som navnet p\303\245 en funktion eller en procedure, der bliver anvendt p\303\245 summen </Font><Font style="_cstyle296">b+c</Font>. At denne funktion <Font style="_cstyle306">a <Font encoding="UTF-8" italic="false">s\303\245 er ukendt,</Font></Font> har den effekt, at Maple <Font style="_cstyle307">returnerer inputtet uevalueret.</Font> </Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">I Maple har man valgt at f\303\270lge s\303\246dvanlig matematisk parentesbrug og m\303\245 s\303\245 acceptere, at gangetegn aldrig kan udelades. </Font></Text-field><Text-field style="Normal" layout="Normal">I Maple bruges kantede parenteser bl.a. ved definitionen af en liste. </Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Tuborgparenteser { } bruges som m\303\246ngdeklammer ganske som i s\303\246dvanlig matematisk skrivem\303\245de. </Font></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">S\303\246dvanlige parenteser kan </Font><Font italic="true">ikke</Font><Font encoding="UTF-8"> erstattes af [ ] eller { }. Har man mange parenteser indeni hinanden, kan man alts\303\245 ikke udskifte nogle med [ ] eller { }, men man kan inds\303\246tte mellemrum eller endog linieskift:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L50">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">a*(    (  b + (c-Pi/2)^2)^3  + 4  )^2;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L69">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Hj\303\246lp til en procedure (eksempelvis </Font><Font style="_cstyle272">plot</Font><Font encoding="UTF-8">), hvis navn man allerede har skrevet p\303\245 en input-linje, kan f\303\245s ved at anbringe cursoren p\303\245 procedurenavnet og derefter trykke p\303\245 F2-tasten. Man kan ogs\303\245 g\303\245 ind i programmets Hj\303\246lp-menu. Eller man kan pr\303\270ve f\303\270lgende:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L70">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">?plot</Text-field>
+</Input>
+</Group>
+<Group labelreference="L71">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Det er her en foruds\303\246tning, at man kender procedurens navn og stavem\303\245de. Proceduren </Font><Font style="_cstyle308">factor</Font> faktoriserer udtryk. Staver man proceduren med <Font style="_cstyle309">k</Font><Font encoding="UTF-8">, sker f\303\270lgende:</Font></Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+<Group labelreference="L72">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">faktor( 2*x^3+7*x-6*x^2-21 );</Text-field>
+</Input>
+</Group>
+<Group labelreference="L73">
+<Input><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal">Maple returnerer uevalueret, simpelthen fordi den intet kendskab har til proceduren <Font style="_cstyle310">faktor</Font><Font encoding="UTF-8">. Den brokker sig ikke, men giver blot et k\303\270nt ekko. Man f\303\245r intet ud af  </Font><Font style="_cstyle311">?faktor. <Font bold="false">Tast i stedet</Font> Ctrl+F1</Font><Font encoding="UTF-8">, eller g\303\245 ind i hj\303\246lpemenuen, v\303\246lg </Font><Font italic="true">Maple Help</Font><Font encoding="UTF-8">. I boksen \303\270verst til venstre skrives s\303\245 det man leder efter. Skriver man </Font><Font bold="true">faktor</Font>, svares <Font italic="true">No matches found</Font><Font encoding="UTF-8">, men s\303\245 kan man evt. pr\303\270ve med kun </Font><Font bold="true">fa</Font><Font encoding="UTF-8">, s\303\245 kommer en lang liste af ord, der begynder med bogstaverne fa, bl.a. </Font><Font bold="true">factor</Font><Font encoding="UTF-8">. Nu har man jo nok fundet ud af, at man blot stavede forkert, men hj\303\246lpesiden for </Font><Font style="_cstyle318">factor</Font><Font encoding="UTF-8"> kommer frem ved at klikke p\303\245 </Font><Font bold="true">factor</Font>. </Text-field><Text-field style="Normal" layout="Normal"></Text-field><Text-field style="Normal" layout="Normal"><Font encoding="UTF-8">Den bedste forst\303\245else af en procedures brug f\303\245s i eksemplerne, der altid er anbragt nederst p\303\245 hj\303\246lpesiden. Disse eksempler kan hentes ind i ens eget worksheet p\303\245 s\303\246dvanlig m\303\245de (</Font><Font italic="true">copy and paste</Font><Font encoding="UTF-8">) eller ved i hj\303\246lpesiden at g\303\245 ind i menuen </Font><Font style="_cstyle337">Edit</Font><Font encoding="UTF-8"> og der v\303\246lge </Font><Font style="_cstyle338">Copy Examples. </Font><Font encoding="UTF-8">Eksemplerne kan s\303\245 anbringes i ens eget worksheet ved tastetrykket </Font><Font bold="true">Ctrl v</Font>.</Text-field><Text-field style="Normal" layout="Normal"></Text-field>
+</Input>
+</Group>
+</Section>
+<Section collapsed="false" isCollapsible="true" drawButton="true" MultipleChoiceAnswerIndex="-1" MultipleChoiceRandomizeChoices="false" TrueFalseAnswerIndex="-1" EssayAnswerRows="5" EssayAnswerColumns="60"><Title><Text-field style="Heading 1" layout="Heading 1">Komplekse tal i Maple</Text-field></Title>
+<Group labelreference="L130" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Vi begynder p\303\245 noget nyt og renser Maples hukommelse</Font></Text-field>
+</Input>
+</Group>
+<Group labelreference="L96" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">restart: </Text-field>
+</Input>
+</Group>
+<Group labelreference="L94" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal">Den komplekse enhed <Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiaUYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiaUYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn</Equation> betegnes med I:</Text-field>
+</Input>
+</Group>
+<Group labelreference="L93" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">I^2;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L102" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Ved simpel udregning returnerer Maple som regel det komplekse tal direkte p\303\245 rektangul\303\246r form:</Font></Text-field>
+</Input>
+</Group>
+<Group labelreference="L104" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">2*I-3*I/(I+1);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L97" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Er tallet ikke p\303\245 rektangul\303\246r form (dvs. p\303\245 formen </Font><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEiYUYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkjbW9HRiQ2L1EiK0YnRjIvRjZRJ25vcm1hbEYnLyUmZmVuY2VHRjQvJSpzZXBhcmF0b3JHRjQvJSlzdHJldGNoeUdGNC8lKnN5bW1ldHJpY0dGNC8lKGxhcmdlb3BHRjQvJS5tb3ZhYmxlbGltaXRzR0Y0LyUnYWNjZW50R0Y0LyUnbHNwYWNlR1EsMC4yMjIyMjIyZW1GJy8lJ3JzcGFjZUdGTi8lKWVxdWFsaXR5R0Y0LUYsNiZRImJGJ0YvRjJGNS1GOTYvUScmc2RvdDtGJ0YyRjxGPkZARkJGREZGRkhGSi9GTVEmMC4wZW1GJy9GUEZaRlEtRiw2JlEiaUYnRi9GMkY1RjJGPA==">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEiYUYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLUkjbW9HRiQ2L1EiK0YnRjIvRjZRJ25vcm1hbEYnLyUmZmVuY2VHRjQvJSpzZXBhcmF0b3JHRjQvJSlzdHJldGNoeUdGNC8lKnN5bW1ldHJpY0dGNC8lKGxhcmdlb3BHRjQvJS5tb3ZhYmxlbGltaXRzR0Y0LyUnYWNjZW50R0Y0LyUnbHNwYWNlR1EsMC4yMjIyMjIyZW1GJy8lJ3JzcGFjZUdGTi8lKWVxdWFsaXR5R0Y0LUYsNiZRImJGJ0YvRjJGNS1GOTYvUScmc2RvdDtGJ0YyRjxGPkZARkJGREZGRkhGSi9GTVEmMC4wZW1GJy9GUEZaRlEtRiw2JlEiaUYnRi9GMkY1RjJGPA==</Equation>), men angivet som fx:</Text-field>
+</Input>
+</Group>
+<Group hide-input="false" labelreference="L99" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">z:=sqrt(2)*((1/2)*sqrt(2)+(1/2*I)*sqrt(2));</Text-field>
+</Input>
+</Group>
+<Group labelreference="L98" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">kan man tvinge Maple til at give den rektangul\303\246re form vha. kommandoen &quot;evalc&quot;:</Font></Text-field>
+</Input>
+</Group>
+<Group labelreference="L105" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">evalc(z);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L103" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Bem\303\246rk at dette ikke \303\246ndrer p\303\245 den oprindelige form af den v\303\246rdi, vi har tildelt variablen </Font><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiekYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiekYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn</Equation> :</Text-field>
+</Input>
+</Group>
+<Group labelreference="L101" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">z;</Text-field>
+</Input>
+</Group>
+<Group labelreference="L100" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">De pol\303\246re koordinater for et givet komplekst tal findes vha. kommandoen &quot;polar&quot;. For vores aktuelle </Font><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiekYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JlEiekYnLyUnaXRhbGljR1EldHJ1ZUYnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnRjIvRjZRJ25vcm1hbEYn</Equation> findes eksempelvis:</Text-field>
+</Input>
+</Group>
+<Group labelreference="L108" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">polar(z);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L109" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Modulus er s\303\245ledes </Font><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYoLUkobWZlbmNlZEdGJDYnLUYjNiUtSSNtaUdGJDYmUSJ6RicvJSdpdGFsaWNHUSV0cnVlRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRidGNy9GO1Enbm9ybWFsRidGN0Y9LyUlb3BlbkdRInxnckYnLyUmY2xvc2VHRkEtSSNtb0dGJDYvUSI9RidGN0Y9LyUmZmVuY2VHRjkvJSpzZXBhcmF0b3JHRjkvJSlzdHJldGNoeUdGOS8lKnN5bW1ldHJpY0dGOS8lKGxhcmdlb3BHRjkvJS5tb3ZhYmxlbGltaXRzR0Y5LyUnYWNjZW50R0Y5LyUnbHNwYWNlR1EsMC4yNzc3Nzc4ZW1GJy8lJ3JzcGFjZUdGWC8lKWVxdWFsaXR5R0Y5LUYjNiYtRjE2I1EhRictSSZtc3FydEdGJDYjLUYjNiUtSSNtbkdGJDYlUSIyRidGN0Y9RjdGPUY3Rj1GaW5GN0Y9">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYoLUkobWZlbmNlZEdGJDYnLUYjNiUtSSNtaUdGJDYmUSJ6RicvJSdpdGFsaWNHUSV0cnVlRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRidGNy9GO1Enbm9ybWFsRidGN0Y9LyUlb3BlbkdRInxnckYnLyUmY2xvc2VHRkEtSSNtb0dGJDYvUSI9RidGN0Y9LyUmZmVuY2VHRjkvJSpzZXBhcmF0b3JHRjkvJSlzdHJldGNoeUdGOS8lKnN5bW1ldHJpY0dGOS8lKGxhcmdlb3BHRjkvJS5tb3ZhYmxlbGltaXRzR0Y5LyUnYWNjZW50R0Y5LyUnbHNwYWNlR1EsMC4yNzc3Nzc4ZW1GJy8lJ3JzcGFjZUdGWC8lKWVxdWFsaXR5R0Y5LUYjNiYtRjE2I1EhRictSSZtc3FydEdGJDYjLUYjNiUtSSNtbkdGJDYlUSIyRidGN0Y9RjdGPUY3Rj1GaW5GN0Y9</Equation> og argumentet, <Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEkYXJnRicvJSdpdGFsaWNHUSV0cnVlRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiUtRiM2JS1GLDYmUSJ6RidGL0YyRjVGMi9GNlEnbm9ybWFsRidGMkZALUkjbW9HRiQ2L1EiPUYnRjJGQC8lJmZlbmNlR0Y0LyUqc2VwYXJhdG9yR0Y0LyUpc3RyZXRjaHlHRjQvJSpzeW1tZXRyaWNHRjQvJShsYXJnZW9wR0Y0LyUubW92YWJsZWxpbWl0c0dGNC8lJ2FjY2VudEdGNC8lJ2xzcGFjZUdRLDAuMjc3Nzc3OGVtRicvJSdyc3BhY2VHRlYvJSllcXVhbGl0eUdGNC1JJm1mcmFjR0YkNigtRiw2JlEnJiM5NjA7RicvRjBGNEYyRkAtRiM2Ji1JI21uR0YkNiVRIjRGJ0YyRkBGL0YyRjUvJS5saW5ldGhpY2tuZXNzR1EiMUYnLyUrZGVub21hbGlnbkdRJ2NlbnRlckYnLyUpbnVtYWxpZ25HRmdvLyUpYmV2ZWxsZWRHRjQtRiw2I1EhRidGMkZA">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEkYXJnRicvJSdpdGFsaWNHUSV0cnVlRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1EnaXRhbGljRictSShtZmVuY2VkR0YkNiUtRiM2JS1GLDYmUSJ6RidGL0YyRjVGMi9GNlEnbm9ybWFsRidGMkZALUkjbW9HRiQ2L1EiPUYnRjJGQC8lJmZlbmNlR0Y0LyUqc2VwYXJhdG9yR0Y0LyUpc3RyZXRjaHlHRjQvJSpzeW1tZXRyaWNHRjQvJShsYXJnZW9wR0Y0LyUubW92YWJsZWxpbWl0c0dGNC8lJ2FjY2VudEdGNC8lJ2xzcGFjZUdRLDAuMjc3Nzc3OGVtRicvJSdyc3BhY2VHRlYvJSllcXVhbGl0eUdGNC1JJm1mcmFjR0YkNigtRiw2JlEnJiM5NjA7RicvRjBGNEYyRkAtRiM2Ji1JI21uR0YkNiVRIjRGJ0YyRkBGL0YyRjUvJS5saW5ldGhpY2tuZXNzR1EiMUYnLyUrZGVub21hbGlnbkdRJ2NlbnRlckYnLyUpbnVtYWxpZ25HRmdvLyUpYmV2ZWxsZWRHRjQtRiw2I1EhRidGMkZA</Equation>.</Text-field>
+</Input>
+</Group>
+<Group labelreference="L106" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Vi kan indtegne vores tal i den komplekse talplan vha. &quot;complexplot&quot;. Til dette form\303\245l skal vi f\303\270rst indl\303\246se &quot;plots&quot;-pakken:</Font></Text-field>
+</Input>
+</Group>
+<Group labelreference="L107" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">with(plots):</Text-field>
+</Input>
+</Group>
+<Group labelreference="L110" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">complexplot([-3/2+1/2*I,z],style=point,symbolsize=10,symbol=solidcircle,view=[-2..2,0..1.5]);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L121" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">Real- og imagin\303\246rdel af et komplekst tal f\303\245s p\303\245 f\303\270lgende m\303\245de:</Font></Text-field>
+</Input>
+</Group>
+<Group labelreference="L95" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">Re(1+3*I);</Text-field>
+</Input>
+</Group>
+<Group labelreference="L119" drawlabel="true">
+<Input><Text-field prompt="&gt; " style="Maple Input" layout="Normal">Im(1+3*I);</Text-field>
+</Input>
+</Group>
+</Section>
+<Section collapsed="false" isCollapsible="true" drawButton="true" MultipleChoiceAnswerIndex="-1" MultipleChoiceRandomizeChoices="false" TrueFalseAnswerIndex="-1" EssayAnswerRows="5" EssayAnswerColumns="60"><Title><Text-field style="Heading 1" layout="Heading 1"><Font encoding="UTF-8">Den f\303\270rste opgave i Maple</Font></Text-field></Title>
+<Group labelreference="L125" drawlabel="true">
+<Input><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">(1) Defin\303\251r de tre st\303\270rrelser </Font><Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEjczFGJy8lJ2l0YWxpY0dRJXRydWVGJy8lK2V4ZWN1dGFibGVHUSZmYWxzZUYnLyUsbWF0aHZhcmlhbnRHUSdpdGFsaWNGJy1JI21vR0YkNi9RIixGJ0YyL0Y2USdub3JtYWxGJy8lJmZlbmNlR0Y0LyUqc2VwYXJhdG9yR0YxLyUpc3RyZXRjaHlHRjQvJSpzeW1tZXRyaWNHRjQvJShsYXJnZW9wR0Y0LyUubW92YWJsZWxpbWl0c0dGNC8lJ2FjY2VudEdGNC8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHUSwwLjMzMzMzMzNlbUYnLyUpZXF1YWxpdHlHRjQtRiw2JlEjczJGJ0YvRjJGNUY4LUYsNiZRI3MzRidGL0YyRjVGMkY8">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYpLUkjbWlHRiQ2JlEjczFGJy8lJ2l0YWxpY0dRJXRydWVGJy8lK2V4ZWN1dGFibGVHUSZmYWxzZUYnLyUsbWF0aHZhcmlhbnRHUSdpdGFsaWNGJy1JI21vR0YkNi9RIixGJ0YyL0Y2USdub3JtYWxGJy8lJmZlbmNlR0Y0LyUqc2VwYXJhdG9yR0YxLyUpc3RyZXRjaHlHRjQvJSpzeW1tZXRyaWNHRjQvJShsYXJnZW9wR0Y0LyUubW92YWJsZWxpbWl0c0dGNC8lJ2FjY2VudEdGNC8lJ2xzcGFjZUdRJjAuMGVtRicvJSdyc3BhY2VHUSwwLjMzMzMzMzNlbUYnLyUpZXF1YWxpdHlHRjQtRiw2JlEjczJGJ0YvRjJGNUY4LUYsNiZRI3MzRidGL0YyRjVGMkY8</Equation> som de tre sidste cifre i dit studienummer.</Text-field><Text-field style="Text" layout="Normal">(2) Giv ligningen <Equation executable="false" style="2D Math" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYwLUkobWZlbmNlZEdGJDYlLUYjNiotSSNtbkdGJDYlUSIxRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1Enbm9ybWFsRictSSNtb0dGJDYvUSIrRidGNEY3LyUmZmVuY2VHRjYvJSpzZXBhcmF0b3JHRjYvJSlzdHJldGNoeUdGNi8lKnN5bW1ldHJpY0dGNi8lKGxhcmdlb3BHRjYvJS5tb3ZhYmxlbGltaXRzR0Y2LyUnYWNjZW50R0Y2LyUnbHNwYWNlR1EsMC4yMjIyMjIyZW1GJy8lJ3JzcGFjZUdGTi8lKWVxdWFsaXR5R0Y2LUY7Ni9RIn5GJ0Y0RjdGPkZARkJGREZGRkhGSi9GTVEmMC4wZW1GJy9GUEZXRlEtSSNtaUdGJDYmUSNzMUYnLyUnaXRhbGljR1EldHJ1ZUYnRjQvRjhRJ2l0YWxpY0YnRjotRlo2JlEiaUYnRmduRjRGam5GNEY3RjRGNy1GWjYmUSJ6RidGZ25GNEZqbkZTLUY7Ni9RIj1GJ0Y0RjdGPkZARkJGREZGRkhGSi9GTVEsMC4yNzc3Nzc4ZW1GJy9GUEZmb0ZRRlMtRiw2JS1GIzYrLUYxNiVRIzEwRidGNEY3LUY7Ni9RKCZtaW51cztGJ0Y0RjdGPkZARkJGREZGRkhGSkZMRk9GUS1GWjYmUSNzMkYnRmduRjRGam5GOi1GMTYlUSIzRidGNEY3RlNGXG9GNEY3RjRGN0Zfb0ZTRjotRjE2JVEjMTJGJ0Y0RjdGOi1GWjYmUSNzM0YnRmduRjRGam5GNEY3">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYwLUkobWZlbmNlZEdGJDYlLUYjNiotSSNtbkdGJDYlUSIxRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1Enbm9ybWFsRictSSNtb0dGJDYvUSIrRidGNEY3LyUmZmVuY2VHRjYvJSpzZXBhcmF0b3JHRjYvJSlzdHJldGNoeUdGNi8lKnN5bW1ldHJpY0dGNi8lKGxhcmdlb3BHRjYvJS5tb3ZhYmxlbGltaXRzR0Y2LyUnYWNjZW50R0Y2LyUnbHNwYWNlR1EsMC4yMjIyMjIyZW1GJy8lJ3JzcGFjZUdGTi8lKWVxdWFsaXR5R0Y2LUY7Ni9RIn5GJ0Y0RjdGPkZARkJGREZGRkhGSi9GTVEmMC4wZW1GJy9GUEZXRlEtSSNtaUdGJDYmUSNzMUYnLyUnaXRhbGljR1EldHJ1ZUYnRjQvRjhRJ2l0YWxpY0YnRjotRlo2JlEiaUYnRmduRjRGam5GNEY3RjRGNy1GWjYmUSJ6RidGZ25GNEZqbkZTLUY7Ni9RIj1GJ0Y0RjdGPkZARkJGREZGRkhGSi9GTVEsMC4yNzc3Nzc4ZW1GJy9GUEZmb0ZRRlMtRiw2JS1GIzYrLUYxNiVRIzEwRidGNEY3LUY7Ni9RKCZtaW51cztGJ0Y0RjdGPkZARkJGREZGRkhGSkZMRk9GUS1GWjYmUSNzMkYnRmduRjRGam5GOi1GMTYlUSIzRidGNEY3RlNGXG9GNEY3RjRGN0Zfb0ZTRjotRjE2JVEjMTJGJ0Y0RjdGOi1GWjYmUSNzM0YnRmduRjRGam5GNEY3</Equation> et navn</Text-field><Text-field style="Text" layout="Normal"><Font encoding="UTF-8">(3) L\303\270s ligningen, og angiv svaret p\303\245 s\303\245vel rektangul\303\246r form som dets pol\303\246re koordinater.</Font></Text-field>
+</Input>
+</Group>
+</Section><Text-field opaque="false" subscript="false" underline="false" superscript="false" bold="false" foreground="[0,0,0]" italic="false" executable="false" selection-placeholder="false" size="12" readonly="false" background="[255,255,255]" strikethrough="false" placeholder="false" family="Times New Roman" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field><Text-field opaque="false" subscript="false" underline="false" superscript="false" bold="false" foreground="[0,0,0]" italic="false" executable="false" selection-placeholder="false" size="12" readonly="false" background="[255,255,255]" strikethrough="false" placeholder="false" family="Times New Roman" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field><Text-field opaque="false" subscript="false" underline="false" superscript="false" bold="false" foreground="[0,0,0]" italic="false" executable="false" selection-placeholder="false" size="12" readonly="false" background="[255,255,255]" strikethrough="false" placeholder="false" family="Times New Roman" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field><Text-field opaque="false" subscript="false" underline="false" superscript="false" bold="false" foreground="[0,0,0]" italic="false" executable="false" selection-placeholder="false" size="12" readonly="false" background="[255,255,255]" strikethrough="false" placeholder="false" family="Times New Roman" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field><Text-field opaque="false" subscript="false" underline="false" superscript="false" bold="false" foreground="[0,0,0]" italic="false" executable="false" selection-placeholder="false" size="12" readonly="false" background="[255,255,255]" strikethrough="false" placeholder="false" family="Times New Roman" spaceabove="0" linebreak="space" rightmargin="0" linespacing="0.0" initial="0" firstindent="0" leftmargin="0" bulletsuffix="" alignment="left" bullet="none" spacebelow="0" pagebreak-before="false"></Text-field>
+</Worksheet>

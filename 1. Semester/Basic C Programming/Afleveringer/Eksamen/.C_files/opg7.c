@@ -1,0 +1,87 @@
+/*program to calculate healt stats for a person
+Mads Rudolph 04.11.2024
+*/
+#include <stdio.h>
+#include <time.h>
+
+struct HealthData { //opretter en struct for HealthData der indeholder BMI, MaxPulse og TargetPulseInterval
+    float BMI;
+    int maxPulse;
+    float targetPulseInterval[2]; // [min, max]
+};
+
+struct HealthProfile { //opretter en struct for HealthProfile, der indeholder forskellige data
+    char firstName[50];
+    char lastName[50];
+    int birthday[3];    // [dd, mm, yyyy]
+    float height; 
+    float weight;
+    int age;
+    struct HealthData healthData; // inkludere Healtdata struct for at gruppere alt der har med sundheds værdierne at gøre
+};
+
+void getCurrentDate(int *day, int *month, int *year) { // funktion til at sætte dagens dato
+    time_t t = time(NULL);          // får dagens dato
+    struct tm *tm = localtime(&t);  // konvertere til EU tidsætning
+    *year = tm->tm_year + 1900;     // får nuværende år
+    *month = tm->tm_mon + 1;        // får nuværende måned (0-11, derfor +1)
+    *day = tm->tm_mday;             // får nuværende dag
+}
+
+int calculateAge(int birthDay, int birthMonth, int birthYear) { //Funktion til at beregne alder
+    int currentDay, currentMonth, currentYear;                  //ærklere 3 variabler til at holde den nuværende dag i dag, måned og år
+    getCurrentDate(&currentDay, &currentMonth, &currentYear);   //indætter dagens dato værdier på variablene
+    
+    int age = currentYear - birthYear; //Udregner hvor mange hele år man er
+    if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDay < birthDay)) { //hvis den specifikke dato eller måned ikke er nået i nuværende år --1
+        age--;
+    }
+    return age;
+}
+
+void calculateHeartData(struct HealthData *data, int age) { //funktion til at udregne maks puls, og pulsinterval udfra alder
+    data->maxPulse = 220 - age;                             // pointer på maxpulse fra Healtdata, og udregner makspuls
+    data->targetPulseInterval[0] = data->maxPulse * 0.50;   // pointer på targetPulseInterval fra Healtdata, og udregner min puls [0] værdi i intervallet udfra maxpulse
+    data->targetPulseInterval[1] = data->maxPulse * 0.85;   // pointer på targetPulseInterval fra Healtdata, og udregner max puls [1] værdi i intervallet udfra maxpulse
+}
+
+float calculateBMI(float weight, float height) { //udregner BMI ud fra vægt og højde
+    return weight / (height * height);
+}
+
+int main() {
+    struct HealthProfile profile; // ærklerer Healthprofile med profilen "profile"
+
+    // Indsamler input fra brugeren 
+    printf("Indtast fornavn: ");
+    scanf("%s", profile.firstName);
+    printf("Indtast efternavn: ");
+    scanf("%s", profile.lastName);
+    printf("Indtast foedselsdag (dd mm yyyy): ");
+    scanf("%d %d %d", &profile.birthday[0], &profile.birthday[1], &profile.birthday[2]);
+    printf("Indtast hoejde (i meter): ");
+    scanf("%f", &profile.height);
+    printf("Indtast vaegt (i kg): ");
+    scanf("%f", &profile.weight);
+
+    // udregner alderen
+    profile.age = calculateAge(profile.birthday[0], profile.birthday[1], profile.birthday[2]);
+
+    // Udregner sundhedsdata
+    profile.healthData.BMI = calculateBMI(profile.weight, profile.height);
+    calculateHeartData(&profile.healthData, profile.age);
+
+    // Printer hele "sundhedsprofilen"
+    printf("\nSundheds Profil:\n");
+    printf("%s %s\n", profile.firstName, profile.lastName);
+    printf("Hoejde: %.2f m\n", profile.height);
+    printf("Vaegt: %.2f kg\n", profile.weight);
+    printf("Alder: %d aar\n", profile.age);
+    printf("BMI: %.2f kg/m^2\n", profile.healthData.BMI);
+    printf("Max Puls: %d bpm\n", profile.healthData.maxPulse);
+    printf("Puls interval: %.1f - %.1f bpm\n",
+           profile.healthData.targetPulseInterval[0],
+           profile.healthData.targetPulseInterval[1]);
+
+    return 0;
+}

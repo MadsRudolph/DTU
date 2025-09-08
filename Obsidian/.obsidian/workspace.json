@@ -1,0 +1,177 @@
+{
+  "main": {
+    "id": "5f612d71504193b0",
+    "type": "split",
+    "children": [
+      {
+        "id": "1e79360c17f49958",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ff75a88d4baebda9",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Electromagnetics/exercises+results.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "exercises+results"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "aa449a4050d29e05",
+    "type": "split",
+    "children": [
+      {
+        "id": "e861703cc88fc536",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "94c580149c456c60",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b01bcfd0e230b2a9",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "7a862477316b8c95",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "46947bcb8ccc4634",
+    "type": "split",
+    "children": [
+      {
+        "id": "3070a7e285f84d0c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7d1d58044a245ef1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Electromagnetics/exercises+results.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for exercises+results"
+            }
+          },
+          {
+            "id": "7d070b32fe62087e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Electromagnetics/exercises+results.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from exercises+results"
+            }
+          },
+          {
+            "id": "379a9ffc0d4e91da",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "c4c54e7600f219c8",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Electromagnetics/exercises+results.pdf",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of exercises+results"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ff75a88d4baebda9",
+  "lastOpenFiles": [
+    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Electromagnetics/30035_Fall25_CourseNote.pdf",
+    "Electromagnetics/Slides/L03_Infinite_TL.pdf",
+    "Electromagnetics/Slides/L02_Waves+TL.pdf"
+  ]
+}
