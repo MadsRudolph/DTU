@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "1e79360c17f49958",
+        "id": "92ed2b86417416c0",
         "type": "tabs",
         "children": [
           {
-            "id": "ff75a88d4baebda9",
+            "id": "589bb11566aeb040",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Electromagnetics/exercises+results.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "exercises+results"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -148,13 +146,23 @@
               "icon": "lucide-list",
               "title": "Outline of exercises+results"
             }
+          },
+          {
+            "id": "5c0d80a8ed153ef1",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -164,11 +172,13 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "ff75a88d4baebda9",
+  "active": "94c580149c456c60",
   "lastOpenFiles": [
+    "Electromagnetics/exercises+results.pdf",
     "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
     "Electromagnetics/30035_Fall25_CourseNote.pdf",
     "Electromagnetics/Slides/L03_Infinite_TL.pdf",
