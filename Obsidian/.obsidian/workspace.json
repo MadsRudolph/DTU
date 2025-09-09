@@ -8,7 +8,43 @@
         "type": "tabs",
         "children": [
           {
-            "id": "589bb11566aeb040",
+            "id": "18b942b85b977c9f",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "DSP/Slides/Uge_02_ti.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Uge_02_ti"
+            }
+          },
+          {
+            "id": "c2af9b836baf6986",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Champagne and Labeau 2004 Discrete Time Signal Processing"
+            }
+          },
+          {
+            "id": "e3a88ab83b18074e",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "DSP/Slides/Uge_02_ti.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Uge_02_ti"
+            }
+          },
+          {
+            "id": "6664c81d7465a439",
             "type": "leaf",
             "state": {
               "type": "pdf",
@@ -19,7 +55,8 @@
               "title": "Ugesedler uge 01 - uge 04"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -178,18 +215,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "94c580149c456c60",
+  "active": "6664c81d7465a439",
   "lastOpenFiles": [
-    "DSP/Ugesedler",
     "DSP/Slides/Uge_02_ti.pdf",
-    "New Text Document.txt",
-    "DSP/Slides/Uge_01_ti.pdf",
-    "DSP/Slides/Uge_01__to.pdf",
-    "DSP/Slides",
     "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
     "DSP/Ugesedler/Ugesedler uge 01 - uge 04.pdf",
-    "Integrated Analog Electronics/Problems/34630-week-01-problems.pdf",
+    "Integrated Analog Electronics/cmos_analog_ic_design_fundamentals.pdf",
+    "Integrated Analog Electronics/34630-lecture-01-intro_v1.pdf",
     "Electromagnetics/exercises+results.pdf",
-    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
+    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Electromagnetics/30035_Fall25_CourseNote.pdf",
+    "DSP/Ugesedler",
+    "New Text Document.txt",
+    "DSP/Slides/Uge_01_ti.pdf"
   ]
 }
