@@ -13,10 +13,10 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "DSP/Slides/Uge_02_ti.pdf"
+                "file": "DSP/Ugesedler/Ugesedler uge 01 - uge 04.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Uge_02_ti"
+              "title": "Ugesedler uge 01 - uge 04"
             }
           }
         ]
@@ -178,18 +178,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "5c0d80a8ed153ef1",
+  "active": "94c580149c456c60",
   "lastOpenFiles": [
+    "DSP/Ugesedler",
+    "DSP/Slides/Uge_02_ti.pdf",
     "New Text Document.txt",
     "DSP/Slides/Uge_01_ti.pdf",
     "DSP/Slides/Uge_01__to.pdf",
-    "DSP/Slides/Uge_02_ti.pdf",
     "DSP/Slides",
     "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
-    "DSP/Ugesedler uge 01 - uge 04.pdf",
+    "DSP/Ugesedler/Ugesedler uge 01 - uge 04.pdf",
     "Integrated Analog Electronics/Problems/34630-week-01-problems.pdf",
     "Electromagnetics/exercises+results.pdf",
-    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Electromagnetics/30035_Fall25_CourseNote.pdf"
+    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
   ]
 }
