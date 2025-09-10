@@ -4,47 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "92ed2b86417416c0",
+        "id": "f410b2e0631d0266",
         "type": "tabs",
         "children": [
           {
-            "id": "6664c81d7465a439",
+            "id": "92baf9b95de4bf63",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Electromagnetics/Slides/L03_Infinite_TL.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "L03_Infinite_TL"
-            }
-          },
-          {
-            "id": "664fe44ae153e3ec",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "DSP/Ugesedler/Løsninger/Uge_02_ti__løsninger.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Uge_02_ti__løsninger"
-            }
-          },
-          {
-            "id": "8724195ab60d5053",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Electromagnetics (Applied) Fundamentals 8th Ed"
+              "icon": "lucide-file",
+              "title": "Single Terminated TL"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -117,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Electromagnetics/exercises+results.pdf",
+                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for exercises+results"
+              "title": "Backlinks for Single Terminated TL"
             }
           },
           {
@@ -184,8 +161,7 @@
               "title": "Source Control"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "horizontal",
@@ -201,21 +177,34 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "obsidian-git:Open Git source control": false
+      "obsidian-git:Open Git source control": false,
+      "omnisearch:Omnisearch": false,
+      "templater-obsidian:Templater": false
     }
   },
-  "active": "664fe44ae153e3ec",
+  "active": "92baf9b95de4bf63",
   "lastOpenFiles": [
-    "DSP/Ugesedler/Løsninger/Uge_01_to__løsninger.pdf",
-    "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
-    "DSP/Ugesedler/Løsninger/Uge_02_ti__løsninger.pdf",
-    "DSP/Ugesedler/Løsninger",
-    "DSP/Slides/Uge_02_to.pdf",
-    "DSP/62743 E25 DSP kursusplan.pdf",
-    "Electromagnetics/exercises+results.pdf",
-    "Electromagnetics/Slides/L03_Infinite_TL.pdf",
-    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
-    "DSP/Slides/Uge_02_ti.pdf"
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+    "Electromagnetism – Wave Parameters.md",
+    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
+    "Electromagnetism – Single Terminated Transmission Line.md",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote.pdf",
+    "Courses/Electromagnetics/Slides/L03_Infinite_TL.pdf",
+    "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
+    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
+    "Courses/Electromagnetics/Exercises/work/2-2.md",
+    "Courses/Electromagnetics/Exercises/work/2-4.md",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-01-problems.pdf",
+    "Courses/DSP/Slides/Uge_02_to.pdf",
+    "Courses/DSP/Slides/Uge_02_ti.pdf",
+    "Exercises/3-3.2.md",
+    "Notes/Electromagnetism L03.md",
+    "Untitled.md",
+    "Courses/Integrated Analog Electronics/Untitled.md"
   ]
 }

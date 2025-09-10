@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "type": "file",
+      "ctime": 1757512122439,
+      "path": "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
+      "title": "DSP Book"
+    },
+    {
+      "type": "file",
+      "ctime": 1757512159330,
+      "path": "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+      "title": "Electromagnetics Book"
+    },
+    {
+      "type": "file",
+      "ctime": 1757512189225,
+      "path": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
+      "title": "cmos Book"
+    }
+  ]
+}
