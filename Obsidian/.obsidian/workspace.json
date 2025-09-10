@@ -8,55 +8,43 @@
         "type": "tabs",
         "children": [
           {
-            "id": "18b942b85b977c9f",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "DSP/Slides/Uge_02_ti.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Uge_02_ti"
-            }
-          },
-          {
-            "id": "c2af9b836baf6986",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Champagne and Labeau 2004 Discrete Time Signal Processing"
-            }
-          },
-          {
-            "id": "e3a88ab83b18074e",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "DSP/Slides/Uge_02_ti.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Uge_02_ti"
-            }
-          },
-          {
             "id": "6664c81d7465a439",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "DSP/Ugesedler/Ugesedler uge 01 - uge 04.pdf"
+                "file": "Electromagnetics/Slides/L03_Infinite_TL.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Ugesedler uge 01 - uge 04"
+              "title": "L03_Infinite_TL"
+            }
+          },
+          {
+            "id": "eccf0272166d6912",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Electromagnetics/Slides/L03_Infinite_TL.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L03_Infinite_TL"
+            }
+          },
+          {
+            "id": "664fe44ae153e3ec",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Electromagnetics/exercises+results.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "exercises+results"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -113,7 +101,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -201,7 +189,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -215,18 +204,18 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "6664c81d7465a439",
+  "active": "eccf0272166d6912",
   "lastOpenFiles": [
+    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Electromagnetics/exercises+results.pdf",
+    "Electromagnetics/Slides/L03_Infinite_TL.pdf",
+    "Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "DSP/Slides/Uge_02_ti.pdf",
     "DSP/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
     "DSP/Ugesedler/Ugesedler uge 01 - uge 04.pdf",
     "Integrated Analog Electronics/cmos_analog_ic_design_fundamentals.pdf",
     "Integrated Analog Electronics/34630-lecture-01-intro_v1.pdf",
-    "Electromagnetics/exercises+results.pdf",
-    "Electromagnetics/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
     "Electromagnetics/30035_Fall25_CourseNote.pdf",
-    "DSP/Ugesedler",
-    "New Text Document.txt",
-    "DSP/Slides/Uge_01_ti.pdf"
+    "DSP/Ugesedler"
   ]
 }
