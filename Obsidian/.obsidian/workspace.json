@@ -4,76 +4,63 @@
     "type": "split",
     "children": [
       {
-        "id": "91802eee31947d32",
+        "id": "fbe5ffdbe4be2f3e",
         "type": "tabs",
         "children": [
           {
-            "id": "fa054594ef9f9e14",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Courses/DSP/Lecture Notes/L04.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "L04"
-            }
-          },
-          {
-            "id": "a050d109c3474cf3",
+            "id": "25b33962aa67f4fd",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf"
+                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Champagne and Labeau 2004 Discrete Time Signal Processing"
+              "title": "34630-lecture-02-mos-basics_v1"
             }
           },
           {
-            "id": "f3759a927ada92cc",
+            "id": "35788671c2a00b4c",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "week2_problems_obsidian"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       },
       {
-        "id": "f367c5390b7fd053",
+        "id": "2a928b54c9906501",
         "type": "tabs",
         "children": [
           {
-            "id": "d1078753969b7983",
+            "id": "b7034112fb5d451a",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Slides/Uge_02_to.pdf"
+                "file": "Courses/Integrated Analog Electronics/Exercises/34630-week-02-problems.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Uge_02_to"
+              "title": "34630-week-02-problems"
             }
           },
           {
-            "id": "2f8f17c1708a02ce",
+            "id": "2e9cb6fe39714a5a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-                "mode": "source",
-                "source": false
+                "file": "Courses/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Single Terminated TL"
+              "icon": "lucide-file-text",
+              "title": "LT_Spice_notest"
             }
           }
         ]
@@ -133,7 +120,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -237,35 +225,37 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "f3759a927ada92cc",
+  "active": "25b33962aa67f4fd",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
+    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
+    "Pasted image 20250912094132.png",
+    "Pasted image 20250912094114.png",
+    "Pasted image 20250912094031.png",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-02-problems.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Solutions/34630-week-02-solution.pdf",
+    "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf",
+    "diode-models.svg",
+    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_problems_and_solutions.pdf",
+    "Courses/Integrated Analog Electronics/Literature/cmos-integrated-circuit-simulation-with-ltpice (1).pdf",
+    "Courses/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-01-intro_v1.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
-    "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
     "Courses/DSP/Slides/Uge_02_to.pdf",
     "Courses/DSP/Lecture Notes/L04.md",
     "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
+    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
+    "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
     "Pasted image 20250911063821.png",
     "Pasted image 20250911063240.png",
     "Pasted image 20250911062225.png",
     "Pasted image 20250911062143.png",
     "Pasted image 20250911062015.png",
     "Pasted image 20250911061907.png",
-    "Pasted image 20250911061832.png",
-    "Pasted image 20250911061642.png",
-    "Pasted image 20250911061143.png",
-    "Pasted image 20250911061111.png",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Electromagnetism – Wave Parameters.md",
     "Electromagnetism – Single Terminated Transmission Line.md",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote.pdf",
-    "Courses/Electromagnetics/Slides/L03_Infinite_TL.pdf",
-    "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
-    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
-    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "Courses/Electromagnetics/Exercises/work/2-2.md",
     "Courses/Electromagnetics/Exercises/work/2-4.md",
     "Exercises/3-3.2.md",
