@@ -4,7 +4,9 @@
 **Task:**  
 NMOS transistors, given W/L = 8, μnCox = 180 μA/V², Vt = 0.4 V, λ = 0.  
 Find **VD1, VS2, VD3**.
+
 ![[Pasted image 20250912094031.png]]
+
 **Formulas Needed:**  
 - **Operating regions (NMOS):**
   - Cutoff: $V_{GS} \leq V_t \implies I_D = 0$  
@@ -19,41 +21,22 @@ Find **VD1, VS2, VD3**.
 
 - **No channel length modulation (λ=0):** $I_D$ independent of $V_{DS}$.
 
-**Solution:**  
-*Write your step-by-step solution here...*
+**Solution:**  ![[L02_Q1.pdf]]
+
+**Results (with $V_{DD}=+0.9~\text{V}$, $V_{SS}=-0.9~\text{V}$):**  
+- $\boxed{V_{D1}=-0.25~\text{V}}$  
+- $\boxed{V_{S2}=-0.65~\text{V}}$  
+- $\boxed{V_{D3}=+0.65~\text{V}}$
+
+> Notes:  
+> - From $I=\tfrac{1}{2}k_nV_{ov}^2$ with $k_n=\mu_n C_{ox}\frac{W}{L}=1440~\mu\text{A}/\text{V}^2$ and $I=45~\mu\text{A}$, we get $V_{ov}=0.25~\text{V}$ and $V_{GS}=0.65~\text{V}$.  
+> - Diode-connected M1 ⇒ $V_{D1}=V_{SS}+V_{GS}$.  
+> - Mirror bias ⇒ $I_R=45~\mu\text{A}$, drop on $5.56~\text{k}\Omega$ is $0.25~\text{V}$ ⇒ $V_{D3}=V_{DD}-0.25~\text{V}$.  
+> - $V_{S2}=V_{SS}$ since $V_{GS2}=0.65~\text{V}$ with same gate as M1.
+
+
 
 ---
-
-### Solution
-
-**Given:** (copy from figure)
-- [ ] Supply voltages:
-- [ ] Transistor params (W/L, μCox, Vt, λ, γ, 2ΦF, λL):
-- [ ] Node labels from the schematic:
-
-**Plan:**
-1) **Assume region** for each MOSFET (cutoff / triode / saturation) using:
-   - NMOS: cutoff if $V_{GS} \le V_t$; sat if $V_{DS} \ge V_{GS}-V_t$; triode otherwise.
-   - PMOS (use magnitudes): sat if $|V_{DS}| \ge |V_{GS}|-|V_{tp}|$.
-2) **Compute $I_D$** using the region’s equation (include body effect if $V_{SB}\ne 0$):
-   - $V_t = V_{to} + \gamma\big(\sqrt{|2\Phi_F + V_{SB}|}-\sqrt{|2\Phi_F|}\big)$
-3) **Write KCL/KVL** at the unknown node(s) (resistors, current sources, mirrors, etc.).
-4) **Solve** for requested voltages (**VD1**, **VS2**, **VD3**), then **verify** region consistency.
-5) If using channel-length modulation: multiply by $(1+\lambda V_{DS})$ (only in saturation).
-
-**Scratch:**
-```calc
-Assumptions:
-- 
-Equations:
-- 
-Numeric solve:
-- 
-Check regions:
-- 
-```
-
-
 ## Problem 2
 **Task:**  
 NMOS (W/L = 8, μnCox = 180 μA/V², Vto = 0.4 V, λ=0, γ = 0.5 √V, |2ΦF|=0.7 V).  

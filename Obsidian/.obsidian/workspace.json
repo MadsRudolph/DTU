@@ -33,7 +33,8 @@
               "title": "week2_problems_obsidian"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "2a928b54c9906501",
@@ -52,6 +53,18 @@
             }
           },
           {
+            "id": "3c700b3f89cac989",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Integrated Analog Electronics/Exercises/Solutions/34630-week-02-solution.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "34630-week-02-solution"
+            }
+          },
+          {
             "id": "2e9cb6fe39714a5a",
             "type": "leaf",
             "state": {
@@ -63,7 +76,8 @@
               "title": "LT_Spice_notest"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -120,8 +134,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -225,28 +238,28 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "25b33962aa67f4fd",
+  "active": "35788671c2a00b4c",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
+    "Courses/Integrated Analog Electronics/Exercises/Solutions/34630-week-02-solution.pdf",
+    "Resources/L02_Q1.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-02-problems.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf",
     "Pasted image 20250912094132.png",
     "Pasted image 20250912094114.png",
     "Pasted image 20250912094031.png",
-    "Courses/Integrated Analog Electronics/Exercises/34630-week-02-problems.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/Solutions/34630-week-02-solution.pdf",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf",
     "diode-models.svg",
     "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_problems_and_solutions.pdf",
     "Courses/Integrated Analog Electronics/Literature/cmos-integrated-circuit-simulation-with-ltpice (1).pdf",
     "Courses/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf",
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-01-intro_v1.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-    "Courses/DSP/Slides/Uge_02_to.pdf",
     "Courses/DSP/Lecture Notes/L04.md",
-    "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
-    "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
     "Pasted image 20250911063821.png",
     "Pasted image 20250911063240.png",
     "Pasted image 20250911062225.png",
