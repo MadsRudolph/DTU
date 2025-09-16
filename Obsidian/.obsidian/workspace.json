@@ -4,37 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "acc4ca0ac94c3475",
+        "id": "f34e74eec131fba5",
         "type": "tabs",
         "children": [
           {
-            "id": "89931fc37d0bfaa6",
+            "id": "2d06effc8e301f5e",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf"
+                "file": "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L04_Single_Terminated_TL"
-            }
-          }
-        ]
-      },
-      {
-        "id": "bd53053c38185605",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "56ca6a98b8ebab86",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L05_Single_Terminated_TL_Special_Cases"
+              "title": "Ugesedler Uge 01 - Uge 04"
             }
           }
         ]
@@ -210,8 +192,15 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "89931fc37d0bfaa6",
+  "active": "2d06effc8e301f5e",
   "lastOpenFiles": [
+    "Courses/DSP/Exercises/Solutions/Uge_02_ti__løsninger.pdf",
+    "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
+    "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf",
+    "Courses/DSP/Slides/Uge_03_ti.pdf",
+    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
+    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
+    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
@@ -219,17 +208,11 @@
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/Electromagnetics/Exercises/LAB/30035_LaboratoryExercises.pdf",
     "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
-    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
     "Electromagnetism – Single Terminated Transmission Line.md",
     "Courses/Electromagnetics/Lecture Notes/L05.md",
     "Electromagnetism – Wave Parameters.md",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote.pdf",
     "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
-    "Courses/Electromagnetics/Exercises/LAB/30035_LaboratoryExercises.docx",
-    "Courses/Electromagnetics/Exercises/LAB",
-    "Courses/Electromagnetics/Exercises/New folder",
-    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Pasted image 20250911060909.png",
