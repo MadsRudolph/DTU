@@ -4,19 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "f34e74eec131fba5",
+        "id": "9afbd07faf0eaae1",
         "type": "tabs",
         "children": [
           {
-            "id": "2d06effc8e301f5e",
+            "id": "7369fb4f449928ce",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf"
+                "file": "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "Ugesedler Uge 01 - Uge 04"
+              "icon": "lucide-file",
+              "title": "Uge 4 Tirsdag"
             }
           }
         ]
@@ -76,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -192,28 +195,67 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2d06effc8e301f5e",
+  "floating": {
+    "id": "568293fc16b35362",
+    "type": "floating",
+    "children": [
+      {
+        "id": "9d27947df8f4124e",
+        "type": "window",
+        "children": [
+          {
+            "id": "1d6a894ddcf3e4ff",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "ddc437b4696d91aa",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "Courses/DSP/Exercises/Solutions/Uge_03_ti__løsninger.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "Uge_03_ti__løsninger"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": -541,
+        "y": -289,
+        "width": 836,
+        "height": 1032,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "7369fb4f449928ce",
   "lastOpenFiles": [
-    "Courses/DSP/Exercises/Solutions/Uge_02_ti__løsninger.pdf",
+    "Courses/DSP/Exercises/Solutions/Uge_03_ti__løsninger.pdf",
+    "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
+    "Courses/DSP/Exercises/work/Uge 3.pdf",
+    "Resources/MagnitudeResponse.png",
+    "Resources/PhaseResponse.png",
+    "Courses/DSP/Exercises/work/Uge 3.pdf.crdownload",
     "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
-    "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf",
     "Courses/DSP/Slides/Uge_03_ti.pdf",
+    "Courses/DSP/Slides/Uge_02_to.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
+    "Courses/DSP/Exercises/Solutions/Uge_02_ti__løsninger.pdf",
+    "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf",
     "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
     "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
-    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
-    "Courses/Electromagnetics/Exercises/LAB/30035_LaboratoryExercises.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
     "Electromagnetism – Single Terminated Transmission Line.md",
     "Courses/Electromagnetics/Lecture Notes/L05.md",
     "Electromagnetism – Wave Parameters.md",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote.pdf",
-    "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Pasted image 20250911060909.png",
     "Pasted image 20250912094031.png",
@@ -224,8 +266,6 @@
     "Pasted image 20250911061143.png",
     "Pasted image 20250911061021.png",
     "Courses/DSP/Lecture Notes/L04.md",
-    "diode-models.svg",
-    "Pasted image 20250912094132.png",
     "Courses/Electromagnetics/Exercises/work/2-2.md",
     "Courses/Electromagnetics/Exercises/work/2-4.md",
     "Exercises/3-3.2.md",
