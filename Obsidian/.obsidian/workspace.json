@@ -11,12 +11,14 @@
             "id": "29ee3e7f2d0fc0be",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf"
+                "file": "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "L06a_VNA+Power"
+              "icon": "lucide-file",
+              "title": "Uge 4 Tirsdag"
             }
           },
           {
@@ -204,8 +206,9 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "94c580149c456c60",
+  "active": "29ee3e7f2d0fc0be",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
     "Courses/Electromagnetics/Slides/Untitled.canvas",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
@@ -227,7 +230,6 @@
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Electromagnetism – Single Terminated Transmission Line.md",
     "Electromagnetism – Wave Parameters.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
