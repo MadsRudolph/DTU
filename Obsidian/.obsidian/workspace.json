@@ -4,21 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "9afbd07faf0eaae1",
+        "id": "ef04a89da9c92819",
         "type": "tabs",
         "children": [
           {
-            "id": "7369fb4f449928ce",
+            "id": "29ee3e7f2d0fc0be",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
-                "mode": "source",
-                "source": false
+                "file": "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Uge 4 Tirsdag"
+              "icon": "lucide-file-text",
+              "title": "L06a_VNA+Power"
+            }
+          },
+          {
+            "id": "ac64ccac86d5a6c5",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Exercises/LAB/30035_LaboratoryExercises.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "30035_LaboratoryExercises"
             }
           }
         ]
@@ -78,8 +88,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -195,66 +204,31 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "floating": {
-    "id": "568293fc16b35362",
-    "type": "floating",
-    "children": [
-      {
-        "id": "9d27947df8f4124e",
-        "type": "window",
-        "children": [
-          {
-            "id": "1d6a894ddcf3e4ff",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "ddc437b4696d91aa",
-                "type": "leaf",
-                "state": {
-                  "type": "pdf",
-                  "state": {
-                    "file": "Courses/DSP/Exercises/Solutions/Uge_03_ti__løsninger.pdf"
-                  },
-                  "icon": "lucide-file-text",
-                  "title": "Uge_03_ti__løsninger"
-                }
-              }
-            ]
-          }
-        ],
-        "direction": "vertical",
-        "x": -541,
-        "y": -289,
-        "width": 836,
-        "height": 1032,
-        "maximize": true,
-        "zoom": 0
-      }
-    ]
-  },
-  "active": "7369fb4f449928ce",
+  "active": "94c580149c456c60",
   "lastOpenFiles": [
-    "Courses/DSP/Exercises/Solutions/Uge_03_ti__løsninger.pdf",
+    "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
+    "Courses/Electromagnetics/Slides/Untitled.canvas",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+    "Resources/L02_Q1.pdf",
+    "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
+    "Courses/Electromagnetics/Slides/~$L06b+7b_Smith_Chart.pptx",
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pptx",
+    "Courses/Electromagnetics/Exercises/LAB/30035_LaboratoryExercises.pdf",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/DSP/Exercises/work/Uge 3.pdf",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Lecture Notes/L05.md",
+    "Courses/DSP/Exercises/Solutions/Uge_03_ti__løsninger.pdf",
     "Resources/MagnitudeResponse.png",
     "Resources/PhaseResponse.png",
-    "Courses/DSP/Exercises/work/Uge 3.pdf.crdownload",
-    "Courses/DSP/Exercises/Ugesedler uge 01 - uge 04.pdf",
-    "Courses/DSP/Slides/Uge_03_ti.pdf",
-    "Courses/DSP/Slides/Uge_02_to.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
-    "Courses/DSP/Exercises/Solutions/Uge_02_ti__løsninger.pdf",
-    "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf",
-    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
-    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Electromagnetism – Single Terminated Transmission Line.md",
-    "Courses/Electromagnetics/Lecture Notes/L05.md",
     "Electromagnetism – Wave Parameters.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Pasted image 20250911060909.png",
