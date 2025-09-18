@@ -79,8 +79,8 @@
 
 - **Multiplication by $n$**  
   $$
-1$$
-
+  n x[n] \;\;\xleftrightarrow{\mathcal{Z}}\;\; -z \frac{dX(z)}{dz}
+  $$
 
 - **Convolution (in time)**  
   $$
