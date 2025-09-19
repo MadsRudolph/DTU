@@ -1,0 +1,21 @@
+LTspice 24.1.9 for Windows
+Circuit: C:\Users\Mads2\DTU\3.semester\Integrated Analog Electronics\LTspice\Week3_Problem1.net
+Start Time: Fri Sep 19 11:50:50 2025
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+Instance "M1": Length shorter than recommended for a level 1 MOSFET.
+Instance "M1": Width narrower than recommended for a level 1 MOSFET.
+Instance "M2": Length shorter than recommended for a level 1 MOSFET.
+Instance "M2": Width narrower than recommended for a level 1 MOSFET.
+Instance "M3": Length shorter than recommended for a level 1 MOSFET.
+Instance "M3": Width narrower than recommended for a level 1 MOSFET.
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.155 seconds.
+
+Files loaded:
+C:\Users\Mads2\DTU\3.semester\Integrated Analog Electronics\LTspice\Week3_Problem1.net
+C:\Users\Mads2\AppData\Local\LTspice\lib\cmp\standard.mos
+
