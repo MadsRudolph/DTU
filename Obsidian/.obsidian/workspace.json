@@ -4,19 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "05c60e59f10e68f6",
+        "id": "5358ec04b2a4c655",
         "type": "tabs",
         "children": [
           {
-            "id": "c409485efaaa510a",
+            "id": "29950fad01626be3",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "cmos_analog_ic_design_fundamentals"
+              "icon": "lucide-file",
+              "title": "Single Terminated TL"
             }
           }
         ]
@@ -76,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -193,32 +194,32 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "c409485efaaa510a",
+  "active": "29950fad01626be3",
   "lastOpenFiles": [
-    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_problems_and_solutions.pdf",
-    "Courses/Integrated Analog Electronics/Literature/cmos-integrated-circuit-simulation-with-ltpice (1).pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-03-small-signal-model.pdf",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
+    "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
+    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
+    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
+    "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_2.pdf",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
     "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
     "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits.pdf",
-    "Courses/DSP/Exercises/Ugesedler Uge 01 - Uge 04.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_Networks.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+    "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/DSP/Formulas/Week 2 – Tuesday.md",
     "Courses/DSP/Formulas/Week 2 – Thursday.md",
     "Courses/DSP/Formulas/Week 3 – Thursday.md",
-    "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
-    "Courses/DSP/Slides/DSP-Marta-Uge04-torsdag.pdf",
-    "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07 (1).pdf",
-    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_Networks.pdf",
-    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
-    "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Lecture Notes/Untitled.md",
     "Courses/DSP/Formulas/Week 1 – Thursday.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
-    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Week 3 – Thursday.md",
     "Courses/DSP/Formulas/Week 1 – Tuesday.md",
