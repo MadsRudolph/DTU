@@ -1,6 +1,6 @@
 LTspice 24.1.9 for Windows
 Circuit: C:\Users\Mads2\DTU\3.semester\Integrated Analog Electronics\LTspice\Week3_Problem2.net
-Start Time: Fri Sep 19 12:20:14 2025
+Start Time: Fri Sep 26 09:17:47 2025
 solver = Normal
 Maximum thread count: 16
 tnom = 27
@@ -14,7 +14,7 @@ Instance "M2": Length shorter than recommended for a level 1 MOSFET.
 Instance "M3": Length shorter than recommended for a level 1 MOSFET.
 Instance "M3": Width narrower than recommended for a level 1 MOSFET.
 Direct Newton iteration for .op point succeeded.
-Total elapsed time: 0.168 seconds.
+Total elapsed time: 0.183 seconds.
 
 Files loaded:
 C:\Users\Mads2\DTU\3.semester\Integrated Analog Electronics\LTspice\Week3_Problem2.net
