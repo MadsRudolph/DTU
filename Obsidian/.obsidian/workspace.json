@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Single Terminated TL"
+              "title": "Single Terminated TL – Special Cases"
             }
           }
         ]
@@ -196,20 +196,21 @@
   },
   "active": "7b6d30f3d18c3219",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
-    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/34630-week-04-problems.pdf",
-    "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-01-intro_v1.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/34630-week-01-problems.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-    "Courses/Integrated Analog Electronics/Exercises/Solutions/34630-week-04-solution - Copy.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/34630-week-04-solution - Copy.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/34630-lecture-04-cs-cd-stages.pdf",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
+    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
+    "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_Networks.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits.pdf",
+    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_2.pdf",
+    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
+    "Courses/Electromagnetics/Slides/L03_Infinite_TL.pdf",
     "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
+    "Courses/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+    "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
+    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
