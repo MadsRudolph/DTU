@@ -4,49 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "b229e70c5be88018",
+        "id": "c9ef99adfcbb8e3d",
         "type": "tabs",
         "children": [
           {
-            "id": "3b560f9c79238e9e",
+            "id": "7b6d30f3d18c3219",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "cmos_analog_ic_design_fundamentals"
-            }
-          },
-          {
-            "id": "c8d02b019ece3790",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Integrated Analog Electronics/Exercises/34630-week-04-problems.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "34630-week-04-problems"
-            }
-          }
-        ]
-      },
-      {
-        "id": "5042efe1b98c82dd",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "2afe3901887b4e1e",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "34630-lecture-04-cs-cd-stages"
+              "icon": "lucide-file",
+              "title": "Single Terminated TL"
             }
           }
         ]
@@ -222,11 +194,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2afe3901887b4e1e",
+  "active": "7b6d30f3d18c3219",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
     "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
     "Courses/Integrated Analog Electronics/Exercises/34630-week-04-problems.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-01-intro_v1.pdf",
     "Courses/Integrated Analog Electronics/Exercises/34630-week-01-problems.pdf",
@@ -237,14 +210,12 @@
     "Courses/Integrated Analog Electronics/Exercises/34630-lecture-04-cs-cd-stages.pdf",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
     "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
-    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
     "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/DSP/Formulas/Week 2 – Tuesday.md",
     "Courses/DSP/Formulas/Week 2 – Thursday.md",
     "Courses/DSP/Formulas/Week 3 – Thursday.md",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
     "Courses/Electromagnetics/Lecture Notes/Untitled.md",
