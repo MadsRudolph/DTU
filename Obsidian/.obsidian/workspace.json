@@ -11,14 +11,12 @@
             "id": "7b6d30f3d18c3219",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
-                "mode": "source",
-                "source": false
+                "file": "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_SingleStubTuner.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Single Terminated TL – Special Cases"
+              "icon": "lucide-file-text",
+              "title": "L07b+08_TL_Matching_Circuits_SingleStubTuner"
             }
           }
         ]
@@ -196,19 +194,18 @@
   },
   "active": "7b6d30f3d18c3219",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L05_Single_Terminated_TL_Special_Cases.pdf",
-    "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
-    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_Networks.pdf",
-    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits.pdf",
-    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
-    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
-    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_2.pdf",
-    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
-    "Courses/Electromagnetics/Slides/L03_Infinite_TL.pdf",
-    "Courses/Electromagnetics/Slides/L02_Waves+TL.pdf",
-    "Courses/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+    "Courses/Electromagnetics/Slides/L09_TL_Summary&Examples1.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+    "Courses/DSP/Exercises/Solutions/Uge_04_to_løsninger.pdf",
+    "Courses/DSP/Exercises/Solutions/Uge_03_to_løsninger.pdf",
+    "Courses/DSP/Exercises/Solutions/Uge__04_ti_løsninger.pdf",
+    "Courses/DSP/Exercises/Solutions/Løsninger uge 04 torsdag.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge05-tirsdag.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge05-torsdag.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_QuarterWave.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_LumpedComponents.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_SingleStubTuner.pdf",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
