@@ -4,39 +4,51 @@
     "type": "split",
     "children": [
       {
-        "id": "c9ef99adfcbb8e3d",
+        "id": "5518dc503733b460",
         "type": "tabs",
         "children": [
           {
-            "id": "7b6d30f3d18c3219",
+            "id": "5fd55eb3eb89ff43",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf"
+                "file": "Courses/DSP/Slides/DSP-Marta-Uge05-torsdag.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L10_TL_Summary&Examples2"
+              "title": "DSP-Marta-Uge05-torsdag"
             }
           }
         ]
       },
       {
-        "id": "1dd044822491b6fe",
+        "id": "6c1235735e479e7d",
         "type": "tabs",
         "children": [
           {
-            "id": "7f92b204b6d91fe7",
+            "id": "d35596bf9e9be27f",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Slides/DSP-Marta-Uge05-tirsdag.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "DSP-Marta-Uge05-tirsdag"
+            }
+          },
+          {
+            "id": "b0e195711858ea9a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+                "file": "Courses/DSP/Formulas/Week 3 – Tuesday.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Single Terminated TL – Special Cases"
+              "title": "Week 3 – Tuesday"
             }
           }
         ]
@@ -212,20 +224,21 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "7b6d30f3d18c3219",
+  "active": "5fd55eb3eb89ff43",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
+    "Courses/DSP/Slides/DSP-Marta-Uge05-tirsdag.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge05-torsdag.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge04-torsdag.pdf",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
+    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
     "Courses/Electromagnetics/Exercises/LAB/~WRL2397.tmp",
     "Courses/Electromagnetics/Exercises/LAB/~WRD2346.tmp",
-    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
     "Courses/Electromagnetics/Slides/L09_TL_Summary&Examples1.pdf",
-    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_SingleStubTuner.pdf",
     "Courses/DSP/Exercises/Solutions/Uge_04_to_løsninger.pdf",
     "Courses/DSP/Exercises/Solutions/Uge_03_to_løsninger.pdf",
-    "Courses/DSP/Exercises/Solutions/Uge__04_ti_løsninger.pdf",
-    "Courses/DSP/Exercises/Solutions/Løsninger uge 04 torsdag.pdf",
-    "Courses/DSP/Slides/DSP-Marta-Uge05-tirsdag.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
@@ -239,7 +252,6 @@
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
     "Courses/Electromagnetics/Lecture Notes/Untitled.md",
     "Courses/DSP/Formulas/Week 1 – Thursday.md",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Week 3 – Thursday.md",
     "Courses/DSP/Formulas/Week 1 – Tuesday.md",
     "Courses/DSP/Lecture Notes/L04.md",
