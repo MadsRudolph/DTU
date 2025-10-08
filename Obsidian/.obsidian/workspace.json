@@ -4,37 +4,37 @@
     "type": "split",
     "children": [
       {
-        "id": "c5168ad4537e7e87",
+        "id": "bd720f9f865e0037",
         "type": "tabs",
         "children": [
           {
-            "id": "734602a4887b6c8e",
+            "id": "41a1a8812a09597f",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf"
+                "file": "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Ugesedler uge 05 - uge 07"
+              "title": "L12_EM_plane_wave_in_lossless_media"
             }
           }
         ]
       },
       {
-        "id": "6d20f7a2d71ad04f",
+        "id": "1f8cdcadc8a6aa8f",
         "type": "tabs",
         "children": [
           {
-            "id": "5df3416e10fba2cf",
+            "id": "2226fe3e934ee4cc",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf"
+                "file": "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "DSP-Marta-Uge06-tirsdag"
+              "title": "L12_EM_plane_wave_in_lossless_media"
             }
           }
         ]
@@ -210,11 +210,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "5df3416e10fba2cf",
+  "active": "2226fe3e934ee4cc",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
+    "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
-    "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
     "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
