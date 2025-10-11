@@ -11,12 +11,14 @@
             "id": "2b0568977b154270",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-file-text",
-              "title": "DSP-Marta-Uge06-torsdag"
+              "icon": "lucide-file",
+              "title": "Lecture 11 Plane Waves Lossles"
             }
           }
         ]
@@ -212,6 +214,7 @@
   },
   "active": "2b0568977b154270",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
     "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf",
