@@ -4,31 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "12fdea368f63e818",
+        "id": "944cfcda12da6bb3",
         "type": "tabs",
         "children": [
           {
-            "id": "2b0568977b154270",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Lecture 11 Plane Waves Lossles"
-            }
-          }
-        ]
-      },
-      {
-        "id": "b95d56a99a0a6eec",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "249d9a95e2b88e73",
+            "id": "afac9cb073e33e95",
             "type": "leaf",
             "state": {
               "type": "pdf",
@@ -37,6 +17,24 @@
               },
               "icon": "lucide-file-text",
               "title": "Ugesedler uge 05 - uge 07"
+            }
+          }
+        ]
+      },
+      {
+        "id": "7b1b160f9d2fc9b1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "65bac4c483110a40",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "DSP-Marta-Uge06-torsdag"
             }
           }
         ]
@@ -96,7 +94,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -212,23 +211,25 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "2b0568977b154270",
+  "active": "afac9cb073e33e95",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
-    "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf",
-    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
-    "Courses/Electromagnetics/Exercises/LAB/~$035_LaboratoryExercises.docx",
+    "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
-    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
-    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
-    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
-    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_2.pdf",
+    "Resources/MagnitudeResponse.png",
+    "Resources/PhaseResponse.png",
+    "Resources/L02_Q1.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Solutions/31631-week-05-solution.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Solutions/exercises_solutions_L6.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Exercise_L6_LTS.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/exercises_L6.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/31631-week-05-problems.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
@@ -247,8 +248,6 @@
     "Courses/DSP/Lecture Notes/L04.md",
     "Courses/Electromagnetics/Slides/Untitled.canvas",
     "Courses/Electromagnetics/Lecture Notes/L05.md",
-    "Resources/MagnitudeResponse.png",
-    "Resources/PhaseResponse.png",
     "Electromagnetism – Single Terminated Transmission Line.md",
     "Electromagnetism – Wave Parameters.md",
     "Pasted image 20250911060909.png",
