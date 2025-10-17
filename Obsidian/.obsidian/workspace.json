@@ -4,24 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "944cfcda12da6bb3",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "afac9cb073e33e95",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Ugesedler uge 05 - uge 07"
-            }
-          }
-        ]
-      },
-      {
         "id": "7b1b160f9d2fc9b1",
         "type": "tabs",
         "children": [
@@ -31,10 +13,10 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf"
+                "file": "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "DSP-Marta-Uge06-torsdag"
+              "title": "exerc_1_v2"
             }
           }
         ]
@@ -211,11 +193,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "afac9cb073e33e95",
+  "active": "65bac4c483110a40",
   "lastOpenFiles": [
+    "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
+    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf",
     "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
-    "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Resources/MagnitudeResponse.png",
     "Resources/PhaseResponse.png",
     "Resources/L02_Q1.pdf",
@@ -225,7 +208,6 @@
     "Courses/Integrated Analog Electronics/Exercises/Exercise_L6_LTS.pdf",
     "Courses/Integrated Analog Electronics/Exercises/exercises_L6.pdf",
     "Courses/Integrated Analog Electronics/Exercises/31631-week-05-problems.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf",
     "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
