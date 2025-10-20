@@ -4,19 +4,37 @@
     "type": "split",
     "children": [
       {
-        "id": "7b1b160f9d2fc9b1",
+        "id": "0e2ba732b4f532de",
         "type": "tabs",
         "children": [
           {
-            "id": "65bac4c483110a40",
+            "id": "02e1a264d126d12a",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf"
+                "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "exerc_1_v2"
+              "title": "exercises+results"
+            }
+          }
+        ]
+      },
+      {
+        "id": "562bd6049af42e24",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "aa95dbeb382d5d2b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L13_EM_plane_wave_polarization"
             }
           }
         ]
@@ -193,8 +211,12 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "65bac4c483110a40",
+  "active": "02e1a264d126d12a",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf",
@@ -205,10 +227,6 @@
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
     "Courses/Integrated Analog Electronics/Exercises/Solutions/31631-week-05-solution.pdf",
     "Courses/Integrated Analog Electronics/Exercises/Solutions/exercises_solutions_L6.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/Exercise_L6_LTS.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/exercises_L6.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/31631-week-05-problems.pdf",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
