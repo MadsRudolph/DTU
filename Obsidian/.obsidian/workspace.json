@@ -4,37 +4,37 @@
     "type": "split",
     "children": [
       {
-        "id": "0e2ba732b4f532de",
+        "id": "6bd94cd8fcfd88d6",
         "type": "tabs",
         "children": [
           {
-            "id": "02e1a264d126d12a",
+            "id": "606e952323727ffa",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
+                "file": "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "exercises+results"
+              "title": "DSP-Marta-Uge07-tirsdag"
             }
           }
         ]
       },
       {
-        "id": "562bd6049af42e24",
+        "id": "2ab72f47dc99cb28",
         "type": "tabs",
         "children": [
           {
-            "id": "aa95dbeb382d5d2b",
+            "id": "725f1be7bde7f87a",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
+                "file": "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L13_EM_plane_wave_polarization"
+              "title": "Ugesedler uge 05 - uge 07"
             }
           }
         ]
@@ -94,8 +94,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -211,8 +210,10 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "02e1a264d126d12a",
+  "active": "725f1be7bde7f87a",
   "lastOpenFiles": [
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
+    "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf",
     "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Exercises/exercises+results.pdf",
     "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
@@ -225,9 +226,6 @@
     "Resources/PhaseResponse.png",
     "Resources/L02_Q1.pdf",
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/Solutions/31631-week-05-solution.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/Solutions/exercises_solutions_L6.pdf",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
