@@ -4,40 +4,47 @@
     "type": "split",
     "children": [
       {
-        "id": "6bd94cd8fcfd88d6",
+        "id": "708c718b7a958737",
         "type": "tabs",
         "children": [
           {
-            "id": "606e952323727ffa",
+            "id": "13ce90b101cb39d0",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf"
+                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "DSP-Marta-Uge07-tirsdag"
+              "title": "34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy"
             }
-          }
-        ]
-      },
-      {
-        "id": "2ab72f47dc99cb28",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "725f1be7bde7f87a",
+            "id": "9b9ca835c323c829",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf"
+                "file": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Ugesedler uge 05 - uge 07"
+              "title": "cmos_analog_ic_design_fundamentals"
+            }
+          },
+          {
+            "id": "eacafa5fe2dcb435",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Integrated_Analog_Electronics___Home_Assignment_1"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -210,22 +217,23 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "725f1be7bde7f87a",
+  "active": "eacafa5fe2dcb435",
   "lastOpenFiles": [
-    "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
+    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf",
     "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Exercises/exercises+results.pdf",
     "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge06-torsdag.pdf",
     "Resources/MagnitudeResponse.png",
     "Resources/PhaseResponse.png",
-    "Resources/L02_Q1.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
