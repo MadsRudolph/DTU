@@ -4,23 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "9a2cb1ae49c8f475",
+        "id": "35ebde4fb6f5be41",
         "type": "tabs",
         "children": [
           {
-            "id": "0ddb400ce4ae2383",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "cmos_analog_ic_design_fundamentals"
-            }
-          },
-          {
-            "id": "59763db485ace90d",
+            "id": "29bae0d3dcce9e13",
             "type": "leaf",
             "state": {
               "type": "pdf",
@@ -34,24 +22,35 @@
         ]
       },
       {
-        "id": "073a4f3faffddd8a",
+        "id": "69f69f35f3e8ca79",
         "type": "tabs",
         "children": [
           {
-            "id": "c399e4b479c1d50c",
+            "id": "c236360a987a5cf3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-                "mode": "source",
-                "source": false
+                "file": "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Lecture 11 Plane Waves Lossles"
+              "icon": "lucide-file-text",
+              "title": "cmos_analog_ic_design_fundamentals"
+            }
+          },
+          {
+            "id": "995ed737bf9f0b88",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-04-cs-cd-stages.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "34630-lecture-04-cs-cd-stages"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -224,20 +223,21 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "0ddb400ce4ae2383",
+  "active": "995ed737bf9f0b88",
   "lastOpenFiles": [
-    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
-    "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
     "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
     "Courses/DSP/Exercises/Ugesedler uge 05 - uge 07.pdf",
+    "Courses/DSP/Slides/DSP-Marta-Uge07-torsdag.pdf",
+    "Courses/DSP/Literature/62743 E25 DSP kursusplan.pdf",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+    "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-06-old07-freq-response-basic-stages_v2 - Copy.pdf",
     "Courses/DSP/Slides/DSP-Marta-Uge07-tirsdag.pdf",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/DSP/Slides/DSP-Marta-Uge06-tirsdag.pdf",
     "Resources/MagnitudeResponse.png",
     "Resources/PhaseResponse.png",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
