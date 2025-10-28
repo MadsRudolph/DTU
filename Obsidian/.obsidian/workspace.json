@@ -4,24 +4,6 @@
     "type": "split",
     "children": [
       {
-        "id": "421e9a9cee7b65ac",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "1eecc096fd600776",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/DSP/Slides/62743 E25 Digtial Filter Structures_part1.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "62743 E25 Digtial Filter Structures_part1"
-            }
-          }
-        ]
-      },
-      {
         "id": "3fbe826af0ea0e3f",
         "type": "tabs",
         "children": [
@@ -43,10 +25,10 @@
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Tirsdag.pdf"
+                "file": "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "62743 E25 Digital Signal Processing Uge 8 Tirsdag"
+              "title": "Integrated_Analog_Electronics___Home_Assignment_1"
             }
           }
         ],
@@ -107,8 +89,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -226,22 +207,32 @@
   },
   "active": "0b4928a29760c479",
   "lastOpenFiles": [
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Torsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Torsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 11 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 11 Torsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 12 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 12 Torsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 13 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
+    "Courses/DSP/Formulas/Week 2 – Thursday.md",
+    "Courses/DSP/Formulas/Week 1 – Thursday.md",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/DSP/Lecture Notes/L04.md",
+    "Pasted image 20250911062015.png",
+    "Pasted image 20250911061642.png",
+    "Pasted image 20250911061143.png",
+    "Pasted image 20250911061111.png",
+    "Pasted image 20250911060909.png",
+    "Plane Waves & Power (Step-by-Step, Collapsible).md",
+    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
+    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/exerc_1_v2.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-03-problems.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-02-problems.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/34630-week-01-problems.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/31631-week-05-problems.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Tirsdag.pdf",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Resources/MagnitudeResponse.png",
     "Resources/PhaseResponse.png",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
@@ -251,27 +242,16 @@
     "Courses/Integrated Analog Electronics/Lecture Notes/MOS transistor basics.md",
     "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
     "Courses/DSP/Formulas/Week 2 – Tuesday.md",
-    "Courses/DSP/Formulas/Week 2 – Thursday.md",
     "Courses/DSP/Formulas/Week 3 – Thursday.md",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/Electromagnetics/Lecture Notes/Untitled.md",
-    "Courses/DSP/Formulas/Week 1 – Thursday.md",
     "Week 3 – Thursday.md",
     "Courses/DSP/Formulas/Week 1 – Tuesday.md",
-    "Courses/DSP/Lecture Notes/L04.md",
     "Courses/Electromagnetics/Slides/Untitled.canvas",
     "Courses/Electromagnetics/Lecture Notes/L05.md",
     "Electromagnetism – Single Terminated Transmission Line.md",
-    "Electromagnetism – Wave Parameters.md",
-    "Pasted image 20250911060909.png",
     "Pasted image 20250912094031.png",
     "Pasted image 20250911063821.png",
-    "Pasted image 20250911063240.png",
-    "Pasted image 20250911062143.png",
-    "Pasted image 20250911061907.png",
-    "Pasted image 20250911061143.png",
-    "Pasted image 20250911061021.png",
-    "Courses/Electromagnetics/Exercises/work/2-2.md",
-    "Courses/Electromagnetics/Exercises/work/2-4.md"
+    "Pasted image 20250911063240.png"
   ]
 }
