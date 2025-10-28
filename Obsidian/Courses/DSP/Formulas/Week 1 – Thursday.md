@@ -1,4 +1,21 @@
+---
+title: "Week 1 – Thursday"
+type: "formula"
+tags:
+- DSP
+- formula
+- General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]] · [[Formulas/Week 3 – Tuesday]]
+> **Quick refs (DSP):** [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]]
 
+
+> **Quick refs:** [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]]
 
 ## Discrete-Time (DT) Signals
 - Definition: $x: \mathbb{Z} \to \mathbb{C}$
@@ -36,3 +53,23 @@ Periodicity: $e^{j\omega n}$ is periodic iff $\omega=2\pi k/N$
 - [[Week 1 – Tuesday]]: Sampling motivation
 - [[Week 2 – Tuesday]]: LTI systems defined via convolution
 - [[Week 2 – Thursday]]: Convolution property in DTFT
+---
+
+**See also:** [[MOC – DSP]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/DSP"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/DSP")
+```

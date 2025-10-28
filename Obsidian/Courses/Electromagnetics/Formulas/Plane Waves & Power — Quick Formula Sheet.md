@@ -1,4 +1,18 @@
-
+---
+title: "Plane Waves & Power — Quick Formula Sheet"
+type: "formula"
+tags:
+- Electromagnetics
+  - formula
+  - Plane Waves
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+> **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane Waves]] · [[MOC – Transmission Lines]] · [[MOC – EM Loss & Skin Depth]]
 
 > For **Electromagnetics (Applied)** — condensed reference of key relationships used in the assignment.  
 > Constants: $c=3\times10^8\ \text{m/s}$, $\eta_0=377\ \Omega$, $\mu_0=4\pi\times10^{-7}$, $\epsilon_0=1/(\mu_0 c^2)$.
@@ -119,3 +133,23 @@
 
 **Linked detailed derivations:**  
 See → [[Home Assignment 1]]
+---
+
+**See also:** [[MOC – Electromagnetics]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Electromagnetics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Electromagnetics")
+```

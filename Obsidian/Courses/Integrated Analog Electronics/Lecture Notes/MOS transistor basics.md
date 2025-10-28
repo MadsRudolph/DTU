@@ -1,0 +1,34 @@
+---
+title: MOS transistor basics
+type: lecture
+tags:
+  - Integrated Analog Electronics
+  - MOSFET
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: 2025-10-28
+---
+> 🔗 [[MOC – IAE]] · [[MOC – Lectures (IAE)]] · [[MOC – Exercises (IAE)]] · [[Lecture Notes/MOS transistor basics]]
+
+---
+
+**See also:** [[MOC – Integrated Analog Electronics]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Integrated Analog Electronics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Integrated Analog Electronics")
+```
