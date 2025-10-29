@@ -146,111 +146,144 @@ updated: "2025-10-28"
 > ```
 
 ---
+> [!summary] **Question 6 — Medium classification (corrected)**
+> **Concept:** Use the **loss tangent** to classify media. From the slides:
+>
+> $$\tan(\delta) = \frac{\sigma}{\omega \varepsilon_0 \varepsilon_r} \quad \text{and} \quad \tan(\delta) = \frac{\varepsilon''}{\varepsilon'}$$
+>
+> **Given:** Complex relative permittivity $\varepsilon_{r,c}=10(1 - j0.2)$.
+>
+> **Derivation (from $\varepsilon_{r,c}$):**  
+> $\varepsilon_r' = 10$, $\varepsilon_r'' = 10 \times 0.2 = 2$  
+> therefore  
+> $$\tan(\delta) = \frac{\varepsilon''}{\varepsilon'} = \frac{2}{10} = 0.2$$
+>
+> **Interpretation:**  
+> The loss tangent quantifies how much energy is dissipated vs stored.  
+> Since $10^{-2} \le 0.2 \le 10^{2}$, the medium is a **quasi-good insulator**.
+>
+> **Classification (per DTU slide “Rule of thumb”)**
+>
+> | Type | Range of $\tan(\delta)$ | Remarks |
+> |------|--------------------------|----------|
+> | Perfect dielectric insulator | $\sigma = 0 \Leftrightarrow \tan(\delta) = 0$ | No loss |
+> | Low-loss medium (dielectric) / good insulator | $\tan(\delta) \le 10^{-2}$ | |
+> | **Quasi-good conductor / quasi-good insulator / semiconductor** | $10^{-2} \le \tan(\delta) \le 10^{2}$ | Typical range for many real dielectrics |
+> | Good conductor | $\tan(\delta) \ge 10^{2}$ | Loss-dominated |
+> | Perfect electric conductor (PEC) | $\rho = 0 \Leftrightarrow \sigma = \infty \Leftrightarrow \tan(\delta) = \infty$ | |
+>
+> ✅ **Answer:** $\boxed{\text{Quasi-good insulator}}$ since $\tan(\delta) = 0.2$.
 
-> [!summary] **Question 6 — Medium classification**
-> **Concept:** Use the loss tangent $\tan\delta$ to characterize the dielectric’s losses and classify the medium.
+> [!tip] **Equivalence note:**  
+> If the problem gives $\sigma$ instead of $\varepsilon_{r,c}$, use  
+> $\tan(\delta) = \dfrac{\sigma}{\omega \varepsilon_0 \varepsilon_r}$.  
+> Both formulas are equivalent because $\varepsilon'' = \sigma / \omega$.
+
+> [!code]- MATLAB Solution
+> ```matlab
+> % Q6 (corrected): classify using loss tangent from given eps_r,c
+> eps_r_real = 10;
+> eps_r_imag = 10 * 0.2;                % from 10*(1 - j*0.2)
+> tan_delta = eps_r_imag / eps_r_real;  % -> 0.2
+> 
+> % Slide-based classification
+> if tan_delta == 0
+>     cls = "perfect dielectric insulator";
+> elseif tan_delta <= 1e-2
+>     cls = "low-loss medium (dielectric) / good insulator";
+> elseif tan_delta <= 1e2
+>     cls = "quasi-good conductor / quasi-good insulator / semiconductor";
+> else
+>     cls = "good conductor";
+> end
+> fprintf('tanδ = %.3g  =>  %s\n', tan_delta, cls);
+> 
+> % Alternative path if sigma is given:
+> % sigma = ...; f = ...; omega = 2*pi*f; eps0 = 8.854187817e-12;
+> % eps_r = 10; tan_delta_sigma = sigma / (omega * eps0 * eps_r);
+> ```
+> 
+
+---
+> [!summary] **Question 7 — Attenuation constant $\alpha$ (in Np/m)**
+> **Concept:**  
+> For a lossy dielectric, the complex propagation constant is  
+>
+> $$
+> \gamma = \alpha + j\beta = j\omega\sqrt{\mu\varepsilon_c}, \quad
+> \varepsilon_c = \varepsilon'(1 - j\tan\delta)
+> $$
+>
+> The **general** (no low-loss assumption) formulas are  
+>
+> $$
+> \alpha = k_0\sqrt{\frac{\mu_r\varepsilon_r}{2}}
+> \sqrt{\sqrt{1+\tan^2\delta}-1}
+> $$
+>
+> $$
+> \beta = k_0\sqrt{\frac{\mu_r\varepsilon_r}{2}}
+> \sqrt{\sqrt{1+\tan^2\delta}+1}
+> $$
+>
+> where $k_0 = \dfrac{2\pi f}{c}$.
 >
 > **Given:**  
-> The medium has a complex relative permittivity  
-> $\varepsilon_{r,c} = 10(1 - j0.2)$  
-> which means  
-> $\varepsilon_r' = 10$ and $\varepsilon_r'' = 2$.
+> $f = 20\,\text{MHz},\ \varepsilon_r = 10,\ \mu_r = 1,\ \tan\delta = 0.2$
 >
-> **Definition:**  
-> For any lossy dielectric,  
+> **Calculation:**
+>
 > $$
-> \varepsilon_c = \varepsilon' - j\varepsilon'' = \varepsilon'(1 - j\tan\delta)
-> $$
-> so
-> $$
-> \tan\delta = \frac{\varepsilon''}{\varepsilon'}.
+> \begin{aligned}
+> k_0 &= \frac{2\pi(20\times10^6)}{3\times10^8} = 0.4189~\text{rad/m} \\
+> \sqrt{1+\tan^2\delta} &= \sqrt{1+0.04} = 1.0199 \\
+> \alpha &= 0.4189\sqrt{\tfrac{10}{2}} \sqrt{1.0199 - 1} = 0.132~\text{Np/m}
+> \end{aligned}
 > $$
 >
-> **Derivation:**  
-> Substituting from the given expression:
-> $$
-> \tan\delta = \frac{2}{10} = 0.2
-> $$
-> The loss tangent quantifies how much energy is dissipated versus stored.  
-> Since $\tan\delta = 0.2 \ll 1$, the medium behaves as a **low-loss dielectric**.
->
-> **Classification Table**
->
-> | Medium type | Condition on $\tan\delta$ | Description |
-> |--------------|---------------------------|--------------|
-> | Perfect dielectric | $\tan\delta = 0$ | No losses |
-> | **Low-loss dielectric** | **$\tan\delta \ll 1$** | Small dielectric loss (energy stored ≫ dissipated) |
-> | Quasi-good insulator | $\tan\delta \approx 1$ | Moderate losses |
-> | Good conductor | $\tan\delta \gg 1$ | Loss-dominated conduction |
->
-> ✅ **Answer:** $\boxed{\text{Low-loss dielectric (}\tan\delta = 0.2 \ll 1\text{)}}$
-
-> [!tip] **Note:**  
-> No further calculation is needed because $\tan\delta$ is already contained in the complex permittivity expression.  
-> You would only compute it from $\sigma$, $\omega$, and $\varepsilon'$ if the medium were defined by separate conduction and permittivity parameters.
+> ✅ **Answer:** $\boxed{\alpha = 0.132~\text{Np/m}}$  
+> *(consistent with the low-loss approximation)*
 
 > [!code]- MATLAB Solution
 > ```matlab
-> % Q6: Medium classification using loss tangent
-> % Given: eps_r,c = 10*(1 - j*0.2)
-> eps_r_real = 10;
-> eps_r_imag = 10*0.2;
-> tan_delta = eps_r_imag / eps_r_real;
-> 
-> if tan_delta == 0
->     cls = 'Perfect dielectric';
-> elseif tan_delta < 0.1
->     cls = 'Very low-loss dielectric';
-> elseif tan_delta < 0.5
->     cls = 'Low-loss dielectric';
-> elseif tan_delta < 2
->     cls = 'Quasi-good insulator';
-> else
->     cls = 'Good conductor';
-> end
-> 
-> fprintf('tanδ = %.2f → %s\n', tan_delta, cls);
+> % Q7: Attenuation constant in Np/m (general formula)
+> c = 3e8; f = 20e6;
+> mu_r = 1; eps_r = 10; tand = 0.2;
+> k0 = 2*pi*f/c;
+> factor = k0*sqrt(mu_r*eps_r/2);
+> alpha = factor*sqrt(sqrt(1+tand^2)-1);
+> beta  = factor*sqrt(sqrt(1+tand^2)+1);
+> fprintf('alpha = %.3f Np/m\n', alpha);
 > ```
 
 ---
 
-> [!summary] **Question 7 — Attenuation constant α**
-> **Concept:** Low-loss approximation $\alpha≈\tfrac{k_0\sqrt{\epsilon_r}\tan\delta}{2}$
->
-> **Given:** $\epsilon_r=10$, $\tan\delta=0.2$, $f=20$ MHz  
+> [!summary] **Question 8 — Field decrease over 7 m (in dB)**
+> **Concept:**  
+> The field magnitude decays as $E(d) = E_0 e^{-\alpha d}$.  
+> Converting to decibels:
 >
 > $$
-> \lambda_0=\tfrac{3\cdot10^8}{20\cdot10^6}=15,\quad
-> k_0=0.419,\quad
-> \alpha=\tfrac{0.419\cdot3.162\cdot0.2}{2}=0.132\ \text{Np/m}
+> L_{\text{dB}} = 20\log_{10}\!\big(e^{\alpha d}\big) = 8.686\,\alpha d
 > $$
 >
-> ✅ **Answer:** $\boxed{0.13\ \text{Np/m}}$
+> **Given:** $\alpha = 0.132~\text{Np/m},\ d = 7~\text{m}$
+>
+> **Calculation:**
+>
+> $$
+> L_{\text{dB}} = 8.686 \times 0.132 \times 7 = \boxed{8.0~\text{dB}}
+> $$
+>
+> ✅ **Answer:** $\boxed{8.0~\text{dB}}$ attenuation after 7 m.
 
 > [!code]- MATLAB Solution
 > ```matlab
-> c=3e8; f=20e6; eps_r=10; tan_delta=0.2;
-> k0=2*pi*f/c;
-> alpha=(k0*sqrt(eps_r)*tan_delta)/2;
-> fprintf('α = %.3f Np/m\n',alpha);
-> ```
-
----
-
-> [!summary] **Question 8 — Field decrease over 7 m**
-> **Formula:** $\text{Loss}_{dB}=8.686\,\alpha d$
->
-> $$
-> 8.686(0.132)(7)=8.0\ \text{dB}
-> $$
->
-> ✅ **Answer:** $\boxed{8\ \text{dB}}$
-
-> [!code]- MATLAB Solution
-> ```matlab
-> alpha=0.132; d=7;
-> L=8.686*alpha*d;
-> fprintf('Loss = %.2f dB\n',L);
+> % Q8: Field attenuation over distance
+> alpha = 0.132;    % Np/m (from Q7)
+> d = 7;            % meters
+> loss_dB = 8.686 * alpha * d;
+> fprintf('Loss over %.1f m = %.2f dB\n', d, loss_dB);
 > ```
 
 ---
@@ -283,32 +316,139 @@ updated: "2025-10-28"
 > ```
 
 ---
-
-> [!summary] **Question 10 — Intrinsic polarization**
-> Equal orthogonal components → circular; $(\mathbf u\times\mathbf v)\!\cdot\!\hat\beta<0$ → right-hand.
+> [!summary] **Question 10 — Intrinsic polarization (full derivation)**
+> A plane wave in air (assume vacuum) has magnetic field
 >
-> ✅ **Answer:** Right-hand circular polarization (RHCP).
+> $$
+> \vec H(\vec r,t)=H_0\Big[\underbrace{\vec u}_{\text{cos coeff.}}\cos(\omega t-\vec\beta\!\cdot\!\vec r)
+> +\underbrace{\vec v}_{\text{sin coeff.}}\sin(\omega t-\vec\beta\!\cdot\!\vec r)\Big],
+> $$
+>
+> with
+>
+> $$
+> \vec u=\begin{bmatrix}0.5345\\0.2673\\-0.8018\end{bmatrix},\qquad
+> \vec v=\begin{bmatrix}0.6172\\-0.7715\\0.1543\end{bmatrix},\qquad
+> H_0=0.01~\text{A/m},\qquad
+> \vec\beta=\begin{bmatrix}10\\10\\10\end{bmatrix}\ \text{m}^{-1}.
+> $$
+>
+> **Polarization test (time trace at a fixed point):**
+>
+> 1) *Orthogonality* — circular/elliptical needs orthogonal basis:
+>
+> $$
+> \vec u\cdot\vec v\approx 0\ \ (\text{numerically }-4.63\times10^{-5}\approx 0).
+> $$
+>
+> 2) *Equal magnitudes* — circular if $|\vec u|=|\vec v|$:
+>
+> $$
+> |\vec u|\approx1.00001,\quad |\vec v|\approx0.99998\ \Rightarrow\ |\vec u|\simeq|\vec v|.
+> $$
+>
+> 3) *Quadrature* — cosine/sine are $90^\circ$ apart → conditions 1–3 give **circular polarization**.
+>
+> 4) *Handedness* — the sign of the triple product decides RH/LH:
+>
+> $$
+> \hat\beta=\frac{\vec\beta}{|\vec\beta|},\qquad
+> T=(\vec u\times \vec v)\cdot\hat\beta\approx-0.99999<0
+> \ \Rightarrow\ \textbf{Right-hand circular polarization (RHCP)}.
+> $$
+>
+> ✅ **Answer:** **Right-hand circular polarization (RHCP)**.
 
-> [!code]- MATLAB Solution
+> [!code]- MATLAB Solution (Reusable template)
 > ```matlab
-> u=[1,0,0]; v=[0,1,0]; beta_hat=[0,0,1];
-> triple=dot(cross(u,v),beta_hat);
-> if triple<0,hand="Right-hand";else,hand="Left-hand";end
-> disp(hand)
+> % ====================== POLARIZATION TEMPLATE ==========================
+> % Analyze intrinsic polarization (linear/elliptical/circular) and handedness
+> % for fields of the form:  F(t) = u*cos(ψ) + v*sin(ψ), ψ=ωt-β·r
+> %
+> % --- PARAMS (edit for future problems) ---
+> u    = [0.5345; 0.2673; -0.8018];   % cosine coefficient vector
+> v    = [0.6172; -0.7715; 0.1543];   % sine coefficient vector
+> beta = [10; 10; 10];                % phase vector (1/m)
+> tol_orth = 1e-3;                    % orthogonality tolerance
+> tol_mag  = 1e-3;                    % equal-magnitude tolerance
+> % ----------------------------------------------------------------------
+> 
+> % --- Compute diagnostics ---
+> nu = norm(u); nv = norm(v);
+> ortho = dot(u,v);
+> bhat = beta / norm(beta);
+> triple = dot(cross(u,v), bhat);
+> 
+> % --- Decide polarization type ---
+> if abs(ortho) < tol_orth
+>     if abs(nu - nv) < tol_mag
+>         pol = "circular";
+>     else
+>         pol = "elliptical";
+>     end
+> else
+>     % If u and v not orthogonal, still elliptical in general
+>     pol = "elliptical";
+> end
+> 
+> % --- Handedness (only meaningful for elliptical/circular) ---
+> handed = "N/A";
+> if triple < 0, handed = "right-hand";
+> elseif triple > 0, handed = "left-hand";
+> end
+> 
+> % --- Axial ratio (major/minor), valid if nearly orthogonal ---
+> AR = max(nu,nv)/min(nu,nv);
+> AR_dB = 20*log10(AR);
+> 
+> % --- Print summary ---
+> fprintf('u·v = %+ .3e (≈0 => orthogonal)\n', ortho);
+> fprintf('|u| = %.6f, |v| = %.6f  -> AR = %.6f (%.4f dB)\n', nu, nv, AR, AR_dB);
+> fprintf('Polarization = %s, Handedness = %s (triple = %.5f)\n', pol, handed, triple);
+> 
+> % --- Return results as a struct (handy in Live Scripts) ---
+> results = struct('u',u,'v',v,'beta',beta,'ortho',ortho,'nu',nu,'nv',nv, ...
+>                  'AR',AR,'AR_dB',AR_dB,'polarization',pol,'handedness',handed, ...
+>                  'triple',triple);
+> % ======================================================================
 > ```
 
 ---
-
-> [!summary] **Question 11 — Axial ratio**
-> Circular polarization has $a=b$ → $R=a/b=1$ (0 dB).
+> [!summary] **Question 11 — Axial ratio (full derivation)**
+> The axial ratio $R$ is the ratio of the major to minor axes of the polarization ellipse.  
+> For a field
 >
-> ✅ **Answer:** $R=1$ (0 dB).
+> $$
+> \vec H(t)=H_0\,[\vec u\cos\psi+\vec v\sin\psi],\quad \psi=\omega t-\vec\beta\!\cdot\!\vec r,
+> $$
+>
+> with $\vec u\perp\vec v$, the ellipse axes are proportional to $|\vec u|$ and $|\vec v|$.
+> Hence
+>
+> $$
+> R=\frac{\max(|\vec u|,|\vec v|)}{\min(|\vec u|,|\vec v|)}.
+> $$
+>
+> Using the values above:
+>
+> $$
+> |\vec u|\approx1.00001,\quad |\vec v|\approx0.99998
+> \ \Rightarrow\ R\approx \frac{1.00001}{0.99998}\approx 1.00003 \simeq 1
+> $$
+>
+> and in dB:
+>
+> $$
+> R_{\text{dB}}=20\log_{10}R \approx 0\ \text{dB}.
+> $$
+>
+> ✅ **Answer:** $\boxed{R=1\ \text{(0 dB)}}$ — **ideal circular polarization**.
 
-> [!code]- MATLAB Solution
+> [!code]- MATLAB Solution (uses the same template results)
 > ```matlab
-> a=1; b=1;
-> R=a/b; R_dB=20*log10(R);
-> fprintf('R=%.2f (%.1f dB)\n',R,R_dB);
+> % Using the same params as above; AR and AR_dB already computed.
+> fprintf('Axial Ratio = %.6f (%.4f dB)\n', AR, AR_dB);
+> % For a standalone run, re-run the PARAMS section from the template block.
 > ```
 
 ---

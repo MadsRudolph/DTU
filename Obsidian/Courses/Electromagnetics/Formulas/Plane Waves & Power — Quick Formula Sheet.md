@@ -57,12 +57,12 @@ updated: "2025-10-28"
 - Loss tangent:  
   $\displaystyle \tan\delta = \frac{\epsilon''}{\epsilon'}$
 
-| Medium type | Condition on $\tan\delta$ |
-|--------------|---------------------------|
-| Perfect dielectric | $\tan\delta=0$ |
-| **Low-loss dielectric** | **$\tan\delta\ll1$** |
-| Quasi-good insulator | $\tan\delta\approx1$ |
-| Good conductor | $\tan\delta\gg1$ |
+| Medium type          | Condition on $\tan\delta$ |
+| -------------------- | ------------------------- |
+| Perfect dielectric   | $\tan\delta=0$            |
+| Low-loss dielectric  | $\tan\delta\ll1$          |
+| Quasi-good insulator | $\tan\delta\approx1$      |
+| Good conductor       | $\tan\delta\gg1$          |
 
 - Attenuation constant (low-loss):  
   $\displaystyle \alpha \approx \frac{k_0\sqrt{\epsilon_r}\tan\delta}{2}$
@@ -106,6 +106,7 @@ updated: "2025-10-28"
 - Projected power on surface (angle $\theta$):  
   $\displaystyle \langle S_\perp \rangle = \langle S \rangle \cos\theta$
 
+- Incident Power:  
 ---
 
 ## 🧮 Quick Reference Values
@@ -135,7 +136,7 @@ updated: "2025-10-28"
 See → [[Home Assignment 1]]
 ---
 
-**See also:** [[MOC – Electromagnetics]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+**See also:** [[MOC – Electromagnetics]]
 
 Recent in same folder
 
