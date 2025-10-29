@@ -1,3 +1,22 @@
+---
+title: "Week 2 Problems (MOSFET)"
+type: "exercise"
+tags:
+- Integrated Analog Electronics
+- exercise
+- General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – IAE]] · [[MOC – Lectures (IAE)]] · [[MOC – Exercises (IAE)]] · [[Lecture Notes/MOS transistor basics]]
+> **Quick refs (IAE):** [[Lecture Notes/MOS transistor basics]] · [[Formulas]]
+
+
+> **Quick refs:** [[MOC – Integrated Analog Electronics]] · [[MOC – Exercises (IAE)]] · [[MOC – Lectures (IAE)]]
+
 # Week 2 Problems (MOSFET)
 
 ## Problem 1
@@ -5,7 +24,7 @@
 NMOS transistors, given W/L = 8, μnCox = 180 μA/V², Vt = 0.4 V, λ = 0.  
 Find **VD1, VS2, VD3**.
 
-![[Pasted image 20250912094031.png]]
+![[Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png]]
 
 **Formulas Needed:**  
 - **Operating regions (NMOS):**
@@ -42,7 +61,7 @@ Find **VD1, VS2, VD3**.
 NMOS (W/L = 8, μnCox = 180 μA/V², Vto = 0.4 V, λ=0, γ = 0.5 √V, |2ΦF|=0.7 V).  
 PMOS (W/L = 32, μpCox = 45 μA/V², Vt = −0.42 V, λ=0).  
 Find **VD1, VD2, VD3**.
-![[Pasted image 20250912094114.png]]
+![[Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png]]
 **Formulas Needed:**  
 - Same **NMOS/PMOS region conditions** as above.  
 - **Body effect:**  
@@ -95,7 +114,7 @@ Check regions:
 NMOS (W=16 µm, L=2 µm, μnCox = 180 µA/V², Vt=0.4 V, λL = 0.1 µm/V).  
 PMOS (W=30 µm, L=3 µm, μpCox = 45 µA/V², Vt= −0.42 V, λL=0.14 µm/V).  
 Find **VD1, VS2, VD3**.
-![[Pasted image 20250912094132.png]]
+![[Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png]]
 **Formulas Needed:**  
 - Same **MOSFET current laws** (triode & saturation).  
 - **Channel length modulation:**
@@ -138,4 +157,24 @@ Numeric solve:
 - 
 Check regions:
 - 
+```
+---
+
+**See also:** [[MOC – Integrated Analog Electronics]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Integrated Analog Electronics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Integrated Analog Electronics")
 ```

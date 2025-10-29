@@ -1,3 +1,19 @@
+---
+title: "Single Terminated TL – Special Cases"
+type: "formula"
+tags:
+- Electromagnetics
+  - formula
+  - General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+> **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane Waves]] · [[MOC – Transmission Lines]] · [[MOC – EM Loss & Skin Depth]]
+
 	# Electromagnetism – Single Terminated TL: Special Cases
 
 ---
@@ -139,4 +155,24 @@ $$
 - **Stubs**: act as inductors or capacitors.  
 - **Measurement method**: open/short loads give $Z_0$ and $\beta$.  
 
-🔗 Related: [[Single Terminated TL]] — this sheet is the extension of general TL termination formulas into **special, practically important cases**.  
+🔗 Related: [[Single Terminated TL]] — this sheet is the extension of general TL termination formulas into **special, practically important cases**.
+---
+
+**See also:** [[MOC – Electromagnetics]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Electromagnetics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Electromagnetics")
+```

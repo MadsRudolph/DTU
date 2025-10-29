@@ -1,4 +1,18 @@
-
+---
+title: "Plane Waves & Power — Quick Formula Sheet"
+type: "formula"
+tags:
+- Electromagnetics
+  - formula
+  - Plane Waves
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+> **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane Waves]] · [[MOC – Transmission Lines]] · [[MOC – EM Loss & Skin Depth]]
 
 > For **Electromagnetics (Applied)** — condensed reference of key relationships used in the assignment.  
 > Constants: $c=3\times10^8\ \text{m/s}$, $\eta_0=377\ \Omega$, $\mu_0=4\pi\times10^{-7}$, $\epsilon_0=1/(\mu_0 c^2)$.
@@ -42,14 +56,14 @@
 
 - Loss tangent:  
   $\displaystyle \tan\delta = \frac{\epsilon''}{\epsilon'}$
-
-| Medium type | Condition on $\tan\delta$ |
-|--------------|---------------------------|
-| Perfect dielectric | $\tan\delta=0$ |
-| **Low-loss dielectric** | **$\tan\delta\ll1$** |
-| Quasi-good insulator | $\tan\delta\approx1$ |
-| Good conductor | $\tan\delta\gg1$ |
-
+> [!summary]
+> | Type | Range of $\tan(\delta)$ | Remarks |
+> |------|--------------------------|----------|
+> | Perfect dielectric insulator | $\sigma = 0 \Leftrightarrow \tan(\delta) = 0$ | No loss |
+> | Low-loss medium (dielectric) / good insulator | $\tan(\delta) \le 10^{-2}$ | |
+> | Quasi-good conductor / quasi-good insulator / semiconductor | $10^{-2} \le \tan(\delta) \le 10^{2}$ | Typical range for many real dielectrics |
+> | Good conductor | $\tan(\delta) \ge 10^{2}$ | Loss-dominated |
+> | Perfect electric conductor (PEC) | $\rho = 0 \Leftrightarrow \sigma = \infty \Leftrightarrow \tan(\delta) = \infty$ | |
 - Attenuation constant (low-loss):  
   $\displaystyle \alpha \approx \frac{k_0\sqrt{\epsilon_r}\tan\delta}{2}$
 
@@ -92,6 +106,7 @@
 - Projected power on surface (angle $\theta$):  
   $\displaystyle \langle S_\perp \rangle = \langle S \rangle \cos\theta$
 
+- Incident Power:  
 ---
 
 ## 🧮 Quick Reference Values
@@ -119,3 +134,23 @@
 
 **Linked detailed derivations:**  
 See → [[Home Assignment 1]]
+---
+
+**See also:** [[MOC – Electromagnetics]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Electromagnetics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Electromagnetics")
+```

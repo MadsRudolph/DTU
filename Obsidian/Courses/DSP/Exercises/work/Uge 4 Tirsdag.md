@@ -1,3 +1,22 @@
+---
+title: "Exercise 1 – Frequency Response of LTI System"
+type: "exercise"
+tags:
+- DSP
+- exercise
+- General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]] · [[Formulas/Week 3 – Tuesday]]
+> **Quick refs (DSP):** [[Formulas/Week 1 – Tuesday]] · [[Formulas/Week 2 – Tuesday]] · [[Formulas/Week 3 – Tuesday]]
+
+
+> **Quick refs:** [[MOC – DSP]] · [[MOC – Exercises (DSP)]] · [[MOC – Lectures (DSP)]]
+
 # Exercise 1 – Frequency Response of LTI System
 
 A causal and stable LTI system is determined by the difference equation:
@@ -48,3 +67,23 @@ $$
 
 ## 4. Solution
 ![[Uge 3.pdf]]
+---
+
+**See also:** [[MOC – DSP]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/DSP"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/DSP")
+```

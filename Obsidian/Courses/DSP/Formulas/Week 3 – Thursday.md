@@ -1,3 +1,22 @@
+---
+title: "Z-Transform"
+type: "formula"
+tags:
+- DSP
+- formula
+- General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+---
+> 🔗 [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]] · [[Formulas/Week 3 – Tuesday]]
+> **Quick refs (DSP):** [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]]
+
+
+> **Quick refs:** [[MOC – DSP]] · [[MOC – Lectures (DSP)]] · [[MOC – Exercises (DSP)]]
+
 # Z-Transform
 
 ## 1. Definition
@@ -119,3 +138,23 @@
 - [[Week 2 – Thursday]]: DTFT is a special case on the **unit circle** ($z = e^{j\omega}$)
 - [[Week 3 – Tuesday]]: Frequency response $H(\omega)$ = $H(z)$ evaluated on the unit circle
 - [[Week 2 – Tuesday]]: Difference equations solved in frequency-domain via Z-transform
+---
+
+**See also:** [[MOC – DSP]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/DSP"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/DSP")
+```
