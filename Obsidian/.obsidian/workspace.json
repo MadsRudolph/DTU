@@ -4,47 +4,26 @@
     "type": "split",
     "children": [
       {
-        "id": "9a891e2241a62718",
+        "id": "7ddf35af5263730e",
         "type": "tabs",
         "children": [
           {
-            "id": "fa908fb8028a6020",
+            "id": "8c33ca71e88e2f88",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+                "mode": "preview",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "lucide-file-text",
-              "title": "L14_EM_plane_wave_propagation_in_lossy_media"
+              "icon": "lucide-file",
+              "title": "Plane Waves & Power — Quick Formula Sheet"
             }
           },
           {
-            "id": "9f29e408e6905d2e",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L15b_Current_flow_in_good_conductor.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L15b_Current_flow_in_good_conductor"
-            }
-          },
-          {
-            "id": "d6a3ea5dadf04146",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L16_Reflection_and_transmission-normal_incidence"
-            }
-          },
-          {
-            "id": "1567b68e3df5c04d",
+            "id": "65da5570cd471f0a",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -59,19 +38,19 @@
             }
           },
           {
-            "id": "f574f400a1502401",
+            "id": "0740f7bd436cad17",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
+                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "Electromagnetics (Applied) Fundamentals 8th Ed"
+              "title": "L13_EM_plane_wave_polarization"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -128,8 +107,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -245,33 +223,20 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "1567b68e3df5c04d",
+  "active": "65da5570cd471f0a",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
+    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
     "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
-    "Courses/Electromagnetics/Slides/L15b_Current_flow_in_good_conductor.pdf",
-    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
-    "Courses/Electromagnetics/MOC – Electromagnetics.md",
-    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-    "Courses/Electromagnetics/MOC – Plane Waves.md",
-    "Courses/Electromagnetics/MOC – Lab.md",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/Electromagnetics/MOC – Assignments.md",
-    "Courses/Electromagnetics/MOC – Exercises.md",
-    "Courses/Electromagnetics/MOC – Lectures.md",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
-    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
-    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
-    "Courses/Integrated Analog Electronics/Exercises/work/week2_problems_obsidian.md",
-    "scripts/check_wikilinks.py",
+    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
+    "scripts/wire_em_vault.py",
     "scripts/wire_courses.py",
+    "scripts/check_wikilinks_courses.py",
+    "scripts/check_wikilinks.py",
+    "scripts",
     "Courses/Integrated Analog Electronics/MOC – Lectures.md",
     "Courses/Integrated Analog Electronics/MOC – Lab.md",
     "Courses/Integrated Analog Electronics/MOC – Integrated Analog Electronics.md",
@@ -280,11 +245,20 @@
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
+    "Courses/Integrated Analog Electronics/Images",
     "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Courses/Electromagnetics/MOC – Polarization.md",
+    "Courses/Electromagnetics/MOC – Plane Waves.md",
+    "Courses/Electromagnetics/MOC – Lectures.md",
+    "Courses/Electromagnetics/MOC – Lab.md",
+    "Courses/Electromagnetics/MOC – Exercises.md",
+    "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
+    "Courses/DSP/MOC – Lectures.md",
     "Courses/DSP/MOC – Lab.md",
     "Courses/DSP/MOC – Exercises.md",
     "Courses/DSP/MOC – DSP.md",
+    "Courses/DSP/MOC – Assignments.md",
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",
@@ -292,6 +266,11 @@
     "Courses/DSP/Images/Pasted image 20250911061907.png",
     "Courses/DSP/Images/Pasted image 20250911061642.png",
     "Courses/DSP/Images/Pasted image 20250911061143.png",
+    "Courses/DSP/Images",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
+    "Courses/DSP/Formulas/Week 2 – Thursday.md",
+    "Courses/DSP/Formulas/Week 1 – Thursday.md",
+    "Courses/DSP/Lecture Notes/L04.md",
     "Courses/Electromagnetics/Slides/Untitled.canvas"
   ]
 }

@@ -56,14 +56,14 @@ updated: "2025-10-28"
 
 - Loss tangent:  
   $\displaystyle \tan\delta = \frac{\epsilon''}{\epsilon'}$
-
-| Medium type          | Condition on $\tan\delta$ |
-| -------------------- | ------------------------- |
-| Perfect dielectric   | $\tan\delta=0$            |
-| Low-loss dielectric  | $\tan\delta\ll1$          |
-| Quasi-good insulator | $\tan\delta\approx1$      |
-| Good conductor       | $\tan\delta\gg1$          |
-
+> [!summary]
+> | Type | Range of $\tan(\delta)$ | Remarks |
+> |------|--------------------------|----------|
+> | Perfect dielectric insulator | $\sigma = 0 \Leftrightarrow \tan(\delta) = 0$ | No loss |
+> | Low-loss medium (dielectric) / good insulator | $\tan(\delta) \le 10^{-2}$ | |
+> | Quasi-good conductor / quasi-good insulator / semiconductor | $10^{-2} \le \tan(\delta) \le 10^{2}$ | Typical range for many real dielectrics |
+> | Good conductor | $\tan(\delta) \ge 10^{2}$ | Loss-dominated |
+> | Perfect electric conductor (PEC) | $\rho = 0 \Leftrightarrow \sigma = \infty \Leftrightarrow \tan(\delta) = \infty$ | |
 - Attenuation constant (low-loss):  
   $\displaystyle \alpha \approx \frac{k_0\sqrt{\epsilon_r}\tan\delta}{2}$
 
