@@ -1,15 +1,13 @@
 ---
-title: "🧭 Electromagnetics – Plane Waves & Power (Step-by-Step, Collapsible)"
-type: "assignment"
+title: 🧭 Electromagnetics – Plane Waves & Power (Step-by-Step, Collapsible)
+type: assignment
 tags:
-- Electromagnetics
-  - assignment
-  - General
+  - Electromagnetics - assignment - General
 aliases: []
 links:
   formulas: []
   related: []
-updated: "2025-10-28"
+updated: 2025-10-28
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[Formulas/Plane Waves & Power — Quick Formula Sheet]] · [[MOC – Plane Waves]] · [[MOC – EM Loss & Skin Depth]]

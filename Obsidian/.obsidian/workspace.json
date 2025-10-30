@@ -8,22 +8,46 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8c33ca71e88e2f88",
+            "id": "65da5570cd471f0a",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Champagne and Labeau 2004 Discrete Time Signal Processing"
+            }
+          },
+          {
+            "id": "d3a6c1156402efad",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Literature/62743 E25 DSP kursusplan.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "62743 E25 DSP kursusplan"
+            }
+          },
+          {
+            "id": "8700eee0f24dde18",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-                "mode": "preview",
+                "file": "Courses/DSP/Formulas/FIIR & IIR.md",
+                "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "Plane Waves & Power — Quick Formula Sheet"
+              "title": "FIIR & IIR"
             }
           },
           {
-            "id": "65da5570cd471f0a",
+            "id": "93d4ca2922358a2d",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -38,19 +62,37 @@
             }
           },
           {
-            "id": "0740f7bd436cad17",
+            "id": "01bdfb5e0d920668",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
+                "file": "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L13_EM_plane_wave_polarization"
+              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 4
+      },
+      {
+        "id": "95e44334ffa66dfa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f738f40752774af9",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Slides/62743 E25 Digtial Filter Structures_part2.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "62743 E25 Digtial Filter Structures_part2"
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -223,20 +265,32 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "65da5570cd471f0a",
+  "active": "01bdfb5e0d920668",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
-    "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
-    "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
+    "Courses/DSP/Literature/62743 E25 DSP kursusplan.pdf",
+    "Courses/DSP/Slides/62743 E25 Digtial Filter Structures_part2.pdf",
+    "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
+    "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
+    "Courses/DSP/Literature/62743 List of symbols.pdf",
+    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/DSP/Literature/Kursus 62743 Digital Signalbehandling - Introduktion til MATLAB.pdf",
+    "Courses/DSP/Literature/Li_Tan_chapter12.pdf",
+    "Courses/DSP/Literature/matlab-basic-functions-reference.pdf",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
+    "Pasted image 20250911061832.png",
+    "Pasted image 20250911062143.png",
+    "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
+    "Courses/DSP/MOC – Exercises.md",
+    "Courses/DSP/MOC – DSP.md",
+    "Courses/DSP/Lecture Notes/L04.md",
+    "Courses/DSP/MOC – Lectures.md",
+    "Courses/DSP/MOC – Assignments.md",
+    "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
     "Courses/Electromagnetics/MOC – Assignments.md",
-    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
-    "scripts/wire_em_vault.py",
-    "scripts/wire_courses.py",
-    "scripts/check_wikilinks_courses.py",
-    "scripts/check_wikilinks.py",
-    "scripts",
     "Courses/Integrated Analog Electronics/MOC – Lectures.md",
     "Courses/Integrated Analog Electronics/MOC – Lab.md",
     "Courses/Integrated Analog Electronics/MOC – Integrated Analog Electronics.md",
@@ -245,32 +299,19 @@
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
-    "Courses/Integrated Analog Electronics/Images",
     "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Courses/Electromagnetics/MOC – Polarization.md",
     "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Electromagnetics/MOC – Lectures.md",
     "Courses/Electromagnetics/MOC – Lab.md",
     "Courses/Electromagnetics/MOC – Exercises.md",
-    "Courses/Electromagnetics/MOC – Electromagnetics.md",
     "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
-    "Courses/DSP/MOC – Lectures.md",
     "Courses/DSP/MOC – Lab.md",
-    "Courses/DSP/MOC – Exercises.md",
-    "Courses/DSP/MOC – DSP.md",
-    "Courses/DSP/MOC – Assignments.md",
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",
     "Courses/DSP/Images/Pasted image 20250911062015.png",
     "Courses/DSP/Images/Pasted image 20250911061907.png",
-    "Courses/DSP/Images/Pasted image 20250911061642.png",
-    "Courses/DSP/Images/Pasted image 20250911061143.png",
-    "Courses/DSP/Images",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
-    "Courses/DSP/Formulas/Week 2 – Thursday.md",
-    "Courses/DSP/Formulas/Week 1 – Thursday.md",
-    "Courses/DSP/Lecture Notes/L04.md",
     "Courses/Electromagnetics/Slides/Untitled.canvas"
   ]
 }
