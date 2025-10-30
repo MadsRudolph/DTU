@@ -24,10 +24,12 @@ updated: "2025-10-28"
   $\displaystyle \beta = \omega\sqrt{\mu\epsilon} = k_0\sqrt{\mu_r\epsilon_r}$
 
 - Free-space wavenumber:  
-  $\displaystyle k_0 = \frac{2\pi f}{c}$
+  $\displaystyle k_0 = \frac{2\pi f}{c1}$
 
 - Intrinsic impedance:  
   $\displaystyle \eta = \sqrt{\frac{\mu}{\epsilon}} = \eta_0\sqrt{\frac{\mu_r}{\epsilon_r}}$
+- In Vacuum
+   $\displaystyle \eta = \sqrt{\frac{\mu}{\epsilon}} =120\ \pi = 377\ \Omega$
 
 - Wave velocity:  
   $\displaystyle v_p = \frac{\omega}{\beta} = \frac{c}{\sqrt{\mu_r\epsilon_r}}$
