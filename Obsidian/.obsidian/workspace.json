@@ -6,6 +6,7 @@
       {
         "id": "7ddf35af5263730e",
         "type": "tabs",
+        "dimension": 39.31980906921241,
         "children": [
           {
             "id": "65da5570cd471f0a",
@@ -50,12 +51,15 @@
             "id": "01bdfb5e0d920668",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf"
+                "file": "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "lucide-file-text",
-              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag"
+              "icon": "lucide-file",
+              "title": "Home Assignment 1"
             }
           },
           {
@@ -64,39 +68,45 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+                "file": "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "Plane Waves & Power — Quick Formula Sheet"
+              "title": "Quiz 7"
             }
           },
           {
             "id": "c919ba9ec80ef495",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-                "mode": "preview",
-                "source": false,
-                "backlinks": false
-              },
-              "icon": "lucide-file",
-              "title": "Home Assignment 1"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       },
       {
         "id": "f78946706dc036de",
         "type": "tabs",
+        "dimension": 60.68019093078759,
         "children": [
           {
             "id": "743a27d73f70b201",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          },
+          {
+            "id": "ed0a5a28ae4d123c",
             "type": "leaf",
             "state": {
               "type": "pdf",
@@ -107,7 +117,8 @@
               "title": "L13_EM_plane_wave_polarization"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -280,23 +291,27 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "c919ba9ec80ef495",
+  "active": "75b96e50ac5619da",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
-    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
-    "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
+    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
     "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
-    "Courses/DSP/Literature/62743 E25 DSP kursusplan.pdf",
-    "Courses/DSP/Formulas/FIIR & IIR.md",
-    "Courses/DSP/Slides/62743 E25 Digtial Filter Structures_part2.pdf",
-    "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf",
+    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
+    "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
+    "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Integrated Analog Electronics/Exercises/work/Quiz",
+    "Courses/Integrated Analog Electronics/Exercises/work/Solutions/Untitled",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf",
+    "Courses/Electromagnetics/MOC – Transmission Lines.md",
+    "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
-    "Courses/DSP/Literature/62743 List of symbols.pdf",
     "Pasted image 20250911061832.png",
     "Pasted image 20250911062143.png",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
@@ -314,14 +329,10 @@
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
-    "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Courses/Electromagnetics/MOC – Polarization.md",
-    "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Electromagnetics/MOC – Lectures.md",
     "Courses/Electromagnetics/MOC – Lab.md",
     "Courses/Electromagnetics/MOC – Exercises.md",
-    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
-    "Courses/DSP/MOC – Lab.md",
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",

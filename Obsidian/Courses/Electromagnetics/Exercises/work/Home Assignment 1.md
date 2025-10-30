@@ -18,61 +18,138 @@ updated: 2025-10-28
 
 ---
 
+# Plane Wave Verification — Examples & MATLAB Template
+
+> [!info] **Concept**
+> A uniform plane wave in a lossless medium must:
+>
+> - Be **transverse** → $\mathbf E\perp\mathbf H\perp\hat\beta$  
+> - Satisfy the **intrinsic impedance relation**  
+>   $$
+>   \frac{|\mathbf E|}{|\mathbf H|}=\eta=\sqrt{\frac{\mu}{\varepsilon}}
+>   $$
+> - (In vacuum) $\eta_0=377~\Omega$
+
+---
+
 > [!summary] **Question 1 — Is it a plane wave?**
-> **Concept:** A uniform plane wave must be transverse ($\mathbf E\perp\mathbf H\perp\hat\beta$) and satisfy $|\mathbf E|/|\mathbf H|=\eta$.
 >
 > **Given**  
-> $\tilde{\mathbf E}_0=(2,0,0)$ V/m,  $\tilde{\mathbf H}_0=(0,-5.309,0)$ mA/m,  $\vec\gamma=(0,0,j3)$ m⁻¹  
+> $\tilde{\mathbf E}_0=(2,0,0)$ V/m,  
+> $\tilde{\mathbf H}_0=(0,-5.309,0)$ mA/m,  
+> $\vec\gamma=(0,0,j3)$ m⁻¹  
 >
-> **Formulas**  
-> – Transverse checks: $\tilde{\mathbf E}_0\!\cdot\!\tilde{\mathbf H}_0=0$, $\tilde{\mathbf E}_0\!\cdot\!\vec\gamma=0$, $\tilde{\mathbf H}_0\!\cdot\!\vec\gamma=0$  
-> – Impedance: $|\mathbf E|/|\mathbf H|=\eta$
+> **Derivation**
 >
-> **Derivation**  
-> 1️⃣ Check orthogonality → all dot-products 0 ✔  
-> 2️⃣ Compute ratio: $|\tilde{\mathbf H}_0|=0.005309$ A/m, $\frac{2}{0.005309}=376.7 \Omega\approx\eta_0$
+> 1️⃣ Compute orthogonality  
+> $\tilde{\mathbf E}_0\!\cdot\!\tilde{\mathbf H}_0=0$,  
+> $\tilde{\mathbf E}_0\!\cdot\!\vec\gamma=0$,  
+> $\tilde{\mathbf H}_0\!\cdot\!\vec\gamma=0$ → all zero ✔  
 >
-> ✅ **Answer:** It *is* a plane wave.
+> 2️⃣ Compute impedance ratio  
+> $|\tilde{\mathbf H}_0|=0.005309$ A/m  
+> $\dfrac{2}{0.005309}=376.7~\Omega\approx\eta_0$
+>
+> ✅ **Conclusion:** It *is* a plane wave in **vacuum**.
 
-> [!code]- MATLAB Solution
+> [!code]- MATLAB Check
 > ```matlab
-> % Q1: Plane-wave check via orthogonality and |E|/|H| = eta
+> % --- Question 1 ---
 > E = [2, 0, 0];                    % V/m
 > H_mA = [0, -5.309, 0];            % mA/m
-> H = 1e-3 * H_mA;                  % A/m
-> gamma = 1j*[0, 0, 3];             % j3 in z-hat
+> H = 1e-3 * H_mA;                  % Convert to A/m
+> gamma = 1j * [0, 0, 3];           % j3 ẑ
 > 
-> dot_EH  = dot(E, H);
-> dot_Eg  = dot(E, gamma);
-> dot_Hg  = dot(H, gamma);
+> % Orthogonality
+> dotEH = dot(E,H);
+> dotEg = dot(E,gamma);
+> dotHg = dot(H,gamma);
+> 
+> % Intrinsic impedance ratio
 > eta_ratio = norm(E)/norm(H);
 > 
-> fprintf('E·H=%.3g, E·γ=%.3g, H·γ=%.3g\n',dot_EH,dot_Eg,dot_Hg);
+> fprintf('E·H=%.3g, E·γ=%.3g, H·γ=%.3g\n',dotEH,dotEg,dotHg);
 > fprintf('|E|/|H| = %.1f Ω (≈377 Ω ⇒ plane wave)\n',eta_ratio);
 > ```
 
 ---
 
 > [!summary] **Question 2 — Is it a plane wave?**
-> **Concept:** Same method as Q1.
 >
 > **Given**  
-> $\tilde{\mathbf E}_0=(0,j2,5)$, $\tilde{\mathbf H}_0=(0,-0.0375,j0.015)$ A/m, $\vec\gamma=(j10,0,0)$ m⁻¹
+> $\tilde{\mathbf E}_0=(0,j2,5)$ V/m,  
+> $\tilde{\mathbf H}_0=(0,-0.0375,j0.015)$ A/m,  
+> $\vec\gamma=(j10,0,0)$ m⁻¹  
 >
-> **Derivation**  
-> Orthogonal? Yes.  
-> Magnitude ratio $|\tilde{\mathbf E}|=5.385$, $|\tilde{\mathbf H}|=0.0404$, $\dfrac{5.385}{0.0404}=133 \Omega$ (valid medium).
+> **Derivation**
 >
-> ✅ **Answer:** Plane wave in medium ($\eta≈133 \Omega$).
+> 1️⃣ $\mathbf E\perp\mathbf H\perp\hat\beta$ → satisfied ✔  
+>
+> 2️⃣ Magnitude ratio  
+> $|\tilde{\mathbf E}_0|=\sqrt{2^2+5^2}=5.385$  
+> $|\tilde{\mathbf H}_0|=\sqrt{0.0375^2+0.015^2}=0.0404$  
+> $\dfrac{5.385}{0.0404}=133~\Omega$
+>
+> ✅ **Conclusion:** Plane wave in a medium with $\eta\approx133~\Omega$.
 
-> [!code]- MATLAB Solution
+> [!code]- MATLAB Check
 > ```matlab
-> E = [0, 1j*2, 5];
-> H = [0, -0.0375, 1j*0.015];
-> gamma = 1j*[10, 0, 0];
+> % --- Question 2 ---
+> E = [0, 1j*2, 5];                 % V/m
+> H = [0, -0.0375, 1j*0.015];       % A/m
+> gamma = 1j * [10, 0, 0];          % j10 x-hat
+> 
 > eta = norm(E)/norm(H);
 > fprintf('|E|=%.3f V/m, |H|=%.4f A/m, η=%.1f Ω\n',norm(E),norm(H),eta);
 > ```
+
+---
+
+## 🔁 Reusable MATLAB Template — Plane-Wave Validator
+
+> [!code]- General Function
+> ```matlab
+> % ================== Plane Wave Validator ==================
+> % Checks orthogonality and impedance condition for E, H, γ
+> % Assumes time-harmonic fields exp(-jβ·r)
+> clear; clc
+> 
+> % --- USER INPUT ---
+> E = [0, 1j*2, 5];           % Electric field phasor [V/m]
+> H = [0, -0.0375, 1j*0.015]; % Magnetic field phasor [A/m]
+> gamma = 1j*[10, 0, 0];      % Propagation vector [1/m]
+> eta_expected = 377;          % Vacuum impedance [Ω]
+> 
+> % --- CALCULATIONS ---
+> dotEH = dot(E,H);
+> dotEg = dot(E,gamma);
+> dotHg = dot(H,gamma);
+> eta = norm(E)/norm(H);
+> 
+> fprintf('E·H = %.3g,  E·γ = %.3g,  H·γ = %.3g\n',dotEH,dotEg,dotHg);
+> fprintf('|E|=%.4g, |H|=%.4g  => |E|/|H|=%.1f Ω\n',norm(E),norm(H),eta);
+> 
+> if abs(dotEH)<1e-9 && abs(dotEg)<1e-9 && abs(dotHg)<1e-9
+>     if abs(eta - eta_expected)/eta_expected < 0.05
+>         disp("✅ Plane wave in vacuum");
+>     else
+>         fprintf("✅ Plane wave in medium (η≈%.1f Ω)\n",eta);
+>     end
+> else
+>     disp("❌ Not a transverse plane wave");
+> end
+> % ==========================================================
+> ```
+
+---
+
+**References**
+
+- DTU *Electromagnetics — Summary II* slide (Plane wave conditions)  
+- *Sadiku, Elements of Electromagnetics (8th Ed.),* §7-2 – §7-3  
+- Vacuum impedance: $\eta_0=\sqrt{\mu_0/\varepsilon_0}=377 \Omega$
+
+---
 
 ---
 
