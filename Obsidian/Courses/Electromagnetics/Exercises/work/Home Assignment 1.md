@@ -18,127 +18,182 @@ updated: 2025-10-28
 
 ---
 
-# Plane Wave Verification — Examples & MATLAB Template
+## 🌊 Plane-Wave Verification — Cross-Product Method (Corrected)
 
-> [!info] **Concept**
-> A uniform plane wave in a lossless medium must:
+> [!info] **Uniform Plane Wave Conditions (phasor amplitudes)**
 >
-> - Be **transverse** → $\mathbf E\perp\mathbf H\perp\hat\beta$  
-> - Satisfy the **intrinsic impedance relation**  
->   $$
->   \frac{|\mathbf E|}{|\mathbf H|}=\eta=\sqrt{\frac{\mu}{\varepsilon}}
->   $$
-> - (In vacuum) $\eta_0=377~\Omega$
-
----
-
-> [!summary] **Question 1 — Is it a plane wave?**
+> For a **uniform plane wave** in a lossless medium:
 >
-> **Given**  
-> $\tilde{\mathbf E}_0=(2,0,0)$ V/m,  
-> $\tilde{\mathbf H}_0=(0,-5.309,0)$ mA/m,  
-> $\vec\gamma=(0,0,j3)$ m⁻¹  
->
-> **Derivation**
->
-> 1️⃣ Compute orthogonality  
-> $\tilde{\mathbf E}_0\!\cdot\!\tilde{\mathbf H}_0=0$,  
-> $\tilde{\mathbf E}_0\!\cdot\!\vec\gamma=0$,  
-> $\tilde{\mathbf H}_0\!\cdot\!\vec\gamma=0$ → all zero ✔  
->
-> 2️⃣ Compute impedance ratio  
-> $|\tilde{\mathbf H}_0|=0.005309$ A/m  
-> $\dfrac{2}{0.005309}=376.7~\Omega\approx\eta_0$
->
-> ✅ **Conclusion:** It *is* a plane wave in **vacuum**.
-
-> [!code]- MATLAB Check
-> ```matlab
-> % --- Question 1 ---
-> E = [2, 0, 0];                    % V/m
-> H_mA = [0, -5.309, 0];            % mA/m
-> H = 1e-3 * H_mA;                  % Convert to A/m
-> gamma = 1j * [0, 0, 3];           % j3 ẑ
-> 
-> % Orthogonality
-> dotEH = dot(E,H);
-> dotEg = dot(E,gamma);
-> dotHg = dot(H,gamma);
-> 
-> % Intrinsic impedance ratio
-> eta_ratio = norm(E)/norm(H);
-> 
-> fprintf('E·H=%.3g, E·γ=%.3g, H·γ=%.3g\n',dotEH,dotEg,dotHg);
-> fprintf('|E|/|H| = %.1f Ω (≈377 Ω ⇒ plane wave)\n',eta_ratio);
-> ```
+> $$\begin{aligned}
+> \vec{\gamma}\times\tilde{\mathbf H}_0 &= -j\omega\varepsilon\,\tilde{\mathbf E}_0,\\
+> \vec{\gamma}\times\tilde{\mathbf E}_0 &= +j\omega\mu\,\tilde{\mathbf H}_0,\\[3pt]
+> \vec{\gamma}\!\cdot\!\tilde{\mathbf E}_0 &= 0,\qquad 
+> \vec{\gamma}\!\cdot\!\tilde{\mathbf H}_0 = 0.
+> \end{aligned}
+> $$
+> These ensure  
+> • **Transverse** → $\mathbf E\perp\mathbf H\perp\hat\beta$  
+> • **Mutually consistent** cross-products (no sign conflict)
 
 ---
 
-> [!summary] **Question 2 — Is it a plane wave?**
+> [!summary] **Question 1 — Not a plane wave**
 >
-> **Given**  
-> $\tilde{\mathbf E}_0=(0,j2,5)$ V/m,  
-> $\tilde{\mathbf H}_0=(0,-0.0375,j0.015)$ A/m,  
-> $\vec\gamma=(j10,0,0)$ m⁻¹  
+> **Given**
+> $$
+> \tilde{\mathbf E}_0=\begin{bmatrix}2\\0\\0\end{bmatrix}\text{ V/m},\quad
+> \tilde{\mathbf H}_0=\begin{bmatrix}0\\-5.309\\0\end{bmatrix}\text{ mA/m},\quad
+> \vec{\gamma}=\begin{bmatrix}0\\0\\j3\end{bmatrix}\text{ m}^{-1}.
+> $$
 >
-> **Derivation**
->
-> 1️⃣ $\mathbf E\perp\mathbf H\perp\hat\beta$ → satisfied ✔  
->
-> 2️⃣ Magnitude ratio  
-> $|\tilde{\mathbf E}_0|=\sqrt{2^2+5^2}=5.385$  
-> $|\tilde{\mathbf H}_0|=\sqrt{0.0375^2+0.015^2}=0.0404$  
-> $\dfrac{5.385}{0.0404}=133~\Omega$
->
-> ✅ **Conclusion:** Plane wave in a medium with $\eta\approx133~\Omega$.
+> Although $\vec{\gamma}\times\tilde{\mathbf H}_0\parallel\tilde{\mathbf E}_0$  the two slide equations cannot be satisfied simultaneously with **positive** $\omega\varepsilon$ and $\omega\mu$. Hence **not** a plane wave.
 
-> [!code]- MATLAB Check
+> [!code]- MATLAB Verification
 > ```matlab
-> % --- Question 2 ---
-> E = [0, 1j*2, 5];                 % V/m
-> H = [0, -0.0375, 1j*0.015];       % A/m
-> gamma = 1j * [10, 0, 0];          % j10 x-hat
+> % === Question 1 ===
+> E0 = [2; 0; 0];                  % V/m
+> H0 = [0; -5.309e-3; 0];          % A/m  (mA/m → A/m)
+> g  = [0; 0; 1j*3];               % ẑ * j3
 > 
-> eta = norm(E)/norm(H);
-> fprintf('|E|=%.3f V/m, |H|=%.4f A/m, η=%.1f Ω\n',norm(E),norm(H),eta);
-> ```
-
----
-
-## 🔁 Reusable MATLAB Template — Plane-Wave Validator
-
-> [!code]- General Function
-> ```matlab
-> % ================== Plane Wave Validator ==================
-> % Checks orthogonality and impedance condition for E, H, γ
-> % Assumes time-harmonic fields exp(-jβ·r)
-> clear; clc
+> % --- Dot products (transverse) ---
+> fprintf('E·g = %.3e,  H·g = %.3e\n', dot(E0,g), dot(H0,g));
 > 
-> % --- USER INPUT ---
-> E = [0, 1j*2, 5];           % Electric field phasor [V/m]
-> H = [0, -0.0375, 1j*0.015]; % Magnetic field phasor [A/m]
-> gamma = 1j*[10, 0, 0];      % Propagation vector [1/m]
-> eta_expected = 377;          % Vacuum impedance [Ω]
+> % --- Cross products ---
+> gXH = cross(g,H0);
+> gXE = cross(g,E0);
+> disp('γ×H0 ='); disp(gXH.');      % should be ∥ E0
+> disp('γ×E0 ='); disp(gXE.');      % should be ∥ H0
 > 
-> % --- CALCULATIONS ---
-> dotEH = dot(E,H);
-> dotEg = dot(E,gamma);
-> dotHg = dot(H,gamma);
-> eta = norm(E)/norm(H);
+> % --- Parallelism residuals (0 if parallel) ---
+> col1 = norm(cross(gXH, E0));
+> col2 = norm(cross(gXE, H0));
+> fprintf('||cross(γ×H0, E0)|| = %.3e\n', col1);
+> fprintf('||cross(γ×E0, H0)|| = %.3e\n', col2);
 > 
-> fprintf('E·H = %.3g,  E·γ = %.3g,  H·γ = %.3g\n',dotEH,dotEg,dotHg);
-> fprintf('|E|=%.4g, |H|=%.4g  => |E|/|H|=%.1f Ω\n',norm(E),norm(H),eta);
+> % --- Attempt to infer required positive scalars ---
+> % γ×H0 = -j*ωε*E0  → use x-component
+> Ceps_req = -imag(gXH(1))/E0(1);   % value should be > 0
+> % γ×E0 = +j*ωμ*H0  → use y-component
+> Cmu_req  =  imag(gXE(2))/(-H0(2));% value should be > 0
+> fprintf('(ωε)_required = %.7f, (ωμ)_required = %.3f\n', Ceps_req, Cmu_req);
 > 
-> if abs(dotEH)<1e-9 && abs(dotEg)<1e-9 && abs(dotHg)<1e-9
->     if abs(eta - eta_expected)/eta_expected < 0.05
->         disp("✅ Plane wave in vacuum");
->     else
->         fprintf("✅ Plane wave in medium (η≈%.1f Ω)\n",eta);
->     end
+> if abs(dot(E0,g))<1e-12 && abs(dot(H0,g))<1e-12 && col1<1e-12 && col2<1e-12 ...
+>    && Ceps_req>0 && Cmu_req>0
+>     disp("✅ Plane wave.");
 > else
->     disp("❌ Not a transverse plane wave");
+>     disp("❌ Not a plane wave.");
 > end
-> % ==========================================================
+> ```
+
+---
+
+> [!summary] **Question 2 — Plane wave**
+>
+> **Given**
+>
+> $$\tilde{\mathbf E}_0=\begin{bmatrix}0\\ j2\\ 5\end{bmatrix}\text{ V/m},\quad
+> \tilde{\mathbf H}_0=\begin{bmatrix}0\\ -37.5\\ j15\end{bmatrix}\text{ mA/m},\quad
+> \vec{\gamma}=\begin{bmatrix}j10\\0\\0\end{bmatrix}\text{ m}^{-1}.$$
+> 
+>
+> Here the cross-product relations hold with **positive** scalars in both equations, and the transverse conditions are satisfied → **plane wave**.
+
+> [!code]- MATLAB Verification
+> ```matlab
+> % === Question 2 ===
+> E0 = [0; 1j*2; 5];               % V/m
+> H0 = [0; -37.5e-3; 1j*15e-3];    % A/m  (mA/m → A/m)
+> g  = [1j*10; 0; 0];              % x̂ * j10
+> 
+> % --- Dot products (transverse) ---
+> fprintf('E·g = %.3e,  H·g = %.3e\n', dot(E0,g), dot(H0,g));
+> 
+> % --- Cross products ---
+> gXH = cross(g,H0);
+> gXE = cross(g,E0);
+> disp('γ×H0 ='); disp(gXH.');      % should be ∥ E0
+> disp('γ×E0 ='); disp(gXE.');      % should be ∥ H0
+> 
+> % --- Extract required positive constants from independent components ---
+> % γ×H0 = -j*ωε*E0  → use y and z (both E0_y and E0_z nonzero)
+> Ceps_y =  imag(-1j*gXH(2)) / 2;   % E0_y = j2 ⇒ -j*C*(j2) = +C*2
+> Ceps_z =  imag(-1j*gXH(3)) / 5;   % E0_z = 5
+> 
+> % γ×E0 = +j*ωμ*H0  → use y and z (both H0_y and H0_z nonzero)
+> Cmu_y  =  imag( 1j*gXE(2)) / (-37.5e-3);
+> Cmu_z  =        (-gXE(3))  / ( 15e-3);
+> 
+> fprintf('(ωε) from y=%.6f, z=%.6f\n', Ceps_y, Ceps_z);
+> fprintf('(ωμ) from y=%.6f, z=%.6f\n', Cmu_y,  Cmu_z);
+> 
+> % --- Parallelism residuals (0 if perfectly parallel) ---
+> col1 = norm(cross(gXH, E0));   % γ×H0 ∥ E0
+> col2 = norm(cross(gXE, H0));   % γ×E0 ∥ H0
+> fprintf('||cross(γ×H0, E0)|| = %.3e\n', col1);
+> fprintf('||cross(γ×E0, H0)|| = %.3e\n', col2);
+> 
+> ok_pos = all([Ceps_y Ceps_z Cmu_y Cmu_z] > 0);
+> ok_match = max(abs([Ceps_y-Ceps_z, Cmu_y-Cmu_z])) < 1e-10;
+> ok_trans = abs(dot(E0,g))<1e-12 && abs(dot(H0,g))<1e-12;
+> ok_parallel = col1<1e-12 && col2<1e-12;
+> 
+> if ok_pos && ok_match && ok_trans && ok_parallel
+>     disp("✅ Plane wave (all relations hold with positive scalars).");
+> else
+>     disp("❌ Not a plane wave.");
+> end
+> ```
+
+---
+
+## 🔁 Optional: Reusable Helper (only slide relations)
+
+> [!code]- Matlab code
+> ```matlab
+> function R = verify_plane_wave(E0,H0,g)
+> % Verify UPW using ONLY slide relations (no η):
+> %   γ·E0 = 0,  γ·H0 = 0,
+> %   γ×H0 = -j*ωε*E0 (exists positive scalar),
+> %   γ×E0 = +j*ωμ*H0 (exists positive scalar).
+> 
+> tol_trans = 1e-12; tol_par = 1e-12; tol_match = 1e-10;
+> 
+> % Dots
+> R.dotEg = dot(E0,g);
+> R.dotHg = dot(H0,g);
+> 
+> % Crosses
+> R.gXH = cross(g,H0);
+> R.gXE = cross(g,E0);
+> 
+> % Parallelism residuals (0 if parallel)
+> R.par_gXH_E0 = norm(cross(R.gXH,E0));
+> R.par_gXE_H0 = norm(cross(R.gXE,H0));
+> 
+> % Extract (ωε) from components where E0 is nonzero:
+> Ceps = [];
+> if abs(E0(1))>0, Ceps(end+1) = -imag(R.gXH(1))/E0(1); end
+> if abs(E0(2))>0, Ceps(end+1) =  real(R.gXH(2))/imag(E0(2)); end % -j*C*(j a)=+C a
+> if abs(E0(3))>0, Ceps(end+1) = -imag(R.gXH(3))/E0(3); end
+> 
+> % Extract (ωμ) from components where H0 is nonzero:
+> Cmu = [];
+> if abs(H0(1))>0, Cmu(end+1) =  imag(R.gXE(1))/H0(1); end
+> if abs(H0(2))>0, Cmu(end+1) =  imag(R.gXE(2))/H0(2); end
+> if abs(H0(3))>0, Cmu(end+1) =       (-R.gXE(3))/H0(3); end
+> 
+> R.omega_eps_vals = Ceps;
+> R.omega_mu_vals  = Cmu;
+> 
+> % Checks
+> trans_ok   = abs(R.dotEg)<tol_trans && abs(R.dotHg)<tol_trans;
+> parallel_ok= R.par_gXH_E0<tol_par && R.par_gXE_H0<tol_par;
+> pos_ok     = all(Ceps>0) && all(Cmu>0);
+> match_ok   = (isempty(Ceps) || max(abs(Ceps - mean(Ceps)))<tol_match) && ...
+>              (isempty(Cmu)  || max(abs(Cmu  - mean(Cmu )))<tol_match);
+> 
+> R.is_plane_wave = trans_ok && parallel_ok && pos_ok && match_ok;
+> end
 > ```
 
 ---
