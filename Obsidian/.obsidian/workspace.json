@@ -6,7 +6,6 @@
       {
         "id": "7ddf35af5263730e",
         "type": "tabs",
-        "dimension": 39.31980906921241,
         "children": [
           {
             "id": "65da5570cd471f0a",
@@ -36,45 +35,24 @@
             "id": "93d4ca2922358a2d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Plane Waves & Power — Quick Formula Sheet"
+              "icon": "lucide-file-text",
+              "title": "L11_EM_plane_wave"
             }
           },
           {
             "id": "01bdfb5e0d920668",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Home Assignment 1"
-            }
-          },
-          {
-            "id": "75b96e50ac5619da",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
-              },
-              "icon": "lucide-file",
-              "title": "Quiz 7"
+              "icon": "lucide-file-text",
+              "title": "L15a_EM_power_density"
             }
           },
           {
@@ -88,33 +66,37 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       },
       {
-        "id": "f78946706dc036de",
+        "id": "0183ed97c20f1184",
         "type": "tabs",
-        "dimension": 60.68019093078759,
         "children": [
           {
-            "id": "743a27d73f70b201",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
-          },
-          {
-            "id": "ed0a5a28ae4d123c",
+            "id": "e3b48697479067cd",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
+                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L13_EM_plane_wave_polarization"
+              "title": "34630-lecture-8-feedback2_v3"
+            }
+          },
+          {
+            "id": "a0e19f85ded4d991",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "Quiz 7"
             }
           }
         ],
@@ -269,12 +251,11 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -291,25 +272,28 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "75b96e50ac5619da",
+  "active": "a0e19f85ded4d991",
   "lastOpenFiles": [
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf",
     "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
+    "Courses/Electromagnetics/Slides/L15b_Current_flow_in_good_conductor.pdf",
+    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
     "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
-    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
     "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
-    "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
-    "Courses/Integrated Analog Electronics/Exercises/work/Quiz",
-    "Courses/Integrated Analog Electronics/Exercises/work/Solutions/Untitled",
+    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
+    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
+    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
     "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-02-mos-basics_v1.pdf",
-    "Courses/Electromagnetics/MOC – Transmission Lines.md",
+    "2025-10-31.md",
+    "Untitled.canvas",
+    "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
     "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-07-feedback1_v3.pdf",
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Pasted image 20250911061832.png",
@@ -331,8 +315,6 @@
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
     "Courses/Electromagnetics/MOC – Polarization.md",
     "Courses/Electromagnetics/MOC – Lectures.md",
-    "Courses/Electromagnetics/MOC – Lab.md",
-    "Courses/Electromagnetics/MOC – Exercises.md",
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",

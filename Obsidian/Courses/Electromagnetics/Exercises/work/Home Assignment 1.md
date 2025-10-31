@@ -144,9 +144,6 @@ updated: 2025-10-28
 ---
 
 **References**
-
-- DTU *Electromagnetics — Summary II* slide (Plane wave conditions)  
-- *Sadiku, Elements of Electromagnetics (8th Ed.),* §7-2 – §7-3  
 - Vacuum impedance: $\eta_0=\sqrt{\mu_0/\varepsilon_0}=377 \Omega$
 
 ---
@@ -529,19 +526,28 @@ updated: 2025-10-28
 ---
 
 > [!summary] **Question 12 — Average power density**
-> **Given:** $H_0=0.01$ A/m. Use $\langle S\rangle=\tfrac12\eta_0H_0^2$.
->
+> The time–average Poynting vector depends on whether the field amplitudes are *peak* or *RMS*.  
+> Here, $H_0=0.01\ \text{A/m}$ is an **RMS** value, so:
+> 
 > $$
-> \langle S\rangle=\tfrac12(377)(0.01)^2=1.885\times10^{-2}\ \text{W/m}^2=18.9\ \text{mW/m}^2
+> \langle S\rangle = \eta_0 H_0^2
 > $$
->
-> ✅ **Answer:** $\boxed{18.9\ \text{mW/m}^2}$
+> 
+> **Calculation:**
+> $$
+> \langle S\rangle = 377 (0.01)^2 = 3.77\times 10^{-2}\ \text{W/m}^2
+> = 37.7\ \text{mW/m}^2
+> $$
+> 
+> ✅ **Answer:** $\boxed{37.7\ \text{mW/m}^2}$
+
 
 > [!code]- MATLAB Solution
 > ```matlab
-> eta0=377; H0=0.01;
-> S=0.5*eta0*H0^2;
-> fprintf('<S>=%.2e W/m^2 = %.2f mW/m^2\n',S,1e3*S);
+> eta0 = 377;
+> H0 = 0.01; % RMS
+> S = eta0 * H0^2;
+> fprintf("<S> = %.2f mW/m^2\n", 1e3*S);
 > ```
 
 ---
@@ -564,40 +570,145 @@ updated: 2025-10-28
 
 ---
 
-> [!summary] **Question 14 — Minimum frequency for 4 mm shield**
-> $\delta=t\Rightarrow f=\tfrac{1}{\pi\mu\sigma t^2}$
->
+> [!info] **Question 14 — Minimum frequency for 4 mm EM shield**  
+> **Concept:**  
+> The *skin depth* in a good conductor is  
+> 
 > $$
-> f=\frac{1}{\pi(4\pi10^{-7})(2\cdot10^4)(0.004)^2}=0.79\ \text{MHz}
+> \delta = \sqrt{\frac{2}{\omega \mu \sigma}}, \quad
+> \omega = 2\pi f
 > $$
->
-> ✅ **Answer:** $\boxed{0.79\ \text{MHz}}$
+>  
+> Solving for frequency gives  
+> 
+> $$
+> f = \frac{1}{\pi \mu \sigma \delta^2}
+> $$
+>  
+> For shielding, we compare two cases:  
+> 1. Theoretical limit — when the skin depth equals the thickness: $\delta = t$.  
+> 2. Practical shielding — following the **rule of thumb** $t \ge 5\delta$, meaning the EM field is practically zero after passing through the conductor.
+
+---
+
+### 🧮 Case 1 — When δ = t
+
+Given:  
+$\mu = \mu_0 = 4\pi \times 10^{-7}\,\text{H/m}$
+$\sigma = 2\times10^4\,\text{S/m}$,  
+$t = 4\,\text{mm} = 0.004\,\text{m}$
+
+$$
+f = \frac{1}{\pi(4\pi\times10^{-7})(2\times10^{4})(0.004)^2}
+= 0.79~\text{MHz}
+$$
+
+✅ **Interpretation:**  
+This is where the skin depth just equals the conductor thickness — the transition between weak and strong attenuation.
+
+---
+
+### ⚙️ Case 2 — Rule of thumb (t ≥ 5δ)
+
+For a **very good conductor**, shielding is considered effective when  
+$t = 5\delta \Rightarrow \delta = t/5$.  
+
+Inserting this into the same formula gives:  
+
+$$
+f = \frac{1}{\pi \mu \sigma (t/5)^2}
+= \frac{25}{\pi \mu \sigma t^2}
+= 25\times 0.79~\text{MHz}
+\approx 19.8~\text{MHz}
+$$
+
+✅ **Interpretation:**  
+At approximately **20 MHz**, the thickness is five times the skin depth, ensuring almost total field attenuation (≈ Faraday cage condition).
+
+---
+
+### 🧾 **Final Answer**
+
+✅ **Minimum effective shielding frequency:**  
+$\boxed{f_\text{min} \approx 19.8~\text{MHz}}$  
+(using the $t \ge 5\delta$ rule of thumb)  
+
+*(For comparison: $f = 0.79~\text{MHz}$ when $\delta = t$)*
+
+---
 
 > [!code]- MATLAB Solution
 > ```matlab
-> mu0=4*pi*1e-7; sigma=2e4; t=4e-3;
-> f=1/(pi*mu0*sigma*t^2);
-> fprintf('f = %.2f MHz\n',f/1e6);
+> % Q14 – Minimum frequency for EM shield
+> mu0 = 4*pi*1e-7;          % H/m
+> sigma = 2e4;              % S/m
+> t = 4e-3;                 % thickness [m]
+> 
+> % Case 1: delta = t
+> f_eq = 1/(pi*mu0*sigma*t^2);
+> 
+> % Case 2: rule of thumb (t = 5*delta)
+> f_rule = 25*f_eq;
+> 
+> fprintf("Case 1 (δ=t): %.2f MHz\n", f_eq/1e6);
+> fprintf("Case 2 (t≥5δ): %.2f MHz\n", f_rule/1e6);
 > ```
 
 ---
 
-> [!summary] **Question 15 — Incident power on a surface**
-> $\langle S\rangle_\perp=\dfrac{E_0^2}{2\eta_0}\cos\theta$
->
+**Note:**  
+When $t \ge 5\delta$, the wave is attenuated by a factor of about $e^{-5}$,  
+so less than **1%** of the original field remains — effectively complete EM shielding.
+
+---
+
+> [!summary] **Question 15 — Total time-average power incident on a surface**
+> The time-average Poynting vector in vacuum is:
 > $$
-> \langle S\rangle_\perp=\frac{1}{2\cdot377}\cos20^\circ
-> =1.25\times10^{-3}\ \text{W/m}^2
-> =1.25\times10^3\ \mu\text{W/m}^2
+> S_0 = \frac{E_0^2}{2\eta_0}
 > $$
->
-> ✅ **Answer:** $\boxed{1.25\times10^3\ \mu\text{W/m}^2}$
+> The total power incident on a surface of area $A$ at angle $\varphi$ is:
+> $$
+> P_i = S_0 \, A \cos\varphi
+> $$
+
+**Given:**
+- $E_0 = 1\ \text{V/m}$
+- $\eta_0 = 377\ \Omega$
+- $A = 0.05\ \text{m}^2$
+- $\varphi = 20^\circ$
+
+Compute:
+$$
+S_0 = \frac{1^2}{2\cdot377} = 1.326\times10^{-3}\ \text{W/m}^2
+$$
+$$
+S_{\perp} = S_0 \cos 20^\circ = 1.25\times10^{-3}\ \text{W/m}^2
+$$
+$$
+P_i = S_{\perp} A = (1.25\times10^{-3})(0.05) = 6.25\times10^{-5}\ \text{W}
+$$
+Convert to µW:
+$$
+6.25\times10^{-5}\ \text{W} = 62.5\ \mu\text{W}
+$$
+
+✅ **Answer:** $\boxed{62.5\ \mu\text{W}}$
+
+---
 
 > [!code]- MATLAB Solution
 > ```matlab
-> eta0=377; E0=1; theta=deg2rad(20);
-> S=(E0^2/(2*eta0))*cos(theta);
-> fprintf('<S_perp>=%.3e W/m^2 = %.2f µW/m^2\n',S,1e6*S);
+> E0 = 1;
+> eta0 = 377;
+> A = 0.05;
+> phi = deg2rad(20);
+> 
+> S0 = E0^2/(2*eta0);
+> S_perp = S0*cos(phi);
+> P = S_perp * A;
+> 
+> fprintf("Total Power = %.2f µW\n", P*1e6);
 > ```
 
 ---
