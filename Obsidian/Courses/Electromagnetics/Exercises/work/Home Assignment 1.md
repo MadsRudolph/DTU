@@ -750,8 +750,9 @@ $\boxed{\tilde{\mathbf H}_0=(j3.754,\,-j6.502,\,0)\ \text{mA/m}}$
 > ```
 
 ---
-> [!summary] **Question 10 — Intrinsic polarization (full derivation)**
-> A plane wave in air (assume vacuum) has magnetic field
+> [!summary] **Question 10 — Intrinsic Polarization (Full Derivation, Corrected)**
+>
+> A plane wave in air (assume vacuum) has the magnetic field
 >
 > $$
 > \vec H(\vec r,t)=H_0\Big[\underbrace{\vec u}_{\text{cos coeff.}}\cos(\omega t-\vec\beta\!\cdot\!\vec r)
@@ -767,84 +768,80 @@ $\boxed{\tilde{\mathbf H}_0=(j3.754,\,-j6.502,\,0)\ \text{mA/m}}$
 > \vec\beta=\begin{bmatrix}10\\10\\10\end{bmatrix}\ \text{m}^{-1}.
 > $$
 >
-> **Polarization test (time trace at a fixed point):**
+> ---
 >
-> 1) *Orthogonality* — circular/elliptical needs orthogonal basis:
+> **Step 1 — Orthogonality and Magnitudes**
+>
+> - $\vec u\cdot\vec v = -4.63\times10^{-5}\approx0$ → **orthogonal**  
+> - $|\vec u|=1.000011,\ |\vec v|=0.999978$ → **equal magnitude**  
+> - $\text{Axial Ratio: }AR = 1.000033\ (0.0003~\text{dB})$  
+>
+> ⮕ These confirm **circular polarization**.
+>
+> ---
+>
+> **Step 2 — Handedness**
+>
+> For a field written as $F(t)=\vec u\cos\psi+\vec v\sin\psi$  
+> with $\psi=\omega t-\vec\beta\!\cdot\!\vec r$, the handedness is found from
 >
 > $$
-> \vec u\cdot\vec v\approx 0\ \ (\text{numerically }-4.63\times10^{-5}\approx 0).
+> s=\hat\beta\cdot(\vec u\times\vec v)
 > $$
 >
-> 2) *Equal magnitudes* — circular if $|\vec u|=|\vec v|$:
+> - If $s>0$ → Right-hand circular (RHCP)  
+> - If $s<0$ → Left-hand circular (LHCP)
 >
-> $$
-> |\vec u|\approx1.00001,\quad |\vec v|\approx0.99998\ \Rightarrow\ |\vec u|\simeq|\vec v|.
-> $$
+> Calculation gives $s=-0.99999<0$ → **Left-hand circular polarization (LHCP)**.
 >
-> 3) *Quadrature* — cosine/sine are $90^\circ$ apart → conditions 1–3 give **circular polarization**.
->
-> 4) *Handedness* — the sign of the triple product decides RH/LH:
->
-> $$
-> \hat\beta=\frac{\vec\beta}{|\vec\beta|},\qquad
-> T=(\vec u\times \vec v)\cdot\hat\beta\approx-0.99999<0
-> \ \Rightarrow\ \textbf{Right-hand circular polarization (RHCP)}.
-> $$
->
-> ✅ **Answer:** **Right-hand circular polarization (RHCP)**.
+> ✅ **Answer:** $\boxed{\text{Left-hand circular polarization (LHCP)}}$
 
-> [!code]- MATLAB Solution (Reusable template)
+---
+
+> [!code]- MATLAB Solution (Reusable & Corrected)
 > ```matlab
-> % ====================== POLARIZATION TEMPLATE ==========================
-> % Analyze intrinsic polarization (linear/elliptical/circular) and handedness
-> % for fields of the form:  F(t) = u*cos(ψ) + v*sin(ψ), ψ=ωt-β·r
+> % ====================== POLARIZATION TEMPLATE (corrected) =====================
+> % Field form: F(t) = u*cos(psi) + v*sin(psi), psi = omega*t - beta·r
+> % Handedness rule for this form:
+> %   s = bhat · (u × v)
+> %   s > 0  -> right-hand,  s < 0 -> left-hand
 > %
-> % --- PARAMS (edit for future problems) ---
-> u    = [0.5345; 0.2673; -0.8018];   % cosine coefficient vector
-> v    = [0.6172; -0.7715; 0.1543];   % sine coefficient vector
-> beta = [10; 10; 10];                % phase vector (1/m)
-> tol_orth = 1e-3;                    % orthogonality tolerance
-> tol_mag  = 1e-3;                    % equal-magnitude tolerance
-> % ----------------------------------------------------------------------
-> 
-> % --- Compute diagnostics ---
+> % --- PARAMETERS (edit for new problems) ---
+> u    = [0.5345;  0.2673; -0.8018];   % cosine coefficient vector
+> v    = [0.6172; -0.7715;  0.1543];   % sine coefficient vector
+> beta = [10; 10; 10];                 % phase vector (1/m)
+> tol_orth = 1e-3;                     % orthogonality tolerance
+> tol_mag  = 1e-3;                     % equal-magnitude tolerance
+> % -----------------------------------------------------------------------------
+>
+> % Diagnostics
 > nu = norm(u); nv = norm(v);
-> ortho = dot(u,v);
-> bhat = beta / norm(beta);
-> triple = dot(cross(u,v), bhat);
-> 
-> % --- Decide polarization type ---
-> if abs(ortho) < tol_orth
->     if abs(nu - nv) < tol_mag
->         pol = "circular";
->     else
->         pol = "elliptical";
->     end
+> ortho  = dot(u,v);
+> bhat   = beta / norm(beta);
+> s      = dot(cross(u,v), bhat);      % <-- corrected sign & rule
+>
+> % Type
+> if abs(ortho) < tol_orth && abs(nu - nv) < tol_mag
+>     pol = "circular";
 > else
->     % If u and v not orthogonal, still elliptical in general
 >     pol = "elliptical";
 > end
-> 
-> % --- Handedness (only meaningful for elliptical/circular) ---
+>
+> % Handedness
 > handed = "N/A";
-> if triple < 0, handed = "right-hand";
-> elseif triple > 0, handed = "left-hand";
+> if s > 0, handed = "right-hand";
+> elseif s < 0, handed = "left-hand";
 > end
-> 
-> % --- Axial ratio (major/minor), valid if nearly orthogonal ---
-> AR = max(nu,nv)/min(nu,nv);
+>
+> % Axial ratio (quick estimate from |u|,|v|)
+> AR    = max(nu,nv)/min(nu,nv);
 > AR_dB = 20*log10(AR);
-> 
-> % --- Print summary ---
+>
+> % Report
 > fprintf('u·v = %+ .3e (≈0 => orthogonal)\n', ortho);
-> fprintf('|u| = %.6f, |v| = %.6f  -> AR = %.6f (%.4f dB)\n', nu, nv, AR, AR_dB);
-> fprintf('Polarization = %s, Handedness = %s (triple = %.5f)\n', pol, handed, triple);
-> 
-> % --- Return results as a struct (handy in Live Scripts) ---
-> results = struct('u',u,'v',v,'beta',beta,'ortho',ortho,'nu',nu,'nv',nv, ...
->                  'AR',AR,'AR_dB',AR_dB,'polarization',pol,'handedness',handed, ...
->                  'triple',triple);
-> % ======================================================================
+> fprintf('|u| = %.6f, |v| = %.6f  -> AR ≈ %.6f (%.4f dB)\n', nu, nv, AR, AR_dB);
+> fprintf('Polarization = %s, Handedness = %s (s = %.5f)\n', pol, handed, s);
+> % =============================================================================
 > ```
 
 ---
@@ -886,189 +883,310 @@ $\boxed{\tilde{\mathbf H}_0=(j3.754,\,-j6.502,\,0)\ \text{mA/m}}$
 > ```
 
 ---
-
-> [!summary] **Question 12 — Average power density**
-> The time–average Poynting vector depends on whether the field amplitudes are *peak* or *RMS*.  
-> Here, $H_0=0.01\ \text{A/m}$ is an **RMS** value, so:
-> 
-> $$
-> \langle S\rangle = \eta_0 H_0^2
-> $$
-> 
-> **Calculation:**
-> $$
-> \langle S\rangle = 377 (0.01)^2 = 3.77\times 10^{-2}\ \text{W/m}^2
-> = 37.7\ \text{mW/m}^2
-> $$
-> 
-> ✅ **Answer:** $\boxed{37.7\ \text{mW/m}^2}$
-
-
-> [!code]- MATLAB Solution
-> ```matlab
-> eta0 = 377;
-> H0 = 0.01; % RMS
-> S = eta0 * H0^2;
-> fprintf("<S> = %.2f mW/m^2\n", 1e3*S);
-> ```
-
----
-
-> [!summary] **Question 13 — Skin depth at 10 MHz**
-> $\delta=\sqrt{\tfrac{2}{\omega\mu\sigma}}$
+> [!summary] **Question 12 — Time-Average Power Density (Lossless Plane Wave)**
 >
-> $$
-> \delta=\sqrt{\frac{2}{(2\pi10^7)(4\pi10^{-7})(2\cdot10^4)}}=1.13\ \text{mm}
-> $$
+> **Question:**  
+> What is the magnitude of the **time-average power flow density** at  
+> $x = y = z = 100~\text{m}$?  
+> Express the value in $\mu\text{W}/\text{m}^2$.
 >
-> ✅ **Answer:** $\boxed{1.1\ \text{mm}}$
-
-> [!code]- MATLAB Solution
-> ```matlab
-> mu0=4*pi*1e-7; sigma=2e4; f=10e6;
-> delta=sqrt(2/(2*pi*f*mu0*sigma));
-> fprintf('δ = %.3f mm\n',1e3*delta);
-> ```
-
----
-
-> [!info] **Question 14 — Minimum frequency for 4 mm EM shield**  
+> ---
+>
 > **Concept:**  
-> The *skin depth* in a good conductor is  
+> For a **lossless plane wave**, the time-average Poynting vector magnitude is given by:
+>
+> - Using **peak (phasor)** fields:  
+>   $$
+>   \langle S \rangle = \frac{|E_0|^2}{2\eta_0} = \frac{\eta_0 |H_0|^2}{2}
+>   $$
+>
+> - Using **RMS** fields:  
+>   $$
+>   \langle S \rangle = \frac{E_{\text{rms}}^2}{\eta_0} = \eta_0 H_{\text{rms}}^2
+>   $$
+>
+> Since the given magnetic field amplitude $H_0 = 0.01~\text{A/m}$ is an **RMS value**,  
+> we use the **RMS form** of the expression.
+>
+> ---
+>
+> **Given:**
+> - $H_0 = 0.01~\text{A/m}$
+> - $\eta_0 = 377~\Omega$
+>
+> ---
+>
+> **Calculation:**
+>
+> $$
+> \begin{aligned}
+> \langle S \rangle &= \eta_0 H_0^2 \\
+> &= 377 \times (0.01)^2 \\
+> &= 3.77\times10^{-2}~\text{W/m}^2 \\
+> &= 37.7~\text{mW/m}^2
+> \end{aligned}
+> $$
+>
+> ✅ **Answer:** $\boxed{37.7~\text{mW/m}^2}$
+>
+> ---
+>
+> **Interpretation:**  
+> This is the **time-average power density** (magnitude of the Poynting vector)  
+> of a uniform plane wave propagating in a **lossless medium** (vacuum).
+>
+> ---
+
+> [!code]- MATLAB Solution
+> ```matlab
+> % Q12 — Time-average power density (lossless plane wave)
+> eta0 = 377;          % [ohm] intrinsic impedance of free space
+> H0   = 0.01;         % [A/m] magnetic field amplitude (RMS)
 > 
-> $$
-> \delta = \sqrt{\frac{2}{\omega \mu \sigma}}, \quad
-> \omega = 2\pi f
-> $$
->  
-> Solving for frequency gives  
+> % If given as RMS: use S = eta0 * H0^2
+> % If given as peak: use S = 0.5 * eta0 * H0^2
 > 
+> S = eta0 * H0^2;      % [W/m^2]
+> fprintf("<S> = %.4f W/m^2 = %.2f mW/m^2 = %.2f µW/m^2\n", S, 1e3*S, 1e6*S);
+> ```
+
+
+---
+> [!summary] **Question 13 — Skin Depth at 10 MHz**
+>
+> **Question:**  
+> “At a frequency of 10 MHz, what is the skin depth of the conductor given in mm?  
+> The conductor is non-magnetic and has conductivity $\sigma = 2\cdot10^4~\text{S/m}$.”
+>
+> ---
+>
+> **Concept:**  
+> The **skin depth** $\delta$ is the distance below the surface of a conductor where  
+> the electromagnetic field amplitude falls to $1/e$ (≈ 37%) of its value at the surface.  
+> It is given by:
+>
 > $$
-> f = \frac{1}{\pi \mu \sigma \delta^2}
+> \delta = \sqrt{\frac{2}{\omega \mu \sigma}}, \qquad \omega = 2\pi f
 > $$
->  
-> For shielding, we compare two cases:  
-> 1. Theoretical limit — when the skin depth equals the thickness: $\delta = t$.  
-> 2. Practical shielding — following the **rule of thumb** $t \ge 5\delta$, meaning the EM field is practically zero after passing through the conductor.
+>
+> ---
+>
+> **Given:**  
+> - $f = 10~\text{MHz}$  
+> - $\sigma = 2\times10^4~\text{S/m}$  
+> - $\mu = \mu_0 = 4\pi\times10^{-7}~\text{H/m}$  
+>
+> **Calculation:**
+>
+> $$
+> \begin{aligned}
+> \delta &= \sqrt{\frac{2}{(2\pi\times10^7)(4\pi\times10^{-7})(2\times10^4)}} \\
+> &= 1.125\times10^{-3}~\text{m} = 1.125~\text{mm}
+> \end{aligned}
+> $$
+>
+> ✅ **Answer:** $\boxed{\delta = 1.125~\text{mm}}$
+>
+> ---
+>
+> **Interpretation:**  
+> Inside a conductor, the electric field decays exponentially as  
+> $E(z)=E_0e^{-z/\delta}$.  
+> After one skin depth, the field has dropped to 37% of the surface value.  
+> For this conductor, only the outermost 1 mm carries most of the current.
+>
+> ---
 
+> [!code]- MATLAB Solution
+> ```matlab
+> % Q13 – Skin depth at 10 MHz
+> mu0   = 4*pi*1e-7;      % [H/m]
+> sigma = 2e4;            % [S/m]
+> f     = 10e6;           % [Hz]
+> delta = sqrt(2/(2*pi*f*mu0*sigma));
+> fprintf('δ = %.4f mm\n', 1e3*delta);
+> ```
 ---
 
-### 🧮 Case 1 — When δ = t
+> [!summary] **Question 14 — Minimum Frequency for a 4 mm EM Shield**
+>
+> **Question:**  
+> “For a thickness of 4 mm, what is the minimum frequency of the EM shield?  
+> Express the frequency in MHz.”
+>
+> 
+>
+> **Concept:**  
+> The **skin depth relation** is
+>
+> $$
+> \delta = \sqrt{\frac{2}{\omega\mu\sigma}}, \qquad \omega = 2\pi f
+> $$
+>
+> Solving for $f$:
+>
+> $$
+> f = \frac{1}{\pi\mu\sigma\delta^2}
+> $$
+>
+> For shielding, two regimes are compared:
+>
+> 1. **Transition region:** $\delta = t$  
+> 2. **Effective shielding (rule of thumb):** $t \ge 5\delta$ → field almost zero inside.
+>
+> 
+>
+> **Given:**  
+> - $t = 4~\text{mm} = 0.004~\text{m}$  
+> - $\sigma = 2\times10^4~\text{S/m}$  
+> - $\mu = \mu_0 = 4\pi\times10^{-7}~\text{H/m}$  
+> ---
 
-Given:  
-$\mu = \mu_0 = 4\pi \times 10^{-7}\,\text{H/m}$
-$\sigma = 2\times10^4\,\text{S/m}$,  
-$t = 4\,\text{mm} = 0.004\,\text{m}$
+> [!info] Case 1 — When $\delta = t$
+>
+> $$
+> f = \frac{1}{\pi(4\pi\times10^{-7})(2\times10^{4})(0.004)^2}
+> = 0.79~\text{MHz}
+> $$
+>
+> ✅ **Interpretation:**  
+> This frequency marks the point where the field begins to be significantly attenuated,  
+> since the skin depth equals the material thickness.
+>
+> 
 
-$$
-f = \frac{1}{\pi(4\pi\times10^{-7})(2\times10^{4})(0.004)^2}
-= 0.79~\text{MHz}
-$$
-
-✅ **Interpretation:**  
-This is where the skin depth just equals the conductor thickness — the transition between weak and strong attenuation.
-
----
-
-### ⚙️ Case 2 — Rule of thumb (t ≥ 5δ)
-
-For a **very good conductor**, shielding is considered effective when  
-$t = 5\delta \Rightarrow \delta = t/5$.  
-
-Inserting this into the same formula gives:  
-
-$$
-f = \frac{1}{\pi \mu \sigma (t/5)^2}
-= \frac{25}{\pi \mu \sigma t^2}
-= 25\times 0.79~\text{MHz}
-\approx 19.8~\text{MHz}
-$$
-
-✅ **Interpretation:**  
-At approximately **20 MHz**, the thickness is five times the skin depth, ensuring almost total field attenuation (≈ Faraday cage condition).
-
----
-
-### 🧾 **Final Answer**
-
-✅ **Minimum effective shielding frequency:**  
-$\boxed{f_\text{min} \approx 19.8~\text{MHz}}$  
-(using the $t \ge 5\delta$ rule of thumb)  
-
-*(For comparison: $f = 0.79~\text{MHz}$ when $\delta = t$)*
-
----
+> [!info] Case 2 — Rule of Thumb ($t ≥ 5\delta$)
+>
+> Effective shielding is achieved when $t = 5\delta$, i.e. $\delta = t/5$.  
+> Substituting gives:
+>
+> $$
+> f = \frac{1}{\pi\mu\sigma(t/5)^2}
+> = \frac{25}{\pi\mu\sigma t^2}
+> = 25\times0.79~\text{MHz}
+> \approx 19.8~\text{MHz}
+> $$
+>
+> ✅ **Interpretation:**  
+> At approximately 20 MHz, the conductor thickness is five times the skin depth,  
+> so the field is attenuated by $e^{-5} ≈ 0.7\%$ — essentially complete shielding.
+ 
+> [!summary] **Final Answers**
+>
+> - $\boxed{f_{\delta=t}=0.79~\text{MHz}}$  
+> - $\boxed{f_{t\ge5\delta}=19.8~\text{MHz}}$ (**effective shielding**)
+ ---
 
 > [!code]- MATLAB Solution
 > ```matlab
 > % Q14 – Minimum frequency for EM shield
-> mu0 = 4*pi*1e-7;          % H/m
-> sigma = 2e4;              % S/m
-> t = 4e-3;                 % thickness [m]
+> mu0   = 4*pi*1e-7;  % [H/m]
+> sigma = 2e4;        % [S/m]
+> t     = 4e-3;       % [m]
 > 
-> % Case 1: delta = t
-> f_eq = 1/(pi*mu0*sigma*t^2);
+> % Case 1: δ = t
+> f_eq   = 1/(pi*mu0*sigma*t^2);
 > 
-> % Case 2: rule of thumb (t = 5*delta)
+> % Case 2: t = 5δ (rule of thumb)
 > f_rule = 25*f_eq;
 > 
-> fprintf("Case 1 (δ=t): %.2f MHz\n", f_eq/1e6);
-> fprintf("Case 2 (t≥5δ): %.2f MHz\n", f_rule/1e6);
+> fprintf("Case 1 (δ=t): %.3f MHz\n", f_eq/1e6);
+> fprintf("Case 2 (t≥5δ): %.3f MHz\n", f_rule/1e6);
 > ```
-
 ---
 
 **Note:**  
-When $t \ge 5\delta$, the wave is attenuated by a factor of about $e^{-5}$,  
-so less than **1%** of the original field remains — effectively complete EM shielding.
+When $t ≥ 5\delta$, the wave inside the material is attenuated by a factor $e^{-5}$,  
+leaving < 1 % of the original field — practically a **Faraday-cage-level shield**.
 
 ---
-
-> [!summary] **Question 15 — Total time-average power incident on a surface**
-> The time-average Poynting vector in vacuum is:
+> [!summary] **Question 15 — Total Time-Average Power Incident on a Surface**
+>
+> **Question:**  
+> “A radio wave propagating in vacuum is incident on a surface of size  
+> $A = 0.05~\text{m}^2$.  
+> The incidence angle (between the wave vector $\vec\beta$ and the surface normal) is  
+> $\varphi = 20^\circ$.  
+> The electric-field magnitude is $E_0 = 1~\text{V/m}$.  
+> What is the **total time-average power** incident on the surface?  
+> Express your result in **µW** (not µW/m²).”
+>
+> ---
+>
+> **Concept:**  
+> The time-average **Poynting vector magnitude** in a plane wave is  
+>
 > $$
 > S_0 = \frac{E_0^2}{2\eta_0}
 > $$
-> The total power incident on a surface of area $A$ at angle $\varphi$ is:
+>
+> where $\eta_0 = 377~\Omega$ is the intrinsic impedance of free space.  
+> Only the component **normal** to the surface contributes to the incident power:
+>
 > $$
-> P_i = S_0 \, A \cos\varphi
+> P_i = S_0 A \cos\varphi
 > $$
+>
+> ---
+>
+> **Given:**
+> - $E_0 = 1~\text{V/m}$  
+> - $\eta_0 = 377~\Omega$  
+> - $A = 0.05~\text{m}^2$  
+> - $\varphi = 20^\circ$
+>
+> ---
+>
+> **Step-by-Step Calculation:**
+>
+> 1. Compute the time-average power density:
+>    $$
+>    S_0 = \frac{E_0^2}{2\eta_0}
+>        = \frac{1^2}{2\times377}
+>        = 1.326\times10^{-3}\ \text{W/m}^2
+>    $$
+>
+> 2. Find the perpendicular component:
+>    $$
+>    S_\perp = S_0\cos20^\circ
+>             = 1.25\times10^{-3}\ \text{W/m}^2
+>    $$
+>
+> 3. Multiply by area:
+>    $$
+>    P_i = S_\perp A
+>        = (1.25\times10^{-3})(0.05)
+>        = 6.25\times10^{-5}\ \text{W}
+>    $$
+>
+> 4. Convert to micro-watts:
+>    $$
+>    6.25\times10^{-5}\ \text{W} = 62.5~\mu\text{W}
+>    $$
+>
+> ✅ **Answer:** $\boxed{P_i = 62.5~\mu\text{W}}$
+>
+> ---
+>
+> **Interpretation:**  
+> The incident wave delivers **62.5 µW** of average power to the surface at  
+> 20° incidence.  
+> The cosine factor accounts for the reduced effective area seen by the wavefront.
+>
 
-**Given:**
-- $E_0 = 1\ \text{V/m}$
-- $\eta_0 = 377\ \Omega$
-- $A = 0.05\ \text{m}^2$
-- $\varphi = 20^\circ$
-
-Compute:
-$$
-S_0 = \frac{1^2}{2\cdot377} = 1.326\times10^{-3}\ \text{W/m}^2
-$$
-$$
-S_{\perp} = S_0 \cos 20^\circ = 1.25\times10^{-3}\ \text{W/m}^2
-$$
-$$
-P_i = S_{\perp} A = (1.25\times10^{-3})(0.05) = 6.25\times10^{-5}\ \text{W}
-$$
-Convert to µW:
-$$
-6.25\times10^{-5}\ \text{W} = 62.5\ \mu\text{W}
-$$
-
-✅ **Answer:** $\boxed{62.5\ \mu\text{W}}$
-
----
 
 > [!code]- MATLAB Solution
 > ```matlab
-> E0 = 1;
-> eta0 = 377;
-> A = 0.05;
-> phi = deg2rad(20);
+> % Q15 – Total time-average power incident on a surface
+> E0   = 1;          % [V/m]
+> eta0 = 377;        % [ohm]
+> A    = 0.05;       % [m^2]
+> phi  = deg2rad(20);% [radians]
 > 
-> S0 = E0^2/(2*eta0);
-> S_perp = S0*cos(phi);
-> P = S_perp * A;
+> % Compute average power
+> S0     = E0^2/(2*eta0);   % Average power density [W/m^2]
+> S_perp = S0*cos(phi);     % Perpendicular component
+> P      = S_perp*A;        % Total incident power [W]
 > 
 > fprintf("Total Power = %.2f µW\n", P*1e6);
 > ```
