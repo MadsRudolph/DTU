@@ -4,86 +4,9 @@
     "type": "split",
     "children": [
       {
-        "id": "7ddf35af5263730e",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "65da5570cd471f0a",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/DSP/Literature/Champagne and Labeau 2004 Discrete Time Signal Processing.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Champagne and Labeau 2004 Discrete Time Signal Processing"
-            }
-          },
-          {
-            "id": "d3a6c1156402efad",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L13_EM_plane_wave_polarization"
-            }
-          },
-          {
-            "id": "93d4ca2922358a2d",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L11_EM_plane_wave"
-            }
-          },
-          {
-            "id": "01bdfb5e0d920668",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L15a_EM_power_density"
-            }
-          },
-          {
-            "id": "c919ba9ec80ef495",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
-          }
-        ],
-        "currentTab": 3
-      },
-      {
         "id": "0183ed97c20f1184",
         "type": "tabs",
         "children": [
-          {
-            "id": "e3b48697479067cd",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "34630-lecture-8-feedback2_v3"
-            }
-          },
           {
             "id": "6a4e208611450aa7",
             "type": "leaf",
@@ -99,8 +22,7 @@
               "title": "Home Assignment 1"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -274,9 +196,9 @@
   },
   "active": "6a4e208611450aa7",
   "lastOpenFiles": [
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
     "Courses/Electromagnetics/Slides/L15b_Current_flow_in_good_conductor.pdf",
     "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",

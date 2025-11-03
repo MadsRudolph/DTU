@@ -51,52 +51,76 @@ updated: 2025-10-28
 > [!code]- MATLAB Verification
 > ```matlab
 > % === Question 1 ===
-> E0 = [2; 0; 0];                  % V/m
-> H0 = [0; -5.309e-3; 0];          % A/m  (mA/m → A/m)
-> g  = [0; 0; 1j*3];               % ẑ * j3
+> E0 = [2; 0; 0];               % V/m
+> H0 = [0; -5.309e-3; 0];       % A/m  (mA/m → A/m)
+> g  = [0; 0; 1j*3];            % x̂ * j10
 > 
-> % --- Dot products (transverse) ---
-> fprintf('E·g = %.3e,  H·g = %.3e\n', dot(E0,g), dot(H0,g));
+> tol = 1e-10;
+> 
+> % --- Transverse checks ---
+> dotEg = dot(E0,g);
+> dotHg = dot(H0,g);
 > 
 > % --- Cross products ---
 > gXH = cross(g,H0);
 > gXE = cross(g,E0);
-> disp('γ×H0 ='); disp(gXH.');      % should be ∥ E0
-> disp('γ×E0 ='); disp(gXE.');      % should be ∥ H0
 > 
-> % --- Parallelism residuals (0 if parallel) ---
-> col1 = norm(cross(gXH, E0));
-> col2 = norm(cross(gXE, H0));
-> fprintf('||cross(γ×H0, E0)|| = %.3e\n', col1);
-> fprintf('||cross(γ×E0, H0)|| = %.3e\n', col2);
+> % --- Parallelism residuals (0 if perfectly parallel) ---
+> par1 = norm(cross(gXH, E0));   % γ×H0 ∥ E0
+> par2 = norm(cross(gXE, H0));   % γ×E0 ∥ H0
 > 
-> % --- Attempt to infer required positive scalars ---
-> % γ×H0 = -j*ωε*E0  → use x-component
-> Ceps_req = -imag(gXH(1))/E0(1);   % value should be > 0
-> % γ×E0 = +j*ωμ*H0  → use y-component
-> Cmu_req  =  imag(gXE(2))/(-H0(2));% value should be > 0
-> fprintf('(ωε)_required = %.7f, (ωμ)_required = %.3f\n', Ceps_req, Cmu_req);
+> % --- Recover ωε and ωμ component-wise using the slide relations ---
+> % γ×H0 = -j*ωε*E0   ⇒  ωε = -(γ×H0)./(j*E0)
+> % γ×E0 = +j*ωμ*H0   ⇒  ωμ =  (γ×E0)./(j*H0)
+> omega_eps = []; omega_mu = [];
 > 
-> if abs(dot(E0,g))<1e-12 && abs(dot(H0,g))<1e-12 && col1<1e-12 && col2<1e-12 ...
->    && Ceps_req>0 && Cmu_req>0
->     disp("✅ Plane wave.");
+> for k = 1:3
+>     if abs(E0(k)) > 0
+>         omega_eps(end+1) = (-gXH(k)) / (1j*E0(k));
+>     end
+>     if abs(H0(k)) > 0
+>         omega_mu(end+1)  = ( gXE(k)) / (1j*H0(k));
+>     end
+> end
+> 
+> % --- Check conditions ---
+> eps_real_ok = all(abs(imag(omega_eps)) < tol);
+> mu_real_ok  = all(abs(imag(omega_mu))  < tol);
+> eps_pos_ok  = all(real(omega_eps) > 0);
+> mu_pos_ok   = all(real(omega_mu)  > 0);
+> eps_consist = max(real(omega_eps)) - min(real(omega_eps)) < 1e-9;
+> mu_consist  = max(real(omega_mu))  - min(real(omega_mu))  < 1e-9;
+> trans_ok    = abs(dotEg) < tol && abs(dotHg) < tol;
+> parallel_ok = par1 < tol && par2 < tol;
+> 
+> % --- Display results ---
+> fprintf('E·γ=%.3e, H·γ=%.3e\n', dotEg, dotHg);
+> fprintf('||cross(γ×H0,E0)||=%.3e, ||cross(γ×E0,H0)||=%.3e\n', par1, par2);
+> fprintf('omega*eps components: %s\n', mat2str(omega_eps,6));
+> fprintf('omega*mu  components: %s\n', mat2str(omega_mu ,6));
+> 
+> if trans_ok && parallel_ok && eps_real_ok && mu_real_ok && eps_pos_ok && mu_pos_ok ...
+>         && eps_consist && mu_consist
+>     disp("✅ Plane wave (relations hold with positive, consistent ωε and ωμ).");
 > else
->     disp("❌ Not a plane wave.");
+>     disp("❌ Not a plane wave (one or more checks failed).");
 > end
 > ```
 
 ---
 
-> [!summary] **Question 2 — Plane wave**
+> [!summary] **Question 2 — Plane wave (corrected MATLAB verification)**
 >
 > **Given**
 >
-> $$\tilde{\mathbf E}_0=\begin{bmatrix}0\\ j2\\ 5\end{bmatrix}\text{ V/m},\quad
-> \tilde{\mathbf H}_0=\begin{bmatrix}0\\ -37.5\\ j15\end{bmatrix}\text{ mA/m},\quad
-> \vec{\gamma}=\begin{bmatrix}j10\\0\\0\end{bmatrix}\text{ m}^{-1}.$$
-> 
+> $$
+> \tilde{\mathbf E}_0=\begin{bmatrix}0\\ j2\\ 5\end{bmatrix}\ \text{V/m},\quad
+> \tilde{\mathbf H}_0=\begin{bmatrix}0\\ -37.5\\ j15\end{bmatrix}\ \text{mA/m},\quad
+> \vec{\gamma}=\begin{bmatrix}j10\\0\\0\end{bmatrix}\ \text{m}^{-1}.
+> $$
 >
-> Here the cross-product relations hold with **positive** scalars in both equations, and the transverse conditions are satisfied → **plane wave**.
+> Both cross-product relations are satisfied with **positive** $\omega\varepsilon$ and $\omega\mu$,  
+> all components are consistent and transverse conditions hold → **Plane wave** ✅
 
 > [!code]- MATLAB Verification
 > ```matlab
@@ -105,316 +129,599 @@ updated: 2025-10-28
 > H0 = [0; -37.5e-3; 1j*15e-3];    % A/m  (mA/m → A/m)
 > g  = [1j*10; 0; 0];              % x̂ * j10
 > 
-> % --- Dot products (transverse) ---
-> fprintf('E·g = %.3e,  H·g = %.3e\n', dot(E0,g), dot(H0,g));
+> tol = 1e-10;
+> 
+> % --- Transverse checks ---
+> dotEg = dot(E0,g);
+> dotHg = dot(H0,g);
 > 
 > % --- Cross products ---
 > gXH = cross(g,H0);
 > gXE = cross(g,E0);
-> disp('γ×H0 ='); disp(gXH.');      % should be ∥ E0
-> disp('γ×E0 ='); disp(gXE.');      % should be ∥ H0
-> 
-> % --- Extract required positive constants from independent components ---
-> % γ×H0 = -j*ωε*E0  → use y and z (both E0_y and E0_z nonzero)
-> Ceps_y =  imag(-1j*gXH(2)) / 2;   % E0_y = j2 ⇒ -j*C*(j2) = +C*2
-> Ceps_z =  imag(-1j*gXH(3)) / 5;   % E0_z = 5
-> 
-> % γ×E0 = +j*ωμ*H0  → use y and z (both H0_y and H0_z nonzero)
-> Cmu_y  =  imag( 1j*gXE(2)) / (-37.5e-3);
-> Cmu_z  =        (-gXE(3))  / ( 15e-3);
-> 
-> fprintf('(ωε) from y=%.6f, z=%.6f\n', Ceps_y, Ceps_z);
-> fprintf('(ωμ) from y=%.6f, z=%.6f\n', Cmu_y,  Cmu_z);
 > 
 > % --- Parallelism residuals (0 if perfectly parallel) ---
-> col1 = norm(cross(gXH, E0));   % γ×H0 ∥ E0
-> col2 = norm(cross(gXE, H0));   % γ×E0 ∥ H0
-> fprintf('||cross(γ×H0, E0)|| = %.3e\n', col1);
-> fprintf('||cross(γ×E0, H0)|| = %.3e\n', col2);
+> par1 = norm(cross(gXH, E0));   % γ×H0 ∥ E0
+> par2 = norm(cross(gXE, H0));   % γ×E0 ∥ H0
 > 
-> ok_pos = all([Ceps_y Ceps_z Cmu_y Cmu_z] > 0);
-> ok_match = max(abs([Ceps_y-Ceps_z, Cmu_y-Cmu_z])) < 1e-10;
-> ok_trans = abs(dot(E0,g))<1e-12 && abs(dot(H0,g))<1e-12;
-> ok_parallel = col1<1e-12 && col2<1e-12;
+> % --- Recover ωε and ωμ component-wise using the slide relations ---
+> % γ×H0 = -j*ωε*E0   ⇒  ωε = -(γ×H0)./(j*E0)
+> % γ×E0 = +j*ωμ*H0   ⇒  ωμ =  (γ×E0)./(j*H0)
+> omega_eps = []; omega_mu = [];
 > 
-> if ok_pos && ok_match && ok_trans && ok_parallel
->     disp("✅ Plane wave (all relations hold with positive scalars).");
+> for k = 1:3
+>     if abs(E0(k)) > 0
+>         omega_eps(end+1) = (-gXH(k)) / (1j*E0(k));
+>     end
+>     if abs(H0(k)) > 0
+>         omega_mu(end+1)  = ( gXE(k)) / (1j*H0(k));
+>     end
+> end
+> 
+> % --- Check conditions ---
+> eps_real_ok = all(abs(imag(omega_eps)) < tol);
+> mu_real_ok  = all(abs(imag(omega_mu))  < tol);
+> eps_pos_ok  = all(real(omega_eps) > 0);
+> mu_pos_ok   = all(real(omega_mu)  > 0);
+> eps_consist = max(real(omega_eps)) - min(real(omega_eps)) < 1e-9;
+> mu_consist  = max(real(omega_mu))  - min(real(omega_mu))  < 1e-9;
+> trans_ok    = abs(dotEg) < tol && abs(dotHg) < tol;
+> parallel_ok = par1 < tol && par2 < tol;
+> 
+> % --- Display results ---
+> fprintf('E·γ=%.3e, H·γ=%.3e\n', dotEg, dotHg);
+> fprintf('||cross(γ×H0,E0)||=%.3e, ||cross(γ×E0,H0)||=%.3e\n', par1, par2);
+> fprintf('omega*eps components: %s\n', mat2str(omega_eps,6));
+> fprintf('omega*mu  components: %s\n', mat2str(omega_mu ,6));
+> 
+> if trans_ok && parallel_ok && eps_real_ok && mu_real_ok && eps_pos_ok && mu_pos_ok ...
+>         && eps_consist && mu_consist
+>     disp("✅ Plane wave (relations hold with positive, consistent ωε and ωμ).");
 > else
->     disp("❌ Not a plane wave.");
+>     disp("❌ Not a plane wave (one or more checks failed).");
 > end
 > ```
 
 ---
-
-## 🔁 Optional: Reusable Helper (only slide relations)
-
-> [!code]- Matlab code
+> [!code]- MATLAB Plane-Wave Verification (Final Reusable Template)
 > ```matlab
-> function R = verify_plane_wave(E0,H0,g)
-> % Verify UPW using ONLY slide relations (no η):
-> %   γ·E0 = 0,  γ·H0 = 0,
-> %   γ×H0 = -j*ωε*E0 (exists positive scalar),
-> %   γ×E0 = +j*ωμ*H0 (exists positive scalar).
+> % ==================== Plane-Wave Verification ====================
+> % Verifies whether given E0, H0, and γ satisfy the uniform plane-wave
+> % conditions from the EM theory slides:
+> %   γ × H0 = -j ωε E0
+> %   γ × E0 = +j ωμ H0
+> %   γ·E0 = 0,  γ·H0 = 0
+> %
+> % ✅ Works for all Q1/Q2-type problems (just change inputs below)
+> % ==================================================================
 > 
-> tol_trans = 1e-12; tol_par = 1e-12; tol_match = 1e-10;
+> clear; clc
+> % --- USER INPUTS (example: Question 2) ---
+> E0 = [0; 1j*2; 5];               % Electric field phasor [V/m]
+> H0 = [0; -37.5e-3; 1j*15e-3];    % Magnetic field phasor [A/m]
+> g  = [1j*10; 0; 0];              % Propagation vector [1/m]
 > 
-> % Dots
-> R.dotEg = dot(E0,g);
-> R.dotHg = dot(H0,g);
+> % --- SETTINGS ---
+> tol         = 1e-10;   % general tolerance for floating-point checks
+> tol_consist = 1e-9;    % tolerance for ωε/ωμ consistency
 > 
-> % Crosses
-> R.gXH = cross(g,H0);
-> R.gXE = cross(g,E0);
+> % --- Step 1: Transverse checks (E ⟂ γ, H ⟂ γ) ---
+> dotEg = dot(E0, g);
+> dotHg = dot(H0, g);
+> trans_ok = abs(dotEg) < tol && abs(dotHg) < tol;
 > 
-> % Parallelism residuals (0 if parallel)
-> R.par_gXH_E0 = norm(cross(R.gXH,E0));
-> R.par_gXE_H0 = norm(cross(R.gXE,H0));
+> % --- Step 2: Cross products (from slide relations) ---
+> % γ×H0 = -j ωε E0
+> % γ×E0 = +j ωμ H0
+> gXH = cross(g, H0);
+> gXE = cross(g, E0);
 > 
-> % Extract (ωε) from components where E0 is nonzero:
-> Ceps = [];
-> if abs(E0(1))>0, Ceps(end+1) = -imag(R.gXH(1))/E0(1); end
-> if abs(E0(2))>0, Ceps(end+1) =  real(R.gXH(2))/imag(E0(2)); end % -j*C*(j a)=+C a
-> if abs(E0(3))>0, Ceps(end+1) = -imag(R.gXH(3))/E0(3); end
+> % Scale-invariant parallelism residuals (should be ~0 for parallel)
+> par1 = norm(cross(gXH, E0)) / max(norm(gXH)*norm(E0), eps);
+> par2 = norm(cross(gXE, H0)) / max(norm(gXE)*norm(H0), eps);
+> parallel_ok = par1 < 1e-10 && par2 < 1e-10;
 > 
-> % Extract (ωμ) from components where H0 is nonzero:
-> Cmu = [];
-> if abs(H0(1))>0, Cmu(end+1) =  imag(R.gXE(1))/H0(1); end
-> if abs(H0(2))>0, Cmu(end+1) =  imag(R.gXE(2))/H0(2); end
-> if abs(H0(3))>0, Cmu(end+1) =       (-R.gXE(3))/H0(3); end
-> 
-> R.omega_eps_vals = Ceps;
-> R.omega_mu_vals  = Cmu;
-> 
-> % Checks
-> trans_ok   = abs(R.dotEg)<tol_trans && abs(R.dotHg)<tol_trans;
-> parallel_ok= R.par_gXH_E0<tol_par && R.par_gXE_H0<tol_par;
-> pos_ok     = all(Ceps>0) && all(Cmu>0);
-> match_ok   = (isempty(Ceps) || max(abs(Ceps - mean(Ceps)))<tol_match) && ...
->              (isempty(Cmu)  || max(abs(Cmu  - mean(Cmu )))<tol_match);
-> 
-> R.is_plane_wave = trans_ok && parallel_ok && pos_ok && match_ok;
+> % --- Step 3: Recover ωε and ωμ from available components ---
+> omega_eps = [];
+> omega_mu  = [];
+> for k = 1:3
+>     if abs(E0(k)) > 0
+>         omega_eps(end+1) = (-gXH(k)) / (1j*E0(k));  % expect real, >0
+>     end
+>     if abs(H0(k)) > 0
+>         omega_mu(end+1)  = ( gXE(k)) / (1j*H0(k));  % expect real, >0
+>     end
 > end
-> ```
-
----
-
-**References**
-- Vacuum impedance: $\eta_0=\sqrt{\mu_0/\varepsilon_0}=377 \Omega$
-
----
-
----
-
-> [!summary] **Question 3 — Phase constant β**
-> **Concept:** Phase constant $\beta=k_0\sqrt{\mu_r\epsilon_r}$ in lossless media.
->
-> **Given:** $f=2$ GHz, $\epsilon_r=4$, $\mu_r=2$
->
-> $$
-> k_0=\frac{2\pi f}{c}=41.89,\qquad
-> \beta=41.89\sqrt8=118.6\ \text{rad/m}
-> $$
->
-> ✅ **Answer:** $\boxed{\beta=118.6\ \text{rad/m}}$
-
-> [!code]- MATLAB Solution
-> ```matlab
-> c=3e8; f=2e9; mu_r=2; eps_r=4;
-> k0=2*pi*f/c;
-> beta=k0*sqrt(mu_r*eps_r);
-> fprintf('β = %.1f rad/m\n',beta);
-> ```
-
----
-
-> [!summary] **Question 4 — Electric field in time domain**
-> **Concept:** Convert phasor → real-time sinusoid.
->
-> **Given:** $\tilde{\mathbf E}_0=(0,0,j2)$  
->
-> $$
-> E_z=\Re\{j2e^{j\Phi}\}=2\cos(\Phi+\tfrac{\pi}{2})=-2\sin\Phi
-> $$
->
-> ✅ **Answer:** $\boxed{\mathbf E(\mathbf r,t)=(0,0,-2)\sin(\omega t-\vec\beta\!\cdot\!\mathbf r)}$
-
-> [!code]- MATLAB Solution
-> ```matlab
-> syms omega t beta_x beta_y beta_z x y z real
-> Ez = -2*sin(omega*t - (beta_x*x + beta_y*y + beta_z*z));
-> pretty(Ez)
-> ```
-
----
-
-> [!summary] **Question 5 — Magnetic field phasor $\tilde{\mathbf H}_0$**
-> **Concept:** $\tilde{\mathbf H}_0=\dfrac{1}{\eta}(\hat\beta\times\tilde{\mathbf E}_0)$
->
-> **Given** $\tilde{\mathbf E}_0=(0,0,j2)$, $\hat\beta=(\cos30°,\,\sin30°,\,0)$, $\epsilon_r=4$, $\mu_r=2$
->
-> $$
-> \eta=377\sqrt{\tfrac{2}{4}}=266.7,\quad
-> \hat\beta\times\tilde{\mathbf E}_0=(j1,-j1.732,0)
-> $$
->
-> $$
-> \tilde{\mathbf H}_0=\tfrac{1}{266.7}(j1,-j1.732,0)=(j3.754,-j6.502,0)\,\text{mA/m}
-> $$
->
-> ✅ **Answer:** $(j3.754,\,-j6.502,\,0)$ mA/m.
-
-> [!code]- MATLAB Solution
-> ```matlab
-> eta=377*sqrt(2/4);
-> E0=[0,0,1j*2];
-> beta_hat=[cosd(30),sind(30),0];
-> H0=cross(beta_hat,E0)/eta;
-> disp(1e3*H0) % mA/m
-> ```
-
----
-> [!summary] **Question 6 — Medium classification (corrected)**
-> **Concept:** Use the **loss tangent** to classify media. From the slides:
->
-> $$\tan(\delta) = \frac{\sigma}{\omega \varepsilon_0 \varepsilon_r} \quad \text{and} \quad \tan(\delta) = \frac{\varepsilon''}{\varepsilon'}$$
->
-> **Given:** Complex relative permittivity $\varepsilon_{r,c}=10(1 - j0.2)$.
->
-> **Derivation (from $\varepsilon_{r,c}$):**  
-> $\varepsilon_r' = 10$, $\varepsilon_r'' = 10 \times 0.2 = 2$  
-> therefore  
-> $$\tan(\delta) = \frac{\varepsilon''}{\varepsilon'} = \frac{2}{10} = 0.2$$
->
-> **Interpretation:**  
-> The loss tangent quantifies how much energy is dissipated vs stored.  
-> Since $10^{-2} \le 0.2 \le 10^{2}$, the medium is a **quasi-good insulator**.
->
-> **Classification (per DTU slide “Rule of thumb”)**
->
-> | Type | Range of $\tan(\delta)$ | Remarks |
-> |------|--------------------------|----------|
-> | Perfect dielectric insulator | $\sigma = 0 \Leftrightarrow \tan(\delta) = 0$ | No loss |
-> | Low-loss medium (dielectric) / good insulator | $\tan(\delta) \le 10^{-2}$ | |
-> | **Quasi-good conductor / quasi-good insulator / semiconductor** | $10^{-2} \le \tan(\delta) \le 10^{2}$ | Typical range for many real dielectrics |
-> | Good conductor | $\tan(\delta) \ge 10^{2}$ | Loss-dominated |
-> | Perfect electric conductor (PEC) | $\rho = 0 \Leftrightarrow \sigma = \infty \Leftrightarrow \tan(\delta) = \infty$ | |
->
-> ✅ **Answer:** $\boxed{\text{Quasi-good insulator}}$ since $\tan(\delta) = 0.2$.
-
-> [!tip] **Equivalence note:**  
-> If the problem gives $\sigma$ instead of $\varepsilon_{r,c}$, use  
-> $\tan(\delta) = \dfrac{\sigma}{\omega \varepsilon_0 \varepsilon_r}$.  
-> Both formulas are equivalent because $\varepsilon'' = \sigma / \omega$.
-
-> [!code]- MATLAB Solution
-> ```matlab
-> % Q6 (corrected): classify using loss tangent from given eps_r,c
-> eps_r_real = 10;
-> eps_r_imag = 10 * 0.2;                % from 10*(1 - j*0.2)
-> tan_delta = eps_r_imag / eps_r_real;  % -> 0.2
 > 
-> % Slide-based classification
-> if tan_delta == 0
->     cls = "perfect dielectric insulator";
-> elseif tan_delta <= 1e-2
->     cls = "low-loss medium (dielectric) / good insulator";
-> elseif tan_delta <= 1e2
->     cls = "quasi-good conductor / quasi-good insulator / semiconductor";
+> % --- Step 4: Physical sanity checks ---
+> eps_real_ok = all(abs(imag(omega_eps)) < tol);
+> mu_real_ok  = all(abs(imag(omega_mu))  < tol);
+> eps_pos_ok  = all(real(omega_eps) > 0);
+> mu_pos_ok   = all(real(omega_mu)  > 0);
+> 
+> eps_vals = real(omega_eps);
+> mu_vals  = real(omega_mu);
+> eps_consist = isempty(eps_vals) || (max(eps_vals)-min(eps_vals) < tol_consist);
+> mu_consist  = isempty(mu_vals)  || (max(mu_vals)-min(mu_vals)  < tol_consist);
+> 
+> % --- Step 5: Print diagnostic summary ---
+> fprintf('\n=== Plane-Wave Verification ===\n');
+> fprintf('E·γ=%.3e,  H·γ=%.3e\n', dotEg, dotHg);
+> fprintf('Parallel residuals: r1=%.3e, r2=%.3e\n', par1, par2);
+> fprintf('ωε components: %s\n', mat2str(omega_eps,6));
+> fprintf('ωμ components: %s\n', mat2str(omega_mu ,6));
+> 
+> % --- Step 6: Combined decision ---
+> is_plane_wave = trans_ok && parallel_ok && ...
+>                 eps_real_ok && eps_pos_ok && eps_consist && ...
+>                 mu_real_ok  && mu_pos_ok  && mu_consist;
+> 
+> if is_plane_wave
+>     disp("✅ Plane wave (relations hold with positive, consistent ωε and ωμ).");
 > else
->     cls = "good conductor";
+>     disp("❌ Not a plane wave (one or more checks failed).");
 > end
-> fprintf('tanδ = %.3g  =>  %s\n', tan_delta, cls);
-> 
-> % Alternative path if sigma is given:
-> % sigma = ...; f = ...; omega = 2*pi*f; eps0 = 8.854187817e-12;
-> % eps_r = 10; tan_delta_sigma = sigma / (omega * eps0 * eps_r);
+> % ==================================================================
 > ```
-> 
+---
 
 ---
-> [!summary] **Question 7 — Attenuation constant $\alpha$ (in Np/m)**
+> [!summary] **Question 3 — Phase constant β**  
+> **Problem:**  
+> An electromagnetic wave is propagating in a **lossless medium** with relative permittivity  
+> $\varepsilon_r = 4$ and relative permeability $\mu_r = 2$.  
+> The frequency is $f = 2~\text{GHz}$.  
+> The wave propagates in the **$xy$-plane**, making a **30° angle** from the positive $x$-axis.  
+> Determine the **phase constant** β.
+>
 > **Concept:**  
-> For a lossy dielectric, the complex propagation constant is  
->
+> For a lossless medium, the phase constant is  
 > $$
-> \gamma = \alpha + j\beta = j\omega\sqrt{\mu\varepsilon_c}, \quad
+> \beta = k_0\sqrt{\mu_r\varepsilon_r}, \qquad
+> k_0 = \frac{2\pi f}{c}.
+> $$
+>
+> **Given:**  
+> $f = 2~\text{GHz}$, $\varepsilon_r = 4$, $\mu_r = 2$, $c = 3\times10^8~\text{m/s}$  
+> Propagation direction:  
+> $$
+> \hat{\beta} = (\cos30^\circ)\hat{x} + (\sin30^\circ)\hat{y}.
+> $$
+>
+> **Calculation:**  
+> $$
+> k_0 = \frac{2\pi (2\times10^9)}{3\times10^8} = 41.89~\text{rad/m}
+> $$
+> $$
+> \beta = 41.89\sqrt{\mu_r\varepsilon_r}
+>        = 41.89\sqrt{2\times4}
+>        = 41.89\sqrt{8}
+>        = 118.6~\text{rad/m}
+> $$
+>
+> ✅ **Answer:** $\boxed{\beta = 118.6~\text{rad/m}}$
+>
+> Propagation direction (unit vector):  
+> $\hat{\beta} = (0.866\hat{x} + 0.5\hat{y})$
+
+> [!code]- MATLAB Solution
+> ```matlab
+> % Question 3 – Phase constant β
+> c = 3e8;
+> f = 2e9;
+> mu_r = 2;
+> eps_r = 4;
+> 
+> k0 = 2*pi*f/c;
+> beta = k0*sqrt(mu_r*eps_r);
+> 
+> % Unit propagation vector (30° in xy-plane)
+> beta_hat = [cosd(30), sind(30), 0];
+> 
+> fprintf('β = %.1f rad/m\n', beta);
+> fprintf('β̂ = [%.3f, %.3f, 0]\n', beta_hat);
+> ```
+
+---
+> [!summary] **Question 4 — Electric Field in Time Domain**
+>
+> With angular frequency $\omega$, phase vector $\vec{\beta}$, and position vector $\vec{r}$, determine the **time-domain expression** for the electric field when  
+> 
+> $$
+> \tilde{\mathbf E}_0 =
+> \begin{bmatrix}
+> 0 \\[2pt]
+> 0 \\[2pt]
+> j2
+> \end{bmatrix}
+> \text{ V/m},
+> \quad
+> \psi = \omega t - \vec{\beta}\!\cdot\!\vec r.
+> $$
+>
+> The wave propagates in the $xy$-plane at an angle of 30°, in a **lossless medium** with $\varepsilon_r=4$ and $\mu_r=2$ (from Q3).
+
+---
+
+> [!info] **Concept — Phasor → Time-Domain Conversion**
+>
+> For the $e^{j\omega t}$ phasor convention, a component $\tilde E=Ae^{j\phi}$ corresponds to  
+> $$
+> E(t)=A\cos(\omega t+\phi-\vec{\beta}\!\cdot\!\vec r)
+> $$
+> so:
+>
+> | Phasor component | Time-domain equivalent |
+> |:-----------------|:-----------------------|
+> | $\tilde E=+A$ (real) | $+A\cos\psi$ |
+> | $\tilde E=-A$ (real) | $-A\cos\psi$ |
+> | $\tilde E=+jA$ | $-A\sin\psi$ |
+> | $\tilde E=-jA$ | $+A\sin\psi$ |
+>
+> where $\psi=\omega t-\vec{\beta}\!\cdot\!\vec r$.  
+> These rules come directly from $\Re\{Ae^{j\psi}\}$ and $\Re\{jAe^{j\psi}\}$.
+
+---
+
+### 🧮 Derivation
+
+Given $\tilde{\mathbf E}_0=(0,0,j2)$:
+
+$$
+E_z = \Re\{j2\,e^{j\psi}\}
+     = 2\cos(\psi+\tfrac{\pi}{2})
+     = -2\sin(\psi).
+$$
+
+$$
+\Rightarrow\quad
+\boxed{\mathbf E(\mathbf r,t)
+=(0,0,-2)\sin(\omega t-\vec{\beta}\!\cdot\!\vec r)}.
+$$
+
+✅ **Answer:** $\mathbf E(\mathbf r,t)=(0,0,-2)\sin(\omega t-\vec{\beta}\!\cdot\!\vec r)$
+
+---
+
+> [!code]- **MATLAB Tool — Phasor → Time-Domain (MCQ Helper)**
+> ```matlab
+> % ==========================================================
+> %  Phasor → Time-domain (MCQ-friendly)
+> %  e^{jωt} convention: F(t) = Re{ F~ e^{jψ} }
+> % ==========================================================
+> clear; clc
+> 
+> % --- USER INPUT (edit for new problems) ---
+> Ftilde = [0; 0; 1j*2];   % complex phasor [V/m] or [A/m]
+> syms psi real             % keep ψ symbolic: ψ = ωt - β·r
+> 
+> % --- Magnitude & phase of each component ---
+> A   = abs(Ftilde);
+> phi = angle(Ftilde);
+> tol = 1e-8;
+> 
+> fprintf('Components (ψ = ωt - β·r):\n');
+> for k = 1:3
+>     disp(canonicalString(A(k),phi(k),tol))
+> end
+> 
+> % ---------- Helper function ----------
+> function s = canonicalString(A,phi,tol)
+>     if A < tol, s = '0'; return; end
+>     m = round(phi/(pi/2)); phi_snap = (pi/2)*m;
+>     if abs(phi - phi_snap) < tol
+>         k = mod(m,4); % 0:cos, 1:-sin, 2:-cos, 3:sin
+>         switch k
+>             case 0, s = sprintf('%.3g*cos(ψ)',A);
+>             case 1, s = sprintf('%.3g*(-sin(ψ))',A);
+>             case 2, s = sprintf('%.3g*(-cos(ψ))',A);
+>             case 3, s = sprintf('%.3g*sin(ψ)',A);
+>         end
+>     else
+>         s = sprintf('%.3g*cos(ψ %+6.1f°)',A,rad2deg(phi));
+>     end
+> end
+> ```
+
+---
+
+### 🧭 How to Use the Code
+
+1. **Set your phasor**  
+   Replace `Ftilde` with your complex phasor components (e.g., `[0; 0; 1j*2]`).
+
+2. **Run the script**  
+   It prints each component as a clean sinusoid, e.g.
+```
+Components (ψ = ωt - β·r):  
+0  
+0  
+2*(-sin(ψ))
+```
+3. **Interpret**  
+The output directly matches the MCQ options:
+- `2*(-sin(ψ))` → amplitude 2, negative sign → $-2\sin(ψ)$  
+⇒ choose $\mathbf E=(0,0,-2)\sin(\omega t-\vec{\beta}\!\cdot\!\vec r)$.
+
+4. **Reuse**  
+For any new field (E or H), just replace the vector in `Ftilde`.  
+The helper automatically converts any $\tilde F_k$ with phase 0°, ±90°, 180° into the proper $\sin$ / $\cos$ form.
+
+---
+
+> [!tip]
+> If your course uses the $e^{-j\omega t}$ convention, swap the sign for the $\pm jA$ terms (i.e., $+jA ↦ + A\sin\psi$ instead of $-A\sin\psi$).  
+> Stick to one convention consistently throughout your notes.
+
+---
+> [!summary] **Question 5 — Magnetic Field Phasor $\tilde{\mathbf H}_0$**
+>
+> **Problem (from quiz)**  
+> A uniform plane wave propagates in a lossless medium with $\varepsilon_r=4$ and $\mu_r=2$.  
+> The electric-field phasor is  
+> $$
+> \tilde{\mathbf E}_0=
+> \begin{bmatrix}0\\0\\j2\end{bmatrix}\ \text{V/m},
+> $$
+> and the propagation direction is  
+> $\hat{\beta}=(\cos30^\circ,\ \sin30^\circ,\ 0)$.  
+> Find the **magnetic-field phasor amplitude** $\tilde{\mathbf H}_0$ in mA/m.
+>
+> **Given:**  
+> $\varepsilon_r=4,\quad \mu_r=2,\quad \hat{\beta}=(\cos30^\circ,\sin30^\circ,0),\quad \tilde{\mathbf E}_0=(0,0,j2)$.
+>
+> ---
+>
+> **Concept — Field Relationship in a Plane Wave**
+>
+> For a wave obeying the $e^{j\omega t}$ convention:
+> $$
+> \boxed{\tilde{\mathbf H}_0=\frac{1}{\eta}(\hat{\beta}\times\tilde{\mathbf E}_0)},\qquad
+> \eta=\eta_0\sqrt{\frac{\mu_r}{\varepsilon_r}},\quad \eta_0=377~\Omega
+> $$
+>
+> The vectors $\mathbf E$, $\mathbf H$, and $\hat\beta$ form a right-handed orthogonal triad.
+
+---
+
+### 🧮 Derivation
+
+Compute:
+$$
+\eta=377\sqrt{\tfrac{2}{4}}=266.7~\Omega
+$$
+$$
+\hat{\beta}\times\tilde{\mathbf E}_0
+=(\cos30,\sin30,0)\times(0,0,j2)
+=(j1,\,-j1.732,\,0)
+$$
+$$
+\tilde{\mathbf H}_0
+=\frac{1}{266.7}(j1,\,-j1.732,\,0)
+=(j3.754,\,-j6.502,\,0)\ \text{mA/m}
+$$
+
+✅ **Answer:**  
+$\boxed{\tilde{\mathbf H}_0=(j3.754,\,-j6.502,\,0)\ \text{mA/m}}$
+
+---
+
+> [!code]- **MATLAB Tool — Determine $\tilde{\mathbf H}_0$ and Compare with MCQ**
+> ```matlab
+> % ==============================================================
+> %   Magnetic Field Phasor Finder (e^{jωt} convention)
+> %   Computes H0 = (1/eta) * (β̂ × E0)
+> %   Also prints amplitude + phase for MCQ comparison
+> % ==============================================================
+> clear; clc
+> 
+> % --- USER INPUT (edit for new problems) ---
+> E0 = [0, 0, 1j*2];                  % Electric-field phasor [V/m]
+> beta_hat = [cosd(30), sind(30), 0]; % Propagation direction
+> eps_r = 4; mu_r = 2;
+> 
+> % --- Computation ---
+> eta0 = 377;                    % Free-space impedance [Ω]
+> eta  = eta0 * sqrt(mu_r/eps_r);
+> bhat = beta_hat / norm(beta_hat);
+> H0   = cross(bhat, E0) / eta;  % A/m
+> 
+> % --- Display results ---
+> fprintf('H0 (A/m)  = [%+.6g, %+.6g, %+.6g]\n', H0);
+> fprintf('H0 (mA/m) = [%+.3f, %+.3f, %+.3f]\n', 1e3*H0);
+> 
+> % Amplitude and phase (useful for MCQ reasoning)
+> mag = abs(1e3*H0);
+> ang = angle(H0)*180/pi;
+> fprintf('\nComponent magnitudes (mA/m): [%.3f, %.3f, %.3f]\n', mag);
+> fprintf('Component phases (deg): [%.1f°, %.1f°, %.1f°]\n', ang);
+> 
+> % --- Optional consistency check ---
+> ratio = norm(E0)/norm(H0);
+> fprintf('\n|E|/|H| = %.2f Ω  (η expected = %.2f Ω)\n', ratio, eta);
+> ```
+>
+> **How to use:**
+> 1. Replace `E0`, `beta_hat`, `eps_r`, `mu_r` with your problem values.  
+> 2. Run the script.  
+> 3. The line  
+>    ```
+>    H0 (mA/m) = [ +j3.754  -j6.502  0.000 ]
+>    ```
+>    tells you directly which MCQ option matches.  
+> 4. Use the phase output (`±90° → j or −j`) to identify sign errors in alternatives.  
+> 5. Check `|E|/|H|≈η` to verify correctness.
+
+---
+
+### 🧭 Key Takeaways
+- $\tilde{\mathbf H}_0$ is **orthogonal** to both $\tilde{\mathbf E}_0$ and $\hat{\beta}$, following the right-hand rule.  
+- The $j$ factor indicates the **90° phase shift** between $\mathbf E$ and $\mathbf H$.  
+- The magnitude ratio $\dfrac{|\mathbf E|}{|\mathbf H|}=\eta$ always holds in a lossless medium.  
+- Reversing $\hat{\beta}$ would flip the sign of $\mathbf H_0$.  
+
+---
+> [!summary] **Question 6 — Medium classification**
+>
+> **Problem:**  
+> A uniform electromagnetic plane wave with a frequency of 20 MHz propagates in a non-magnetic medium with the **complex relative permittivity**
+> $$
+> \varepsilon_{r,c} = 10(1 - j0.2)
+> $$
+> Classify the medium using the loss-tangent method.
+>
+> 
+>
+> **Concept:**  
+> The loss tangent quantifies how much electric energy is dissipated compared to stored energy:
+> $$
+> \tan(\delta) = \frac{\varepsilon''}{\varepsilon'} = \frac{\sigma}{\omega\varepsilon_0\varepsilon_r}.
+> $$
+>
+> 
+>
+> **Derivation:**  
+> From $\varepsilon_{r,c}=10(1-j0.2)$  
+> → $\varepsilon'_r=10$,  $\varepsilon''_r=2$  
+> → $\tan(\delta)=\dfrac{\varepsilon''}{\varepsilon'}=\dfrac{2}{10}=0.2$  
+>
+> 
+>
+> **Classification (rule of thumb):**
+>
+> | Type | Range of $\tan(\delta)$ | Description |
+> |------|---------------------------|--------------|
+> | Perfect dielectric | 0 | No loss |
+> | Low-loss dielectric | ≤ 10⁻² | Good insulator |
+> | **Quasi-good insulator / conductor** | 10⁻² ≤ tan δ ≤ 10² | Moderate loss |
+> | Good conductor | ≥ 10² | Loss-dominated |
+>
+> ✅ **Answer:** $\boxed{\text{Quasi-good insulator}}$ since $\tan\delta=0.2$.
+---
+
+> [!code]- **MATLAB Template**
+> ```matlab
+> % Q6 – Medium classification from complex permittivity
+> eps_r_complex = 10*(1 - 1j*0.2);
+> eps_r_real = real(eps_r_complex);
+> eps_r_imag = -imag(eps_r_complex);
+> tan_delta = eps_r_imag / eps_r_real;
+> 
+> if tan_delta == 0
+>     cls = "Perfect dielectric";
+> elseif tan_delta <= 1e-2
+>     cls = "Low-loss dielectric";
+> elseif tan_delta <= 1e2
+>     cls = "Quasi-good insulator / conductor";
+> else
+>     cls = "Good conductor";
+> end
+> 
+> fprintf("tanδ = %.3f  →  %s\n", tan_delta, cls);
+> ```
+>
+> ---
+>
+> **Alternative:**  
+> If $\sigma$ is given instead, use $\tan\delta = \dfrac{\sigma}{\omega\varepsilon_0\varepsilon_r}$.
+
+---
+> [!summary] **Question 7 — Attenuation constant $\alpha$ (Np/m)**
+>
+> **Problem:**  
+> A 20 MHz plane wave propagates in a non-magnetic medium ($\mu_r=1$) with $\varepsilon_r=10$ and $\tan\delta=0.2$.  
+> Determine the **attenuation constant** $\alpha$ in Np/m.
+>
+> 
+>
+> **Concept:**  
+> For a lossy dielectric:
+> $$
+> \gamma = \alpha + j\beta = j\omega\sqrt{\mu\varepsilon_c},\quad
 > \varepsilon_c = \varepsilon'(1 - j\tan\delta)
 > $$
 >
-> The **general** (no low-loss assumption) formulas are  
->
+> General formulas (no low-loss approximation):
 > $$
 > \alpha = k_0\sqrt{\frac{\mu_r\varepsilon_r}{2}}
-> \sqrt{\sqrt{1+\tan^2\delta}-1}
-> $$
->
-> $$
-> \beta = k_0\sqrt{\frac{\mu_r\varepsilon_r}{2}}
+> \sqrt{\sqrt{1+\tan^2\delta}-1},\quad
+> \beta  = k_0\sqrt{\frac{\mu_r\varepsilon_r}{2}}
 > \sqrt{\sqrt{1+\tan^2\delta}+1}
 > $$
+> with $k_0=\dfrac{2\pi f}{c}$.
 >
-> where $k_0 = \dfrac{2\pi f}{c}$.
->
-> **Given:**  
-> $f = 20\,\text{MHz},\ \varepsilon_r = 10,\ \mu_r = 1,\ \tan\delta = 0.2$
+> 
 >
 > **Calculation:**
->
 > $$
 > \begin{aligned}
-> k_0 &= \frac{2\pi(20\times10^6)}{3\times10^8} = 0.4189~\text{rad/m} \\
-> \sqrt{1+\tan^2\delta} &= \sqrt{1+0.04} = 1.0199 \\
-> \alpha &= 0.4189\sqrt{\tfrac{10}{2}} \sqrt{1.0199 - 1} = 0.132~\text{Np/m}
+> f &= 20~\text{MHz},\quad \tan\delta=0.2,\\
+> k_0 &= \tfrac{2\pi(20\times10^6)}{3\times10^8}=0.41888~\text{rad/m},\\
+> \sqrt{1+\tan^2\delta}&=\sqrt{1.04}=1.01990,\\
+> \alpha &= 0.41888\sqrt{\tfrac{10}{2}}\sqrt{1.01990-1}
+> = \boxed{0.1319~\text{Np/m}}.
 > \end{aligned}
 > $$
 >
-> ✅ **Answer:** $\boxed{\alpha = 0.132~\text{Np/m}}$  
-> *(consistent with the low-loss approximation)*
+> ✅ **Answer:** $\boxed{\alpha=0.1319~\text{Np/m}}$.
+---
 
-> [!code]- MATLAB Solution
+> [!code]- **MATLAB Template**
 > ```matlab
-> % Q7: Attenuation constant in Np/m (general formula)
-> c = 3e8; f = 20e6;
+> % Q7 – Attenuation constant (precise)
+> c = 3e8;  f = 20e6;
 > mu_r = 1; eps_r = 10; tand = 0.2;
+> 
 > k0 = 2*pi*f/c;
 > factor = k0*sqrt(mu_r*eps_r/2);
 > alpha = factor*sqrt(sqrt(1+tand^2)-1);
 > beta  = factor*sqrt(sqrt(1+tand^2)+1);
-> fprintf('alpha = %.3f Np/m\n', alpha);
+> 
+> fprintf("α = %.4f Np/m\n", alpha);
+> fprintf("β = %.4f rad/m\n", beta);
 > ```
+>
+> ---
+>
+> **Note:** Using `%.4f` ensures you get the exact `0.1319 Np/m` result.
 
 ---
-
 > [!summary] **Question 8 — Field decrease over 7 m (in dB)**
+>
+> **Problem:**  
+> After the wave from Question 7 propagates 7 m, by how many decibels (dB) has its **field amplitude** decreased?  
+> (Use $\alpha=0.1319$ Np/m.)
+>
+> 
+>
 > **Concept:**  
-> The field magnitude decays as $E(d) = E_0 e^{-\alpha d}$.  
+> The field magnitude decays as $E(d)=E_0e^{-\alpha d}$.  
 > Converting to decibels:
->
 > $$
-> L_{\text{dB}} = 20\log_{10}\!\big(e^{\alpha d}\big) = 8.686\,\alpha d
+> L_\text{dB} = 20\log_{10}(e^{\alpha d}) = 8.686\,\alpha d
 > $$
 >
-> **Given:** $\alpha = 0.132~\text{Np/m},\ d = 7~\text{m}$
+> 
 >
 > **Calculation:**
->
 > $$
-> L_{\text{dB}} = 8.686 \times 0.132 \times 7 = \boxed{8.0~\text{dB}}
+> L_\text{dB}=8.686(0.1319)(7)=\boxed{8.00~\text{dB}}
 > $$
 >
 > ✅ **Answer:** $\boxed{8.0~\text{dB}}$ attenuation after 7 m.
-
-> [!code]- MATLAB Solution
+ 
+> [!code]- **MATLAB Template**
 > ```matlab
-> % Q8: Field attenuation over distance
-> alpha = 0.132;    % Np/m (from Q7)
-> d = 7;            % meters
+> % Q8 – Field attenuation over distance
+> alpha = 0.1319;   % Np/m (from Q7)
+> d = 7;            % m
 > loss_dB = 8.686 * alpha * d;
-> fprintf('Loss over %.1f m = %.2f dB\n', d, loss_dB);
+> fprintf("Field attenuation = %.2f dB\n", loss_dB);
 > ```
+>
+>
+> **Tip:** This formula works for any distance `d` and attenuation constant `α` — just edit the two numbers.
 
 ---
-
 > [!summary] **Question 9 — Linear polarization (+x propagation)**
 > **Concept:** $E_x=0$ (transverse) and $E_y/E_z$ real (same phase → linear)
 >
