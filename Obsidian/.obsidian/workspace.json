@@ -11,27 +11,24 @@
             "id": "6a4e208611450aa7",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Home Assignment 1"
+              "icon": "lucide-file-text",
+              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag"
             }
           },
           {
-            "id": "9b1a60b2b3f9b548",
+            "id": "3e5aa7da9a3874ec",
             "type": "leaf",
             "state": {
               "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf"
+                "file": "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf"
               },
               "icon": "lucide-file-text",
-              "title": "L15a_EM_power_density"
+              "title": "62743 Matlab commands used in the course 2024_11_22"
             }
           }
         ]
@@ -91,7 +88,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -198,18 +196,22 @@
   },
   "active": "6a4e208611450aa7",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L15a_EM_power_density.pdf",
+    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/DSP/Literature/Kursus 62743 Digital Signalbehandling - Introduktion til MATLAB.pdf",
+    "Courses/DSP/Literature/Li_Tan_chapter12.pdf",
+    "Courses/DSP/Literature/matlab-basic-functions-reference.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Tirsdag.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Torsdag.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Tirsdag.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 11 Tirsdag.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Torsdag.pdf",
+    "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
+    "Courses/DSP/Exercises/work/Uge 3.pdf",
+    "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Slides/L14_EM_plane_wave_propagation_in_lossy_media.pdf",
-    "Courses/Electromagnetics/Slides/L13_EM_plane_wave_polarization.pdf",
-    "Courses/Electromagnetics/Slides/L12_EM_plane_wave_in_lossless_media.pdf",
-    "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf",
+    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-    "Courses/Electromagnetics/Slides/L15b_Current_flow_in_good_conductor.pdf",
-    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
-    "Courses/Electromagnetics/Slides/L11_EM_plane_wave.pdf",
-    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
-    "Courses/Integrated Analog Electronics/Literature/cmos_analog_ic_design_fundamentals.pdf",
     "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
     "2025-10-31.md",
     "Untitled.canvas",
@@ -218,11 +220,8 @@
     "Courses/Electromagnetics/MOC – Electromagnetics.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/MOC – Transmission Lines.md",
-    "Courses/DSP/Formulas/FIIR & IIR.md",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Pasted image 20250911061832.png",
     "Pasted image 20250911062143.png",
-    "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/DSP/MOC – Exercises.md",
     "Courses/DSP/MOC – DSP.md",
     "Courses/DSP/Lecture Notes/L04.md",
