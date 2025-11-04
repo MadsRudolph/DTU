@@ -30,6 +30,18 @@
               "icon": "lucide-file-text",
               "title": "62743 Matlab commands used in the course 2024_11_22"
             }
+          },
+          {
+            "id": "e31866907950288b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag solution"
+            }
           }
         ]
       }
@@ -88,8 +100,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "46947bcb8ccc4634",
@@ -182,6 +193,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -196,18 +208,18 @@
   },
   "active": "6a4e208611450aa7",
   "lastOpenFiles": [
+    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf",
     "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
+    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Tirsdag solutions.pdf",
     "Courses/DSP/Literature/Kursus 62743 Digital Signalbehandling - Introduktion til MATLAB.pdf",
     "Courses/DSP/Literature/Li_Tan_chapter12.pdf",
     "Courses/DSP/Literature/matlab-basic-functions-reference.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Tirsdag.pdf",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Torsdag.pdf",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Tirsdag.pdf",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 11 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Torsdag.pdf",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
-    "Courses/DSP/Exercises/work/Uge 3.pdf",
     "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
