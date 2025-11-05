@@ -5,7 +5,7 @@ tags: [electromagnetics, foundations, formula, vector-operators]
 aliases: []
 links: {"formulas":[], "related":[]}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 ## 📊 Differential Operator Forms in Common Coordinate Systems
 

@@ -1,17 +1,12 @@
 ---
 title: "Coaxial Line Parameters"
 type: "exercise"
-tags:
-- Electromagnetics
-  - exercise
-  - General
-aliases: []
-links:
-  formulas: []
-  related: []
-updated: "2025-10-28"
-updated: "2025-11-05"
 tags: [electromagnetics, transmission-lines, formula]
+aliases: []
+links: {"formulas": [], "related": []}
+updated: "2025-10-28"
+
+
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[Formulas/Plane Waves & Power — Quick Formula Sheet]] · [[MOC – Plane-Waves]] · [[MOC – EM Loss & Skin Depth]]

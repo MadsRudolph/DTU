@@ -5,7 +5,7 @@ tags: [electromagnetics, transmission-lines, formula, moc]
 aliases: []
 links: {"formulas": [], "related": []}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 
 Transmission Lines (MOC)

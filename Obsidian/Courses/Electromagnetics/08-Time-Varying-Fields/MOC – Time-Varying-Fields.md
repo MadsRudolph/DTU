@@ -5,7 +5,7 @@ tags: [electromagnetics, time-varying, formula, moc, time-varying-fields]
 aliases: []
 links: {"formulas": [], "related": []}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 
 Time-Varying Fields (MOC)

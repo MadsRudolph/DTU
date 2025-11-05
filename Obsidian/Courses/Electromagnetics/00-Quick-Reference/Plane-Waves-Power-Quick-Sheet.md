@@ -1,16 +1,11 @@
 ---
 title: "Plane Waves Power Quick Sheet"
 type: formula
-tags:
-  - formula
-  - General
-aliases: []
-links:
-  formulas: []
-  related: []
-updated: 2025-10-28
-updated: "2025-11-05"
 tags: [electromagnetics, quick-ref]
+aliases: []
+links: {"formulas": [], "related": []}
+updated: "2025-11-05"
+
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane-Waves]] · [[MOC – Transmission-Lines]] · [[MOC – EM Loss & Skin Depth]]

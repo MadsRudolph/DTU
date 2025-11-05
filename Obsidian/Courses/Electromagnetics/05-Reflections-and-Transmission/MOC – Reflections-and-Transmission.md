@@ -5,7 +5,7 @@ tags: [electromagnetics, reflections, formula, moc, transmission]
 aliases: []
 links: {"formulas": [], "related": []}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 
 Wave Reflections & Transmission (MOC)

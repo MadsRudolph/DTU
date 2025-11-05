@@ -5,7 +5,7 @@ tags: [electromagnetics, quick-ref, moc]
 aliases: []
 links: {"formulas": [], "related": []}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 
 # MOC – Electromagnetics
@@ -28,25 +28,12 @@ Master overview linking the core topics, formula sheets, worked examples, slides
 
 ---
 
-## ➕ Other Topic Maps
-- [[MOC – Polarization]]
-- [[MOC – EM Loss & Skin Depth]]
-
----
 
 ## ⚡ Quick Access
 - [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 - [[Formulas/Electrostatics & Magnetostatics — MOC]]
 - [[Formulas/Wave Parameters]]
 - [[Formulas/Transmission Lines (TLs) – VNA + Power]]
-
----
-
-## 📘 Course Flow
-- [[MOC – Lectures]]
-- [[MOC – Exercises]]
-- [[MOC – Assignments]]
-- [[MOC – Lab]]
 
 ---
 

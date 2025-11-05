@@ -3,5 +3,6 @@
   "omnisearch",
   "dataview",
   "templater-obsidian",
-  "table-editor-obsidian"
+  "table-editor-obsidian",
+  "find-unlinked-files"
 ]

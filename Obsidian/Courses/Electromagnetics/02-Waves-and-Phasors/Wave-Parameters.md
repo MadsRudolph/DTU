@@ -1,17 +1,11 @@
 ---
 title: "Wave Parameters"
 type: formula
-tags:
-  - electromagnetics
-  - General
-  - formula
+tags: [electromagnetics, General, formula, Waves]
 aliases: []
-links:
-  formulas: []
-  related: []
+links: {"formulas": [], "related": []}
+  
 updated: "2025-11-05"
-cssclasses:
-tags: [electromagnetics, waves, formula]
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane-Waves]] · [[MOC – Transmission-Lines]] · [[MOC – EM Loss & Skin Depth]]

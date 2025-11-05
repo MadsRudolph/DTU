@@ -1,15 +1,11 @@
 ---
 title: "Assignment 01"
 type: assignment
-tags:
-  - electromagnetics
-  - exercise
+tags: [electromagnetics, plane-waves, exercise]
 aliases: []
-links:
-  formulas: []
-  related: []
+links: {"formulas": [], "related": []}
 updated: 2025-10-28
-updated: "2025-11-05"
+
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[Formulas/Plane Waves & Power — Quick Formula Sheet]] · [[MOC – Plane-Waves]] · [[MOC – EM Loss & Skin Depth]]

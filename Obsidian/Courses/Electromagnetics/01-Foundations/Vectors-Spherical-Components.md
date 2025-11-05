@@ -5,7 +5,7 @@ tags: [electromagnetics, foundations, formula, coordinate-systems, vector-operat
 aliases: []
 links: {"formulas": [], "related": []}
 updated: 2025-11-05
-updated: "2025-11-05"
+
 ---
 ### 🧭 Vectors using Spherical Components
 
