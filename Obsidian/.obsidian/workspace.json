@@ -6,20 +6,16 @@
       {
         "id": "62a41aee2d0e238f",
         "type": "tabs",
+        "dimension": 75.05966587112172,
         "children": [
           {
             "id": "b30cc63e579f36ec",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
-              },
-              "icon": "lucide-file",
-              "title": "Electrostatics & Magnetostatics"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -27,6 +23,7 @@
       {
         "id": "7c889ddb7a8136bc",
         "type": "tabs",
+        "dimension": 24.94033412887828,
         "children": [
           {
             "id": "5b9164bb5decc18f",
@@ -75,9 +72,21 @@
               "icon": "lucide-file-text",
               "title": "30035_Fall25_CourseNote-1"
             }
+          },
+          {
+            "id": "6e4b84d0e80c7bf0",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "exercises+results"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -241,44 +250,45 @@
   },
   "active": "b30cc63e579f36ec",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
-    "Untitled.md",
-    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/MOC – Electromagnetics.md",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-    "MOC – Maxwell’s Equations.md",
+    "Courses/DSP/MOC – DSP.md",
+    "Courses/Electromagnetics/Formulas/Examples/Cartesian to Cylindrical (Point+Vector).md",
+    "Courses/Electromagnetics/Formulas/Coordinate Systems.md",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
     "Courses/Electromagnetics/MOC – Plane Waves.md",
+    "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "Courses/Electromagnetics/MOC – Assignments.md",
+    "Courses/Electromagnetics/MOC – Polarization.md",
+    "Courses/Electromagnetics/MOC – Lectures.md",
+    "Courses/Electromagnetics/MOC – Lab.md",
+    "Courses/Electromagnetics/MOC – Exercises.md",
+    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics — Laws.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "Courses/Electromagnetics/Formulas/Differential Vector Operators.md",
+    "Courses/Electromagnetics/Formulas/Examples/Gradient Example (Potential).md",
+    "Courses/Electromagnetics/Formulas/Examples/Gauss Flux (Point Charge).md",
+    "Courses/Electromagnetics/Formulas/Examples/Divergence Example (E-field).md",
+    "Courses/Electromagnetics/Formulas/Examples/Curl Example (B-field).md",
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
+    "Courses/Electromagnetics/Formulas/Vectors using Spherical Components.md",
+    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Formulas/Examples",
+    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md.bak_new_20251105_132849",
+    "Examples",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
     "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
-    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf",
-    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Tirsdag solutions.pdf",
-    "Courses/DSP/Literature/Kursus 62743 Digital Signalbehandling - Introduktion til MATLAB.pdf",
-    "Courses/DSP/Literature/Li_Tan_chapter12.pdf",
-    "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
-    "Courses/DSP/Formulas/FIIR & IIR.md",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
-    "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-    "2025-10-31.md",
     "Untitled.canvas",
-    "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
-    "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Pasted image 20250911061832.png",
     "Pasted image 20250911062143.png",
-    "Courses/DSP/MOC – Exercises.md",
-    "Courses/DSP/MOC – DSP.md",
-    "Courses/DSP/Lecture Notes/L04.md",
-    "Courses/DSP/MOC – Lectures.md",
-    "Courses/DSP/MOC – Assignments.md",
-    "Courses/Electromagnetics/MOC – Assignments.md",
-    "Courses/Integrated Analog Electronics/MOC – Lectures.md",
-    "Courses/Integrated Analog Electronics/MOC – Lab.md",
-    "Courses/Integrated Analog Electronics/MOC – Integrated Analog Electronics.md",
-    "Courses/Integrated Analog Electronics/MOC – Exercises.md",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
