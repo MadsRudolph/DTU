@@ -1,0 +1,76 @@
+---
+title: "Coaxial Line Parameters"
+type: "exercise"
+tags:
+- Electromagnetics
+  - exercise
+  - General
+aliases: []
+links:
+  formulas: []
+  related: []
+updated: "2025-10-28"
+updated: "2025-11-05"
+tags: [electromagnetics, transmission-lines, formula]
+---
+> 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+> **Quick refs:** [[Formulas/Plane Waves & Power — Quick Formula Sheet]] · [[MOC – Plane-Waves]] · [[MOC – EM Loss & Skin Depth]]
+
+# Exercise 3.2 – Coaxial Line Parameters
+
+📄 Solution PDF: ![[3-3.2.pdf]]
+
+---
+
+## Problem 3.2
+Find εr, L′, C′, β, vp, and λ for RG-58 coax (a = 0.45 mm, b = 1.475 mm, Z0 = 50 Ω) at 3 GHz.
+
+---
+
+## Key Steps
+- Used $Z_0 = \dfrac{60}{\sqrt{ε_r}} \ln(b/a)$ to solve for εr.  
+- Assumed lossless, non-magnetic (μr = 1).  
+- Used coaxial formulas:
+  - $C′ = \dfrac{2π ε}{\ln(b/a)}$
+  - $L′ = \dfrac{μ}{2π} \ln(b/a)$
+- Found phase velocity $v_p = c / \sqrt{ε_r}$.  
+- Related β and λ via $β = 2π/λ$, $λ = v_p / f$.
+
+---
+
+## Results
+
+- $\varepsilon_r = 2.03$
+- $L' = 0.257 \,\mu\text{H/m}$
+- $C' = 95.1 \,\text{pF/m}$
+- $\beta = 89.5 \,\text{rad/m}$
+- $v_p = 2.11 \times 10^{8} \,\text{m/s}$
+- $\lambda = 7.02 \,\text{cm}$
+
+
+---
+
+## Insights
+- Dielectric slows wave by factor √εr.  
+- λ in coax is shorter than free-space λ0 = 10 cm.  
+- L′ and C′ define wave speed & impedance completely.
+---
+
+**See also:** [[MOC – Electromagnetics]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
+
+Recent in same folder
+
+```dataview
+LIST FROM "Courses/Electromagnetics"
+WHERE file.folder = this.file.folder AND file.name != this.file.name
+SORT file.mtime desc
+LIMIT 5
+```
+
+
+Outgoing links
+
+```dataview
+LIST FROM outgoing([[]])
+WHERE contains(file.path,"Courses/Electromagnetics")
+```
