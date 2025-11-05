@@ -6,16 +6,21 @@
       {
         "id": "62a41aee2d0e238f",
         "type": "tabs",
-        "dimension": 75.05966587112172,
+        "dimension": 50.536992840095465,
         "children": [
           {
             "id": "b30cc63e579f36ec",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Electromagnetics/Formulas/Examples/Divergence Example (E-field).md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "Divergence Example (E-field)"
             }
           }
         ]
@@ -23,7 +28,7 @@
       {
         "id": "7c889ddb7a8136bc",
         "type": "tabs",
-        "dimension": 24.94033412887828,
+        "dimension": 49.463007159904535,
         "children": [
           {
             "id": "5b9164bb5decc18f",
@@ -159,7 +164,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+                "file": "Courses/Electromagnetics/Formulas/Examples/Divergence Example (E-field).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -169,7 +174,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Single Terminated TL"
+              "title": "Backlinks for Divergence Example (E-field)"
             }
           },
           {
@@ -226,16 +231,15 @@
               "title": "Advanced Tables"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -250,42 +254,42 @@
   },
   "active": "b30cc63e579f36ec",
   "lastOpenFiles": [
-    "Courses/DSP/MOC – DSP.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
     "Courses/Electromagnetics/Formulas/Examples/Cartesian to Cylindrical (Point+Vector).md",
     "Courses/Electromagnetics/Formulas/Coordinate Systems.md",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Electromagnetics/MOC – Electromagnetics.md",
-    "Courses/Electromagnetics/MOC – Transmission Lines.md",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
-    "Courses/Electromagnetics/MOC – Assignments.md",
-    "Courses/Electromagnetics/MOC – Polarization.md",
-    "Courses/Electromagnetics/MOC – Lectures.md",
-    "Courses/Electromagnetics/MOC – Lab.md",
-    "Courses/Electromagnetics/MOC – Exercises.md",
-    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
-    "Courses/Electromagnetics/Formulas/Electrostatics — Laws.md",
+    "Courses/Electromagnetics/MOC – Electrostatics.md",
+    "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
     "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics — Laws.md",
     "Courses/Electromagnetics/Formulas/Differential Vector Operators.md",
     "Courses/Electromagnetics/Formulas/Examples/Gradient Example (Potential).md",
     "Courses/Electromagnetics/Formulas/Examples/Gauss Flux (Point Charge).md",
     "Courses/Electromagnetics/Formulas/Examples/Divergence Example (E-field).md",
     "Courses/Electromagnetics/Formulas/Examples/Curl Example (B-field).md",
-    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
-    "Courses/Electromagnetics/Formulas/Vectors using Spherical Components.md",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
+    "Courses/Electromagnetics/Formulas/Vectors using Spherical Components.md",
+    "Courses/Electromagnetics/Formulas/Wave Parameters.md",
     "Courses/Electromagnetics/Formulas/Transmission Lines (TLs) – VNA + Power.md",
-    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/Electromagnetics/Formulas/Examples",
-    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md.bak_new_20251105_132849",
-    "Examples",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
-    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
+    "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
+    "Courses/Electromagnetics/Formulas/Operator Forms (Cartesian–Cylindrical–Spherical).md",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+    "Courses/Electromagnetics/MOC – EM Loss & Skin Depth.md",
+    "Courses/Electromagnetics/MOC – Introduction Waves & Phasors.md",
+    "Courses/Electromagnetics/MOC – Plane Waves.md",
+    "Courses/Electromagnetics/MOC – Magnetostatics.md",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
+    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
+    "Courses/Electromagnetics/Slides/L03_Infinite_TL.pdf",
+    "Courses/Electromagnetics/Slides/L04_Single_Terminated_TL.pdf",
+    "Courses/Electromagnetics/Slides/L06a_VNA+Power.pdf",
+    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_LumpedComponents.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_QuarterWave.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits_SingleStubTuner.pdf",
     "Untitled.canvas",
     "Pasted image 20250911061832.png",
     "Pasted image 20250911062143.png",

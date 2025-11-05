@@ -65,7 +65,5 @@ $$
 > - A **negative** divergence means **field lines are converging** (a sink).  
 > - If $\nabla\!\cdot\!\mathbf E = 0$, the field is **solenoidal**, with no net source inside the region.
 
-
 ---
 
----

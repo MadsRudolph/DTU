@@ -2,7 +2,8 @@
 title: 🧭 Electromagnetics – Plane Waves & Power (Step-by-Step, Collapsible)
 type: assignment
 tags:
-  - Electromagnetics - assignment - General
+  - electromagnetics
+  - exercise
 aliases: []
 links:
   formulas: []

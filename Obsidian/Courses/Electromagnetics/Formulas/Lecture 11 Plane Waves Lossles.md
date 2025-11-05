@@ -1,15 +1,14 @@
 ---
-title: "Lecture 11 Plane Waves Lossles"
-type: "formula"
+title: Lecture 11 Plane Waves Lossles
+type: formula
 tags:
-- Electromagnetics
-  - formula
-  - Plane Waves
+  - plane-waves
+  - electromagnetics
 aliases: []
 links:
   formulas: []
   related: []
-updated: "2025-10-28"
+updated: 2025-10-28
 ---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 > **Quick refs:** [[MOC – Electromagnetics]] · [[MOC – Plane Waves]] · [[MOC – Transmission Lines]] · [[MOC – EM Loss & Skin Depth]]
