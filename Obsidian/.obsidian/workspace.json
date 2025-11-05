@@ -4,46 +4,80 @@
     "type": "split",
     "children": [
       {
-        "id": "0183ed97c20f1184",
+        "id": "62a41aee2d0e238f",
         "type": "tabs",
         "children": [
           {
-            "id": "6a4e208611450aa7",
+            "id": "b30cc63e579f36ec",
             "type": "leaf",
             "state": {
-              "type": "pdf",
+              "type": "markdown",
               "state": {
-                "file": "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf"
+                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "lucide-file-text",
-              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag"
-            }
-          },
-          {
-            "id": "3e5aa7da9a3874ec",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "62743 Matlab commands used in the course 2024_11_22"
-            }
-          },
-          {
-            "id": "e31866907950288b",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "62743 E25 Digital Signal Processing Uge 8 Torsdag solution"
+              "icon": "lucide-file",
+              "title": "Electrostatics & Magnetostatics"
             }
           }
         ]
+      },
+      {
+        "id": "7c889ddb7a8136bc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5b9164bb5decc18f",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L17_Reflection_and_transmission-oblique_incidence"
+            }
+          },
+          {
+            "id": "e4bf03070596b6c5",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems"
+            }
+          },
+          {
+            "id": "3f30a4499f516345",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Electromagnetics (Applied) Fundamentals 8th Ed"
+            }
+          },
+          {
+            "id": "eb445c0cba3f90c1",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "30035_Fall25_CourseNote-1"
+            }
+          }
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -193,7 +227,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-git:Open Git source control": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -206,30 +239,32 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "6a4e208611450aa7",
+  "active": "b30cc63e579f36ec",
   "lastOpenFiles": [
-    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf",
-    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "Untitled.md",
+    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/MOC – Electromagnetics.md",
+    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
+    "MOC – Maxwell’s Equations.md",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Electromagnetics/MOC – Plane Waves.md",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
     "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 8 Torsdag.pdf",
+    "Courses/DSP/Literature/62743 Matlab commands used in the course 2024_11_22.pdf",
+    "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Torsdag solution.pdf",
     "Courses/DSP/Exercises/Solutions/62743 E25 Digital Signal Processing Uge 8 Tirsdag solutions.pdf",
     "Courses/DSP/Literature/Kursus 62743 Digital Signalbehandling - Introduktion til MATLAB.pdf",
     "Courses/DSP/Literature/Li_Tan_chapter12.pdf",
-    "Courses/DSP/Literature/matlab-basic-functions-reference.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Torsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 10 Tirsdag.pdf",
-    "Courses/DSP/Exercises/62743 E25 Digital Signal Processing Uge 11 Tirsdag.pdf",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
     "Courses/DSP/Formulas/FIIR & IIR.md",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/DSP/Formulas/Week 3 – Tuesday.md",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
     "2025-10-31.md",
     "Untitled.canvas",
-    "Courses/Electromagnetics/Formulas/Lecture 11 Plane Waves Lossles.md",
-    "Courses/Electromagnetics/MOC – Plane Waves.md",
-    "Courses/Electromagnetics/MOC – Electromagnetics.md",
     "Courses/Electromagnetics/Formulas/Transmission_Lines.md",
     "Courses/Electromagnetics/MOC – Transmission Lines.md",
     "Pasted image 20250911061832.png",
@@ -244,12 +279,9 @@
     "Courses/Integrated Analog Electronics/MOC – Lab.md",
     "Courses/Integrated Analog Electronics/MOC – Integrated Analog Electronics.md",
     "Courses/Integrated Analog Electronics/MOC – Exercises.md",
-    "Courses/Integrated Analog Electronics/MOC – Assignments.md",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094114.png",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094031.png",
-    "Courses/Electromagnetics/MOC – Polarization.md",
-    "Courses/Electromagnetics/MOC – Lectures.md",
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",
