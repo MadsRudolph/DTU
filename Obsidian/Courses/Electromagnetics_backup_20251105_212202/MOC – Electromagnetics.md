@@ -27,12 +27,6 @@ Master overview linking the core topics, formula sheets, worked examples, slides
 
 ---
 
-## ➕ Other Topic Maps
-- [[MOC – Polarization]]
-- [[MOC – EM Loss & Skin Depth]]
-
----
-
 ## ⚡ Quick Access
 - [[Formulas/Plane Waves & Power — Quick Formula Sheet]]
 - [[Formulas/Electrostatics & Magnetostatics — MOC]]
@@ -44,8 +38,6 @@ Master overview linking the core topics, formula sheets, worked examples, slides
 ## 📘 Course Flow
 - [[MOC – Lectures]]
 - [[MOC – Exercises]]
-- [[MOC – Assignments]]
-- [[MOC – Lab]]
 
 ---
 

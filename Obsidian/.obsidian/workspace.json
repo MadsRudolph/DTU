@@ -8,12 +8,12 @@
         "type": "tabs",
         "children": [
           {
-            "id": "7d648204924a7ed7",
+            "id": "2c17da16d2d28e09",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
+                "file": "Courses/Electromagnetics_backup_20251105_212202/MOC – Electromagnetics.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": true,
@@ -28,10 +28,35 @@
                 }
               },
               "icon": "lucide-file",
-              "title": "Electrostatics & Magnetostatics — MOC"
+              "title": "MOC – Electromagnetics"
+            }
+          },
+          {
+            "id": "42edd172bf60edb0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Courses/DSP/MOC – Lectures.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "MOC – Lectures"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -84,8 +109,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -105,7 +129,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
+                "file": "Courses/DSP/MOC – Lectures.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +139,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Electrostatics & Magnetostatics — MOC"
+              "title": "Backlinks for MOC – Lectures"
             }
           },
           {
@@ -124,12 +148,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
+                "file": "Courses/DSP/MOC – Lectures.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Electrostatics & Magnetostatics — MOC"
+              "title": "Outgoing links from MOC – Lectures"
             }
           },
           {
@@ -194,44 +218,46 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "b01bcfd0e230b2a9",
+  "active": "94c580149c456c60",
   "lastOpenFiles": [
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Coordinate Systems.md",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics — MOC.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Examples/Gauss Flux (Point Charge).md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Examples/Cartesian to Cylindrical (Point+Vector).md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Operator Forms (Cartesian–Cylindrical–Spherical).md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Differential Vector Operators.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Electrostatics — Laws.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Vectors using Spherical Components.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Examples/Curl Example (B-field).md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Examples/Divergence Example (E-field).md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Examples/Gradient Example (Potential).md",
-    "Courses/Electromagnetics/00-Quick-Reference/MOC – Electromagnetics.md",
-    "Courses/Electromagnetics/08-Time-Varying-Fields/MOC – Time-Varying-Fields.md",
-    "Courses/Electromagnetics/05-Reflections-and-Transmission/MOC – Reflections-and-Transmission.md",
-    "Courses/Electromagnetics/04-Plane-Waves/MOC – Plane-Waves.md",
-    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
-    "Courses/Electromagnetics/Slides/L16_Reflection_and_transmission-normal_incidence.pdf",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/Electromagnetics/03-Transmission-Lines/MOC – Transmission-Lines.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Wave Parameters.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Single Terminated TL – Special Cases.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Single Terminated TL.md",
-    "Courses/Electromagnetics_backup_20251105_212202/Formulas/Transmission Lines (TLs) – VNA + Power.md",
-    "Courses/Electromagnetics/02-Waves-and-Phasors/MOC – Waves-and-Phasors.md",
+    "Courses/DSP/MOC – Exercises.md",
+    "Courses/DSP/MOC – DSP.md",
     "Courses/DSP/MOC – Assignments.md",
-    "Courses/DSP/MOC – Lab.md",
-    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
-    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/Electromagnetics/03-Transmission-Lines/Examples/Coaxial-Line-Parameters.pdf",
-    "Courses/Electromagnetics/07-Magnetostatics/Examples",
-    "Courses/Electromagnetics/04-Plane-Waves/Examples",
-    "Courses/Electromagnetics/Slides/L10_TL_Summary&Examples2.pdf",
+    "Courses/DSP/MIGRATION_REPORT.md",
+    "Courses/DSP/10-Applications-and-Labs/MOC – Applications and Labs.md",
+    "Courses/DSP/09-Multirate-and-Polyphase/MOC – Multirate and Polyphase.md",
+    "Courses/DSP/08-IIR-Filters/FIIR and IIR.md",
+    "Courses/DSP/08-IIR-Filters/MOC – IIR Filters.md",
+    "Courses/DSP/07-FIR-Filters/MOC – FIR Filters.md",
+    "Courses/DSP/06-Z-Transform-and-ROC/Week 3 – Thursday.md",
+    "Courses/DSP/06-Z-Transform-and-ROC/MOC – Z Transform and ROC.md",
+    "Courses/DSP/05-Transforms-DTFT-DFT/Week 3 – Tuesday.md",
+    "Courses/DSP/05-Transforms-DTFT-DFT/Week 2 – Thursday.md",
+    "Courses/DSP/04-Convolution-and-LTI/MOC – Convolution and LTI.md",
+    "Courses/DSP/03-Discrete-Time-Systems/Week 2 – Tuesday.md",
+    "Courses/DSP/03-Discrete-Time-Systems/MOC – Discrete Time Systems.md",
+    "Courses/DSP/02-Sampling-and-Quantization/MOC – Sampling and Quantization.md",
+    "Courses/DSP/01-Fundamentals/Week 1 – Tuesday.md",
+    "Courses/DSP/01-Fundamentals/MOC – Fundamentals.md",
+    "Courses/DSP/01-Fundamentals/Week 1 – Thursday.md",
+    "Courses/DSP/00-Quick-Reference/MOC – Quick Reference.md",
+    "Courses/Electromagnetics/00-Quick-Reference/MOC – Electromagnetics.md",
+    "Courses/Electromagnetics_backup_20251105_212202/MOC – Electromagnetics.md",
+    "Courses/DSP/MOC – Lectures.md",
+    "Courses/DSP/_backup_migration_20251105-234246/Formulas/Week 3 – Tuesday.md",
+    "Courses/DSP/_backup_migration_20251105-234246/Formulas/Week 2 – Tuesday.md",
+    "Courses/DSP/_backup_migration_20251105-234246/Formulas",
+    "Courses/DSP/_backup_migration_20251105-234246",
+    "Courses/DSP/_backup_migration_20251105-234059/_backup_migration_20251105-233621/Lecture Notes",
+    "Courses/DSP/_backup_migration_20251105-234059/_backup_migration_20251105-233621/Formulas",
+    "Courses/DSP/_backup_migration_20251105-234059/_backup_migration_20251105-233621",
+    "Courses/DSP/_backup_migration_20251105-234059/Lecture Notes",
+    "Courses/DSP/_backup_migration_20251105-234059/Formulas",
+    "Courses/DSP/_backup_migration_20251105-234059",
+    "scripts/__pycache__/course_scaffold_dsp.cpython-311.pyc",
+    "scripts/__pycache__",
+    "Resources/MagnitudeResponse.png",
+    "Resources/PhaseResponse.png",
     "Untitled.canvas",
     "Pasted image 20250911061832.png",
     "Pasted image 20250911062143.png",
@@ -241,8 +267,6 @@
     "Courses/DSP/Images/Pasted image 20250911063821.png",
     "Courses/DSP/Images/Pasted image 20250911063240.png",
     "Courses/DSP/Images/Pasted image 20250911062225.png",
-    "Courses/DSP/Images/Pasted image 20250911062015.png",
-    "Courses/DSP/Images/Pasted image 20250911061907.png",
     "Courses/Electromagnetics/Slides/Untitled.canvas"
   ]
 }
