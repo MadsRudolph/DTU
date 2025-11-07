@@ -30,6 +30,30 @@
               "icon": "lucide-file-text",
               "title": "30035_Fall25_CourseNote-1"
             }
+          },
+          {
+            "id": "c9c024b6da58aa0b",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Electromagnetics (Applied) Fundamentals 8th Ed"
+            }
+          },
+          {
+            "id": "1f7a36a0ffa2a698",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems"
+            }
           }
         ]
       },
@@ -65,18 +89,6 @@
             }
           },
           {
-            "id": "1f7a36a0ffa2a698",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems"
-            }
-          },
-          {
             "id": "c9266a8702955e17",
             "type": "leaf",
             "state": {
@@ -92,7 +104,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -256,15 +268,15 @@
   },
   "active": "c9266a8702955e17",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
-    "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
     "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
     "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
-    "MOC – Coordinate Systems.md",
-    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
     "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "MOC – Coordinate Systems.md",
+    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 8.md",
     "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf",
     "Courses/Electromagnetics/Exercises/work/Home Assignment 2.md",

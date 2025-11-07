@@ -6,15 +6,6 @@ aliases: []
 links: {"formulas": ["[[MOC – Coordinate Systems]]","[[MOC – Vector Operators]]"], "related": ["[[MOC – Exercises]]","[[MOC – Electromagnetics]]"]}
 updated: 2025-11-07
 ---
----
-title: Exercise 18 — Coordinate Systems and Vector Operators
-type: exercise
-tags: [Electromagnetics, exercises, coordinates, vector-operators]
-aliases: []
-links: {"formulas": ["[[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]]"], "related": ["[[MOC – Exercises]]","[[MOC – Electromagnetics]]"]}
-updated: 2025-11-07
----
-
 > Quick refs: [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]]
 
 ---
@@ -162,21 +153,154 @@ $$
   $$
   R = \sqrt{x^2 + y^2 + z^2},\qquad
   \theta = \arctan\!\left(\frac{\sqrt{x^2+y^2}}{z}\right),\qquad
-  \phi = \operatorname{atan2}(y,x)
+  \phi = \pi + \big(\arccos\!\frac{x}{\sqrt{x^2 + y^2}} - \pi\big)\frac{y}{|y|}
   $$
 - Unit vectors and component transforms: see [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]].
+### Cartesian → Spherical vector components
+
+> Angle convention: $\theta$ is the polar angle from $+z$ (zenith), $\phi$ is the azimuth in the $xy$-plane from $+x$.
+
+$$
+\begin{aligned}
+A_R &= A_x\,\sin\theta\cos\phi \;+\; A_y\,\sin\theta\sin\phi \;+\; A_z\,\cos\theta,\\[6pt]
+A_\theta &= A_x\,\cos\theta\cos\phi \;+\; A_y\,\cos\theta\sin\phi \;-\; A_z\,\sin\theta,\\[6pt]
+A_\phi &= -A_x\,\sin\phi \;+\; A_y\,\cos\phi.
+\end{aligned}
+$$
+---
 
 **Your calculation space**
 
-1️⃣ Compute $R$, $\theta$, $\phi$:  
+Given  
+$x = 3$, $y = -1$, $z = 2$,  
+$A_x = 5$, $A_y = -4$, $A_z = -1$.
+
+1️⃣ Compute $R$ , $\theta$ and $\phi$:
 $$
-R = \_\_\_\_, \quad \theta = \_\_\_\_, \quad \phi = \_\_\_\_
+R = \sqrt{x^2 + y^2 + z^2} = \sqrt{3^2+(-1)^2+2^2} = \sqrt{14} = 3.742
 $$
 
-2️⃣ Compute $A_R$, $A_\theta$, $A_\phi$:  
 $$
-A_R = \_\_\_\_, \quad A_\theta = \_\_\_\_, \quad A_\phi = \_\_\_\_
+\theta = \arctan\!\left(\frac{\sqrt{x^2+y^2}}{z}\right)
+      = 1.0068~\text{rad}
 $$
+
+$$
+\theta = 1.0068~\text{rad} = 57.69^\circ
+$$
+$$
+\phi = \pi + \left(\arccos\frac{3}{\sqrt{10}} - \pi\right)\frac{-1}{|-1|}
+      = \arccos\!\frac{3}{\sqrt{10}} + 2\pi
+$$
+$$
+\phi = 5.9614~\text{rad} = 341.565^\circ
+$$
+So the point in spherical coordinates:
+$$
+\boxed{P(R,\theta,\phi) = (3.742,\ 57.69^\circ,\ 341.6^\circ)}
+$$
+
+2️⃣ Compute $A_R$, $A_\theta$, and $A_\phi$:
+
+$$
+\begin{aligned}
+A_R &= A_x\sin\theta\cos\phi + A_y\sin\theta\sin\phi + A_z\cos\theta \\[4pt]
+    &= (5)(0.84515)(0.94868) + (-4)(0.84515)(-0.31623) + (-1)(0.53452) \\[4pt]
+    &= 4.012 + 1.070 - 0.535 \\[4pt]
+    &= 4.547
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+A_\theta &= A_x\cos\theta\cos\phi + A_y\cos\theta\sin\phi - A_z\sin\theta \\[4pt]
+         &= (5)(0.53452)(0.94868) + (-4)(0.53452)(-0.31623) - (-1)(0.84515) \\[4pt]
+         &= 2.535 + 0.677 + 0.845 \\[4pt]
+         &= 4.057
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+A_\phi &= -A_x\sin\phi + A_y\cos\phi \\[4pt]
+       &= -(5)(-0.31623) + (-4)(0.94868) \\[4pt]
+       &= 1.581 - 3.795 \\[4pt]
+       &= -2.214
+\end{aligned}
+$$
+
+So the vector in spherical components evaluated at $P$ is:
+
+$$
+\boxed{
+\mathbf A = 4.55\,\hat{\mathbf R} + 4.06\,\hat{\boldsymbol\theta} - 2.21\,\hat{\boldsymbol\phi}
+}
+$$
+**Verification (optional in MATLAB)**
+>[!code]- matlab
+>```matlab
+>% Cartesian → Spherical (point + vector components)
+>% Angle convention: theta = polar angle from +z (0..pi), phi = azimuth from +x in xy-plane (-pi..pi]
+>
+>function [R,theta,phi_robust,phi_atan2,AR,Ath,Aphi] = cart2sph_vec_phiRobust(x,y,z,Ax,Ay,Az)
+>  % --- lengths
+>  r = hypot(x,y);
+>  R = hypot(r,z);
+>
+>  % --- angles
+>  theta = atan2(r, z);                 % robust theta in [0, pi]
+>
+>  % your quadrant-safe phi (same as in your cylindrical script)
+>  % guard y==0 to avoid division-by-zero in y/abs(y)
+>  if y == 0
+>    sgn = 1;  % convention: if y=0 choose +1 so phi=acos(x/r) when r>0
+>  else
+>    sgn = y/abs(y);
+>  end
+>  if r > 0
+>    phi_robust = pi + (acos(x/r) - pi)*sgn;
+>  else
+>    phi_robust = 0;     % point on z-axis → define phi=0 by convention
+>  end
+>
+>  % comparison (should match modulo 2*pi)
+>  phi_atan2 = atan2(y, x);
+>
+>  % exact trig from coordinates
+>  if r > 0
+>    cphi = x/r; sphi = y/r;
+>  else
+>    cphi = 1;  sphi = 0;
+>  end
+>  if R > 0
+>    sth = r/R; cth = z/R;
+>  else
+>    sth = 0;   cth = 1;
+>  end
+>
+>  % --- spherical components of A at (x,y,z)
+>  AR   =  Ax*sth*cphi + Ay*sth*sphi + Az*cth;
+>  Ath  =  Ax*cth*cphi + Ay*cth*sphi - Az*sth;
+>  Aphi = -Ax*sphi     + Ay*cphi;
+>end
+>
+>% ------------------- Demo with your values -------------------
+>% Point P = (3, -1, 2), Vector A = [5, -4, -1]
+>x=3; y=-1; z=2;
+>Ax=5; Ay=-4; Az=-1;
+>
+>[R,theta,phi_robust,phi_atan2,AR,Ath,Aphi] = cart2sph_vec_phiRobust(x,y,z,Ax,Ay,Az);
+>
+>fprintf('R      = %.6f\n', R);
+>fprintf('theta  = %.6f rad (%.3f deg)\n', theta, rad2deg(theta));
+>fprintf('phi_rb = %.6f rad (%.3f deg)\n', phi_robust,  rad2deg(phi_robust));
+>fprintf('phi_a2 = %.6f rad (%.3f deg)\n\n', phi_atan2,   rad2deg(phi_atan2));
+>
+>fprintf('AR     = %.6f\n', AR);
+>fprintf('Atheta = %.6f\n', Ath);
+>fprintf('Aphi   = %.6f\n', Aphi);
+>```
+
 
 ---
 
@@ -211,9 +335,18 @@ $$
 
 1️⃣ Compute $(x,y,z)$:  
 $$
-x = \_\_\_\_, \quad y = \_\_\_\_, \quad z = \_\_\_\_
+x = r\cos\phi = 5\cos(\frac{3\pi}{5})=-1.545
 $$
-
+$$
+y = r\sin\phi = 5\sin(\frac{3\pi}{5}) =4.755
+$$
+$$
+z=-2
+$$
+So the point in cartesian coordinates:
+$$
+\boxed{P(x,y,z) = (-1.545,\ 4.755,\ -2)}
+$$
 2️⃣ Compute $(A_x,A_y,A_z)$:  
 $$
 A_x = \_\_\_\_, \quad A_y = \_\_\_\_, \quad A_z = \_\_\_\_
