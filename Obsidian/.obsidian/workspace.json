@@ -4,32 +4,41 @@
     "type": "split",
     "children": [
       {
-        "id": "a41048a3c876043f",
+        "id": "e7f01c02d89a0b91",
         "type": "tabs",
         "children": [
           {
-            "id": "f21e6d769e9593ff",
+            "id": "76834e525f3119fa",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "Courses/Electromagnetics/Exercises/work/Home Assignment 2.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
               },
-              "icon": "lucide-file",
-              "title": "Home Assignment 2"
+              "icon": "lucide-file-text",
+              "title": "exercises+results"
+            }
+          },
+          {
+            "id": "1e2ca328b3379b11",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "30035_Fall25_CourseNote-1"
             }
           }
         ]
       },
       {
-        "id": "59c50c5a6424b122",
+        "id": "e22f156c8b508f4f",
         "type": "tabs",
         "children": [
           {
-            "id": "ef9b7c263bdbe3c2",
+            "id": "5f4326d2ad626291",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -42,8 +51,48 @@
               "icon": "lucide-file",
               "title": "Home Assignment 1"
             }
+          },
+          {
+            "id": "13cab4503f02e343",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L17_Reflection_and_transmission-oblique_incidence"
+            }
+          },
+          {
+            "id": "1f7a36a0ffa2a698",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems"
+            }
+          },
+          {
+            "id": "c9266a8702955e17",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "Group Tutorials"
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -193,7 +242,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-git:Open Git source control": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -206,18 +254,26 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
-  "active": "f21e6d769e9593ff",
+  "active": "c9266a8702955e17",
   "lastOpenFiles": [
     "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
-    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 2.md",
-    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
+    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "MOC – Coordinate Systems.md",
+    "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
+    "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 8.md",
+    "Courses/Integrated Analog Electronics/Slides/34630-lecture-8-feedback2_v3.pdf",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 2.md",
+    "Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet.md",
+    "Courses/Integrated Analog Electronics/Exercises/Home Assignments/Integrated_Analog_Electronics___Home_Assignment_1.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 7.md",
     "Resources/Quiz8_BodeMargin.png",
     "Resources/Quiz8_Nyquist.png",
     "Courses/DSP/Exercises/work/Uge 4 Tirsdag.md",
-    "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL – Special Cases.md",
     "Courses/Electromagnetics/Formulas/Single Terminated TL.md",
     "Courses/Electromagnetics/Formulas/Lecture 10 – Transmission Lines Power, Matching & Smith Chart.md",
@@ -236,17 +292,8 @@
     "Courses/DSP/00-Quick-Reference/MOC – Quick Reference.md",
     "Courses/Electromagnetics/Exercises/work/3-3.2.md",
     "Courses/Electromagnetics/Exercises/work",
-    "Courses/DSP/MOC – Lab.md",
-    "Courses/DSP/Formulas/Week 3 – Tuesday.md",
-    "Courses/DSP/Formulas/Week 3 – Thursday.md",
     "Pasted image 20250911062143.png",
     "Courses/DSP/10-Applications-and-Labs",
-    "Courses/DSP/09-Multirate-and-Polyphase",
-    "Courses/DSP/08-IIR-Filters",
-    "Courses/DSP/07-FIR-Filters",
-    "Courses/DSP/06-Z-Transform-and-ROC",
-    "scripts/course_scaffold_dsp.py",
-    "Templates/Courses/dsp",
     "Pasted image 20250911061832.png",
     "Untitled.canvas",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
