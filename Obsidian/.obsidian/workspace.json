@@ -6,19 +6,8 @@
       {
         "id": "e7f01c02d89a0b91",
         "type": "tabs",
+        "dimension": 48.32935560859188,
         "children": [
-          {
-            "id": "76834e525f3119fa",
-            "type": "leaf",
-            "state": {
-              "type": "pdf",
-              "state": {
-                "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "exercises+results"
-            }
-          },
           {
             "id": "1e2ca328b3379b11",
             "type": "leaf",
@@ -54,12 +43,26 @@
               "icon": "lucide-file-text",
               "title": "L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems"
             }
+          },
+          {
+            "id": "6edf3b9c34135e9a",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L19_Electrostatics_I.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L19_Electrostatics_I"
+            }
           }
-        ]
+        ],
+        "currentTab": 3
       },
       {
         "id": "e22f156c8b508f4f",
         "type": "tabs",
+        "dimension": 51.67064439140812,
         "children": [
           {
             "id": "5f4326d2ad626291",
@@ -94,13 +97,28 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
+                "file": "Courses/Electromagnetics/Formulas/L19 - Electrostatics.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "Group Tutorials"
+              "title": "L19 - Electrostatics"
+            }
+          },
+          {
+            "id": "1e0b15efce23441f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "Electrostatics & Magnetostatics"
             }
           }
         ],
@@ -254,6 +272,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -266,15 +285,70 @@
       "table-editor-obsidian:Advanced Tables Toolbar": false
     }
   },
+  "floating": {
+    "id": "c8aba9c5059b30d8",
+    "type": "floating",
+    "children": [
+      {
+        "id": "12e8c4e92dd4f86f",
+        "type": "window",
+        "children": [
+          {
+            "id": "5313689763562587",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "76834e525f3119fa",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "Courses/Electromagnetics/Exercises/exercises+results.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "exercises+results"
+                }
+              },
+              {
+                "id": "742177f6550417ac",
+                "type": "leaf",
+                "state": {
+                  "type": "pdf",
+                  "state": {
+                    "file": "Courses/Electromagnetics/Exercises/Exercise_19_1_solution.pdf"
+                  },
+                  "icon": "lucide-file-text",
+                  "title": "Exercise_19_1_solution"
+                }
+              }
+            ],
+            "currentTab": 1
+          }
+        ],
+        "direction": "vertical",
+        "x": 373,
+        "y": 29,
+        "width": 838,
+        "height": 992,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
   "active": "c9266a8702955e17",
   "lastOpenFiles": [
-    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
-    "Courses/Electromagnetics/Exercises/work/Group Tutorials.md",
-    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "Courses/Electromagnetics/Slides/L19_Electrostatics_I.pdf",
+    "Courses/Electromagnetics/Formulas/L19 - Electrostatics.md",
+    "Courses/Electromagnetics/Exercises/work/Group Tutorials/19 — Electrostatics.md",
     "Courses/Electromagnetics/Literature/30035_Fall25_CourseNote-1.pdf",
-    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
-    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics.md",
+    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "Courses/Electromagnetics/Exercises/Exercise_19_1_solution.pdf",
+    "Courses/Electromagnetics/Literature/Electromagnetics (Applied) Fundamentals 8th Ed.pdf",
+    "Courses/Electromagnetics/Exercises/work/Group Tutorials/Exercise 18 — Coordinate Systems and Vector Operators.md",
+    "Courses/Electromagnetics/Exercises/exercises+results.pdf",
+    "Courses/Electromagnetics/Exercises/work/Group Tutorials",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 1.md",
     "MOC – Coordinate Systems.md",
     "Courses/Electromagnetics/Slides/L17_Reflection_and_transmission-oblique_incidence.pdf",
     "Courses/Integrated Analog Electronics/Exercises/work/Quiz/Quiz 8.md",
@@ -300,12 +374,7 @@
     "Courses/Electromagnetics/MOC – Polarization.md",
     "Courses/Electromagnetics/MOC – Plane Waves.md",
     "Courses/Integrated Analog Electronics/MOC – Lab.md",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.pdf",
-    "Courses/DSP/00-Quick-Reference/MOC – Quick Reference.md",
-    "Courses/Electromagnetics/Exercises/work/3-3.2.md",
-    "Courses/Electromagnetics/Exercises/work",
     "Pasted image 20250911062143.png",
-    "Courses/DSP/10-Applications-and-Labs",
     "Pasted image 20250911061832.png",
     "Untitled.canvas",
     "Courses/Integrated Analog Electronics/Images/Pasted image 20250912094132.png",
