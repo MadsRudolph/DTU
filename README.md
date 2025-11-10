@@ -6,9 +6,9 @@
 
 # DTU — Signal Integrity for My Brain
 
-A personal, organized vault with course notes, exercises, simulations and small tools used during the degree.
+Welcome — this is my brain's repo: notes, cheat-sheets, sims, and tiny tools to survive exams.
 
-This repository documents and stores notes, assignment solutions, simulation files and a few helper scripts so you don't have to re-derive the same thing during exam season.
+TL;DR: everything is organized so you don't waste time re-deriving stuff. ⚡
 
 ---
 
@@ -61,11 +61,11 @@ Yes — it took a while to organize, but it saves time during revision.
 
 ## Branching model
 
-- `main` — stable, reviewable state (what I expect to keep pristine).
-- `haul` — bigger reorgs and folder moves happen here (temporary construction zone).
-- feature branches — short-lived, e.g. `feat/dsp-week09-filter-derivations`.
+- `main` — stable, clean, safe to rely on.
+- `haul` — big renames / reorganizations go here (talk first).
+- feature branches — small focused work: `feat/...`, `fix/...`, `docs/...`.
 
-If you plan to move or rename many files, create a branch off `haul` and test changes before merging to `main`.
+If you're moving a lot of files, open an issue or do it on `haul` so we don't break links for everyone.
 
 ---
 
@@ -118,12 +118,35 @@ Run these from the repo root with your Python environment active.
 
 ---
 
+## Contributing — come hack the vault (please be chill) 🛠️
+
+Wanna help? Love docs? Hate broken links? Sweet. Here's how to not break stuff:
+
+- Make an issue for big changes.
+- Fork -> branch -> PR. Keep PRs small.
+- Branch name ideas: `feat/<what>`, `fix/<what>`, `docs/<what>`.
+- Large reorganizations: discuss first, or use `haul`.
+
+Before you open a PR, run the quick checks (PowerShell, Windows):
+
+```powershell
+# make a venv and activate it
+python -m venv .venv
+.\.venv\Scripts\Activate
+
+# optional: deps
+if (Test-Path requirements.txt) { pip install -r requirements.txt }
+
+# sanity-check links
+python .\scripts\check_wikilinks.py
+```
+
+If you touch lots of files, also run `scripts/wire_courses.py` or the course-scoped checker.
+
+Be nice. Keep it readable. If you want a `CONTRIBUTING.md` or `CODE_OF_CONDUCT.md`, I can add them.
+
+---
+
 ## Notes & contact
 
 This repo's primary goal is to keep the mental signal-to-noise ratio acceptable: well-organized notes reduce repeated re-derivations during study.
-
-If you want changes to the README layout or extra badges/CI hooks, tell me which items you'd like emphasized and I can add them.
-
-End of transmission.
-
-
