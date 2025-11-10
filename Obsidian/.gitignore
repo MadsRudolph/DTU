@@ -7,4 +7,5 @@
 .idea/
 
 .DS_Store
-Thumbs.db
+Thumbs.db.obsidian/workspace*.json
+.obsidian/graph*.json
