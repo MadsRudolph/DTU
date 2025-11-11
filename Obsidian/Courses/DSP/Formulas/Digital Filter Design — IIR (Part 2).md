@@ -703,240 +703,259 @@ This matches the slides (104–108):
 > ```
 
 
-## 🧰 MATLAB Template — General IIR Design via Pre-Warp + BLT (Butterworth / Chebyshev I)
+# 🧩 MATLAB Template — General IIR Filter Design via Pre-Warp + Bilinear Transform
 
-> [!summary] **What this does**  
-> One self-contained Live Script to solve future IIR design problems the same way as the slides:  
-> 1) enter specs → 2) pre-warp → 3) pick prototype (Butter/Cheb1) → 4) analog transform (LP/HP/BP/BS) → 5) BLT to digital → 6) verify and print key values.  
-> Supports: **LP / HP / BP / BS**, **Butterworth / Chebyshev I**, **auto (formula/ord) or manual order**.  
-> All helpers are local functions at the bottom (no extra files).
+> [!summary] **Overview**  
+> A complete and numerically stable MATLAB Live Script for designing analog-prototype-based IIR filters (Butterworth or Chebyshev Type I) via **pre-warping**, **analog prototype transformation**, and **bilinear transform**.  
+> Supports **LP**, **HP**, **BP**, and **BS** filters with automatic or manual order selection.
+
+---
 
 > [!code]- MATLAB (Live Script)
 > ```matlab
-> %% ============================================
-> %% IIR Design Template — Prewarp + BLT Workflow
-> %% ============================================
+> %% =========================
+> %% USER PARAMETERS (EDIT ME)
+> %% =========================
 > clear; clc; close all;
 > 
-> %% 0) ==== USER INPUTS ======================================================
 > % Sampling
-> Fs = 480;                      % Hz
+> Fs = 480;                 % Hz
 > 
 > % Filter type: 'lp' | 'hp' | 'bp' | 'bs'
 > ftype = 'lp';
 > 
-> % Prototype: 'butter' | 'cheby1'
+> % Analog prototype: 'butter' | 'cheby1'
 > proto = 'butter';
 > 
-> % Specifications (digital, in Hz and dB)
-> % For LP/HP: set fp, fs. For BP/BS: set [fpL fpH], [fsL fsH].
-> Ap = 1;                        % passband ripple (dB)  (Cheby1 uses this)
-> As = 40;                       % stopband attenuation (dB)
+> % Specs (digital, in Hz and dB)
+> % For LP/HP: scalars fp, fs. For BP/BS: 1x2 vectors [fL fH].
+> Ap = 1;                   % passband ripple (dB) — used by Chebyshev I
+> As = 40;                  % stopband attenuation (dB)
 > 
 > switch ftype
->     case {'lp','hp'}
->         fp = 60;               % Hz
->         fs = 100;              % Hz
->     case {'bp','bs'}
->         fp = [120 180];        % Hz (passband edges)
->         fs = [90  210];        % Hz (stopband edges)
->     otherwise
->         error('Unknown ftype');
+>   case {'lp','hp'}
+>     fp = 60;              % passband edge [Hz]
+>     fs = 100;             % stopband edge [Hz]
+>   case {'bp','bs'}
+>     fp = [120 180];       % passband edges [Hz]
+>     fs = [ 90 210];       % stopband edges [Hz]
+>   otherwise
+>     error('Unknown ftype');
 > end
 > 
-> % Order mode: 'auto_formula' | 'auto_ord' | 'manual'
-> %  - 'auto_formula': use closed-form (Butter LP/HP; Cheby1 LP/HP)
-> %  - 'auto_ord': use cheb1ord/buttord on digital specs (fallback for BP/BS)
-> %  - 'manual': choose n yourself
+> % Order selection mode:
+> %   'auto_formula' : closed-form (LP/HP only; Butter/Cheby1)
+> %   'auto_ord'     : use buttord/cheb1ord on digital specs (any type)
+> %   'manual'       : use n_manual
 > order_mode = 'auto_formula';
-> n_manual   = 4;    % used only if order_mode = 'manual'
+> n_manual   = 4;
 > 
-> % Plots on/off
-> do_plots = true;
+> % Plot toggles
+> do_plots    = true;       % show freqz
+> show_markers = true;      % overlay fp, fs markers (LP/HP)
 > 
 > 
-> %% 1) ==== PRE-WARP DIGITAL EDGES TO ANALOG =================================
-> % Prewarp formula: Omega = 2*Fs*tan(pi*f/Fs)
-> switch ftype
->     case {'lp','hp'}
->         [Om_p, Om_s] = prewarp_edges(fp, fs, Fs);  % scalars
->     case {'bp','bs'}
->         [Om_p, Om_s] = prewarp_edges(fp, fs, Fs);  % 1x2 vectors
-> end
+> %% =============================
+> %% 1) PRE-WARP DIGITAL -> ANALOG
+> %% =============================
+> % Omega = 2*Fs*tan(pi*f/Fs)
+> [Om_p, Om_s] = prewarp_edges(fp, fs, Fs);
 > 
 > fprintf('--- Prewarp ---\n');
 > if isscalar(Om_p)
->     fprintf('Omega_p = %.6f rad/s, Omega_s = %.6f rad/s\n', Om_p, Om_s);
+>     fprintf('Omega_p = %.6f rad/s,  Omega_s = %.6f rad/s\n', Om_p, Om_s);
 > else
 >     fprintf('Omega_p = [%.6f  %.6f] rad/s\n', Om_p(1), Om_p(2));
 >     fprintf('Omega_s = [%.6f  %.6f] rad/s\n', Om_s(1), Om_s(2));
 > end
 > 
 > 
-> %% 2) ==== DETERMINE ORDER n (AUTO/MANUAL) ==================================
+> %% =============================
+> %% 2) DETERMINE ORDER n
+> %% =============================
+> use_auto_ord = false;
+> 
 > switch order_mode
->     case 'manual'
->         n = n_manual;
+>   case 'manual'
+>     n = n_manual;
 > 
->     case 'auto_formula'
->         % Closed-form supported here for LP/HP only.
->         switch lower(proto)
->             case 'butter'
->                 if isequal(ftype,'lp')
->                     vs = Om_s/Om_p;      % LP: vs = Os/Op
->                 elseif isequal(ftype,'hp')
->                     vs = Om_p/Om_s;      % HP: vs = Op/Os
->                 else
->                     warning('Formula mode not implemented for BP/BS. Using auto_ord.');
->                     order_mode = 'auto_ord';
->                     break;
->                 end
->                 n = butter_order_formula(Ap, As, vs);
-> 
->             case 'cheby1'
->                 if isequal(ftype,'lp')
->                     vs = Om_s/Om_p;      % LP: vs = Os/Op
->                 elseif isequal(ftype,'hp')
->                     vs = Om_p/Om_s;      % HP: vs = Op/Os
->                 else
->                     warning('Formula mode not implemented for BP/BS. Using auto_ord.');
->                     order_mode = 'auto_ord';
->                     break;
->                 end
->                 n = cheby1_order_formula(Ap, As, vs);
-> 
->             otherwise
->                 error('Unknown prototype');
+>   case 'auto_formula'
+>     switch lower(proto)
+>       case 'butter'
+>         if strcmpi(ftype,'lp')
+>             vs = Om_s/Om_p;                 % LP: vs = Os/Op
+>             n  = butter_order_formula(Ap, As, vs);
+>         elseif strcmpi(ftype,'hp')
+>             vs = Om_p/Om_s;                 % HP: vs = Op/Os
+>             n  = butter_order_formula(Ap, As, vs);
+>         else
+>             warning('Formula mode not implemented for BP/BS. Falling back to auto_ord.');
+>             use_auto_ord = true;
 >         end
-> 
->     case 'auto_ord'
->         % Use MATLAB digital ord functions (WP/WS normalized to Nyquist)
->         switch ftype
->             case 'lp'
->                 Wp = fp/(Fs/2); Ws = fs/(Fs/2);
->             case 'hp'
->                 Wp = fp/(Fs/2); Ws = fs/(Fs/2);
->             case {'bp','bs'}
->                 Wp = fp/(Fs/2); Ws = fs/(Fs/2); % 1x2 vectors
+>       case 'cheby1'
+>         if strcmpi(ftype,'lp')
+>             vs = Om_s/Om_p;                 % LP: vs = Os/Op
+>             n  = cheby1_order_formula(Ap, As, vs);
+>         elseif strcmpi(ftype,'hp')
+>             vs = Om_p/Om_s;                 % HP: vs = Op/Os
+>             n  = cheby1_order_formula(Ap, As, vs);
+>         else
+>             warning('Formula mode not implemented for BP/BS. Falling back to auto_ord.');
+>             use_auto_ord = true;
 >         end
->         switch lower(proto)
->             case 'butter'
->                 [n, ~] = buttord(Wp, Ws, Ap, As);
->             case 'cheby1'
->                 [n, ~] = cheb1ord(Wp, Ws, Ap, As);
->             otherwise
->                 error('Unknown prototype');
->         end
+>       otherwise
+>         error('Unknown proto');
+>     end
 > 
->     otherwise
->         error('Unknown order_mode');
+>   case 'auto_ord'
+>     use_auto_ord = true;
+> 
+>   otherwise
+>     error('Unknown order_mode');
+> end
+> 
+> if use_auto_ord
+>     switch ftype
+>       case {'lp','hp'}
+>         Wp = fp/(Fs/2); Ws = fs/(Fs/2);
+>       case {'bp','bs'}
+>         Wp = fp/(Fs/2); Ws = fs/(Fs/2);  % 1x2 vectors
+>     end
+>     switch lower(proto)
+>       case 'butter'
+>         [n, ~] = buttord(Wp, Ws, Ap, As);
+>       case 'cheby1'
+>         [n, ~] = cheb1ord(Wp, Ws, Ap, As);
+>       otherwise
+>         error('Unknown proto');
+>     end
 > end
 > fprintf('--- Order selection ---\n');
 > fprintf('Chosen order n = %d\n', n);
 > 
 > 
-> %% 3) ==== ANALOG PROTOTYPE (NORMALIZED) ====================================
-> % Build normalized analog low-pass prototype with cutoff = 1 rad/s.
+> %% =====================================
+> %% 3) NORMALIZED ANALOG PROTOTYPE (LP)
+> %% =====================================
 > switch lower(proto)
->     case 'butter'
->         [bP, aP] = butter(n, 1, 's');    % normalized analog LP
->     case 'cheby1'
->         [bP, aP] = cheby1(n, Ap, 1, 's');% normalized analog LP with ripple Ap
->     otherwise
->         error('Unknown prototype');
+>   case 'butter'
+>     [bP, aP] = butter(n, 1, 's');
+>   case 'cheby1'
+>     [bP, aP] = cheby1(n, Ap, 1, 's');
+>   otherwise
+>     error('Unknown proto');
 > end
 > 
 > 
-> %% 4) ==== FREQUENCY TRANSFORMATION (ANALOG) ================================
-> % Map normalized prototype to target type with desired analog edges.
-> switch ftype
->     case 'lp'
->         % LP target cutoff at Om_p
->         [bA, aA] = lp2lp(bP, aP, Om_p);
->     case 'hp'
->         % HP target cutoff at Om_p
->         [bA, aA] = lp2hp(bP, aP, Om_p);
->     case 'bp'
->         % Band edges and bandwidth
->         Om0 = sqrt(Om_p(1)*Om_p(2));  % center
->         Bw  =  Om_p(2) - Om_p(1);     % bandwidth
->         [bA, aA] = lp2bp(bP, aP, Om0, Bw);
->     case 'bs'
->         Om0 = sqrt(Om_p(1)*Om_p(2));
->         Bw  =  Om_p(2) - Om_p(1);
->         [bA, aA] = lp2bs(bP, aP, Om0, Bw);
->     otherwise
->         error('Unknown ftype');
-> end
-> 
-> 
-> %% 5) ==== BILINEAR TRANSFORM TO DIGITAL ===================================
-> [bZ, aZ] = bilinear(bA, aA, Fs);
-> 
-> fprintf('--- Digital H(z) coefficients ---\n');
-> fprintf('bZ:'); fprintf(' %.6g', bZ); fprintf('\n');
-> fprintf('aZ:'); fprintf(' %.6g', aZ); fprintf('\n');
-> 
-> 
-> %% 6) ==== VERIFICATION ======================================================
-> if do_plots
->     figure; freqz(bZ, aZ, 2048, Fs);
->     title(sprintf('%s-%s via Prewarp+BLT (n=%d)', upper(proto), upper(ftype), n));
-> end
-> 
-> % Check gain at passband edges
-> switch ftype
->     case {'lp','hp'}
->         Hfp  = freqz(bZ, aZ, [fp  fp+1e-9], Fs); Hfp = Hfp(1);  % force Hz-mode
->         mdB  = 20*log10(abs(Hfp));
->         fprintf('At f_p = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp, abs(Hfp), mdB);
->     case {'bp','bs'}
->         Hfp1 = freqz(bZ, aZ, [fp(1) fp(1)+1e-9], Fs); Hfp1 = Hfp1(1);
->         Hfp2 = freqz(bZ, aZ, [fp(2) fp(2)+1e-9], Fs); Hfp2 = Hfp2(1);
->         mdB1 = 20*log10(abs(Hfp1));
->         mdB2 = 20*log10(abs(Hfp2));
->         fprintf('At f_pL = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp(1), abs(Hfp1), mdB1);
->         fprintf('At f_pH = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp(2), abs(Hfp2), mdB2);
-> end
-> 
-> % Optional: dense magnitude plot with markers (LP/HP only; BP/BS similar)
-> if do_plots && ismember(ftype, {'lp','hp'})
->     fgrid = linspace(0, Fs/2, 2000);
->     Hgrid = freqz(bZ, aZ, fgrid, Fs);
->     figure; plot(fgrid, 20*log10(abs(Hgrid))); grid on;
->     xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
->     title('Magnitude Response');
->     if isscalar(fp), xline(fp, '--r'); end
->     if isscalar(fs), xline(fs, '--k'); end
-> end
-> 
-> 
-> %% ======= LOCAL HELPERS ====================================================
-> function [Om_p, Om_s] = prewarp_edges(fp, fs, Fs)
->     % Prewarp: Omega = 2*Fs*tan(pi*f/Fs)
->     if isscalar(fp)
->         Om_p = 2*Fs*tan(pi*fp/Fs);
->         Om_s = 2*Fs*tan(pi*fs/Fs);
->     else
->         Om_p = 2*Fs*tan(pi*fp/Fs);
->         Om_s = 2*Fs*tan(pi*fs/Fs);
+> %% 4) ANALOG FILTER (zpk) AT WARPED EDGES
+> switch lower(proto)
+>   case 'butter'
+>     switch lower(ftype)
+>       case 'lp', [zA,pA,kA] = butter(n, Om_p, 's');
+>       case 'hp', [zA,pA,kA] = butter(n, Om_p, 'high', 's');
+>       case 'bp', [zA,pA,kA] = butter(n, sort(Om_p), 'bandpass', 's');
+>       case 'bs', [zA,pA,kA] = butter(n, sort(Om_p), 'stop', 's');
+>     end
+>   case 'cheby1'
+>     switch lower(ftype)
+>       case 'lp', [zA,pA,kA] = cheby1(n, Ap, Om_p, 's');
+>       case 'hp', [zA,pA,kA] = cheby1(n, Ap, Om_p, 'high', 's');
+>       case 'bp', [zA,pA,kA] = cheby1(n, Ap, sort(Om_p), 'bandpass', 's');
+>       case 'bs', [zA,pA,kA] = cheby1(n, Ap, sort(Om_p), 'stop', 's');
 >     end
 > end
 > 
+> % Analog zpk -> SOS (stable scaling)
+> [sosA, gA] = zp2sos(zA, pA, kA);
+> 
+> %% 5) BILINEAR TRANSFORM SECTION-BY-SECTION
+> sosZ = zeros(size(sosA));
+> for s = 1:size(sosA,1)
+>     b_s = sosA(s,1:3) * gA^(s==1);
+>     a_s = sosA(s,4:6);
+>     [bz, az] = bilinear(b_s, a_s, Fs);
+>     sosZ(s,:) = [bz az];
+> end
+> [bZ,aZ] = sos2tf(sosZ);     % numerically safe composition
+> 
+> %% =================
+> %% 6) VERIFICATION
+> %% =================
+> if do_plots
+>   figure; freqz(bZ, aZ, 2048, Fs);
+>   title(sprintf('%s-%s via Prewarp+BLT (n=%d)', upper(proto), upper(ftype), n));
+> end
+> 
+> switch lower(ftype)
+>   case {'lp','hp'}
+>     Hfp = freqz(bZ, aZ, [fp fp+1e-9], Fs); Hfp = Hfp(1);
+>     mdB = 20*log10(abs(Hfp));
+>     fprintf('At fp = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp, abs(Hfp), mdB);
+>   case {'bp','bs'}
+>     Hfp1 = freqz(bZ, aZ, [fp(1) fp(1)+1e-9], Fs); Hfp1 = Hfp1(1);
+>     Hfp2 = freqz(bZ, aZ, [fp(2) fp(2)+1e-9], Fs); Hfp2 = Hfp2(1);
+>     mdB1 = 20*log10(abs(Hfp1));
+>     mdB2 = 20*log10(abs(Hfp2));
+>     fprintf('At fpL = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp(1), abs(Hfp1), mdB1);
+>     fprintf('At fpH = %.2f Hz: |H| = %.6f (%.2f dB)\n', fp(2), abs(Hfp2), mdB2);
+> end
+> 
+> if do_plots && show_markers && isscalar(fp) && isscalar(fs)
+>   fgrid = linspace(0, Fs/2, 2000);
+>   Hgrid = freqz(bZ, aZ, fgrid, Fs);
+>   figure; plot(fgrid, 20*log10(abs(Hgrid))); grid on;
+>   xlabel('Frequency (Hz)'); ylabel('Magnitude (dB)');
+>   title('Magnitude Response with Markers');
+>   xline(fp, '--r', 'fp'); 
+>   xline(fs, '--k', 'fs');
+> end
+> 
+> %% =====================
+> %% LOCAL HELPER FUNCS
+> %% =====================
+> function [Om_p, Om_s] = prewarp_edges(fp, fs, Fs)
+>   Om_p = 2*Fs*tan(pi*fp/Fs);
+>   Om_s = 2*Fs*tan(pi*fs/Fs);
+> end
+> 
 > function n = butter_order_formula(Ap_dB, As_dB, vs)
->     % Butterworth LP/HP order formula
->     eps2  = 10^(0.1*Ap_dB) - 1;
->     n_min = log10( (10^(0.1*As_dB) - 1)/eps2 ) / (2*log10(vs));
->     n     = ceil(n_min);
+>   eps2  = 10^(0.1*Ap_dB) - 1;
+>   n_min = log10( (10^(0.1*As_dB) - 1)/eps2 ) / (2*log10(vs));
+>   n     = ceil(n_min);
 > end
 > 
 > function n = cheby1_order_formula(Ap_dB, As_dB, vs)
->     % Chebyshev I LP/HP order formula
->     num   = sqrt( (10^(0.1*As_dB)-1)/(10^(0.1*Ap_dB)-1) );
->     n_min = acosh(num)/acosh(vs);
->     n     = ceil(n_min);
+>   num   = sqrt( (10^(0.1*As_dB)-1) / (10^(0.1*Ap_dB)-1) );
+>   n_min = acosh(num) / acosh(vs);
+>   n     = ceil(n_min);
 > end
 > ```
+
+---
+
+## 🎯 **Try These Test Questions**
+
+Use them to verify that your script behaves correctly for all prototypes and filter types:
+
+|#|Test|Set these EXACT params|
+|---|---|---|
+|1|LP Butterworth|`proto='butter'`, `ftype='lp'`, `fp=60`, `fs=100`, `Fs=480`|
+|2|HP Butterworth|`proto='butter'`, `ftype='hp'`, `fp=80`, `fs=50`, `Fs=480`|
+|3|LP Chebyshev I|`proto='cheby1'`, `ftype='lp'`, `Ap=1`, `As=40`, `fp=60`, `fs=100`, `Fs=480`|
+|4|BP Butterworth|`proto='butter'`, `ftype='bp'`, `fp=[120 180]`, `fs=[90 210]`, `Fs=480`|
+|5|BS Chebyshev I|`proto='cheby1'`, `ftype='bs'`, `Ap=1`, `As=40`, `fp=[120 180]`, `fs=[90 210]`, `Fs=480`|
+|6|Auto vs Manual|pick any of the above; compare `order_mode='auto_formula'` vs `'manual'` (e.g., `n_manual=4`)|
+|7|Auto_ord sanity (BP)|`proto='butter'`, `ftype='bp'`, `fp=[120 180]`, `fs=[90 210]`, `order_mode='auto_ord'`|
+|8|Pre-warp check|print Ω values; they should increase with `f`|
+|9|Gain at fp|printed ≈ −3 dB (LP/HP)|
+|10|High-order stability|bump `n_manual≥8`; no warnings thanks to SOS|
+
+---
+
+> 💡 *Pro tip:* After each run, verify visually that  
+> - The cutoff aligns with `fp`,  
+> - The stopband attenuation ≈ `As`,  
+> - The passband meets the ripple spec `Ap`.
 
 ---
 🔗 **References**  
