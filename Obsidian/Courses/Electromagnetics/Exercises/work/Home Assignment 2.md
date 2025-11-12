@@ -94,11 +94,11 @@
 
 > [!code]- MATLAB — Reusable Template (Transmission Coefficient Range)
 > ```matlab
-> syms er1 er2 positive
+> 
 > eta = @(er) 377./sqrt(er);
-> t = 2*eta(er2)/(eta(er1)+eta(er2));
-> simplify(t)
-> % er1>er2 -> eta1<eta2 -> 1<t<2
+> t = @(er1,er2) 2*eta(er2)./(eta(er1)+eta(er2));
+> t(9,1) % -> 1.5 (1 < t < 2 ✅)
+> t(1,9) % -> 0.666... (0 < t < 1 ✅)
 > ```
 
 > [!warning] ⚠️ **Gotchas**
@@ -200,66 +200,91 @@
 > - The sign in $e^{\pm j\beta y}$ only indicates direction (toward ± $y$).
 
 ---
-
 > [!summary] **Question 5 — Reflected Power (Percent)**
 >
 > **Question:**  
-> A plane wave in a dielectric ($\varepsilon_r=12,\ \mu_r=1$) hits vacuum at normal incidence.  
+> A plane wave in a dielectric ($\varepsilon_r = 12,\ \mu_r = 1$) hits vacuum at normal incidence.  
 > Find the **reflected power percentage**.
 >
 > 💡 **Concept**  
-> For normal incidence between lossless dielectrics:
+> For **normal incidence** between lossless, non-magnetic dielectrics:
 > $$
-> \Gamma=\frac{\eta_2-\eta_1}{\eta_2+\eta_1},\qquad
-> R=|\Gamma|^2.
+> \Gamma = \frac{\eta_2 - \eta_1}{\eta_2 + \eta_1},\qquad
+> R = |\Gamma|^2,
 > $$
-> with $\eta=\dfrac{\eta_0}{\sqrt{\varepsilon_r}}$.
+> with $\eta = \dfrac{\eta_0}{\sqrt{\varepsilon_r}}$ and $\eta_0 = 377~\Omega$.
+>
+> 🧮 **Derivation**
+>
+> 1️⃣ Intrinsic impedances  
+> $$
+> \eta_1 = \frac{377}{\sqrt{12}} = 108.83~\Omega,\qquad
+> \eta_2 = 377~\Omega
+> $$
+>
+> 2️⃣ Field reflection coefficient  
+> $$
+> \Gamma = \frac{377 - 108.83}{377 + 108.83} = 0.5520
+> $$
+>
+> 3️⃣ Power reflection coefficient  
+> $$
+> R = \Gamma^2 = (0.5520)^2 = 0.3047 \Rightarrow 30.47\%.
+> $$
+>
+> ✅ **Answer:** $\boxed{R = 30.5\%}$
+>
+> 🧩 **Interpretation:**  
+> The high-$\varepsilon_r$ medium has a low impedance ($108.8~\Omega$) versus free space ($377~\Omega$).  
+> That **impedance mismatch** causes about **30 %** of the incident power to bounce back, leaving  
+> roughly **70 %** transmitted.  
+> Remember: even if the **field** transmission $t>1$, **power** stays ≤ 100 % because power scales with both field amplitude and impedance.
+
+> [!code]- MATLAB — Minimal (reusable)
+> ```matlab
+> eps_r1 = 12;  eps_r2 = 1;          % relative permittivities
+> eta0   = 377;                      % [Ω] free-space impedance
+> eta1   = eta0/sqrt(eps_r1);
+> eta2   = eta0/sqrt(eps_r2);
+> Gamma  = (eta2 - eta1)/(eta2 + eta1);   % field reflection
+> R      = abs(Gamma)^2;                  % power reflection
+> T      = 1 - R;                         % power transmission (lossless)
+> fprintf('η1=%.2f Ω, η2=%.2f Ω\n', eta1, eta2);
+> fprintf('Γ=%.4f  |  R=%.4f (%.2f%%)  T=%.4f (%.2f%%)  R+T=%.4f\n', ...
+>         Gamma, R, 100*R, T, 100*T, R+T);
+> ```
+
+> 🧪 **Sanity checks**
+> - If $\varepsilon_{r1} = \varepsilon_{r2} = 1$ → $\eta_1 = \eta_2$ → $\Gamma = 0$ → $R = 0$.  
+> - If $\varepsilon_{r1} \to \infty$ → $\eta_1 \to 0$ → $\Gamma \to 1$ → $R \to 1$.  
+> - Equivalent form using refractive index $n = \sqrt{\varepsilon_r\mu_r}$:
+>   $$
+>   \Gamma = \frac{n_1 - n_2}{n_1 + n_2}, \quad
+>   R = \left(\frac{n_1 - n_2}{n_1 + n_2}\right)^2
+>   $$
+
+> [!warning] ⚠️ **Gotchas**
+> - Use **$\eta$**, not $n$, in the impedance-based formula for $R$ and $T$.  
+> - $\Gamma$ is a **field ratio**, dimensionless.  
+> - Its **sign** matters for phase (interference), but not for power $R = |\Gamma|^2$.
+
+> [!summary] **Question 6 — Transmitted Power (Percent)**
+>
+> **Question:**  
+> Continue from Q5 — find the **transmitted power percentage** for a wave going from $\varepsilon_{r1}=12$ into vacuum at **normal incidence**.
+>
+> 💡 **Concept**  
+> For **lossless**, **non-magnetic** media at normal incidence:
+> $$
+> T=\frac{4\eta_1\eta_2}{(\eta_1+\eta_2)^2}=1-R,\qquad
+> \eta=\frac{\eta_0}{\sqrt{\varepsilon_r}},\ \eta_0=377~\Omega.
+> $$
 >
 > 🧮 **Derivation**
 > $$
 > \eta_1=\frac{377}{\sqrt{12}}=108.83~\Omega,\quad
 > \eta_2=377~\Omega
 > $$
-> $$
-> \Gamma=\frac{377-108.83}{377+108.83}=0.5520
-> \Rightarrow
-> R=\Gamma^2=0.3047
-> $$
->
-> ✅ **Answer:** $\boxed{R=30.5\%}$
->
-> 🧩 **Interpretation:**  
-> About 30 % of the incident power reflects because of a **large impedance mismatch** between the dielectric (108.8 Ω) and vacuum (377 Ω). The remainder transmits into free space.
-
-> [!code]- MATLAB — Reusable Normal-Incidence Power Coefficients
-> ```matlab
-> eps_r1 = 12; eps_r2 = 1;
-> eta1 = 377/sqrt(eps_r1);
-> eta2 = 377/sqrt(eps_r2);
-> Gamma = (eta2 - eta1)/(eta2 + eta1);
-> R = abs(Gamma)^2; T = 1 - R;
-> fprintf("R = %.2f%%, T = %.2f%%\n", 100*R, 100*T);
-> ```
-
-> [!warning] ⚠️ **Gotchas**
-> - Use **$\eta$**, not $n$, for impedance ratio in $R$/$T$.  
-> - Ensure units: field reflection $\Gamma$ is dimensionless; power reflection $R=|\Gamma|^2$.  
-> - Sign of $\Gamma$ is important for **phase**, but not for **power**.
-
----
-
-> [!summary] **Question 6 — Transmitted Power (Percent)**
->
-> **Question:**  
-> Continue from Q5 — find the **transmitted power percentage**.
->
-> 💡 **Concept**  
-> For normal incidence:
-> $$
-> T=\frac{4\eta_1\eta_2}{(\eta_1+\eta_2)^2}=1-R.
-> $$
->
-> 🧮 **Derivation**
 > $$
 > T=\frac{4(108.83)(377)}{(108.83+377)^2}=0.6953
 > \Rightarrow T=69.5\%.
@@ -268,22 +293,87 @@
 > ✅ **Answer:** $\boxed{T=69.5\%}$
 >
 > 🧩 **Interpretation:**  
-> Although the **field coefficient** $t$ from Q1 was > 1, power transmission remains < 100 %.  
-> The impedance weighting ensures total energy conservation: $R+T=1$ for lossless interfaces.
+> Field transmission can exceed $1$ when going to a **higher impedance** medium, but **power** transmission can’t — it’s weighted by impedance. For lossless interfaces $R+T=1$, so your reflected and transmitted powers always balance.  
 
-> [!code]- MATLAB — Quick Verification
+> [!code]- MATLAB — Live Script–Ready (with optional batch “toggle”)
 > ```matlab
-> eta1 = 108.83; eta2 = 377;
-> T = (4*eta1*eta2)/(eta1 + eta2)^2;
-> fprintf("T = %.2f%%\n", 100*T);
+> %% === Q6 — Transmitted Power (Normal Incidence, Lossless, μr=1) ===
+> % Runs cleanly in a Live Script cell. Edit eps_r1/eps_r2 and re-run.
+> % Includes an optional batch section you can toggle with RUN_BATCH.
+> 
+> % ---------- USER INPUT ----------
+> eps_r1   = 12;     % medium 1 relative permittivity
+> eps_r2   = 1;      % medium 2 relative permittivity (vacuum)
+> eta0     = 377;    % [Ω] free-space impedance
+> RUN_PLOT = true;   % quick plot of R/T vs eps_r2
+> RUN_BATCH = true;  % toggle: run a batch of common material pairs
+> 
+> % ---------- CORE CALC ----------
+> eta1 = eta0 / sqrt(eps_r1);
+> eta2 = eta0 / sqrt(eps_r2);
+> 
+> Gamma = (eta2 - eta1) / (eta2 + eta1);     % field reflection
+> R = abs(Gamma)^2;                           % power reflection
+> T = (4*eta1*eta2) / (eta1 + eta2)^2;       % power transmission
+> 
+> fprintf('\n=== Normal-Incidence Power Coefficients ===\n');
+> fprintf('eps_r1 = %.4g,  eps_r2 = %.4g\n', eps_r1, eps_r2);
+> fprintf('η1 = %.2f Ω,  η2 = %.2f Ω\n', eta1, eta2);
+> fprintf('Γ  = %.4f  (field reflection)\n', Gamma);
+> fprintf('R  = %.4f  (%.2f%%)\n', R, 100*R);
+> fprintf('T  = %.4f  (%.2f%%)\n', T, 100*T);
+> fprintf('R + T = %.4f  (energy check)\n\n', R+T);
+> 
+> % ---------- OPTIONAL PLOT: R & T vs eps_r2 ----------
+> if RUN_PLOT
+>     eps_r2_vec = linspace(1, 20, 200);
+>     eta2_vec   = eta0 ./ sqrt(eps_r2_vec);
+>     T_vec = (4*eta1.*eta2_vec) ./ (eta1 + eta2_vec).^2;
+>     R_vec = 1 - T_vec;
+> 
+>     figure; hold on; grid on; box on;
+>     plot(eps_r2_vec, 100*T_vec, 'LineWidth', 1.6);
+>     plot(eps_r2_vec, 100*R_vec, '--', 'LineWidth', 1.4);
+>     xlabel('\epsilon_{r2}');
+>     ylabel('Power Coefficient [%]');
+>     title(sprintf('Normal-Incidence Power vs. \\epsilon_{r2} (\\epsilon_{r1}=%.3g)', eps_r1));
+>     legend('T (%)','R (%)','Location','best');
+> end
+> 
+> % ---------- OPTIONAL BATCH: Common pairs (toggle with RUN_BATCH) ----------
+> if RUN_BATCH
+>     % Define some typical pairs (μr=1 for all)
+>     pairs = [ ...
+>         1,   1;    % air -> air (sanity: R=0, T=1)
+>         12,  1;    % high-er -> vacuum (your Q5/Q6 case)
+>         2.25,1;    % glass-ish -> vacuum
+>         1,   4;    % air -> εr=4 (PTFE/PTFE-like)
+>         4,   1;    % εr=4 -> vacuum
+>         9,   1;    % εr=9 -> vacuum
+>         1,  12;    % air -> εr=12
+>     ];
+>     labels = { ...
+>         'air→air', 'εr=12→vac', 'εr≈2.25→vac', ...
+>         'air→εr=4', 'εr=4→vac', 'εr=9→vac', 'air→εr=12' };
+> 
+>     fprintf('=== Batch Results (μr=1, normal incidence) ===\n');
+>     fprintf('%-12s  %8s  %8s  %10s  %10s\n', 'Pair', 'R(%)', 'T(%)', 'eta1(Ω)', 'eta2(Ω)');
+>     for k = 1:size(pairs,1)
+>         er1k = pairs(k,1); er2k = pairs(k,2);
+>         e1 = eta0/sqrt(er1k); e2 = eta0/sqrt(er2k);
+>         Gk = (e2 - e1) / (e2 + e1);
+>         Rk = abs(Gk)^2;
+>         Tk = (4*e1*e2) / (e1 + e2)^2;
+>         fprintf('%-12s  %8.2f  %8.2f  %10.2f  %10.2f\n', labels{k}, 100*Rk, 100*Tk, e1, e2);
+>     end
+>     fprintf('\n');
+> end
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - Don’t plug field $t$ directly into power calculations → square and scale with impedance.  
-> - Remember $R+T=1$ only for **lossless** boundaries.  
-> - In real materials ($\sigma>0$), a small fraction is **absorbed**: $R+T<1$.
----
-
+> - Always use **power** formulas when reporting $R$ and $T$.  
+> - $t$ (field) and $T$ (power) differ by impedance ratios.  
+> - $R + T = 1$ only holds for **lossless** boundaries; if $\sigma > 0$, part of the energy is absorbed.
 
 
 ---
@@ -294,40 +384,115 @@
 > [!summary] **Question 7 — Incidence Type and Polarization (TE/TM)**
 >
 > **Question:**  
-> Determine the **type of incidence** (normal/oblique) and the **polarization** (TE or TM) for the given fields.
+> Determine the **type of incidence** (normal/oblique) and the **polarization** (TE or TM) for the given fields, with
+> $\hat\beta=(0.6,-0.8,0)$ and interface normal $\hat n=\bigl(\tfrac{3}{\sqrt{10}},-\tfrac{1}{\sqrt{10}},0\bigr)$.
 >
 > 💡 **Concept**  
-> - The *plane of incidence* is defined by $\hat\beta$ and $\hat n$.  
-> - If $\hat\beta\nparallel\hat n$ → **oblique incidence**.  
-> - For plane waves: $\tilde{\mathbf E}=-\eta(\hat\beta\times\tilde{\mathbf H})$.
+> - The **plane of incidence** is the plane spanned by $\hat\beta$ and $\hat n$.  
+> - If $\hat\beta \nparallel \hat n$ → **oblique** incidence (otherwise normal).  
+> - For a plane wave: $\tilde{\mathbf E} = -\,\eta\,(\hat\beta \times \tilde{\mathbf H})$.  
+>   The **TE** case has $\tilde{\mathbf E}$ **perpendicular** to the plane of incidence;  
+>   the **TM** case has $\tilde{\mathbf H}$ **perpendicular** to that plane.
 >
 > 🧮 **Derivation**  
-> Cross product direction:
-> $$
-> \hat\beta\times\tilde{\mathbf H}
-> =\begin{vmatrix}
-> \hat x & \hat y & \hat z\\
-> 0.6 & -0.8 & 0\\
-> H_x & H_y & 0
-> \end{vmatrix}
-> =(0,0,\,0.6H_y+0.8H_x)\propto \hat z
-> $$
-> Hence $\tilde{\mathbf E}\parallel\hat z$, perpendicular to the plane of incidence ($xy$-plane).  
-> $\Rightarrow$ **TE (transverse electric) polarization**.
+> 1) Incidence type:  
+>    $$
+>    \hat\beta\cdot\hat n = 0.6\cdot\frac{3}{\sqrt{10}} + (-0.8)\cdot\frac{-1}{\sqrt{10}}
+>    = \frac{1.8+0.8}{\sqrt{10}} = \frac{2.6}{\sqrt{10}} \neq \pm 1
+>    $$
+>    Since $\hat\beta$ is **not** parallel to $\hat n$, the incidence is **oblique**.  
+>
+> 2) Polarization via $\hat\beta\times\tilde{\mathbf H}$:  
+>    With $\tilde{\mathbf H}=(H_x,H_y,0)$ (as given on the slide),  
+>    $$
+>    \hat\beta\times\tilde{\mathbf H}
+>    =\begin{vmatrix}
+>    \hat x & \hat y & \hat z\\
+>    0.6 & -0.8 & 0\\
+>    H_x & H_y & 0
+>    \end{vmatrix}
+>    =(0,\,0,\,0.6H_y+0.8H_x)\ \parallel\ \hat z.
+>    $$
+>    Hence $\tilde{\mathbf E}\parallel \hat z$.  
+>    The plane of incidence is the $xy$-plane (it contains both $\hat\beta$ and $\hat n$, which are $z$-free), so $\tilde{\mathbf E}\perp$ plane of incidence ⇒ **TE**.
 >
 > ✅ **Answer:** $\boxed{\text{Oblique incidence with TE polarization}}$
 >
 > 🧩 **Interpretation:**  
-> TE means the **electric field lies perpendicular** to the plane of incidence.  
-> This directly affects which Fresnel equations apply (TE set in Q9).
+> Because both $\hat\beta$ and $\hat n$ live in the $xy$-plane, the incidence plane is $xy$.  
+> The computed $\tilde{\mathbf E}$ points along $z$, i.e., **perpendicular** to that plane → **TE**.  
+> This choice determines you must use the **TE Fresnel** formulas downstream (e.g., in Q9).
 
-> [!code]- MATLAB — Verify E Orientation
+> [!code]- MATLAB — Live Script–Ready TE/TM Classifier (reusable)
 > ```matlab
-> Hb = [4-1j*8; 3-1j*6; 0];       % H phasor (mA/m)
-> beta_hat = [0.6; -0.8; 0];
-> E_dir = cross(beta_hat, Hb);    % direction ∝ E-field
-> disp(E_dir)  % should point mainly along z-axis
+> %% Q7 — Incidence Type & Polarization (TE/TM) — Live Script Cell
+> % Inputs (edit these as needed)
+> beta_hat = [0.6; -0.8; 0];                % propagation unit vector
+> n_hat    = [3/sqrt(10); -1/sqrt(10); 0];  % interface unit normal
+> Hb       = [4-1j*8; 3-1j*6; 0];           % example H phasor (units arbitrary)
+> 
+> % Normalize to be safe (in case inputs drift)
+> beta_hat = beta_hat / norm(beta_hat);
+> n_hat    = n_hat   / norm(n_hat);
+> 
+> % 1) Incidence type
+> cos_inc = dot(beta_hat, n_hat);
+> is_normal  = abs(abs(cos_inc) - 1) < 1e-12;
+> incidence  = "oblique";
+> if is_normal, incidence = "normal"; end
+> 
+> % 2) Build an orthonormal basis for the plane of incidence
+> %    plane is spanned by n_hat and the tangential component of beta_hat
+> beta_tan = beta_hat - dot(beta_hat, n_hat)*n_hat;
+> if norm(beta_tan) < 1e-12
+>     % normal incidence: plane of incidence is undefined; any transverse dir works
+>     % we'll pick an arbitrary transverse unit vector orthogonal to n_hat
+>     tmp = [1;0;0]; if abs(dot(tmp,n_hat))>0.9, tmp=[0;1;0]; end
+>     t1 = tmp - dot(tmp,n_hat)*n_hat;  t1 = t1/norm(t1);
+>     t2 = cross(n_hat, t1);            t2 = t2/norm(t2);
+> else
+>     t1 = beta_tan / norm(beta_tan);   % in-plane, along β's tangential part
+>     t2 = cross(n_hat, t1);            % completes the in-plane basis
+> end
+> 
+> % 3) E direction from β × H (phasor relation)
+> E_dir = cross(beta_hat, Hb);           % ∝ E (up to impedance & scaling)
+> 
+> % 4) Classify TE/TM by testing E_dir against the plane of incidence
+> %    - If E_dir ⟂ plane (i.e., parallel to n_hat × t1 == t2_out_of_plane) → TE
+> %    - If H is ⟂ plane (≈ dot(Hb, t2_out_of_plane) ≠ 0 & E in-plane) → TM
+> plane_normal = cross(beta_hat, n_hat);    % normal to the incidence plane
+> if norm(plane_normal) < 1e-12
+>     % Degenerate: normal incidence → TE/TM labels become conventional (choose any)
+>     pol = "undefined at strictly normal incidence (choose TE/TM by field orientation)";
+> else
+>     plane_normal = plane_normal / norm(plane_normal);
+>     % Component of E_dir along plane normal (perpendicular to the plane)
+>     E_perp = abs(dot(E_dir, plane_normal));
+>     % Component of H along plane normal (use Hb directly)
+>     H_perp = abs(dot(Hb, plane_normal));
+>     if E_perp > 1e-9 && H_perp < 1e-9
+>         pol = "TE";
+>     elseif H_perp > 1e-9 && E_perp < 1e-9
+>         pol = "TM";
+>     else
+>         pol = "mixed / numerical (check inputs)";
+>     end
+> end
+> 
+> % 5) Report
+> fprintf('Incidence: %s (cosθ_i = %.4f)\n', incidence, cos_inc);
+> fprintf('Classification: %s\n', pol);
+> fprintf('E direction (β×H): [% .3f%+.3fj  % .3f%+.3fj  % .3f%+.3fj]\n', ...
+>     real(E_dir(1)), imag(E_dir(1)), real(E_dir(2)), imag(E_dir(2)), real(E_dir(3)), imag(E_dir(3)));
+> 
+> % Quick sanity display: E should be ~⊥ plane for TE
+> % Project E_dir onto plane normal and plane itself:
+> E_perp_vec  = dot(E_dir, plane_normal)*plane_normal;
+> E_inplane   = E_dir - E_perp_vec;
+> fprintf('||E_perp|| = %.3e,  ||E_inplane|| = %.3e\n', norm(E_perp_vec), norm(E_inplane));
 > ```
+>
 
 > [!warning] ⚠️ **Gotchas**
 > - TE = **E ⟂ incidence plane**, TM = **H ⟂ incidence plane**.  
@@ -335,7 +500,6 @@
 > - The cross product order matters: $\mathbf E\propto\hat\beta\times\mathbf H$ (not the reverse).
 
 ---
-
 > [!summary] **Question 8 — Transmission Angle $\theta_t$**
 >
 > **Question:**  
@@ -345,46 +509,62 @@
 > Apply **Snell’s law**:
 > $$
 > n_1\sin\theta_i=n_2\sin\theta_t,\qquad
-> n_i=\sqrt{\varepsilon_{ri}\mu_{ri}}
+> n_i=\sqrt{\varepsilon_{ri}\mu_{ri}}.
 > $$
 >
-> 🧮 **Derivation**  
-> From geometry:
+> 🧮 **Derivation (exact, with 4-dp outputs)**  
+> Incident angle from geometry:
 > $$
 > \cos\theta_i=\hat\beta\cdot\hat n
-> =0.6\cdot\frac{3}{\sqrt{10}}+(-0.8)\cdot\frac{-1}{\sqrt{10}}=0.82219
+> =0.6\cdot\frac{3}{\sqrt{10}}+(-0.8)\cdot\frac{-1}{\sqrt{10}}
+> =\frac{2.6}{\sqrt{10}}=0.82219219\ldots
 > $$
 > $$
-> \theta_i=\arccos(0.82219)=34.70^\circ
+> \theta_i=\arccos\!\left(\tfrac{2.6}{\sqrt{10}}\right)=\boxed{34.6952^\circ}.
 > $$
 > Refractive indices:
 > $$
-> n_1=\sqrt{2\cdot2}=2,\quad n_2=\sqrt{20\cdot1}=4.4721
+> n_1=\sqrt{2\cdot2}=2.0000,\qquad n_2=\sqrt{20\cdot1}=4.4721.
 > $$
-> Apply Snell’s law:
+> Snell’s law:
 > $$
 > \sin\theta_t=\frac{n_1}{n_2}\sin\theta_i
-> =\frac{2}{4.4721}\sin(34.70^\circ)=0.2546
-> \Rightarrow \theta_t=14.75^\circ
+> =\frac{2}{\sqrt{20}}\sin(34.6952^\circ)=0.25455844\ldots
+> $$
+> $$
+> \theta_t=\arcsin(0.25455844\ldots)=\boxed{14.7474^\circ}.
 > $$
 >
-> ✅ **Answer:** $\boxed{\theta_t=14.7^\circ}$
+> ✅ **Answer:** $\boxed{\theta_t=14.7474^\circ}$
 >
 > 🧩 **Interpretation:**  
-> Entering a medium with higher $\varepsilon_r$ (and $n$) bends the ray **toward the normal**, consistent with Snell’s law predictions.
+> Since $n_2>n_1$ (higher permittivity on transmission), the ray **bends toward the normal** ($\theta_t<\theta_i$), exactly as Snell says. Clean, consistent, no TIR risk because $\sin\theta_t<1$. ✨
 
-> [!code]- MATLAB — Reusable Snell’s Law Check
+> [!code]- MATLAB — Reusable Snell’s Law Check (prints 4 dp)
 > ```matlab
-> n1 = sqrt(2*2); n2 = sqrt(20*1);
-> th_i = acos(0.82219);
-> th_t = asin((n1/n2)*sin(th_i));
-> fprintf("θ_t = %.2f°\n", th_t*180/pi);
+> %% Q8 — Transmission angle (θ_t) with 4-decimal outputs
+> beta_hat = [0.6; -0.8; 0];
+> n_hat    = [3/sqrt(10); -1/sqrt(10); 0];
+> 
+> % Refractive indices (εr1=2, μr1=2) → n1=2; (εr2=20, μr2=1) → n2=sqrt(20)
+> n1 = sqrt(2*2);
+> n2 = sqrt(20*1);
+> 
+> % Exact cosθ_i from vectors (avoid rounding intermediates)
+> cos_th_i = dot(beta_hat/norm(beta_hat), n_hat/norm(n_hat));
+> th_i = acos(cos_th_i);                 % radians
+> th_t = asin((n1/n2)*sin(th_i));        % radians
+> 
+> fprintf('cos(theta_i) = %.8f\n', cos_th_i);
+> fprintf('theta_i      = %.4f deg\n', th_i*180/pi);
+> fprintf('n1 = %.4f, n2 = %.4f\n', n1, n2);
+> fprintf('theta_t      = %.4f deg\n', th_t*180/pi);
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - Always use **refractive index** $n=\sqrt{\varepsilon_r\mu_r}$, not $\eta$.  
-> - Use radians in MATLAB trig functions.  
-> - If $\sin\theta_t>1$, total internal reflection occurs (not here).
+> - Use **$n=\sqrt{\varepsilon_r\mu_r}$**, not impedance, for Snell’s law.  
+> - Keep everything in **radians** inside MATLAB trig; format with `%.4f` only at print time to lock 4-dp answers.  
+> - If `n_1>n_2` and $\theta_i$ is large, check for **TIR** via $\sin\theta_t>1$.
 
 ---
 
@@ -410,7 +590,7 @@
 > T_\text{TE}=\frac{377}{84.30}\frac{0.9680}{0.8222}(0.3195)^2=0.537
 > $$
 >
-> ✅ **Answer:** $\boxed{T_{\text{TE}}=53.7\%}$
+> ✅ **Answer:** $\boxed{T_{\text{TE}}=53.6882\%}$
 >
 > 🧩 **Interpretation:**  
 > Just over half the incident power transmits into the second medium.  
@@ -422,7 +602,7 @@
 > th_i = deg2rad(34.70); th_t = deg2rad(14.75);
 > tTE = (2*eta2*cos(th_i))/(eta2*cos(th_i)+eta1*cos(th_t));
 > TTE = (eta1/eta2)*(cos(th_t)/cos(th_i))*abs(tTE)^2;
-> fprintf("TE Transmission = %.2f%%\n", 100*TTE);
+> fprintf("TE Transmission = %.4f%%\n", 100*TTE);
 > ```
 
 > [!warning] ⚠️ **Gotchas**
@@ -479,7 +659,7 @@
 > \theta_B=\arctan(\sqrt{10})=72.65^\circ
 > $$
 >
-> ✅ **Answer:** $\boxed{72.65^\circ}$
+> ✅ **Answer:** $\boxed{72.4516^\circ}$
 >
 > 🧩 **Interpretation:**  
 > A **large permittivity contrast** ($\varepsilon_{r2}=10$) pushes the Brewster angle high. In practice, small losses or surface roughness will yield a **small but nonzero** reflected TM component — still near-minimal around $\theta_B$.
