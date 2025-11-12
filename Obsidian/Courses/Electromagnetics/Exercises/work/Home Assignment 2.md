@@ -133,41 +133,114 @@
 > - For lossy media or magnetic contrasts, this simple bound no longer holds.
 
 ---
-
 > [!summary] **Question 3 — PEC Boundary (Standing-Wave Power Flow)**
 >
 > **Question:**  
 > If medium 2 is a perfect electric conductor (PEC), what is the **time-average Poynting vector** in medium 1?
 >
 > 💡 **Concept**  
-> - Boundary condition: $E_t=0$ at PEC → $\Gamma=-1$.  
-> - Total field in medium 1 = incident + reflected.
+> - A **PEC** enforces $E_t = 0$ at the surface → total reflection with $\Gamma = -1$.  
+> - The total fields in medium 1 are the **sum** of the incident and reflected waves.  
+> - Since $|\Gamma| = 1$, the two waves carry **equal and opposite power**, so the net energy transport must be zero.  
+> - The **time-average Poynting vector** quantifies real power flow:
+>   $$
+>   \langle \mathbf{S} \rangle = \tfrac{1}{2}\text{Re}(\mathbf{E}_\text{tot} \times \mathbf{H}_\text{tot}^*)
+>   $$
 >
 > 🧮 **Derivation**
+> For a normally incident plane wave on a PEC:
 > $$
-> E_\text{tot}(y)=E_0(e^{-j\beta y}-e^{+j\beta y})=-2jE_0\sin(\beta y)
+> \Gamma = -1 \quad\Rightarrow\quad
+> E_\text{ref} = -E_\text{inc},\qquad
+> H_\text{ref} = +H_\text{inc}.
 > $$
-> The instantaneous fields form a **standing wave**.  
-> Time-averaged real power flow $\langle \mathbf S_\text{tot}\rangle$ is zero, since equal forward and backward power components cancel.
 >
-> ✅ **Answer:** $\boxed{\langle\mathbf S_\text{tot}\rangle=0}$
+> Total electric field:
+> $$
+> E_\text{tot}(y)
+> = E_0(e^{-j\beta y} - e^{+j\beta y})
+> = -\,2jE_0\sin(\beta y)
+> $$
+>
+> Total magnetic field:
+> $$
+> H_\text{tot}(y)
+> = \frac{E_0}{\eta}(e^{-j\beta y} + e^{+j\beta y})
+> = \frac{2E_0}{\eta}\cos(\beta y)
+> $$
+>
+> Time-average power flow:
+> $$
+> \langle S \rangle
+> = \tfrac{1}{2}\text{Re}(E_\text{tot}H_\text{tot}^*)
+> = \tfrac{1}{2}\text{Re}\!\Big[-2jE_0\sin(\beta y)\cdot\tfrac{2E_0}{\eta}\cos(\beta y)\Big]
+> = 0
+> $$
+>
+> Because the product is purely imaginary, no **real** power is transmitted.  
+> The forward and backward powers exactly cancel, leaving a **standing wave**.
+>
+> ✅ **Answer:** $\boxed{\langle\mathbf{S}_\text{tot}\rangle = 0}$
 >
 > 🧩 **Interpretation:**  
-> The fields store energy alternately in electric and magnetic form, but no **net energy transport** occurs toward the PEC — all incident power is reflected.
+> At a PEC boundary, the incident energy cannot enter the conductor, so it’s fully reflected.  
+> The resulting standing wave alternates between stored **electric** and **magnetic** energy,  
+> but the **net time-averaged Poynting vector** is zero — there’s no continuous energy flow toward the boundary.
 
-> [!code]- MATLAB — Reusable Standing-Wave Check
+> [!code]- MATLAB — Standing-Wave Poynting Vector (PEC Boundary)
 > ```matlab
-> y = linspace(0,pi,500);
-> E0 = 1; beta = 1;
-> Etot = E0*(exp(-1j*beta*y) - exp(1j*beta*y));
-> S_avg = mean(real(Etot.*conj(Etot)));  % ≈0 for standing wave
-> plot(y,real(Etot)), title('Standing-wave pattern, PEC boundary')
+> %% Q3 — Standing-Wave Power Flow Check (PEC Boundary)
+> % For a PEC at y=0, Γ=-1 creates a standing wave with <S>=0
+> 
+> y = linspace(0, 2*pi, 500);  % spatial points [m or λ units]
+> E0 = 1;                       % amplitude [V/m]
+> beta = 1;                     % wave number [rad/m]
+> eta = 377;                    % intrinsic impedance [Ω]
+> 
+> % Total fields in medium 1 (incident + reflected with Γ=-1)
+> Ei = E0 * exp(-1j*beta*y);             % incident E
+> Er = -E0 * exp(1j*beta*y);             % reflected E (Γ=-1)
+> Etot = Ei + Er;                        % = -2j*E0*sin(β*y)
+> 
+> Hi = (E0/eta) * exp(-1j*beta*y);       % incident H
+> Hr = (E0/eta) * exp(1j*beta*y);        % reflected H (same direction as inc)
+> Htot = Hi + Hr;                        % = (2*E0/η)*cos(β*y)
+> 
+> % Time-average Poynting vector: <S> = (1/2)*Re(E * conj(H))
+> S_avg = 0.5 * real(Etot .* conj(Htot));
+> 
+> % Verify it's zero everywhere (numerically ~1e-16)
+> fprintf('Max |<S>| = %.4e W/m² (should be ~0)\n', max(abs(S_avg)));
+> fprintf('Mean <S> = %.4e W/m²\n', mean(S_avg));
+> 
+> % Visualization
+> figure;
+> subplot(3,1,1);
+> plot(y, abs(Etot), 'b', 'LineWidth', 1.5);
+> title('Standing Wave: |E_{tot}| at PEC boundary');
+> xlabel('Position y [rad or m]'); ylabel('|E| [V/m]');
+> grid on;
+> 
+> subplot(3,1,2);
+> plot(y, abs(Htot), 'r', 'LineWidth', 1.5);
+> title('Standing Wave: |H_{tot}|');
+> xlabel('Position y'); ylabel('|H| [A/m]');
+> grid on;
+> 
+> subplot(3,1,3);
+> plot(y, S_avg, 'k', 'LineWidth', 1.5);
+> title('Time-Average Poynting Vector <S>');
+> xlabel('Position y'); ylabel('<S> [W/m²]');
+> ylim([-1e-15, 1e-15]);  % zoom to show it's numerically zero
+> grid on;
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - Don’t confuse **instantaneous** $\mathbf S$ with its **time average**.  
-> - For a finite-conductivity metal, $\Gamma\approx-1$ but $\langle\mathbf S\rangle\neq0$ → tiny absorption.  
-> - The $\sin(\beta y)$ form indicates **voltage nodes** at the conductor surface.
+> - Don’t confuse **instantaneous** $\mathbf S(t)$ with **time-averaged** $\langle \mathbf S \rangle$.  
+> - For a PEC, $\Gamma = -1$ → total reflection; for a real metal, $|\Gamma|\lesssim1$ → small absorption.  
+> - $E$ and $H$ are $90^\circ$ out of phase in space: $\sin(\beta y)$ vs. $\cos(\beta y)$.  
+> - Nodes of $E$ coincide with antinodes of $H$ → alternating electric and magnetic energy storage.  
+> - The standing-wave pattern proves total reflection and zero net energy transport.
 
 ---
 > [!info] **Section 2 — Normal Incidence (Numeric) (Q4–Q6)**
@@ -571,45 +644,91 @@
 > [!summary] **Question 9 — Transmitted Power (TE, Percent)**
 >
 > **Question:**  
-> Compute the **transmitted power coefficient** $T_{\text{TE}}$ for the given parameters.
+> Compute the **transmitted power coefficient** $T_{\text{TE}}$ for the given parameters (use 4 decimal places in printed results).
 >
-> 💡 **Concept (TE Fresnel):**  
-> For oblique TE incidence:
+> 💡 **Concept (TE Fresnel)**  
+> For **oblique TE** incidence between lossless media:
 > $$
-> t_{\text{TE}}=\frac{2\eta_2\cos\theta_i}{\eta_2\cos\theta_i+\eta_1\cos\theta_t},\qquad
-> T_{\text{TE}}=\frac{\eta_1}{\eta_2}\frac{\cos\theta_t}{\cos\theta_i}|t_{\text{TE}}|^2
+> t_{\text{TE}}=\frac{2\,\eta_2\cos\theta_i}{\eta_2\cos\theta_i+\eta_1\cos\theta_t},\qquad
+> T_{\text{TE}}=\frac{\eta_1}{\eta_2}\frac{\cos\theta_t}{\cos\theta_i}\,\bigl|t_{\text{TE}}\bigr|^2,
+> $$
+> where $\eta=\eta_0\sqrt{\mu_r/\varepsilon_r}$ with $\eta_0=377~\Omega$.
+>
+> 🧮 **Derivation (exact inputs, 4-dp outputs)**  
+> Given media: $(\varepsilon_{r1},\mu_{r1})=(2,2)$ and $(\varepsilon_{r2},\mu_{r2})=(20,1)$  
+> → $\eta_1=\eta_0\sqrt{2/2}= \mathbf{377.0000}~\Omega$,  
+> $\eta_2=\eta_0\sqrt{1/20}= \mathbf{84.2998}~\Omega$.
+>
+> From Q8 we had
+> $$
+> \theta_i=\mathbf{34.6952}^\circ,\qquad \theta_t=\mathbf{14.7474}^\circ,
+> $$
+> so
+> $$
+> \cos\theta_i=\mathbf{0.8222},\qquad \cos\theta_t=\mathbf{0.9679}.
+> $$
+> Field transmission (TE):
+> $$
+> t_{\text{TE}}
+> =\frac{2(84.2998)(0.8222)}{84.2998(0.8222)+377.0000(0.9679)}
+> =\mathbf{0.3195}.
+> $$
+> Power transmission (TE):
+> $$
+> T_{\text{TE}}
+> =\frac{377.0000}{84.2998}\frac{0.9679}{0.8222}\,(0.3195)^2
+> =\mathbf{0.5369}\ \Rightarrow\ \mathbf{53.6898}\%.
 > $$
 >
-> 🧮 **Derivation**  
-> Using: $\eta_1=377~\Omega$, $\eta_2=84.30~\Omega$,  
-> $\cos\theta_i=0.82219$, $\cos\theta_t=0.96798$
-> $$
-> t_\text{TE}=\frac{2(84.30)(0.8222)}{84.30(0.8222)+377(0.9680)}=0.3195
-> $$
-> $$
-> T_\text{TE}=\frac{377}{84.30}\frac{0.9680}{0.8222}(0.3195)^2=0.537
-> $$
->
-> ✅ **Answer:** $\boxed{T_{\text{TE}}=53.6882\%}$
+> ✅ **Answer:** $\boxed{T_{\text{TE}}=53.6898\%}$
 >
 > 🧩 **Interpretation:**  
-> Just over half the incident power transmits into the second medium.  
-> TE polarization generally reflects **more** than TM for high-$\varepsilon$ contrasts because $E_\parallel$ must stay continuous, reducing transmitted field strength.
+> Because $\eta_2\ll\eta_1$ (high-$\varepsilon$ second medium), TE suffers **stronger reflection** than TM; still, more than half the **power** transmits at this moderate incidence. Always remember: TE/TM use **different Fresnel forms**, and power coefficients include the **impedance and cosine** weighting, not just $|t|^2$.  
 
-> [!code]- MATLAB — Reusable Fresnel TE Power
+> [!code]- MATLAB — Live Script–Ready (prints 4 dp, recomputes from vectors)
 > ```matlab
-> eta1 = 377; eta2 = 84.3;
-> th_i = deg2rad(34.70); th_t = deg2rad(14.75);
-> tTE = (2*eta2*cos(th_i))/(eta2*cos(th_i)+eta1*cos(th_t));
-> TTE = (eta1/eta2)*(cos(th_t)/cos(th_i))*abs(tTE)^2;
-> fprintf("TE Transmission = %.4f%%\n", 100*TTE);
+> %% Q9 — TE Power Transmission at Oblique Incidence (4 dp)
+> % Geometry (from the problem)
+> beta_hat = [0.6; -0.8; 0];
+> n_hat    = [3/sqrt(10); -1/sqrt(10); 0];
+> 
+> % Media (lossless)
+> eps_r1 = 2;  mu_r1 = 2;
+> eps_r2 = 20; mu_r2 = 1;
+> eta0 = 377;                    % [ohm]
+> eta1 = eta0 * sqrt(mu_r1/eps_r1);
+> eta2 = eta0 * sqrt(mu_r2/eps_r2);
+> 
+> % Angles
+> beta_hat = beta_hat / norm(beta_hat);
+> n_hat    = n_hat    / norm(n_hat);
+> cos_th_i = dot(beta_hat, n_hat);
+> th_i = acos(cos_th_i);
+> 
+> n1 = sqrt(eps_r1*mu_r1);
+> n2 = sqrt(eps_r2*mu_r2);
+> th_t = asin((n1/n2) * sin(th_i));
+> 
+> % Fresnel TE
+> tTE = (2*eta2*cos(th_i)) / (eta2*cos(th_i) + eta1*cos(th_t));
+> TTE = (eta1/eta2) * (cos(th_t)/cos(th_i)) * abs(tTE)^2;
+> 
+> % Print 4 dp
+> fprintf('eta1 = %.4f ohm, eta2 = %.4f ohm\n', eta1, eta2);
+> fprintf('cos(theta_i) = %.4f, cos(theta_t) = %.4f\n', cos(th_i), cos(th_t));
+> fprintf('t_TE = %.4f\n', tTE);
+> fprintf('T_TE = %.4f (%.4f %%)\n', TTE, 100*TTE);
+> 
+> % Energy sanity (optional, compute R_TE too)
+> rTE = (eta2*cos(th_i) - eta1*cos(th_t)) / (eta2*cos(th_i) + eta1*cos(th_t));
+> RTE = abs(rTE)^2;
+> fprintf('Energy check: R_TE + T_TE = %.4f\n', RTE + TTE);
 > ```
 
-> [!warning] ⚠️ **Gotchas**
-> - **TE** and **TM** formulas are different; mixing them is a classic exam trap.  
-> - Check which cosine ($\theta_i$ or $\theta_t$) belongs where in $t_{\text{TE}}$.  
-> - Always ensure $R+T\approx1$ for lossless interfaces — a good sanity check.
----
+> [!warning] **Gotchas**
+> - TE vs TM: **don’t mix** the Fresnel forms; the cosines/impedances sit in **different places**.  
+> - Round only at the **end**. Keep full precision for intermediate cosines and impedances, then print with `%.4f`.  
+> - In lossless cases, always check **$R+T\simeq1$** as a quick validator.
 
 
 ---
@@ -640,145 +759,194 @@
 > - Brewster requires **oblique** incidence; there’s no Brewster at normal incidence.
 
 ---
-
 > [!summary] **Question 11 — Required incidence angle (degrees)**
 >
 > **Question:**  
 > Compute the **Brewster angle** $\theta_B$ (in degrees) for the air–ground interface with $\varepsilon_{r2}=10$ and $\mu_{r1}=\mu_{r2}=1$.
 >
 > 💡 **Concept (TM Brewster, non-magnetic)**  
-> For $\mu_1=\mu_2$:
+> For $\mu_1=\mu_2$, the **TM** (p-polarized) reflection goes to zero at
 > $$
-> \tan\theta_B=\sqrt{\frac{\varepsilon_{r2}}{\varepsilon_{r1}}}
+> \tan\theta_B=\sqrt{\frac{\varepsilon_{r2}}{\varepsilon_{r1}}},\qquad
+> \theta_B=\arctan\!\Big(\sqrt{\tfrac{\varepsilon_{r2}}{\varepsilon_{r1}}}\Big).
 > $$
 >
-> 🧮 **Derivation**
+> 🧮 **Derivation (exact, 4-dp output)**  
+> Here $\varepsilon_{r1}=1$ (air), $\varepsilon_{r2}=10$:
 > $$
-> \tan\theta_B=\sqrt{\frac{10}{1}}=\sqrt{10}
-> \quad\Rightarrow\quad
-> \theta_B=\arctan(\sqrt{10})=72.65^\circ
+> \tan\theta_B=\sqrt{\frac{10}{1}}=\sqrt{10}=3.162277660\ldots
+> $$
+> $$
+> \theta_B=\arctan(\sqrt{10})=\boxed{72.4516^\circ}.
 > $$
 >
 > ✅ **Answer:** $\boxed{72.4516^\circ}$
 >
 > 🧩 **Interpretation:**  
-> A **large permittivity contrast** ($\varepsilon_{r2}=10$) pushes the Brewster angle high. In practice, small losses or surface roughness will yield a **small but nonzero** reflected TM component — still near-minimal around $\theta_B$.
+> Bigger $\varepsilon_{r2}$ drags the Brewster angle way up,— at ~$72.45^\circ$ the **TM** reflection cancels. In real life, tiny loss/roughness means it won’t be *exactly* zero, but it’s still the sweet spot for minimizing the ground-bounce in TM. ✨
 
-> [!code]- MATLAB — Reusable Brewster (TM, non-magnetic)
+> [!code]- MATLAB — Reusable Brewster (TM, non-magnetic, prints 4 dp)
 > ```matlab
+> %% Q11 — TM Brewster angle (μ1 = μ2), 4-decimal print
 > eps1 = 1;    % air
-> eps2 = 10;   % ground
-> thetaB_deg = atan(sqrt(eps2/eps1))*180/pi;
-> fprintf("TM Brewster angle = %.2f°\n", thetaB_deg);
+> eps2 = 10;   % ground-like
+> thetaB = atan( sqrt(eps2/eps1) );     % radians
+> thetaB_deg = thetaB * 180/pi;         % degrees
+> fprintf("TM Brewster angle = %.4f°\n", thetaB_deg);  % -> 72.4516°
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - This closed-form only holds when $\mu_1=\mu_2$. If $\mu$ differs, use full Fresnel expressions and solve $\Gamma_{\text{TM}}(\theta)=0$ numerically.  
-> - Brewster is defined for the **incident** angle in the **first medium** (air).  
-> - At $\theta_B$, **TM** reflection is zero, but **TE** reflection is not.
+> - This closed form is for **TM** with **μ1=μ2**. If μ differs, solve $\Gamma_{\text{TM}}(\theta)=0$ from Fresnel directly.  
+> - Brewster is the **incident** angle in medium 1.  
+> - TE has **no** Brewster zero when μ matches.
+
 
 ---
 
 > [!info] **Section 5 — Electrostatics: Three Collinear Charges (Q12–Q13)**  
 > Geometry: three point charges on the $x$-axis, spacing $d=10~\text{nm}=1\times10^{-8}\,\text{m}$; force on $Q_2$ toward $+x$ taken as positive.
 
-
 > [!summary] **Question 12 — $Q_1=Q_3=-5~\text{aC},\; Q_2=-10~\text{aC}$**
 >
 > **Question:**  
-> Find the **$x$-component of the force** on $Q_2$ (in nN).
+> Find the **$x$-component of the force** on $Q_2$ (in nN) for three point charges aligned along the $x$-axis, equally spaced by $d=10~\text{nm}$.
 >
 > 💡 **Concept**  
-> Coulomb’s law magnitude between neighbors: $F=\dfrac{k\,|Q_iQ_j|}{r^2}$.  
-> All three charges are **negative**, so each neighbor **repels** $Q_2$; geometry sets directions.
->
-> 🧮 **Derivation**  
-> One neighbor’s magnitude:
+> Coulomb’s law gives the electric force between any two point charges as
 > $$
-> F_\text{one}
-> =k\frac{(5\times10^{-18})(10\times10^{-18})}{(10^{-8})^2}
-> =4.49~\text{nN}.
+> \mathbf{F}_{ij}=k\frac{Q_iQ_j}{r_{ij}^2}\hat{r}_{ij}, \qquad
+> k=8.988\times10^9~\text{N·m}^2/\text{C}^2.
+> $$
+> Since all charges here are **negative**, each pair repels. Symmetry tells us that forces from the left and right neighbors may cancel.
+>
+> 🧮 **Derivation (exact 4-dp values)**  
+> Distance between charges:  
+> $$
+> d = 10~\text{nm} = 1.0000\times10^{-8}~\text{m}.
+> $$
+> Magnitudes of charges:  
+> $$
+> |Q_1| = |Q_3| = 5.0000\times10^{-18}~\text{C},\qquad
+> |Q_2| = 1.0000\times10^{-17}~\text{C}.
+> $$
+> Force magnitude from **one neighbor** on $Q_2$:
+> $$
+> F_\text{one} = k\frac{|Q_1 Q_2|}{d^2}
+> = 8.988\times10^9 \cdot \frac{(5\times10^{-18})(10\times10^{-18})}{(10^{-8})^2}
+> = \boxed{4.4940~\text{nN}}.
 > $$
 > Directions:  
-> • $Q_1$ (left) repels $Q_2$ to the **right** → $+4.49$ nN.  
-> • $Q_3$ (right) repels $Q_2$ to the **left** → $-4.49$ nN.  
+> - $Q_1$ (left) repels $Q_2$ → **rightward**, $+4.4940$ nN.  
+> - $Q_3$ (right) repels $Q_2$ → **leftward**, $-4.4940$ nN.  
+>
 > Net:
 > $$
-> F_x=+4.49-4.49=0.
+> F_x = +4.4940 - 4.4940 = \boxed{0.0000~\text{nN}}.
 > $$
 >
-> ✅ **Answer:** $\boxed{0~\text{nN}}$
+> ✅ **Answer:** $\boxed{F_x = 0.0000~\text{nN}}$
 >
 > 🧩 **Interpretation:**  
-> Perfect symmetry (equal charges placed symmetrically) gives **zero net force** on the middle charge, even though each pairwise interaction is nonzero.
+> The setup is perfectly symmetric about the center charge $Q_2$, so the equal and opposite repulsive forces cancel exactly. Although each neighbor applies a $4.494~\text{nN}$ push, $Q_2$ experiences **no net force** — equilibrium due to symmetry.
 
-> [!code]- MATLAB — Reusable Three-Charge Line (Signed 1D Force)
+> [!code]- MATLAB — Reusable Three-Charge Line (Signed 1D Force, 4-dp output)
 > ```matlab
-> % Positions: Q1 at x=-d, Q2 at x=0, Q3 at x=+d
-> k  = 8.988e9;       % N·m^2/C^2
-> d  = 1e-8;          % m
-> Q1 = -5e-18; Q2 = -10e-18; Q3 = -5e-18;   % C
-> xi = [-d, +d]; Qi = [Q1, Q3];
-> Fx = 0;
+> %% Q12 — 1D Coulomb force on center charge (4-decimal precision)
+> % Positions: Q1 at -d, Q2 at 0, Q3 at +d
+> k  = 8.988e9;          % [N·m^2/C^2]
+> d  = 1e-8;             % [m]
+> Q1 = -5e-18;           % [C]
+> Q2 = -10e-18;          % [C]
+> Q3 = -5e-18;           % [C]
+> 
+> xi = [-d, +d];         % positions of Q1 and Q3
+> Qi = [Q1, Q3];         % their charges
+> Fx = 0;                % net force on Q2 (x-component)
+> 
 > for i = 1:2
->     r = 0 - xi(i);                      % vector from Qi to Q2 (signed)
->     Fx = Fx + k*Q2*Qi(i) * (r) / abs(r)^3;  % 1D form of k Q2 Qi (r)/|r|^3
+>     r = 0 - xi(i);                     % vector from Qi to Q2 (signed)
+>     Fx = Fx + k * Q2 * Qi(i) * (r) / abs(r)^3;  % Coulomb 1D form
 > end
-> fprintf("Fx on Q2 = %.2f nN\n", 1e9*Fx);    % → 0.00 nN
+> 
+> fprintf("Fx on Q2 = %.4f nN\n", 1e9*Fx);   % Expected → 0.0000 nN
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - Keep **direction** straight: use the vector form $kQ_2Q_i\,(x_2-x_i)/|x_2-x_i|^3$ in 1D to avoid sign slips.  
-> - Symmetry can shortcut the algebra — but always verify magnitudes match.  
-> - Watch units: aC → C, nm → m.
+> - Use the **signed 1D vector form** $F_x=kQ_2Q_i(x_2-x_i)/|x_2-x_i|^3$ to avoid direction mistakes.  
+> - Always convert: $1~\text{aC}=10^{-18}~\text{C}$, $1~\text{nm}=10^{-9}~\text{m}$.  
+> - Check symmetry: if $Q_1=Q_3$, the net force on the center is **zero** regardless of magnitudes.
+
 
 ---
 
 > [!summary] **Question 13 — $Q_1=-3~\text{aC},\; Q_3=+3~\text{aC},\; Q_2=-10~\text{aC}$**
 >
 > **Question:**  
-> Find the **$x$-component of the force** on $Q_2$ (in nN).
+> Find the **$x$-component of the force** on $Q_2$ (in nN) for three equally spaced point charges ($d=10~\text{nm}$) along the $x$-axis.
 >
 > 💡 **Concept**  
-> Like charges **repel**, unlike **attract**. With $Q_2<0$:  
-> • $Q_1=-3$ aC (like) → **repulsion** → force on $Q_2$ toward **$+x$**.  
-> • $Q_3=+3$ aC (unlike) → **attraction** → force on $Q_2$ toward **$+x$**.  
-> Both contributions point right.
+> Coulomb’s law in 1D:
+> $$
+> F_x = k\,Q_2Q_i\frac{(x_2-x_i)}{|x_2-x_i|^3},\qquad
+> k = 8.988\times10^9~\text{N·m}^2/\text{C}^2.
+> $$
+> With $Q_2<0$:
+> - $Q_1=-3~\text{aC}$ → **repulsion** → $+x$ direction.  
+> - $Q_3=+3~\text{aC}$ → **attraction** → also $+x$.  
+> Both contributions reinforce each other.
 >
-> 🧮 **Derivation**  
-> One-side magnitude:
+> 🧮 **Derivation (exact 4-dp values)**  
+> Spacing:
 > $$
-> F_\text{one}
-> =k\frac{(3\times10^{-18})(10\times10^{-18})}{(10^{-8})^2}
-> =2.70~\text{nN}.
+> d = 10~\text{nm} = 1.0000\times10^{-8}~\text{m}.
 > $$
-> Both sides add:
+> Magnitudes:
 > $$
-> F_x=2F_\text{one}=5.40~\text{nN}.
+> |Q_1| = |Q_3| = 3.0000\times10^{-18}~\text{C},\qquad
+> |Q_2| = 1.0000\times10^{-17}~\text{C}.
+> $$
+> Single-side magnitude:
+> $$
+> F_\text{one} = k\frac{|Q_1Q_2|}{d^2}
+> = 8.988\times10^9\frac{(3\times10^{-18})(10\times10^{-18})}{(10^{-8})^2}
+> = \boxed{2.6964~\text{nN}}.
+> $$
+> Both sides act toward $+x$, so:
+> $$
+> F_x = 2F_\text{one} = \boxed{5.3928~\text{nN}}.
 > $$
 >
-> ✅ **Answer:** $\boxed{+5.4~\text{nN}}$
+> ✅ **Answer:** $\boxed{F_x = +5.3928~\text{nN}}$
 >
 > 🧩 **Interpretation:**  
-> Repulsion from the left and attraction from the right **both push right**, so the forces add, doubling the single-side magnitude.
+> The left-side **repulsion** and right-side **attraction** push in the same direction, yielding a net force of about **5.39 nN** toward $+x$.  
+> Unlike the symmetric case (Q12), this configuration breaks balance, giving a definite net motion direction.
 
-> [!code]- MATLAB — Same Helper (New Charges)
+> [!code]- MATLAB — 1D Coulomb Force (Live Script–Ready, 4-dp precision)
 > ```matlab
-> k  = 8.988e9; d = 1e-8;
-> Q1 = -3e-18; Q2 = -10e-18; Q3 = +3e-18;
-> xi = [-d, +d]; Qi = [Q1, Q3];
+> %% Q13 — Net Coulomb Force on Middle Charge (4-decimal print)
+> % Positions: Q1 at -d, Q2 at 0, Q3 at +d
+> k  = 8.988e9;      % [N·m^2/C^2]
+> d  = 1e-8;         % [m]
+> Q1 = -3e-18;       % [C]
+> Q2 = -10e-18;      % [C]
+> Q3 = +3e-18;       % [C]
+> 
+> xi = [-d, +d];
+> Qi = [Q1, Q3];
 > Fx = 0;
 > for i = 1:2
->     r = 0 - xi(i);                          % r = x2 - xi
->     Fx = Fx + k*Q2*Qi(i) * (r) / abs(r)^3;  % signed 1D Coulomb force
+>     r = 0 - xi(i);                         % vector from Qi to Q2
+>     Fx = Fx + k * Q2 * Qi(i) * (r) / abs(r)^3;
 > end
-> fprintf("Fx on Q2 = %.2f nN\n", 1e9*Fx);    % → +5.40 nN
+> 
+> fprintf('Fx on Q2 = %.4f nN\n', 1e9*Fx);  % → +5.3928 nN
 > ```
 
 > [!warning] ⚠️ **Gotchas**
-> - Don’t “hand-assign” directions; let the vector form set signs automatically.  
-> - Confirm that the two contributions point the **same way** before summing.  
-> - The $r^2$ (or $|r|^3$ in vector form) is the most common place for arithmetic slips.
+> - Use the **signed** 1D vector form to get correct directions.  
+> - Always convert properly: $1~\text{aC}=10^{-18}~\text{C}$, $1~\text{nm}=10^{-9}~\text{m}$.  
+> - Both sides must point the same way here—repulsion + attraction reinforce → positive net force.
 
 ---
 Recent in same folder
