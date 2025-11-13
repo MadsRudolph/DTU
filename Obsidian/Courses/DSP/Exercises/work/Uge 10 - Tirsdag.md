@@ -1,5 +1,6 @@
 > Quick refs: [[Digital Filter Design — IIR (Part 2)]]  
-> Exercise sheet: *Uge 10 – Tirsdag* (BLT IIR design)
+> Exercise sheet: [[62743 E25 Digital Signal Processing Uge 10 Tirsdag.pdf]]
+> solution sheet:[[62743 E25 Digital Signal Processing Uge 10 Tirsdag solutions.pdf]]
 
 ---
 
