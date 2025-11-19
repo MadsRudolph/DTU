@@ -117,6 +117,27 @@ Small utilities that help keep the vault consistent and catch broken links.
 Run these from the repo root with your Python environment active.
 
 ---
+## Academic integrity & usage
+
+This repo contains **personal study material** for DTU courses: notes, helper scripts, and in some cases worked examples.
+
+Please use it responsibly:
+
+### ✅ Allowed / encouraged
+
+- Reading and learning from the notes, code, and derivations  
+- Using it as *inspiration* for your own solutions  
+- Forking/cloning to build your own study vault  
+
+### ❌ Not allowed
+
+- Submitting anything from this repo **as your own work** for assignments, projects, or exams  
+- Blindly copying solutions into graded hand-ins  
+
+By using this repo, you are responsible for complying with your university’s rules on **academic honesty** and **plagiarism**. If in doubt, ask your course responsible or supervisor.
+
+Unless otherwise specified in subfolders, content here is intended for **personal / educational use**. Do not redistribute or package it as a solution set.
+
 
 ## Contributing — come hack the vault (please be chill) 🛠️
 
