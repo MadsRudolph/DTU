@@ -165,7 +165,7 @@ python .\scripts\check_wikilinks.py
 
 If you touch lots of files, also run `scripts/wire_courses.py` or the course-scoped checker.
 
-Be nice. Keep it readable. If you want a `CONTRIBUTING.md` or `CODE_OF_CONDUCT.md`, I can add them.
+See [CONTRIBUTING.md](CONTRIBUTING.md) 
 
 ---
 
