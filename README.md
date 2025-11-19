@@ -138,7 +138,7 @@ By using this repo, you are responsible for complying with your university’s r
 
 Unless otherwise specified in subfolders, content here is intended for **personal / educational use**. Do not redistribute or package it as a solution set.
 
-See [LICENSE.md](LICENSE.md) for usage terms.
+See [LICENSE.md](License.md) for usage terms.
 
 ## Contributing — come hack the vault (please be chill) 🛠️
 
