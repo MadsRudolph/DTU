@@ -387,8 +387,8 @@ $$
 **Observed effects**
 
 - The **Hamming window** significantly **reduces side-lobe levels** (stopband ripples).  
-  - Rectangular: first side-lobe around $\approx -13$ dB.  
-  - Hamming: first side-lobe around $\approx -40$ dB.
+  - Rectangular: first side-lobe around $\approx 2200~\text{Hz}$.  
+  - Hamming: first side-lobe around $\approx 2650~\text{Hz}$.
 - In exchange, the **main lobe widens**, i.e. the **transition band** around $F_c$ becomes **wider**.  
 - This is the classic **windowing trade-off**: lower sidelobes vs wider transition.
 
