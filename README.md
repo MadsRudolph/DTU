@@ -3,6 +3,19 @@
 <p align="center">
   <img src="Obsidian/Resources/banner_dtu.png" alt="DTU — Signal Integrity for My Brain" style="max-width:900px; width:100%; height:auto;">
 </p>
+<p align="center">
+  <img src="Obsidian/Resources/banner_dtu.png" alt="DTU — Signal Integrity for My Brain" style="max-width:900px; width:100%; height:auto;">
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/<YOUR_USER>/<YOUR_REPO>/output/github-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/<YOUR_USER>/<YOUR_REPO>/output/github-snake.svg" />
+    <img alt="Contribution snake" src="https://raw.githubusercontent.com/<YOUR_USER>/<YOUR_REPO>/output/github-snake.svg" width="900" />
+  </picture>
+</p>
+
+# DTU — Signal Integrity for My Brain
 
 # DTU — Signal Integrity for My Brain
 
