@@ -1,25 +1,27 @@
 # ⚙️ CMOS Op-Amp Fundamentals — Quiz 10 Derivations
 
 > [!abstract] **Goal of This Quiz**  
-> Understand the structure and operation of a **CMOS operational amplifier**, including its  
-> **input and output impedances**, **Miller compensation**, **gain stacking**, and how to compute  
-> **$g_m$, $r_o$, $A_v$, and $V_{DS}$** for differential and cascaded stages.
+> Understand the structure and operation of a **CMOS operational amplifier**, including  
+> **input/output impedances**, **Miller compensation**, **gain stacking**, and how to compute  
+> **$g_m$, $r_o$, $A_v$, and $V_{DS}$** in differential and cascaded stages.
 
 ---
 
 > [!info] **Concept**  
 > A typical CMOS Op-Amp consists of:
-> - **Differential input pair** → high input impedance  
-> - **Common-source gain stage** → large voltage gain  
-> - **Common-drain (source-follower)** → low output impedance for load drive  
+> - **Differential input pair** → very high input impedance  
+> - **Common-source gain stage** → large intrinsic voltage gain  
+> - **Common-drain (source follower)** → low output impedance  
 >
-> **Miller compensation ($C_c$)** introduces *pole splitting*: dominant pole ↓, non-dominant pole ↑, ensuring phase-margin stability.  
+> **Miller compensation ($C_c$)** provides stability by **splitting poles**:  
+> - Dominant pole moves **down** in frequency  
+> - Non-dominant pole moves **up**  
 >
-> **Key relations (saturation region)**  
+> **Core equations (long-channel, saturation)**  
 > $$
-> g_m \approx \frac{2I_D}{V_{OV}}, \qquad 
-> r_o \approx \frac{|V_A|}{I_D}, \qquad 
-> A_v^{CS} \approx g_m(r_{o,n}\parallel r_{o,p})
+> g_m \approx \frac{2I_D}{V_{OV}},\qquad
+> r_o \approx \frac{|V_A|}{I_D},\qquad
+> A_v^{CS} \approx g_m\bigl(r_{o,n}\parallel r_{o,p}\bigr)
 > $$
 
 ---
@@ -29,8 +31,8 @@
 > **Question:** The input impedance of a CMOS Op-Amp is normally …  
 >
 > **Derivation**  
-> The differential pair uses MOSFET gates as inputs, and since the gate current ≈ 0 A,  
-> the input resistance is extremely high (limited only by bias/leakage paths).  
+> MOS gates draw ~0 A DC current. The differential input pair presents essentially  
+> **infinite resistance**, limited only by leakage and biasing networks.  
 >
 > ✅ **Answer:** *Very high.*
 
@@ -41,12 +43,12 @@
 > **Question:** The output impedance of a CMOS Op-Amp is often …  
 >
 > **Derivation**  
-> The open-loop output node belongs to a **common-source** stage with an **active-load** mirror.  
-> Its small-signal resistance is:
+> Before the output buffer, the output node belongs to a **common-source** stage with  
+> an **active load**. Its small-signal impedance is  
 > $$
-> R_{out} \approx r_{o,n}\parallel r_{o,p}
+> R_{out} \approx r_{o,n} \parallel r_{o,p}
 > $$
-> which is typically **tens of kΩ**, i.e. high.  
+> typically tens of kΩ.  
 >
 > ✅ **Answer:** *High.*
 
@@ -57,12 +59,12 @@
 > **Question:** In a CMOS Op-Amp, a Miller capacitor moves …  
 >
 > **Derivation**  
-> $C_c$ provides frequency compensation by feeding output back to the high-gain node.  
-> It **splits** the poles so that  
-> - The **dominant pole** moves **down** in frequency ($p_1↓$)  
-> - The **non-dominant pole** moves **up** ($p_2↑$)  
+> A Miller capacitor between the high-gain node and the output feeds back a current  
+> proportional to voltage difference, resulting in **pole splitting**:
+> - Dominant pole: $p_1\downarrow$  
+> - Non-dominant pole: $p_2\uparrow$  
 >
-> Result → larger phase margin and stable closed-loop response.  
+> This dramatically increases phase margin and stabilizes the loop.  
 >
 > ✅ **Answer:** *The dominant pole down in frequency.*
 
@@ -73,72 +75,112 @@
 > **Question:** The gain of a CMOS Op-Amp built from a differential pair and a common-source stage is …  
 >
 > **Derivation**  
-> Each stage contributes its small-signal voltage gain; in cascade, total gain multiplies:  
+> A cascaded amplifier multiplies individual stage gains:
 > $$
-> A_v^{\text{total}} = A_v^{\text{diff}} \times A_v^{CS}
+> A_v^{\text{total}}
+> = A_v^{\text{diff}}
+> \times
+> A_v^{CS}
 > $$
 >
-> ✅ **Answer:** *The product of the gain for the individual stages.*
+> The quiz explicitly refers to this cascade behavior.  
+>
+> ✅ **Answer:** *The product of the individual gains.*
 
 ---
 
-> [!summary] **Question 5 — Output Resistance of Differential Stage**
+> [!summary] **Question 5 — Output Resistance of Differential Stage (with Early Voltage)**
 >
-> **Question:** For the given circuit with $|V_A|=20$ V and $I_T=0.5$ mA, find $r_{out}$.  
+> **Question:** Given $|V_A|=20~\text{V}$ and $I_T=0.5~\text{mA}$, find $r_{out}$ at the single-ended output.  
 >
 > **Derivation**
-> - Each transistor carries $I_D=I_T/2=0.25$ mA.  
-> - Each has $r_o=|V_A|/I_D=20/0.25$ mA = 80 kΩ.  
-> - Output node sees $r_{out}=r_{o,n}\parallel r_{o,p}=80\parallel80$ kΩ = 40 kΩ.  
 >
-> ✅ **Answer:** $\boxed{r_{out}=40~\text{k}\Omega}$.
+> **Step 1 — Current per device**  
+> Tail current splits equally:
+> $$
+> I_D = \frac{0.5~\text{mA}}{2} = 0.25~\text{mA}
+> $$
+>
+> **Step 2 — Output resistance of each transistor**  
+> Using the Early-voltage model:
+> $$
+> r_o = \frac{|V_A|}{I_D}
+>     = \frac{20}{0.25\,\text{mA}}
+>     = 80~\text{k}\Omega
+> $$
+>
+> **Step 3 — Output node small-signal resistance**  
+> One NMOS $r_o$ downward, one PMOS $r_o$ upward:
+> $$
+> r_{out} = r_{o,n}\parallel r_{o,p}
+> = 80\parallel 80
+> = 40~\text{k}\Omega
+> $$
+>
+> ✅ **Answer:** $\boxed{40~\text{k}\Omega}$.
 
 ---
 
 > [!summary] **Question 6 — Small-Signal Differential Gain**
 >
-> **Question:** With $V_{OV}=0.5$ V and $I_D=0.25$ mA per side, find $A_v$.  
+> **Question:** With $V_{OV}=0.5\text{ V}$ and $I_D=0.25\text{ mA}$, find $A_v$.  
 >
-> **Derivation**
+> **Derivation**  
+> Compute transconductance:
 > $$
-> g_m \approx \frac{2I_D}{V_{OV}}=\frac{2(0.25\,\text{mA})}{0.5\,\text{V}}=1\,\text{mS}
+> g_m\approx\frac{2I_D}{V_{OV}}
+> =\frac{2(0.25\,\text{mA})}{0.5\,\text{V}}
+> =1\,\text{mS}
 > $$
-> Using $r_{out}=40$ kΩ (from Q5):  
+> Use $r_{out}=40~\text{k}\Omega$ from Q5:
 > $$
-> A_v = g_m r_{out} = 1\,\text{mS}\times40\,\text{k}\Omega = 40\,\text{V/V}
+> A_v = g_m r_{out}
+>     = 1\,\text{mS}\cdot40\,\text{k}\Omega
+>     = 40~\text{V/V}
 > $$
 >
-> ✅ **Answer:** $\boxed{A_v\approx40~\text{V/V}}$.
+> *Note: The quiz refers to the **single-ended** gain, not differential double-ended gain.*  
+>
+> ✅ **Answer:** $\boxed{40~\text{V/V}}$.
 
 ---
 
 > [!summary] **Question 7 — $V_{DS}$ of the NMOS Transistors**
 >
-> **Question:** Assume $|V_t|=0.5$ V and $V_{IN1}=V_{IN2}=0$. Find $V_{DS}$ for the NMOS pair.  
+> **Question:** With $|V_t|=0.5$ V and both inputs at 0 V, find $V_{DS}$.  
 >
 > **Derivation**  
-> For $V_{OV}=0.5$ V → $V_{GS}=V_t+V_{OV}=1.0$ V.  
-> Source node ≈ −1 V (0 − 1 V).  
-> PMOS current mirror ($V_{SG}=1$ V) → drain node ≈ $3 − 1 = 2$ V.  
-> Therefore  
+> Overdrive of 0.5 V ⇒  
 > $$
-> V_{DS}=V_D−V_S=2−(−1)=3~\text{V}
+> V_{GS}=V_t+V_{OV}=1.0~\text{V}
+> $$
+> Source at approximately  
+> $$
+> V_S = 0 - 1 = -1~\text{V}
+> $$
+> PMOS mirror sets drain at  
+> $$
+> V_D \approx 3 - 1 = 2~\text{V}
+> $$
+> Therefore:
+> $$
+> V_{DS}=V_D - V_S = 2 - (-1) = 3~\text{V}
 > $$
 >
-> ✅ **Answer:** $\boxed{V_{DS}=3.0~\text{V}}$.
+> ✅ **Answer:** $\boxed{3.0~\text{V}}$.
 
 ---
 
 > [!summary] **Question 8 — Output Impedance with Final CD Stage**
 >
-> **Question:** The output impedance of a three-stage Op-Amp (diff pair → CS → CD) is approximately …  
+> **Question:** The output impedance of a diff → CS → CD op-amp is approximately …  
 >
 > **Derivation**  
-> The final **common-drain** (source-follower) stage lowers output impedance to:  
+> The final stage is a **source follower**, whose output impedance is:
 > $$
 > R_{out}\approx\frac{1}{g_m}
 > $$
-> providing strong drive capability for external loads.  
+> (small and load-friendly).  
 >
 > ✅ **Answer:** $\boxed{\tfrac{1}{g_m}\text{ from the common-drain stage}}$.
 
@@ -148,32 +190,33 @@
 
 | Topic | Result / Formula | Note |
 |---|---|---|
-| Input impedance | **Very high** | MOS gate → $\approx\infty$ (DC) |
-| Output impedance (open-loop CS) | $r_{o,n}\parallel r_{o,p}$ → **High** | Here $40~\text{k}\Omega$ |
-| Miller compensation | $p_1\!\downarrow,\;p_2\!\uparrow$ | Increases PM via pole-splitting |
-| Stage combination | $A_v^{\text{total}}=\prod_i A_{v,i}$ | Cascaded gains multiply |
-| $g_m$ (sat.) | $g_m\approx\dfrac{2I_D}{V_{OV}}$ | Long-channel model |
-| $r_o$ | $r_o\approx\dfrac{|V_A|}{I_D}$ | Early effect |
-| CS gain | $A_v^{CS}\approx g_m(r_{o,n}\parallel r_{o,p})$ | Used in Q6 |
-| Output with CD stage | $R_{out}\approx\dfrac{1}{g_m}$ | Low-Z driver |
+| Input impedance | **Very high** | MOS gates → $\approx\infty$ (DC) |
+| Output impedance (open-loop CS) | $r_{o,n}\parallel r_{o,p}$ → **High** | ~40 kΩ in Q5 |
+| Miller compensation | $p_1\downarrow,\;p_2\uparrow$ | Improves PM via pole-splitting |
+| Stage combination | $A_v = \prod_i A_{v,i}$ | Cascaded gains multiply |
+| $g_m$ | $g_m = 2I_D/V_{OV}$ | Long-channel saturation |
+| $r_o$ | $r_o = |V_A|/I_D$ | Early effect |
+| CS gain | $A_v^{CS} = g_m(r_{o,n}\parallel r_{o,p})$ | Basis for Q6 |
+| CD output stage | $R_{out} \approx 1/g_m$ | Low output impedance |
 
 ---
 
 > [!tip] **🧠 Key Takeaway — Op-Amp Design Insights**
 >
-> - **Input stage:** Diff-pair → very high $R_{in}$, sets CMRR.  
-> - **Gain stage:** CS + active load → dominant $A_v$ and high $R_{out}$.  
-> - **Output stage:** CD → low $R_{out}$ ≈ $1/g_m$ for driving loads.  
-> - **Compensation:** Add $C_c$ → $p_1$ down, $p_2$ up → ↑ phase margin and stability.  
-> - **Rule of thumb:** Bias for $V_{DS}>V_{OV}$ to maintain saturation and linearity.
+> - **Input stage:** Diff pair → huge input resistance + good CMRR  
+> - **Gain stage:** CS + active load → high gain, high $r_o$  
+> - **Output stage:** CD → low $R_{out}$ for load drive  
+> - **Compensation:** $C_c$ lowers $p_1$, raises $p_2$ → increases phase margin  
+> - Keep transistors in saturation → ensure $V_{DS} > V_{OV}$ for all stages  
 
 ---
 
 > [!success] **💡 Practical Application**
 >
 > In a two-stage CMOS Op-Amp:
-> - Choose $C_c$ for target PM (≈ 60–70°).  
-> - Set $g_m r_o$ product for desired open-loop gain.  
-> - Add a source-follower if $R_L$ is low.  
-> - Check headroom so both NMOS and PMOS stay in saturation (typ. $V_O≈2$ V in this quiz).  
-> These principles apply directly to two-stage OTA and fully-differential amplifier designs.
+> - Choose $C_c$ for a phase margin of 60–70°  
+> - Ensure $A_v = g_m r_o$ is large enough for required open-loop gain  
+> - Add source-follower if the load is low-impedance  
+> - Check headroom across all devices  
+>
+> These principles map directly to OTA design, Gm-C filters, and precision CMOS analog circuits.

@@ -652,7 +652,7 @@ $$
 
 ---
 
-### 2-G) Transfer function and frequency response
+### 2-G & H) Transfer function and frequency response
 
 > **Task**  
 > 1. Write the transfer function $H(z)$ in terms of $b[n]$.  
