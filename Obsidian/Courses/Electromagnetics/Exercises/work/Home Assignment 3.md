@@ -95,6 +95,46 @@ $$
 
 ✅ **Answer:** $\boxed{\text{Regions 1 and 3}}$
 
+> [!code]- MATLAB — Cavity charge & non-zero field regions (reusable)
+>  How to use: Change `Q_fC` (and `is_conductor_neutral` if needed) for your problem, run the cell, and read off which regions have non-zero E from the printed 0/1 flags.
+> ```matlab
+> %% HA3 – Section 1, Q1
+> % Compute total cavity charge and which regions have non-zero E
+> % Assumptions:
+> %   - Ideal conductor (E = 0 inside metal)
+> %   - Conductor as a whole is electrically neutral
+> 
+> % ---- INPUTS (edit for new problems) ----
+> Q_fC = [7, -2, -3, 2];   % charges in the cavity [fC]
+> is_conductor_neutral = true;
+> 
+> % ---- CORE CALCULATION ----
+> Q_cav = sum(Q_fC);        % [fC] total free charge in cavity
+> 
+> % Region 1 (cavity): non-zero E if net charge is non-zero
+> E_R1_nonzero = (Q_cav ~= 0);
+> 
+> % Region 2 (conductor): ideal conductor → E = 0
+> E_R2_nonzero = false;
+> 
+> % Region 3 (outside): if conductor is neutral and Q_cav ≠ 0,
+> % there will be induced charge on the outer surface → non-zero E.
+> if is_conductor_neutral && (Q_cav ~= 0)
+>     E_R3_nonzero = true;
+> else
+>     % (more general logic could go here)
+>     E_R3_nonzero = false;
+> end
+> 
+> % ---- OUTPUT / DISPLAY ----
+> fprintf('Total cavity charge Q_cav = %.2f fC\n', Q_cav);
+> fprintf('Non-zero E in Region 1: %d\n', E_R1_nonzero);
+> fprintf('Non-zero E in Region 2: %d\n', E_R2_nonzero);
+> fprintf('Non-zero E in Region 3: %d\n', E_R3_nonzero);
+> 
+> % Interpretation: 1 = true, 0 = false
+> ```
+
 ---
 
 > [!summary] **Question 2 — Charge on the outer conducting surface**
@@ -135,6 +175,30 @@ The conductor “rearranges” its charges so that:
 - The conductor’s net charge remains zero.  
 
 This forces $-4$ fC onto the inner cavity surface and $+4$ fC onto the outer surface.
+
+> [!code]- MATLAB — Induced inner/outer surface charges (reusable)
+>  How to use: Set `Q_fC` to the cavity charges and `Q_conductor_total_fC` to the net conductor charge, run the cell, and read off `Q_inner` and `Q_outer` from the console.
+> ```matlab
+> %% HA3 – Section 1, Q2
+> % Compute induced charges on inner and outer surfaces of a neutral conductor
+> % given the charges inside the cavity.
+> 
+> % ---- INPUTS (edit for new problems) ----
+> Q_fC = [7, -2, -3, 2];   % charges in cavity [fC]
+> Q_conductor_total_fC = 0; % net charge of the whole conductor [fC]
+> 
+> % ---- CORE CALCULATION ----
+> Q_cav_fC    = sum(Q_fC);
+> Q_inner_fC  = -Q_cav_fC;                      % from Gauss' law (inside metal)
+> Q_outer_fC  = Q_conductor_total_fC - Q_inner_fC;
+> 
+> % ---- OUTPUT / DISPLAY ----
+> fprintf('Total cavity charge   Q_cav    = %.2f fC\n', Q_cav_fC);
+> fprintf('Inner surface charge Q_inner  = %.2f fC\n', Q_inner_fC);
+> fprintf('Outer surface charge Q_outer  = %.2f fC\n', Q_outer_fC);
+> 
+> % For this HA3 case: Q_cav = 4 fC → Q_inner = -4 fC, Q_outer = +4 fC
+> ```
 
 ---
 
@@ -179,6 +243,98 @@ $$
 
 ✅ **Answer:** $\boxed{E(4.5~\text{cm}) \approx 0.38~\text{V/m}}$
 
+![[Images/EM_HA3_Q3_Esphere.png]]
+
+> [!info] **What this graph shows & why it’s useful**
+>
+> - The **x-axis** is the distance from the center, $r$ in cm.  
+> - The **y-axis** is the magnitude of the electric field, $E(r)$ in V/m.  
+> - For $0<r<r_s$, the field grows **linearly** with $r$ (Gauss’ law inside a uniform volume charge: $E\propto r$).  
+> - For $r>r_s$, the sphere behaves like a **point charge** and the field falls off as $1/r^2$.  
+> - The graph lets you:
+>   - Visually confirm the **piecewise behaviour** (linear inside, $1/r^2$ outside).  
+>   - Read off $E$ at your homework radius $R=4.5$ cm and see it matches $\approx0.38$ V/m.  
+>   - Use it as a quick **sanity check** when doing similar Gauss-law problems (is your computed $E(R)$ on the right side of the peak and roughly the right size?).
+
+> [!code]- MATLAB — Uniformly charged sphere in a dielectric (reusable)
+>  How to use: Set `rs_cm`, `R_cm`, `rho_nCpm3`, and `eps_r` for your case.
+>  Run the cell to get E(R) and an annotated E(r) plot exported for Obsidian.
+> ```matlab
+> %% HA3 – Section 2, Q3
+> % Field of a uniformly charged sphere embedded in a dielectric
+> % Computes E(R) and (optionally) E(r) profile inside/outside the sphere.
+> 
+> % ---- INPUTS (edit for new problems) ----
+> rs_cm      = 2.2;    % sphere radius [cm]
+> R_cm       = 4.5;    % observation radius [cm]
+> rho_nCpm3  = 4.0;    % volume charge density [nC/m^3]
+> eps_r      = 2.1;    % relative permittivity of surrounding dielectric
+> RUN_PLOT   = true;   % set false if you only want the numeric value at R
+> 
+> % ---- CONSTANTS ----
+> eps0   = 8.854e-12;           % [F/m]
+> 
+> % ---- UNIT CONVERSIONS ----
+> rs   = rs_cm * 1e-2;          % [m]
+> R    = R_cm  * 1e-2;          % [m]
+> rho  = rho_nCpm3 * 1e-9;      % [C/m^3]
+> eps  = eps0 * eps_r;          % [F/m]
+> 
+> % ---- TOTAL CHARGE ----
+> Qtot = rho * (4/3)*pi*rs^3;   % [C]
+> 
+> % ---- FIELD AT R (outside or inside) ----
+> if R > rs
+>     % Outside: behaves like a point charge
+>     E_R = Qtot / (4*pi*eps*R^2);
+> else
+>     % Inside: linear in r
+>     E_R = rho * R / (3*eps);
+> end
+> 
+> fprintf('Total charge Q = %.3e C\n', Qtot);
+> fprintf('E(R = %.2f cm) = %.3f V/m\n', R_cm, E_R);
+> 
+> % ---- OPTIONAL: E(r) profile for visualization + export to Obsidian ----
+> if RUN_PLOT
+>     % extend r far enough so the curve passes the point R
+>     r_max = max(2*rs, 1.1*R);      % [m]
+>     r     = linspace(0, r_max, 400);   % [m]
+>     E_r   = zeros(size(r));
+> 
+>     inside  = (r > 0) & (r <= rs);
+>     outside = (r > rs);
+> 
+>     E_r(inside)  = rho .* r(inside)  / (3*eps);
+>     E_r(outside) = Qtot ./ (4*pi*eps.*r(outside).^2);
+> 
+>     figure;
+>     plot(r*100, E_r, 'LineWidth', 1.5); grid on; hold on;
+>     xlabel('r [cm]');
+>     ylabel('E(r) [V/m]');
+>     title('Electric field of uniformly charged sphere in dielectric');
+> 
+>     % ---- DOTTED GUIDES THROUGH THE HOMEWORK POINT ----
+>     xline(R_cm, ':', sprintf('R = %.1f cm', R_cm), ...
+>           'LabelVerticalAlignment','bottom', ...
+>           'LabelHorizontalAlignment','center');
+>     yline(E_R, ':', sprintf('E(R) = %.2f V/m', E_R), ...
+>           'LabelHorizontalAlignment','left', ...
+>           'LabelVerticalAlignment','middle');
+>     plot(R_cm, E_R, 'o', 'MarkerSize', 6);   % intersection marker
+> 
+>     % ---- EXPORT TO OBSIDIAN IMAGES FOLDER ----
+>     imgDir = 'C:\Users\Mads2\DTU\Obsidian\Courses\Electromagnetics\Images';
+>     if ~exist(imgDir,'dir')
+>         mkdir(imgDir);
+>     end
+>     exportgraphics(gcf, fullfile(imgDir, 'EM_HA3_Q3_Esphere.png'), ...
+>                    'Resolution', 300);
+> end
+> ```
+
+
+
 ---
 
 > [!summary] **Question 4 — Work done moving a charge in a uniform field**
@@ -220,6 +376,41 @@ $$
 
 Electrostatic potential only depends on movement **along** the field lines.  
 Moving purely sideways in a uniform field changes neither potential energy nor potential.
+
+> [!code]- MATLAB — Work moving a charge in a uniform E-field (reusable)
+>  How to use: Set `Q_nC`, the field vector `E_vec`, and start/end positions `r1`/`r2` (in mm here), run the cell, and read off the computed work W.
+> ```matlab
+> %% HA3 – Section 2, Q4
+> % Work required to move a point charge in a uniform electric field
+> % W = Q * E · (r2 - r1) for constant E.
+> 
+> % ---- INPUTS (edit for new problems) ----
+> Q_nC  = 1.0;                         % charge [nC]
+> E_vec = [0, -5, 0];                  % uniform E-field [V/m] as [Ex Ey Ez]
+> x1_mm = 2.0;                         % initial x-position [mm]
+> x2_mm = 7.0;                         % final   x-position [mm]
+> 
+> % (You can also set full 3D positions, e.g. r1 = [x1 y1 z1], r2 = [x2 y2 z2])
+> r1_mm = [x1_mm, 0, 0];               % [mm]
+> r2_mm = [x2_mm, 0, 0];               % [mm]
+> 
+> % ---- UNIT CONVERSIONS ----
+> Q  = Q_nC * 1e-9;                    % [C]
+> r1 = r1_mm * 1e-3;                   % [m]
+> r2 = r2_mm * 1e-3;                   % [m]
+> 
+> % ---- CORE CALCULATION ----
+> dl = r2 - r1;                        % displacement vector [m]
+> W  = Q * dot(E_vec, dl);            % work done by field [J]
+> 
+> % ---- OUTPUT / DISPLAY ----
+> fprintf('Displacement dl = [%.3e %.3e %.3e] m\n', dl);
+> fprintf('Work W = %.3e J\n', W);
+> 
+> if abs(W) < 1e-15
+>     fprintf('Result is numerically ~0 J (motion perpendicular to E).\n');
+> end
+> ```
 
 ---
 
@@ -264,6 +455,41 @@ C = C'\ell \approx 1.70\times 10^{-9}~\text{F} = 1.70~\text{nF}.
 $$
 
 ✅ **Answer:** $\boxed{C \approx 1.70~\text{nF}}$
+
+> [!code]- MATLAB — Two parallel wires capacitance (reusable)
+> How to use: Set `R_mm`, `d_mm`, `ell_cm`, and `eps_r` for your geometry and run. The script prints $C'$ in F/m and $C$ in nF.
+> ```matlab
+> %% HA3 – Section 3, Q5
+> % Capacitance of two parallel cylindrical wires in a dielectric
+> 
+> % ---- INPUTS (edit for new problems) ----
+> R_mm   = 0.23;    % wire radius [mm]
+> d_mm   = 1.2;     % center-to-center distance [mm]
+> ell_cm = 105;     % wire length [cm]
+> eps_r  = 94;      % relative permittivity of dielectric
+> 
+> % ---- CONSTANTS ----
+> eps0 = 8.854e-12;           % [F/m]
+> 
+> % ---- UNIT CONVERSIONS ----
+> R   = R_mm   * 1e-3;        % [m]
+> d   = d_mm   * 1e-3;        % [m]
+> ell = ell_cm * 1e-2;        % [m]
+> eps = eps0 * eps_r;         % [F/m]
+> 
+> % ---- CAPACITANCE PER UNIT LENGTH & TOTAL ----
+> % MATLAB uses acosh() for inverse hyperbolic cosine
+> C_per_m = pi*eps / acosh(d/(2*R));   % [F/m]
+> C       = C_per_m * ell;             % [F]
+> 
+> fprintf('C'' = %.3e F/m\n', C_per_m);
+> fprintf('C  = %.3f nF\n', C*1e9);
+> 
+> % Quick sanity checks
+> if d <= 2*R
+>     warning('Geometry invalid: d must be > 2R for two separate wires.');
+> end
+> ```
 
 ---
 
@@ -310,14 +536,52 @@ We must satisfy **both**:
 3. Convert to $\text{mm}^2$:
 
    $$
-   A_{\text{mm}^2} = A\cdot 10^{6} \approx 16.1~\text{mm}^2.
+   A_{\text{mm}^2} = A\cdot 10^{6} \approx 16.094~\text{mm}^2.
    $$
 
-✅ **Answer:** $\boxed{A \approx 16.1~\text{mm}^2}$
+✅ **Answer:** $\boxed{A \approx 16.094~\text{mm}^2}$
 
 🧩 **Interpretation**
 
 The dielectric strength fixes the **minimum spacing**; once $d$ is set, the only way to hit the required $C$ is by choosing the proper plate area.
+
+> [!code]- MATLAB — Parallel-plate area with breakdown limit (reusable)
+> How to use: Set `C_pF`, `Vmax_kV`, `Emax_kV_per_mm`, and `eps_r`. Run to get the minimum plate spacing `d` and the required plate area `A` in mm².
+> ```matlab
+> %% HA3 – Section 3, Q6
+> % Plate area of a parallel-plate capacitor with breakdown constraint
+> 
+> % ---- INPUTS (edit for new problems) ----
+> C_pF          = 744;   % capacitance [pF]
+> Vmax_kV       = 1.22;  % maximum voltage [kV]
+> Emax_kV_per_mm = 35;   % dielectric strength [kV/mm]
+> eps_r         = 182;   % relative permittivity of dielectric
+> 
+> % ---- CONSTANTS ----
+> eps0 = 8.854e-12;      % [F/m]
+> 
+> % ---- UNIT CONVERSIONS ----
+> C    = C_pF * 1e-12;          % [F]
+> Vmax = Vmax_kV * 1e3;         % [V]
+> Emax = Emax_kV_per_mm * 1e6;  % [V/m]   (1 kV/mm = 1e6 V/m)
+> eps  = eps0 * eps_r;          % [F/m]
+> 
+> % ---- BREAKDOWN-LIMITED SPACING ----
+> d = Vmax / Emax;              % [m]
+> 
+> % ---- REQUIRED AREA ----
+> A      = C * d / eps;         % [m^2]
+> A_mm2  = A * 1e6;             % [mm^2]
+> 
+> fprintf('Breakdown-limited spacing d = %.3f mm\n', d*1e3);
+> fprintf('Required plate area A       = %.2f mm^2\n', A_mm2);
+> 
+> % Optional: sanity check that E at Vmax is right on the limit
+> E_check = Vmax / d;
+> fprintf('E(Vmax) = %.2e V/m (should equal Emax = %.2e V/m)\n', ...
+>         E_check, Emax);
+> ```
+
 
 ---
 ## Section 4 — Ampère’s law & Lorentz force (Q7–Q9)
@@ -412,6 +676,52 @@ which is **upward**.
 
 A positive charge curves in the direction given by the usual right-hand rule.  
 A negative charge would follow the opposite (downward) path.
+> [!code]- MATLAB — Lorentz force direction & radius (reusable)
+> How to use: Set `q_C`, `u_vec`, and `B_vec` for your case.  
+> - The script prints the Lorentz force vector and its direction.  
+> - If you also give the particle mass `m_kg` and `u_vec ⟂ B_vec`, it computes the circular orbit radius.
+> ```matlab
+> %% HA3 – Section 4, Q8
+> % Direction of motion of a charged particle in a magnetic field
+> % F = q * (u x B)
+> 
+> % ---- INPUTS (edit for new problems) ----
+> q_C   = +1;                  % charge [C] (sign matters for direction)
+> u_vec = [1, 0, 0];           % velocity vector [m/s] (here: +x direction)
+> B_vec = [0, 0, -1];          % magnetic flux density [T] (here: into page = -z)
+> m_kg  = [];                  % particle mass [kg], optional (leave [] if unknown)
+> 
+> % ---- CORE CALCULATION ----
+> u_vec = u_vec(:).';          % ensure row vector
+> B_vec = B_vec(:).';
+> 
+> F_vec = q_C * cross(u_vec, B_vec);   % Lorentz force [N] (up to scaling if u,B normalized)
+> 
+> % Unit direction (if non-zero)
+> if norm(F_vec) > 0
+>     F_hat = F_vec / norm(F_vec);
+> else
+>     F_hat = [NaN, NaN, NaN];
+> end
+> 
+> fprintf('u   = [%g  %g  %g]\n', u_vec);
+> fprintf('B   = [%g  %g  %g]\n', B_vec);
+> fprintf('F   = q (u x B) = [%g  %g  %g]  [N (up to scaling)]\n', F_vec);
+> fprintf('F-hat direction = [%g  %g  %g]\n', F_hat);
+> 
+> % ---- OPTIONAL: circular-motion radius if u ⟂ B and mass known ----
+> if ~isempty(m_kg)
+>     u_mag = norm(u_vec);
+>     B_mag = norm(B_vec);
+>     if u_mag > 0 && B_mag > 0
+>         R_orbit = m_kg * u_mag / (abs(q_C) * B_mag);  % [m]
+>         fprintf('Assuming u ⟂ B: orbit radius R = %.3g m\n', R_orbit);
+>     end
+> end
+> 
+> % For the HA3 Q8 setup:
+> %   q > 0, u = +x, B = -z → F points along +y (upward) → Path 1.
+> ```
 
 
 ---
@@ -457,11 +767,48 @@ H = \frac{2\sqrt{2}I}{\pi\ell}
   \approx 0.577~\text{A/m}.
 $$
 
-✅ **Answer:** $\boxed{|\vec H| \approx 0.58~\text{A/m}}$
+✅ **Answer:** $\boxed{|\vec H| \approx 0.577~\text{A/m}}$
 
 🧩 **Interpretation**
 
 The result is **independent of $\mu_r$**; $\mu_r$ would only scale $\vec B = \mu\vec H$.
+> [!code]- MATLAB — Square current loop field at center (reusable)
+> How to use: Set `ell_mm`, `I_mA`, and (optionally) `mu_r`.  
+> Run the cell to get the magnetic field intensity $H$ at the center in A/m, and the corresponding $B$ if you care about the medium.
+> ```matlab
+> %% HA3 – Section 7, Q9
+> % |H| at the center of a square current loop
+> % Formula (geometry only, independent of μr):
+> %   H_center = (2*sqrt(2)*I) / (pi*ell)
+> % where:
+> %   I   = current [A]
+> %   ell = side length [m]
+> 
+> % ---- INPUTS (edit for new problems) ----
+> ell_mm = 4.2;       % side length ℓ [mm]
+> I_mA   = 2.69;      % current I [mA]
+> mu_r   = 5;         % relative permeability of medium (only affects B, not H)
+> 
+> % ---- CONSTANTS ----
+> mu0 = 4*pi*1e-7;    % [H/m] vacuum permeability
+> 
+> % ---- UNIT CONVERSIONS ----
+> ell = ell_mm * 1e-3;    % [m]
+> I   = I_mA   * 1e-3;    % [A]
+> 
+> % ---- CORE CALCULATION ----
+> H_center = (2*sqrt(2)*I) / (pi*ell);   % [A/m]
+> B_center = mu0 * mu_r * H_center;      % [T] (optional)
+> 
+> % ---- OUTPUT ----
+> fprintf('Square side ℓ = %.2f mm, current I = %.2f mA\n', ell_mm, I_mA);
+> fprintf('|H_center| = %.3f A/m\n', H_center);
+> fprintf('|B_center| = %.3e T  (for μ_r = %.2f)\n', B_center, mu_r);
+> 
+> % For the HA3 numbers:
+> %   ℓ = 4.2 mm, I = 2.69 mA → |H_center| ≈ 0.577 A/m ≈ 0.58 A/m
+> ```
+
 
 ---
 
@@ -528,10 +875,57 @@ Inductance:
 $$
 L = \frac{\mu N^2 A}{\ell_m}
   \approx 1.44\times 10^{-4}~\text{H}
-  = 144~\mu\text{H}.
+  = 143.5~\mu\text{H}.
 $$
 
-✅ **Answer:** $\boxed{L \approx 144~\mu\text{H}}$
+✅ **Answer:** $\boxed{L \approx 143.5~\mu\text{H}}$
+
+> [!code]- MATLAB — Toroidal inductor inductance (reusable)
+> How to use: Set `h_mm`, `a_mm`, `b_mm`, `N`, and `mu_r` for your core.  
+> Run the cell to get $L$ in henry and in $\mu$H.
+> ```matlab
+> %% HA3 – Section 5, Q10
+> % Inductance of a toroidal inductor with rectangular cross-section
+> %   L = μ * N^2 * A / ℓ_m
+> % where:
+> %   A   = h * (b - a)
+> %   ℓ_m ≈ 2π * r_m,   r_m = (a + b)/2
+> 
+> % ---- INPUTS (edit for new problems) ----
+> h_mm = 4.4;      % core height [mm]
+> a_mm = 8.0;      % inner radius [mm]
+> b_mm = 12.0;     % outer radius [mm]
+> N    = 56;       % number of turns
+> mu_r = 130;      % relative permeability of core
+> 
+> % ---- CONSTANTS ----
+> mu0 = 4*pi*1e-7;         % [H/m]
+> 
+> % ---- UNIT CONVERSIONS ----
+> h = h_mm * 1e-3;         % [m]
+> a = a_mm * 1e-3;         % [m]
+> b = b_mm * 1e-3;         % [m]
+> 
+> % ---- GEOMETRY ----
+> A    = h * (b - a);              % cross-section area [m^2]
+> rm   = 0.5 * (a + b);            % mean radius [m]
+> ellm = 2*pi*rm;                  % magnetic path length [m]
+> 
+> % ---- PERMEABILITY ----
+> mu = mu0 * mu_r;                 % [H/m]
+> 
+> % ---- INDUCTANCE ----
+> L_H   = mu * N^2 * A / ellm;     % [H]
+> L_uH  = L_H * 1e6;               % [µH]
+> 
+> fprintf('Toroid geometry: h = %.2f mm, a = %.2f mm, b = %.2f mm\n', ...
+>         h_mm, a_mm, b_mm);
+> fprintf('Cross-section area A = %.3e m^2\n', A);
+> fprintf('Mean path length ℓ_m = %.3e m\n', ellm);
+> fprintf('Inductance L = %.3e H  (%.1f µH)\n', L_H, L_uH);
+> 
+> % For the HA3 numbers: L ≈ 1.44e-4 H ≈ 144 µH
+> ```
 
 ---
 
@@ -602,6 +996,61 @@ $$
 🧩 **Interpretation**
 
 With $N=24$ and $\ell\approx 24d_w$, the actual inductance comes out slightly above the target (about $592~\mu\text{H}$), which is acceptable given the rounding and core tolerances.
+> [!code]- MATLAB — Solenoid turns on ferrite rod (single-layer, reusable)
+> How to use: Set `L_uH`, `df_mm`, `dw_mm`, and `mu_r` for your rod + wire.  
+> Run the cell to get the continuous-turn solution and the rounded-up integer, plus the actual inductance with that integer number of turns.
+> ```matlab
+> %% HA3 – Section 5, Q11
+> % Number of turns for a single-layer solenoid on a ferrite rod
+> %
+> % Model:
+> %   Rod diameter       = d_f
+> %   Wire diameter      = d_w
+> %   Single layer → coil length ℓ ≈ N * d_w
+> %   Cross-section      A = π (d_f/2)^2
+> %   μ = μ0 * μ_r
+> %   L = μ N^2 A / ℓ = μ N A / d_w  →  N = L d_w / (μ A)
+> 
+> % ---- INPUTS (edit for new problems) ----
+> L_uH  = 584;     % target inductance [µH]
+> df_mm = 5.0;     % ferrite rod diameter [mm]
+> dw_mm = 0.2;     % copper wire diameter [mm]
+> mu_r  = 200;     % relative permeability of ferrite
+> 
+> % ---- CONSTANTS ----
+> mu0 = 4*pi*1e-7;     % [H/m]
+> 
+> % ---- UNIT CONVERSIONS ----
+> L   = L_uH * 1e-6;        % [H]
+> df  = df_mm * 1e-3;       % [m]
+> dw  = dw_mm * 1e-3;       % [m]
+> mu  = mu0 * mu_r;         % [H/m]
+> 
+> % ---- GEOMETRY ----
+> A = pi * (df/2)^2;        % cross-sectional area of rod [m^2]
+> 
+> % ---- CONTINUOUS NUMBER OF TURNS ----
+> N_cont = L * dw / (mu * A);   % continuous solution
+> N_int  = ceil(N_cont);        % round up to nearest integer
+> 
+> % ---- CHECK ACTUAL L FOR N_int ----
+> % Using single-layer approximation ℓ ≈ N_int * d_w:
+> L_actual = mu * N_int * A / dw;   % from L = μ N A / d_w
+> 
+> % ---- OUTPUT ----
+> fprintf('Target inductance L_target = %.1f µH\n', L_uH);
+> fprintf('Rod diameter d_f = %.1f mm, wire diameter d_w = %.3f mm\n', ...
+>         df_mm, dw_mm);
+> fprintf('Relative permeability μ_r = %.1f\n', mu_r);
+> 
+> fprintf('\nContinuous solution  N = %.3f turns\n', N_cont);
+> fprintf('Rounded up integer   N = %d turns\n', N_int);
+> fprintf('Resulting L(N_int)   = %.1f µH\n', L_actual*1e6);
+> 
+> % For the HA3 numbers:
+> %   N_cont ≈ 23.7 → N_int = 24 turns
+> %   L_actual ≈ 592 µH (slightly above 584 µH, which is fine in practice)
+> ```
 
 ---
 
