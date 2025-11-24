@@ -226,9 +226,9 @@ Result matches: $F_m(q=\pm 0.16)\approx \pm 800\,\hat r\ \text{fN}$.
 > Dimensions: $a = 3\ \text{mm}$ in $+x$, $b = 2\ \text{mm}$ in $+y$.  
 > Non-uniform current density:
 > $$
-> \vec J(x,y) = \hat z J_0\left(1 - \frac{x}{a}\right),\quad
+ \vec J(x,y) = \hat z J_0\left(1 - \frac{x}{a}\right),\quad
 > J_0 = 2\ \text{A/mm}^2
-> $$
+ $$
 > Determine the total current in the wire.  
 > (Optionally: current as a function of $x$ and $y$.)
 
@@ -424,6 +424,8 @@ For a long straight wire along $+z$:
 2. On the **$+y$-axis**: position $(x=0,y>0)$  
    - At that point the circle is tangent along $-\hat x$.  
    - So $\vec B$ at $(0,y>0)$ is along $-\hat x$.
+![[20.5a.png|350]]
+
 
 ---
 
@@ -505,7 +507,7 @@ $$
 ---
 
 ### (b) Two Opposite Currents
-
+![[20.6.png]]
 Gauss’s law:
 $$
 \oint_{\text{closed}} \vec B\cdot d\vec a = 0
