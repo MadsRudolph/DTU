@@ -393,147 +393,285 @@ $$
 
 > **Problem**  
 > (a) A long wire carries current **upward** along the $+z$-axis.  
-> Use Ampere’s law (no detailed calculation) to find the direction of $\vec B$ at  
+> Use Ampere’s law, **without calculations**, to find the direction of $\vec B$ at  
 > (i) a point on the $x$-axis,  
 > (ii) a point on the $y$-axis.  
 >
 > (b) An ideal solenoid carries a steady current. Use Ampere’s law to explain qualitatively  
-> why $\vec B$ is strong inside the solenoid but (approximately) zero outside,  
-> even though the **same current** flows in all turns.
+> why $\vec B$ is strong inside the solenoid but zero (or very weak) outside,  
+> even though the **same current** flows in all its turns.
 
 ---
 
-### (a) Direction of $\vec B$ Around a Straight Wire
+## (a) Direction of $\vec B$ Around a Straight Wire
 
 Ampere’s law in integral form:
+
 $$
 \oint_C \vec B\cdot d\vec \ell = \mu_0 I_{\text{encl}}
 $$
 
-For a long straight wire along $+z$:
+For a **single long straight wire** along $+z$:
 
-- $\vec B$ forms **circles** around the $z$-axis.
-- Direction from **right-hand rule**: thumb along $+z$ (current), fingers curl in direction of $\vec B$.
+- The current goes **upward** (out of the $xy$-plane).
+- By symmetry, the magnetic field $\vec B$:
+  - has the **same magnitude** everywhere at a fixed distance from the wire,
+  - forms **perfect circles** around the wire,
+  - is always **tangent** to these circles.
 
-**Points**
+This is exactly what your diagram shows: the blue circular arrows around the wire represent the magnetic field.
 
-1. On the **$+x$-axis**: position $(x>0,y=0)$  
-   - Curl fingers from $+x$ towards $+y$ → they point along $+\hat y$.  
-   - So $\vec B$ at $(x>0,y=0)$ is along $+\hat y$.
+We use the **right-hand rule**:
 
-2. On the **$+y$-axis**: position $(x=0,y>0)$  
-   - At that point the circle is tangent along $-\hat x$.  
-   - So $\vec B$ at $(0,y>0)$ is along $-\hat x$.
+1. Thumb → direction of current (**+z**).  
+2. Fingers → curl in direction of $\vec B$.
+
 ![[20.5a.png|350]]
 
+Now evaluate the direction of $\vec B$ at each point:
+
+### 1. Point on the **+x-axis** (left side)
+
+- At $(x>0, y=0)$, the circular magnetic field is tangent in the **+y direction**.
+- So:
+  $$
+  \vec B(x>0,y=0) = +\hat y
+  $$
+
+### 2. Point on the **+y-axis** (top side)
+
+- At $(x=0,y>0)$, the circular magnetic field is tangent in the **−x direction**.
+- So:
+  $$
+  \vec B(x=0,y>0) = -\hat x
+  $$
+
+**Summary**
+
+- At **+x**, $\vec B$ points **toward +y**.  
+- At **+y**, $\vec B$ points **toward −x**.  
+
+This comes directly from the circular field on your drawing.
 
 ---
 
-### (b) Field Inside vs. Outside an Ideal Solenoid
+## (b) Why the Field is Strong Inside a Solenoid but Weak Outside
 
-- For an **ideal solenoid**, turns are tightly packed, long compared to its diameter.
-- Choose a rectangular Amperian loop:
-  - One side **inside** the solenoid (parallel to axis),
-  - One side **outside** (also parallel),
-  - Two sides perpendicular to the axis.
+A solenoid is:
 
-Ampere’s law:
-$$
-\oint_C \vec B\cdot d\vec \ell
-= B_{\text{in}}\,l_{\text{in}} + B_{\text{out}}\,l_{\text{out}} \approx \mu_0 N I
-$$
+- many tightly packed loops,
+- all carrying the **same current**,  
+- stretched along a long cylinder.
 
-- Inside: each turn contributes **constructively** → $B_{\text{in}}\approx \mu_0 n I$ ($n=N/l$).
-- Outside: fields from different turns largely **cancel** (loop tightly wrapped, opposing contributions), so $B_{\text{out}}\approx 0$.
-
-So:
+We apply Ampere’s law again:
 
 $$
-B_{\text{inside}} \approx \mu_0 n I,\quad
-B_{\text{outside}} \approx 0
+\oint_C \vec B\cdot d\vec \ell = \mu_0 I_{\text{encl}}
 $$
+
+We choose a **rectangular Amperian loop**:
+
+- One long side **inside** the solenoid (parallel to its axis).  
+- One long side **outside** the solenoid.  
+- Two short sides crossing the windings.
+
+### **Inside the solenoid**
+
+- The field is **strong and nearly uniform** along the axis.
+- Each loop’s magnetic field adds together **constructively**.
+- Contribution from the long inside segment:
+  $$
+  B_{\text{in}} \, \ell
+  $$
+
+### **Outside the solenoid**
+
+- The field contributions from each turn largely **cancel**.
+- They spread out in many directions → net effect ≈ 0.
+- So:
+  $$
+  B_{\text{out}} \approx 0
+  $$
+
+Ampere’s law then gives:
+
+$$
+B_{\text{in}} \, \ell \approx \mu_0 N I
+\quad\Rightarrow\quad
+B_{\text{in}} \approx \mu_0 n I
+$$
+
+where  
+$n = N/\ell$ is the number of turns per unit length.
+
+### **Final result**
+
+- **Inside** the solenoid:
+  $$
+  B_{\text{inside}} \approx \mu_0 n I
+  $$
+  strong and nearly uniform.
+
+- **Outside** the solenoid:
+  $$
+  B_{\text{outside}} \approx 0
+  $$
+  very weak because the fields cancel.
 
 ---
 
-### 💬 Comment
+## 💬 Key Idea
 
-- Ampere’s law doesn’t require solving full field; symmetry + the law give direction and relative magnitude.
-- Outside the solenoid, field lines “loop back” but spread out and mostly cancel when summed along an Amperian loop.
+Ampere’s law + symmetry = direction and relative strength of $\vec B$  
+*without doing any full calculations.*
+
+- For a **straight wire** → field is **circular**.  
+- For a **solenoid** → field is **strong inside**, **weak outside** due to additive vs. canceling contributions.
+
 
 ---
 
 ## 20.6 — Gauss’s Law for Magnetostatics
 
 > **Problem**  
-> (a) A uniform magnetic field $\vec B = \hat z B_0$ passes through a flat circular area  
-> whose normal is also $\hat z$. Is the total flux through this **open** area zero or non-zero?  
-> If you enclose that area with a hemispherical cap (forming a **closed** surface),  
-> what is the total flux then?  
+> (a) A uniform magnetic field $\vec B = B_0 \hat z$ passes through a flat circular area  
+> whose normal is also $\hat z$. Is the magnetic flux through this **open** area zero or non-zero?  
+> If you then close the surface with a hemispherical cap, what is the flux through the **closed** surface?  
 >
-> (b) Two long parallel wires carry equal currents in opposite directions.  
+> (b) Two long parallel wires carry equal currents in **opposite** directions.  
 > Explain why the total magnetic flux through **any closed surface** is zero.  
-> Consider surfaces enclosing (i) one wire, (ii) both wires, (iii) in between the wires.
+> Consider surfaces enclosing (i) one wire, (ii) both wires, (iii) neither wire (a surface between the two).
 
 ---
 
-### (a) Flat Area vs. Closed Surface
+## (a) Flux Through an Open Surface vs. a Closed Surface
 
-Magnetic flux:
+Magnetic flux is:
+
 $$
-\Phi_B = \int_S \vec B\cdot d\vec a
+\Phi_B = \int_S \vec B \cdot d\vec a
 $$
 
-- For the **flat circular area**:
-  - $\vec B = \hat z B_0$,
-  - $d\vec a = \hat z\,da$,
-  - $\vec B\cdot d\vec a = B_0\,da$ (constant in magnitude and direction).
-  $$
-  \Phi_B = B_0\int_S da = B_0 A \neq 0
-  $$
-  So the flux through the **open** disk is **non-zero**.
+### **Open surface (just the flat disk)**
 
-- For the **closed surface** (disk + hemisphere):
-  - Gauss’s law for magnetostatics:
-    $$
-    \oint_{\text{closed}} \vec B\cdot d\vec a = 0
-    $$
-    because there are **no magnetic monopoles** ($\nabla\cdot\vec B = 0$).
-  - The total flux through disk **plus** hemisphere must sum to **zero**:
-    $$
-    \Phi_{\text{disk}} + \Phi_{\text{hemisphere}} = 0
-    $$
-  - Therefore, the flux through the **closed** surface is **zero**.
+- $\vec B = B_0 \hat z$  
+- The disk has normal $\hat z$  
+- So $\vec B \cdot d\vec a = B_0\, da$
+
+Since $B_0$ is constant:
+
+$$
+\Phi_{\text{disk}} = \int_S B_0\, da = B_0 A \neq 0
+$$
+
+**Conclusion:**  
+The flux through the **open disk** is **non-zero**.
 
 ---
 
-### (b) Two Opposite Currents
-![[20.6.png]]
-Gauss’s law:
+### **Closed surface (disk + hemisphere)**
+
+Now imagine “capping” the disk with a hemisphere so the disk + cap form a **closed surface**.
+
+Gauss’s Law for magnetostatics:
+
 $$
 \oint_{\text{closed}} \vec B\cdot d\vec a = 0
 $$
 
-This is true regardless of current distributions; it depends on **absence of magnetic charge**, not on $I$.
+This law is *always* true because:
 
-- (i) Surface enclosing **one wire**:  
-  The field lines loop around the wire; every line that **enters** the surface also **leaves** it.  
-  Net flux through the closed surface is zero.
+- **There are no magnetic monopoles**
+- Field lines never start or end; they only form **closed loops**
 
-- (ii) Surface enclosing **both wires**:  
-  Each wire produces its own loop of $\vec B$. Superposition still yields **no net magnetic charge**, so total flux is still zero.
+This means:
 
-- (iii) Surface in between wires (enclosing no current):  
-  Same story: field lines thread the surface in and out; net algebraic flux cancels to zero.
+$$
+\Phi_{\text{disk}} + \Phi_{\text{hemisphere}} = 0
+$$
+
+So even though the **disk alone** had non-zero flux…
+
+The **hemisphere must contribute the exact opposite amount**, making the **total = 0**.
 
 ---
 
-### 💬 Comment
+## (b) Flux Through Closed Surfaces Near Two Opposite Currents
 
-- Gauss’s law for magnetostatics is **always**:
-  $$
-  \oint \vec B\cdot d\vec a = 0
-  $$
-- Unlike electric fields (where enclosed charge can make flux non-zero), magnetic flux through a closed surface is always zero.
+Your image (the one below) perfectly shows what is happening:
+
+![[20.6.png|350]]
+
+Magnetic field lines around wires always form **closed loops**.  
+Gauss’s law for magnetostatics says:
+
+$$
+\oint_{\text{closed}} \vec B\cdot d\vec a = 0
+$$
+
+This is true no matter where the surface is or which currents are nearby.
+
+Let’s go case by case:
+
+---
+
+### **(i) Surface enclosing one wire**
+
+Even though the field circulates around the wire:
+
+- Every field line that **enters** the surface  
+- Also **exits** somewhere else
+
+No beginning, no ending → net flux = **0**
+
+---
+
+### **(ii) Surface enclosing both wires**
+
+The two wires have **opposite currents**, so their circular fields rotate in **opposite directions**, but…
+
+- Superposition still gives a field with **no start or end**
+- Field lines loop around both wires but still never originate or terminate
+
+Total flux is still:
+
+$$
+\Phi_{\text{closed}} = 0
+$$
+
+---
+
+### **(iii) Surface between the wires (encloses no current)**
+
+This one confuses many students, but the law still applies:
+
+- The surface encloses **no wire at all**
+- Field lines from both wires pass **in and out** of the surface
+- The contributions always cancel
+
+So again:
+
+$$
+\Phi_{\text{closed}} = 0
+$$
+
+---
+
+## 💬 Comment
+
+Magnetic flux through a **closed surface** is **always zero**, because magnetic field lines:
+
+- never start  
+- never end  
+- always form **closed loops**
+
+This is the magnetic counterpart to:
+
+$$
+\nabla \cdot \vec B = 0
+\qquad\Longleftrightarrow\qquad
+\oint_{\text{closed}} \vec B\cdot d\vec a = 0
+$$
 ---
 
 ## 20.7 — Vector Magnetic Potential + Biot–Savart
