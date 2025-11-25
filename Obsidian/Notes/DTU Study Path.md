@@ -1,0 +1,291 @@
+---
+title: DTU Audio / Amplifier Design Track
+type: planning
+tags:
+  - DTU
+  - Tilvalg
+  - Audio
+  - Amplifier-Design
+  - Study-Planning
+aliases:
+  - Audio Engineering Study Plan
+  - Amp Design Track
+links:
+  - [[DTU – Study Overview]]
+  - [[MOC – Audio & Acoustics]]
+updated: 2025-11-25
+---
+
+# DTU Audio / Amplifier Design Track
+
+> [!summary] **Goal**
+> Build a **hardware-focused audio profile** during the Diplomingeniør in Electrical Engineering:
+> - Strong in **analog & mixed-signal electronics**  
+> - Solid **power electronics / switch-mode** background (useful for class-D + SMPS)  
+> - Real **electroacoustics / loudspeaker** understanding  
+> - Attractive profile for jobs in **hi-fi, pro audio, hearing aids, speakers, and power amps**
+
+---
+
+## 🎯 Big-picture structure
+
+- Base programme (already planned/ongoing):
+  - 30035 Engineering Electromagnetics  
+  - 62743 Digital Signal Processing  
+  - 34636 Integrated Analog Electronics 1  
+  - 34621 Electromagnetic Sensors and Digital Signal Processing  
+  - 34722 Linear Control Design 1  
+  - 62711 Digital Systems, Design Of  
+  - 62768 Electrical Energy Systems Project  
+  - 34870 Electroacoustic Transducers and Systems  
+  - 62755 Power Electronics  
+  - Internship (6th term) + Diplomprojekt (7th term)
+
+- **Tilvalg focus**:  
+  1. More **analog / IC design**  
+  2. More **power electronics** (for class-D, SMPS, etc.)  
+  3. Extra **electroacoustics / transducer** knowledge  
+  4. Optional **PCB/EMC & acoustics** polish in 7th term
+
+---
+
+## 📚 Overview of recommended tilvalg
+
+| Term            | Course code | Title (EN) / (DA)                                    | ECTS | Theme                            |
+|-----------------|------------:|------------------------------------------------------|-----:|----------------------------------|
+| 4th term (F)    | 34655       | Integrated Analog Electronics 2                      | 5    | Advanced analog / IC design      |
+| 4th term (F)    | 34620       | Basic Power Electronics                              | 5    | Switch-mode + converters        |
+| 4th term (F)    | 30020       | Electronic Measurement and Instrumentation           | 5    | Lab, measurements, instrumentation |
+| 5th term (Jan)  | 34871       | Nonlinear Transducers                                | 5    | Loudspeaker nonlinearity & models |
+| 7th term (A)    | 34652       | Power Electronics 1                                  | 10   | Advanced converters / design     |
+
+**Alternative 7th-term combo (if you prefer acoustics + PCB/EMC instead of 34652):**
+
+| Term            | Course code | Title                                               | ECTS | Theme                         |
+|-----------------|------------:|-----------------------------------------------------|-----:|-------------------------------|
+| 7th term (A)    | 34840       | Fundamentals of Acoustics and Noise                | 5    | General acoustics / noise     |
+| 7th term (A)    | 34654       | Circuit Technology and EMC                         | 5    | PCB layout & EMC for hardware |
+
+---
+
+## 🧱 4th Term — Spring 2026 (Tilvalg 15 ECTS)
+
+Mandatory courses already in the plan:
+- 34722 Linear Control Design 1 (5 ECTS)  
+- 62711 Digital Systems, Design Of (5 ECTS)  
+- 62768 Electrical Energy Systems Project (5 ECTS, June)
+
+### 4.1 34655 – Integrated Analog Electronics 2 (5 ECTS)
+
+**Why it matters for audio**
+
+- Continuation of **34636** with focus on:
+  - Advanced **CMOS op-amp structures**
+  - Gain stages, frequency compensation, stability
+  - Data converters and integrated analog building blocks
+- Directly relevant for:
+  - Pre-amps, tone controls, active crossovers
+  - On-chip parts of class-D drivers or mixed-signal audio ICs
+
+**Key outcomes**
+
+- Comfort with **$g_m$, $r_o$, $A_v$, $V_{DS}$** etc. in multi-stage amplifiers
+- Ability to read and design realistic **amp schematics** and **IC-style circuits**
+
+---
+
+### 4.2 34620 – Basic Power Electronics (5 ECTS)
+
+**Why it matters for audio**
+
+- Introduction to **switch-mode power conversion**:
+  - DC–DC topologies, rectifiers, basic DC–AC
+  - Device operation (MOSFETs, diodes, etc.)
+- Forms the conceptual basis for:
+  - **Class-D output stages** (basically controlled DC–AC converters)
+  - **SMPS rails** for analog + digital audio gear
+  - Efficiency / losses / thermal considerations in amps
+
+**Key outcomes**
+
+- Can analyse and roughly design **converter stages**  
+- Understand **waveforms, losses and control** at a level that transfers well to audio power stages
+
+---
+
+### 4.3 30020 – Electronic Measurement and Instrumentation (5 ECTS)
+
+**Why it matters for audio**
+
+- Focus on **sensors, interfaces, measurement setups and instrumentation systems**
+- Important for:
+  - Measuring **THD, noise, frequency response** of amplifiers and speakers
+  - Building reliable **lab setups** and interpreting results
+  - Debugging analog + power circuits
+
+**Key outcomes**
+
+- Stronger practical skills in:
+  - Oscilloscopes, DAQ, bridge circuits, sensor interfacing
+  - Basic metrology and error analysis
+
+---
+
+## 🔊 5th Term — January 2027 Tilvalg (5 ECTS)
+
+Autumn 5th-term courses (already in plan):
+- 62999 Innovation Pilot (10 ECTS)  
+- 34870 Electroacoustic Transducers and Systems (10 ECTS)  
+- 62755 Power Electronics (5 ECTS)
+
+### 5.1 34871 – Nonlinear Transducers (5 ECTS, January)
+
+**Why it matters for audio**
+
+- Deep dive into **nonlinear behaviour of loudspeakers and other transducers**:
+  - Distortion mechanisms
+  - Modelling and simulation of nonlinearities
+  - Compensation and control strategies
+- With 34870 + 34871 you get a **full loudspeaker engineer flavour**:
+  - From small-signal modelling to **real-world distortion** and limits
+
+**Key outcomes**
+
+- Ability to **model, simulate and interpret nonlinearity** in speakers/mics  
+- Knowledge that is directly used in:
+  - Hi-fi and studio monitor design  
+  - Headphones and hearing-aid transducers
+
+---
+
+## ⚡ 7th Term — Autumn 2027 Tilvalg (10 ECTS)
+
+You already have:
+- Diplomingeniørprojekt (20 ECTS)
+
+You need **10 ECTS tilvalg** on top.
+
+### Option A — Power-focused (recommended if you want to be a hardcore amp / power engineer)
+
+#### 7.1 34652 – Power Electronics 1 (10 ECTS)
+
+**Why it matters for audio**
+
+- Advanced power-electronics course covering:
+  - Detailed converter design
+  - Device selection and losses
+  - Control and practical design aspects
+- Extremely useful for:
+  - Designing **class-D power stages** properly  
+  - Designing **low-noise yet efficient SMPS** for audio  
+  - High-power active speakers, subwoofers, PA amps, etc.
+
+**Key outcomes**
+
+- Can design realistic power-converter stages (not just follow app notes)  
+- Much more attractive for companies doing **power-heavy audio products**
+
+---
+
+### Option B — Acoustics + PCB/EMC polish (if you lean more towards acoustics & practical hardware)
+
+#### 7.2 34840 – Fundamentals of Acoustics and Noise (5 ECTS)
+
+- Broader **acoustics & noise** foundation:
+  - Sound fields, propagation, room interactions
+  - Noise control basics
+- Good complement to electroacoustics courses and useful for:
+  - Room acoustics
+  - Noise-sensitive audio environments
+
+#### 7.3 34654 – Circuit Technology and EMC (5 ECTS)
+
+- Focus on **PCB layout, manufacturing, EMC/EMI**:
+  - Grounding, shielding, routing for low noise
+  - EMC compliance thinking
+- Very relevant for:
+  - Low-noise analog boards
+  - Layout of high-$dV/dt$, high-$dI/dt$ class-D stages
+  - Keeping your amp from radiating like a radio transmitter
+
+---
+
+## 🧪 Project & Internship alignment
+
+### 6th Term – Internship
+
+**Target industries**
+
+- Hi-fi / consumer audio (amps, DAC/amp combos, active speakers)  
+- Pro audio (mixers, power amps, studio monitors)  
+- Hearing-aid / headset companies (audio + power + acoustics)  
+- Power-electronics companies with interest in **class-D / motor drives / converters**
+
+**Nice selling points from your course mix**
+
+- Analog IC background (34636 + 34655)  
+- Power electronics (34620 + 62755, and possibly 34652)  
+- Electroacoustics (34870 + 34871)  
+- DSP (62743) + EM (30035, 34621)
+
+---
+
+### 7th Term – Diplomingeniørprojekt (20 ECTS)
+
+**Good project themes**
+
+- Design and measurement of a **class-D audio power amplifier**  
+- **Active loudspeaker**: SMPS + class-D + DSP crossover + loudspeaker modelling  
+- Low-noise **analog pre-amp / phono stage** with attention to EMC and layout  
+- Integrated **audio front-end** (mic preamp + ADC + DSP + power stage)
+
+Try to combine:
+
+- Courses on **analog + power + acoustics**  
+- Your side projects (passive speakers, DIY amps, crossovers, etc.)  
+- Possibly a company collaboration in audio/hearing
+
+---
+---
+
+## 🔭 Future MSc hardware courses I want
+
+These are **not** part of the current Diplom study plan (because of timetable and internship constraints), but I want to prioritise them if/when I start an MSc in Electrical Engineering / Electronics / Acoustics:
+
+### 34374 – IoT Hardware and PCB Design (5 ECTS, spring, F4B)
+
+- Focus on **embedded hardware and PCB design** for IoT devices. 
+- Complements my Diplom background in:
+  - **Analog IC design** (34636 + 34655)  
+  - **Power electronics** (34620 + 62755)  
+  - **Electroacoustics** (34870 + 34871)  
+- Directly relevant for:
+  - Designing **PCBs for audio amplifiers** and active speakers  
+  - Mixed-signal boards combining MCUs, DACs/ADCs and power stages
+
+### Other candidates to keep in mind
+
+- 34654 – Circuit technology and EMC (PCB layout, EMC/EMI – very relevant for low-noise audio) 
+- 34373 – Introduction to microcontroller development for IoT using embedded C (if I want more embedded IoT firmware alongside hardware) 
+- 22001 / 22003 – Acoustic signal processing / Auditory signal processing and perception (if I want to push more into audio DSP + hearing) 
+
+> **Idea:** When I apply for the MSc, revisit this section and turn it into a concrete MSc study plan with exact semesters and course combinations.
+
+## ✅ Action list
+
+- [ ] Check the latest DTU course catalogue to confirm:
+  - [ ] 34655, 34620 and 30020 are offered in 4th term spring  
+  - [ ] 34871 runs in January 2027  
+  - [ ] 34652 / 34840 / 34654 are available in 7th term autumn
+- [ ] Verify **prerequisites** (especially for 34655, 34652 and 34871)
+- [ ] Talk to **study counsellor** to:
+  - [ ] Confirm that this tilvalg combination fits all programme rules  
+  - [ ] Confirm no timetable collisions in the chosen year
+- [ ] Reach out to **relevant DTU groups** (Electronics, Acoustic Technology) for Potential internship ideas  
+  - [ ] Early brainstorming for Diplomprojekt topics
+- [ ] Keep GitHub / Obsidian updated with:
+  - [ ] Speaker design project  
+  - [ ] Amp / power-electronics experiments  
+  - [ ] Course-related mini-projects and reports
+
+---
