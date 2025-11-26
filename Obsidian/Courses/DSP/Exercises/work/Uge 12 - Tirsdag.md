@@ -105,7 +105,7 @@ $$
 
 ### **Two-sided magnitude spectrum**
 
-This matches the solution sheet: peaks appear at  
+Peaks appear at  
 $\pm1000\,$Hz and $\pm3500\,$Hz.
 
 ![[DSP_U12_Tirsdag_1A_mag_spectrum_twosided.png]]
@@ -369,14 +369,14 @@ The FIR coefficients are the truncated ideal LP:
 $$
 h_\text{AA}[n]
 = \frac{\omega_c}{\pi}\,
-\sinc\!\left(\frac{\omega_c}{\pi}(n-K_\text{AA})\right),
+\text sinc\!\left(\frac{\omega_c}{\pi}(n-K_\text{AA})\right),
 \qquad n = 0,\dots,M_\text{AA},
 $$
 
 where
 
 $$
-\sinc(x) = \frac{\sin(\pi x)}{\pi x}.
+\text sinc(x) = \frac{\sin(\pi x)}{\pi x}.
 $$
 
 Impulse response:
@@ -387,8 +387,8 @@ Impulse response:
 
 ### Magnitude response
 
-Cutoff $F_c = 2000~\text{Hz}$ is explicitly marked with a **black dashed line**  
-just like in the solution sheet.
+Cutoff $F_c = 2000~\text{Hz}$ is explicitly marked with a **magenta dashed line**  
+
 
 ![[DSP_U12_Tirsdag_1C_AA_mag.png]]
 
@@ -838,195 +838,486 @@ Now we consider **up-sampling** the same signal.
 
 ---
 
-### 2-A/B) Zero-stuffing and spectrum of up-sampled signal
+# Exercise 2-A — Sampling the analog signal
 
-> a) Form the up-sampled sequence by **zero-stuffing** with factor $L=3$.  
-> b) Define the new time/frequency vectors and plot the up-sampled signal and its spectrum.
+> Given  
+> The analog signal  
+> $$
+> x(t) = A_1\cos(2\pi F_1 t) + A_2\cos(2\pi F_2 t)
+> $$
+> with  
+> • $A_1 = 5$, $A_2 = 4$  
+> • $F_1 = 1000~\text{Hz}$  
+> • $F_2 = 3500~\text{Hz}$  
+>
+> Sampling parameters:  
+> • $F_s = 8000~\text{Hz}$  
+> • $N = 2^{14} = 16384$  
+>
+> Sub-questions:  
+> **a)** Calculate the sampled signal $x[n]$ and plot it vs. time.  
+> **b)** Calculate and plot the **two-sided** magnitude spectrum.
 
-Zero-stuffed sequence:
+---
+
+## a) Sampled signal
+
+The discrete-time signal is  
+$$
+x[n] = 5\cos(2\pi 1000\,nT_s) + 4\cos(2\pi 3500\,nT_s),
+\qquad T_s = \frac{1}{8000}.
+$$
+
+Time-domain plot (first 5 ms):
+
+![[DSP_U12_Tirsdag_1A_time_signal.png]]
+
+---
+
+## b) TWO-SIDED magnitude spectrum
+
+We take the FFT, apply `fftshift`, and stem-plot the full spectrum  
+$$
+F \in [-F_s/2,\; F_s/2].
+$$
+
+Expected peaks at  
+$\{-3500,\,-1000,\,+1000,\,+3500\}\,$Hz.
+
+![[DSP_U12_Tirsdag_1A_mag_spectrum_twosided.png]]
+
+---
+
+## MATLAB — Exercise 2-A
+> [!code]- **MATLAB (2-A)**
+> ```matlab
+> % Setup
+> Fs  = 8000;
+> N   = 2^14;
+> n   = 0:N-1;
+> t   = n/Fs;
+> 
+> A1 = 5;  F1 = 1000;
+> A2 = 4;  F2 = 3500;
+> 
+> % Sampled signal
+> x = A1*cos(2*pi*F1*t) + A2*cos(2*pi*F2*t);
+> 
+> % Time plot (first 5 ms)
+> figure;
+> plot(t*1e3, x, 'LineWidth', 1.0); grid on;
+> xlim([0 5]);
+> xlabel('t [ms]');
+> ylabel('x[n]');
+> title('Exercise 2-A: Sampled signal');
+> 
+> % ======== TWO-SIDED FFT ========
+> X      = fft(x, N);
+> Xsh    = fftshift(X);
+> Xmag   = abs(Xsh)/N;
+> 
+> df     = Fs/N;
+> f_axis = (-N/2:N/2-1)*df;
+> 
+> figure;
+> stem(f_axis, Xmag, 'filled'); grid on; hold on;
+> 
+> % Optional: add markers (not lines) for F1 and F2
+> % (Requires exact index match—commented out in case matching fails)
+> % plot(F1,  Xmag(f_axis==F1),  'ro', 'MarkerSize', 8, 'LineWidth', 2);
+> 
+> xlabel('F [Hz]');
+> ylabel('|X(F)|');
+> title('Exercise 2-A: TWO-SIDED magnitude spectrum');
+> xlim([-4000 4000]);
+> ```
+
+---
+
+# Exercise 2-B — Interpolation by factor $L=3$
+
+> Interpolation factor: $L = 3$  
+>
+> Sub-questions:  
+> **a)** Find the new sampling frequency.  
+> **b)** Define the up-sampled time vector.  
+> **c)** Form the interpolated (zero-stuffed) signal.  
+> **d)** Plot the interpolated signal.  
+> **e)** Plot the **two-sided** spectrum of the up-sampled signal.
+
+---
+
+## a) New sampling frequency
+
+$$
+F_s^{(U)} = L F_s = 3 \cdot 8000 = 24000~\text{Hz}.
+$$
+
+---
+
+## b) Up-sampled time vector
+
+For $N_U = LN$ samples:
+
+$$
+t^{(U)}[m] = \frac{m}{F_s^{(U)}}, \quad 0 \le m < N_U.
+$$
+
+---
+
+## c) Zero-stuffed interpolated signal
+
+Zero-stuffing rule:
+
 $$
 x_U[m] =
 \begin{cases}
-x[n], & m = nL\\
+x[n], & m = nL,\\[4pt]
 0, & \text{otherwise}.
 \end{cases}
 $$
 
-Time-domain (first 5 ms): many zeros between original samples:
+---
+
+## d) Time-domain plot
 
 ![[DSP_U12_Tirsdag_2A_upsampled_time.png]]
 
-Magnitude spectrum (note the $L-1=2$ spectral images):
+---
+
+## e) TWO-SIDED spectrum (shows $L-1 = 2$ spectral images)
 
 ![[DSP_U12_Tirsdag_2A_upsampled_spectrum.png]]
 
-> [!code]- MATLAB (2-A/B)
+---
+
+## MATLAB — Exercise 2-B
+> [!code]- **MATLAB (2-B)**
 > ```matlab
-> L    = 3;                   % Interpolation factor
-> Fs_U = L*Fs;                % New sampling frequency
-> N_U  = L*N;                 % Number of samples after up-sampling
+> L    = 3;               % interpolation factor
+> Fs_U = L*Fs;            % new sampling rate
+> N_U  = L*N;             % new number of samples
 > 
+> fprintf('\nExercise 2-B:\n');
+> fprintf('  New sampling rate = %.0f Hz\n', Fs_U);
+> 
+> % --------- Zero-stuffing ---------
 > xU = zeros(1, N_U);
-> xU(1:L:end) = x;            % zero-stuffing
+> xU(1:L:end) = x;
 > 
 > nU = 0:N_U-1;
 > tU = nU/Fs_U;
 > 
-> % Time-domain plot (first 5 ms)
+> % Time plot
 > figure;
-> plot(tU*1e3, xU, 'LineWidth', 1.0); grid on;
+> stem(tU*1e3, xU, 'filled'); grid on;
 > xlim([0 5]);
 > xlabel('t^{(U)} [ms]');
 > ylabel('x_U[m]');
-> title('Exercise 2-A: Zero-stuffed up-sampled sequence x_U[m]');
+> title('Exercise 2-B: Zero-stuffed signal');
 > 
-> % Spectrum of up-sampled signal
-> Nfft_U  = N_U;
-> XU      = fft(xU, Nfft_U);
-> XUmag   = abs(XU)/Nfft_U;
-> f_axisU = (0:Nfft_U-1)*Fs_U/Nfft_U;
-> fU_pos  = f_axisU(1:Nfft_U/2+1);
-> XU_pos  = 2*XUmag(1:Nfft_U/2+1);
+> % --------- TWO-SIDED FFT ---------
+> XU    = fft(xU, N_U);
+> XUsh  = fftshift(XU);
+> XUmag = abs(XUsh)/N_U;
+> 
+> df_U  = Fs_U/N_U;
+> fU_2s = (-N_U/2:N_U/2-1)*df_U;
 > 
 > figure;
-> plot(fU_pos, XU_pos, 'LineWidth', 1.0); grid on;
+> stem(fU_2s, XUmag, 'filled'); grid on;
 > xlabel('F^{(U)} [Hz]');
 > ylabel('|X_U(F^{(U)})|');
-> title('Exercise 2-A: Spectrum after zero-stuffing (images present)');
-> xlim([0 Fs_U/2]);
+> title('Exercise 2-B: TWO-SIDED spectrum of zero-stuffed signal');
+> xlim([-12000 12000]);   % shows all 3 images
 > ```
-> MATLAB docs: [`fft`](https://www.mathworks.com/help/matlab/ref/fft.html)
 
 ---
 
-### 2-C/D) Interpolation LP design via Parks–McClellan
+## 2-C) Spectrum of the interpolated signal
 
-> Design an interpolation LP filter using the Parks–McClellan algorithm with:  
-> - $F_\text{pass} = 3500~\text{Hz}$  
-> - $F_\text{stop} = 4500~\text{Hz}$  
-> - Passband gain $A_\text{pass} = L$  
-> - Passband tolerance $\delta_1 = 0.05$  
-> - Stopband tolerance $\delta_2 = 0.02$  
->
-> a) Find normalized angular passband and stopband frequencies.  
-> b) Estimate $M$ (filter order) using the standard formula.  
-> c) Design the filter using `firpm`.  
-> d) Plot the magnitude response and check if specs are met.
+In this exercise the **interpolated signal** (created in 2-B via zero-stuffing with $L = 3$) is examined in the frequency domain.
 
-**Normalized angular frequencies** (with $F_s^{(U)} = 24000~\text{Hz}$):
+This exercise consists of:
+
+a) Define the up-sampled frequency vector.  
+b) Calculate and plot the spectrum of the interpolated signal.  
+c) Compare the spectrum to the spectrum previously found in 2-A and discuss the observations.
+
+---
+
+### a) Up-sampled frequency vector
+
+After up-sampling by factor $L = 3$, the new sampling frequency is
 
 $$
-\omega_p = 2\pi\frac{F_\text{pass}}{F_s^{(U)}} 
-= 2\pi \frac{3500}{24000}
-\approx 0.916~\text{rad/sample},
+F_s^{(U)} = L F_s = 3 \cdot 8000 = 24000~\text{Hz}.
 $$
+
+Let the interpolated (zero-stuffed) signal have length $N_U = L N$.  
+For an $N_U$-point FFT we use a **two-sided** frequency vector
+
 $$
-\omega_s = 2\pi\frac{F_\text{stop}}{F_s^{(U)}} 
-= 2\pi \frac{4500}{24000}
-\approx 1.178~\text{rad/sample}.
+f^{(U)}[k]
+=
+\left(k - \frac{N_U}{2}\right)\frac{F_s^{(U)}}{N_U},
+\qquad k = 0,1,\dots,N_U-1.
+$$
+
+This spans
+
+$$
+-\frac{F_s^{(U)}}{2} \le f \le \frac{F_s^{(U)}}{2}
+= \pm 12000~\text{Hz}.
+$$
+
+---
+
+### b) Spectrum of the interpolated signal
+
+The zero-stuffed sequence is
+
+$$
+x_U[m] =
+\begin{cases}
+x[n], & m = nL, \\
+0, & \text{otherwise}.
+\end{cases}
+$$
+
+Its two-sided FFT magnitude is shown below:
+
+![[DSP_U12_Tirsdag_2C_interp_spectrum.png]]
+
+This plot is obtained from the MATLAB code at the end of this section, using `fft`, `fftshift`, and a stem plot over the two-sided frequency axis $f^{(U)}$.
+
+---
+
+### c) Comparison with the spectrum from 2-A
+
+From Exercise 2-A, the original sampled signal had tones at
+
+- $1000~\text{Hz}$  
+- $3500~\text{Hz}$
+
+At the **original** sampling rate $F_s = 8000~\text{Hz}$ these appeared as two lines in the baseband spectrum.
+
+After interpolation (zero-stuffing) to $F_s^{(U)} = 24000~\text{Hz}$ we observe in the figure:
+
+1. The **original components** at $1000$ Hz and $3500$ Hz remain with the same amplitudes.
+2. New **spectral images** appear, which are scaled copies of the original spectrum shifted inside the enlarged Nyquist interval $\left[-F_s^{(U)}/2,\,F_s^{(U)}/2\right]$.
+3. In general, interpolation by zero-stuffing causes
+   $$
+   X_U(e^{j\omega}) = X(e^{j\omega L}),
+   $$
+   which compresses the baseband spectrum by $L$ and creates $L-1$ additional images.
+
+So compared to 2-A, the number of visible frequency components inside the Nyquist interval has increased (due to the images), but the amplitudes of the **original** tones are unchanged. This is exactly why a **subsequent interpolation LP filter** is needed in later sub-questions: to remove the images and recover a “clean” band-limited, up-sampled signal.
+
+---
+
+> [!code]- MATLAB — Exercise 2-C (two-sided spectrum of interpolated signal)
+> ```matlab
+> %% Exercise 2-C: Spectrum of the interpolated (zero-stuffed) signal
+> % Assumes from 2-A/2-B:
+> %   L      = 3;
+> %   Fs     = 8000;
+> %   xU     = zero-stuffed sequence (length N_U = L*N);
+> %   imgDir = folder for saving figures
+> 
+> Fs_U    = L * Fs;          % Up-sampled sampling frequency [Hz]
+> N_U     = numel(xU);       % Number of samples after up-sampling
+> Nfft_U  = N_U;             % FFT length (can also choose a power of 2)
+> 
+> fprintf('Exercise 2-C:\n');
+> fprintf('  F_s^{(U)} = %.0f Hz, N_U = %d\n', Fs_U, N_U);
+> 
+> % ---------- Two-sided FFT of interpolated signal ----------
+> XU      = fft(xU, Nfft_U);          % FFT
+> XU_sh   = fftshift(XU);             % shift DC to 0 Hz (center)
+> XU_mag2 = abs(XU_sh)/Nfft_U;        % magnitude, scaled by Nfft_U
+> 
+> % Two-sided frequency axis: [-F_s^{(U)}/2 .. F_s^{(U)}/2 - ΔF]
+> df_U  = Fs_U / Nfft_U;
+> fU_2s = (-Nfft_U/2 : Nfft_U/2-1) * df_U;
+> 
+> % ---------- Plot spectrum ----------
+> figure;
+> stem(fU_2s, XU_mag2, 'LineWidth', 1.0); grid on;
+> xlabel('F^{(U)} [Hz]');
+> ylabel('|X_U(F^{(U)})|');
+> title('Exercise 2-C: Spectrum of interpolated (zero-stuffed) signal');
+> xlim([-Fs_U/2 Fs_U/2]);   % = [-12000 12000] Hz for F_s^{(U)} = 24 kHz
+> 
+> exportgraphics(gcf, fullfile(imgDir, ...
+>     'DSP_U12_Tirsdag_2C_interp_spectrum.png'), 'Resolution', 300);
+> ```
+
+---
+
+## 2-D) Interpolation LP design using `firpm` (Parks–McClellan)
+
+This exercise consists of the following sub-questions:
+
+a) Find the normalized angular passband and stopband frequencies.  
+b) Estimate the required filter order \(M\).  
+c) Design the filter using the Parks–McClellan algorithm.  
+d) Plot the magnitude response together with the filter requirements.  
+e) Check if the designed filter satisfies the requirements.  
+f) If not, increase \(M\) (in steps of 5).  
+g) Plot the magnitude response of a filter whose order **does** satisfy the specs.  
+h) Plot the impulse response of the final interpolation filter.
+
+---
+
+### **Given specifications**
+
+- Passband edge: \(F_\text{pass} = 3500~\text{Hz}\)  
+- Stopband edge: \(F_\text{stop} = 4500~\text{Hz}\)  
+- Passband ripple: \(\delta_1 = 0.05\)  
+- Stopband ripple: \(\delta_2 = 0.02\)  
+- Interpolation factor: \(L = 3\)  
+- Upsampled sampling frequency:  
+  $$
+  F_s^{(U)} = L F_s = 3\cdot 8000 = 24000~\text{Hz}
+  $$
+
+---
+
+### **a) Normalized angular frequencies**
+
+$$
+\omega_p = 2\pi \frac{F_\text{pass}}{F_s^{(U)}} 
+= 2\pi\frac{3500}{24000}
+$$
+
+$$
+\omega_s = 2\pi \frac{F_\text{stop}}{F_s^{(U)}} 
+= 2\pi\frac{4500}{24000}
 $$
 
 Transition width:
 $$
-\Delta\omega = \omega_s - \omega_p \approx 0.262~\text{rad/sample}.
+\Delta\omega = \omega_s - \omega_p
 $$
+
+---
+
+### **b) Order estimate \( M_\text{est} \)**
 
 Worst-case ripple:
 $$
 \delta = \min(\delta_1, \delta_2) = 0.02
-\Rightarrow
-A_\text{dB} = -20\log_{10}(\delta) \approx 34~\text{dB}.
 $$
 
-Order estimate for equiripple LP (Oppenheim/Hamming):
+Equivalent attenuation:
 $$
-M \approx \left\lceil
-\frac{A_\text{dB} - 7.95}{2.285\,\Delta\omega}
+A_\text{dB} = -20\log_{10}(\delta)
+$$
+
+Oppenheim–Hamming estimate:
+$$
+M_\text{est} \approx 
+\left\lceil
+\frac{A_\text{dB}-7.95}{2.285\Delta\omega}
 \right\rceil
-\approx 44.
 $$
 
-We use an **even** $M$ to get a Type I linear-phase FIR, so $M = 44$ and $N_\text{taps} = M+1 = 45$.
+We enforce **even \(M\)** so that \(N_\text{taps}=M+1\) is odd (Type-I linear phase).
 
-The filter is designed in normalized frequency $0 \le f \le 1$ (where $1$ corresponds to $F_s^{(U)}/2$):
+---
 
-- Normalized passband edge:
-  $$
-  f_\text{pass,norm} = \frac{F_\text{pass}}{F_s^{(U)}/2}
-  = \frac{3500}{12000}.
-  $$
-- Normalized stopband edge:
-  $$
-  f_\text{stop,norm} = \frac{F_\text{stop}}{F_s^{(U)}/2}
-  = \frac{4500}{12000}.
-  $$
+### **c–g) Filter design and verification using two trial orders**
 
-Magnitude response (linear):
+We try:
 
-![[DSP_U12_Tirsdag_2B_interp_filter_mag.png]]
+- **Trial 1:** \(M = 28\) → *too low*  
+- **Trial 2:** \(M = 47\) → *meets specs*
 
-Log-magnitude:
+Both magnitude responses use the same y-axis so the comparison is direct.
 
-![[DSP_U12_Tirsdag_2B_interp_filter_logmag.png]]
+#### **Trial M = 28 (fails)**
 
-> [!code]- MATLAB (2-C/D)
+![[DSP_U12_Tirsdag_2B_interp_filter_M28.png]]
+
+#### **Trial M = 47 (passes)**
+
+![[DSP_U12_Tirsdag_2B_interp_filter_M47.png]]
+
+---
+
+### **h) Impulse response of the final interpolation filter**
+
+![[DSP_U12_Tirsdag_2B_interp_impulse_M47.png]]
+
+---
+
+> [!code]- **MATLAB — Exercise 2-D (full design, verification & impulse response)**
 > ```matlab
-> % Interpolation filter specs
-> Fpass_I = 3500;      % Passband edge [Hz]
-> Fstop_I = 4500;      % Stopband edge [Hz]
-> delta1  = 0.05;      % Passband ripple
-> delta2  = 0.02;      % Stopband ripple
+> %% Exercise 2-D (a–b): Interpolation LP specs & order estimate (Parks–McClellan)
+> Fpass_I = 3500;
+> Fstop_I = 4500;
+> delta1  = 0.05;
+> delta2  = 0.02;
 > 
 > omega_p = 2*pi*Fpass_I/Fs_U;
 > omega_s = 2*pi*Fstop_I/Fs_U;
 > Delta_w = omega_s - omega_p;
 > 
 > delta = min(delta1, delta2);
-> A_dB  = -20*log10(delta);
+> A_dB = -20*log10(delta);
 > 
-> % Parks–McClellan order estimate
 > M_est = ceil((A_dB - 7.95)/(2.285*Delta_w));
-> if mod(M_est, 2) ~= 0
->     M_est = M_est + 1;   % enforce even M => Type I linear-phase
+> if mod(M_est,2) ~= 0
+>     M_est = M_est + 1;
 > end
 > Ntaps_I = M_est + 1;
 > 
-> % Normalized frequencies for firpm (0..1 -> 0..F_Nyq)
+> fprintf('Estimated M ≈ %d (N taps = %d)\n', M_est, Ntaps_I);
+> 
+> % Normalized frequencies for firpm
 > F_Nyq_U     = Fs_U/2;
-> Fpass_normI = Fpass_I/F_Nyq_U;
-> Fstop_normI = Fstop_I/F_Nyq_U;
-> 
+> Fpass_normI = Fpass_I / F_Nyq_U;
+> Fstop_normI = Fstop_I / F_Nyq_U;
 > f_firpm = [0 Fpass_normI Fstop_normI 1];
-> a_firpm = [L L 0 0];                 % gain L in passband, 0 in stopband
-> w_firpm = [1/delta1 1/delta2];       % weighting
+> a_firpm = [L L 0 0];
+> w_firpm = [1/delta1 1/delta2];
 > 
-> b_I = firpm(M_est, f_firpm, a_firpm, w_firpm);
+> ymin_lin = 0;
+> ymax_lin = L + delta1 + 0.5;
 > 
-> % Frequency response of interpolation filter
-> [H_I, w_I] = freqz(b_I, 1, Nfft_U);
-> 
+> %% ---- Trial 1: M = 28 (fails) ----
+> M_trial1 = 28;
+> b_I_28 = firpm(M_trial1, f_firpm, a_firpm, w_firpm);
+> [H_28, w_28] = freqz(b_I_28, 1, Nfft_U);
 > figure;
-> plot(w_I, abs(H_I), 'LineWidth', 1.0); grid on; hold on;
-> xline(omega_p, '--g', '\omega_p');
-> xline(omega_s, '--r', '\omega_s');
-> yline(L+delta1, ':k');
-> yline(L-delta1, ':k');
-> xlabel('\omega [rad/sample]');
-> ylabel('|H_I(e^{j\omega})|');
-> title('Interpolation LP (Parks–McClellan) — Magnitude');
+> plot(w_28, abs(H_28), 'LineWidth', 1.0); grid on; hold on;
+> xline(omega_p,'--k'); xline(omega_s,'--k');
+> yline(L+delta1,'--k'); yline(L-delta1,'--k');
+> xlabel('Normalized angular frequency, \omega');
+> ylabel('Attenuation [a.u.]');
+> title('Interpolation LP, M = 28 (does NOT meet specs)');
+> ylim([ymin_lin ymax_lin]);
 > 
-> HdB_I = 20*log10(abs(H_I)+eps);
+> %% ---- Trial 2: M = 47 (passes) ----
+> M_trial2 = 47;
+> b_I_47 = firpm(M_trial2, f_firpm, a_firpm, w_firpm);
+> [H_47, w_47] = freqz(b_I_47, 1, Nfft_U);
 > figure;
-> plot(w_I, HdB_I, 'LineWidth', 1.0); grid on; hold on;
-> xline(omega_p, '--g', '\omega_p');
-> xline(omega_s, '--r', '\omega_s');
-> yline(-20*log10(1-delta1), ':k');  % approx passband bound
-> yline(-20*log10(delta2), ':k');    % stopband bound
-> xlabel('\omega [rad/sample]');
-> ylabel('H_{I,dB}(\omega) [dB]');
-> title('Interpolation LP (Parks–McClellan) — Log magnitude');
+> plot(w_47, abs(H_47), 'LineWidth', 1.0); grid on; hold on;
+> xline(omega_p,'--k'); xline(omega_s,'--k');
+> yline(L+delta1,'--k'); yline(L-delta1,'--k');
+> xlabel('Normalized angular frequency, \omega');
+> ylabel('Attenuation [a.u.]');
+> title('Interpolation LP, M = 47 (meets specs)');
+> ylim([ymin_lin ymax_lin]);
+> 
+> %% ---- Impulse response for final filter (M = 47) ----
+> figure;
+> stem(0:M_trial2, b_I_47, 'filled'); grid on;
+> xlabel('n'); ylabel('h_I[n]');
+> title('Impulse response of interpolation filter (M = 47)');
 > ```
-> MATLAB docs: [`firpm`](https://www.mathworks.com/help/signal/ref/firpm.html), [`freqz`](https://www.mathworks.com/help/signal/ref/freqz.html)
 
 ---
 

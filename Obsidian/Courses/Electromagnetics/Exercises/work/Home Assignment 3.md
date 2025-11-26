@@ -596,12 +596,12 @@ The dielectric strength fixes the **minimum spacing**; once $d$ is set, the only
 
 **Sketches**
 
-| Sketch 1 | Sketch 2 |
-| --- | --- |
+| Sketch 1          | Sketch 2          |
+| ----------------- | ----------------- |
 | ![[Images/1.png]] | ![[Images/2.png]] |
 
-| Sketch 3 | Sketch 4 |
-| --- | --- |
+| Sketch 3          | Sketch 4          |
+| ----------------- | ----------------- |
 | ![[Images/3.png]] | ![[Images/4.png]] |
 
 💡 **Concept**
@@ -725,61 +725,146 @@ A negative charge would follow the opposite (downward) path.
 
 
 ---
+## Section 3 — Capacitors & Square Loop Field (Q5–Q6–Q9)
 
-> [!summary] **Question 9 — $|\vec H|$ at the center of a square current loop**
+> [!summary] **Question 9 — $\lvert\vec H\rvert$ at the center of a square current loop (via Biot–Savart)**
 >
 > A square loop of wire with side length $\ell = 4.2~\text{mm}$ carries a current $I = 2.69~\text{mA}$.  
 > It is in a magnetic medium with $\mu_r = 5$.  
-> **Find** the magnitude of the magnetic field intensity $|\vec H|$ at the center, in $\text{A/m}$.
+> **Find** the magnitude of the magnetic field intensity $\lvert\vec H\rvert$ at the center, in $\text{A/m}$.
 
-💡 **Concept**
+💡 **Concept (Biot–Savart for a finite straight segment)**
 
-- Magnetic field from free currents is described by $\vec H$ via Ampère’s law:
-  $\nabla\times\vec H = \vec J_{\text{free}}$.  
-  The solution for $\vec H$ in a given geometry does **not** depend on $\mu_r$ (only $\vec B=\mu\vec H$ does).
-- For a square loop (side $\ell$), the field at the center is the sum of four equal contributions. For one side:
+Biot–Savart’s law for **magnetic flux density** is
 
+$$
+\mathrm d\vec B
+= \frac{\mu_0}{4\pi}\frac{I\,\mathrm d\vec\ell\times\hat{\mathbf R}}{R^2}.
+$$
+
+For a **straight finite wire** carrying current $I$, the magnitude of the **magnetic field intensity** due to that segment at a point a perpendicular distance $R$ away is
+
+$$
+H_{\text{seg}}
+= \frac{I}{4\pi R}\bigl(\sin\theta_1 + \sin\theta_2\bigr),
+$$
+
+where:
+
+- $R$ is the perpendicular distance from the point to the wire,
+- $\theta_1$ and $\theta_2$ are the angles from the perpendicular line to each end of the wire,
+- $\vec B = \mu_0\vec H$ in free space (or more generally $\vec B = \mu\vec H$).
+
+For a **closed current loop**, the total $\vec H$ at a point is the vector sum of the contributions from all segments.
+
+---
+
+🧮 **Biot–Savart derivation for the square loop**
+
+We place the square loop symmetrically around the origin and look at the field at the center.
+
+- Side length: $\ell$  
+- Distance from center to each side:
   $$
-  H_{\text{side}} = \frac{I}{2\pi a}\sin\theta,
+  a = \frac{\ell}{2}.
   $$
 
-  where $a=\ell/2$ is the distance from the center to the side and $\theta$ is the angle to the ends.  
-  For a square, $\tan\theta = \dfrac{\ell/2}{a}=1\Rightarrow\theta=45^\circ,\ \sin\theta = 1/\sqrt{2}$.
+Consider **one side** of the square:
 
-- All four sides add with the same direction, so
-
+- The observation point (center) is at perpendicular distance $R = a$ from that side.
+- The wire runs symmetrically about the perpendicular, so the angles to each end are equal:
   $$
-  H_{\text{tot}} = 4H_{\text{side}} = \frac{2\sqrt{2}I}{\pi\ell}.
+  \theta_1 = \theta_2 = \theta.
   $$
 
-🧮 **Derivation**
+Geometry to find $\theta$:
 
-Convert units:
+- Half of the side length is $\ell/2$, and the perpendicular distance is $a = \ell/2$.  
+- So
+  $$
+  \tan\theta = \frac{\ell/2}{a} = \frac{\ell/2}{\ell/2} = 1
+  \Rightarrow \theta = 45^\circ.
+  $$
+- Hence
+  $$
+  \sin\theta = \sin 45^\circ = \frac{1}{\sqrt{2}}.
+  $$
+
+Now use the **finite-wire Biot–Savart result** for $\vec H$:
+
+1. One side:
+   $$
+   H_{\text{side}}
+   = \frac{I}{4\pi a}\bigl(\sin\theta + \sin\theta\bigr)
+   = \frac{I}{4\pi a}\bigl(2\sin\theta\bigr)
+   = \frac{I}{2\pi a}\sin\theta.
+   $$
+
+   Insert $a = \ell/2$ and $\sin\theta = 1/\sqrt{2}$:
+
+   $$
+   H_{\text{side}}
+   = \frac{I}{2\pi(\ell/2)}\cdot\frac{1}{\sqrt{2}}
+   = \frac{I}{\pi\ell}\cdot\frac{1}{\sqrt{2}}.
+   $$
+
+2. Total field from all four sides:
+
+   Each side gives the **same magnitude and direction** at the center (by symmetry), so
+
+   $$
+   H_{\text{tot}}
+   = 4H_{\text{side}}
+   = 4\left(\frac{I}{\pi\ell}\cdot\frac{1}{\sqrt{2}}\right)
+   = \frac{4}{\sqrt{2}}\cdot\frac{I}{\pi\ell}
+   = \frac{2\sqrt{2}I}{\pi\ell}.
+   $$
+
+   This is exactly the compact formula we used earlier, but now derived directly from **Biot–Savart**.
+
+---
+
+🔢 **Numeric evaluation**
+
+Convert to SI:
 
 - $\ell = 4.2~\text{mm} = 4.2\times 10^{-3}~\text{m}$  
 - $I = 2.69~\text{mA} = 2.69\times 10^{-3}~\text{A}$
 
-Compute:
+Then
 
 $$
-H = \frac{2\sqrt{2}I}{\pi\ell}
-  \approx \frac{2\sqrt{2}\cdot 2.69\times 10^{-3}}{\pi\cdot 4.2\times 10^{-3}}
-  \approx 0.577~\text{A/m}.
+H
+= \frac{2\sqrt{2}I}{\pi\ell}
+= \frac{2\sqrt{2}\cdot 2.69\times 10^{-3}}{\pi\cdot 4.2\times 10^{-3}}
+\approx 0.577~\text{A/m}.
 $$
 
 ✅ **Answer:** $\boxed{|\vec H| \approx 0.577~\text{A/m}}$
 
 🧩 **Interpretation**
 
-The result is **independent of $\mu_r$**; $\mu_r$ would only scale $\vec B = \mu\vec H$.
-> [!code]- MATLAB — Square current loop field at center (reusable)
+- The result is **independent of $\mu_r$** because Biot–Savart on $\vec H$ depends only on the **free current geometry**.  
+- The medium’s $\mu_r$ only changes $\vec B$ via $\vec B = \mu\vec H$:
+  $$
+  \vec B = \mu_0\mu_r\vec H.
+  $$
+
+---
+
+> [!code]- MATLAB — Square current loop field at center (Biot–Savart-based formula)
 > How to use: Set `ell_mm`, `I_mA`, and (optionally) `mu_r`.  
-> Run the cell to get the magnetic field intensity $H$ at the center in A/m, and the corresponding $B$ if you care about the medium.
+> The closed form used here comes from integrating Biot–Savart for each straight segment and summing the four sides.
 > ```matlab
 > %% HA3 – Section 7, Q9
 > % |H| at the center of a square current loop
-> % Formula (geometry only, independent of μr):
-> %   H_center = (2*sqrt(2)*I) / (pi*ell)
+> % Biot–Savart result for each straight side:
+> %   H_side = I/(4πR) * (sinθ1 + sinθ2)
+> % For a square at its center: R = ℓ/2, θ1 = θ2 = 45°
+> % → H_side = I/(πℓ) * 1/√2
+> % Total from 4 sides:
+> %   H_center = 4 * H_side = (2*sqrt(2)*I) / (pi*ell)
+> %
 > % where:
 > %   I   = current [A]
 > %   ell = side length [m]
@@ -796,7 +881,7 @@ The result is **independent of $\mu_r$**; $\mu_r$ would only scale $\vec B = \mu
 > ell = ell_mm * 1e-3;    % [m]
 > I   = I_mA   * 1e-3;    % [A]
 > 
-> % ---- CORE CALCULATION ----
+> % ---- CORE CALCULATION (Biot–Savart closed form) ----
 > H_center = (2*sqrt(2)*I) / (pi*ell);   % [A/m]
 > B_center = mu0 * mu_r * H_center;      % [T] (optional)
 > 
@@ -808,7 +893,6 @@ The result is **independent of $\mu_r$**; $\mu_r$ would only scale $\vec B = \mu
 > % For the HA3 numbers:
 > %   ℓ = 4.2 mm, I = 2.69 mA → |H_center| ≈ 0.577 A/m ≈ 0.58 A/m
 > ```
-
 
 ---
 
