@@ -82,25 +82,36 @@ $$
 
 ---
 
-### 1-A) Sampled signal and spectrum
+# Exercise 1 — Sampling & Naive Down-sampling  
+> Week 12 — Tuesday (Uge 12 Tirsdag)
 
+---
+
+## 1-A) Sampled signal and spectrum
+
+> **Sub-questions:**  
 > a) Calculate the sampled signal $x[n]$ and plot it vs. time.  
 > b) Calculate and plot the spectrum $X(F)$ as a function of frequency.
 
-We first construct $x[n]$ and inspect:
+We construct the discrete-time signal  
+$$
+x[n] = 5\cos(2\pi 1000\, nT_s) + 4\cos(2\pi 3500\, nT_s),
+\qquad T_s = \frac{1}{8000}.
+$$
 
-- Time plot (zoomed to the first few milliseconds so we can see oscillations).  
-- Magnitude spectrum using the FFT (one-sided spectrum up to $F_s/2$).
-
-Time-domain signal:
+### **Time-domain signal**
 
 ![[DSP_U12_Tirsdag_1A_time_signal.png]]
 
-Magnitude spectrum:
+### **Two-sided magnitude spectrum**
 
-![[DSP_U12_Tirsdag_1A_mag_spectrum.png]]
+This matches the solution sheet: peaks appear at  
+$\pm1000\,$Hz and $\pm3500\,$Hz.
 
-> [!code]- MATLAB (1-A)
+![[DSP_U12_Tirsdag_1A_mag_spectrum_twosided.png]]
+
+---
+> [!code]- **MATLAB — Exercise 1-A**
 > ```matlab
 > % Common setup
 > Fs  = 8000;              % Sampling frequency [Hz]
@@ -122,25 +133,21 @@ Magnitude spectrum:
 > ylabel('x[n]');
 > title('Exercise 1-A: Sampled signal x[n] at F_s = 8 kHz');
 > 
-> % Spectrum (one-sided up to F_s/2)
-> Nfft   = N;
-> X      = fft(x, Nfft);
-> Xmag   = abs(X)/Nfft;
-> f_axis = (0:Nfft-1)*Fs/Nfft;
-> f_pos  = f_axis(1:Nfft/2+1);
-> Xpos   = 2*Xmag(1:Nfft/2+1);
+> % === Two-sided FFT ===
+> Nfft = N;
+> X    = fft(x, Nfft);
+> Xsh  = fftshift(X);
+> Xmag = abs(Xsh)/Nfft;
+> 
+> df     = Fs/Nfft;
+> f_2s   = (-Nfft/2:Nfft/2-1) * df;
 > 
 > figure;
-> plot(f_pos, Xpos, 'LineWidth', 1.0); grid on; hold on;
-> xline(F1, '--r', sprintf('F_1 = %d Hz', F1));
-> xline(F2, '--r', sprintf('F_2 = %d Hz', F2));
-> xlim([0 Fs/2]);
+> stem(f_2s, Xmag, 'filled'); grid on;
 > xlabel('F [Hz]');
 > ylabel('|X(F)|');
-> title('Exercise 1-A: Magnitude spectrum of x[n]');
+> title('Exercise 1-A: Magnitude spectrum (two-sided)');
 > ```
-> MATLAB docs: [`fft`](https://www.mathworks.com/help/matlab/ref/fft.html), [`plot`](https://www.mathworks.com/help/matlab/ref/plot.html), [`xline`](https://www.mathworks.com/help/matlab/ref/xline.html)
-
 ---
 
 ### 1-B) Naive down-sampling by $M = 2$ (no AA filter)
@@ -159,95 +166,87 @@ Magnitude spectrum:
 
 #### a) New sampling frequency
 
-Down-sampling by $M=2$ halves the sampling frequency:
+Down-sampling halves the sampling rate:
+
 $$
 F_s' = \frac{F_s}{M} = \frac{8000}{2} = 4000~\text{Hz}.
 $$
 
 #### b) New Nyquist frequency
 
-Nyquist frequency is half the sampling rate:
 $$
-F_{\max}' = \frac{F_s'}{2} = \frac{4000}{2} = 2000~\text{Hz}.
+F_{\max}' = \frac{F_s'}{2} = 2000~\text{Hz}.
 $$
 
 #### c) Down-sampled time and frequency vectors
 
-Let $x_D[k]$ have length $N_D$.
+Let the down-sampled signal $x_D[k]$ contain $N_D$ samples.
 
 - Time vector:
   $$
-  t'[k] = \frac{k}{F_s'}, \quad k = 0,\dots,N_D-1.
-  $$
-- Frequency vector (one-sided):
-  $$
-  f'[m] = \frac{m}{N_D}F_s', \quad m = 0,\dots,\frac{N_D}{2}.
+  t'[k] = \frac{k}{F_s'},\quad k = 0,\dots,N_D-1.
   $$
 
-Note: We **cannot** get the new frequency vector with `OldVector(1:M:end)` because the frequency spacing
-$\Delta F' = F_s'/N_D$ changes when both $F_s$ and the number of samples change.
+- Frequency vector (one-sided):
+  $$
+  f'[m] = \frac{m}{N_D}F_s',\quad m = 0,\dots,\frac{N_D}{2}.
+  $$
+
+The frequency spacing changes, so we **cannot** simply down-sample the original frequency vector.
 
 #### d) Down-sampled signal
 
-Down-sampling by factor $M$ keeps every $M$’th sample:
-$$
-x_D[k] = x[2k], \quad k = 0,\dots,N_D-1.
-$$
+Down-sampling keeps every second sample:
 
-In MATLAB this is implemented with
-`xD = x(1:M:end);`.
+$$
+x_D[k] = x[2k].
+$$
 
 #### e) Time-domain plot
 
-Time-domain behaviour of the down-sampled signal (zoom on first $5\,$ms):
-
 ![[DSP_U12_Tirsdag_1B_time_downsampled.png]]
 
-#### f) Spectrum of the down-sampled signal
+#### f) Spectrum of $x_D[k]$
 
-Magnitude spectrum of $x_D[k]$ (one-sided, in Hz):
+Two-sided magnitude spectrum:
 
-![[DSP_U12_Tirsdag_1B_mag_downsampled.png]]
-
-The FFT uses the new sampling rate $F_s' = 4000\,$Hz and the frequency vector $f'$ defined above.
+![[DSP_U12_Tirsdag_1B_mag_downsampled_twosided.png]]
 
 #### g) Comparison to Exercise 1-A
 
-- In 1-A the sampled signal contains two sinusoids at  
-  $F_1 = 1000\,$Hz and $F_2 = 3500\,$Hz.
-- After down-sampling:
-  - $F_1 = 1000\,$Hz is still below the new Nyquist limit $F_{\max}' = 2000\,$Hz, so it remains unchanged.  
-  - $F_2 = 3500\,$Hz is **above** $F_{\max}'$ and therefore aliases:
-    $$
-    F_{\text{alias}} = |F_2 - F_s'| = |3500 - 4000| = 500~\text{Hz}.
-    $$
-- In the spectrum of $x_D[k]$ you therefore see tones at $1000\,$Hz and $500\,$Hz instead of $1000\,$Hz and $3500\,$Hz.
+- The $1000$ Hz tone stays below the new Nyquist rate → no aliasing.  
+- The $3500$ Hz tone violates the new Nyquist limit ($2000$ Hz):
 
-This demonstrates the effect of down-sampling **without** an anti-alias filter.
+$$
+F_{\text{alias}} = |F_2 - F_s'| = |3500 - 4000| = 500~\text{Hz}.
+$$
 
-> [!code]- MATLAB — Exercise 1-B (a–g)
+Thus, after down-sampling you observe components at **1000 Hz** and **500 Hz**, exactly matching the aliased spectrum from theory.
+
+---
+
+> [!code]- **MATLAB — Exercise 1-B (a–g)**
 > ```matlab
 > % Exercise 1-B: Naive down-sampling by M = 2 (no AA filter)
-> M      = 2;          % Down-sampling factor
-> Fs_D   = Fs/M;       % a) New sampling frequency [Hz]
-> Fmax_D = Fs_D/2;     % b) New Nyquist frequency [Hz]
+> M      = 2;            % Down-sampling factor
+> Fs_D   = Fs/M;         % New sampling frequency [Hz]
+> Fmax_D = Fs_D/2;       % New Nyquist frequency [Hz]
 > 
 > fprintf('Exercise 1-B:\n');
 > fprintf('  M        = %d\n', M);
 > fprintf('  Fs''      = %.0f Hz\n', Fs_D);
 > fprintf('  Fmax''    = %.0f Hz\n\n', Fmax_D);
 > 
-> % d) Down-sampled signal x_D[k] = x[2k]
+> % Down-sampled signal x_D[k] = x[2k]
 > xD = x(1:M:end);
 > ND = numel(xD);
 > kD = 0:ND-1;
 > 
-> % c) Down-sampled time and frequency vectors
-> tD      = kD / Fs_D;              % time vector t'[k]
-> f_axisD = (0:ND-1) * Fs_D / ND;   % full frequency axis
-> fD_pos  = f_axisD(1:ND/2+1);      % one-sided
+> % Time & frequency vectors
+> tD      = kD / Fs_D;
+> f_axisD = (-ND/2:ND/2-1) * (Fs_D/ND);   % two-sided frequency axis
 > 
-> % e) Time-domain plot
+> % Plot time-domain signal
 > figure;
 > plot(tD*1e3, xD, 'LineWidth', 1.0); grid on;
 > xlim([0 5]);
@@ -255,18 +254,17 @@ This demonstrates the effect of down-sampling **without** an anti-alias filter.
 > ylabel('x_D[k]');
 > title('Exercise 1-B: Down-sampled signal x_D[k] (M = 2)');
 > 
-> % f) Spectrum of down-sampled signal
-> XD        = fft(xD, ND);
-> XDmag     = abs(XD)/ND;
-> XDmag_pos = 2*XDmag(1:ND/2+1);
+> % Two-sided FFT
+> XD    = fft(xD, ND);
+> XDsh  = fftshift(XD);
+> XDmag = abs(XDsh)/ND;
 > 
 > figure;
-> plot(fD_pos, XDmag_pos, 'LineWidth', 1.0); grid on; hold on;
-> xline(Fmax_D, ':k', 'F_{max}''');
+> stem(f_axisD, XDmag, 'filled'); grid on;
 > xlabel('F'' [Hz]');
 > ylabel('|X_D(F'')|');
-> title('Exercise 1-B: Magnitude spectrum after down-sampling (no AA filter)');
-> xlim([0 Fs_D/2]);
+> title('Exercise 1-B: Two-sided magnitude spectrum (no AA filter)');
+> xlim([-Fs_D/2 Fs_D/2]);
 > ```
 
 ---
@@ -280,136 +278,189 @@ This demonstrates the effect of down-sampling **without** an anti-alias filter.
 >
 > a) Determine passband and stopband frequencies.  
 > b) Find the cut-off frequency.  
-> c) Select a suitable window type using the slide table.  
+> c) Select a suitable window using the slide table.  
 > d) Compute the minimum number of taps $N_\text{taps}$.  
 > e) Compute $M$ and $K$.  
 > f) Calculate and plot the **causal** impulse response.  
-> g) Plot the magnitude response vs. frequency.
+> g) Plot the magnitude response vs frequency.
 
-**Passband & stopband**
+---
 
-- Passband: $F_\text{pass} = 1855~\text{Hz}$  
-- Stopband: $F_\text{stop} = 2145~\text{Hz}$  
+### Passband & stopband
 
-**Cut-off frequency**
+- Passband edge: $F_\text{pass} = 1855~\text{Hz}$  
+- Stopband edge: $F_\text{stop} = 2145~\text{Hz}$  
 
-We choose the mid-point:
+These define the transition band width.
+
+---
+
+### Cut-off frequency
+
+We choose the midpoint:
+
 $$
 F_c = \frac{F_\text{pass} + F_\text{stop}}{2}
-= \frac{1855 + 2145}{2}
-= 2000~\text{Hz},
+= 2000~\text{Hz}.
 $$
-with normalized angular cutoff
+
+Digital (normalized) cutoff:
+
 $$
 \omega_c = 2\pi \frac{F_c}{F_s}.
 $$
 
-**Window type**
+At the cutoff, the ideal LP magnitude is:
 
-- Required stopband attenuation: $A_s = 20~\text{dB}$.  
-- From the window table: **rectangular window** has about $A_s \approx 21~\text{dB}$, so a rectangular window is sufficient.
-
-**Minimum number of taps**
-
-Using the slide formula for rectangular window:
 $$
-N_\text{taps} \approx \left\lceil \frac{0.9}{\Delta F_\text{sharp}} \right\rceil,
+|H(F_c)| = 0.5
+\qquad\Longleftrightarrow\qquad
+20\log_{10}(0.5) = -6.02~\text{dB}.
+$$
+
+This must be shown explicitly in the plots (matching the solution sheet).
+
+---
+
+### Window type
+
+Required attenuation: $A_s = 20~\text{dB}$.
+
+A **rectangular window** provides $\approx 21~\text{dB}$, therefore:
+
+- Rectangular window is acceptable and minimal.
+
+---
+
+### Minimum number of taps
+
+Rectangular-window design formula:
+
+$$
+N_\text{taps} \approx 
+\left\lceil \frac{0.9}{\Delta F_\text{sharp}} \right\rceil,
 \qquad
-\Delta F_\text{sharp} = \frac{F_\text{stop} - F_\text{pass}}{F_s}
-= \frac{2145 - 1855}{8000}
+\Delta F_\text{sharp}
+= \frac{F_\text{stop}-F_\text{pass}}{F_s}
+= \frac{2145-1855}{8000}
 = 0.03625.
 $$
 
 Thus:
+
 $$
-N_\text{taps} = \lceil 0.9 / 0.03625 \rceil = 25.
+N_\text{taps} 
+= \left\lceil \frac{0.9}{0.03625} \right\rceil
+= 25.
 $$
 
-We enforce an odd length (Type I linear-phase):
+We enforce an odd number of taps:
 
 - $N_\text{taps,AA} = 25$  
 - Filter order: $M_\text{AA} = 24$  
 - Symmetry index: $K_\text{AA} = M_\text{AA}/2 = 12$
 
-**Impulse response**
+---
 
-With a rectangular window, the causal FIR coefficients are the truncated ideal LP:
+### Impulse response (causal)
+
+The FIR coefficients are the truncated ideal LP:
 
 $$
 h_\text{AA}[n]
 = \frac{\omega_c}{\pi}\,
-\operatorname{sinc}\!\left(\frac{\omega_c}{\pi}(n-K_\text{AA})\right),
+\sinc\!\left(\frac{\omega_c}{\pi}(n-K_\text{AA})\right),
 \qquad n = 0,\dots,M_\text{AA},
 $$
 
-where MATLAB’s normalized sinc is
+where
 
 $$
-\operatorname{sinc}(x) = \frac{\sin(\pi x)}{\pi x}.
+\sinc(x) = \frac{\sin(\pi x)}{\pi x}.
 $$
 
 Impulse response:
 
 ![[DSP_U12_Tirsdag_1C_AA_impulse.png]]
 
-Magnitude response:
+---
+
+### Magnitude response
+
+Cutoff $F_c = 2000~\text{Hz}$ is explicitly marked with a **black dashed line**  
+just like in the solution sheet.
 
 ![[DSP_U12_Tirsdag_1C_AA_mag.png]]
 
-Log-magnitude (showing $\approx 20$ dB attenuation in the stopband):
+### Log-magnitude response
+
+Stopband attenuation ($20~\text{dB}$), passband ripple, and cutoff are shown:
 
 ![[DSP_U12_Tirsdag_1C_AA_logmag.png]]
+
+---
 
 > [!code]- MATLAB (1-C)
 > ```matlab
 > % AA filter specs
 > Fpass_AA = 1855;     % Passband [Hz]
 > Fstop_AA = 2145;     % Stopband [Hz]
-> AsdB_AA  = 20;       % Stopband attenuation [dB]
+> AsdB_AA  = 20;       % Minimum stopband attenuation [dB]
 > 
+> % --- Window length (rectangular) ---
 > DeltaF_sharp = (Fstop_AA - Fpass_AA)/Fs;
-> Ntaps_AA = ceil(0.9 / DeltaF_sharp);   % rectangular window formula
+> Ntaps_AA = ceil(0.9 / DeltaF_sharp);      % from slides
 > if mod(Ntaps_AA, 2) == 0
->     Ntaps_AA = Ntaps_AA + 1;           % force odd
+>     Ntaps_AA = Ntaps_AA + 1;              % enforce odd length
 > end
 > M_AA = Ntaps_AA - 1;
 > K_AA = M_AA/2;
 > 
-> Fc_AA = 0.5*(Fpass_AA + Fstop_AA);     % 2000 Hz
+> % --- Cutoff ---
+> Fc_AA = 0.5*(Fpass_AA + Fstop_AA);        % 2000 Hz
 > wc_AA = 2*pi*Fc_AA/Fs;
 > 
+> % --- Impulse response ---
 > nA          = 0:M_AA;
 > nA_centered = nA - K_AA;
 > hAA_centered = (wc_AA/pi) * sinc((wc_AA/pi)*nA_centered);
 > b_AA         = hAA_centered;
 > 
-> % Impulse response
+> % --- Impulse plot ---
 > figure;
 > stem(nA, b_AA, 'filled'); grid on;
 > xlabel('n'); ylabel('h_{AA}[n]');
 > title(sprintf('Anti-alias LP FIR: N_{taps} = %d', Ntaps_AA));
 > 
-> % Frequency response
+> % --- Frequency response ---
 > [H_AA, w_AA] = freqz(b_AA, 1, Nfft);
-> F_AA = w_AA*Fs/(2*pi);
+> F_AA = w_AA * Fs / (2*pi);
 > 
+> % Linear magnitude with cutoff
+> Fc_lin = Fc_AA;
 > figure;
-> plot(F_AA, abs(H_AA), 'LineWidth', 1.0); grid on; hold on;
-> xline(Fpass_AA, '--g', 'F_{pass}');
-> xline(Fstop_AA, '--r', 'F_{stop}');
+> plot(F_AA, abs(H_AA), 'LineWidth',1); hold on; grid on;
+> xline(Fpass_AA,'--g','F_{pass}');
+> xline(Fstop_AA,'--r','F_{stop}');
+> xline(Fc_lin,'--k','F_c');
+> yline(0.5,'--k');                     % |H(Fc)| = 0.5
 > xlabel('F [Hz]'); ylabel('|H_{AA}(F)|');
 > title('Anti-alias LP (rectangular window) — Magnitude response');
 > 
+> % Log magnitude with dB cutoff -6.02 dB
 > HdB_AA = 20*log10(abs(H_AA)+eps);
+> Fc_dB = 20*log10(0.5);                % -6.02 dB
+> 
 > figure;
-> plot(F_AA, HdB_AA, 'LineWidth', 1.0); grid on; hold on;
-> xline(Fpass_AA, '--g', 'F_{pass}');
-> xline(Fstop_AA, '--r', 'F_{stop}');
-> yline(-AsdB_AA, ':k', '-A_s');
+> plot(F_AA, HdB_AA,'LineWidth',1); hold on; grid on;
+> xline(Fpass_AA,'--g','F_{pass}');
+> xline(Fstop_AA,'--r','F_{stop}');
+> xline(Fc_AA,'--k','F_c');
+> yline(Fc_dB,'--k');                   % cutoff amplitude
+> yline(-AsdB_AA,':b','-A_s');          % stopband requirement
 > xlabel('F [Hz]'); ylabel('H_{AA,dB}(F) [dB]');
 > title('Anti-alias LP (rectangular window) — Log magnitude');
 > ```
-> MATLAB docs: [`sinc`](https://www.mathworks.com/help/matlab/ref/sinc.html), [`freqz`](https://www.mathworks.com/help/signal/ref/freqz.html), [`stem`](https://www.mathworks.com/help/matlab/ref/stem.html)
 
 ---
 ### 1-D) Filtering with AA filter (no down-sampling yet)
