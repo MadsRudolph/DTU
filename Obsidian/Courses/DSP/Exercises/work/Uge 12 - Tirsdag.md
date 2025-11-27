@@ -1172,11 +1172,11 @@ h) Plot the impulse response of the final interpolation filter.
 
 ### **Given specifications**
 
-- Passband edge: \(F_\text{pass} = 3500~\text{Hz}\)  
-- Stopband edge: \(F_\text{stop} = 4500~\text{Hz}\)  
-- Passband ripple: \(\delta_1 = 0.05\)  
-- Stopband ripple: \(\delta_2 = 0.02\)  
-- Interpolation factor: \(L = 3\)  
+- Passband edge: $F_\text{pass} = 3500~\text{Hz}$
+- Stopband edge: $F_\text{stop} = 4500~\text{Hz}$
+- Passband ripple: $\delta_1 = 0.05$  
+- Stopband ripple: $\delta_2 = 0.02$  
+- Interpolation factor: $L = 3$  
 - Upsampled sampling frequency:  
   $$
   F_s^{(U)} = L F_s = 3\cdot 8000 = 24000~\text{Hz}
@@ -1203,7 +1203,7 @@ $$
 
 ---
 
-### **b) Order estimate \( M_\text{est} \)**
+### **b) Order estimate $M_\text{est}$**
 
 Worst-case ripple:
 $$
@@ -1223,7 +1223,7 @@ M_\text{est} \approx
 \right\rceil
 $$
 
-We enforce **even \(M\)** so that \(N_\text{taps}=M+1\) is odd (Type-I linear phase).
+We enforce **even $M$** so that $N_\text{taps}=M+1$ is odd (Type-I linear phase).
 
 ---
 
@@ -1234,7 +1234,7 @@ We try:
 - **Trial 1:** \(M = 28\) → *too low*  
 - **Trial 2:** \(M = 47\) → *meets specs*
 
-Both magnitude responses use the same y-axis so the comparison is direct.
+
 
 #### **Trial M = 28 (fails)**
 
