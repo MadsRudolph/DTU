@@ -165,6 +165,11 @@
     - [[#17.9 Signal Energy & Power]]
     - [[#17.10 Most Important MATLAB Commands (DSP Master List)]]
 
+18. [[#18. Spectrum Sketching & Visualization]]
+       - [[#18.1 Why Spectrum Sketching Matters]]
+       - [[#18.2 Installation & Setup]]
+       - ... (etc)
+
 # 1. MATLAB Basics
 
 This section builds the **MATLAB muscle memory** you will use in every single DSP exercise and exam scenario.
@@ -3840,3 +3845,497 @@ Use it for **exam lookup**, **mental refreshers**, and **workflow reminders**.
 > ```
 
 ---
+# 18. Spectrum Sketching & Visualization
+
+**Purpose:** Quick, publication-quality theoretical spectrum plots for reports, assignments, and conceptual understanding.
+
+The `plot_spectrum()` function provides a professional way to sketch **theoretical spectra** with arrow notation (Dirac deltas) — the standard representation for discrete spectral components in DSP.
+
+---
+
+## 18.1 Why Spectrum Sketching Matters
+
+In DSP, you constantly switch between:
+
+1. **Theoretical/analytical spectra** → what you expect mathematically  
+2. **Computed FFT spectra** → what you actually measure  
+
+**Theoretical spectra** use **arrows (impulses)** to represent discrete frequency components:
+
+- AM sidebands  
+- Sampling replicas  
+- Modulation products  
+- Aliasing effects  
+- Filter specifications  
+
+The `plot_spectrum()` function creates these theoretical plots instantly.
+
+---
+
+## 18.2 Basic Usage Patterns
+
+### Pattern 1: Simplest Possible
+
+> [!code]- MATLAB
+> ```matlab
+> % Just frequencies and amplitudes
+> plot_spectrum([1, 3, 5], [0.5, 1, 0.3]);
+> ```
+Everything else (axis ranges, labels, colors) is auto-calculated.
+
+---
+
+### Pattern 2: Symmetric Signal (Common in DSP)
+
+> [!code]- MATLAB
+> ```matlab
+> % Baseband signal with ±f components
+> freqs = [-5, -2, 0, 2, 5];  % kHz
+> amps  = [0.3, 0.8, 1, 0.8, 0.3];
+> 
+> plot_spectrum(freqs, amps, ...
+>     'XLabel', 'Frequency (kHz)', ...
+>     'Title', 'Baseband Spectrum');
+> ```
+
+---
+
+### Pattern 3: AM Signal Spectrum
+
+> [!code]- MATLAB
+> ```matlab
+> % cos(2π·f_m·t) · cos(2π·f_c·t)
+> % Components at ±(f_c ± f_m)
+> fc = 16;  % carrier [kHz]
+> fm = 1;   % modulation [kHz]
+> 
+> freqs = [-(fc+fm), -(fc-fm), fc-fm, fc+fm];
+> amps  = [0.25, 0.25, 0.25, 0.25];
+> 
+> plot_spectrum(freqs, amps, ...
+>     'XRange', [-20, 20], ...
+>     'XLabel', 'Frequency (kHz)', ...
+>     'Title', 'AM Spectrum', ...
+>     'Colors', {{'red'}, {'red'}, {'blue'}, {'blue'}});
+> ```
+
+---
+
+### Pattern 4: Sampling & Aliasing
+
+> [!code]- MATLAB
+> ```matlab
+> % Original signal + aliased replicas
+> f0 = 1;   % signal frequency
+> Fs = 8;   % sampling frequency
+> 
+> % Show original and first few aliases
+> freqs = [-Fs-f0, -Fs+f0, -f0, f0, Fs-f0, Fs+f0];
+> amps  = [1, 1, 1, 1, 1, 1];
+> 
+> plot_spectrum(freqs, amps, ...
+>     'XRange', [-12, 12], ...
+>     'Title', sprintf('Aliasing: f_0 = %d kHz, F_s = %d kHz', f0, Fs));
+> ```
+
+---
+
+## 18.3 Complete Parameter Reference
+
+### Required Parameters
+
+- `frequencies` — vector of frequency values  
+- `amplitudes` — vector of amplitude values (same length)  
+
+### Optional Parameters (Name-Value Pairs)
+
+| Parameter      | Default            | Purpose                              |
+|----------------|--------------------|--------------------------------------|
+| `'XRange'`     | auto               | `[xmin, xmax]` for x-axis            |
+| `'YMax'`       | auto               | Maximum y-axis value                 |
+| `'XStep'`      | auto               | Spacing between x-axis ticks         |
+| `'YStep'`      | `0.5`             | Spacing between y-axis ticks         |
+| `'XLabel'`     | `'Frequency (Hz)'` | X-axis label text                    |
+| `'YLabel'`     | `'Amplitude (A.U.)'` | Y-axis label text                  |
+| `'Title'`      | none               | Plot title                           |
+| `'Colors'`     | auto               | Cell array of colors for each arrow |
+| `'LineWidth'`  | `2`               | Width of arrows                      |
+| `'FigNum'`     | new figure         | Reuse/update existing figure         |
+| `'MaxXLabels'` | `15`              | Max number of x-axis labels shown    |
+| `'MaxYLabels'` | `10`              | Max number of y-axis labels shown    |
+
+---
+
+## 18.4 Advanced Examples
+
+### Example 1: Highlighting Nyquist Zones
+
+> [!code]- MATLAB
+> ```matlab
+> % Under-sampled bandpass signal showing multiple Nyquist zones
+> B  = 4;   % bandwidth
+> Fs = 2*B; % sampling at 2B
+> 
+> % All aliases within visualization range
+> freqs = [-17, -15, -9, -7, -1, 1, 7, 9, 15, 17];
+> amps  = 0.5 * ones(size(freqs));
+> 
+> % Different colors for different zones
+> colors = {{'w'},{'w'}, {'g'},{'g'}, {'m'},{'m'}, ...
+>           {'g'},{'g'}, {'w'},{'w'}};
+> 
+> fig = plot_spectrum(freqs, amps, ...
+>     'XRange', [-20, 20], ...
+>     'YMax', 0.75, ...
+>     'XLabel', 'Frequency (kHz)', ...
+>     'Title', 'Under-Sampling: Multiple Nyquist Zones', ...
+>     'Colors', colors);
+> 
+> % Add reference lines at Nyquist zone boundaries
+> figure(fig); hold on;
+> xline(0,   '--', 'LineWidth', 1.5, 'Color', [0.8 0.8 0.8]);
+> xline(Fs/2, '--', 'LineWidth', 1.5, 'Color', [0.8 0.8 0.8]);
+> xline(-Fs/2,'--', 'LineWidth', 1.5, 'Color', [0.8 0.8 0.8]);
+> hold off;
+> ```
+
+---
+
+### Example 2: Comparing Theoretical vs FFT Results
+
+> [!code]- MATLAB
+> ```matlab
+> % Theoretical prediction
+> freqs_theory = [-17, -15, 15, 17];
+> amps_theory  = [0.25, 0.25, 0.25, 0.25];
+> 
+> figure('Position', [100, 100, 1200, 400]);
+> 
+> subplot(1,2,1);
+> plot_spectrum(freqs_theory, amps_theory, ...
+>     'XRange', [-20, 20], ...
+>     'Title', 'Theoretical Spectrum', ...
+>     'FigNum', gcf);
+> 
+> subplot(1,2,2);
+> % Your FFT code here
+> stem(f_fft, mag_fft, 'filled');
+> title('Computed FFT Spectrum');
+> xlim([-20 20]);
+> grid on;
+> ```
+
+---
+
+### Example 3: Filter Specifications
+
+> [!code]- MATLAB
+> ```matlab
+> % Ideal bandpass filter specification
+> fp1 = 2;   % passband start
+> fp2 = 8;   % passband end
+> 
+> % Show passband with unit gain, stopband with zero
+> freqs = [fp1, fp2];
+> amps  = [1, 1];
+> 
+> plot_spectrum(freqs, amps, ...
+>     'XRange', [0, 12], ...
+>     'YMax', 1.2, ...
+>     'Title', 'Ideal Bandpass Filter Specification', ...
+>     'XLabel', 'Frequency (kHz)', ...
+>     'Colors', {{'green'}, {'green'}});
+> ```
+
+---
+
+## 18.5 Quick Spectrum Templates
+
+Helper file `spectrum_templates.m`:
+
+> [!code]- MATLAB
+> ```matlab
+> function fig = spectrum_templates(type, varargin)
+> %SPECTRUM_TEMPLATES Quick theoretical spectrum patterns
+> %   spectrum_templates('AM', fc, fm)        - AM signal
+> %   spectrum_templates('baseband', f0)      - Symmetric baseband
+> %   spectrum_templates('harmonics', f0, n)  - Harmonic series
+> %   spectrum_templates('aliased', f0, Fs)   - Aliasing demonstration
+> 
+> switch lower(type)
+>     case 'am'
+>         fc = varargin{1};  % carrier frequency (kHz)
+>         fm = varargin{2};  % modulation frequency (kHz)
+>         
+>         freqs = [-(fc+fm), -(fc-fm), fc-fm, fc+fm];
+>         amps  = [0.25, 0.25, 0.25, 0.25];
+>         
+>         fig = plot_spectrum(freqs, amps, ...
+>             'XLabel', 'Frequency (kHz)', ...
+>             'Title', sprintf('AM: f_c = %d kHz, f_m = %d kHz', fc, fm), ...
+>             'Colors', {{'red'}, {'red'}, {'blue'}, {'blue'}});
+>     
+>     case 'baseband'
+>         f0 = varargin{1};
+>         
+>         freqs = [-f0, f0];
+>         amps  = [0.5, 0.5];
+>         
+>         fig = plot_spectrum(freqs, amps, ...
+>             'XLabel', 'Frequency (kHz)', ...
+>             'Title', sprintf('Baseband Signal: ±%d kHz', f0), ...
+>             'Colors', {{'cyan'}, {'cyan'}});
+>     
+>     case 'harmonics'
+>         f0 = varargin{1};
+>         n  = varargin{2};  % number of harmonics
+>         
+>         freqs = f0 * (1:n);
+>         amps  = 1 ./ (1:n);  % decreasing amplitude
+>         
+>         fig = plot_spectrum(freqs, amps, ...
+>             'XLabel', 'Frequency (kHz)', ...
+>             'Title', sprintf('%d Harmonics of f_0 = %d kHz', n, f0));
+>     
+>     case 'aliased'
+>         f0 = varargin{1};
+>         Fs = varargin{2};
+>         
+>         % Original + first two aliases
+>         freqs = [f0, Fs-f0, Fs+f0];
+>         amps  = [1, 1, 1];
+>         
+>         fig = plot_spectrum(freqs, amps, ...
+>             'XRange', [0, 1.5*Fs], ...
+>             'XLabel', 'Frequency (kHz)', ...
+>             'Title', sprintf('Aliasing: f_0 = %d kHz, F_s = %d kHz', f0, Fs));
+>         
+>         % Add Nyquist frequency line
+>         figure(fig); hold on;
+>         xline(Fs/2, 'r--', 'LineWidth', 2);
+>         text(Fs/2, 0.5, 'F_s/2', 'Color', 'r', ...
+>              'HorizontalAlignment','center', ...
+>              'VerticalAlignment','bottom');
+>         hold off;
+>     
+>     otherwise
+>         error('Unknown template type: %s', type);
+> end
+> end
+> ```
+
+### Using Templates
+
+> [!code]- MATLAB
+> ```matlab
+> % Quick AM spectrum
+> spectrum_templates('AM', 16, 1);
+> 
+> % Baseband signal
+> spectrum_templates('baseband', 5);
+> 
+> % Harmonic series
+> spectrum_templates('harmonics', 1, 5);
+> 
+> % Aliasing demo
+> spectrum_templates('aliased', 7, 10);
+> ```
+
+---
+
+## 18.6 Generic Plot Template (Copy-Paste)
+
+> [!code]- MATLAB
+> ```matlab
+> %% ===== SPECTRUM PLOT TEMPLATE =====
+> 
+> % 1. Define spectrum
+> frequencies = [___];  % your frequency values
+> amplitudes  = [___];  % your amplitude values
+> 
+> % 2. Plot with options
+> plot_spectrum(frequencies, amplitudes, ...
+>     'XRange', [___, ___], ...           % [min, max]
+>     'YMax', ___, ...                    % max amplitude
+>     'XLabel', '___', ...                % x-axis label
+>     'YLabel', '___', ...                % y-axis label  
+>     'Title', '___', ...                 % plot title
+>     'Colors', {{___}, {___}, ...}, ...  % colors per arrow
+>     'XStep', ___, ...                   % tick spacing
+>     'YStep', ___, ...                   % y-tick spacing
+>     'MaxXLabels', ___, ...              % label thinning
+>     'LineWidth', ___ ...                % arrow width
+> );
+> 
+> % 3. Optional: Add reference lines
+> hold on;
+> xline(0, '--', 'Color', [0.8 0.8 0.8]);
+> hold off;
+> 
+> % 4. Optional: Save
+> exportgraphics(gcf, 'spectrum.png', 'Resolution', 300);
+> ```
+
+---
+
+## 18.7 When to Use plot_spectrum vs FFT Plots
+
+### Use `plot_spectrum()` for:
+
+- Theoretical predictions (before computing anything)  
+- Showing expected spectrum structure  
+- Explaining concepts in reports  
+- Filter specifications  
+- Demonstrating aliasing effects  
+- Textbook-style diagrams  
+
+### Use FFT `stem()` plots for:
+
+- Actual measured/computed spectra  
+- Validating theoretical predictions  
+- Showing all frequency bins  
+- Demonstrating leakage/windowing effects  
+- Real-world signal analysis  
+
+### Often Use BOTH:
+
+Show theoretical spectrum first, then FFT result to validate.
+
+---
+
+## 18.8 Common DSP Spectrum Patterns
+
+> [!code]- MATLAB
+> ```matlab
+> % Pattern: Single Tone
+> plot_spectrum(440, 1, 'XLabel', 'Frequency (Hz)');
+> 
+> % Pattern: Complex Exponential
+> % e^(j2πf₀t) has only positive frequency
+> plot_spectrum(5, 1, 'XRange', [-10, 10]);
+> 
+> % Pattern: Real Cosine (Symmetric)
+> % cos(2πf₀t) has both ±f₀
+> plot_spectrum([-5, 5], [0.5, 0.5]);
+> 
+> % Pattern: DSB-SC Modulation
+> fc = 10; fm = 1;
+> plot_spectrum([fc-fm, fc+fm], [0.5, 0.5]);
+> 
+> % Pattern: Rectangular Pulse Train
+> % Sinc envelope sampled at harmonics
+> f0 = 1;
+> n_harmonics = 5;
+> freqs = f0 * (1:2:2*n_harmonics);  % odd harmonics
+> amps = sinc(freqs/10);             % sinc envelope
+> 
+> plot_spectrum(freqs, amps);
+> ```
+
+---
+
+## 18.9 Integration with Your DSP Workflow
+
+### Typical Usage in Assignments
+
+> [!code]- MATLAB
+> ```matlab
+> %% Exercise: AM Signal Analysis
+> clear; close all; clc;
+> addpath('..\Helpers');
+> 
+> % Parameters
+> Fdata = 1000;    % 1 kHz
+> Fcar  = 16000;   % 16 kHz
+> 
+> %% Part A: Theoretical Spectrum
+> F1 = Fcar - Fdata;  % 15 kHz
+> F2 = Fcar + Fdata;  % 17 kHz
+> 
+> freqs = [-F2, -F1, F1, F2] / 1000;  % convert to kHz
+> amps  = [0.25, 0.25, 0.25, 0.25];
+> 
+> plot_spectrum(freqs, amps, ...
+>     'XRange', [-20, 20], ...
+>     'XLabel', 'Frequency (kHz)', ...
+>     'Title', 'Theoretical AM Spectrum');
+> 
+> exportgraphics(gcf, 'theory_spectrum.png', 'Resolution', 300);
+> 
+> %% Part B: Compute FFT for Validation
+> Fs = 100e3;
+> N  = 8192;
+> t  = (0:N-1)/Fs;
+> 
+> x = cos(2*pi*Fdata*t) .* cos(2*pi*Fcar*t);
+> 
+> X = fftshift(fft(x));
+> f = (-N/2:N/2-1) * (Fs/N) / 1000;  % kHz
+> 
+> figure;
+> stem(f, abs(X)/N, 'filled');
+> xlim([-20, 20]);
+> title('Computed FFT Spectrum');
+> xlabel('Frequency (kHz)');
+> grid on;
+> 
+> exportgraphics(gcf, 'fft_spectrum.png', 'Resolution', 300);
+> ```
+
+---
+
+## 18.10 Spectrum Plotting Cheat Sheet
+
+| Task              | Code                                                |
+|-------------------|-----------------------------------------------------|
+| Basic plot        | `plot_spectrum(freqs, amps)`                        |
+| Set range         | `'XRange', [-10, 10]`                               |
+| Color arrows      | `'Colors', {{'r'}, {'b'}}`                          |
+| Add title         | `'Title', 'My Spectrum'`                            |
+| Thick arrows      | `'LineWidth', 3`                                    |
+| Limit labels      | `'MaxXLabels', 10`                                  |
+| Update existing   | `'FigNum', 5`                                       |
+| Save figure       | `exportgraphics(gcf, 'fig.png', 'Resolution', 300)` |
+
+---
+
+## 18.11 Troubleshooting
+
+- **"Undefined function 'plot_spectrum'"**  
+  → Check `plot_spectrum.m` is on the MATLAB path.
+
+- **Arrows don't show**  
+  → Make sure amplitudes > 0 and within `YMax` range.
+
+- **Too many axis labels (cluttered)**  
+  → Reduce tick spacing or use `'MaxXLabels', 8`.
+
+- **Colors not working**  
+  → Use cell-of-cells: `{{'red'}, {'blue'}}` not `{'red', 'blue'}`.
+
+- **Frequencies and amplitudes length mismatch**  
+  → Check `length(freqs) == length(amps)`.
+
+---
+
+## 18.12 MATLAB Toolbox Summary
+
+> [!code]- MATLAB
+> ```matlab
+> % Basic usage
+> plot_spectrum(frequencies, amplitudes);
+> 
+> % Full options
+> fig = plot_spectrum(frequencies, amplitudes, ...
+>     'XRange', [min, max], ...
+>     'YMax', max_amp, ...
+>     'XLabel', 'label', ...
+>     'Title', 'title', ...
+>     'Colors', {{color1}, {color2}, ...});
+> 
+> % Templates (if created)
+> spectrum_templates('AM', fc, fm);
+> spectrum_templates('baseband', f0);
+> spectrum_templates('harmonics', f0, n);
+> spectrum_templates('aliased', f0, Fs);
+> ```
