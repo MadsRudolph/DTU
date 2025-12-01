@@ -10,20 +10,6 @@ links:
   - "[[Courses/Electromagnetics/Formulas/Electrostatics I — Quick Formula Sheet]]"
 updated: 2025-11-12
 ---
----
-title: Electrostatics II — Quick Formula Sheet
-type: formula
-tags: [Electromagnetics, Electrostatics, Conductors, Dielectrics, GaussLaw]
-aliases: [Electrostatics II, Dielectrics, Conductors]
-links: 
-  - "[[MOC – Electromagnetics]]"
-  - "[[MOC – Lectures]]"
-  - "[[MOC – Exercises]]"
-  - "[[Courses/Electromagnetics/Formulas/Electrostatics I — Quick Formula Sheet]]"
-updated: 2025-11-12
----
-
-> 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Courses/Electromagnetics/Formulas/Electrostatics II — Quick Formula Sheet]]  
 > **Quick refs:** [[Formulas/Electrostatics I — Quick Formula Sheet]] · [[MOC – Maxwell’s Equations]] · [[Formulas/Boundary Conditions — Quick Formula Sheet]]  
 > For **30035 Engineering Electromagnetics – Fall 2025** (DTU Space, Rasmus E. Jacobsen).  
 > Complete reference for **Electrostatics II** (Lecture 20 · 12 Nov 2025).  

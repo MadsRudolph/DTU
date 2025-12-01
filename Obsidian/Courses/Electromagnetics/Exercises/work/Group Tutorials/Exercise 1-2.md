@@ -1,88 +1,74 @@
-# Exercises 1–2 — Engineering Electromagnetics (Solutions)
+> Quick refs: [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]] :contentReference[oaicite:0]{index=0}  
 
 ---
 
-# Exercise 1.1 — Simplifying Complex Numbers
+# Exercise 1.1  
+### Complex-number simplification
 
-> **Question (from PDF)**  
-> Simplify the following expressions and write them in the form $z = a + jb$:  
-> a) $z = \dfrac{4}{j}$  
-> b) $z = \dfrac{1-j}{1+j}$  
-> c) $z = \dfrac{4+5j}{6-5j}$  
-
----
-
-• **Theory recap**  
-- Complex numbers: $z = a + jb$, where $a,b \in \mathbb{R}$ and $j^2 = -1$.  
-- Basic identities:  
-  - $\dfrac{1}{j} = -j$  
-  - To simplify a complex fraction, multiply numerator and denominator by the **complex conjugate** of the denominator:
-    $$
-    \frac{a+jb}{c+jd} = \frac{(a+jb)(c-jd)}{(c+jd)(c-jd)} = \frac{(a+jb)(c-jd)}{c^2 + d^2}.
-    $$
+> **Given**  
+> Simplify the following complex numbers and express them in Cartesian form $z = a + jb$:  
+> - (a) $z = \dfrac{4}{j}$  
+> - (b) $z = \dfrac{1-j}{1+j}$  
+> - (c) $z = \dfrac{4+5j}{6-5j}$  
 
 ---
 
-• **Given**  
-- (a) $z = \dfrac{4}{j}$  
-- (b) $z = \dfrac{1-j}{1+j}$  
-- (c) $z = \dfrac{4+5j}{6-5j}$  
+### Theory recap  
+
+- Any complex number can be written in Cartesian (rectangular) form  
+  $$
+  z = a + jb, \quad a = \Re\{z\},\ b = \Im\{z\}.
+  $$
+- Division of complex numbers is usually handled by multiplying numerator and denominator with the **complex conjugate** of the denominator:
+  $$
+  \frac{z_1}{z_2} = \frac{z_1 z_2^*}{|z_2|^2}.
+  $$
 
 ---
 
-• **Geometry / setup**  
-- Pure algebra; no geometric position is needed.  
-- You can interpret each $z$ as a vector in the complex plane $(\Re\{z\}, \Im\{z\})$ after simplification.
+### Derivation  
 
----
+#### (a) $z = \dfrac{4}{j}$  
 
-• **Derivation**
-
-**(a) $z = \dfrac{4}{j}$**
-
-Use $1/j = -j$:
+Recall $j^2 = -1$ and $\frac{1}{j} = -j$:
 $$
 z = \frac{4}{j} = 4\cdot\frac{1}{j} = 4(-j) = -4j.
 $$
-So $a=0$, $b=-4$.
-
----
-
-**(b) $z = \dfrac{1-j}{1+j}$**
-
-Multiply numerator and denominator by the conjugate $(1-j)$:
-$$
-z = \frac{1-j}{1+j} \cdot \frac{1-j}{1-j}
-  = \frac{(1-j)^2}{(1+j)(1-j)}.
-$$
-
-Compute:
-$$
-(1-j)^2 = 1 - 2j + j^2 = 1 - 2j -1 = -2j,
-$$
-$$
-(1+j)(1-j) = 1 - j^2 = 1 - (-1) = 2.
-$$
-
 So
 $$
-z = \frac{-2j}{2} = -j.
+a = 0,\quad b = -4.
 $$
-Hence $a=0$, $b=-1$.
 
 ---
 
-**(c) $z = \dfrac{4+5j}{6-5j}$**
+#### (b) $z = \dfrac{1-j}{1+j}$  
+
+Multiply by the complex conjugate of the denominator, $(1-j)$:
+$$
+z = \frac{1-j}{1+j}\cdot\frac{1-j}{1-j}
+    = \frac{(1-j)^2}{1^2 - j^2}
+    = \frac{1 - 2j + j^2}{1-(-1)}
+    = \frac{1 - 2j -1}{2}
+    = \frac{-2j}{2} = -j.
+$$
+Thus
+$$
+a = 0,\quad b = -1.
+$$
+
+---
+
+#### (c) $z = \dfrac{4+5j}{6-5j}$  
 
 Multiply numerator and denominator by the conjugate $(6+5j)$:
 $$
 z = \frac{4+5j}{6-5j}\cdot\frac{6+5j}{6+5j}
-  = \frac{(4+5j)(6+5j)}{(6-5j)(6+5j)}.
+  = \frac{(4+5j)(6+5j)}{6^2 + 5^2}.
 $$
 
-Numerator:
+Compute numerator:
 $$
-(4+5j)(6+5j) = 4\cdot 6 + 4\cdot 5j + 5j\cdot 6 + 5j\cdot 5j
+(4+5j)(6+5j) = 4\cdot 6 + 4\cdot 5j + 5j \cdot 6 + 5j\cdot 5j
 = 24 + 20j + 30j + 25j^2
 = 24 + 50j - 25
 = -1 + 50j.
@@ -90,140 +76,133 @@ $$
 
 Denominator:
 $$
-(6-5j)(6+5j) = 6^2 + 5^2 = 36 + 25 = 61.
+6^2 + 5^2 = 36 + 25 = 61.
 $$
 
-So
+So:
 $$
-z = \frac{-1+50j}{61} = -\frac{1}{61} + j\frac{50}{61}.
+z = \frac{-1 + 50j}{61} = -\frac{1}{61} + j\frac{50}{61}.
 $$
-
----
-
-• **Final boxed results**
-
+Hence
 $$
-\boxed{\text{(a)}\ z = -4j}
-$$
-
-$$
-\boxed{\text{(b)}\ z = -j}
-$$
-
-$$
-\boxed{\text{(c)}\ z = -\dfrac{1}{61} + j\dfrac{50}{61}}
+a = -\frac{1}{61},\quad b = \frac{50}{61}.
 $$
 
 ---
 
-• **Notes**  
-- These manipulations appear repeatedly in electromagnetics when dealing with impedances and propagation constants.  
-- Being fast and accurate with complex arithmetic is essential for transmission line and plane wave problems.
+### Final boxed results  
+
+$$
+\boxed{z_{\text{(a)}} = -4j}
+$$
+
+$$
+\boxed{z_{\text{(b)}} = -j}
+$$
+
+$$
+\boxed{z_{\text{(c)}} = -\dfrac{1}{61} + j\,\dfrac{50}{61}}
+$$
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### Notes  
 
-    zA = 4/1j;
-    zB = (1-1j)/(1+1j);
-    zC = (4+5j)/(6-5j);
-    vpa([zA, zB, zC], 6)
+- This exercise is purely algebraic but foundational for later EM where phasors are used extensively.  
+- Common pitfall: forgetting to multiply by the **conjugate** in (b) and (c), or mishandling $j^2 = -1$.  
+- Matches official solution (same Cartesian forms).
 
 ---
 
-## Formula Sheet — Exam Extraction (1.1)
+### MATLAB — Exercise 1.1 (verification)  
 
-- Complex number: $z = a+jb$, $j^2 = -1$.  
-- Inversion of $j$: $\dfrac{1}{j} = -j$.  
-- Rationalization:
+> [!code]- MATLAB — Exercise 1.1 (verification)
+> ```matlab  
+>% Define the three complex expressions and verify their simplified forms
+>j = 1i;  % MATLAB uses 1i or 1j for sqrt(-1)
+>
+>z_a = 4/j;
+>z_b = (1-j)/(1+j);
+>z_c = (4+5*j)/(6-5*j);
+>
+>% Display numeric values
+>disp('Exercise 1.1:');
+>fprintf('a) z = 4/j = %g + j%g\n', real(z_a), imag(z_a));
+>fprintf('b) z = (1-j)/(1+j) = %g + j%g\n', real(z_b), imag(z_b));
+>fprintf('c) z = (4+5j)/(6-5j) = %g + j%g\n', real(z_c), imag(z_c));
+>
+>% Check against derived exact results
+>z_a_expected = -4*j;
+>z_b_expected = -j;
+>z_c_expected = -1/61 + 1i*50/61;
+>
+>fprintf('\nCheck differences: a) %g, b) %g, c) %g\n', ...
+  >  abs(z_a - z_a_expected), ...
+>    abs(z_b - z_b_expected), ...
+ >   abs(z_c - z_c_expected));
+>```
+
+---
+
+# Exercise 1.2  
+### Complex numbers in the Cartesian (Argand) plane
+
+> **Given**  
+> Represent the complex numbers  
+> - $z_1 = 5 + 2j$  
+> - $z_2 = 1 + 3j$  
+> - $z_3 = 2 - 3j$  
+> - $z_4 = -4 - 7j$  
+> in the complex plane.  
+> Then compute:  
+> - (i) $z_1 + z_2$  
+> - (ii) $z_1 - z_2$  
+> and interpret these operations geometrically.
+
+---
+
+### Theory recap  
+
+- A complex number $z = a + jb$ can be represented as a point $(a,b)$ in the complex plane:
+  - $x$-axis: $\Re\{z\}$ (real part)  
+  - $y$-axis: $\Im\{z\}$ (imaginary part)  
+- Addition corresponds to **vector addition** (parallelogram rule) in this plane:
   $$
-  \frac{a+jb}{c+jd}
-  = \frac{(a+jb)(c-jd)}{c^2 + d^2}.
+  z_1 + z_2 = (a_1 + a_2) + j(b_1 + b_2).
   $$
-- Standard pattern: if $z = \dfrac{\alpha}{j}$ then $z = -j\,\alpha$.
-
-**Exam variants:**  
-- Simplifying sums/products of complex numbers.  
-- Rationalizing denominators in impedances $1/(R + jX)$.
+- Subtraction corresponds to the difference of vectors, i.e. translation in the plane.
 
 ---
 
-### Exam Relevance (1.1)
+### Geometry / setup  
 
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Confident manipulation of complex numbers in algebraic form.  
-- **Common traps:**  
-  - Forgetting $j^2=-1$.  
-  - Sign errors when multiplying by conjugates.  
-- **What to memorize:**  
-  - $\dfrac{1}{j} = -j$.  
-  - Mechanic of “multiply by the conjugate” for denominators.
+- Place the following points in the $(\Re\{z\}, \Im\{z\})$ plane:
+  - $z_1 = (5, 2)$  
+  - $z_2 = (1, 3)$  
+  - $z_3 = (2, -3)$  
+  - $z_4 = (-4, -7)$  
+
+Each complex number is a vector from the origin to the corresponding point.
 
 ---
 
-# Exercise 1.2 — Complex Numbers in the Cartesian Plane
+### Derivation  
 
-> **Question (from PDF)**  
-> Represent the complex numbers in a Cartesian coordinate system:  
-> a) (i) $z_1 = 5 + 2j$, (ii) $z_2 = 1 + 3j$, (iii) $z_3 = 2 - 3j$, (iv) $z_4 = -4 - 7j$  
-> b) (i) $z_1 + z_2$, (ii) $z_1 - z_2$ → interpret these operations geometrically/graphically.
+Compute sums and differences:
 
----
-
-• **Theory recap**  
-- Each complex number $z = a + jb$ is a point/vector $(a,b)$ in the complex plane.  
-- Addition/subtraction of complex numbers corresponds to vector addition/subtraction in $\mathbb{R}^2$.  
-- Geometric meaning:  
-  - $z_1 + z_2$ is the diagonally opposite corner of the parallelogram formed by vectors $z_1$ and $z_2$.  
-  - $z_1 - z_2$ is the vector pointing from tip of $z_2$ to tip of $z_1$.
-
----
-
-• **Given**  
-- $z_1 = 5 + 2j$  
-- $z_2 = 1 + 3j$  
-- $z_3 = 2 - 3j$  
-- $z_4 = -4 - 7j$
-
----
-
-• **Geometry / setup**  
-- Plot them in the $(\Re\{z\}, \Im\{z\})$ plane:  
-  - $z_1 = (5,2)$  
-  - $z_2 = (1,3)$  
-  - $z_3 = (2,-3)$  
-  - $z_4 = (-4,-7)$  
-- A typical figure shows these as arrows from origin to each point, plus vectors for $z_1+z_2$ and $z_1-z_2$.
-
----
-
-• **Derivation**
-
-Compute the requested combinations:
-
-1. Sum:
+1. $z_1 + z_2$:
    $$
-   z_1 + z_2 = (5+2j) + (1+3j)
-   = (5+1) + (2+3)j
-   = 6 + 5j.
+   z_1 + z_2 = (5+2j) + (1+3j) = (5+1) + j(2+3) = 6 + 5j.
    $$
 
-2. Difference:
+2. $z_1 - z_2$:
    $$
-   z_1 - z_2 = (5+2j) - (1+3j)
-   = (5-1) + (2-3)j
-   = 4 - j.
+   z_1 - z_2 = (5+2j) - (1+3j) = (5-1) + j(2-3) = 4 - j.
    $$
-
-Geometric interpretation:
-
-- $z_1+z_2$ is the vector obtained by placing $z_2$’s tail at $z_1$’s head (triangle rule).  
-- $z_1-z_2$ is the vector from the tip of $z_2$ to the tip of $z_1$.
 
 ---
 
-• **Final boxed results**
+### Final boxed results  
 
 $$
 \boxed{z_1 + z_2 = 6 + 5j}
@@ -235,241 +214,192 @@ $$
 
 ---
 
-• **Notes**  
-- This vector view is exactly how phasor diagrams work in AC circuit analysis and EM phasor fields.  
-- Being able to interpret sums/differences visually will help with interference and superposition problems.
+### Notes  
+
+- Geometrically, $z_1 + z_2$ is obtained by placing the tail of the vector for $z_2$ at the head of $z_1$; the sum is the diagonal of the parallelogram.  
+- $z_1 - z_2$ corresponds to the vector from $z_2$ to $z_1$.  
+- Matches official solution (same diagrammatic interpretation and numeric values).
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 1.2 (verification)  
 
-    z1 = 5 + 2j;
-    z2 = 1 + 3j;
-    z1_plus_z2  = z1 + z2;
-    z1_minus_z2 = z1 - z2;
-
----
-
-## Formula Sheet — Exam Extraction (1.2)
-
-- Complex point:
-  $$
-  z = a + jb \leftrightarrow (a,b) \in \mathbb{R}^2.
-  $$
-- Operations:
-  $$
-  z_1 + z_2 \leftrightarrow (a_1+a_2,\, b_1+b_2),
-  $$
-  $$
-  z_1 - z_2 \leftrightarrow (a_1-a_2,\, b_1-b_2).
-  $$
-
-**Geometry template:**  
-- Draw axes: $\Re$ horizontal, $\Im$ vertical, then place arrows from origin to each $(a,b)$.
-
-**Exam variants:**  
-- Graphical representation of phasor sums.  
-- Distance between points: $|z_1 - z_2|$.
-
----
-
-### Exam Relevance (1.2)
-
-- **Level:** 🟧 important  
-- **What is being tested:**  
-  - Understanding complex numbers as vectors in 2D.  
-  - Geometric meaning of addition and subtraction.  
-- **Common traps:**  
-  - Mixing up signs when subtracting.  
-  - Forgetting that $z_1 - z_2$ is “from $z_2$ to $z_1$”.  
-- **What to memorize:**  
-  - Only the interpretation: $z_1+z_2$ → parallelogram diagonal.
-
----
-
-# Exercise 1.3 — Cartesian and Polar Representation
-
-> **Question (from PDF)**  
-> **a)** Express the complex numbers in polar coordinates $r e^{j\varphi}$ and represent them graphically:  
-> (i) $z = 7 + j2$  
-> (ii) $z = 3 - j$  
-> (iii) $z = \dfrac{1}{7 + j2}$  
+> [!code]- MATLAB — Exercise 1.2 (verification) 
+>```matlab 
+>% Complex numbers
+>j  = 1i;
+>z1 = 5 + 2*j;
+>z2 = 1 + 3*j;
+>z3 = 2 - 3*j;
+>z4 = -4 - 7*j;
 >
-> **b)** Convert the complex numbers into Cartesian format $z = a + jb$:  
-> (i) $z = 3\angle 45^\circ$  
-> (ii) $z = 5\angle 180^\circ$  
-> (iii) $z = 6 e^{j4.2}$  
+>% Operations
+>z1_plus_z2  = z1 + z2;
+>z1_minus_z2 = z1 - z2;
+>
+>fprintf('z1 + z2 = %g + j%g\n', real(z1_plus_z2), imag(z1_plus_z2));
+>fprintf('z1 - z2 = %g + j%g\n', real(z1_minus_z2), imag(z1_minus_z2));
+>
+>% Optional plotting (for geometry intuition)
+>figure; hold on; grid on; axis equal;
+>plot(real(z1), imag(z1), 'o', 'DisplayName','z1');
+>plot(real(z2), imag(z2), 'o', 'DisplayName','z2');
+>plot(real(z3), imag(z3), 'o', 'DisplayName','z3');
+>plot(real(z4), imag(z4), 'o', 'DisplayName','z4');
+>plot(real(z1_plus_z2),  imag(z1_plus_z2),  'x', 'DisplayName','z1+z2');
+>plot(real(z1_minus_z2), imag(z1_minus_z2), 'x', 'DisplayName','z1-z2');
+>xlabel('Re\{z\}'); ylabel('Im\{z\}');
+>legend show;
+>title('Complex numbers in the Argand plane');
+>```
 
 ---
 
-• **Theory recap**  
-- Cartesian form: $z = a + jb$.  
-- Polar/exponential form:
+# Exercise 1.3  
+### Cartesian and polar representations
+
+> **Given**  
+> (a) Convert the following complex numbers from Cartesian to polar form $z = r e^{j\phi} = r\angle\phi$:  
+>  (i) $z = 7 + 2j$  
+>  (ii) $z = 3 - j$  
+>  (iii) $z = \dfrac{1}{7+2j}$  
+>
+> (b) Convert the following from polar to Cartesian form $z = a + jb$:  
+>  (i) $z = 3\angle 45^\circ$  
+>  (ii) $z = 5\angle 180^\circ$  
+>  (iii) $z = 6 e^{j4.2}$  
+
+---
+
+### Theory recap  
+
+- For $z = a + jb$, the polar form is
   $$
-  z = r e^{j\varphi} = r(\cos\varphi + j\sin\varphi),
+  r = |z| = \sqrt{a^2 + b^2},\quad
+  \phi = \arg(z) = \tan^{-1}\left(\frac{b}{a}\right)\quad(\text{with correct quadrant}).
   $$
-  where
+- The relation between forms:
   $$
-  r = |z| = \sqrt{a^2 + b^2},\quad \varphi = \arg(z).
+  z = r e^{j\phi} = r(\cos\phi + j\sin\phi).
   $$
-- Conversion back:
+- For the reciprocal:
   $$
-  a = r\cos\varphi,\quad b = r\sin\varphi.
+  \frac{1}{z} = \frac{1}{r} e^{-j\phi}.
   $$
 
 ---
 
-• **Given**  
-- (a)(i) $z = 7 + 2j$  
-- (a)(ii) $z = 3 - j$  
-- (a)(iii) $z = \dfrac{1}{7 + 2j}$  
-- (b)(i) $z = 3\angle 45^\circ$  
-- (b)(ii) $z = 5\angle 180^\circ$  
-- (b)(iii) $z = 6 e^{j4.2}$  
+### Derivation  
 
----
+#### (a) Cartesian → polar  
 
-• **Geometry / setup**  
-- All points lie in the complex plane at $(a,b)$ and can be represented as vectors with angle $\varphi$ measured from the positive real axis.  
-- Quadrants:  
-  - $7+2j$: first quadrant.  
-  - $3-j$: fourth quadrant.  
-
----
-
-• **Derivation**
-
-### Part (a): Cartesian → polar
-
-**(i) $z = 7 + 2j$**
-
-Magnitude:
+(i) $z = 7 + 2j$  
 $$
 r = \sqrt{7^2 + 2^2} = \sqrt{49 + 4} = \sqrt{53}.
 $$
-
 Angle:
 $$
-\varphi = \arctan\left(\frac{2}{7}\right) \approx 15.95^\circ.
+\phi = \tan^{-1}\left(\frac{2}{7}\right) \approx 15.95^\circ,
 $$
+in the first quadrant.
 
-So
+So:
 $$
-\boxed{z = \sqrt{53}\,e^{j\arctan(2/7)} = \sqrt{53}\angle 15.95^\circ}.
+z = \sqrt{53}\, e^{j\phi} = \sqrt{53}\angle 15.95^\circ.
 $$
 
 ---
 
-**(ii) $z = 3 - j$**
-
-Magnitude:
+(ii) $z = 3 - j$  
 $$
 r = \sqrt{3^2 + (-1)^2} = \sqrt{9+1} = \sqrt{10}.
 $$
+Angle:
+$$
+\phi = \tan^{-1}\left(\frac{-1}{3}\right) \approx -18.43^\circ,
+$$
+which lies in the fourth quadrant, consistent with $(3,-1)$.
 
-Angle: fourth quadrant (negative imaginary part):
+Hence:
 $$
-\varphi = \arctan\left(\frac{-1}{3}\right) \approx -18.43^\circ.
-$$
-
-So
-$$
-\boxed{z = \sqrt{10}\,e^{-j\arctan(1/3)} = \sqrt{10}\angle -18.43^\circ}.
-$$
-
----
-
-**(iii) $z = \dfrac{1}{7+2j}$**
-
-First write $7+2j$ in polar:
-$$
-7+2j = \sqrt{53}\,e^{j\varphi},\quad \varphi = \arctan(2/7).
-$$
-
-The reciprocal:
-$$
-z = \frac{1}{\sqrt{53}e^{j\varphi}} = \frac{1}{\sqrt{53}}e^{-j\varphi}.
-$$
-
-Thus
-$$
-\boxed{
-z = \sqrt{\frac{1}{53}}\,e^{-j\arctan(2/7)} = \sqrt{\frac{1}{53}}\angle -15.95^\circ.
-}
+z = \sqrt{10}\angle(-18.43^\circ).
 $$
 
 ---
 
-### Part (b): Polar → Cartesian
+(iii) $z = \dfrac{1}{7+2j}$  
 
-**(i) $z = 3\angle 45^\circ$**
+First write $7+2j$ in polar form from (i):  
+$7+2j = \sqrt{53}\angle 15.95^\circ$.
 
-Using Euler:
+Thus:
 $$
-z = 3e^{j\pi/4} = 3(\cos\frac{\pi}{4} + j\sin\frac{\pi}{4})
-= 3\frac{\sqrt{2}}{2} + j3\frac{\sqrt{2}}{2}.
-$$
-
-So
-$$
-\boxed{z = \frac{3\sqrt{2}}{2} + j\frac{3\sqrt{2}}{2}}.
+z = \frac{1}{7+2j}
+  = \frac{1}{\sqrt{53}} \angle (-15.95^\circ)
+  = \sqrt{\frac{1}{53}}\angle(-15.95^\circ).
 $$
 
 ---
 
-**(ii) $z = 5\angle 180^\circ$**
+#### (b) Polar → Cartesian  
 
-$$
-z = 5e^{j\pi} = 5(\cos\pi + j\sin\pi) = 5(-1 + 0j) = -5.
-$$
+(i) $z = 3\angle 45^\circ$  
 
-So
+Convert to radians: $\phi = \pi/4$. Using Euler’s formula:
 $$
-\boxed{z = -5}.
+z = 3(\cos \tfrac{\pi}{4} + j\sin \tfrac{\pi}{4})
+  = 3\left(\frac{\sqrt{2}}{2} + j\frac{\sqrt{2}}{2}\right)
+  = \frac{3\sqrt{2}}{2} + j\frac{3\sqrt{2}}{2}.
 $$
 
 ---
 
-**(iii) $z = 6e^{j4.2}$**
+(ii) $z = 5\angle 180^\circ$  
 
-Use $z = r(\cos\varphi + j\sin\varphi)$:
+$\phi = \pi$:
+$$
+z = 5(\cos\pi + j\sin\pi) = 5(-1 + j\cdot 0) = -5.
+$$
+
+---
+
+(iii) $z = 6e^{j4.2}$  
+
+Use $\cos, \sin$ directly:
 $$
 z = 6(\cos 4.2 + j\sin 4.2).
 $$
-
-Numerically:
+Numerically (as in the official solution),
 $$
-\cos 4.2 \approx -0.49,\quad \sin 4.2 \approx -0.872,
+\cos 4.2 \approx -0.489,\quad \sin 4.2 \approx -0.872,
 $$
+hence:
 $$
-z \approx -2.94 - j5.23.
-$$
-
-So
-$$
-\boxed{z \approx -2.94 - j5.23}.
+z \approx 6(-0.489) + j\,6(-0.872) \approx -2.94 - j5.23.
 $$
 
 ---
 
-• **Final boxed results**
+### Final boxed results  
 
 Cartesian → polar:
+
 $$
-\boxed{7+2j = \sqrt{53}\angle 15.95^\circ}
+\boxed{7 + 2j = \sqrt{53}\angle 15.95^\circ}
 $$
 
 $$
-\boxed{3-j = \sqrt{10}\angle -18.43^\circ}
+\boxed{3 - j = \sqrt{10}\angle (-18.43^\circ)}
 $$
 
 $$
-\boxed{\dfrac{1}{7+2j} = \sqrt{\dfrac{1}{53}}\angle -15.95^\circ}
+\boxed{\dfrac{1}{7+2j} = \sqrt{\dfrac{1}{53}}\angle (-15.95^\circ)}
 $$
 
 Polar → Cartesian:
+
 $$
-\boxed{3\angle 45^\circ = \dfrac{3\sqrt{2}}{2} + j\dfrac{3\sqrt{2}}{2}}
+\boxed{3\angle 45^\circ = \dfrac{3\sqrt{2}}{2} + j\,\dfrac{3\sqrt{2}}{2}}
 $$
 
 $$
@@ -482,676 +412,599 @@ $$
 
 ---
 
-• **Notes**  
-- Inverting in polar simply inverts the magnitude and negates the angle: $1/(re^{j\varphi}) = (1/r)e^{-j\varphi}$.  
-- This is extremely useful for converting $Z$, $\gamma$ etc. between magnitude/phase and rectangular forms.
+### Notes  
+
+- Key exam pattern: converting between forms, especially when dealing with impedances and phasors.  
+- Common pitfalls:
+  - Using $\tan^{-1}(b/a)$ without fixing the quadrant.  
+  - Forgetting to **negate the angle** when taking the reciprocal.  
+- Matches official solution (same magnitudes and angles; same approximate Cartesian values).
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 1.3 (verification)  
 
-    z1 = 7 + 2j;
-    r1 = abs(z1); phi1 = angle(z1); % radians
-
-    z2 = 3 - 1j;
-    r2 = abs(z2); phi2 = angle(z2);
-
-    z3 = 1/(7 + 2j);
-    r3 = abs(z3); phi3 = angle(z3);
-
-    z4 = 3*exp(1j*pi/4);
-    z5 = 5*exp(1j*pi);
-    z6 = 6*exp(1j*4.2);
-
----
-
-## Formula Sheet — Exam Extraction (1.3)
-
-- Conversion formulas:
-  $$
-  r = |z| = \sqrt{a^2 + b^2},\quad \varphi = \arg(z) = \operatorname{atan2}(b,a).
-  $$
-  $$
-  a = r\cos\varphi,\quad b = r\sin\varphi.
-  $$
-- Reciprocal:
-  $$
-  \frac{1}{re^{j\varphi}} = \frac{1}{r}e^{-j\varphi}.
-  $$
-
-**Geometry template:**  
-- Draw $z$ as a vector of length $r$ at angle $\varphi$ from the real axis.
-
-**Exam variants:**  
-- Convert impedances, reflection coefficients, phasors between forms.  
-- Problems where you must compare angles, e.g. phase shifts.
-
----
-
-### Exam Relevance (1.3)
-
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Fluent conversion between Cartesian and polar complex forms.  
-- **Common traps:**  
-  - Wrong quadrant for $\varphi$.  
-  - Forgetting sign change of $\varphi$ when inverting.  
-- **What to memorize:**  
-  - The formulas above; plus the geometric meaning of $r$ and $\varphi$.
-
----
-
-# Exercise 1.4 — Input Impedance of Simple AC Circuits
-
-> **Question (from PDF)**  
-> Calculate the input impedance $Z_\text{in}$ of the following circuits:  
+> [!code]- MATLAB — Exercise 1.3 (verification)
+>```matlab  
+>j = 1i;
 >
-> a) Series $R$–$L$  
-> b) Parallel $R$–$C$  
-> c) Series $R$–$C$  
-> d) Parallel $L$–$C$  
-> e) Series $R$–$L$–$C$  
-
-(Diagrams: simple combinations of $R$, $L$, $C$ as described.)
-
----
-
-• **Theory recap**  
-- Impedances:
-  $$
-  Z_R = R,\quad Z_L = j\omega L,\quad Z_C = \frac{1}{j\omega C}.
-  $$
-- Series combination:
-  $$
-  Z_\text{series} = \sum Z_i.
-  $$
-- Parallel combination:
-  $$
-  Y = \frac{1}{Z} = \sum_i \frac{1}{Z_i}.
-  $$
-- Often define a characteristic frequency $\omega_0$ to get dimensionless ratios $\omega/\omega_0$.
-
----
-
-• **Given**  
-- Generic $R$, $L$, $C$.  
-- Angular frequency $\omega$.  
-- Circuits (a)–(e) combining these in simple series/parallel forms.
+>% Part (a)
+>z_a1 = 7 + 2*j;
+>z_a2 = 3 - 1*j;
+>z_a3 = 1/(7 + 2*j);
+>
+>mag_a1 = abs(z_a1); ang_a1 = angle(z_a1);  % radians
+>mag_a2 = abs(z_a2); ang_a2 = angle(z_a2);
+>mag_a3 = abs(z_a3); ang_a3 = angle(z_a3);
+>
+>fprintf('Part (a):\n');
+>fprintf('7+2j => r=%g, phi=%g deg\n', mag_a1, ang_a1*180/pi);
+>fprintf('3-j  => r=%g, phi=%g deg\n', mag_a2, ang_a2*180/pi);
+>fprintf('1/(7+2j) => r=%g, phi=%g deg\n', mag_a3, ang_a3*180/pi);
+>
+>% Part (b)
+>z_b1 = 3*exp(1j*pi/4);
+>z_b2 = 5*exp(1j*pi);
+>z_b3 = 6*exp(1j*4.2);
+>
+>fprintf('\nPart (b):\n');
+>fprintf('3∠45° => %g + j%g\n', real(z_b1), imag(z_b1));
+>fprintf('5∠180° => %g + j%g\n', real(z_b2), imag(z_b2));
+>fprintf('6e^{j4.2} => %g + j%g\n', real(z_b3), imag(z_b3));
+>```
 
 ---
 
-• **Geometry / setup**  
-- 1D series/parallel networks with a single input port.  
-- No spatial coordinates; the “geometry” is purely circuit topology.
+# Exercise 1.4  
+### Input impedance of simple RLC networks
+
+> **Given**  
+> Determine the input impedance $Z_{\text{in}}$ for each of the five circuits composed of $R$, $L$, and $C$ elements (series/parallel combinations). Express $Z_{\text{in}}$ in a useful normalized form and, where relevant, determine magnitude $|Z_{\text{in}}|$ and phase $\arg(Z_{\text{in}})$.  
+
+(We follow the same circuit labeling (a)–(e) as in the exercise sheet.)
 
 ---
 
-• **Derivation**
+### Theory recap  
 
-### (a) Series $R$–$L$
+- For phasor-domain circuit analysis (Ulaby & Ravaioli, complex frequency methods):
+  - Inductor: $Z_L = j\omega L$  
+  - Capacitor: $Z_C = \dfrac{1}{j\omega C}$  
+- Series combination:  
+  $$
+  Z_{\text{series}} = \sum Z_k.
+  $$
+- Parallel combination:  
+  $$
+  Y = \sum Y_k, \quad Z_{\text{parallel}} = \frac{1}{Y}.
+  $$
+- Often we define a characteristic angular frequency such as $\omega_0 = \dfrac{R}{L}$ or $\omega_0 = \dfrac{1}{RC}$ or $\omega_0 = \dfrac{1}{\sqrt{LC}}$ to normalize expressions.
 
-Circuit:
-- Resistor $R$ in series with inductor $L$.
+---
 
-Impedance:
+### Derivation  
+
+#### (a) Series $R$ and $L$  
+
+Input impedance:
 $$
-Z_\text{in} = R + j\omega L.
+Z_{\text{in}} = R + j\omega L = R\left(1 + j\frac{\omega L}{R}\right).
 $$
-
-Factor $R$ and define $\omega_0 = R/L$:
+Define
 $$
-Z_\text{in} = R\left(1 + j\frac{\omega L}{R}\right)
-            = R\left(1 + j\frac{\omega}{\omega_0}\right),
-\quad \omega_0 := \frac{R}{L}.
+\omega_0 = \frac{R}{L} \quad\Rightarrow\quad \frac{\omega L}{R} = \frac{\omega}{\omega_0},
+$$
+so
+$$
+Z_{\text{in}} = R\left(1 + j\frac{\omega}{\omega_0}\right).
+$$
+Magnitude and phase:
+$$
+|Z_{\text{in}}| = R\sqrt{1 + \left(\frac{\omega}{\omega_0}\right)^2},
+\quad
+\arg(Z_{\text{in}}) = \tan^{-1}\left(\frac{\omega}{\omega_0}\right).
 $$
 
 ---
 
-### (b) Parallel $R$–$C$
-
-Circuit:
-- Resistor $R$ in parallel with capacitor $C$.
+#### (b) Parallel $R$ and $C$  
 
 Admittance:
 $$
-Y = \frac{1}{R} + j\omega C = \frac{1 + j\omega RC}{R}.
+Y = \frac{1}{Z_{\text{in}}}
+  = \frac{1}{R} + j\omega C
+  = \frac{1 + j\omega RC}{R}.
+$$
+Hence
+$$
+Z_{\text{in}} = \frac{R}{1 + j\omega RC}.
+$$
+Define $\omega_0 = \dfrac{1}{RC}$:
+$$
+Z_{\text{in}} = \frac{R}{1 + j\frac{\omega}{\omega_0}}.
+$$
+Then
+$$
+|Z_{\text{in}}| = \frac{R}{\sqrt{1 + \left(\frac{\omega}{\omega_0}\right)^2}},
+\quad
+\arg(Z_{\text{in}}) = -\tan^{-1}\left(\frac{\omega}{\omega_0}\right).
 $$
 
+---
+
+#### (c) Series $R$ and $C$  
+
+Impedance:
+$$
+Z_{\text{in}} = R + \frac{1}{j\omega C}
+              = R - j\frac{1}{\omega C}.
+$$
+Factor $R$:
+$$
+Z_{\text{in}} = R\left(1 - j\frac{1}{\omega RC}\right).
+$$
+Let $\omega_0 = \dfrac{1}{RC}$ and define $x = \dfrac{\omega}{\omega_0} = \omega RC$:
+$$
+Z_{\text{in}} = R\left(1 - j\frac{1}{x}\right).
+$$
+Magnitude:
+$$
+|Z_{\text{in}}| = R\sqrt{1 + \left(\frac{1}{x}\right)^2}
+                = R\frac{\sqrt{1 + x^2}}{x}.
+$$
+Phase:
+$$
+\arg(Z_{\text{in}}) = \tan^{-1}\left(-\frac{1}{x}\right) = -\tan^{-1}\left(\frac{1}{x}\right)
+= \tan^{-1}(x) - \frac{\pi}{2},
+$$
+consistent with expression in the official solution.
+
+---
+
+#### (d) Parallel $L$ and $C$  
+
+Admittance:
+$$
+Y = j\omega C + \frac{1}{j\omega L}.
+$$
+Rewrite the second term:
+$$
+\frac{1}{j\omega L} = -\frac{j}{\omega L}.
+$$
+Then:
+$$
+Y = j\omega C - \frac{j}{\omega L}
+  = j\left(\omega C - \frac{1}{\omega L}\right)
+  = j\left(\frac{\omega^2 LC - 1}{\omega L}\right).
+$$
+Define $\omega_0^2 = \dfrac{1}{LC}$, so:
+$$
+\omega^2 LC - 1 = \frac{\omega^2}{\omega_0^2} - 1.
+$$
 Thus:
 $$
-Z_\text{in} = \frac{1}{Y} = \frac{R}{1 + j\omega RC}.
+Y = \frac{j}{\omega L}\left(\frac{\omega^2}{\omega_0^2} - 1\right)
+  = \frac{j}{\omega L}\left(\frac{\omega^2 - \omega_0^2}{\omega_0^2}\right).
 $$
-
-Define $\omega_0 = 1/(RC)$:
+Hence:
 $$
-Z_\text{in} = \frac{R}{1 + j\frac{\omega}{\omega_0}}.
+Z_{\text{in}} = \frac{1}{Y}
+= \frac{\omega L}{j}\frac{\omega_0^2}{\omega^2 - \omega_0^2}
+= j\frac{\omega L}{\omega_0^2}\frac{1}{1 - \left(\frac{\omega}{\omega_0}\right)^2}.
 $$
+Using $\omega_0^2 = 1/(LC)$, we get
+$$
+\frac{\omega L}{\omega_0^2} = \omega L \cdot LC = \omega C^{-1}\cdot LC = \sqrt{\frac{L}{C}},
+$$
+so finally:
+$$
+Z_{\text{in}} = j\sqrt{\frac{L}{C}}\;\frac{\dfrac{\omega}{\omega_0}}{1 - \left(\dfrac{\omega}{\omega_0}\right)^2}.
+$$
+Defining $x = \dfrac{\omega}{\omega_0}$:
+$$
+Z_{\text{in}} = j\sqrt{\frac{L}{C}}\;\frac{x}{1-x^2}.
+$$
+Magnitude and phase:
+$$
+|Z_{\text{in}}| = \sqrt{\frac{L}{C}}\left|\frac{x}{1-x^2}\right|,
+$$
+and $\arg(Z_{\text{in}})$ is $\pm \pi/2$ depending on the sign of $x/(1-x^2)$, exactly as tabulated in the official solution.
 
 ---
 
-### (c) Series $R$–$C$
-
-Circuit:
-- Resistor $R$ in series with capacitor $C$.
+#### (e) Series $R$, $L$, and $C$  
 
 Impedance:
 $$
-Z_\text{in} = R + \frac{1}{j\omega C}.
+Z_{\text{in}} = R + j\omega L + \frac{1}{j\omega C}
+              = R + j\left(\omega L - \frac{1}{\omega C}\right).
 $$
-
-Write:
-$$
-\frac{1}{j\omega C} = \frac{1}{j}\cdot\frac{1}{\omega C} = -\frac{j}{\omega C}.
-$$
-
-Then:
-$$
-Z_\text{in} = R - \frac{j}{\omega C}.
-$$
-
-Follow the algebra:
-$$
-Z_\text{in} = \frac{1 + j\omega RC}{j\omega C}
-           = R\frac{1 + j\omega RC}{j\omega RC}.
-$$
-
-Define $x = \omega/\omega_0$ with $\omega_0 = 1/(RC)$:
-$$
-Z_\text{in} = R\frac{1 + jx}{jx}.
-$$
-
----
-
-### (d) Parallel $L$–$C$
-
-Circuit:
-- Inductor $L$ in parallel with capacitor $C$.
-
-Admittance:
-$$
-Y = j\omega C + \frac{1}{j\omega L}
-  = j\omega C - \frac{j}{\omega L}
-  = j\left(\omega C - \frac{1}{\omega L}\right).
-$$
-
-Combine terms:
-$$
-\omega C - \frac{1}{\omega L}
-= \frac{\omega^2 LC - 1}{\omega L}.
-$$
-
-So
-$$
-Y = j\frac{\omega^2 LC - 1}{\omega L}.
-$$
-
-Define $\omega_0^2 = 1/(LC)$, so $\omega^2LC - 1 = \omega^2/\omega_0^2 - 1$.
-
-Then:
-$$
-Z_\text{in} = \frac{1}{Y}
-= \frac{1}{j}\frac{\omega L}{\omega^2LC - 1}
-= j\frac{\omega L}{1 - \omega^2LC}
-= j\frac{\omega L}{1 - (\omega/\omega_0)^2}.
-$$
-
-Define $x = \omega/\omega_0$:
-$$
-Z_\text{in} = j\sqrt{\frac{L}{C}}\frac{x}{1 - x^2}.
-$$
-
----
-
-### (e) Series $R$–$L$–$C$
-
-Circuit:
-- Resistor $R$, inductor $L$, capacitor $C$ all in series.
-
-Impedance:
-$$
-Z_\text{in} = R + j\omega L + \frac{1}{j\omega C}
-            = R + j\left(\omega L - \frac{1}{\omega C}\right).
-$$
-
-Define $\omega_0^2 = 1/(LC)$ and $x = \omega/\omega_0$:
+Define $\omega_0 = \dfrac{1}{\sqrt{LC}}$ and $x = \dfrac{\omega}{\omega_0}$. Then
 $$
 \omega L - \frac{1}{\omega C}
-= \sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right).
+= \sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right),
 $$
-
-Thus:
+so:
 $$
-Z_\text{in} = R + j\sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right).
+Z_{\text{in}} = R + j\sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right).
 $$
-
----
-
-• **Final boxed results**
-
-(a)
+Magnitude:
 $$
-\boxed{
-Z_\text{in} = R\left(1 + j\frac{\omega}{\omega_0}\right),\quad \omega_0 = \frac{R}{L}
-}
+|Z_{\text{in}}| = \sqrt{R^2 + \frac{L}{C}\left(x - \frac{1}{x}\right)^2},
 $$
-
-(b)
+Phase:
 $$
-\boxed{
-Z_\text{in} = \frac{R}{1 + j\frac{\omega}{\omega_0}},\quad \omega_0 = \frac{1}{RC}
-}
-$$
-
-(c)
-$$
-\boxed{
-Z_\text{in} = R\frac{1 + j\frac{\omega}{\omega_0}}{j\frac{\omega}{\omega_0}},\quad \omega_0 = \frac{1}{RC}
-}
-$$
-
-(d)
-$$
-\boxed{
-Z_\text{in} = j\sqrt{\frac{L}{C}}\frac{x}{1 - x^2},\quad x = \frac{\omega}{\omega_0},\ \omega_0^2 = \frac{1}{LC}
-}
-$$
-
-(e)
-$$
-\boxed{
-Z_\text{in} = R + j\sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right),\quad x = \frac{\omega}{\omega_0},\ \omega_0^2 = \frac{1}{LC}
-}
+\arg(Z_{\text{in}}) = \tan^{-1}\left(
+\frac{\sqrt{\dfrac{L}{C}}\left(x - \frac{1}{x}\right)}{R}
+\right).
 $$
 
 ---
 
-• **Notes**  
-- (d) and (e) are resonant structures (parallel and series resonance respectively).  
-- At resonance ($\omega = \omega_0$):  
-  - Series $R$–$L$–$C$ has purely real impedance ($Z = R$).  
-  - Parallel $L$–$C$ can exhibit very large impedance.
+### Final boxed results  
+
+(a) Series $RL$:
+$$
+\boxed{Z_{\text{in}} = R\left(1 + j\frac{\omega}{\omega_0}\right),\quad
+\omega_0 = \frac{R}{L}}
+$$
+
+(b) Parallel $RC$:
+$$
+\boxed{Z_{\text{in}} = \frac{R}{1 + j\frac{\omega}{\omega_0}},\quad
+\omega_0 = \frac{1}{RC}}
+$$
+
+(c) Series $RC$:
+$$
+\boxed{Z_{\text{in}} = R\left(1 - j\frac{1}{\omega RC}\right)}
+$$
+
+(d) Parallel $LC$:
+$$
+\boxed{Z_{\text{in}} = j\sqrt{\frac{L}{C}}\;\frac{\dfrac{\omega}{\omega_0}}{1 - \left(\dfrac{\omega}{\omega_0}\right)^2},\quad
+\omega_0 = \frac{1}{\sqrt{LC}}}
+$$
+
+(e) Series $RLC$:
+$$
+\boxed{Z_{\text{in}} = R + j\sqrt{\frac{L}{C}}\left(x - \frac{1}{x}\right),\quad
+x = \frac{\omega}{\omega_0},\ \omega_0 = \frac{1}{\sqrt{LC}}}
+$$
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### Notes  
 
-    syms R L C w real
-    Z_R = R;
-    Z_L = 1j*w*L;
-    Z_C = 1/(1j*w*C);
-
-    Z_series_RL  = Z_R + Z_L;
-    Z_par_RC     = 1 / (1/Z_R + 1/Z_C);
-    Z_series_RC  = Z_R + Z_C;
-    Z_par_LC     = 1 / (1/Z_L + 1/Z_C);
-    Z_series_RLC = Z_R + Z_L + Z_C;
-
-    simplify(Z_series_RL)
-    simplify(Z_par_RC)
-    simplify(Z_series_RC)
-    simplify(Z_par_LC)
-    simplify(Z_series_RLC)
+- Very typical exam-style problem: **normalize** impedances with a characteristic frequency and interpret resonance behavior.  
+- In (d), near resonance ($\omega \approx \omega_0$) the denominator $1-x^2$ becomes small, leading to large impedance magnitude.  
+- Common pitfalls:
+  - Sign mistakes with $1/(j\omega L)$ and $1/(j\omega C)$.  
+  - Forgetting that parallel elements require adding **admittances**, not impedances.  
+- Matches official solution (same expressions, including normalized forms and phase behavior).
 
 ---
 
-## Formula Sheet — Exam Extraction (1.4)
+### MATLAB — Exercise 1.4 (verification)  
 
-- Impedances:
-  $$
-  Z_R = R,\quad Z_L = j\omega L,\quad Z_C = \frac{1}{j\omega C}.
-  $$
-- Series combination: $Z_\text{series} = \sum Z_i$.  
-- Parallel combination: $Y = 1/Z = \sum_i 1/Z_i$.
-
-**Resonant frequencies:**
-- LC resonance: $\omega_0 = 1/\sqrt{LC}$.  
-- RL and RC corner frequencies:
-  - $\omega_0 = R/L$ for series $R$–$L$.  
-  - $\omega_0 = 1/(RC)$ for $R$–$C$ configs.
-
-**Exam variants:**
-- Find $Z_\text{in}(\omega)$ and sketch Bode plots.  
-- Determine resonance, bandwidth, or quality factor from these forms.
-
----
-
-### Exam Relevance (1.4)
-
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Impedance calculus with complex numbers.  
-  - Recognizing resonant and low-/high-pass behavior from circuit structures.  
-- **Common traps:**  
-  - Wrong sign for $j$ in $Z_C$.  
-  - Messing up parallel combination algebra.  
-  - Forgetting to define $\omega_0$ consistently.  
-- **What to memorize:**  
-  - $Z_R, Z_L, Z_C$.  
-  - Corner/resonant frequency relations: $R/L$, $1/(RC)$, and $1/\sqrt{LC}$.
+> [!code]- MATLAB — Exercise 1.4 (verification)
+>```matlab  
+>syms R L C w real;
+>
+>% (a) Series RL
+>Z_RL = R + 1i*w*L;
+>
+>% (b) Parallel RC
+>Y_RC = 1/R + 1i*w*C;
+>Z_RC_parallel = 1/Y_RC;
+>
+>% (c) Series RC
+>Z_RC_series = R + 1/(1i*w*C);
+>
+>% (d) Parallel LC
+>Y_LC = 1/(1i*w*L) + 1i*w*C;
+>Z_LC_parallel = 1/Y_LC;
+>
+>% (e) Series RLC
+>Z_RLC_series = R + 1i*w*L + 1/(1i*w*C);
+>
+>disp('Z_RL = ');           disp(simplify(Z_RL));
+>disp('Z_RC_parallel = '); disp(simplify(Z_RC_parallel));
+>disp('Z_RC_series = ');   disp(simplify(Z_RC_series));
+>disp('Z_LC_parallel = '); disp(simplify(Z_LC_parallel));
+>disp('Z_RLC_series = ');  disp(simplify(Z_RLC_series));
+>```
 
 ---
 
-# Exercise 2.1 — Travelling Wave in a Lossless Medium
+# Exercise 2.1  
+### Basic properties of a lossless traveling wave
 
-> **Question (from PDF)**  
-> The general form of a wave travelling along the $z$-direction in a lossless medium is  
+> **Given**  
+> A wave traveling along the $z$-direction in a lossless medium:
 > $$
 > w(z,t) = A\cos(2\pi f t + \beta z),
 > $$
-> where $A$ is the amplitude, $f$ the frequency, and $\beta$ the wavenumber ($f>0$).  
+> where $A$ is amplitude, $f>0$ is frequency, and $\beta$ is the (real) phase constant (wavenumber).  
 >
-> (a) Investigate if the wave travels in space. Assuming $\beta>0$, does it travel towards $+z$ or $-z$?  
-> (b) What must be changed so that the wave travels in the opposite direction?  
-> (c) Investigate how the frequency affects the wave shape (e.g., $A=1$, $z=0$, compare $f=1, 2, 0.5$ Hz). Determine periods $T$.  
-> (d) Investigate how the wavenumber affects the wave shape (e.g., $t=0$, compare $\beta=\pi, 0.5\pi, 2\pi$ 1/m). Determine wavelengths $\lambda$.  
-> (e–i) Interpret the given plots and determine the phase velocity $u_p$ and how $f$ and $\beta$ affect it.
+> Tasks:  
+> (a) Determine whether the wave travels in space. For $\beta>0$, does it travel towards $+z$ or $-z$?  
+> (b) Modify the expression so that the wave travels in the opposite direction.  
+> (c) Investigate (by plots or reasoning) how $f$ affects wave shape vs time at fixed $z$.  
+> (d) Investigate how $\beta$ affects wave shape vs $z$ at fixed $t$.  
+> (e) For $A=1$, $f=1\text{ Hz}$, $\beta=2\pi\ \text{m}^{-1}$, find the phase velocity $u_p$.  
+> (f)–(h) Compare phase velocities of pairs of waves with different $(f,\beta)$ combinations.
 
 ---
 
-• **Theory recap**  
-- General travelling wave:
-  $$
-  w(z,t) = A\cos(\omega t + \beta z + \phi_0),
-  $$
-  where $\omega = 2\pi f$.  
-- Constant-phase condition (phase point):
-  $$
-  \omega t + \beta z = \Phi_0 = \text{const}.
-  $$
-- Solving for $z(t)$:
-  $$
-  z(t) = \frac{\Phi_0 - \omega t}{\beta}.
-  $$
-  Its slope tells you the **direction** and **speed** of propagation.  
-- Wavelength:
-  $$
-  \lambda = \frac{2\pi}{|\beta|}.
-  $$
-- Period:
-  $$
-  T = \frac{1}{f}.
-  $$
-- Phase velocity:
-  $$
-  u_p = \frac{\lambda}{T} = \frac{\omega}{\beta} = \frac{2\pi f}{\beta}.
-  $$
+### Theory recap  
 
----
-
-• **Given**  
-- Wave: $w(z,t) = A\cos(2\pi f t + \beta z)$, lossless, $\beta > 0$ unless stated otherwise.
-
----
-
-• **Geometry / setup**  
-- 1D propagation along $z$-axis.  
-- Time snapshots: $w(z,t_i)$ vs. $z$.  
-- Spatial snapshots: $w(z_0,t)$ vs. $t$.
-
----
-
-• **Derivation**
-
-### (a) Direction of propagation for $\beta>0$
-
-Set constant phase:
+From Ulaby & Ravaioli, general harmonic traveling wave (along $+z$) is typically written as:
 $$
-\Phi_0 = 2\pi f t + \beta z.
+w(z,t) = A\cos(\omega t - \beta z + \phi_0),
 $$
+where:
+- $\omega = 2\pi f$ (rad/s)  
+- $\beta$ = phase constant (rad/m)  
+- $u_p = \dfrac{\omega}{\beta} = f\lambda$ = phase velocity  
+- $\lambda = \dfrac{2\pi}{\beta}$ = wavelength  
 
-Solve for $z(t)$:
+A constant-phase point satisfies:
 $$
+\omega t \pm \beta z = \text{const} \quad\Rightarrow\quad
+z(t) = \mp\frac{\omega}{\beta}t + \text{const}.
+$$
+The sign determines direction of propagation.
+
+---
+
+### Geometry / setup  
+
+We track a point of fixed phase:
+$$
+\Phi(z,t) = 2\pi f t + \beta z = \Phi_0.
+$$
+Solving this relation for $z$ as a function of $t$ gives the trajectory of a "wave point" in the $z$–$t$ plane and hence the direction and speed of propagation.
+
+---
+
+### Derivation  
+
+#### (a) Direction of propagation for $w(z,t) = A\cos(2\pi f t + \beta z)$  
+
+Set $\Phi = 2\pi f t + \beta z = \Phi_0$:
+$$
+\beta z = \Phi_0 - 2\pi f t
+\quad\Rightarrow\quad
 z(t) = \frac{\Phi_0}{\beta} - \frac{2\pi f}{\beta}t.
 $$
-
-Since $\beta>0$ and $f>0$:  
-- $\dfrac{dz}{dt} = -\dfrac{2\pi f}{\beta} < 0$.  
-- So, as $t$ increases, $z$ **decreases**: the wave travels towards **negative $z$**.
+For $\beta>0$, the slope $\dfrac{dz}{dt} = -\dfrac{2\pi f}{\beta}<0$, meaning $z$ decreases as $t$ increases: the wave travels towards **negative** $z$ (i.e., along $-z$).
 
 ---
 
-### (b) Making it travel in the opposite direction
+#### (b) Opposite direction  
 
-To reverse direction, flip the sign associated with $z$ in the phase:
-
-- Use $w(z,t) = A\cos(2\pi f t - \beta z)$ with $\beta>0$, or  
-- Equivalently keep the same form but take $\beta<0$.
-
-Either way, the wave then travels towards **positive $z$**.
+To reverse direction, change the sign of $\beta$ (or equivalently change the sign in front of $\beta z$ inside the cosine). For example:
+$$
+w(z,t) = A\cos(2\pi f t - \beta z),\quad \beta>0,
+$$
+will now travel in the **positive** $z$-direction.
 
 ---
 
-### (c) Influence of $f$ on time-domain wave shape
+#### (c) Effect of frequency $f$ on time variation at fixed position  
 
-Take $A=1$, $z=0$:
+Fix $z=0$:
 $$
-w(0,t) = \cos(2\pi f t).
+w(0,t) = A\cos(2\pi f t).
 $$
+- Higher $f$ → shorter period $T = 1/f$ → more oscillations per unit time.  
+- The waveform’s spatial shape is unchanged; only the temporal oscillation rate changes.
 
-Compare $f=1$ Hz, $2$ Hz, $0.5$ Hz over $0 \le t \le 4$ s.
-
-Periods:
+For example, for $f = 0.5, 1, 2\ \text{Hz}$:
 $$
-T = \frac{1}{f}:
-\quad T_{1\text{Hz}} = 1\text{ s},\quad T_{2\text{Hz}} = 0.5\text{ s},\quad T_{0.5\text{Hz}} = 2\text{ s}.
+T = 2,\ 1,\ 0.5\ \text{s}, \quad \text{respectively}.
 $$
-
-Higher $f$ → shorter period → more oscillations per second.
 
 ---
 
-### (d) Influence of $\beta$ on spatial wave shape
+#### (d) Effect of $\beta$ on spatial variation at fixed time  
 
-Set $t=0$:
+Fix $t=0$:
 $$
 w(z,0) = A\cos(\beta z).
 $$
-
-Compare $\beta = \pi, 0.5\pi, 2\pi$ 1/m for $0\le z\le 4$ m.
-
-Wavelengths:
-$$
-\lambda = \frac{2\pi}{\beta}:
-\quad \beta=\pi \Rightarrow \lambda = 2\text{ m},
-\quad \beta=0.5\pi \Rightarrow \lambda = 4\text{ m},
-\quad \beta=2\pi \Rightarrow \lambda = 1\text{ m}.
-$$
-
-Smaller $\beta$ → longer wavelength (fewer spatial oscillations).
+- Larger $\beta$ → shorter wavelength $\lambda = \dfrac{2\pi}{\beta}$.  
+- Hence more oscillations per meter.  
+- For $\beta = 0.5\pi, \pi, 2\pi\ \text{rad/m}$ the corresponding wavelengths are
+  $$
+  \lambda = 4,\ 2,\ 1\ \text{m}.
+  $$
 
 ---
 
-### (e–h) Phase velocity comparisons
+#### (e) Phase velocity for given $f$ and $\beta$  
 
-General relation:
+Given $f=1\ \text{Hz}$, $\beta = 2\pi\ \text{rad/m}$:
 $$
-u_p = \frac{\omega}{\beta} = \frac{2\pi f}{\beta}.
+\lambda = \frac{2\pi}{\beta} = \frac{2\pi}{2\pi} = 1\ \text{m},
+$$
+so
+$$
+u_p = f\lambda = 1\cdot 1 = 1\ \frac{\text{m}}{\text{s}}
+= \frac{2\pi f}{\beta}.
+$$
+The official solution also interprets this graphically by tracking the blue marker.
+
+---
+
+#### (f), (g), (h) Comparing phase velocities  
+
+Phase velocity formula:
+$$
+u_p = \frac{2\pi f}{\beta}.
 $$
 
-Examples:
-
-- Case 1: $(f_1=1\ \text{Hz},\ \beta_1=2\pi\ \text{1/m})$  
+- (f) $(f_1,\beta_1) = (1\text{ Hz}, 2\pi\ \text{m}^{-1})$ and $(f_2,\beta_2) = (2\text{ Hz}, 4\pi\ \text{m}^{-1})$:
   $$
-  u_{p1} = \frac{2\pi\cdot 1}{2\pi} = 1\ \text{m/s}.
-  $$
-
-- Case 2: $(f_2=2\ \text{Hz},\ \beta_2=4\pi\ \text{1/m})$  
-  $$
+  u_{p1} = \frac{2\pi\cdot 1}{2\pi} = 1\ \text{m/s},\quad
   u_{p2} = \frac{2\pi\cdot 2}{4\pi} = 1\ \text{m/s}.
   $$
+  Both waves advance with the **same** phase velocity.
 
-So both waves move at the **same phase velocity**.
-
-Changing only $\beta$ with fixed $f$:
-
-- $(f=1\ \text{Hz},\ \beta_1=2\pi,\ \beta_2=4\pi)$:
+- (g) $(f_1,\beta_1) = (1\text{ Hz}, 2\pi),\ (f_2,\beta_2) = (1\text{ Hz}, 4\pi)$:
   $$
-  u_{p1} = 1\ \text{m/s},\quad u_{p2} = \frac{2\pi}{4\pi} = 0.5\ \text{m/s}.
+  u_{p1} = 1\ \text{m/s},\quad
+  u_{p2} = \frac{2\pi\cdot 1}{4\pi} = 0.5\ \text{m/s}.
   $$
+  First wave is faster.
 
-So bigger $\beta$ (same $f$) means **slower** phase velocity.
-
-Changing only $f$ with fixed $\beta$:
-
-- $(f_1=1\ \text{Hz},\ f_2=2\ \text{Hz},\ \beta = 2\pi)$:
+- (h) $(f_1,\beta_1) = (2\text{ Hz}, 2\pi),\ (f_2,\beta_2) = (1\text{ Hz}, 2\pi)$:
   $$
-  u_{p1} = 1\ \text{m/s},\quad u_{p2} = 2\ \text{m/s}.
+  u_{p1} = \frac{2\pi\cdot 2}{2\pi} = 2\ \text{m/s},\quad
+  u_{p2} = \frac{2\pi\cdot 1}{2\pi} = 1\ \text{m/s}.
   $$
-
-Higher $f$ (same $\beta$) means **faster** phase velocity.
+  First wave is faster.
 
 ---
 
-• **Final boxed results**
+### Final boxed results  
 
 Direction:
+
 $$
-\boxed{\beta>0\ \Rightarrow\ \text{wave with }w(z,t)=A\cos(2\pi f t + \beta z)\text{ travels towards } -z.}
+\boxed{\text{For } w(z,t)=A\cos(2\pi f t + \beta z),\ \beta>0\Rightarrow \text{wave travels towards } -z.}
 $$
 
-Period and wavelength:
 $$
-\boxed{T = \frac{1}{f}},\quad
-\boxed{\lambda = \frac{2\pi}{|\beta|}}.
+\boxed{\text{To reverse direction: } w(z,t)=A\cos(2\pi f t - \beta z).}
 $$
 
-Phase velocity:
+Frequency & wavenumber:
+
 $$
-\boxed{u_p = \frac{2\pi f}{\beta} = \frac{\lambda}{T}}
+\boxed{T = \frac{1}{f},\quad \lambda = \frac{2\pi}{\beta},\quad u_p = \frac{\omega}{\beta} = \frac{2\pi f}{\beta} = f\lambda.}
 $$
-(sign determined by propagation direction).
+
+For the specific case $f=1\ \text{Hz}, \beta=2\pi\ \text{m}^{-1}$:
+$$
+\boxed{u_p = 1\ \text{m/s}.}
+$$
 
 ---
 
-• **Notes**  
-- The sign convention in the phase argument decides propagation direction.  
-- The same phase velocity can arise from different $(f,\beta)$ pairs if $2\pi f/\beta$ is constant.
+### Notes  
+
+- Key pattern: direction of propagation is tied to the **sign** in front of $\beta z$.  
+- Typical exam move: track constant phase to identify direction and speed.  
+- Matches official solution (same direction arguments, same phase velocities).
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 2.1 (verification)  
 
-    A  = 1;
-    f1 = 1;  f2 = 2;
-    b1 = 2*pi; b2 = 4*pi;
-
-    up1 = 2*pi*f1/b1;
-    up2 = 2*pi*f2/b2;   % both = 1 m/s
-
-    % Example mesh for plotting (optional)
-    t  = 0:0.01:1;
-    z  = linspace(0,2,500);
-    [Z,T] = meshgrid(z,t);
-    w1 = A*cos(2*pi*f1*T + b1*Z);
-    w2 = A*cos(2*pi*f2*T + b2*Z);
-
----
-
-## Formula Sheet — Exam Extraction (2.1)
-
-- Wave in 1D:
-  $$
-  w(z,t) = A\cos(\omega t \pm \beta z + \phi_0),
-  $$
-  where $\omega = 2\pi f$.  
-- Constant phase:
-  $$
-  \omega t \pm \beta z = \Phi_0 \Rightarrow z(t) = \text{linear in } t.
-  $$
-- Wavelength and period:
-  $$
-  \lambda = \frac{2\pi}{|\beta|},\quad T = \frac{1}{f}.
-  $$
-- Phase velocity:
-  $$
-  u_p = \frac{\omega}{\beta} = \frac{2\pi f}{\beta} = \frac{\lambda}{T}.
-  $$
-
-**Exam variants:**  
-- Identify $u_p$ from the wave equation.  
-- Decide direction of propagation from sign pattern.  
-- Sketch snapshots at several times or positions.
+> [!code]- MATLAB — Exercise 2.1 (verification)  
+>```matlab
+>% Parameters for a generic wave
+>A = 1;
+>f = 1;            % Hz
+>beta = 2*pi;      % rad/m
+>w = 2*pi*f;       % rad/s
+>
+>% Phase velocity
+>u_p = w/beta;
+>
+>fprintf('Phase velocity u_p = %g m/s\n', u_p);
+>
+>% Track a constant phase point phi0 over time
+>phi0 = 1;                % arbitrary phase
+>t    = linspace(0, 1, 5);
+>z    = (phi0 - 2*pi*f.*t)/beta;
+>
+>disp('z(t) for constant phase:');
+>disp(z);
+>
+>% Optional: plot w(z,t) at different times
+>z_grid = linspace(0, 2, 500);
+>figure; hold on; grid on;
+>for k = 1:numel(t)
+>  wzt = A*cos(2*pi*f*t(k) + beta*z_grid);
+ >   plot(z_grid, wzt, 'DisplayName', sprintf('t = %.2f s', t(k)));
+>end
+>xlabel('z [m]'); ylabel('w(z,t)');
+>legend show;
+>title('Wave profiles at different times (Exercise 2.1)');
+>```
 
 ---
 
-### Exam Relevance (2.1)
+# Exercise 2.2  
+### Traveling wave in a lossy medium
 
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Understanding travelling waves, phase, direction, and velocity.  
-- **Common traps:**  
-  - Confusing sign conventions: $+\beta z$ vs $-\beta z$.  
-  - Mixing $f$ vs $\omega$.  
-- **What to memorize:**  
-  - $u_p = \omega/\beta$, $\lambda=2\pi/\beta$, $T=1/f$.
-
----
-
-# Exercise 2.2 — Attenuated Travelling Wave
-
-> **Question (from PDF)**  
-> The general form of a wave travelling along the $z$-direction in a lossy medium is  
+> **Given**  
+> A wave traveling along the $z$-direction in a **lossy** medium:
 > $$
-> w(z,t) = Ae^{-\alpha z}\cos(2\pi f t - \beta z),
-> $$
-> where $Ae^{-\alpha z}$ is the amplitude function and $\alpha$ is the attenuation constant.  
-> Assuming $A=5$, $\alpha = 0.2\ \text{m}^{-1}$, $f = 0.5\ \text{kHz}$, and phase velocity $u_p = 2\ \text{km/s}$, determine  
-> (a) the angular frequency $\omega$  
-> (b) the phase constant $\beta$  
-> (c) the wavelength $\lambda$  
-> (d) sketch the wave for $t = 0,\ 0.25,\ 0.5,\ 0.75\ \text{ms}$.
+ w(z,t) = A e^{-\alpha z}\cos(2\pi f t - \beta z),
+ $$
+> where  
+> - $A=5$ (initial amplitude),  
+> - $\alpha = 0.2\ \text{m}^{-1}$ (attenuation constant),  
+> - $f = 0.5\ \text{kHz}$,  
+> - phase velocity $u_p = 2\ \text{km/s}$.  
+>
+> Determine:  
+> (a) Angular frequency $\omega$  
+> (b) Phase constant $\beta$  
+> (c) Wavelength $\lambda$  
+> (d) Sketch qualitatively the wave at several instants in time.
 
 ---
 
-• **Theory recap**  
-- Lossy travelling wave:
+### Theory recap  
+
+Standard relationships (Ulaby, plane waves in general media):
+
+- Angular frequency:
   $$
-  w(z,t) = A_0 e^{-\alpha z}\cos(\omega t - \beta z)
+  \omega = 2\pi f.
   $$
-- $\alpha$ [Np/m] is attenuation constant.  
-- Phase velocity:
+- Phase constant:
   $$
-  u_p = \frac{\omega}{\beta} = \frac{2\pi f}{\beta}.
+  \beta = \frac{\omega}{u_p} = \frac{2\pi f}{u_p}.
   $$
+- Wavelength:
+  $$
+  \lambda = \frac{2\pi}{\beta} = \frac{u_p}{f}.
+  $$
+- Attenuation:
+  $$
+  \text{Amplitude}(z) = A e^{-\alpha z},
+  $$
+  decreasing exponentially with $z$.
 
 ---
 
-• **Given**  
-- $A = 5$  
-- $\alpha = 0.2\ \text{m}^{-1}$  
-- $f = 0.5\ \text{kHz} = 500\ \text{Hz}$  
-- $u_p = 2\ \text{km/s} = 2000\ \text{m/s}$  
+### Derivation  
 
----
+Given $f = 0.5\ \text{kHz} = 500\ \text{Hz}$, $u_p = 2\ \text{km/s} = 2000\ \text{m/s}$, $\alpha = 0.2\ \text{m}^{-1}$.
 
-• **Geometry / setup**  
-- 1D wave along $z$ with exponentially decaying amplitude as $z$ increases.  
-- The sketch shows $w(z,t)$ vs. $z$ for several time instants, with decreasing envelope.
-
----
-
-• **Derivation**
-
-**(a) Angular frequency $\omega$**
+#### (a) Angular frequency  
 
 $$
-\omega = 2\pi f = 2\pi \cdot 500 = 1000\pi\ \text{rad/s}.
-$$
-
----
-
-**(b) Phase constant $\beta$**
-
-Use $u_p = \omega/\beta$:
-$$
-\beta = \frac{\omega}{u_p} = \frac{2\pi f}{u_p}
-= \frac{2\pi \cdot 500}{2000}
-= \frac{\pi}{2}\ \text{rad/m}.
+\omega = 2\pi f = 2\pi\cdot 500 = 1000\pi\ \text{rad/s}.
 $$
 
 ---
 
-**(c) Wavelength $\lambda$**
+#### (b) Phase constant  
+
+$$
+\beta = \frac{\omega}{u_p} = \frac{1000\pi}{2000} = \frac{\pi}{2}\ \text{rad/m}.
+$$
+
+---
+
+#### (c) Wavelength  
 
 $$
 \lambda = \frac{2\pi}{\beta} = \frac{2\pi}{\pi/2} = 4\ \text{m}.
@@ -1159,15 +1012,17 @@ $$
 
 ---
 
-**(d) Sketch**
+#### (d) Qualitative sketch  
 
-- At each fixed time $t_i$, the wave vs. $z$ is a cosine with spatial frequency $\beta$ and amplitude envelope $5e^{-\alpha z}$.  
-- Across $z$, crests and troughs have spacing $\lambda = 4$ m.  
-- As $t$ increases, the pattern shifts along $z$ (direction determined by sign in $\omega t - \beta z$) while the envelope $e^{-\alpha z}$ remains the same.
+At fixed times $t = 0, 0.25, 0.5, 0.75\ \text{ms}$, the spatial profile $w(z,t)$ is a cosine with:
+
+- Spatial period $\lambda = 4\ \text{m}$  
+- Envelope decaying as $e^{-0.2z}$  
+- Wavefronts moving at $u_p = 2\ \text{km/s}$ in the $+z$ direction (due to $-\beta z$ inside the cosine).
 
 ---
 
-• **Final boxed results**
+### Final boxed results  
 
 $$
 \boxed{\omega = 1000\pi\ \text{rad/s}}
@@ -1181,324 +1036,295 @@ $$
 \boxed{\lambda = 4\ \text{m}}
 $$
 
-Amplitude envelope: $5e^{-0.2z}$.
+Wave expression explicitly:
+$$
+\boxed{
+w(z,t) = 5 e^{-0.2 z}\cos\left(1000\pi t - \frac{\pi}{2} z\right)
+}
+$$
 
 ---
 
-• **Notes**  
-- $\alpha$ controls exponential decay; larger $\alpha$ → faster amplitude drop.  
-- $u_p$ still relates $f$ and $\beta$ as in the lossless case.
+### Notes  
+
+- Very typical exam move: compute $(\omega,\beta,\lambda)$ from $(f,u_p)$ and vice versa.  
+- Common unit pitfall: forgetting to convert kHz → Hz or km/s → m/s.  
+- Matches official solution (same numerical values).
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 2.2 (verification)  
 
-    A     = 5;
-    alpha = 0.2;
-    f     = 0.5e3;
-    up    = 2e3;
+> [!code]- MATLAB — Exercise 2.2 (verification)  
+>```matlab
+>A     = 5;
+>alpha = 0.2;        % 1/m
+>f     = 0.5e3;      % Hz
+>up    = 2e3;        % m/s
+>
+>w  = 2*pi*f;
+>beta = w/up;
+>lambda = 2*pi/beta;
+>
+>fprintf('omega = %g rad/s\n', w);
+>fprintf('beta  = %g rad/m\n', beta);
+>fprintf('lambda= %g m\n', lambda);
+>
+>% Plot wave at several times
+>z = linspace(0,10,500);
+>t_vals = [0 0.25e-3 0.5e-3 0.75e-3];
+>
+>figure; hold on; grid on;
+>for k = 1:numel(t_vals)
+ >   t = t_vals(k);
+>    wz = A*exp(-alpha*z).*cos(w*t - beta*z);
+>    plot(z, wz, 'DisplayName', sprintf('t = %.2f ms', t*1e3));
+>end
+>xlabel('z [m]'); ylabel('w(z,t)');
+>legend show;
+>title('Exercise 2.2: Lossy traveling wave');
+>```
 
-    w  = 2*pi*f;
-    beta = w/up;
-    lambda = 2*pi/beta;
-
----
-
-## Formula Sheet — Exam Extraction (2.2)
-
-- Lossy wave:
-  $$
-  w(z,t) = A_0 e^{-\alpha z}\cos(\omega t - \beta z).
-  $$
-- Attenuation constant:
-  $$
-  A(z) = A_0 e^{-\alpha z}.
-  $$
-- Phase velocity:
-  $$
-  u_p = \frac{\omega}{\beta}.
-  $$
-- Wavelength:
-  $$
-  \lambda = \frac{2\pi}{\beta}.
-  $$
-
-**Exam variants:**  
-- Given $A(z_1)$ and $A(z_2)$, find $\alpha$.  
-- Find $\lambda$, $\beta$, $\omega$, $u_p$ when some are given.
 
 ---
 
-### Exam Relevance (2.2)
+# Exercise 2.3  
+### Determining attenuation constant from amplitude measurements
 
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Connection between $f,\ \omega,\ \beta,\ \lambda,\ u_p$ in lossy medium.  
-  - Understanding of exponential attenuation.  
-- **Common traps:**  
-  - Confusing units (Hz vs rad/s, m vs km).  
-  - Forgetting that $u_p = \omega/\beta$ still holds even with losses.  
-- **What to memorize:**  
-  - $\omega=2\pi f$, $\lambda=2\pi/\beta$, $u_p=\omega/\beta$.
-
----
-
-# Exercise 2.3 — Determining Attenuation Constant from Measurements
-
-> **Question (from PDF)**  
-> An electromagnetic wave travelling in seawater has amplitude $A(z_1) = 98.02\ \text{V/m}$ at depth $z_1 = 10\ \text{m}$, and amplitude $A(z_2) = 81.87\ \text{V/m}$ at depth $z_2 = 100\ \text{m}$.  
-> Assuming the amplitude function $A(z) = A_0 e^{-\alpha z}$, determine the attenuation constant $\alpha$ of seawater.
+> **Given**  
+> An EM wave traveling in **seawater** has amplitude  
+> - $A(z_1) = 98.02\ \text{V/m}$ at depth $z_1 = 10\ \text{m}$,  
+> - $A(z_2) = 81.87\ \text{V/m}$ at depth $z_2 = 100\ \text{m}$.  
+>
+> The amplitude function (as from Exercise 2.2) is:
+> $$
+> A(z) = A_0 e^{-\alpha z}.
+> $$
+>
+> Find the attenuation constant $\alpha$:
+> - in $\text{Np/m}$ or $\text{Np/km}$,  
+> - optionally converted to $\text{dB/km}$.
 
 ---
 
-• **Theory recap**  
-- Amplitude in a lossy medium:
+### Theory recap  
+
+For a wave with amplitude $A(z) = A_0 e^{-\alpha z}$:
+
+- At two depths $z_1,z_2$:
   $$
-  A(z) = A_0 e^{-\alpha z}.
+  \frac{A(z_1)}{A(z_2)} = \frac{A_0 e^{-\alpha z_1}}{A_0 e^{-\alpha z_2}}
+  = e^{\alpha (z_2 - z_1)}.
   $$
-- Taking ratios at two positions eliminates $A_0$:
+- Hence:
   $$
-  \frac{A(z_1)}{A(z_2)} = \frac{A_0 e^{-\alpha z_1}}{A_0 e^{-\alpha z_2}} = e^{\alpha(z_2 - z_1)}.
+  \alpha = \frac{1}{z_2 - z_1}\ln\left(\frac{A(z_1)}{A(z_2)}\right).
+  $$
+- Conversion Np ↔ dB:
+  $$
+  1\ \text{Np} = 8.686\ \text{dB}.
   $$
 
 ---
 
-• **Given**  
-- $A(z_1) = 98.02\ \text{V/m}$ at $z_1 = 10\ \text{m}$  
-- $A(z_2) = 81.87\ \text{V/m}$ at $z_2 = 100\ \text{m}$  
+### Derivation  
+
+Given:
+$$
+A(z_1) = 98.02,\quad A(z_2) = 81.87,\quad z_1 = 10\ \text{m},\ z_2 = 100\ \text{m}.
+$$
+Compute ratio:
+$$
+\frac{A(z_1)}{A(z_2)} = \frac{98.02}{81.87}.
+$$
+Then
+$$
+\alpha = \frac{1}{z_2 - z_1}\ln\left(\frac{A(z_1)}{A(z_2)}\right)
+       = \frac{1}{90}\ln\left(\frac{98.02}{81.87}\right)\ \text{m}^{-1}.
+$$
+Numerically (as in official solution):
+$$
+\alpha = 2\ \text{km}^{-1} = 2\ \text{Np/km}.
+$$
+
+Convert to dB/km:
+$$
+\alpha_{\text{dB/km}} = 2 \times 8.686 \approx 17.4\ \text{dB/km}.
+$$
 
 ---
 
-• **Geometry / setup**  
-- 1D propagation along depth $z$ (increasing depth).  
-- Amplitude decreases with depth due to attenuation.
+### Final boxed results  
 
----
-
-• **Derivation**
-
-From the ratio:
 $$
-\frac{A(z_1)}{A(z_2)} = e^{\alpha(z_2 - z_1)}.
+\boxed{\alpha = 2\ \text{Np/km} = 2\times 10^{-3}\ \text{Np/m}}
 $$
 
-Take natural log:
-$$
-\alpha(z_2 - z_1) = \ln\left(\frac{A(z_1)}{A(z_2)}\right),
-$$
-$$
-\alpha = \frac{\ln\left(\dfrac{A(z_1)}{A(z_2)}\right)}{z_2 - z_1}.
-$$
-
-Plug in numbers:
-$$
-\alpha = \frac{\ln(98.02/81.87)}{100 - 10}
-      = \frac{\ln(1.1975\ldots)}{90}.
-$$
-
-Numerically:
-- $\alpha \approx 2\ \text{Np/km}$  
-- In dB/km: $\alpha \approx 17.4\ \text{dB/km}$ (using $8.686\ \text{dB/Np}$).
-
----
-
-• **Final boxed results**
-
-In Np/m:
-$$
-\boxed{\alpha \approx 2\ \frac{1}{\text{km}} = 2\times 10^{-3}\ \text{m}^{-1}}
-$$
-
-In dB/km:
 $$
 \boxed{\alpha \approx 17.4\ \text{dB/km}}
 $$
 
 ---
 
-• **Notes**  
-- Using ratios cancels the unknown initial amplitude $A_0$.  
-- Converting Np to dB: $1\ \text{Np} \approx 8.686\ \text{dB}$.
+### Notes  
+
+- Standard technique: take **log of amplitude ratio** to extract $\alpha$.  
+- Common pitfall: mixing up $z_1,z_2$ sign; always use $z_2>z_1$ to keep $\alpha>0$ when amplitude decreases.  
+- Matches official solution (same $\alpha$ in Np/km and dB/km).
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 2.3 (verification)  
 
-    A1 = 98.02;
-    A2 = 81.87;
-    z1 = 10;
-    z2 = 100;
+> [!code]- MATLAB — Exercise 2.3 (verification)
+>```matlab
+>A1 = 98.02;   % V/m at z1
+>A2 = 81.87;   % V/m at z2
+>z1 = 10;      % m
+>z2 = 100;     % m
+>alpha_m = (1/(z2 - z1))*log(A1/A2);  % Np/m
+>alpha_km = alpha_m*1e3;              % Np/km
+>alpha_dB_km = alpha_km*8.686;        % dB/km
+>fprintf('alpha = %g Np/m = %g Np/km = %g dB/km\n',alpha_m, alpha_km, alpha_dB_km);
+>```
 
-    alpha_Np_per_m  = log(A1/A2)/(z2 - z1);
-    alpha_Np_per_km = alpha_Np_per_m * 1e3;
-    alpha_dB_per_km = alpha_Np_per_km * 8.686;
-
----
-
-## Formula Sheet — Exam Extraction (2.3)
-
-- Amplitude ratio:
-  $$
-  \frac{A(z_1)}{A(z_2)} = e^{\alpha(z_2 - z_1)}.
-  $$
-- Attenuation constant:
-  $$
-  \alpha = \frac{\ln\left(A(z_1)/A(z_2)\right)}{z_2 - z_1}.
-  $$
-- Conversion:
-  $$
-  \alpha_{\text{dB}} = 8.686\,\alpha_{\text{Np}}.
-  $$
-
-**Exam variants:**  
-- Given two amplitudes at different positions, solve for $\alpha$.  
-- Given $\alpha$, compute amplitude at some depth.
 
 ---
 
-### Exam Relevance (2.3)
+# Exercise 2.4  
+### Determining phase velocity from phase delay
 
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Application of exponential decay and logarithms to physical attenuation.  
-- **Common traps:**  
-  - Switching $z_1$ and $z_2$ (sign error in exponent).  
-  - Mixing Np and dB without conversion.  
-- **What to memorize:**  
-  - Ratio-based formula and $\alpha_{\text{dB}} \approx 8.686\alpha_{\text{Np}}$.
-
----
-
-# Exercise 2.4 — Phase Delay and Phase Velocity from TL Measurements
-
-> **Question (from PDF)**  
-> A wave with frequency $f = 50\ \text{MHz}$ is propagating down a transmission line of length $\ell = 1\ \text{m}$. A phase delay of $\varphi_d = \pi/2$ is measured between input and output of the TL. Determine:  
-> (a) the time delay $t_d$ (hint: relate phase delay to time delay and frequency)  
-> (b) the phase velocity $u_p$.
+> **Given**  
+> A sinusoidal wave with frequency $f = 50\ \text{MHz}$ propagates along a **transmission line** of length $\ell = 1\ \text{m}$.  
+> A phase delay of $\varphi_d = \pi/2$ (radians) is measured between input and output.  
+>
+> Determine:  
+> (a) Time delay $t_d$ between input and output.  
+> (b) Phase velocity $u_p$ along the line.
 
 ---
 
-• **Theory recap**  
-- Phase delay $\varphi_d$ at given frequency $f$ corresponds to time delay $t_d$ via:
+### Theory recap  
+
+For a sinusoid at angular frequency $\omega = 2\pi f$:
+
+- Phase delay, time delay, and spatial phase constant are related by
   $$
-  \varphi_d = 2\pi f t_d.
+  \varphi_d = \omega t_d = \beta \ell.
   $$
-- Phase velocity:
+- From this, the **time delay** is
   $$
-  u_p = \frac{\ell}{t_d}.
+  t_d = \frac{\varphi_d}{\omega} = \frac{\varphi_d}{2\pi f}.
   $$
+- The **phase velocity** can be written in two equivalent ways:
+  $$
+  u_p = \frac{\omega}{\beta}
+      = \frac{\ell}{t_d}
+      = \frac{2\pi f\,\ell}{\varphi_d}.
+  $$
+
+This explicitly uses both the **temporal** (via $\omega t_d$) and **spatial** (via $\beta\ell$) interpretations of phase delay.
 
 ---
 
-• **Given**  
-- $f = 50\ \text{MHz} = 50 \times 10^6\ \text{Hz}$  
-- $\ell = 1\ \text{m}$  
-- Measured phase delay: $\varphi_d = \pi/2$  
+### Derivation  
 
----
+Given $f = 50\ \text{MHz} = 50\times 10^6\ \text{Hz}$, $\varphi_d = \pi/2$, $\ell = 1\ \text{m}$.
 
-• **Geometry / setup**  
-- 1D propagation along TL of length $\ell$.  
-- Output field is a phase-shifted version of input: same magnitude, delayed in time.
+#### (a) Time delay  
 
----
-
-• **Derivation**
-
-**(a) Time delay $t_d$**
-
-Use:
+Compute angular frequency:
 $$
-\varphi_d = 2\pi f t_d \Rightarrow t_d = \frac{\varphi_d}{2\pi f}.
+\omega = 2\pi f = 2\pi\cdot 50\times 10^6 = 100\pi\times 10^6\ \text{rad/s}.
 $$
 
-Insert numbers:
+Using $\varphi_d = \omega t_d$:
 $$
-t_d = \frac{\pi/2}{2\pi\cdot 50\cdot 10^6}
-    = \frac{1}{4\cdot 50\cdot 10^6}
-    = \frac{1}{200\cdot 10^6}
-    = 5 \times 10^{-9}\ \text{s}
+t_d = \frac{\varphi_d}{\omega}
+    = \frac{\pi/2}{2\pi\cdot 50\times 10^6}
+    = \frac{1}{4\cdot 50\times 10^6}
+    = \frac{1}{200\times 10^6}
+    = 5\times 10^{-9}\ \text{s}
     = 5\ \text{ns}.
 $$
 
+This is the time it takes for a **given phase point** of the wave to travel from input to output.
+
 ---
 
-**(b) Phase velocity $u_p$**
+#### (b) Phase velocity  
 
+We can now use
 $$
-u_p = \frac{\ell}{t_d}
-    = \frac{1\ \text{m}}{5\times 10^{-9}\ \text{s}}
-    = 2\times 10^{8}\ \text{m/s}.
+u_p = \frac{\ell}{t_d},
+$$
+so
+$$
+u_p = \frac{1\ \text{m}}{5\times 10^{-9}\ \text{s}}
+    = 2\times 10^8\ \text{m/s}.
 $$
 
-Compare with speed of light $c_0 \approx 3\times 10^{8}\ \text{m/s}$:
+Alternatively, using the combined expression:
+$$
+u_p = \frac{2\pi f\,\ell}{\varphi_d}
+    = \frac{2\pi\cdot 50\times 10^6\cdot 1}{\pi/2}
+    = 2\times 10^8\ \text{m/s},
+$$
+which is the same result.
+
+Compared to the speed of light $c_0 \approx 3\times 10^8\ \text{m/s}$:
 $$
 u_p \approx \frac{2}{3}c_0.
 $$
 
 ---
 
-• **Final boxed results**
+### Final boxed results  
 
 $$
 \boxed{t_d = 5\ \text{ns}}
 $$
 
 $$
-\boxed{u_p = 2\times 10^{8}\ \text{m/s} \approx \dfrac{2}{3}c_0}
+\boxed{u_p = 2\times 10^8\ \text{m/s} \approx \dfrac{2}{3}c_0}
 $$
 
 ---
 
-• **Notes**  
-- This is a standard way to extract effective phase velocity (and thus effective dielectric constant) of a transmission line.  
-- If $u_p < c_0$, the line is filled with a medium of $\varepsilon_r > 1$.
+### Notes  
+
+- This exercise ties together:
+  - **Temporal** phase delay: $\varphi_d = \omega t_d$  
+  - **Spatial** phase delay along the line: $\varphi_d = \beta \ell$  
+  - **Phase velocity**: $u_p = \dfrac{\omega}{\beta} = \dfrac{\ell}{t_d}$.  
+- Typical TL-exam pattern: from a measured phase shift over a known length at a known frequency, recover $t_d$ and $u_p$.  
+- Common pitfalls:
+  - Forgetting to convert MHz → Hz.  
+  - Incorrectly treating $\varphi_d$ in degrees instead of radians.  
+- Result matches the official solution numerically and conceptually.
 
 ---
 
-• **MATLAB / Maple verification (optional)**
+### MATLAB — Exercise 2.4 (verification)  
 
-    f  = 50e6;
-    phi_d = pi/2;
-    L  = 1;
-
-    td = phi_d / (2*pi*f);
-    up = L / td;
-
----
-
-## Formula Sheet — Exam Extraction (2.4)
-
-- Phase delay vs time delay:
-  $$
-  \varphi_d = 2\pi f t_d\quad \Rightarrow\quad t_d = \frac{\varphi_d}{2\pi f}.
-  $$
-- Phase velocity:
-  $$
-  u_p = \frac{\ell}{t_d}.
-  $$
-- Relation to effective permittivity:
-  $$
-  u_p = \frac{c_0}{\sqrt{\varepsilon_\text{eff}}}
-  \quad\Rightarrow\quad
-  \varepsilon_\text{eff} = \left(\frac{c_0}{u_p}\right)^2.
-  $$
-
-**Exam variants:**  
-- Measure $\varphi_d$ and infer $u_p$ and $\varepsilon_\text{eff}$.  
-- Change line length and compare $t_d$.
-
----
-
-### Exam Relevance (2.4)
-
-- **Level:** 🟥 essential  
-- **What is being tested:**  
-  - Translating measured phase into physical speed on a transmission line.  
-- **Common traps:**  
-  - Using $f$ instead of $\omega$ incorrectly (here we stay in $2\pi f$ explicitly).  
-  - Mixing up radians and degrees (here $\varphi_d$ is in radians).  
-- **What to memorize:**  
-  - $\varphi_d = 2\pi f t_d$ and $u_p = \ell / t_d$.
-
----
+> [!code]- MATLAB — Exercise 2.4 (verification)  
+> ```matlab
+>f     = 50e6;       % Hz
+>phi_d = pi/2;       % rad
+>l     = 1;          % m
+>
+>omega = 2*pi*f;
+>
+>% Time delay from phase delay
+>t_d = phi_d/omega;
+>
+>% Phase velocity from time delay
+>u_p_time = l/t_d;
+>
+>% Phase velocity directly from formula u_p = 2*pi*f*l / phi_d
+>u_p_direct = 2*pi*f*l / phi_d;
+>
+>fprintf('Time delay t_d = %g s (%g ns)\n', t_d, t_d*1e9);
+>fprintf('Phase velocity (from t_d)   u_p = %g m/s\n', u_p_time);
+>fprintf('Phase velocity (direct)     u_p = %g m/s\n', u_p_direct);
+>```
