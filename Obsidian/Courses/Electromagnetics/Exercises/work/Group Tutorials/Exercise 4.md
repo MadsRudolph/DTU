@@ -1,5 +1,5 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Transmission Lines]], [[Courses/Electromagnetics/Formulas/Reflection & Matching]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
-Source PDF: Exercises 4 (Single-Termination TLs) :contentReference[oaicite:0]{index=0}  
+> Quick refs: [[Transmission_Lines]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
+Source PDF: Exercises 4 (Single-Termination TLs)   
 
 # 30035 — **Exercise Set 4**  
 ## Transmission Lines: Single-Termination
@@ -153,7 +153,7 @@ $$
 \boxed{d_\text{Imax} = 17.5\ \text{m}}
 $$
 
-Matches official solution. :contentReference[oaicite:1]{index=1}
+Matches official solution.
 
 ---
 
@@ -169,24 +169,25 @@ Matches official solution. :contentReference[oaicite:1]{index=1}
 
 ## MATLAB — Exercise 4.1 (verification)
 
-> [!code]- MATLAB — Exercise 4.1  
+> [!code]- MATLAB — Exercise 4.1
+> ```matlab  
 Z0 = 300;
 L  = 0.02e-3;
 f  = 5e6;  w = 2*pi*f;
 ZL = 600 + 1j*w*L;
-
+>
 GammaL = (ZL - Z0)./(ZL + Z0);
-
+>
 lambda = 3e8/f;
 theta_r = angle(GammaL);
-
+>
 dV = theta_r*lambda/(4*pi);
 dI = dV + lambda/4;
-
+>
 fprintf('Gamma_L = %.4f + j%.4f\n', real(GammaL), imag(GammaL));
 fprintf('Vmax distance = %.3f m\n', dV);
 fprintf('Imax distance = %.3f m\n', dI);
-
+>```
 ---
 
 # **Exercise 4.2 — Determine Load from Reflection Coefficient**  
@@ -195,8 +196,8 @@ fprintf('Imax distance = %.3f m\n', dI);
 > - TL characteristic impedance: $Z_0 = 75\ \Omega$  
 > - Reflection coefficient at load:  
 >   $$
->   \Gamma_L = j0.75.
->   $$  
+   \Gamma_L = j0.75.
+   $$  
 > - Find the load impedance $Z_L$.
 
 ---
@@ -230,7 +231,7 @@ Z_L = 75\left(\frac{0.4375}{1.5625} + j\frac{1.5}{1.5625}\right)
 = 21 + j72\ \Omega.
 $$
 
-Matches official result. :contentReference[oaicite:2]{index=2}
+Matches official result.
 
 ---
 
@@ -245,12 +246,13 @@ $$
 ## MATLAB — Exercise 4.2
 
 > [!code]- MATLAB — Exercise 4.2  
+> ```matlab
 Z0 = 75;
 Gamma = 1j*0.75;
-
+>
 ZL = Z0*(1+Gamma)/(1-Gamma);
 disp(ZL);
-
+>```
 ---
 
 # **Exercise 4.3 — Input Reflection Coefficient & Input Impedance**  
@@ -306,9 +308,6 @@ Given result:
 $$
 \Gamma_L = -0.21 + j0.23.
 $$
-
-Matches official. :contentReference[oaicite:3]{index=3}  
-
 ---
 
 ### **(c) Reflection coefficient at the input**
@@ -336,9 +335,6 @@ Z_\text{in}
 = 100\frac{1+\Gamma_\text{in}}{1-\Gamma_\text{in}}
 = 64.8 - j38.3\ \Omega.
 $$
-
-Matches official. :contentReference[oaicite:4]{index=4}
-
 ---
 
 ## Final Boxed Results  
@@ -360,18 +356,19 @@ $$
 ## MATLAB — Exercise 4.3
 
 > [!code]- MATLAB — Exercise 4.3  
+> ```matlab
 Z0 = 100;
 ZL = 60 + 1j*30;
 l = 0.35;
-
+>
 GammaL = (ZL - Z0)/(ZL + Z0);
 Gamma_in = GammaL * exp(-1j*2*2*pi*l);
 Zin = Z0*(1+Gamma_in)/(1-Gamma_in);
-
+>
 disp(GammaL);
 disp(Gamma_in);
 disp(Zin);
-
+>```
 ---
 
 # **Exercise 4.4 — Load from Zero Input Reflection**  
@@ -402,7 +399,7 @@ $$
 \boxed{Z_L = 30\ \Omega}
 $$
 
-Matches official. :contentReference[oaicite:5]{index=5}
+Matches official.
 
 ---
 
@@ -451,7 +448,7 @@ $$
 Z_\text{in} = 153 + j73\ \Omega.
 $$
 
-Matches official. :contentReference[oaicite:6]{index=6}
+Matches official.
 
 ---
 
@@ -466,17 +463,18 @@ $$
 ## MATLAB — Exercise 4.5
 
 > [!code]- MATLAB — Exercise 4.5  
+> ```matlab
 ZL = 60 - 1j*30;
-
+>
 Z0r = 50; lr = 0.7*pi;   % Using beta*l = 2π*l/λ → absorbed into tan()
 Z0l = 75; ll = 0.2*pi;
-
+>
 Zin1 = Z0r*(ZL + 1j*Z0r*tan(2*pi*0.7))/(Z0r + 1j*ZL*tan(2*pi*0.7));
 Zin  = Z0l*(Zin1 + 1j*Z0l*tan(2*pi*0.2))/(Z0l + 1j*Zin1*tan(2*pi*0.2));
-
+>
 disp(Zin1);
 disp(Zin);
-
+>```
 ---
 
 # **Exercise 4.6 — Transmission Lines in Parallel**  
@@ -510,7 +508,7 @@ $$
 Z_\text{in} = 36.1 + j3.26\ \Omega.
 $$
 
-Matches official. :contentReference[oaicite:7]{index=7}
+Matches official.
 
 ---
 
@@ -525,9 +523,10 @@ $$
 ## MATLAB — Exercise 4.6
 
 > [!code]- MATLAB — Exercise 4.6  
+> ```matlab
 Z1 = 56.915 + 1j*27.204;
 Z2 = 68.495 - 1j*22.674;
-
+>
 Zin = (Z1*Z2)/(Z1 + Z2);
 disp(Zin);
-
+>```

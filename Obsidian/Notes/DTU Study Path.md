@@ -244,8 +244,6 @@ Try to combine:
 - Courses on **analog + power + acoustics**  
 - Your side projects (passive speakers, DIY amps, crossovers, etc.)  
 - Possibly a company collaboration in audio/hearing
-
----
 ---
 
 ## 🔭 Future MSc hardware courses I want

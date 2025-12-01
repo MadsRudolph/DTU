@@ -1,5 +1,5 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Transmission Lines]], [[Courses/Electromagnetics/Formulas/Reflection & Matching]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
-Source PDF: Exercises 5 (Transmission Line Circuits) :contentReference[oaicite:0]{index=0}  
+> Quick refs: [[Lecture 10 – Transmission Lines Power, Matching & Smith Chart]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
+Source PDF: Exercises 5 (Transmission Line Circuits)  
 
 # 30035 — **Exercise Set 5**  
 ## Transmission Line Circuits
@@ -102,7 +102,7 @@ $$
 l_\text{min} \approx 8.05\ \text{cm}.
 $$
 
-Matches official solution. :contentReference[oaicite:1]{index=1}  
+Matches official solution.  
 
 ---
 
@@ -129,25 +129,26 @@ $$
 ## MATLAB — Exercise 5.1 (verification)
 
 > [!code]- MATLAB — Exercise 5.1  
+> ```matlab
 c0   = 3e8;
 f    = 300e6;
 Z0   = 50;
 Xdes = 40;
 up   = 0.75*c0;
-
+>
 w  = 2*pi*f;
 beta = w/up;
-
+>
 beta_l = atan(Xdes/Z0);
 l_min  = beta_l/beta;
-
+>
 fprintf('beta*l = %.5f rad\n', beta_l);
 fprintf('l_min  = %.5f m (%.2f cm)\n', l_min, l_min*100);
-
+>
 % Check that Zin has desired reactance
 Zin = 1j*Z0 * tan(beta*l_min);
 fprintf('Zin ≈ j%.2f Ohm\n', imag(Zin));
-
+>```
 ---
 
 # **Exercise 5.2 — Determining TL Parameters from Short/Open Measurements**  
@@ -266,7 +267,7 @@ $$
 Z_0 = \sqrt{1.6\times 10^3} \approx 40\ \Omega.
 $$
 
-Matches the official solution. :contentReference[oaicite:2]{index=2}  
+Matches the official solution.
 
 ---
 
@@ -347,7 +348,7 @@ $$
 \approx 1.78.
 $$
 
-Matches official solution. :contentReference[oaicite:3]{index=3}  
+Matches official solution.
 
 ---
 
@@ -388,24 +389,25 @@ $$
 ## MATLAB — Exercise 5.2 (verification)
 
 > [!code]- MATLAB — Exercise 5.2  
+> ```matlab
 c0   = 3e8;
 f    = 1e6;
 w    = 2*pi*f;
 L_eq = 0.064e-6;   % H
 C_eq = 40e-12;     % F
 ell  = 0.36;       % m
-
+>
 % (a) Z0
 Z0 = sqrt(L_eq/C_eq);
-
+>
 % (b) phase velocity
 beta_l = atan(w*sqrt(L_eq*C_eq));
 up     = w*ell/beta_l;
-
+>
 % (c) epsilon_r
 eps_r = (c0/up)^2;
-
+>
 fprintf('Z0     = %.2f Ohm\n', Z0);
 fprintf('u_p    = %.3e m/s\n', up);
 fprintf('eps_r  = %.3f\n', eps_r);
-
+>```

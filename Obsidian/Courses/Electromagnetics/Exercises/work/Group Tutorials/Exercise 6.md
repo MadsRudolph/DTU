@@ -1,5 +1,5 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Transmission Lines]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
-Source PDF: Exercises 6 — Transmission Lines: Power Flow :contentReference[oaicite:0]{index=0}  
+> Quick refs: [[Transmission_Lines]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]]  
+Source PDF: Exercises 6 — Transmission Lines: Power Flow 
 
 # 30035 — **Exercise Set 6**  
 ## Transmission Lines: Power Flow
@@ -72,21 +72,22 @@ $$
 
 - A matched load has no reflections ($\Gamma = 0$), so the line “looks infinite” to the source.  
 - Very common exam statement: **“Matched load ⇒ all power delivered, no standing waves (SWR = 1)”**.  
-- Matches the official solution statement: *“For a matched load, $|\Gamma|=0$ … 100% of the incident power is delivered to the load.”* :contentReference[oaicite:1]{index=1}  
+- Matches the official solution statement: *“For a matched load, $|\Gamma|=0$ … 100% of the incident power is delivered to the load.”* 
 
 ---
 
 ### MATLAB — Exercise 6.1 (verification)  
 
-> [!code]- MATLAB — Exercise 6.1  
+> [!code]- MATLAB — Exercise 6.1
+> ```matlab  
 Pin  = 1;         % 1 W incident, arbitrary scale
 Gamma = 0;        % matched load
 Pref = abs(Gamma)^2 * Pin;
 Pdel = (1 - abs(Gamma)^2) * Pin;
-
+>
 fprintf('P_ref / P_inc = %.2f\n', Pref/Pin);
 fprintf('P_del / P_inc = %.2f\n', Pdel/Pin);
-
+>```
 ---
 
 # Exercise 6.2 — Average Power Delivered to a Reactive Load  
@@ -131,7 +132,7 @@ For $Z_L = jX$ on a lossless TL:
    = \frac{jX - Z_0}{jX + Z_0}.
    $$
    Numerator and denominator are complex conjugates up to a sign in the real part, leading to  
-   $|\Gamma_L| = 1$ (as given in the official solution). :contentReference[oaicite:2]{index=2}  
+   $|\Gamma_L| = 1$ (as given in the official solution).  
 
 2. Average power:
    $$
@@ -156,20 +157,21 @@ $$
 
 - Instantaneous power is **non-zero** and oscillatory, but its **average over one period** is zero.  
 - This is conceptually the same as an ideal capacitor or inductor in AC: they store and release energy but do not dissipate it.  
-- Matches the official solution: *“A reactive load has $|\Gamma|=1$… no average power is delivered to it.”* :contentReference[oaicite:3]{index=3}  
+- Matches the official solution: *“A reactive load has $|\Gamma|=1$… no average power is delivered to it.”* 
 
 ---
 
 ### MATLAB — Exercise 6.2 (verification)  
 
-> [!code]- MATLAB — Exercise 6.2  
+> [!code]- MATLAB — Exercise 6.2
+> ```matlab  
 Pin   = 1;      % incident power (arbitrary)
 Gamma = 1;      % pure reactive load
-
+>
 Pdel = (1 - abs(Gamma)^2) * Pin;
-
+>
 fprintf('Average delivered power P_L = %.2f (should be 0)\n', Pdel);
-
+>```
 ---
 
 # Exercise 6.3 — Power Flow on a Mismatched, Lossless TL  
@@ -200,7 +202,7 @@ fprintf('Average delivered power P_L = %.2f (should be 0)\n', Pdel);
 The official solution gives (with one small typo we will correct):
 - $P_g = 225\ \text{W}$ (available power to a matched load, not 478 W)  
 - Reflection coefficient $|\Gamma_L| = 0.2$  
-- Delivered power: $P_L = 0.96P_g = 216\ \text{W}$. :contentReference[oaicite:4]{index=4}  
+- Delivered power: $P_L = 0.96P_g = 216\ \text{W}$. 
 
 ---
 
@@ -257,7 +259,7 @@ You can represent the system as:
 - Connected to a lossless TL: $Z_0 = 50\ \Omega$, length $0.15\lambda$  
 - Terminated in $Z_L = 75\ \Omega$.  
 
-This is exactly the diagram drawn in the solution sheet (with nodes A, B along the line). :contentReference[oaicite:5]{index=5}  
+This is exactly the diagram drawn in the solution sheet (with nodes A, B along the line).
 
 ---
 
@@ -279,7 +281,7 @@ P_g = \frac{300^2}{8\cdot 50}
     = 225\ \text{W}.
 $$
 
-This is the **available power**. The official PDF writes $478\ \text{W}$ in one line, but then uses $P_L = 0.96P_g = 216\ \text{W}$, which is **consistent with $P_g = 225\ \text{W}$** and not 478 W. So 478 W is clearly a typo. :contentReference[oaicite:6]{index=6}  
+This is the **available power**. The official PDF writes $478\ \text{W}$ in one line, but then uses $P_L = 0.96P_g = 216\ \text{W}$, which is **consistent with $P_g = 225\ \text{W}$** and not 478 W. So 478 W is clearly a typo.
 
 Since $Z_g=Z_0=50\ \Omega$, the generator is matched to the line, so:
 $$
@@ -322,7 +324,7 @@ $$
        = 216\ \text{W}.
    $$
 
-These match the intended numbers in the official solution (216 W delivered, 4% reflected). :contentReference[oaicite:7]{index=7}  
+These match the intended numbers in the official solution (216 W delivered, 4% reflected).
 
 ---
 
@@ -370,24 +372,25 @@ $$
 ## MATLAB — Exercise 6.3 (verification)  
 
 > [!code]- MATLAB — Exercise 6.3  
+> ```matlab
 Ug = 300;          % Thevenin open-circuit voltage (phasor magnitude)
 Rg = 50;          % internal resistance
 Z0 = 50;          % line impedance
 ZL = 75;          % load
-
+>
 % (b) Available power from source
 Pg = Ug^2 / (8*Rg);    % W
-
+>
 % Because Rg = Z0, all available power enters the line:
 Pinc = Pg;
-
+>
 % (c) Reflection at the load
 GammaL = (ZL - Z0)/(ZL + Z0);
 Pref = abs(GammaL)^2 * Pinc;
 PL   = (1 - abs(GammaL)^2) * Pinc;
-
+>
 fprintf('Pg   = %.2f W\n', Pg);
 fprintf('Gamma_L = %.3f\n', GammaL);
 fprintf('Pref = %.2f W\n', Pref);
 fprintf('PL   = %.2f W\n', PL);
-
+>```

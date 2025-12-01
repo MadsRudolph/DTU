@@ -1,4 +1,4 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]] :contentReference[oaicite:0]{index=0}  
+> Quick refs: [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]] 
 
 ---
 
@@ -606,7 +606,7 @@ Z_{\text{in}} = j\sqrt{\frac{L}{C}}\;\frac{x}{1-x^2}.
 $$
 Magnitude and phase:
 $$
-|Z_{\text{in}}| = \sqrt{\frac{L}{C}}\left|\frac{x}{1-x^2}\right|,
+|Z_{\text{in}}| = \sqrt{\frac{L}{C}}\left|\frac{x}{1-x^2}\right|
 $$
 and $\arg(Z_{\text{in}})$ is $\pm \pi/2$ depending on the sign of $x/(1-x^2)$, exactly as tabulated in the official solution.
 
@@ -1098,8 +1098,8 @@ $$
 >
 > The amplitude function (as from Exercise 2.2) is:
 > $$
-> A(z) = A_0 e^{-\alpha z}.
-> $$
+ A(z) = A_0 e^{-\alpha z}
+ $$
 >
 > Find the attenuation constant $\alpha$:
 > - in $\text{Np/m}$ or $\text{Np/km}$,  
@@ -1114,15 +1114,15 @@ For a wave with amplitude $A(z) = A_0 e^{-\alpha z}$:
 - At two depths $z_1,z_2$:
   $$
   \frac{A(z_1)}{A(z_2)} = \frac{A_0 e^{-\alpha z_1}}{A_0 e^{-\alpha z_2}}
-  = e^{\alpha (z_2 - z_1)}.
+  = e^{\alpha (z_2 - z_1)}
   $$
 - Hence:
   $$
-  \alpha = \frac{1}{z_2 - z_1}\ln\left(\frac{A(z_1)}{A(z_2)}\right).
+  \alpha = \frac{1}{z_2 - z_1}\ln\left(\frac{A(z_1)}{A(z_2)}\right)
   $$
 - Conversion Np ↔ dB:
   $$
-  1\ \text{Np} = 8.686\ \text{dB}.
+  1\ \text{Np} = 8.686\ \text{dB}
   $$
 
 ---
@@ -1187,7 +1187,6 @@ $$
 >alpha_dB_km = alpha_km*8.686;        % dB/km
 >fprintf('alpha = %g Np/m = %g Np/km = %g dB/km\n',alpha_m, alpha_km, alpha_dB_km);
 >```
-
 
 ---
 

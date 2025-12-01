@@ -1,5 +1,5 @@
 > Quick refs: [[Courses/Electromagnetics/Formulas/Transmission Lines]], [[Courses/Electromagnetics/Formulas/Plane Waves & Power — Quick Formula Sheet]], [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]]  
-Source PDF: Exercises 3 (Transmission Lines) :contentReference[oaicite:0]{index=0}  
+Source PDF: Exercises 3 (Transmission Lines) 
 
 # 30035 — **Exercise Set 3**  
 ## Transmission Lines: Electrical Length & Equivalent Circuit
@@ -152,7 +152,7 @@ $$
 \end{aligned}}
 $$
 
-Matches official solution. :contentReference[oaicite:1]{index=1}
+Matches official solution.
 
 ---
 
@@ -169,24 +169,25 @@ Matches official solution. :contentReference[oaicite:1]{index=1}
 ## MATLAB — Exercise 3.1 (verification)
 
 > [!code]- MATLAB — Exercise 3.1  
+> ```matlab
 c0 = 3e8;
-
-cases = {
-    0.30, 20e3;
-    50e3, 60;
-    0.30, 600e6;
-    0.002, 100e9
-};
-
-for k = 1:size(cases,1)
-    l = cases{k,1};
-    f = cases{k,2};
-    lambda = c0/f;
-    ell = l/lambda;
-    phi = 2*pi*ell;
-    fprintf('Case %d: l/lambda = %.4g, phi = %.4g rad\n', k, ell, phi);
-end
-
+>
+>cases = {
+ >   0.30, 20e3;
+ >   50e3, 60;
+ >   0.30, 600e6;
+ >   0.002, 100e9
+>};
+>
+>for k = 1:size(cases,1)
+>    l = cases{k,1};
+>    f = cases{k,2};
+>    lambda = c0/f;
+>    ell = l/lambda;
+>    phi = 2*pi*ell;
+>    fprintf('Case %d: l/lambda = %.4g, phi = %.4g rad\n', k, ell, phi);
+>end
+>```
 ---
 
 # **Exercise 3.2 — Parameters of a Coaxial Transmission Line (RG-58)**  
@@ -413,38 +414,39 @@ $$
 \boxed{\frac{l}{\lambda}=28.5,\quad \varphi=179\ \text{rad},\quad \Delta t = 9.5\ \text{ns}}
 $$
 
-Matches official solution. :contentReference[oaicite:2]{index=2}
+Matches official solution.
 
 ---
 
 ## MATLAB — Exercise 3.2 (verification)
 
-> [!code]- MATLAB — Exercise 3.2  
+> [!code]- MATLAB — Exercise 3.2
+> ```matlab  
 mu0 = 4*pi*1e-7;
 eps0 = 8.854e-12;
-
+>
 a = 0.45e-3;
 b = 1.475e-3;
 Z0 = 50;
-
+>
 % (a) permittivity
 eps_r = (mu0/eps0)*(log(b/a)/(2*pi*Z0))^2;
-
+>
 % (b) L' and C'
 Lprime = mu0/(2*pi)*log(b/a);
 Cprime = 2*pi*eps0*eps_r/log(b/a);
-
+>
 f = 3e9;
 w = 2*pi*f;
-
+>
 beta = w*sqrt(Lprime*Cprime);
 up = 1/sqrt(Lprime*Cprime);
 lambda = 2*pi/beta;
-
+>
 fprintf('eps_r = %.3f\n', eps_r);
 fprintf('L'' = %.3e  C'' = %.3e\n', Lprime, Cprime);
 fprintf('beta = %.2f, up = %.2e, lambda = %.3f m\n', beta, up, lambda);
-
+>```
 ---
 
 # **Exercise 3.3 — Lossless Microstrip Line**  
@@ -510,7 +512,7 @@ $$
 = 4.54.
 $$
 
-Matches official solution. :contentReference[oaicite:3]{index=3}
+Matches official solution.
 
 ---
 
@@ -537,14 +539,15 @@ $$
 ## MATLAB — Exercise 3.3 (verification)
 
 > [!code]- MATLAB — Exercise 3.3  
+> ```matlab
 f = 10e9; w = 2*pi*f;
 beta = 285;
 l = 0.1;
-
+>
 up = w/beta;
 lambda = up/f;
 elec_len = l/lambda;
-
+>
 fprintf('u_p = %.3e m/s\n', up);
 fprintf('Electrical length = %.3f\n', elec_len);
-
+>```

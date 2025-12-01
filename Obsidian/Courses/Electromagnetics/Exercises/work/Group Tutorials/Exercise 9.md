@@ -1,7 +1,5 @@
 # 30035 — Exercises 9  
-## Vector Calculus Recap (Cartesian Only)
-
-Source: Exercises 9–11 solution sheet :contentReference[oaicite:0]{index=0}  
+## Recap: Vector Calculus (Cartesian)
 
 ---
 
@@ -72,6 +70,20 @@ $$
 
 ---
 
+### MATLAB — Exercise 9.1
+
+> [!code]- MATLAB — Exercise 9.1  
+> ```matlab
+>a = [2; -3; 1];
+>
+>a_norm = norm(a);          % length of a
+>a_hat  = a / a_norm;       % unit vector
+>
+>fprintf('||a|| = %.6f\n', a_norm);
+>fprintf('a_hat = [%.6f  %.6f  %.6f]^T\n', a_hat);
+>```
+---
+
 ## Exercise 9.2 — Vector Sum, Difference, Dot and Cross Products
 
 > **Given**  
@@ -101,7 +113,6 @@ $$
 
 ### (a) Sum $\mathbf a + \mathbf b$
 
-Componentwise:
 $$
 \mathbf a + \mathbf b
 =
@@ -202,7 +213,6 @@ $$
 
 ### (f) Cross product $\mathbf a \times \mathbf b$
 
-Use the determinant form:
 $$
 \mathbf a \times \mathbf b
 =
@@ -273,6 +283,33 @@ $$
 
 ---
 
+### MATLAB — Exercise 9.2
+
+> [!code]- MATLAB — Exercise 9.2 
+> ```matlab 
+>a = [2; -3; 1];
+>b = [5;  2; -6];
+>
+>c_add  = a + b;
+>c_sub1 = a - b;
+>c_sub2 = b - a;
+>
+>dot_ab = dot(a,b);
+>dot_ba = dot(b,a);
+>
+>cross_ab = cross(a,b);
+>cross_ba = cross(b,a);
+>
+>fprintf('a + b      = [%g %g %g]^T\n', c_add);
+>fprintf('a - b      = [%g %g %g]^T\n', c_sub1);
+>fprintf('b - a      = [%g %g %g]^T\n', c_sub2);
+>fprintf('a·b        = %g\n', dot_ab);
+>fprintf('b·a        = %g\n', dot_ba);
+>fprintf('a×b        = [%g %g %g]^T\n', cross_ab);
+>fprintf('b×a        = [%g %g %g]^T\n', cross_ba);
+>```
+---
+
 ## Exercise 9.3 — Angle Between Two Vectors
 
 > **Given**  
@@ -309,7 +346,7 @@ $$
 
 ### (a) Cartesian form
 
-Compute dot product:
+Dot product:
 $$
 \mathbf a\cdot\mathbf b
 = 3\cdot 9 + 2\cdot(-4) + (-5)\cdot 2
@@ -369,6 +406,29 @@ $$
 }
 $$
 
+---
+
+### MATLAB — Exercise 9.3
+
+> [!code]- MATLAB — Exercise 9.3
+>```matlab  
+>% Part (a)
+>a1 = [3;  2; -5];
+>b1 = [9; -4;  2];
+>
+>cos_alpha1 = dot(a1,b1)/(norm(a1)*norm(b1));
+>alpha1_deg = acosd(cos_alpha1);
+>
+>% Part (b)
+>a2 = [3; 1; 2];
+>b2 = [-1; 1; 1];
+>
+>cos_alpha2 = dot(a2,b2)/(norm(a2)*norm(b2));
+>alpha2_deg = acosd(cos_alpha2);
+>
+>fprintf('Part (a): alpha ≈ %.2f deg\n', alpha1_deg);
+>fprintf('Part (b): alpha ≈ %.2f deg\n', alpha2_deg);
+>```
 ---
 
 ## Exercise 9.4 — Mixed Vector Identities with Triple Products
@@ -451,7 +511,7 @@ $$
 
 ### (b) $(\mathbf b\times\mathbf c)\cdot\mathbf a$
 
-Scalar triple product is **cyclically invariant**, so this must be the same value:
+Scalar triple product is **cyclically invariant**, so  
 
 $$
 (\mathbf b\times\mathbf c)\cdot\mathbf a
@@ -462,8 +522,6 @@ $$
 
 ### (c) $\mathbf a\times(\mathbf b\times\mathbf c)$
 
-We already know $\mathbf b\times\mathbf c = (16,8,4)^T$. So compute:
-
 $$
 \mathbf a\times(\mathbf b\times\mathbf c)
 =
@@ -472,7 +530,7 @@ $$
 \begin{pmatrix}16\\8\\4\end{pmatrix}.
 $$
 
-Determinant:
+Components:
 
 - $x$-component: $2\cdot 4 - (-3)\cdot 8 = 8 + 24 = 32$  
 - $y$-component: $(-3)\cdot 16 - 1\cdot 4 = -48 - 4 = -52$  
@@ -491,7 +549,6 @@ $$
 
 ### (d) $(\mathbf b\times\mathbf c)\times\mathbf a$
 
-Now:
 $$
 (\mathbf b\times\mathbf c)\times\mathbf a
 =
@@ -500,7 +557,7 @@ $$
 \begin{pmatrix}1\\2\\-3\end{pmatrix}.
 $$
 
-Compute:
+Components:
 
 - $x$-component: $8\cdot(-3) - 4\cdot 2 = -24 - 8 = -32$  
 - $y$-component: $4\cdot 1 - 16\cdot(-3) = 4 + 48 = 52$  
@@ -537,7 +594,6 @@ $$
 $$
 
 This is just $-(\mathbf b\times\mathbf c)\times\mathbf a$, so:
-
 $$
 (\mathbf c\times\mathbf b)\times\mathbf a
 =
@@ -567,7 +623,7 @@ $$
 \end{pmatrix}.
 $$
 
-Determinant:
+Components:
 
 - $x$-component: $2\cdot 0 - (-3)(-4) = 0 - 12 = -12$  
 - $y$-component: $(-3)\cdot 2 - 1\cdot 0 = -6 - 0 = -6$  
@@ -588,7 +644,7 @@ $$
 \begin{pmatrix}0\\2\\-4\end{pmatrix}.
 $$
 
-Compute:
+Components:
 
 - $x$-component: $(-6)(-4) - (-8)\cdot 2 = 24 + 16 = 40$  
 - $y$-component: $(-8)\cdot 0 - (-12)\cdot(-4) = 0 - 48 = -48$  
@@ -615,7 +671,7 @@ $$
 \begin{pmatrix}2\\-4\\0\end{pmatrix}.
 $$
 
-Determinant:
+Components:
 
 - $x$-component: $0\cdot 0 - 0\cdot (-4) = 0$  
 - $y$-component: $0\cdot 2 - 1\cdot 0 = 0$  
@@ -630,7 +686,6 @@ $$
 
 ### (h) $(\mathbf a\times\hat{\mathbf y})\cdot\hat{\mathbf z}$
 
-First:
 $$
 \hat{\mathbf y} =
 \begin{pmatrix}0\\1\\0\end{pmatrix},\quad
@@ -680,7 +735,39 @@ $$
 
 ---
 
-## Exercise 9.5 (Additional) — Vector Perpendicular to Two Given Vectors with Given Magnitude
+### MATLAB — Exercise 9.4
+
+> [!code]- MATLAB — Exercise 9.4  
+> ```matlab
+>a = [1; 2; -3];
+>b = [2; -4;  0];
+>c = [0; 2; -4];
+>
+>bx_c = cross(b,c);
+>ax_bx_c = cross(a, bx_c);
+>bx_cx_a = cross(bx_c, a);
+>cx_b = cross(c,b);
+>cx_bx_a = cross(cx_b, a);
+>ax_b = cross(a,b);
+>ax_bx_c2 = cross(ax_b, c);
+>
+>res_a = dot(a, bx_c);
+>res_b = dot(bx_c, a);
+>res_g = cross([1;0;0], b);
+>res_h = dot(cross(a, [0;1;0]), [0;0;1]);
+>
+>fprintf('(a) a·(b×c)          = %g\n', res_a);
+>fprintf('(b) (b×c)·a          = %g\n', res_b);
+>fprintf('(c) a×(b×c)          = [%g %g %g]^T\n', ax_bx_c);
+>fprintf('(d) (b×c)×a          = [%g %g %g]^T\n', bx_cx_a);
+>fprintf('(e) (c×b)×a          = [%g %g %g]^T\n', cx_bx_a);
+>fprintf('(f) (a×b)×c          = [%g %g %g]^T\n', ax_bx_c2);
+>fprintf('(g) x-hat×b          = [%g %g %g]^T\n', res_g);
+>fprintf('(h) (a×y-hat)·z-hat  = %g\n', res_h);
+>```
+---
+
+## Exercise 9.5 — Vector Perpendicular to Two Given Vectors with Given Magnitude
 
 > **Given**  
 > Two vectors:
@@ -755,8 +842,7 @@ $$
 \|\mathbf c_0\|
 = \sqrt{2^2 + 13^2 + 3^2}
 = \sqrt{4 + 169 + 9}
-= \sqrt{182}
-\approx 13.49.
+= \sqrt{182}.
 $$
 
 ---
@@ -771,7 +857,7 @@ $$
 
 Since $\|\alpha\mathbf c_0\| = |\alpha|\|\mathbf c_0\|$, choose:
 $$
-\alpha = \frac{9}{\|\mathbf c_0\|} = \frac{9}{\sqrt{182}} \approx 0.66712.
+\alpha = \frac{9}{\|\mathbf c_0\|} = \frac{9}{\sqrt{182}}.
 $$
 
 Thus:
@@ -786,10 +872,6 @@ $$
 \frac{18}{\sqrt{182}}\\[4pt]
 \frac{117}{\sqrt{182}}\\[4pt]
 \frac{27}{\sqrt{182}}
-\end{pmatrix}
-\approx
-\begin{pmatrix}
-1.33\\8.67\\2.00
 \end{pmatrix}.
 $$
 
@@ -818,3 +900,20 @@ $$
 is also perpendicular to both $\mathbf a$ and $\mathbf b$ and has the same magnitude.
 
 ---
+
+### MATLAB — Exercise 9.5
+
+> [!code]- MATLAB — Exercise 9.5
+> ```matlab  
+>a = [2; -1; 3];
+>b = [3;  0; -2];
+>
+>c0   = cross(a,b);          % perpendicular to both
+>c0_n = norm(c0);
+>
+>alpha = 9 / c0_n;
+>c     = alpha * c0;
+>
+>fprintf('c0      = [%g %g %g]^T, ||c0|| = %.6f\n', c0, c0_n);
+>fprintf('c (|c|=9) = [%g %g %g]^T, ||c|| = %.6f\n', c, norm(c));
+>```

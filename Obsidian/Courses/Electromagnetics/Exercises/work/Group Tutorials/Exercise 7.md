@@ -1,4 +1,4 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Electrostatics & Magnetostatics]], [[Courses/Electromagnetics/Formulas/Transmission Lines — Basics]], [[Courses/Electromagnetics/Formulas/Smith Chart & Matching]]
+> Quick refs: [[Lecture 10 – Transmission Lines Power, Matching & Smith Chart]]
 
 ---
 
@@ -146,36 +146,37 @@ Thus, moving **$\lambda/2$ along a lossless line** (towards the generator or tow
 
 ### MATLAB — Exercise 7.1 (verification)  
 
-> [!code]- MATLAB — Exercise 7.1 (verification)  
-% Smith Chart rotation vs. line length: verify lambda/2 periodicity
-clear; clc;
-
-% Parameters
-lambda = 1;              % wavelength [normalized units]
-Z0     = 50;             % reference impedance [Ohm]
-ZL     = 100 + 1j*50;    % arbitrary complex load [Ohm]
-
-% Reflection coefficient at the load
-GammaL = (ZL - Z0) / (ZL + Z0);
-
-% Sweep line length l from 0 to lambda
-l_vec  = linspace(0, lambda, 501);
-beta   = 2*pi/lambda;
-
-Gamma_in = GammaL .* exp(-1j*2*beta.*l_vec);
-
-% Check periodicity: compare Gamma_in at l and l + lambda/2 (wrapped)
-idx_half   = round(numel(l_vec)/2);
-Gamma_half = Gamma_in(idx_half+1:end);
-Gamma_ref  = Gamma_in(1:end-idx_half);
-
-err = max(abs(Gamma_half - Gamma_ref));
-
-fprintf('Max |Gamma(l+lambda/2) - Gamma(l)| = %.3e\n', err);
-
-% This script numerically confirms that a shift by lambda/2 in l
-% corresponds to one full rotation (periodicity) in Gamma_in.
-
+> [!code]- MATLAB — Exercise 7.1 (verification) 
+> ```matlab 
+>% Smith Chart rotation vs. line length: verify lambda/2 periodicity
+>clear; clc;
+>
+>% Parameters
+>lambda = 1;              % wavelength [normalized units]
+>Z0     = 50;             % reference impedance [Ohm]
+>ZL     = 100 + 1j*50;    % arbitrary complex load [Ohm]
+>
+>% Reflection coefficient at the load
+>GammaL = (ZL - Z0) / (ZL + Z0);
+>
+>% Sweep line length l from 0 to lambda
+>l_vec  = linspace(0, lambda, 501);
+>beta   = 2*pi/lambda;
+>
+>Gamma_in = GammaL .* exp(-1j*2*beta.*l_vec);
+>
+>% Check periodicity: compare Gamma_in at l and l + lambda/2 (wrapped)
+>idx_half   = round(numel(l_vec)/2);
+>Gamma_half = Gamma_in(idx_half+1:end);
+>Gamma_ref  = Gamma_in(1:end-idx_half);
+>
+>err = max(abs(Gamma_half - Gamma_ref));
+>
+>fprintf('Max |Gamma(l+lambda/2) - Gamma(l)| = %.3e\n', err);
+>
+>% This script numerically confirms that a shift by lambda/2 in l
+>% corresponds to one full rotation (periodicity) in Gamma_in.
+>```
 ---
 
 ## Exercise 7.2  
@@ -397,28 +398,29 @@ $$
 
 ### MATLAB — Exercise 7.2 (verification)  
 
-> [!code]- MATLAB — Exercise 7.2 (verification)  
-% From Gamma to normalized impedance zL
-clear; clc;
-
-% Define Gamma values (magnitude/angle in degrees)
-Gamma_mag = [0.5, 0.5, 1, 0.3, 0, 1];
-Gamma_ang_deg = [0, 60, 180, -30, 0, -90];  % angles for a)–f)
-Gamma = Gamma_mag .* exp(1j*deg2rad(Gamma_ang_deg));
-
-% Compute normalized impedances zL = (1+Gamma)/(1-Gamma)
-zL = (1 + Gamma) ./ (1 - Gamma);
-
-% Display results
-labels = {'a','b','c','d','e','f'};
-for k = 1:numel(Gamma)
-    fprintf('(%s) Gamma = %.3f ∠ %.1f° -> zL = %.3f %+.3fj\n', ...
-        labels{k}, Gamma_mag(k), Gamma_ang_deg(k), real(zL(k)), imag(zL(k)));
-end
-
-% This script confirms the numeric values used in the analytical solution.
-% You can change Gamma_mag and Gamma_ang_deg for other similar exercises.
-
+> [!code]- MATLAB — Exercise 7.2 (verification)
+> ```matlab  
+>% From Gamma to normalized impedance zL
+>clear; clc;
+>
+>% Define Gamma values (magnitude/angle in degrees)
+>Gamma_mag = [0.5, 0.5, 1, 0.3, 0, 1];
+>Gamma_ang_deg = [0, 60, 180, -30, 0, -90];  % angles for a)–f)
+>Gamma = Gamma_mag .* exp(1j*deg2rad(Gamma_ang_deg));
+>
+>% Compute normalized impedances zL = (1+Gamma)/(1-Gamma)
+>zL = (1 + Gamma) ./ (1 - Gamma);
+>
+>% Display results
+>labels = {'a','b','c','d','e','f'};
+>for k = 1:numel(Gamma)
+ >   fprintf('(%s) Gamma = %.3f ∠ %.1f° -> zL = %.3f %+.3fj\n', ...
+ >       labels{k}, Gamma_mag(k), Gamma_ang_deg(k), real(zL(k)), imag(zL(k)));
+>end
+>
+>% This script confirms the numeric values used in the analytical solution.
+>% You can change Gamma_mag and Gamma_ang_deg for other similar exercises.
+>```
 ---
 
 ## Exercise 7.3  
@@ -542,14 +544,14 @@ $$
 $$
 
 Expand numerator:
-\[
+$$
 \begin{aligned}
 (-1 - j2)(1 + j2) 
 &= -1\cdot 1 + (-1)\cdot j2 - j2\cdot 1 - j2\cdot j2 \\
 &= -1 - j2 - j2 + 2 \\
 &= 1 - j4
 \end{aligned}
-\]
+$$
 
 Denominator:
 $$
@@ -639,32 +641,34 @@ $$
 
 ### MATLAB — Exercise 7.3 (verification)  
 
-> [!code]- MATLAB — Exercise 7.3 (verification)  
-% From normalized impedance zL to reflection coefficient GammaL
-clear; clc;
-
-% Normalized impedances for parts (a)–(e)
-zL = [3 + 0j, 2 - 2j, 0 - 2j, 0 + 0j, inf];
-
-% Compute Gamma using Gamma = (zL - 1)./(zL + 1)
-Gamma = zeros(size(zL));
-
-for k = 1:numel(zL)
-    if isinf(zL(k))
-        Gamma(k) = 1; % limit z -> inf
-    else
-        Gamma(k) = (zL(k) - 1) / (zL(k) + 1);
-    end
-end
-
-labels = {'a','b','c','d','e'};
-
-for k = 1:numel(zL)
-    mag = abs(Gamma(k));
-    ang = rad2deg(angle(Gamma(k)));
-    fprintf('(%s) zL = %s -> Gamma = %.3f %+.3fj (|Gamma| = %.3f, angle = %.1f°)\n', ...
-        labels{k}, num2str(zL(k)), real(Gamma(k)), imag(Gamma(k)), mag, ang);
-end
-
-% This script verifies the reflection coefficients derived analytically.
-% You can reuse it for other normalized impedances by editing zL.
+> [!code]- MATLAB — Exercise 7.3 (verification)
+> ```matlab  
+>% From normalized impedance zL to reflection coefficient GammaL
+>clear; clc;
+>
+>% Normalized impedances for parts (a)–(e)
+>zL = [3 + 0j, 2 - 2j, 0 - 2j, 0 + 0j, inf];
+>
+>% Compute Gamma using Gamma = (zL - 1)./(zL + 1)
+>Gamma = zeros(size(zL));
+>
+>for k = 1:numel(zL)
+ >   if isinf(zL(k))
+ >       Gamma(k) = 1; % limit z -> inf
+ >   else
+ >       Gamma(k) = (zL(k) - 1) / (zL(k) + 1);
+ >   end
+>end
+>
+>labels = {'a','b','c','d','e'};
+>
+>for k = 1:numel(zL)
+ >   mag = abs(Gamma(k));
+ >   ang = rad2deg(angle(Gamma(k)));
+ >   fprintf('(%s) zL = %s -> Gamma = %.3f %+.3fj (|Gamma| = %.3f, angle = %.1f°)\n', ...
+ >       labels{k}, num2str(zL(k)), real(Gamma(k)), imag(Gamma(k)), mag, ang);
+>end
+>
+>% This script verifies the reflection coefficients derived analytically.
+>% You can reuse it for other normalized impedances by editing zL.
+>```

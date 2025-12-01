@@ -1,5 +1,4 @@
-> Quick refs: [[Courses/Electromagnetics/Formulas/Transmission Lines & Power — Quick Sheet]]  
-> Quick refs: [[Courses/Electromagnetics/Formulas/Smith Chart & Matching Networks]]
+> Quick refs: [[Lecture 10 – Transmission Lines Power, Matching & Smith Chart]]  
 
 ---
 
