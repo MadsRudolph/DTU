@@ -201,168 +201,109 @@ Again, matches the official values.
 
 ---
 
+Here is the updated Obsidian Markdown content. I have replaced the older script with the **improved, modular version** we created, while keeping your LaTeX table and notes intact.
+
+You can copy and paste this entire block directly into Obsidian.
+
+---
+
 ### Final boxed results — Exercise 13.1
 
 We summarize in the same style as the solution sheet:
 
-$$
-\boxed{
-\begin{array}{c|c|c|c|c|c|c}
-\text{Material} & \text{type} & \gamma~[\text{m}^{-1}] & \alpha~[\text{m}^{-1}] & \beta~[\text{m}^{-1}] & \lambda~[\text{m}] & u_p~[\text{m/s}] & \eta~[\Omega] \\
-\hline
-\text{glass} &
-\text{low-loss diel.} &
-8.42\cdot 10^{-10} + j\,469 &
-8.42\cdot 10^{-10} &
-469 &
-1.34\cdot 10^{-2} &
-1.34\cdot 10^{8} &
-168 + j\,3.03\cdot 10^{-10}
-\\[4pt]
-\text{tissue} &
-\text{quasi-conductor} &
-9.75 + j\,12.2 &
-9.75 &
-12.2 &
-5.12\cdot 10^{-1} &
-5.20\cdot 10^{7} &
-39.5 + j\,31.7
-\\[4pt]
-\text{wood} &
-\text{good conductor} &
-(6.23 + j\,6.29)\cdot 10^{-4} &
-6.23\cdot 10^{-4} &
-6.29\cdot 10^{-4} &
-9.99\cdot 10^{3} &
-9.99\cdot 10^{6} &
-6.29 + j\,6.28
-\end{array}
-}
-$$
+$$\boxed{ \begin{array}{c|c|c|c|c|c|c} \text{Material} & \text{type} & \gamma~[\text{m}^{-1}] & \alpha~[\text{m}^{-1}] & \beta~[\text{m}^{-1}] & \lambda~[\text{m}] & u_p~[\text{m/s}] & \eta~[\Omega] \\ \hline \text{glass} & \text{low-loss diel.} & 8.42\cdot 10^{-10} + j\,469 & 8.42\cdot 10^{-10} & 469 & 1.34\cdot 10^{-2} & 1.34\cdot 10^{8} & 168 + j\,3.03\cdot 10^{-10} \\[4pt] \text{tissue} & \text{quasi-conductor} & 9.75 + j\,12.2 & 9.75 & 12.2 & 5.12\cdot 10^{-1} & 5.20\cdot 10^{7} & 39.5 + j\,31.7 \\[4pt] \text{wood} & \text{good conductor} & (6.23 + j\,6.29)\cdot 10^{-4} & 6.23\cdot 10^{-4} & 6.29\cdot 10^{-4} & 9.99\cdot 10^{3} & 9.99\cdot 10^{6} & 6.29 + j\,6.28 \end{array} }$$
 
 **Notes**
 
 - These three examples show all regimes:
-  - **Glass**: almost lossless, $u_p \approx c/\sqrt{\varepsilon_r}$, $\alpha$ tiny.  
-  - **Tissue**: comparable conduction and displacement currents — **strong attenuation** with still “wave-like” behavior.  
-  - **Wood** (as parameterized in the sheet): treated as **good conductor** with $\alpha \approx \beta$ and small $|\eta|$.
+    
+    - **Glass**: almost lossless, $u_p \approx c/\sqrt{\varepsilon_r}$, $\alpha$ tiny.
+        
+    - **Tissue**: comparable conduction and displacement currents — **strong attenuation** with still “wave-like” behavior.
+        
+    - **Wood** (as parameterized in the sheet): treated as **good conductor** with $\alpha \approx \beta$ and small $|\eta|$.
+        
 - Very exam-typical: “Given $(\mu_r,\varepsilon_r,\sigma,f)$, classify the material and compute $\gamma,\lambda,u_p,\eta$.”
+    
 
 ---
 
-### MATLAB — Exercise 13.1 (material classifier & parameters)
-> [!code]- MATLAB 13.1
+### MATLAB — Exercise 13.1 (Improved Modular Script)
+> [!code]- MATLAB 13.1 (Modular & Improved)
 > ```matlab
 > % ============================================================================
-> % LOSSY MEDIA ANALYZER - Exercise 13.1
-> % ============================================================================
-> % This script classifies materials and calculates wave propagation parameters
+> % LOSSY MEDIA ANALYZER - Exercise 13.1 (Modular Version)
 > % ============================================================================
 > 
 > clear; clc;
 > 
-> %% ======================== MATERIAL DEFINITIONS ========================
-> % Edit this section to change materials
-> % Format: [εᵣ, μᵣ, σ (S/m), frequency (Hz)]
+> %% ======================== 1. DEFINE MATERIALS ==============================
+> % Format: new_material(list, 'Name', epsilon_r, mu_r, sigma, frequency);
 > 
-> % Material 1: Glass
-> material1.name = 'Glass';
-> material1.er = 5;           % Relative permittivity
-> material1.mur = 1;          % Relative permeability
-> material1.sigma = 10e-12;   % Conductivity: 10 pS/m = 10e-12 S/m
-> material1.freq = 10e9;      % Frequency: 10 GHz = 10e9 Hz
+> materials = []; % Initialize empty list
 > 
-> % Material 2: Tissue
-> material2.name = 'Tissue';
-> material2.er = 12;
-> material2.mur = 1;
-> material2.sigma = 0.3;      % 0.3 S/m
-> material2.freq = 100e6;     % 100 MHz = 100e6 Hz
+> % Material 1: Glass (10 GHz)
+> materials = new_material(materials, 'Glass', 5, 1, 10e-12, 10e9);
 > 
-> % Material 3: Wood
-> material3.name = 'Wood';
-> material3.er = 3;
-> material3.mur = 1;
-> material3.sigma = 0.1e-3;   % 0.1 mS/m = 0.1e-3 S/m
-> material3.freq = 1e3;       % 1 kHz = 1e3 Hz
+> % Material 2: Tissue (100 MHz)
+> materials = new_material(materials, 'Tissue', 12, 1, 0.3, 100e6);
 > 
-> % Add more materials here if needed:
-> % material4.name = 'Your Material';
-> % material4.er = ...;
-> % material4.mur = ...;
-> % material4.sigma = ...;
-> % material4.freq = ...;
+> % Material 3: Wood (1 kHz)
+> materials = new_material(materials, 'Wood', 3, 1, 0.1e-3, 1e3);
 > 
-> %% ======================= CONSTANTS (Don't Edit) =======================
-> eps0 = 8.854e-12;  % Free space permittivity (F/m)
-> mu0 = 4*pi*1e-7;   % Free space permeability (H/m)
-> 
-> %% ======================== RUN CALCULATIONS ============================
-> % Collect all materials into an array
-> materials = {material1, material2, material3};
-> % Add material4, material5, etc. to the list above if you defined them
-> 
+> %% ======================== 2. RUN ANALYSIS ==================================
 > fprintf('\n========================================\n');
-> fprintf('   LOSSY MEDIA ANALYSIS RESULTS\n');
+> fprintf('    LOSSY MEDIA ANALYSIS RESULTS\n');
+> fprintf('========================================\n');
+> 
+> % Loop through the struct array
+> for i = 1:length(materials)
+>     analyze_and_print(materials(i));
+> end
+> 
+> fprintf('========================================\n');
+> fprintf('Analysis Complete! (%d materials processed)\n', length(materials));
 > fprintf('========================================\n\n');
 > 
-> % Process each material
-> for k = 1:length(materials)
->     m = materials{k};
+> %% ======================== 3. HELPER FUNCTIONS ==============================
+> 
+> function list = new_material(list, name, er, mur, sigma, freq)
+>     % Helper to append a new material to the list safely
+>     newMat.name = name;
+>     newMat.er = er;
+>     newMat.mur = mur;
+>     newMat.sigma = sigma;
+>     newMat.freq = freq;
 >     
->     % Calculate parameters
+>     if isempty(list)
+>         list = newMat;
+>     else
+>         list(end+1) = newMat;
+>     end
+> end
+> 
+> function analyze_and_print(m)
+>     % Constants
+>     eps0 = 8.854e-12; 
+>     mu0 = 4*pi*1e-7;   
+> 
+>     % Inputs
 >     omega = 2*pi*m.freq;
 >     eps = eps0 * m.er;
 >     mu = mu0 * m.mur;
 >     
->     % Compute wave parameters
->     results = calculate_lossy_medium(eps, mu, m.sigma, omega);
->     
->     % Display results
->     fprintf('--- %s (f = %.2e Hz) ---\n', m.name, m.freq);
->     fprintf('  Material Properties:\n');
->     fprintf('    εᵣ = %.2f, μᵣ = %.2f, σ = %.2e S/m\n', m.er, m.mur, m.sigma);
->     fprintf('  \n');
->     fprintf('  Classification:\n');
->     fprintf('    tan(δ) = %.3e\n', results.tand);
->     fprintf('    Type   = %s\n', results.type);
->     fprintf('  \n');
->     fprintf('  Wave Parameters:\n');
->     fprintf('    γ (propagation const) = %.3e + j%.3e  [1/m]\n', results.alpha, results.beta);
->     fprintf('    α (attenuation)       = %.3e  [Np/m]\n', results.alpha);
->     fprintf('    β (phase constant)    = %.3e  [rad/m]\n', results.beta);
->     fprintf('    λ (wavelength)        = %.3e  [m]\n', results.lambda);
->     fprintf('    uₚ (phase velocity)   = %.3e  [m/s]\n', results.up);
->     fprintf('    η (intrinsic impedance) = %.3e + j%.3e  [Ω]\n', real(results.eta), imag(results.eta));
->     fprintf('\n');
-> end
-> 
-> fprintf('========================================\n');
-> fprintf('Analysis Complete!\n');
-> fprintf('========================================\n\n');
-> 
-> %% ===================== CALCULATION FUNCTION ===========================
-> function out = calculate_lossy_medium(eps, mu, sigma, omega)
->     % Calculates all wave parameters for a lossy medium
->     
+>     % --- Physics Calculations ---
 >     j = 1j;
+>     gamma = sqrt(j*omega*mu*(m.sigma + j*omega*eps));
+>     alpha = real(gamma);
+>     beta = imag(gamma);
 >     
->     % Complex propagation constant
->     gamma = sqrt(j*omega*mu*(sigma + j*omega*eps));
->     alpha = real(gamma);  % Attenuation constant (Np/m)
->     beta = imag(gamma);   % Phase constant (rad/m)
->     
->     % Wavelength and phase velocity
 >     lambda = 2*pi/beta;
 >     up = omega/beta;
+>     eta = sqrt(j*omega*mu/(m.sigma + j*omega*eps));
+>     tand = m.sigma/(omega*eps);
 >     
->     % Intrinsic impedance
->     eta = sqrt(j*omega*mu/(sigma + j*omega*eps));
->     
->     % Loss tangent (determines material type)
->     tand = sigma/(omega*eps);
->     
->     % Classify material
+>     % Classification Logic
 >     if tand < 0.1
 >         type = 'Low-Loss Dielectric';
 >     elseif tand > 10
@@ -370,14 +311,17 @@ $$
 >     else
 >         type = 'Quasi-Conductor';
 >     end
->     
->     % Package results
->     out = struct('gamma', gamma, 'alpha', alpha, 'beta', beta, ...
->                  'lambda', lambda, 'up', up, 'eta', eta, ...
->                  'tand', tand, 'type', type);
+> 
+>     % --- Display ---
+>     fprintf('\n--- %s (f = %.2e Hz) ---\n', m.name, m.freq);
+>     fprintf('  [Props] er=%.2f, ur=%.2f, sig=%.2e S/m\n', m.er, m.mur, m.sigma);
+>     fprintf('  [Class] tan(d)=%.3e  ->  %s\n', tand, type);
+>     fprintf('  [Waves] a=%.3e Np/m,  b=%.3e rad/m\n', alpha, beta);
+>     fprintf('          w=%.3e m,     up=%.3e m/s\n', lambda, up);
+>     fprintf('          n=%.3f + j%.3f Ohms\n', real(eta), imag(eta));
 > end
 > ```
-Just copy the entire block above (including the triple backticks) and paste it into your Obsidian note! The syntax highlighting will work automatically.
+
 
 ## 13.2 — Dry Soil vs. Frequency
 
@@ -408,7 +352,7 @@ Key behavior:
   - Low frequencies → conduction dominates → **good conductor**.
   - High frequencies → displacement current dominates → **low-loss dielectric**; intermediate → **quasi-conductor**.
 
-This is exactly what the solution table illustrates :contentReference[oaicite:3]{index=3}.
+This is exactly what the solution table illustrates
 
 ---
 
@@ -470,52 +414,113 @@ $$
 ---
 
 ### MATLAB — Exercise 13.2 (frequency sweep for dry soil)
-
-> [!code]- MATLAB — Exercise 13.2  
-% Exercise 13.2 — dry soil vs. frequency
-clear; clc;
-
-eps0 = 8.854e-12;
-mu0  = 4*pi*1e-7;
-
-er   = 2.5;
-mur  = 1;
-sigma = 1e-4;          % S/m
-
-eps = eps0*er;
-mu  = mu0*mur;
-
-freqs = [60, 1e3, 1e6, 1e9];   % Hz
-
-for f = freqs
-    omega = 2*pi*f;
-    j = 1j;
-    gamma = sqrt(j*omega*mu*(sigma + j*omega*eps));
-    alpha = real(gamma);
-    beta  = imag(gamma);
-    lambda = 2*pi/beta;
-    up     = omega/beta;
-    eta    = sqrt(j*omega*mu/(sigma + j*omega*eps));
-    tand   = sigma/(omega*eps);
-
-    % crude classification for plotting/logging
-    if tand < 0.1
-        type = 'low-loss dielectric';
-    elseif tand > 10
-        type = 'good conductor';
-    else
-        type = 'quasi-conductor';
-    end
-
-    fprintf('f = %.3e Hz -> %s\n', f, type);
-    fprintf('  tan(delta) = %.3e\n', tand);
-    fprintf('  alpha      = %.3e 1/m\n', alpha);
-    fprintf('  beta       = %.3e 1/m\n', beta);
-    fprintf('  lambda     = %.3e m\n', lambda);
-    fprintf('  up         = %.3e m/s\n', up);
-    fprintf('  eta        = %.3e + j%.3e ohm\n\n', real(eta), imag(eta));
-end
-
+> [!code]- MATLAB 13.2 (Dry Soil Analysis)
+> ```matlab
+> % ============================================================================
+> % EXERCISE 13.2 SOLVER: Dry Soil Analysis
+> % ============================================================================
+> 
+> clear; clc;
+> 
+> %% ======================== 1. DEFINE MATERIALS ==============================
+> % Problem Statement: Dry Soil
+> % Parameters: er = 2.5, mur = 1, sigma = 1e-4 S/m
+> % Frequencies: 60 Hz, 1 kHz, 1 MHz, 1 GHz
+> 
+> materials = []; 
+> 
+> % Define the constant properties for Dry Soil
+> er_soil = 2.5;
+> mur_soil = 1;
+> sig_soil = 1e-4; % 1 * 10^-4
+> 
+> % Add the 4 cases from the exercise:
+> % usage: new_material(list, 'Name', er, mur, sigma, freq)
+> 
+> % Case a) 60 Hz
+> materials = new_material(materials, 'Dry Soil (a)', er_soil, mur_soil, sig_soil, 60);
+> 
+> % Case b) 1 kHz (1e3 Hz)
+> materials = new_material(materials, 'Dry Soil (b)', er_soil, mur_soil, sig_soil, 1e3);
+> 
+> % Case c) 1 MHz (1e6 Hz)
+> materials = new_material(materials, 'Dry Soil (c)', er_soil, mur_soil, sig_soil, 1e6);
+> 
+> % Case d) 1 GHz (1e9 Hz)
+> materials = new_material(materials, 'Dry Soil (d)', er_soil, mur_soil, sig_soil, 1e9);
+> 
+> 
+> %% ======================== 2. RUN ANALYSIS ==================================
+> fprintf('\n========================================\n');
+> fprintf('    EXERCISE 13.2 RESULTS\n');
+> fprintf('========================================\n');
+> 
+> for i = 1:length(materials)
+>     analyze_and_print(materials(i));
+> end
+> 
+> fprintf('========================================\n');
+> fprintf('Analysis Complete!\n');
+> fprintf('========================================\n\n');
+> 
+> 
+> %% ======================== 3. HELPER FUNCTIONS ==============================
+> 
+> function list = new_material(list, name, er, mur, sigma, freq)
+>     newMat.name = name;
+>     newMat.er = er;
+>     newMat.mur = mur;
+>     newMat.sigma = sigma;
+>     newMat.freq = freq;
+>     
+>     if isempty(list)
+>         list = newMat;
+>     else
+>         list(end+1) = newMat;
+>     end
+> end
+> 
+> function analyze_and_print(m)
+>     % Constants
+>     eps0 = 8.854e-12; 
+>     mu0 = 4*pi*1e-7;   
+> 
+>     % Inputs
+>     omega = 2*pi*m.freq;
+>     eps = eps0 * m.er;
+>     mu = mu0 * m.mur;
+>     
+>     % --- Physics Calculations ---
+>     j = 1j;
+>     gamma = sqrt(j*omega*mu*(m.sigma + j*omega*eps));
+>     alpha = real(gamma);
+>     beta = imag(gamma);
+>     
+>     lambda = 2*pi/beta;
+>     up = omega/beta;
+>     eta = sqrt(j*omega*mu/(m.sigma + j*omega*eps));
+>     tand = m.sigma/(omega*eps);
+>     
+>     % Classification Logic
+>     if tand < 0.1
+>         type = 'Low-Loss Dielectric';
+>     elseif tand > 10
+>         type = 'Good Conductor';
+>     else
+>         type = 'Quasi-Conductor';
+>     end
+> 
+>     % --- Display ---
+>     fprintf('\n--- %s [f = %.0e Hz] ---\n', m.name, m.freq);
+>     fprintf('  Classification: %s (tan(d) = %.3e)\n', type, tand);
+>     fprintf('  gamma (prop)  = %.3e + j%.3e [1/m]\n', alpha, beta);
+>     fprintf('  alpha (atten) = %.3e [Np/m]\n', alpha);
+>     fprintf('  beta (phase)  = %.3e [rad/m]\n', beta);
+>     fprintf('  lambda        = %.3e [m]\n', lambda);
+>     fprintf('  u_p (velocity)= %.3e [m/s]\n', up);
+>     fprintf('  eta (imp)     = %.3e + j%.3e [Ohms]\n', real(eta), imag(eta));
+> end
+> ```
 ---
 
 ## 13.3 — Skin Depth in Seawater (1 kHz–10 GHz)
@@ -528,7 +533,7 @@ end
 >
 > **Task**  
 > Plot the **skin depth** $\delta_s$ versus frequency for $f \in [1~\text{kHz},\,10~\text{GHz}]$ on a **log–log** scale.  
-> The official solution shows a log–log plot with $\delta_s$ decreasing strongly with frequency. :contentReference[oaicite:4]{index=4}  
+> The official solution shows a log–log plot with $\delta_s$ decreasing strongly with frequency.  
 
 ---
 
@@ -575,35 +580,57 @@ For seawater:
 ---
 
 ### MATLAB — Exercise 13.3 (skin depth plot for seawater)
-
-> [!code]- MATLAB — Exercise 13.3  
-% Exercise 13.3 — Skin depth vs frequency for seawater
-clear; clc;
-
-eps0 = 8.854e-12;
-mu0  = 4*pi*1e-7;
-
-er   = 80;
-mur  = 1;
-sigma = 4;                % S/m
-
-eps = eps0*er;
-mu  = mu0*mur;
-
-% Frequency range [1 kHz, 10 GHz] log-spaced
-f = logspace(3, 10, 400);        % Hz
-omega = 2*pi*f;
-
-j = 1j;
-% General lossy-medium formula for alpha
-gamma = sqrt(j*omega.*mu.*(sigma + j*omega.*eps));
-alpha = real(gamma);             % Np/m
-delta = 1./alpha;                % skin depth [m]
-
-figure;
-loglog(f, delta);
-grid on;
-xlabel('f [Hz]');
-ylabel('\delta_s [m]');
-title('Skin depth \delta_s vs frequency for seawater (\epsilon_r=80, \mu_r=1, \sigma=4 S/m)');
-
+> [!code]- MATLAB 13.3 (Skin Depth Plotter)
+> ```matlab
+> % ============================================================================
+> % EXERCISE 13.3: Skin Depth of Seawater
+> % ============================================================================
+> 
+> clear; clc; close all;
+> 
+> %% --- 1. Parameters ---
+> eps0 = 8.854e-12;
+> mu0  = 4*pi*1e-7;
+> 
+> % Seawater
+> er    = 80;
+> mur   = 1;
+> sigma = 4; % S/m
+> 
+> % Derived
+> eps = eps0 * er;
+> mu  = mu0 * mur;
+> 
+> %% --- 2. Calculation ---
+> % Log-spaced frequency vector from 1 kHz to 10 GHz
+> f = logspace(3, 10, 500); % 10^3 to 10^10 Hz
+> w = 2*pi*f;
+> 
+> % Complex propagation constant (Exact formula)
+> % Gamma = alpha + j*beta = sqrt(j*w*mu*(sigma + j*w*eps))
+> gamma = sqrt(1j .* w .* mu .* (sigma + 1j .* w .* eps));
+> 
+> alpha = real(gamma);      % Attenuation constant [Np/m]
+> delta_s = 1 ./ alpha;     % Skin depth [m]
+> 
+> %% --- 3. Plotting ---
+> figure('Color', 'w');
+> loglog(f, delta_s, 'LineWidth', 2, 'Color', 'b');
+> grid on;
+> 
+> % Formatting
+> title('Skin Depth vs. Frequency (Seawater)');
+> xlabel('Frequency f [Hz]');
+> ylabel('Skin Depth \delta_s [m]');
+> xlim([1e3, 1e10]);
+> 
+> % Add markers for specific points
+> hold on;
+> marker_freqs = [1e3, 1e6, 1e9, 10e9];
+> marker_indices = dsearchn(f', marker_freqs'); % Find nearest indices
+> loglog(f(marker_indices), delta_s(marker_indices), 'ro', 'MarkerFaceColor', 'r');
+> 
+> % Annotation
+> text(1.5e3, 5, 'Good Conductor (\propto 1/\surd{f})', 'FontSize', 10);
+> text(1e8, 0.05, 'Dielectric limit \rightarrow', 'FontSize', 10, 'HorizontalAlignment', 'right');
+> ```

@@ -8,8 +8,8 @@
 > **Given**  
 > Vector in rectangular (Cartesian) form:  
 > $$
-> \mathbf a = 2\hat{\mathbf x} - 3\hat{\mathbf y} + 1\hat{\mathbf z}.
-> $$
+ \mathbf a = 2\hat{\mathbf x} - 3\hat{\mathbf y} + 1\hat{\mathbf z}.
+ $$
 >
 > (a) Compute the **length** (norm) $|\mathbf a|$.  
 > (b) Find the **unit vector** $\hat{\mathbf a}$ in the same direction as $\mathbf a$.
