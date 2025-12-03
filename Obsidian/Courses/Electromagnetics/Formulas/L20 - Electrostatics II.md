@@ -270,16 +270,16 @@ This looks identical to the **Coulomb field**, except $\varepsilon_0$ is replace
 
 ## 🧩 Summary Table — Electrostatics II Key Formulas
 
-| Concept | Formula | Context |
-|:--|:--|:--|
-| **Coulomb Force** | $\mathbf{F}=\dfrac{q_1q_2}{4\pi\varepsilon R^2}\hat{\mathbf{R}}$ | Replace $\varepsilon_0→\varepsilon$ in dielectrics |
-| **Polarization density** | $\mathbf{P}=\varepsilon_0\chi_e\mathbf{E}$ | Linear isotropic dielectric |
-| **Flux density** | $\mathbf{D}=\varepsilon_0\mathbf{E}+\mathbf{P}=\varepsilon\mathbf{E}$ | Definition of $\mathbf{D}$ |
-| **Relative permittivity** | $\varepsilon_r=1+\chi_e$ | Dimensionless ratio |
-| **Gauss law for $\mathbf{D}$** | $\displaystyle \oint_S\mathbf{D}\cdot d\mathbf{s}=Q_{\text{free}}$ | Free charge only |
-| **Dielectric strength** | $|E|_{\max}=E_{\text{ds}}$ | Breakdown threshold |
-| **Equipotential surface (conductor)** | $V=\text{const},\ E_t=0,\ E_n=\rho_s/\varepsilon_0$ | Static equilibrium |
-| **Field continuity (bdry)** | $E_{1t}=E_{2t},\ D_{1n}-D_{2n}=\rho_s$ | Boundary conditions |
+| Concept                               | Formula                                                               | Context                                            |                        |                     |
+| :------------------------------------ | :-------------------------------------------------------------------- | :------------------------------------------------- | ---------------------- | ------------------- |
+| **Coulomb Force**                     | $\mathbf{F}=\dfrac{q_1q_2}{4\pi\varepsilon R^2}\hat{\mathbf{R}}$      | Replace $\varepsilon_0→\varepsilon$ in dielectrics |                        |                     |
+| **Polarization density**              | $\mathbf{P}=\varepsilon_0\chi_e\mathbf{E}$                            | Linear isotropic dielectric                        |                        |                     |
+| **Flux density**                      | $\mathbf{D}=\varepsilon_0\mathbf{E}+\mathbf{P}=\varepsilon\mathbf{E}$ | Definition of $\mathbf{D}$                         |                        |                     |
+| **Relative permittivity**             | $\varepsilon_r=1+\chi_e$                                              | Dimensionless ratio                                |                        |                     |
+| **Gauss law for $\mathbf{D}$**        | $\displaystyle \oint_S\mathbf{D}\cdot d\mathbf{s}=Q_{\text{free}}$    | Free charge only                                   |                        |                     |
+| **Dielectric strength**               | $                                                                     | E                                                  | _{\max}=E_{\text{ds}}$ | Breakdown threshold |
+| **Equipotential surface (conductor)** | $V=\text{const},\ E_t=0,\ E_n=\rho_s/\varepsilon_0$                   | Static equilibrium                                 |                        |                     |
+| **Field continuity (bdry)**           | $E_{1t}=E_{2t},\ D_{1n}-D_{2n}=\rho_s$                                | Boundary conditions                                |                        |                     |
 
 ---
 

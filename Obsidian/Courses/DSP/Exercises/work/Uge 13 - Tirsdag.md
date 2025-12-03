@@ -1,4 +1,4 @@
-> Quick refs: [[Digital Filter Design — IIR (Part 2)]][[Digital Filter Design — IIR (Part 3)]]
+> Quick refs: [[Digital Filter Design — IIR (Part 2)]]
 > Exercise sheet: [[62743 E25 Digital Signal Processing Uge 13 Tirsdag.pdf]]
 > Solution sheet: [[62743 E25 Digital Signal Processing Uge 13 Tirsdag solutions.pdf]]
 > Matlab document: [Open](<file:///C:/Users/Mads2/DTU/Obsidian/Courses/DSP/Week13/Tirsdag.mlx>)
@@ -10,7 +10,7 @@
 ---
 
 # Exercise 1 — FIR Highpass Filters
-
+w
 ## **Given (shared for all of Exercise 1)**
 
 - Filter design method: **Fourier transformation design**
