@@ -1412,7 +1412,7 @@ $$
 
 Each term corresponds to:
 
-- \( A_k p_k^n u[n] \)
+- $A_k p_k^n u[n]$
 
 > [!example]- residue()  
 > ```matlab
