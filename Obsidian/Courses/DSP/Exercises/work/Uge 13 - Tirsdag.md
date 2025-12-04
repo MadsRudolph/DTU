@@ -1,7 +1,7 @@
 > Quick refs: [[Digital Filter Design — IIR (Part 2)]]
 > Exercise sheet: [[62743 E25 Digital Signal Processing Uge 13 Tirsdag.pdf]]
 > Solution sheet: [[62743 E25 Digital Signal Processing Uge 13 Tirsdag solutions.pdf]]
-> Matlab document: [Open](<file:///C:/Users/Mads2/DTU/Obsidian/Courses/DSP/Week13/Tirsdag.mlx>)
+> Matlab document: [Open](<file:///C:/Users/Mads2/DTU/3.semester/DSP/UGE13/Tirsdag.mlx>)
 
 ---
 

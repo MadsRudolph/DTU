@@ -1334,19 +1334,20 @@ The z-transform is the **discrete-time version** of the Laplace transform.
 
 ---
 
+Here's the reformatted table using `$` for inline math:
+
 ## 8.2 Basic Z-Transform Pairs (Must Know)
 
 These appear constantly in exams and weekly exercises:
 
-| Time Signal \(x[n]\)      | Z-transform \(X(z)\)                 | ROC Condition                           |
-|---------------------------|---------------------------------------|------------------------------------------|
-| \( \delta[n] \)           | \( 1 \)                               | entire \(z\)-plane                       |
-| \( u[n] \)                | \( \frac{1}{1 - z^{-1}} \)            | \( |z| > 1 \)                             |
-| \( a^n u[n] \)            | \( \frac{1}{1 - a z^{-1}} \)          | \( |z| > |a| \)                           |
-| \( -a^n u[-n-1] \)        | \( \frac{1}{1 - a z^{-1}} \)          | \( |z| < |a| \)                           |
-| \( n\, a^n u[n] \)        | \( \frac{z^{-1}}{(1 - a z^{-1})^2} \) | \( |z| > |a| \)                           |
-| \( u[n-N] \)              | \( \frac{z^{-N}}{1 - z^{-1}} \)       | \( |z| > 1 \)                             |
-
+|Time Signal $x[n]$|Z-transform $X(z)$|ROC Condition|
+|---|---|---|
+|$\delta[n]$|$1$|entire $z$-plane|
+|$u[n]$|$\frac{1}{1 - z^{-1}}$|$\|z\| > 1$|
+|$a^n u[n]$|$\frac{1}{1 - a z^{-1}}$|$\|z\| > \|a\|$|
+|$-a^n u[-n-1]$|$\frac{1}{1 - a z^{-1}}$|$\|z\| < \|a\|$|
+|$n, a^n u[n]$|$\frac{z^{-1}}{(1 - a z^{-1})^2}$|$\|z\| > \|a\|$|
+|$u[n-N]$|$\frac{z^{-N}}{1 - z^{-1}}$|$\|z\| > 1$|
 ### Important  
 Two signals with the **same algebraic expression** for \(X(z)\) may represent **different time-domain signals** depending on their ROC.
 

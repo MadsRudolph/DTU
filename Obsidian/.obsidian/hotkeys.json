@@ -1,0 +1,14 @@
+{
+  "omnisearch:show-modal": [
+    {
+      "modifiers": [],
+      "key": "F1"
+    }
+  ],
+  "omnisearch:show-modal-infile": [
+    {
+      "modifiers": [],
+      "key": "F2"
+    }
+  ]
+}
