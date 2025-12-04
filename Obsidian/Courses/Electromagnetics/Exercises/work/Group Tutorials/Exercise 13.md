@@ -1,5 +1,5 @@
 > Quick refs: [[Courses/Electromagnetics/Formulas/Plane Waves in Lossy Media]], [[Courses/Electromagnetics/Formulas/EM Material Parameters]]  
-> Source: Official solution sheet — Exercises 13–15 :contentReference[oaicite:0]{index=0}  
+> Source: [[exercises+results.pdf]]   
 
 ---
 
