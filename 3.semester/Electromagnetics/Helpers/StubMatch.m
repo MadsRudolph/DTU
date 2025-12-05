@@ -1,58 +1,35 @@
 function result = StubMatch(varargin)
-% STUBMATCH - Single-stub impedance matching calculator
+% STUBMATCH - Single-stub matching calculator (Q15-Q17 exam type)
 %
 % =========================================================================
-% USAGE:
+% SIMPLE USAGE:
 % =========================================================================
 %
-%   result = StubMatch(ZL, Z0)                    % Default: shunt short stub
-%   result = StubMatch(ZL, Z0, 'open')            % Shunt open stub
-%   result = StubMatch(ZL, Z0, 'short')           % Shunt short stub
-%   result = StubMatch(ZL, Z0, type, Z0_stub)     % Different stub impedance
-%   result = StubMatch('series', ZL, Z0, type)    % Series stub (less common)
+%   % With wavelength (gives physical lengths in mm)
+%   StubMatch(ZL, Z0, 'short', lambda)
+%   StubMatch(ZL, Z0, 'open', lambda)
+%
+%   % Just normalized (λ = 1)
+%   StubMatch(ZL, Z0, 'short')
 %
 % =========================================================================
-% INPUTS:
-% =========================================================================
-%   ZL      - Load impedance (complex, Ohms)
-%   Z0      - Main line characteristic impedance (Ohms)
-%   type    - 'open' or 'short' (default: 'short')
-%   Z0_stub - Stub characteristic impedance (default: same as Z0)
-%
-% =========================================================================
-% OUTPUTS (struct):
-% =========================================================================
-%   result.d         - Distance from load to stub (wavelengths)
-%   result.l         - Stub length (wavelengths)
-%   result.d_alt     - Alternative distance solution
-%   result.l_alt     - Alternative stub length
-%   result.type      - Stub type used
-%   result.Z0        - Line impedance
-%   result.Z0_stub   - Stub impedance
-%   result.ZL        - Load impedance
-%
-% =========================================================================
-% EXAMPLES:
+% EXAM EXAMPLE (Q15-Q17):
 % =========================================================================
 %
-%   % Match 100+j50 Ohm load to 50 Ohm line with short-circuit stub
-%   StubMatch(100+1j*50, 50, 'short')
+%   lambda = 0.133;  % 13.3 cm from Q15
+%   StubMatch(142+1j*42.5, 75, 'short', lambda)
 %
-%   % Match with open-circuit stub
-%   StubMatch(100+1j*50, 50, 'open')
-%
-%   % Different stub impedance
-%   StubMatch(75+1j*25, 50, 'short', 75)
+%   % Output:
+%   %   d = 0.1838 λ = 24.45 mm  ← Q16 Answer
+%   %   ℓ = 0.1457 λ = 19.38 mm  ← Q17 Answer
 %
 % =========================================================================
-% THEORY:
+% OUTPUTS:
 % =========================================================================
-%   Single-stub matching works by:
-%   1. Moving distance d from load until real(Y) = Y0 = 1/Z0
-%   2. Adding a stub of length l to cancel the imaginary part of Y
-%
-%   Short stub: Y_stub = -j * cot(beta*l) / Z0_stub
-%   Open stub:  Y_stub = j * tan(beta*l) / Z0_stub
+%   r.d       - Distance load to stub (λ)
+%   r.l       - Stub length (λ)
+%   r.d_mm    - Distance in mm (if lambda given)
+%   r.l_mm    - Stub length in mm (if lambda given)
 %
 % =========================================================================
 
@@ -62,28 +39,43 @@ function result = StubMatch(varargin)
     end
 
     % Parse inputs
-    if ischar(varargin{1}) || isstring(varargin{1})
-        if strcmpi(varargin{1}, 'series')
-            error('Series stub matching not yet implemented. Use shunt stub.');
+    ZL = varargin{1};
+    Z0 = varargin{2};
+    
+    % Defaults
+    stub_type = "short";
+    lambda = NaN;
+    Z0_stub = Z0;
+    
+    % Parse remaining arguments
+    if nargin >= 3
+        arg3 = varargin{3};
+        if ischar(arg3) || isstring(arg3)
+            stub_type = lower(string(arg3));
+        else
+            lambda = arg3;  % It's the wavelength
         end
-        args = varargin(2:end);
-    else
-        args = varargin;
     end
     
-    ZL = args{1};
-    Z0 = args{2};
-    
-    if length(args) >= 3
-        stub_type = lower(string(args{3}));
-    else
-        stub_type = "short";
+    if nargin >= 4
+        arg4 = varargin{4};
+        if isnan(lambda) && isnumeric(arg4)
+            lambda = arg4;  % Lambda provided after type
+        elseif ~isnan(lambda) && isnumeric(arg4)
+            % arg3 was freq, arg4 is eps_r -> calculate lambda
+            freq = varargin{3};
+            eps_r = arg4;
+            c0 = 2.99792458e8;
+            lambda = c0 / (freq * sqrt(eps_r));
+        end
     end
     
-    if length(args) >= 4
-        Z0_stub = args{4};
-    else
-        Z0_stub = Z0;
+    if nargin >= 5
+        % StubMatch(ZL, Z0, type, freq, eps_r)
+        freq = varargin{4};
+        eps_r = varargin{5};
+        c0 = 2.99792458e8;
+        lambda = c0 / (freq * sqrt(eps_r));
     end
     
     % Validate stub type
@@ -178,6 +170,7 @@ function result = StubMatch(varargin)
     result.Z0 = Z0;
     result.Z0_stub = Z0_stub;
     result.type = stub_type;
+    result.lambda = lambda;
     
     if ~isempty(d_solutions)
         result.d = d_solutions(1);
@@ -189,6 +182,21 @@ function result = StubMatch(varargin)
         else
             result.d_alt = NaN;
             result.l_alt = NaN;
+        end
+        
+        % Physical lengths (if lambda provided)
+        if ~isnan(lambda)
+            result.d_m = result.d * lambda;
+            result.l_m = result.l * lambda;
+            result.d_mm = result.d_m * 1000;
+            result.l_mm = result.l_m * 1000;
+            result.d_cm = result.d_m * 100;
+            result.l_cm = result.l_m * 100;
+            
+            if ~isnan(result.d_alt)
+                result.d_alt_mm = result.d_alt * lambda * 1000;
+                result.l_alt_mm = result.l_alt * lambda * 1000;
+            end
         end
     else
         result.d = NaN;
@@ -293,62 +301,63 @@ end
 function print_results(r)
     fprintf('\n');
     fprintf('==========================================\n');
-    fprintf('      SINGLE-STUB MATCHING DESIGN        \n');
+    fprintf('      SINGLE-STUB MATCHING (Q15-Q17)     \n');
     fprintf('==========================================\n');
-    fprintf('  Load: ZL = %.4f %+.4fj Ohm\n', real(r.ZL), imag(r.ZL));
-    fprintf('  Line: Z0 = %.2f Ohm\n', r.Z0);
-    fprintf('  Stub: Z0 = %.2f Ohm (%s)\n', r.Z0_stub, upper(r.type));
-    fprintf('------------------------------------------\n');
-    fprintf('  SOLUTION 1:\n');
-    fprintf('    d (load to stub) = %.4f lambda\n', r.d);
-    fprintf('    l (stub length)  = %.4f lambda\n', r.l);
+    fprintf('  Load: ZL = %.2f %+.2fj Ω\n', real(r.ZL), imag(r.ZL));
+    fprintf('  Line: Z0 = %.0f Ω (%s stub)\n', r.Z0, upper(r.type));
     
-    if ~isnan(r.d_alt)
-        fprintf('------------------------------------------\n');
-        fprintf('  SOLUTION 2 (alternative):\n');
-        fprintf('    d (load to stub) = %.4f lambda\n', r.d_alt);
-        fprintf('    l (stub length)  = %.4f lambda\n', r.l_alt);
+    if ~isnan(r.lambda)
+        fprintf('  λ = %.2f cm\n', r.lambda*100);
+    end
+    
+    fprintf('------------------------------------------\n');
+    
+    if ~isnan(r.lambda)
+        % Show physical lengths prominently
+        fprintf('  SOLUTION 1:\n');
+        fprintf('    d = %.4f λ = %.2f mm  ← Q16\n', r.d, r.d_mm);
+        fprintf('    ℓ = %.4f λ = %.2f mm  ← Q17\n', r.l, r.l_mm);
+        
+        if ~isnan(r.d_alt)
+            fprintf('  SOLUTION 2:\n');
+            fprintf('    d = %.4f λ = %.2f mm\n', r.d_alt, r.d_alt_mm);
+            fprintf('    ℓ = %.4f λ = %.2f mm\n', r.l_alt, r.l_alt_mm);
+        end
+    else
+        % Normalized only
+        fprintf('  SOLUTION 1:\n');
+        fprintf('    d = %.4f λ\n', r.d);
+        fprintf('    ℓ = %.4f λ\n', r.l);
+        
+        if ~isnan(r.d_alt)
+            fprintf('  SOLUTION 2:\n');
+            fprintf('    d = %.4f λ\n', r.d_alt);
+            fprintf('    ℓ = %.4f λ\n', r.l_alt);
+        end
     end
     
     fprintf('------------------------------------------\n');
     % Verification
     y_check = r.Y_in_check * r.Z0;  % Normalized
-    fprintf('  Verification: y_total = %.4f %+.4fj\n', real(y_check), imag(y_check));
     if abs(y_check - 1) < 0.01
-        fprintf('  Status: MATCHED (y ≈ 1)\n');
+        fprintf('  ✓ Matched (y = %.3f)\n', real(y_check));
     else
-        fprintf('  Status: Check solution\n');
+        fprintf('  Check: y = %.4f %+.4fj\n', real(y_check), imag(y_check));
     end
     fprintf('==========================================\n\n');
-    
-    % Visual diagram
-    fprintf('  Circuit Diagram:\n');
-    fprintf('  \n');
-    if r.type == "short"
-        fprintf('       d          l\n');
-        fprintf('  [ZL]----+----[===|    (short)\n');
-        fprintf('          |    stub\n');
-        fprintf('       to source\n');
-    else
-        fprintf('       d          l\n');
-        fprintf('  [ZL]----+----[===o    (open)\n');
-        fprintf('          |    stub\n');
-        fprintf('       to source\n');
-    end
-    fprintf('\n');
 end
 
 function print_help()
     fprintf('\n');
-    fprintf('STUBMATCH - Single-Stub Matching Calculator\n');
-    fprintf('============================================\n\n');
-    fprintf('Basic usage:\n');
-    fprintf('  StubMatch(ZL, Z0)               %% Short stub (default)\n');
-    fprintf('  StubMatch(ZL, Z0, ''open'')       %% Open stub\n');
-    fprintf('  StubMatch(ZL, Z0, ''short'')      %% Short stub\n\n');
-    fprintf('With different stub impedance:\n');
-    fprintf('  StubMatch(ZL, Z0, ''short'', Z0_stub)\n\n');
-    fprintf('Example:\n');
-    fprintf('  StubMatch(100+1j*50, 50, ''short'')\n\n');
-    fprintf('Output includes both solutions (d, l) and (d_alt, l_alt)\n\n');
+    fprintf('STUBMATCH - Single-Stub Matching (Q15-Q17 type)\n');
+    fprintf('===============================================\n\n');
+    fprintf('Simple usage:\n');
+    fprintf('  StubMatch(ZL, Z0, ''short'', lambda)   %% With wavelength → mm\n');
+    fprintf('  StubMatch(ZL, Z0, ''open'', lambda)    %% Open stub\n\n');
+    fprintf('Example (Q15-Q17 exam):\n');
+    fprintf('  lambda = 0.133;  %% 13.3 cm from Q15\n');
+    fprintf('  StubMatch(142+1j*42.5, 75, ''short'', lambda)\n\n');
+    fprintf('  Output:\n');
+    fprintf('    d = 0.1838 λ = 24.45 mm  ← Q16\n');
+    fprintf('    ℓ = 0.1457 λ = 19.38 mm  ← Q17\n\n');
 end

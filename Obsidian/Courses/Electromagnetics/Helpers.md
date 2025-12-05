@@ -10,7 +10,7 @@ links: [
 ]
 updated: 2025-12-04
 ---
----
+------
 
 # EM MATLAB Helpers
 
@@ -53,7 +53,7 @@ Current helpers (consolidated toolkit):
 |`Polarization`|Wave polarization (type, handedness, axial ratio)|
 |`Fresnel`|Reflection/transmission at interfaces|
 |`StubMatch`|Single-stub impedance matching|
-|`poynting_pw`|Poynting vector and power calculations|
+|`poynting_pw`|H-field phasor & Poynting vector (Q22-Q23 type)|
 |`coulomb_pair`|Coulomb force between point charges|
 |`B_inf_wire`|B-field around infinite wire|
 |`rect2pol`|Complex number to polar form|
@@ -155,7 +155,7 @@ Medium('free', 2.4e9)
 
 ### Purpose
 
-This unified function handles **all transmission line calculations** - impedance transformation, reflection coefficients, VSWR, and quarter-wave transformer design.
+This unified function handles **all transmission line calculations** - impedance transformation, reflection coefficients, VSWR, quarter-wave transformer design, and **TL circuits with series/shunt elements**.
 
 **What it calculates:**
 
@@ -164,6 +164,9 @@ This unified function handles **all transmission line calculations** - impedance
 - VSWR and return loss
 - Voltage max/min positions
 - Quarter-wave transformer design
+- **TL + series capacitor/inductor** (exam Q11 type problems)
+- **TL + shunt capacitor/inductor**
+- **Complex circuits with multiple elements**
 
 ### When to use it
 
@@ -174,6 +177,12 @@ Use `TLine` when you see:
 - **"Calculate the reflection coefficient..."**
 - **"Design a quarter-wave transformer..."**
 - **"What is the VSWR?"**
+- **"A series capacitor is connected at the input of the TL..."**
+- **"Calculate Z_A of the circuit shown..."**
+- **"What should be the electrical length to realize Z = jX?"** (stub design)
+- **"Find the stub length to produce an impedance of..."**
+- **"Given Γ at plane A, find Γ_L at the load..."** ← NEW (Q13 type)
+- **"What is the load impedance Z_L?"** ← NEW (Q14 type)
 
 ### Signature & Modes
 
@@ -192,7 +201,11 @@ TLine('ZL', Z0, Zin, len_lambda)      % find ZL
 % Reflection coefficient
 TLine('Gamma', Z0, Z)                 % Γ from impedance
 TLine('Z', Z0, Gamma)                 % Z from Γ
-TLine('Gamma_in', Gamma_L, len_lambda)% propagate Γ
+TLine('Gamma_in', Gamma_L, len_lambda)% Gamma_L → Gamma_in (load to input)
+TLine('Gamma_L', Gamma_in, len_lambda)% Gamma_in → Gamma_L (input to load)
+
+% Find load from input measurement (Q13/Q14 exam type) - NEW
+TLine('load', Z0, Gamma_A, len_lambda)% find both Γ_L and Z_L
 
 % Quarter-wave transformer
 TLine('QW', Z_source, Z_load)
@@ -200,6 +213,23 @@ TLine('QW', Z_source, Z_load)
 % Special lengths
 TLine('lambda/4', Z0, ZL)
 TLine('lambda/2', Z0, ZL)
+
+% Stub design - find length to realize target impedance (NEW)
+TLine('stub', Z_target, Z0)           % both short & open solutions
+TLine('stub', Z_target, Z0, 'short')  % short stub only
+TLine('stub', Z_target, Z0, 'open')   % open stub only
+
+% TL + Series element at input
+TLine('series_C', Z0, ZL, len_m, C, freq, vp)   % series capacitor
+TLine('series_L', Z0, ZL, len_m, L, freq, vp)   % series inductor
+
+% TL + Shunt element at input
+TLine('shunt_C', Z0, ZL, len_m, C, freq, vp)    % shunt capacitor
+TLine('shunt_L', Z0, ZL, len_m, L, freq, vp)    % shunt inductor
+
+% Complex circuit with multiple elements
+TLine('circuit', Z0, ZL, len_m, freq, vp, ...
+      'series_C', C1, 'shunt_L', L1, ...)
 ```
 
 ### Examples
@@ -219,6 +249,36 @@ TLine('Gamma', 50, 75+1j*25)
 
 % Find input impedance
 TLine('Zin', 50, 100+1j*50, 0.25)
+
+% =============================================
+% Q12 EXAM TYPE: Stub to realize target impedance
+% =============================================
+% Realize Z_A = j30 Ω using 75 Ω short-circuited stub
+TLine('stub', 1j*30, 75, 'short')
+% Answer: ℓ = 0.0606 λ
+
+% =============================================
+% Q13/Q14 EXAM TYPE: Find Γ_L and Z_L from Γ_A
+% =============================================
+% Given: Γ_A = 0.539∠166° at input, Z0 = 75Ω, ℓ = 0.3λ
+Gamma_A = 0.539 * exp(1j * deg2rad(166));
+r = TLine('load', 75, Gamma_A, 0.3);
+% Q13 Answer: Γ_L = 0.539∠22°
+% Q14 Answer: Z_L = (183 + j104) Ω
+
+% =============================================
+% Q11 EXAM TYPE: TL with series capacitor
+% =============================================
+% Given: f=5GHz, vp=0.79*c0, Z0=60Ω, ℓ=17mm, ZL=25+j30Ω, C=1pF
+c0 = 2.998e8;
+TLine('series_C', 60, 25+1j*30, 17e-3, 1e-12, 5e9, 0.79*c0)
+
+% TL with shunt inductor
+TLine('shunt_L', 50, 75+1j*25, 0.1, 10e-9, 1e9, 2e8)
+
+% Complex circuit: TL + series C + shunt L
+TLine('circuit', 50, 100, 0.1, 1e9, 2e8, ...
+      'series_C', 1e-12, 'shunt_L', 5e-9)
 ```
 
 ### Output Fields
@@ -226,6 +286,9 @@ TLine('Zin', 50, 100+1j*50, 0.25)
 |Field|Description|
 |---|---|
 |`Z_in`|Input impedance (Ω)|
+|`Z_A`|Input impedance alias (Ω)|
+|`Z_TL`|TL input impedance before elements (Ω)|
+|`Z_element`|Element impedance (Ω)|
 |`Gamma_L`|Load reflection coefficient|
 |`Gamma_in`|Input reflection coefficient|
 |`VSWR`|Voltage standing wave ratio|
@@ -233,6 +296,28 @@ TLine('Zin', 50, 100+1j*50, 0.25)
 |`z_vmin`|First V_min from load (λ)|
 |`P_delivered`|Fraction of power to load|
 |`RL_dB`|Return loss (dB)|
+
+### Q11 Exam Example (TL + Series Capacitor)
+
+**Problem:** Calculate Z_A of circuit with:
+
+- f = 5 GHz, vp = 0.79·c₀
+- Z₀ = 60 Ω, ℓ = 17 mm
+- Z_L = (25 + j30) Ω
+- Series capacitor C = 1 pF at input
+
+**Solution:**
+
+```matlab
+c0 = 2.998e8;
+r = TLine('series_C', 60, 25+1j*30, 17e-3, 1e-12, 5e9, 0.79*c0);
+
+% Output:
+%   Z_TL = 72.44 + j49.13 Ω  (TL input impedance)
+%   Z_C  = -j31.83 Ω         (capacitor impedance)
+%   Z_A  = 72.44 + j17.30 Ω  (total = Z_C + Z_TL)
+%   |Z_A| = 74.48 Ω ∠ 13.4°
+```
 
 ---
 
@@ -422,27 +507,40 @@ Use `StubMatch` when you see:
 - **"Design a single-stub matching network..."**
 - **"Match a load of ZL = ... to a 50Ω line..."**
 - **"Find the stub length and position..."**
+- **"What is the correct length d / ℓ?"** (Q16/Q17 type)
 
 ### Signature
 
 ```matlab
-StubMatch(ZL, Z0)                    % Short stub (default)
-StubMatch(ZL, Z0, 'open')            % Open stub
-StubMatch(ZL, Z0, 'short')           % Short stub
-StubMatch(ZL, Z0, type, Z0_stub)     % Different stub impedance
+% Basic (normalized, lengths in λ)
+StubMatch(ZL, Z0)                      % Short stub (default)
+StubMatch(ZL, Z0, 'short')             % Short stub
+StubMatch(ZL, Z0, 'open')              % Open stub
+
+% With wavelength (physical lengths in mm)
+StubMatch(ZL, Z0, 'short', lambda)     % Give λ in meters
+StubMatch(ZL, Z0, 'short', 0.133)      % λ = 13.3 cm
+
+% With frequency and permittivity (auto-calculate λ)
+StubMatch(ZL, Z0, 'short', freq, eps_r)
 ```
 
 ### Examples
 
 ```matlab
-% Match 100+j50 Ω to 50 Ω with short stub
+% =============================================
+% Q15-Q17 EXAM TYPE: Stub matching with λ
+% =============================================
+% Given: ZL = 142+j42.5 Ω, Z0 = 75 Ω, λ = 13.3 cm
+r = StubMatch(142+1j*42.5, 75, 'short', 0.133);
+% Q16 Answer: r.d_mm = 24.5 mm
+% Q17 Answer: r.l_mm = 19.4 mm
+
+% Using frequency and permittivity instead
+StubMatch(142+1j*42.5, 75, 'short', 1550e6, 2.1)
+
+% Basic usage (normalized only)
 StubMatch(100+1j*50, 50, 'short')
-
-% Match with open stub
-StubMatch(100+1j*50, 50, 'open')
-
-% Different stub impedance
-StubMatch(75+1j*25, 50, 'short', 75)
 ```
 
 ### Output Fields
@@ -451,39 +549,76 @@ StubMatch(75+1j*25, 50, 'short', 75)
 |---|---|
 |`d`|Distance load→stub (λ)|
 |`l`|Stub length (λ)|
-|`d_alt`|Alternative distance|
-|`l_alt`|Alternative stub length|
-|`type`|'open' or 'short'|
+|`d_mm`|Distance in mm (if λ given)|
+|`l_mm`|Stub length in mm (if λ given)|
+|`d_alt`|Alternative distance (λ)|
+|`l_alt`|Alternative stub length (λ)|
+|`lambda`|Wavelength used (m)|
 
 ---
 
-## 6. `poynting_pw` — Poynting vector and power
+## 6. `poynting_pw` — H-field phasor & Poynting vector
 
 ### Purpose
 
-Calculate **time-average Poynting vector and power** through a surface for plane waves.
+Calculate **magnetic field phasor** and **time-average Poynting vector** for plane waves. Solves Q22-Q23 type exam problems.
 
-### Signature
+### When to use it
 
-```matlab
-pw = poynting_pw(E0, eta, A, phi)
-```
+Use `poynting_pw` when you see:
 
-**Inputs:**
+- **"What is the magnetic phasor amplitude?"**
+- **"Find the time-average Poynting vector"**
+- **"Given E-field in form a·cos + b·sin..."**
 
-- `E0` — Field magnitude [V/m]
-- `eta` — Intrinsic impedance [Ω]
-- `A` — Area [m²]
-- `phi` — Angle to surface normal [rad]
-
-### Example
+### Signature & Modes
 
 ```matlab
-eta0 = 120*pi;
-pw = poynting_pw(10, eta0, 0.01, 0);   % 10 V/m, normal incidence, 1 cm²
-% pw.S_mag = 0.133 W/m²
-% pw.P_incident = 1.33 mW
+% MODE 1: From time-domain (a·cos + b·sin form) — Q22-Q23 type
+r = poynting_pw('time', a, b, E0, beta_vec)
+r = poynting_pw('time', a, b, E0, beta_vec, eta)  % custom η
+
+% MODE 2: From E-field phasor directly
+r = poynting_pw(E_phasor, beta_vec)
+r = poynting_pw(E_phasor, beta_vec, eta)
+
+% MODE 3: Simple scalar (original)
+r = poynting_pw(E0, eta, A, phi)
 ```
+
+### Example (Q22-Q23)
+
+```matlab
+% Given: E = E0*[2;1;0]*cos(Φ) + E0*[0;-1;-2]*sin(Φ)
+%        β = (2, -4, 2) rad/m, E0 = 10 V/m
+a = [2; 1; 0];
+b = [0; -1; -2];
+E0 = 10;
+beta_vec = [2; -4; 2];
+
+r = poynting_pw('time', a, b, E0, beta_vec);
+
+% Q22 Answer: r.H_phasor = [-10.8-j54.2; 21.7-j21.7; 54.2+j10.8] mA/m
+% Q23 Answer: r.S_avg = [0.542; -1.08; 0.542] W/m²
+```
+
+### Output Fields
+
+|Field|Description|
+|---|---|
+|`E_phasor`|Electric field phasor [V/m]|
+|`H_phasor`|Magnetic field phasor [A/m]|
+|`k_hat`|Propagation direction unit vector|
+|`S_avg`|Time-average Poynting vector [W/m²]|
+|`S_mag`|Magnitude of Poynting vector [W/m²]|
+
+### Theory
+
+**Phasor conversion:** $\vec{E} = \vec{a}\cos\Phi + \vec{b}\sin\Phi \Rightarrow \tilde{\vec{E}}_0 = E_0(\vec{a} - j\vec{b})$
+
+**H-field:** $\tilde{\vec{H}}_0 = \frac{1}{\eta}\hat{k} \times \tilde{\vec{E}}_0$
+
+**Poynting:** $\bar{\vec{S}} = \frac{1}{2}\text{Re}{\tilde{\vec{E}} \times \tilde{\vec{H}}^*}$
 
 ---
 
@@ -561,20 +696,70 @@ Convert complex number to **magnitude and angle** (in degrees).
 
 ### Purpose
 
-Plot points on a **Smith chart** from either Γ or impedance.
+Plot points on a **Smith chart** from either impedance or reflection coefficient. Automatically calculates and displays normalized impedance and Γ.
+
+### When to use it
+
+Use `smithchart_plot` when you need to:
+
+- **Visualize a load impedance on the Smith chart**
+- **Verify normalized impedance calculations**
+- **Plot reflection coefficient positions**
+- **Check which region of the Smith chart a point falls in**
 
 ### Signature
 
 ```matlab
-smithchart_plot('Gamma', Gamma, [], [])
-smithchart_plot('Load', [], Z0, ZL)
+smithchart_plot(Z0, ZL)                  % Plot load impedance (simplest)
+smithchart_plot(Z0, ZL, 'label')         % With custom label
+smithchart_plot('Gamma', Gamma)          % Plot Γ directly
+smithchart_plot('Gamma', Gamma, 'label') % Γ with label
+smithchart_plot()                        % Demo mode
 ```
 
-### Example
+### Examples
 
 ```matlab
-smithchart_plot('Load', [], 50, 100+1j*50)
+% Q10 Example: ZL = 15 - j37.5 Ω on 75 Ω line
+smithchart_plot(75, 15 - 1j*37.5)
+
+% Output:
+%   zL (normalized) = 0.2 - j0.5
+%   Gamma = -0.5385 - j0.3077
+%   |Gamma| = 0.6202, angle = -150.26°
+
+% Plot multiple points
+smithchart_plot(50, 100, 'Z_1')
+hold on
+smithchart_plot(50, 25 - 1j*25, 'Z_2')
+
+% Plot reflection coefficient directly
+smithchart_plot('Gamma', 0.5*exp(1j*pi/4), 'My Point')
 ```
+
+### Output
+
+The function prints:
+
+- Original impedance Z_L
+- Normalized impedance z_L = Z_L/Z_0
+- Reflection coefficient Γ (rectangular and polar form)
+
+And plots the point on a Smith chart with:
+
+- Red marker at the Γ location
+- Label showing normalized impedance
+
+### Smith Chart Regions
+
+|Region|Condition|Meaning|
+|---|---|---|
+|Right half|Re(z) > 1|High resistance|
+|Left half|Re(z) < 1|Low resistance|
+|Upper half|Im(z) > 0|Inductive (L)|
+|Lower half|Im(z) < 0|Capacitive (C)|
+|Center|z = 1|Matched|
+|Edge (|Γ|=1)|
 
 ---
 
@@ -592,10 +777,20 @@ TLine(50, 100, 0.3)                    % Full analysis
 TLine('Gamma', 50, 75+1j*25)           % Get Γ from Z
 TLine('Zin', 50, 100, 0.25)            % Input impedance
 TLine('QW', 50, 100)                   % Quarter-wave design
+TLine('load', 75, 0.539*exp(1j*2.9), 0.3)  % Q13/Q14: Γ_A → Γ_L, Z_L
+TLine('stub', 1j*30, 75, 'short')      % Q12: stub design
 
-%% STUB MATCHING
-StubMatch(100+1j*50, 50, 'short')      % Short stub
-StubMatch(75, 50, 'open')              % Open stub
+%% TL + ELEMENTS (Q11 exam type)
+c0 = 2.998e8;
+TLine('series_C', 60, 25+1j*30, 17e-3, 1e-12, 5e9, 0.79*c0)  % Series cap
+TLine('series_L', 50, 75, 0.1, 10e-9, 1e9, 2e8)              % Series ind
+TLine('shunt_C', 50, 75, 0.1, 1e-12, 1e9, 2e8)               % Shunt cap
+TLine('shunt_L', 50, 75, 0.1, 10e-9, 1e9, 2e8)               % Shunt ind
+
+%% STUB MATCHING (Q15-Q17 exam type)
+StubMatch(142+1j*42.5, 75, 'short', 0.133)  % With λ → d_mm, l_mm
+StubMatch(142+1j*42.5, 75, 'short', 1550e6, 2.1)  % With freq, eps_r
+StubMatch(100+1j*50, 50, 'short')           % Normalized (λ = 1)
 
 %% POLARIZATION
 Polarization([1; -1j; 0])              % RHCP in +z
@@ -608,11 +803,16 @@ Fresnel(1, 4, 45)                      % Oblique at 45°
 Fresnel('brewster', 1, 4)              % Brewster angle
 Fresnel('critical', 4, 1)              % Critical angle
 
+%% PLANE WAVE H-FIELD & POYNTING (Q22-Q23 exam type)
+a = [2;1;0]; b = [0;-1;-2]; E0 = 10;
+beta_vec = [2; -4; 2];
+r = poynting_pw('time', a, b, E0, beta_vec);  % H_phasor, S_avg
+
 %% UTILITIES
 B = B_inf_wire(5, 0.02);               % B-field
 [F12, F21] = coulomb_pair(q1, q2, r1, r2);
-pw = poynting_pw(E0, eta, A, phi);
 [r, a] = rect2pol(z);
+smithchart_plot(75, 15-1j*37.5)        % Smith chart
 ```
 
 ---
