@@ -102,11 +102,14 @@ function result = Polarization(varargin)
         scale = 1;
     end
     
-    is_linear = norm(cross_ri) < 1e-9 * scale;
+    % Tolerance for classification (1e-6 handles typical truncated decimals)
+    tol = 1e-3;
+    
+    is_linear = norm(cross_ri) < tol * scale;
     
     dot_ri = dot(Fr, Fi);
-    amp_equal = abs(norm(Fr) - norm(Fi)) < 1e-9 * scale;
-    is_circular = ~is_linear && (abs(dot_ri) < 1e-9 * scale^2) && amp_equal;
+    amp_equal = abs(norm(Fr) - norm(Fi)) < tol * scale;
+    is_circular = ~is_linear && (abs(dot_ri) < tol * scale^2) && amp_equal;
     
     %% Handedness
     if is_linear
