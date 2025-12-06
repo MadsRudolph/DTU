@@ -110,32 +110,27 @@ function result = Polarization(varargin)
     % numerical noise and typical truncated decimals from hand calculations.
     %
     % Linear condition:
-    %   is_linear = (||Fr × Fi|| < tol * scale)
-    %   - scale = max(||Fr||, ||Fi||) ensures the threshold is relative to
-    %     the field strength, so small and large fields use the same tol.
-    %   - Strict "<" means:
-    %       * Just below the threshold → classified as Linear
-    %       * Clearly above the threshold → NOT Linear (Elliptical/Circular)
-    %       * Near the boundary (≈ tol*scale) is still treated as Linear in
-    %         the current implementation; regression tests 4.7–4.11 in
-    %         test_all_EM_functions.m exercise these cases.
+    %   is_linear = (||Fr × Fi|| < tol * scale^2)
+    %   - The cross product has magnitude |Fr||Fi|sin(θ), which scales as
+    %     the square of the field amplitude (units of V²/m²).
+    %   - We use scale^2 for dimensional consistency, ensuring the tolerance
+    %     behaves uniformly across different signal strengths.
     %
     % Circular condition (applied only when ~Linear):
     %   is_circular = (~is_linear) &&
     %                 (|Fr·Fi| < tol * scale^2) &&
     %                 (| ||Fr|| - ||Fi|| | < tol * scale)
-    %   - Requires approximate orthogonality (small dot product) and
-    %     nearly equal magnitudes (amp_equal), both with the same relative
-    %     tolerance scaling.
+    %   - The dot product also scales as V²/m², so uses scale^2.
+    %   - The amplitude difference scales as V/m, so uses scale.
     %
     % The value tol = 1e-3 is tuned to handle typical exam/hand-calculated
-    % phasors without misclassifying clearly non-linear or non-circular
-    % cases. See the Polarization tests (section 4.7–4.11) for concrete
-    % examples of boundary behaviour.
+    % phasors (3-4 significant digits) without misclassifying clearly 
+    % non-linear or non-circular cases. See the Polarization tests 
+    % (section 4.7–4.11 in test_all_EM_functions.m) for boundary behavior.
     % -----------------------------------------------------------------
     tol = 1e-3;
     
-    is_linear = norm(cross_ri) < tol * scale;
+    is_linear = norm(cross_ri) < tol * scale^2;
     
     dot_ri = dot(Fr, Fi);
     amp_equal = abs(norm(Fr) - norm(Fi)) < tol * scale;

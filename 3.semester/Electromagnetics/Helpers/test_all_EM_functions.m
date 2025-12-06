@@ -221,11 +221,11 @@ try
 
     % New tolerance regression tests
     fprintf('--- Test 4.7: Linear classification near tolerance ---\n');
-    % Construct Fr, Fi nearly colinear so that norm(cross_ri) is just below tol*scale
+    % Construct Fr, Fi nearly colinear so that norm(cross_ri) is just below tol*scale^2
     tol = 1e-3;  % must match Polarization.m
     Fr = [1; 0; 0];
     % For Fr=[1;0;0], Fi=[1;delta;0] gives cross_ri=[0;0;delta]
-    % scale = max(norm(Fr), norm(Fi)) ~ 1, so threshold ~= tol
+    % scale = max(norm(Fr), norm(Fi)) ~ 1, so threshold ~= tol*scale^2 ~= tol
     delta = 0.9*tol;              % just below threshold
     Fi = [1; delta; 0];
     r = Polarization(Fr + 1j*Fi);
@@ -240,7 +240,7 @@ try
     assert(strcmp(r.type,'Circular'), 'Should classify as Circular near tolerance');
 
     fprintf('--- Test 4.9: Do not misclassify non-linear as linear ---\n');
-    % cross_ri slightly above threshold
+    % cross_ri slightly above threshold (tol*scale^2)
     delta = 1.1*tol;              % just above threshold
     Fi = [1; delta; 0];
     r = Polarization(Fr + 1j*Fi);
@@ -251,15 +251,28 @@ try
     r = Polarization('ap', 1, 1*(1 - 2*tol), phi_x, phi_y);
     assert(~strcmp(r.type,'Circular'), 'Should not classify as Circular when beyond tolerance');
 
-    fprintf('--- Test 4.11: Boundary condition is_linear when norm(cross_ri) == tol*scale ---\n');
-    % Set delta at the nominal threshold: norm(cross_ri) ≈ tol*scale
-    % Due to scale = max(norm(Fr), norm(Fi)), this will be very close to the
-    % boundary and exercises the implementation behavior there.
+    fprintf('--- Test 4.11: Boundary condition is_linear when norm(cross_ri) == tol*scale^2 ---\n');
+    % Set delta at the nominal threshold: norm(cross_ri) ≈ tol*scale^2
+    % Due to scale = max(norm(Fr), norm(Fi)) being slightly > 1, this will 
+    % just barely pass the threshold and classify as Linear.
     delta = tol;                  % near threshold
     Fi = [1; delta; 0];
     r = Polarization(Fr + 1j*Fi);
-    % At this boundary, current implementation still classifies as Linear.
-    assert(strcmp(r.type,'Linear'), 'Boundary case near tol*scale should be Linear');
+    % At this boundary, implementation classifies as Linear due to scale > 1.
+    assert(strcmp(r.type,'Linear'), 'Boundary case near tol*scale^2 should be Linear');
+
+    fprintf('--- Test 4.12: Dimensional scaling test (large amplitude) ---\n');
+    % Verify scale^2 works: same angular deviation but 1000x amplitude
+    % Should give same classification as unit amplitude case
+    scale_factor = 1000;
+    Fr_large = scale_factor * [1; 0; 0];
+    delta_large = 0.9*tol * scale_factor^2;  % scale with scale^2
+    Fi_large = [scale_factor; delta_large/scale_factor; 0];  
+    % cross product magnitude = scale_factor * delta_large/scale_factor = delta_large
+    % threshold = tol * (scale_factor)^2
+    % ratio: delta_large / threshold = 0.9*tol*scale^2 / (tol*scale^2) = 0.9 < 1 → Linear
+    r = Polarization(Fr_large + 1j*Fi_large);
+    assert(strcmp(r.type,'Linear'), 'Large amplitude should still classify as Linear with scale^2');
 
     fprintf('>>> Polarization.m: ALL TESTS PASSED <<<\n\n');
 catch ME
