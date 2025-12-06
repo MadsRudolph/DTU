@@ -49,15 +49,15 @@ Current helpers (consolidated toolkit):
 |Function|Purpose|
 |---|---|
 |`Medium`|Wave parameters in materials (lossless/lossy/conductor) → [📚 Complete Docs](Medium_MASTER_INDEX.md)|
-|`TLine`|Transmission line analysis (Z, Γ, VSWR, QW transformer)|
-|`Polarization`|Wave polarization (type, handedness, axial ratio)|
+|`TLine`|Transmission line analysis (Z, Γ, VSWR, QW transformer) → [📚 Complete Docs](TLine_MASTER_INDEX.md)|
+|`Polarization`|Wave polarization (type, handedness, axial ratio) → [📚 Complete Docs](Polarization_MASTER_INDEX.md)|
 |`Fresnel`|Reflection/transmission at interfaces|
 |`StubMatch`|Single-stub impedance matching → [📚 Complete Docs](StubMatch_MASTER_INDEX.md)|
-|`poynting_pw`|H-field phasor & Poynting vector (Q22-Q23 type)|
-|`coulomb_pair`|Coulomb force between point charges|
-|`B_inf_wire`|B-field around infinite wire|
+|`poynting_pw`|H-field phasor & Poynting vector (Q22-Q23 type) → [📚 Complete Docs](poynting_pw_MASTER_INDEX.md)|
+|`coulomb_pair`|Coulomb force between point charges → [📚 Complete Docs](coulomb_pair_MASTER_INDEX.md)|
+|`B_inf_wire`|B-field around infinite wire → [📚 Complete Docs](B_inf_wire_MASTER_INDEX.md)|
 |`rect2pol`|Complex number to polar form|
-|`smithchart_plot`|Smith chart visualization|
+|`smithchart_plot`|Smith chart visualization → [📚 Complete Docs](smithchart_plot_MASTER_INDEX.md)|
 
 Each subsection below explains:
 
@@ -164,6 +164,18 @@ Medium('free', 2.4e9)
 ---
 
 ## 2. `TLine` — Transmission line calculator
+
+> [!info] 📚 Complete TLine Documentation Available
+> 
+> **New to TLine or need detailed help?** Check out the [**TLine Master Index**](TLine_MASTER_INDEX.md) for:
+> 
+> - [TLine Quick Start](TLine_Quick_Start.md) - 5 min crash course
+> - [TLine Complete Guide](TLine_Complete_Guide.md) - 45 min deep dive (all 10 modes)
+> - [TLine Exam Examples](TLine_Exam_Examples.md) - Q11-Q14 complete solutions
+> - [TLine Troubleshooting](TLine_Troubleshooting.md) - Fix common errors
+> - [TLine Quick Reference](TLine_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
 ### Purpose
 
@@ -334,6 +346,18 @@ r = TLine('series_C', 60, 25+1j*30, 17e-3, 1e-12, 5e9, 0.79*c0);
 ---
 
 ## 3. `Polarization` — Wave polarization analysis
+
+> [!info] 📚 Complete Polarization Documentation Available
+> 
+> **New to Polarization or need detailed help?** Check out the [**Polarization Master Index**](Polarization_MASTER_INDEX.md) for:
+> 
+> - [Polarization Quick Start](Polarization_Quick_Start.md) - 5 min crash course
+> - [Polarization Complete Guide](Polarization_Complete_Guide.md) - 30 min deep dive (all 3 modes)
+> - [Polarization Exam Examples](Polarization_Exam_Examples.md) - Real problems with solutions
+> - [Polarization Troubleshooting](Polarization_Troubleshooting.md) - Fix common errors
+> - [Polarization Quick Reference](Polarization_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
 ### Purpose
 
@@ -583,6 +607,18 @@ StubMatch(100+1j*50, 50, 'short')
 
 ## 6. `poynting_pw` — H-field phasor & Poynting vector
 
+> [!info] 📚 Complete poynting_pw Documentation Available
+> 
+> **New to poynting_pw or need detailed help?** Check out the [**poynting_pw Master Index**](poynting_pw_MASTER_INDEX.md) for:
+> 
+> - [poynting_pw Quick Start](poynting_pw_Quick_Start.md) - 3 min crash course
+> - [poynting_pw Complete Guide](poynting_pw_Complete_Guide.md) - 20 min deep dive
+> - [poynting_pw Exam Examples](poynting_pw_Exam_Examples.md) - Q22-Q23 solutions
+> - [poynting_pw Troubleshooting](poynting_pw_Troubleshooting.md) - Fix common errors
+> - [poynting_pw Quick Reference](poynting_pw_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
+
 ### Purpose
 
 Calculate **magnetic field phasor** and **time-average Poynting vector** for plane waves. Solves Q22-Q23 type exam problems.
@@ -648,6 +684,18 @@ r = poynting_pw('time', a, b, E0, beta_vec);
 
 ## 7. `coulomb_pair` — Coulomb force
 
+> [!info] 📚 Complete coulomb_pair Documentation Available
+> 
+> **New to coulomb_pair or need detailed help?** Check out the [**coulomb_pair Master Index**](coulomb_pair_MASTER_INDEX.md) for:
+> 
+> - [coulomb_pair Quick Start](coulomb_pair_Quick_Start.md) - 2 min crash course
+> - [coulomb_pair Complete Guide](coulomb_pair_Complete_Guide.md) - 12 min deep dive
+> - [coulomb_pair Exam Examples](coulomb_pair_Exam_Examples.md) - Electrostatics problems
+> - [coulomb_pair Troubleshooting](coulomb_pair_Troubleshooting.md) - Fix common errors
+> - [coulomb_pair Quick Reference](coulomb_pair_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
+
 ### Purpose
 
 Calculate **vector Coulomb force** between two point charges.
@@ -674,6 +722,18 @@ r1 = [0; 0; 0];  r2 = [1; 0; 0];
 ---
 
 ## 8. `B_inf_wire` — B-field of infinite wire
+
+> [!info] 📚 Complete B_inf_wire Documentation Available
+> 
+> **New to B_inf_wire or need detailed help?** Check out the [**B_inf_wire Master Index**](B_inf_wire_MASTER_INDEX.md) for:
+> 
+> - [B_inf_wire Quick Start](B_inf_wire_Quick_Start.md) - 2 min crash course
+> - [B_inf_wire Complete Guide](B_inf_wire_Complete_Guide.md) - 12 min deep dive with Ampère's law
+> - [B_inf_wire Exam Examples](B_inf_wire_Exam_Examples.md) - Magnetostatics problems
+> - [B_inf_wire Troubleshooting](B_inf_wire_Troubleshooting.md) - Fix common errors
+> - [B_inf_wire Quick Reference](B_inf_wire_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
 ### Purpose
 
@@ -717,6 +777,18 @@ Convert complex number to **magnitude and angle** (in degrees).
 ---
 
 ## 10. `smithchart_plot` — Smith chart visualization
+
+> [!info] 📚 Complete smithchart_plot Documentation Available
+> 
+> **New to smithchart_plot or need detailed help?** Check out the [**smithchart_plot Master Index**](smithchart_plot_MASTER_INDEX.md) for:
+> 
+> - [smithchart_plot Quick Start](smithchart_plot_Quick_Start.md) - 2 min crash course
+> - [smithchart_plot Complete Guide](smithchart_plot_Complete_Guide.md) - 15 min deep dive
+> - [smithchart_plot Exam Examples](smithchart_plot_Exam_Examples.md) - Q10 type problems
+> - [smithchart_plot Troubleshooting](smithchart_plot_Troubleshooting.md) - Fix common errors
+> - [smithchart_plot Quick Reference](smithchart_plot_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
 ### Purpose
 
@@ -798,6 +870,7 @@ Medium('conductor', 5.8e7, 1e9)        % Good conductor
 Medium('free', 2.4e9)                  % Free space
 
 %% TRANSMISSION LINES
+% See TLine_MASTER_INDEX.md for complete docs & troubleshooting
 TLine(50, 100, 0.3)                    % Full analysis
 TLine('Gamma', 50, 75+1j*25)           % Get Γ from Z
 TLine('Zin', 50, 100, 0.25)            % Input impedance
@@ -819,6 +892,7 @@ StubMatch(142+1j*42.5, 75, 'short', 1550e6, 2.1)  % With freq, eps_r
 StubMatch(100+1j*50, 50, 'short')           % Normalized (λ = 1)
 
 %% POLARIZATION
+% See Polarization_MASTER_INDEX.md for complete docs & troubleshooting
 Polarization([1; -1j; 0])              % RHCP in +z
 Polarization([1; 1j; 0], [0;0;1])      % LHCP in +z
 Polarization('ap', 10, 5, 0, 90)       % From amplitude/phase
@@ -830,34 +904,19 @@ Fresnel('brewster', 1, 4)              % Brewster angle
 Fresnel('critical', 4, 1)              % Critical angle
 
 %% PLANE WAVE H-FIELD & POYNTING (Q22-Q23 exam type)
+% See poynting_pw_MASTER_INDEX.md for complete docs & troubleshooting
 a = [2;1;0]; b = [0;-1;-2]; E0 = 10;
 beta_vec = [2; -4; 2];
 r = poynting_pw('time', a, b, E0, beta_vec);  % H_phasor, S_avg
 
 %% UTILITIES
+% See smithchart_plot_MASTER_INDEX.md for complete docs & troubleshooting
+% See B_inf_wire_MASTER_INDEX.md for complete docs & troubleshooting
 B = B_inf_wire(5, 0.02);               % B-field
+% See coulomb_pair_MASTER_INDEX.md for complete docs & troubleshooting
 [F12, F21] = coulomb_pair(q1, q2, r1, r2);
 [r, a] = rect2pol(z);
 smithchart_plot(75, 15-1j*37.5)        % Smith chart
 ```
 
 ---
-
-## Migration Guide: Old → New Functions
-
-If you have scripts using the old function names, here's how to update them:
-
-|Old Function|New Equivalent|
-|---|---|
-|`lossy_media(eps_r, sigma, freq)`|`Medium(eps_r, sigma, freq)`|
-|`plane_wave_lossless(eps_r, freq)`|`Medium(eps_r, freq)`|
-|`rt_normal_incidence(eps1, eps2)`|`Fresnel(eps1, eps2)`|
-|`tl_section(Z0, ZL, freq, len, vp)`|`TLine(Z0, ZL, len, freq, vp)`|
-|`qw_transformer(R1, RL, freq, vp)`|`TLine('QW', R1, RL)`|
-|`polarization_analyzer(F, k)`|`Polarization(F, k)`|
-|`WavePolarization(F, k)`|`Polarization(F, k)`|
-|`AxialRatio(F)`|`Polarization(F)`|
-|`openstub(ZL, Z0, Z0s)`|`StubMatch(ZL, Z0, 'open', Z0s)`|
-|`shortstub(ZL, Z0, Z0s)`|`StubMatch(ZL, Z0, 'short', Z0s)`|
-|`TransmissionAngle(beta, eps_r, plane)`|`Fresnel('kvec', beta, eps_r, plane)`|
-|`TransmittedPower(...)`|`Fresnel(eps1, eps2, theta)` → use `T_TM`|

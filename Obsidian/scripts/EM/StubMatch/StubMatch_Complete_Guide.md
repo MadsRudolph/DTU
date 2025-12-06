@@ -1,16 +1,16 @@
 # StubMatch.m: Complete User Guide
 
 ## 📚 Table of Contents
-1. [What is Stub Matching?](#what-is-stub-matching)
-2. [When to Use StubMatch](#when-to-use-stubmatch)
-3. [Function Syntax](#function-syntax)
-4. [Input Modes](#input-modes)
-5. [Output Structure](#output-structure)
-6. [Step-by-Step Workflows](#step-by-step-workflows)
-7. [Common Problem Types](#common-problem-types)
-8. [Interpreting Results](#interpreting-results)
-9. [Troubleshooting](#troubleshooting)
-10. [Advanced Topics](#advanced-topics)
+1. [[#🎯 What is Stub Matching?]]
+2. [[#🔍 When to Use StubMatch]]
+3. [[#📋 Function Syntax]]
+4. [[#🎨 Input Modes]]
+5. [[#📊 Output Structure]]
+6. [[#🔧 Step-by-Step Workflows]]
+7. [[#🎯 Common Problem Types]]
+8. [[#🔎 Interpreting Results]]
+9. [[#🔧 Troubleshooting]]
+10. [[#🎓 Advanced Topics]]
 
 ---
 

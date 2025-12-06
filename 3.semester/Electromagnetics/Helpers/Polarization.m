@@ -15,11 +15,11 @@ function result = Polarization(varargin)
 % MODE 2: Time-domain coefficients (u*cos + v*sin form)
 %   result = Polarization(u, v, beta)
 %
-%   Field: F(t) = u*cos(ωt - β·r) + v*sin(ωt - β·r)
+%   Field: F(t) = u*cos(Ï‰t - Î²Â·r) + v*sin(Ï‰t - Î²Â·r)
 %   u, v  - Real coefficient vectors [3x1]
 %   beta  - Phase vector [3x1] in rad/m
 %
-% MODE 3: Amplitude and phase (for problems giving |Ex|, |Ey|, φx, φy)
+% MODE 3: Amplitude and phase (for problems giving |Ex|, |Ey|, Ï†x, Ï†y)
 %   result = Polarization('ap', Ex, Ey, phi_x_deg, phi_y_deg)
 %   result = Polarization('ap', Ex, Ey, phi_x_deg, phi_y_deg, k_hat)
 %
@@ -112,9 +112,11 @@ function result = Polarization(varargin)
     if is_linear
         handedness = "N/A";
     else
-        % IEEE convention: RHCP if E rotates clockwise when viewed 
-        % from behind (looking in direction of propagation)
-        hand = dot(k_hat, cross(Fr, Fi));
+        % Handedness rule: E(t) = Fr*cos - Fi*sin = u*cos + v*sin
+        % where u = Fr and v = -Fi
+        % s = k_hat · (u × v) = k_hat · (Fr × (-Fi))
+        % s > 0 → right-hand (RHCP), s < 0 → left-hand (LHCP)
+        hand = dot(k_hat, cross(Fr, -Fi));
         if hand > 0
             handedness = "RHCP";
         else
