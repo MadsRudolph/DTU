@@ -102,7 +102,37 @@ function result = Polarization(varargin)
         scale = 1;
     end
     
-    % Tolerance for classification (1e-6 handles typical truncated decimals)
+    % -----------------------------------------------------------------
+    % Classification tolerance
+    % -----------------------------------------------------------------
+    % The "tol" parameter controls how close to the ideal conditions a wave
+    % must be to be considered exactly Linear or Circular, accounting for
+    % numerical noise and typical truncated decimals from hand calculations.
+    %
+    % Linear condition:
+    %   is_linear = (||Fr × Fi|| < tol * scale)
+    %   - scale = max(||Fr||, ||Fi||) ensures the threshold is relative to
+    %     the field strength, so small and large fields use the same tol.
+    %   - Strict "<" means:
+    %       * Just below the threshold → classified as Linear
+    %       * Clearly above the threshold → NOT Linear (Elliptical/Circular)
+    %       * Near the boundary (≈ tol*scale) is still treated as Linear in
+    %         the current implementation; regression tests 4.7–4.11 in
+    %         test_all_EM_functions.m exercise these cases.
+    %
+    % Circular condition (applied only when ~Linear):
+    %   is_circular = (~is_linear) &&
+    %                 (|Fr·Fi| < tol * scale^2) &&
+    %                 (| ||Fr|| - ||Fi|| | < tol * scale)
+    %   - Requires approximate orthogonality (small dot product) and
+    %     nearly equal magnitudes (amp_equal), both with the same relative
+    %     tolerance scaling.
+    %
+    % The value tol = 1e-3 is tuned to handle typical exam/hand-calculated
+    % phasors without misclassifying clearly non-linear or non-circular
+    % cases. See the Polarization tests (section 4.7–4.11) for concrete
+    % examples of boundary behaviour.
+    % -----------------------------------------------------------------
     tol = 1e-3;
     
     is_linear = norm(cross_ri) < tol * scale;

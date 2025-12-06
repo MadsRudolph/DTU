@@ -218,7 +218,49 @@ try
     fprintf('--- Test 4.6: LHCP in +x direction ---\n');
     r = Polarization([0; 1; 1j], [1;0;0]);
     fprintf('Type=%s, Handedness=%s\n\n', r.type, r.handedness);
-    
+
+    % New tolerance regression tests
+    fprintf('--- Test 4.7: Linear classification near tolerance ---\n');
+    % Construct Fr, Fi nearly colinear so that norm(cross_ri) is just below tol*scale
+    tol = 1e-3;  % must match Polarization.m
+    Fr = [1; 0; 0];
+    % For Fr=[1;0;0], Fi=[1;delta;0] gives cross_ri=[0;0;delta]
+    % scale = max(norm(Fr), norm(Fi)) ~ 1, so threshold ~= tol
+    delta = 0.9*tol;              % just below threshold
+    Fi = [1; delta; 0];
+    r = Polarization(Fr + 1j*Fi);
+    assert(strcmp(r.type,'Linear'), 'Should classify as Linear near tolerance');
+
+    fprintf('--- Test 4.8: Circular classification near tolerance ---\n');
+    % Make nearly circular: equal-ish amps and orthogonal with small dot_ri and amp diff ~ tol
+    A = 1;
+    B = 1*(1 - 0.5*tol);  % within amplitude tolerance
+    phi_x = 0; phi_y = 90; % quadrature
+    r = Polarization('ap', A, B, phi_x, phi_y);
+    assert(strcmp(r.type,'Circular'), 'Should classify as Circular near tolerance');
+
+    fprintf('--- Test 4.9: Do not misclassify non-linear as linear ---\n');
+    % cross_ri slightly above threshold
+    delta = 1.1*tol;              % just above threshold
+    Fi = [1; delta; 0];
+    r = Polarization(Fr + 1j*Fi);
+    assert(~strcmp(r.type,'Linear'), 'Should not classify as Linear when above tolerance');
+
+    fprintf('--- Test 4.10: Do not misclassify non-circular as circular ---\n');
+    % Make amplitudes differ just beyond tolerance
+    r = Polarization('ap', 1, 1*(1 - 2*tol), phi_x, phi_y);
+    assert(~strcmp(r.type,'Circular'), 'Should not classify as Circular when beyond tolerance');
+
+    fprintf('--- Test 4.11: Boundary condition is_linear when norm(cross_ri) == tol*scale ---\n');
+    % Set delta at the nominal threshold: norm(cross_ri) ≈ tol*scale
+    % Due to scale = max(norm(Fr), norm(Fi)), this will be very close to the
+    % boundary and exercises the implementation behavior there.
+    delta = tol;                  % near threshold
+    Fi = [1; delta; 0];
+    r = Polarization(Fr + 1j*Fi);
+    % At this boundary, current implementation still classifies as Linear.
+    assert(strcmp(r.type,'Linear'), 'Boundary case near tol*scale should be Linear');
+
     fprintf('>>> Polarization.m: ALL TESTS PASSED <<<\n\n');
 catch ME
     fprintf('FAIL: %s\n', ME.message);
