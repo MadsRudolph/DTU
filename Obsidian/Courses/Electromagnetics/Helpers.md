@@ -48,11 +48,11 @@ Current helpers (consolidated toolkit):
 
 |Function|Purpose|
 |---|---|
-|`Medium`|Wave parameters in materials (lossless/lossy/conductor)|
+|`Medium`|Wave parameters in materials (lossless/lossy/conductor) → [📚 Complete Docs](Medium_MASTER_INDEX.md)|
 |`TLine`|Transmission line analysis (Z, Γ, VSWR, QW transformer)|
 |`Polarization`|Wave polarization (type, handedness, axial ratio)|
 |`Fresnel`|Reflection/transmission at interfaces|
-|`StubMatch`|Single-stub impedance matching|
+|`StubMatch`|Single-stub impedance matching → [📚 Complete Docs](StubMatch_MASTER_INDEX.md)|
 |`poynting_pw`|H-field phasor & Poynting vector (Q22-Q23 type)|
 |`coulomb_pair`|Coulomb force between point charges|
 |`B_inf_wire`|B-field around infinite wire|
@@ -68,6 +68,18 @@ Each subsection below explains:
 ---
 
 ## 1. `Medium` — Wave parameters in materials
+
+> [!info] 📚 Complete Medium Documentation Available
+> 
+> **New to Medium or need detailed help?** Check out the [**Medium Master Index**](Medium_MASTER_INDEX.md) for:
+> 
+> - [Medium Quick Start](Medium_Quick_Start.md) - 5 min crash course
+> - [Medium Complete Guide](Medium_Complete_Guide.md) - 30 min deep dive
+> - [Medium Exam Examples](Medium_Exam_Examples.md) - Real exam problems
+> - [Medium Troubleshooting](Medium_Troubleshooting.md) - Fix common errors
+> - [Medium Quick Reference](Medium_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
 ### Purpose
 
@@ -489,6 +501,18 @@ Fresnel('snell', 1, 1.5, 30)
 
 ## 5. `StubMatch` — Single-stub matching
 
+> [!info] 📚 Complete StubMatch Documentation Available
+> 
+> **New to StubMatch or need detailed help?** Check out the [**StubMatch Master Index**](StubMatch_MASTER_INDEX.md) for:
+> 
+> - [StubMatch Quick Start](StubMatch_Quick_Start.md) - 5 min crash course
+> - [StubMatch Complete Guide](StubMatch_Complete_Guide.md) - 30 min deep dive
+> - [Q15-Q17 Exam Examples](Q15_Q16_Q17_Complete_With_StubMatch.md) - Real exam walkthrough
+> - [StubMatch Troubleshooting](StubMatch_Troubleshooting.md) - Fix common errors
+> - [StubMatch Quick Reference](StubMatch_Quick_Reference.md) - Exam cheat sheet
+> 
+> **The section below gives you the basics. For comprehensive learning, use the Master Index!**
+
 ### Purpose
 
 This function designs **single-stub impedance matching networks** - finding the stub position and length to match any load to a transmission line.
@@ -767,6 +791,7 @@ And plots the point on a Smith chart with:
 
 ```matlab
 %% MEDIUM PROPERTIES
+% See Medium_MASTER_INDEX.md for complete docs & troubleshooting
 Medium(4, 10e9)                        % Lossless dielectric
 Medium(80, 4, 1e6, 1, 'Seawater')       % Lossy medium
 Medium('conductor', 5.8e7, 1e9)        % Good conductor
@@ -788,6 +813,7 @@ TLine('shunt_C', 50, 75, 0.1, 1e-12, 1e9, 2e8)               % Shunt cap
 TLine('shunt_L', 50, 75, 0.1, 10e-9, 1e9, 2e8)               % Shunt ind
 
 %% STUB MATCHING (Q15-Q17 exam type)
+% See StubMatch_MASTER_INDEX.md for complete docs & troubleshooting
 StubMatch(142+1j*42.5, 75, 'short', 0.133)  % With λ → d_mm, l_mm
 StubMatch(142+1j*42.5, 75, 'short', 1550e6, 2.1)  % With freq, eps_r
 StubMatch(100+1j*50, 50, 'short')           % Normalized (λ = 1)
