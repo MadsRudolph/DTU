@@ -1,5 +1,3 @@
-<!-- Improved and structured README for easier scanning and usage -->
-
 <p align="center">
   <img src="Obsidian/Resources/banner_dtu.png" alt="DTU — Signal Integrity for My Brain" style="max-width:900px; width:100%; height:auto;">
 </p>
@@ -12,171 +10,128 @@
   </picture>
 </p>
 
-# DTU — Signal Integrity for My Brain
+<h1 align="center">DTU — Signal Integrity for My Brain</h1>
 
-Welcome — this is my brain's repo: notes, cheat-sheets, sims, and tiny tools to survive exams.
-
-TL;DR: everything is organized so you don't waste time re-deriving stuff. ⚡
-
----
-
-## Table of contents
-
-- [Repository layout](#repository-layout)
-- [Toolchain overview](#toolchain-overview)
-- [Branching model](#branching-model)
-- [SSH & clone (quickstart)](#ssh--clone-quickstart)
-- [Included scripts](#included-scripts)
-- [Notes & contact](#notes--contact)
+<p align="center">
+  Notes, cheat sheets, simulations, and tools to survive engineering exams.<br>
+  Organized so you don't waste time re-deriving stuff. ⚡
+</p>
 
 ---
 
-## Repository layout
+## 📚 What's Inside
 
-Top-level (high level):
+| Semester | Focus Areas |
+|----------|-------------|
+| **1. Semester** | Intro programming, basic circuits |
+| **2. Semester** | Math, modeling, LabVIEW, digital foundations |
+| **3. Semester** | DSP, Electromagnetics, Analog IC |
+
+Everything lives in an **Obsidian vault** with consistent structure per course:
+- Lecture notes, slides, formulas
+- Exercises with solutions
+- MOC (Map of Content) files for navigation
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone
+git clone git@github.com:MadsRudolph/DTU.git
+cd DTU
+
+# Pull large files (slides, PDFs)
+git lfs install
+git lfs pull
+```
+
+Open the `Obsidian/` folder as a vault in [Obsidian](https://obsidian.md/).
+
+---
+
+## 🗂️ Repository Structure
 
 ```
 DTU/
-├─ 1. Semester/            # Intro programming & basic circuits
-├─ 2. Semester/            # Math, modeling, LabVIEW, digital foundations
-├─ 3. semester/            # DSP, Electromagnetics, Analog IC coursework
-├─ Obsidian/               # Notes, course vault (Markdown + images)
-└─ scripts/                # Small utilities for vault maintenance
+├── 1. Semester/
+├── 2. Semester/
+├── 3. semester/
+├── Obsidian/
+│   ├── Courses/<Course>/
+│   ├── Exercises/
+│   ├── Lecture Notes/
+│   ├── Formulas/
+│   └── MOC files
+└── scripts/
 ```
 
-Inside `Obsidian/` the structure is consistent per course:
+---
 
-- `Courses/<Course>/`
-- `Exercises/` (work, solutions, lab files)
-- `Lecture Notes/`, `Slides/`, `Formulas/`, `Images/`
-- `MOC – Course overview mapping files`
+## 🛠️ Tools Used
 
-Yes — it took a while to organize, but it saves time during revision.
+| Area | Tools |
+|------|-------|
+| Notes | Obsidian (Markdown) |
+| DSP / Math | MATLAB, Maple |
+| Circuits | LTspice |
+| MCU | PlatformIO, VS Code |
+| Version Control | Git + Git LFS |
 
 ---
 
-## Toolchain overview
+## 📜 Scripts
 
-| Area                     | Tools / files                      | Notes                                    |
-|-------------------------:|:----------------------------------:|:----------------------------------------|
-| Notes / knowledge base   | Markdown (Obsidian vault)          | Human-readable, portable                 |
-| DSP / Math               | MATLAB (`.mlx`), Maple             | Math notebooks and scripts               |
-| Analog / Circuits        | LTspice (`.asc`, `.raw`)           | Per-lesson groups                         |
-| Microcontrollers         | PlatformIO, VS Code                 | MCU projects and example sketches         |
-| Version control          | Git + Git LFS                       | Large binaries (slides, PDFs) via LFS     |
+Utilities for vault maintenance:
 
----
+| Script | Purpose |
+|--------|---------|
+| `check_wikilinks.py` | Find broken `[[wikilinks]]` |
+| `check_wikilinks_courses.py` | Per-course link checks |
+| `wire_courses.py` | Directory structure consistency |
+| `wire_em_vault.py` | EM vault index maintenance |
 
-## Branching model
-
-- `main` — stable, clean, safe to rely on.
-- `haul` — big renames / reorganizations go here (talk first).
-- feature branches — small focused work: `feat/...`, `fix/...`, `docs/...`.
-
-If you're moving a lot of files, open an issue or do it on `haul` so we don't break links for everyone.
-
----
-
-## SSH & clone (quickstart)
-
-Preferred clone method is SSH. Example commands (PowerShell / Windows):
-
-```powershell
-# Generate an ED25519 key (one-liner)
-ssh-keygen -t ed25519 -C "your_email@example.com"
-
-# Ensure the ssh-agent is running and add your key
-Start-Service ssh-agent
-ssh-add $env:USERPROFILE\.ssh\id_ed25519
-
-# Verify the key was added (optional)
-ssh-add -l
-
-# Test connection
-ssh -T git@github.com
-
-# Clone the repo (replace <username>)
-git clone git@github.com:<username>/DTU.git
-cd DTU
-git lfs install
-git lfs pull
-
-# Create a feature branch
-git switch -c feat/<task>
+```bash
+# Run from repo root
+python scripts/check_wikilinks.py
 ```
 
-Linux / macOS variants use `eval "$(ssh-agent -s)"` and `ssh-add ~/.ssh/id_ed25519`.
+---
 
-If you prefer HTTPS, the repo still works with HTTPS clones — just use your normal GitHub flow.
+## 🌿 Branching
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Stable, safe to rely on |
+| `haul` | Large reorganizations |
+| `feat/...` | New features |
+| `fix/...` | Bug fixes |
+| `docs/...` | Documentation |
 
 ---
 
-## Included scripts
+## ⚠️ Academic Integrity
 
-Small utilities that help keep the vault consistent and catch broken links.
+This is **personal study material** — use it responsibly.
 
-| Script                                | Purpose                                            |
-|--------------------------------------:|:--------------------------------------------------|
-| `scripts/check_wikilinks.py`          | Find broken `[[wikilinks]]` in the Obsidian vault  |
-| `scripts/check_wikilinks_courses.py`  | Scoped link checks per course                      |
-| `scripts/wire_courses.py`             | Ensure course directory structure consistency      |
-| `scripts/wire_em_vault.py`            | Maintain Electromagnetics vault index + refs       |
+✅ **OK:** Learning from it, using as inspiration, building your own vault
 
-Run these from the repo root with your Python environment active.
+❌ **Not OK:** Submitting as your own work, copying into graded assignments
 
----
-## Academic integrity & usage
-
-This repo contains **personal study material** for DTU courses: notes, helper scripts, and in some cases worked examples.
-
-Please use it responsibly:
-
-### ✅ Allowed / encouraged
-
-- Reading and learning from the notes, code, and derivations  
-- Using it as *inspiration* for your own solutions  
-- Forking/cloning to build your own study vault  
-
-### ❌ Not allowed
-
-- Submitting anything from this repo **as your own work** for assignments, projects, or exams  
-- Blindly copying solutions into graded hand-ins  
-
-By using this repo, you are responsible for complying with your university’s rules on **academic honesty** and **plagiarism**. If in doubt, ask your course responsible or supervisor.
-
-Unless otherwise specified in subfolders, content here is intended for **personal / educational use**. Do not redistribute or package it as a solution set.
-
-See [LICENSE.md](License.md) for usage terms.
-
-## Contributing — come hack the vault (please be chill) 🛠️
-
-Wanna help? Love docs? Hate broken links? Sweet. Here's how to not break stuff:
-
-- Make an issue for big changes.
-- Fork -> branch -> PR. Keep PRs small.
-- Branch name ideas: `feat/<what>`, `fix/<what>`, `docs/<what>`.
-- Large reorganizations: discuss first, or use `haul`.
-
-Before you open a PR, run the quick checks (PowerShell, Windows):
-
-```powershell
-# make a venv and activate it
-python -m venv .venv
-.\.venv\Scripts\Activate
-
-# optional: deps
-if (Test-Path requirements.txt) { pip install -r requirements.txt }
-
-# sanity-check links
-python .\scripts\check_wikilinks.py
-```
-
-If you touch lots of files, also run `scripts/wire_courses.py` or the course-scoped checker.
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) 
+You're responsible for following your university's rules on academic honesty.
 
 ---
 
-## Notes & contact
+## 🤝 Contributing
 
-This repo's primary goal is to keep the mental signal-to-noise ratio acceptable: well-organized notes reduce repeated re-derivations during study.
+1. Fork → Branch → PR (keep PRs small)
+2. Large changes: open an issue first or use `haul` branch
+3. Run `python scripts/check_wikilinks.py` before submitting
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+---
+
+## 📄 License
+
+See [LICENSE.md](License.md)
