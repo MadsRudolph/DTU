@@ -9,13 +9,13 @@
 
 **Jump directly to your problem:**
 
-1. [Wavelength seems wrong (way too large/small)](#problem-1-wavelength-way-off)
-2. [Skin depth is NaN or Inf](#problem-2-skin-depth-is-nan-or-inf)
-3. [Classification doesn't match expectations](#problem-3-wrong-classification)
-4. [Impedance is complex when it should be real](#problem-4-unexpected-complex-impedance)
-5. [Alpha is zero but material has losses](#problem-5-alpha-is-zero-but-should-have-loss)
-6. [Results don't match manual calculation](#problem-6-results-dont-match-manual)
-7. [Error: "Unknown mode"](#problem-7-unknown-mode-error)
+1. [[#Problem 1: Wavelength Way Off|Wavelength seems wrong (way too large/small)]]
+2. [[#Problem 2: Skin Depth is NaN or Inf|Skin depth is NaN or Inf]]
+3. [[#Problem 3: Wrong Classification|Classification doesn't match expectations]]
+4. [[#Problem 4: Unexpected Complex Impedance|Impedance is complex when it should be real]]
+5. [[#Problem 5: Alpha is Zero But Should Have Loss|Alpha is zero but material has losses]]
+6. [[#Problem 6: Results Don't Match Manual|Results don't match manual calculation]]
+7. [[#Problem 7: "Unknown Mode" Error|Error: "Unknown mode"]]
 
 ---
 

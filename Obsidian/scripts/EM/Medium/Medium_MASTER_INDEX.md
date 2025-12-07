@@ -7,13 +7,13 @@
 
 ## 📚 Complete Documentation Suite
 
-| Document | Purpose | Time | When to Use |
-|----------|---------|------|-------------|
-| [**Quick Start**](Medium_Quick_Start.md) | Get started NOW | 5 min | First time using Medium |
-| [**Complete Guide**](Medium_Complete_Guide.md) | Master everything | 30 min | Deep learning & reference |
-| [**Quick Reference**](Medium_Quick_Reference.md) | Exam cheat sheet | 2 min | During exams/quick lookup |
-| [**Troubleshooting**](Medium_Troubleshooting.md) | Fix problems | 5-10 min | When something's wrong |
-| [**Exam Examples**](Medium_Exam_Examples.md) | Real problems | 15 min | Practice & preparation |
+| Document                                         | Purpose           | Time     | When to Use               |
+| ------------------------------------------------ | ----------------- | -------- | ------------------------- |
+| [**Quick Start**](Medium_Quick_Start.md)         | Get started NOW   | 5 min    | First time using Medium   |
+| [**Complete Guide**](Medium_Complete_Guide.md)   | Master everything | 30 min   | Deep learning & reference |
+| [**Quick Reference**](Medium_Quick_Reference.md) | Exam cheat sheet  | 2 min    | During exams/quick lookup |
+| [**Troubleshooting**](Medium_Troubleshooting.md) | Fix problems      | 5-10 min | When something's wrong    |
+| [**Exam Examples**](Medium_Exam_Examples.md)     | Real problems     | 15 min   | Practice & preparation    |
 
 ---
 

@@ -6,11 +6,11 @@
 
 ## 🔍 Error Quick Finder
 
-1. [Wrong handedness (RHCP vs LHCP)](#problem-1-wrong-handedness)
-2. [AR is NaN or wrong](#problem-2-ar-is-nan-or-wrong)
-3. [Type is wrong (expected circular, got elliptical)](#problem-3-wrong-type)
-4. [Error: "Undefined function"](#problem-4-undefined-function)
-5. [Results don't match manual calculation](#problem-5-doesnt-match-manual)
+1. [[#Problem 1: Wrong Handedness|Wrong handedness (RHCP vs LHCP)]]
+2. [[#Problem 2: AR is NaN or Wrong|AR is NaN or wrong]]
+3. [[#Problem 3: Wrong Type|Type is wrong (expected circular, got elliptical)]]
+4. [[#Problem 4: Undefined Function|Error: "Undefined function"]]
+5. [[#Problem 5: Doesn't Match Manual|Results don't match manual calculation]]
 
 ---
 

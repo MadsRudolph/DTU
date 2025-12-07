@@ -7,14 +7,14 @@
 
 ## 📖 Table of Contents
 
-1. [Example 1: Wavelength in Dielectric](#example-1-wavelength-in-dielectric)
-2. [Example 2: Skin Depth in Conductor](#example-2-skin-depth-in-conductor)
-3. [Example 3: Attenuation in Lossy Material](#example-3-attenuation-in-lossy-material)
-4. [Example 4: Material Classification](#example-4-material-classification)
-5. [Example 5: Phase Velocity](#example-5-phase-velocity)
-6. [Example 6: Impedance Matching](#example-6-impedance-matching)
-7. [Example 7: Penetration Depth](#example-7-penetration-depth)
-8. [Example 8: Multi-Part Problem](#example-8-multi-part-problem)
+1. [[#Example 1: Wavelength in Dielectric]]
+2. [[#Example 2: Skin Depth in Conductor]]
+3. [[#Example 3: Attenuation in Lossy Material]]
+4. [[#Example 4: Material Classification]]
+5. [[#Example 5: Phase Velocity]]
+6. [[#Example 6: Impedance Matching]]
+7. [[#Example 7: Penetration Depth]]
+8. [[#Example 8: Multi-Part Problem]]
 
 ---
 

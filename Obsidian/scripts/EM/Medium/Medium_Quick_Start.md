@@ -24,10 +24,10 @@ skin_depth = r.skin_depth;            % Get skin depth
 
 ## 📖 Table of Contents
 
-1. [The Three Essential Patterns](#the-three-essential pattern) (2 min)
-2. [What You Get Back](#what-you-get-back) (1 min)
-3. [Common Mistakes](#common-mistakes) (1 min)
-4. [30-Second Examples](#30-second-examples) (1 min)
+1. [[#The Three Essential Patterns]] (2 min)
+2. [[#What You Get Back]] (1 min)
+3. [[#Common Mistakes]] (1 min)
+4. [[#30-Second Examples]] (1 min)
 
 ---
 

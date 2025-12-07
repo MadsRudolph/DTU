@@ -7,14 +7,14 @@
 
 ## 📖 Table of Contents
 
-1. [Introduction](#introduction)
-2. [Theory & Background](#theory--background)
-3. [Function Modes](#function-modes)
-4. [Complete Workflows](#complete-workflows)
-5. [Output Structure](#output-structure)
-6. [Common Problem Types](#common-problem-types)
-7. [Advanced Topics](#advanced-topics)
-8. [Reference Tables](#reference-tables)
+1. [[#Introduction]]
+2. [[#Theory & Background]]
+3. [[#Function Modes]]
+4. [[#Complete Workflows]]
+5. [[#Output Structure]]
+6. [[#Common Problem Types]]
+7. [[#Advanced Topics]]
+8. [[#Reference Tables]]
 
 ---
 
@@ -650,32 +650,35 @@ end
 ### Common Materials
 
 **Lossless Dielectrics:**
-| Material | ε_r | Typical Use |
-|----------|-----|-------------|
-| Air/Vacuum | 1.0 | Reference |
-| Teflon (PTFE) | 2.1 | Low-loss substrate |
-| Polyethylene | 2.25 | Cables |
-| Glass | 4-6 | Windows, fibers |
-| FR4 | 4.4 | PCB substrate |
-| Alumina | 9.8 | Ceramic substrate |
+
+| Material      | ε_r  | Typical Use        |
+|:--------------|:----:|:-------------------|
+| Air/Vacuum    | 1.0  | Reference          |
+| Teflon (PTFE) | 2.1  | Low-loss substrate |
+| Polyethylene  | 2.25 | Cables             |
+| Glass         | 4-6  | Windows, fibers    |
+| FR4           | 4.4  | PCB substrate      |
+| Alumina       | 9.8  | Ceramic substrate  |
 
 **Conductors:**
-| Material | σ (S/m) | Notes |
-|----------|---------|-------|
-| Silver | 6.1×10⁷ | Best conductor |
-| Copper | 5.8×10⁷ | Standard |
-| Gold | 4.1×10⁷ | Corrosion resistant |
-| Aluminum | 3.8×10⁷ | Lightweight |
-| Brass | 1.6×10⁷ | Alloy |
+
+| Material | σ (S/m) | Notes               |
+|:---------|:-------:|:--------------------|
+| Silver   | 6.1×10⁷ | Best conductor      |
+| Copper   | 5.8×10⁷ | Standard            |
+| Gold     | 4.1×10⁷ | Corrosion resistant |
+| Aluminum | 3.8×10⁷ | Lightweight         |
+| Brass    | 1.6×10⁷ | Alloy               |
 
 **Lossy Materials:**
-| Material | ε_r | σ (S/m) @ 1 GHz |
-|----------|-----|-----------------|
-| Dry soil | 3 | 0.001 |
-| Wet soil | 25 | 0.1 |
-| Seawater | 80 | 4 |
-| Muscle tissue | 50 | 1.5 @ 900 MHz |
-| Fat tissue | 10 | 0.1 @ 900 MHz |
+
+| Material      | ε_r | σ (S/m) @ 1 GHz |
+|:--------------|:---:|:----------------|
+| Dry soil      | 3   | 0.001           |
+| Wet soil      | 25  | 0.1             |
+| Seawater      | 80  | 4               |
+| Muscle tissue | 50  | 1.5 @ 900 MHz   |
+| Fat tissue    | 10  | 0.1 @ 900 MHz   |
 
 ### Unit Conversions
 
