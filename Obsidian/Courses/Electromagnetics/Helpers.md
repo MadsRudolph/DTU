@@ -10,7 +10,7 @@ links: [
 ]
 updated: 2025-12-07
 ---
----
+------
 
 # EM MATLAB Helpers
 
@@ -34,7 +34,6 @@ updated: 2025-12-07
 | `rect2pol`        | Complex number to polar form                       | [[#10. rect2pol - Complex to polar\|📖 Section 10]]                   |
 | `smithchart_plot` | Smith chart visualization                          | [[#11. smithchart_plot - Smith chart visualization\|📖 Section 11]]   |
 
-> 📚 **Full Docs:** [[Fresnel_MASTER_INDEX|Fresnel]] ∙ [[PlaneWaveCheck_MASTER_INDEX|PlaneWaveCheck]]
 
 ---
 
@@ -56,13 +55,14 @@ r = PlaneWaveCheck('full', E, H, k);    % Plane wave verification
 
 ## 💡 EM_Assistant (Optional)
 
-> An interactive menu-driven interface that guides you through problem-solving. Useful if you're unsure which function to use or what inputs are needed.
+> An interactive menu-driven interface that guides you through problem-solving.
+> Useful if you're unsure which function to use or what inputs are needed.
 
 ```matlab
 >> EM_Assistant
 ```
 
-See EM_Toolbox_README.md for details.
+See [EM_Toolbox_README.md](EM_Toolbox_README.md) for details.
 
 ---
 
@@ -70,23 +70,23 @@ See EM_Toolbox_README.md for details.
 
 ### Common Unit Conversions
 
-|From|To|Multiply by|
-|---|---|---|
-|mA/m|A/m|1e-3|
-|GHz|Hz|1e9|
-|MHz|Hz|1e6|
-|cm|m|1e-2|
-|mm|m|1e-3|
-|pF|F|1e-12|
-|nH|H|1e-9|
+| From | To | Multiply by |
+|------|-----|-------------|
+| mA/m | A/m | 1e-3 |
+| GHz | Hz | 1e9 |
+| MHz | Hz | 1e6 |
+| cm | m | 1e-2 |
+| mm | m | 1e-3 |
+| pF | F | 1e-12 |
+| nH | H | 1e-9 |
 
 ### Complex Numbers in MATLAB
 
-|Format|Example|
-|---|---|
-|Real|`5`|
-|Imaginary|`1j*3`|
-|Complex|`2+1j*3`|
+| Format | Example |
+|--------|---------|
+| Real | `5` |
+| Imaginary | `1j*3` |
+| Complex | `2+1j*3` |
 
 ### Before the Exam
 
@@ -99,20 +99,17 @@ See EM_Toolbox_README.md for details.
 ## 🔧 Troubleshooting
 
 ### "Undefined function"
-
 ```matlab
 % Solution: Add the toolbox folder to path
 addpath('C:\path\to\your\EM_Toolbox')
 ```
 
 ### "Invalid input" in EM_Assistant
-
 - Check units (Hz not GHz, m not cm)
 - Use `1j` for imaginary unit, not `i`
 - For negative imaginary: `-1j*5` or `-5j`
 
 ### Results don't match expected
-
 - Double-check input values
 - Verify units are consistent
 - Check if problem uses different conventions
@@ -121,7 +118,7 @@ addpath('C:\path\to\your\EM_Toolbox')
 
 # Function Reference
 
-_Detailed documentation for each function follows below._
+*Detailed documentation for each function follows below.*
 
 ---
 
@@ -129,13 +126,13 @@ _Detailed documentation for each function follows below._
 
 > [!info] 📚 Complete Medium Documentation Available
 > 
-> **New to Medium or need detailed help?** Check out the **Medium Master Index** for:
+> **New to Medium or need detailed help?** Check out the [**Medium Master Index**](Medium_MASTER_INDEX.md) for:
 > 
-> - Medium Quick Start - 5 min crash course
-> - Medium Complete Guide - 30 min deep dive
-> - Medium Exam Examples - Real exam problems
-> - Medium Troubleshooting - Fix common errors
-> - Medium Quick Reference - Exam cheat sheet
+> - [Medium Quick Start](Medium_Quick_Start.md) - 5 min crash course
+> - [Medium Complete Guide](Medium_Complete_Guide.md) - 30 min deep dive
+> - [Medium Exam Examples](Medium_Exam_Examples.md) - Real exam problems
+> - [Medium Troubleshooting](Medium_Troubleshooting.md) - Fix common errors
+> - [Medium Quick Reference](Medium_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -225,13 +222,13 @@ Medium('free', 2.4e9)
 
 > [!info] 📚 Complete TLine Documentation Available
 > 
-> **New to TLine or need detailed help?** Check out the **TLine Master Index** for:
+> **New to TLine or need detailed help?** Check out the [**TLine Master Index**](TLine_MASTER_INDEX.md) for:
 > 
-> - TLine Quick Start - 5 min crash course
-> - TLine Complete Guide - 45 min deep dive (all 10 modes)
-> - TLine Exam Examples - Q11-Q14 complete solutions
-> - TLine Troubleshooting - Fix common errors
-> - TLine Quick Reference - Exam cheat sheet
+> - [TLine Quick Start](TLine_Quick_Start.md) - 5 min crash course
+> - [TLine Complete Guide](TLine_Complete_Guide.md) - 45 min deep dive (all 10 modes)
+> - [TLine Exam Examples](TLine_Exam_Examples.md) - Q11-Q14 complete solutions
+> - [TLine Troubleshooting](TLine_Troubleshooting.md) - Fix common errors
+> - [TLine Quick Reference](TLine_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -407,13 +404,13 @@ r = TLine('series_C', 60, 25+1j*30, 17e-3, 1e-12, 5e9, 0.79*c0);
 
 > [!info] 📚 Complete Polarization Documentation Available
 > 
-> **New to Polarization or need detailed help?** Check out the **Polarization Master Index** for:
+> **New to Polarization or need detailed help?** Check out the [**Polarization Master Index**](Polarization_MASTER_INDEX.md) for:
 > 
-> - Polarization Quick Start - 5 min crash course
-> - Polarization Complete Guide - 30 min deep dive (all 3 modes)
-> - Polarization Exam Examples - Real problems with solutions
-> - Polarization Troubleshooting - Fix common errors
-> - Polarization Quick Reference - Exam cheat sheet
+> - [Polarization Quick Start](Polarization_Quick_Start.md) - 5 min crash course
+> - [Polarization Complete Guide](Polarization_Complete_Guide.md) - 30 min deep dive (all 3 modes)
+> - [Polarization Exam Examples](Polarization_Exam_Examples.md) - Real problems with solutions
+> - [Polarization Troubleshooting](Polarization_Troubleshooting.md) - Fix common errors
+> - [Polarization Quick Reference](Polarization_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -500,11 +497,11 @@ Polarization([1;0;0], [0;1;0], [0;0;1])
 
 > [!info] 📚 Complete Fresnel Documentation Available
 > 
-> **For detailed help, see the Fresnel Master Index:**
+> **For detailed help, see the [Fresnel Master Index](Fresnel_MASTER_INDEX.md):**
 > 
-> - Fresnel Quick Start - 3 min crash course
-> - Fresnel Complete Guide - Full theory + all modes
-> - Fresnel Quick Reference - Exam cheat sheet
+> - [Fresnel Quick Start](Fresnel_Quick_Start.md) - 3 min crash course
+> - [Fresnel Complete Guide](Fresnel_Complete_Guide.md) - Full theory + all modes
+> - [Fresnel Quick Reference](Fresnel_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -595,13 +592,13 @@ Fresnel('snell', 1, 1.5, 30)
 
 > [!info] 📚 Complete StubMatch Documentation Available
 > 
-> **New to StubMatch or need detailed help?** Check out the **StubMatch Master Index** for:
+> **New to StubMatch or need detailed help?** Check out the [**StubMatch Master Index**](StubMatch_MASTER_INDEX.md) for:
 > 
-> - StubMatch Quick Start - 5 min crash course
-> - StubMatch Complete Guide - 30 min deep dive
-> - Q15-Q17 Exam Examples - Real exam walkthrough
-> - StubMatch Troubleshooting - Fix common errors
-> - StubMatch Quick Reference - Exam cheat sheet
+> - [StubMatch Quick Start](StubMatch_Quick_Start.md) - 5 min crash course
+> - [StubMatch Complete Guide](StubMatch_Complete_Guide.md) - 30 min deep dive
+> - [Q15-Q17 Exam Examples](Q15_Q16_Q17_Complete_With_StubMatch.md) - Real exam walkthrough
+> - [StubMatch Troubleshooting](StubMatch_Troubleshooting.md) - Fix common errors
+> - [StubMatch Quick Reference](StubMatch_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -677,13 +674,13 @@ StubMatch(100+1j*50, 50, 'short')
 
 > [!info] 📚 Complete poynting_pw Documentation Available
 > 
-> **New to poynting_pw or need detailed help?** Check out the **poynting_pw Master Index** for:
+> **New to poynting_pw or need detailed help?** Check out the [**poynting_pw Master Index**](poynting_pw_MASTER_INDEX.md) for:
 > 
-> - poynting_pw Quick Start - 3 min crash course
-> - poynting_pw Complete Guide - 20 min deep dive
-> - poynting_pw Exam Examples - Q22-Q23 solutions
-> - poynting_pw Troubleshooting - Fix common errors
-> - poynting_pw Quick Reference - Exam cheat sheet
+> - [poynting_pw Quick Start](poynting_pw_Quick_Start.md) - 3 min crash course
+> - [poynting_pw Complete Guide](poynting_pw_Complete_Guide.md) - 20 min deep dive
+> - [poynting_pw Exam Examples](poynting_pw_Exam_Examples.md) - Q22-Q23 solutions
+> - [poynting_pw Troubleshooting](poynting_pw_Troubleshooting.md) - Fix common errors
+> - [poynting_pw Quick Reference](poynting_pw_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -754,13 +751,13 @@ r = poynting_pw('time', a, b, E0, beta_vec);
 
 > [!info] 📚 Complete PlaneWaveCheck Documentation Available
 > 
-> **New to PlaneWaveCheck or need detailed help?** Check out the **PlaneWaveCheck Master Index** for:
+> **New to PlaneWaveCheck or need detailed help?** Check out the [**PlaneWaveCheck Master Index**](PlaneWaveCheck_MASTER_INDEX.md) for:
 > 
-> - PlaneWaveCheck Quick Start - 5 min crash course
-> - PlaneWaveCheck Complete Guide - Full theory + all features
-> - PlaneWaveCheck Exam Examples - E24 Q18 + Q1/Q2 type problems
-> - PlaneWaveCheck Troubleshooting - Fix common errors
-> - PlaneWaveCheck Quick Reference - Exam cheat sheet
+> - [PlaneWaveCheck Quick Start](PlaneWaveCheck_Quick_Start.md) - 5 min crash course
+> - [PlaneWaveCheck Complete Guide](PlaneWaveCheck_Complete_Guide.md) - Full theory + all features
+> - [PlaneWaveCheck Exam Examples](PlaneWaveCheck_Exam_Examples.md) - E24 Q18 + Q1/Q2 type problems
+> - [PlaneWaveCheck Troubleshooting](PlaneWaveCheck_Troubleshooting.md) - Fix common errors
+> - [PlaneWaveCheck Quick Reference](PlaneWaveCheck_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -784,10 +781,10 @@ What format is your problem?
 
 ### Two Main Verification Methods
 
-|Mode|Problem Format|Command|Can Confirm?|
-|---|---|---|---|
-|**Full**|exp(-j...) term|`PlaneWaveCheck('full', E, H, k)`|✓ Yes|
-|**Maxwell**|γ given explicitly|`PlaneWaveCheck('maxwell', E0, H0, γ)`|✓ Yes|
+| Mode | Problem Format | Command | Can Confirm? |
+|------|----------------|---------|--------------|
+| **Full** | exp(-j...) term | `PlaneWaveCheck('full', E, H, k)` | ✓ Yes |
+| **Maxwell** | γ given explicitly | `PlaneWaveCheck('maxwell', E0, H0, γ)` | ✓ Yes |
 
 Basic mode (`PlaneWaveCheck(E, H, k)`) only checks orthogonality and **cannot** give a definitive "is plane wave" answer.
 
@@ -853,35 +850,33 @@ r = PlaneWaveCheck('maxwell', E0, H0, gamma);
 
 **Full Mode:**
 
-|Field|Description|
-|---|---|
-|`is_plane_wave`|true/false - THE ANSWER|
-|`k_dot_E`, `k_dot_H`, `E_dot_H`|Dot products (should be 0)|
-|`cond1_pass`...`cond5_pass`|Individual condition results|
-|`k_hat`|Normalized k vector|
-|`H_expected`|Expected H = (1/η)(k̂ × E) (Full)|
-|`impedance_error`|Relative error in H (Full)|
+| Field | Description |
+|-------|-------------|
+| `is_plane_wave` | true/false - THE ANSWER |
+| `k_dot_E`, `k_dot_H`, `E_dot_H` | Dot products (should be 0) |
+| `cond1_pass`...`cond5_pass` | Individual condition results |
+| `k_hat` | Normalized k vector |
+| `H_expected` | Expected H = (1/η)(k̂ × E) (Full) |
+| `impedance_error` | Relative error in H (Full) |
 
 **Maxwell Mode:**
 
-|Field|Description|
-|---|---|
-|`is_plane_wave`|true/false - THE ANSWER|
-|`omega_eps`|ωε values (must be real, positive)|
-|`omega_mu`|ωμ values (must be real, positive)|
-|`eps_pos_ok`, `mu_pos_ok`|Positivity checks|
-|`trans_ok`, `parallel_ok`|Geometric checks|
+| Field | Description |
+|-------|-------------|
+| `is_plane_wave` | true/false - THE ANSWER |
+| `omega_eps` | ωε values (must be real, positive) |
+| `omega_mu` | ωμ values (must be real, positive) |
+| `eps_pos_ok`, `mu_pos_ok` | Positivity checks |
+| `trans_ok`, `parallel_ok` | Geometric checks |
 
 ### Common Exam Traps
 
 **Trap 1: Forget H ⊥ k**
-
 - Students check E⊥H ✓ and E⊥k ✓
 - **Forget H⊥k** ✗ → lose points!
 - PlaneWaveCheck catches this automatically!
 
 **Trap 2: Orthogonal but invalid (Q1 type)**
-
 - Fields ARE orthogonal (k·E=0, k·H=0, E·H=0)
 - But ωε or ωμ is **negative** → physically impossible!
 - **Use Maxwell mode to catch this!**
@@ -904,13 +899,13 @@ r = PlaneWaveCheck('maxwell', E0, H0, gamma);
 
 > [!info] 📚 Complete coulomb_pair Documentation Available
 > 
-> **New to coulomb_pair or need detailed help?** Check out the **coulomb_pair Master Index** for:
+> **New to coulomb_pair or need detailed help?** Check out the [**coulomb_pair Master Index**](coulomb_pair_MASTER_INDEX.md) for:
 > 
-> - coulomb_pair Quick Start - 2 min crash course
-> - coulomb_pair Complete Guide - 12 min deep dive
-> - coulomb_pair Exam Examples - Electrostatics problems
-> - coulomb_pair Troubleshooting - Fix common errors
-> - coulomb_pair Quick Reference - Exam cheat sheet
+> - [coulomb_pair Quick Start](coulomb_pair_Quick_Start.md) - 2 min crash course
+> - [coulomb_pair Complete Guide](coulomb_pair_Complete_Guide.md) - 12 min deep dive
+> - [coulomb_pair Exam Examples](coulomb_pair_Exam_Examples.md) - Electrostatics problems
+> - [coulomb_pair Troubleshooting](coulomb_pair_Troubleshooting.md) - Fix common errors
+> - [coulomb_pair Quick Reference](coulomb_pair_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -943,13 +938,13 @@ r1 = [0; 0; 0];  r2 = [1; 0; 0];
 
 > [!info] 📚 Complete B_inf_wire Documentation Available
 > 
-> **New to B_inf_wire or need detailed help?** Check out the **B_inf_wire Master Index** for:
+> **New to B_inf_wire or need detailed help?** Check out the [**B_inf_wire Master Index**](B_inf_wire_MASTER_INDEX.md) for:
 > 
-> - B_inf_wire Quick Start - 2 min crash course
-> - B_inf_wire Complete Guide - 12 min deep dive with Ampère's law
-> - B_inf_wire Exam Examples - Magnetostatics problems
-> - B_inf_wire Troubleshooting - Fix common errors
-> - B_inf_wire Quick Reference - Exam cheat sheet
+> - [B_inf_wire Quick Start](B_inf_wire_Quick_Start.md) - 2 min crash course
+> - [B_inf_wire Complete Guide](B_inf_wire_Complete_Guide.md) - 12 min deep dive with Ampère's law
+> - [B_inf_wire Exam Examples](B_inf_wire_Exam_Examples.md) - Magnetostatics problems
+> - [B_inf_wire Troubleshooting](B_inf_wire_Troubleshooting.md) - Fix common errors
+> - [B_inf_wire Quick Reference](B_inf_wire_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 
@@ -998,13 +993,13 @@ Convert complex number to **magnitude and angle** (in degrees).
 
 > [!info] 📚 Complete smithchart_plot Documentation Available
 > 
-> **New to smithchart_plot or need detailed help?** Check out the **smithchart_plot Master Index** for:
+> **New to smithchart_plot or need detailed help?** Check out the [**smithchart_plot Master Index**](smithchart_plot_MASTER_INDEX.md) for:
 > 
-> - smithchart_plot Quick Start - 2 min crash course
-> - smithchart_plot Complete Guide - 15 min deep dive
-> - smithchart_plot Exam Examples - Q10 type problems
-> - smithchart_plot Troubleshooting - Fix common errors
-> - smithchart_plot Quick Reference - Exam cheat sheet
+> - [smithchart_plot Quick Start](smithchart_plot_Quick_Start.md) - 2 min crash course
+> - [smithchart_plot Complete Guide](smithchart_plot_Complete_Guide.md) - 15 min deep dive
+> - [smithchart_plot Exam Examples](smithchart_plot_Exam_Examples.md) - Q10 type problems
+> - [smithchart_plot Troubleshooting](smithchart_plot_Troubleshooting.md) - Fix common errors
+> - [smithchart_plot Quick Reference](smithchart_plot_Quick_Reference.md) - Exam cheat sheet
 > 
 > **The section below gives you the basics. For comprehensive learning, use the Master Index!**
 

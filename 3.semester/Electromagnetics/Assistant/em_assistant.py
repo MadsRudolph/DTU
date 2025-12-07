@@ -7,6 +7,11 @@ Run from terminal:
     python em_assistant.py
 
 This guides you through solving EM problems using the em_tools library.
+
+NEW FEATURES:
+  - 10. Inverse TLine (find Z_L from VSWR + position)
+  - 11. Geometry Library (L, C calculations)
+  - 12. Wave Uniformity Analyzer
 """
 
 import sys
@@ -18,7 +23,6 @@ import numpy as np
 try:
     from em_calc import *
 except ImportError:
-    # If em_calc.py is in the same directory
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     from em_calc import *
 
@@ -36,7 +40,7 @@ def print_welcome():
     print("  ║            ⚡ EM TOOLBOX ASSISTANT ⚡                    ║")
     print("  ║                                                          ║")
     print("  ║     Interactive Electromagnetic Problem Solver           ║")
-    print("  ║              Python Edition                              ║")
+    print("  ║              Python Edition v2.0                         ║")
     print("  ║                                                          ║")
     print("  ╚══════════════════════════════════════════════════════════╝")
     print()
@@ -58,6 +62,11 @@ def print_menu():
     print("  │  8. Magnetic Field (Infinite Wire)     │")
     print("  │  9. Coulomb Force                      │")
     print("  │                                        │")
+    print("  │  ─── NEW FEATURES ───                  │")
+    print("  │  10. Inverse TLine (VSWR→Z_L)          │")
+    print("  │  11. Geometry Library (L, C)           │")
+    print("  │  12. Wave Uniformity Analyzer          │")
+    print("  │                                        │")
     print("  │  0. Exit                               │")
     print("  └────────────────────────────────────────┘")
     print()
@@ -71,9 +80,7 @@ def get_number(prompt, min_val=None, max_val=None, allow_complex=False):
             if not raw:
                 return 0
             
-            # Handle complex numbers
             raw = raw.replace('i', 'j').replace('J', 'j')
-            # Handle cases like "5j" or "-3j"
             if raw.endswith('j') and not any(c in raw[:-1] for c in ['+', '-', '*']):
                 if raw == 'j':
                     raw = '1j'
@@ -159,18 +166,14 @@ def handle_plane_wave():
     print("  What format is your problem?")
     print()
     print("    1. exp(-j(ax + by + cz)) in field expression")
-    print("       (Extract k from phase term)")
-    print()
     print("    2. γ = [γx; γy; γz] given separately")
-    print("       (Complex propagation vector)")
     print()
     
     fmt = int(get_number("  Enter format (1 or 2): ", 1, 2))
     
     if fmt == 1:
-        # Full mode
         print("\n  --- Enter E-field phasor components ---")
-        Ex = get_complex("  Ex (e.g., 0 or 5 or 1j*2): ")
+        Ex = get_complex("  Ex: ")
         Ey = get_complex("  Ey: ")
         Ez = get_complex("  Ez: ")
         E = [Ex, Ey, Ez]
@@ -181,47 +184,40 @@ def handle_plane_wave():
         Hz = get_complex("  Hz: ")
         H = [Hx, Hy, Hz]
         
-        print("\n  --- Enter k from phase term exp(-j(kx·x + ky·y + kz·z)) ---")
+        print("\n  --- Enter k from phase term ---")
         kx = get_number("  kx: ")
         ky = get_number("  ky: ")
         kz = get_number("  kz: ")
         k = [kx, ky, kz]
         
-        print("\n  Use custom η? (default is 377 Ω for free space)")
+        print("\n  Use custom η? (default 377 Ω)")
         if get_yes_no("  Custom η? (y/n): "):
             eta = get_number("  Enter η [Ω]: ", 0)
         else:
             eta = 377
         
-        print(f"\n  Calling: PlaneWaveCheck('full', E, H, k, {eta})")
         result = PlaneWaveCheck('full', E, H, k, eta)
-        
     else:
-        # Maxwell mode
         print("\n  --- Enter E₀ phasor components ---")
-        Ex = get_complex("  E0x (e.g., 2 or 1j*5): ")
+        Ex = get_complex("  E0x: ")
         Ey = get_complex("  E0y: ")
         Ez = get_complex("  E0z: ")
         E0 = [Ex, Ey, Ez]
         
         print("\n  --- Enter H₀ phasor components ---")
-        print("  (Remember to convert mA/m to A/m if needed)")
         Hx = get_complex("  H0x: ")
         Hy = get_complex("  H0y: ")
         Hz = get_complex("  H0z: ")
         H0 = [Hx, Hy, Hz]
         
         print("\n  --- Enter γ (complex propagation vector) ---")
-        print("  Example: γ = j3 in z → γz = 1j*3")
         gx = get_complex("  γx: ")
         gy = get_complex("  γy: ")
         gz = get_complex("  γz: ")
         gamma = [gx, gy, gz]
         
-        print("\n  Calling: PlaneWaveCheck('maxwell', E0, H0, gamma)")
         result = PlaneWaveCheck('maxwell', E0, H0, gamma)
     
-    # Display results
     print()
     print("  ═══════════════════════════════════════════")
     print("       RESULT")
@@ -256,14 +252,12 @@ def handle_polarization():
     
     if fmt == 1:
         print("\n  --- Enter E-field phasor components ---")
-        print("  Examples: 1, -1j, 1+1j, 1j*2")
         Ex = get_complex("  Ex: ")
         Ey = get_complex("  Ey: ")
         Ez = get_complex("  Ez: ")
         E = [Ex, Ey, Ez]
         
-        print("\n  --- Enter propagation direction k̂ ---")
-        print("  Default is +z: [0; 0; 1]")
+        print("\n  --- Propagation direction k̂ ---")
         if get_yes_no("  Use default +z? (y/n): "):
             k_hat = [0, 0, 1]
         else:
@@ -272,7 +266,6 @@ def handle_polarization():
             kz = get_number("  k̂z: ")
             k_hat = [kx, ky, kz]
         
-        print(f"\n  Calling: Polarization({format_vector(E)}, {k_hat})")
         result = Polarization(E, k_hat)
         
     elif fmt == 2:
@@ -282,7 +275,6 @@ def handle_polarization():
         phi_x = get_number("  φx [degrees]: ")
         phi_y = get_number("  φy [degrees]: ")
         
-        print(f"\n  Calling: Polarization('ap', {Ex}, {Ey}, {phi_x}, {phi_y})")
         result = Polarization('ap', Ex, Ey, phi_x, phi_y)
         
     else:
@@ -304,10 +296,8 @@ def handle_polarization():
         bz = get_number("  βz: ")
         beta = [bx, by, bz]
         
-        print(f"\n  Calling: Polarization({u}, {v}, {beta})")
         result = Polarization(u, v, beta)
     
-    # Display results
     print()
     print("  ════════════════════════════════════════")
     print("       RESULT")
@@ -348,35 +338,28 @@ def handle_fresnel():
     
     if mode == 1:
         print("\n  --- Enter material properties ---")
-        eps1 = get_number("  εr1 (incident medium): ", 0.1)
-        eps2 = get_number("  εr2 (second medium): ", 0.1)
+        eps1 = get_number("  εr1 (incident): ", 0.1)
+        eps2 = get_number("  εr2 (second): ", 0.1)
         
-        print(f"\n  Calling: Fresnel({eps1}, {eps2})")
         result = Fresnel(eps1, eps2)
         
         print()
         print("  ════════════════════════════════════════")
         print("       RESULT - NORMAL INCIDENCE")
         print("  ════════════════════════════════════════")
-        print(f"  η₁ = {result.eta1:.2f} Ω")
-        print(f"  η₂ = {result.eta2:.2f} Ω")
-        print(f"  n₁ = {result.n1:.4f}, n₂ = {result.n2:.4f}")
-        print("  ────────────────────────────────────────")
+        print(f"  η₁ = {result.eta1:.2f} Ω, η₂ = {result.eta2:.2f} Ω")
         print(f"  Γ = {format_complex(result.Gamma)}")
         print(f"  |Γ| = {abs(result.Gamma):.4f}")
         print(f"  τ = {result.tau:.4f}")
-        print("  ────────────────────────────────────────")
-        print(f"  R (reflected power) = {result.R:.4f} ({result.R*100:.2f}%)")
-        print(f"  T (transmitted power) = {result.T:.4f} ({result.T*100:.2f}%)")
+        print(f"  R = {result.R*100:.2f}%, T = {result.T*100:.2f}%")
         print("  ════════════════════════════════════════")
         
     elif mode == 2:
         print("\n  --- Enter material properties ---")
-        eps1 = get_number("  εr1 (incident medium): ", 0.1)
-        eps2 = get_number("  εr2 (second medium): ", 0.1)
+        eps1 = get_number("  εr1: ", 0.1)
+        eps2 = get_number("  εr2: ", 0.1)
         theta = get_number("  θi [degrees]: ", 0, 90)
         
-        print(f"\n  Calling: Fresnel({eps1}, {eps2}, {theta})")
         result = Fresnel(eps1, eps2, theta)
         
         print()
@@ -386,21 +369,10 @@ def handle_fresnel():
         print(f"  θᵢ = {result.theta_i:.2f}°")
         if result.TIR:
             print("  ⚠ TOTAL INTERNAL REFLECTION")
-            print("  θₜ = N/A (evanescent wave)")
         else:
             print(f"  θₜ = {result.theta_t:.2f}°")
-        print("  ────────────────────────────────────────")
-        print("  TE (s-polarized):")
-        print(f"    Γ_TE = {format_complex(result.Gamma_TE)}")
-        print(f"    |Γ_TE| = {abs(result.Gamma_TE):.4f}")
-        print(f"    R_TE = {result.R_TE:.4f}, T_TE = {result.T_TE:.4f}")
-        print("  TM (p-polarized):")
-        print(f"    Γ_TM = {format_complex(result.Gamma_TM)}")
-        print(f"    |Γ_TM| = {abs(result.Gamma_TM):.4f}")
-        print(f"    R_TM = {result.R_TM:.4f}, T_TM = {result.T_TM:.4f}")
-        if not result.TIR:
-            print("  ────────────────────────────────────────")
-            print(f"  θ_Brewster = {result.theta_Brewster:.2f}°")
+        print("  TE:", f"Γ={format_complex(result.Gamma_TE)}, R={result.R_TE:.4f}")
+        print("  TM:", f"Γ={format_complex(result.Gamma_TM)}, R={result.R_TM:.4f}")
         print("  ════════════════════════════════════════")
         
     elif mode == 3:
@@ -409,15 +381,12 @@ def handle_fresnel():
         n2 = get_number("  n2: ", 0.1)
         theta = get_number("  θi [degrees]: ", 0, 90)
         
-        print(f"\n  Calling: Fresnel('snell', {n1}, {n2}, {theta})")
         result = Fresnel('snell', n1, n2, theta)
         
         print()
         print("  ════════════════════════════════════════")
         print("       RESULT - SNELL'S LAW")
         print("  ════════════════════════════════════════")
-        print(f"  n₁ = {result.n1:.4f}, n₂ = {result.n2:.4f}")
-        print(f"  θᵢ = {result.theta_i:.2f}°")
         if result.TIR:
             print("  ⚠ TOTAL INTERNAL REFLECTION")
             print(f"  θ_critical = {result.theta_critical:.2f}°")
@@ -430,38 +399,30 @@ def handle_fresnel():
         eps1 = get_number("  εr1: ", 0.1)
         eps2 = get_number("  εr2: ", 0.1)
         
-        print(f"\n  Calling: Fresnel('brewster', {eps1}, {eps2})")
         result = Fresnel('brewster', eps1, eps2)
         
         print()
         print("  ════════════════════════════════════════")
         print("       RESULT - BREWSTER ANGLE")
         print("  ════════════════════════════════════════")
-        print(f"  n₁ = {result.n1:.4f}, n₂ = {result.n2:.4f}")
         print(f"  θ_Brewster = {result.theta_Brewster:.4f}°")
-        print("  At this angle: Γ_TM = 0 (no TM reflection)")
         print("  ════════════════════════════════════════")
         
     else:
         print("\n  --- Enter material properties ---")
-        print("  (Note: n1 must be > n2 for TIR to exist)")
-        eps1 = get_number("  εr1 (denser medium): ", 0.1)
+        eps1 = get_number("  εr1 (denser): ", 0.1)
         eps2 = get_number("  εr2 (less dense): ", 0.1)
         
-        print(f"\n  Calling: Fresnel('critical', {eps1}, {eps2})")
         result = Fresnel('critical', eps1, eps2)
         
         print()
         print("  ════════════════════════════════════════")
         print("       RESULT - CRITICAL ANGLE")
         print("  ════════════════════════════════════════")
-        print(f"  n₁ = {result.n1:.4f}, n₂ = {result.n2:.4f}")
         if result.n1 > result.n2:
             print(f"  θ_critical = {result.theta_critical:.4f}°")
-            print("  For θᵢ > θ_c: Total Internal Reflection")
         else:
             print("  n₁ < n₂: No critical angle exists")
-            print("  TIR not possible in this direction")
         print("  ════════════════════════════════════════")
 
 
@@ -473,11 +434,9 @@ def handle_medium():
     print("       MEDIUM PROPERTIES")
     print("  ═══════════════════════════════════════════")
     print()
-    print("  What type of medium?")
-    print()
     print("    1. Lossless dielectric")
-    print("    2. Lossy medium (with conductivity σ)")
-    print("    3. From loss tangent tan(δ)")
+    print("    2. Lossy medium (σ)")
+    print("    3. From loss tangent")
     print("    4. Good conductor")
     print("    5. Skin depth only")
     print("    6. Free space")
@@ -486,82 +445,42 @@ def handle_medium():
     mode = int(get_number("  Enter choice (1-6): ", 1, 6))
     
     if mode == 1:
-        print("\n  --- Enter parameters ---")
         eps_r = get_number("  εr: ", 0.1)
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium(eps_r, freq)
-        
     elif mode == 2:
-        print("\n  --- Enter parameters ---")
         eps_r = get_number("  εr: ", 0.1)
         sigma = get_number("  σ [S/m]: ", 0)
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium(eps_r, sigma, freq)
-        
     elif mode == 3:
-        print("\n  --- Enter parameters ---")
         eps_r = get_number("  εr: ", 0.1)
         tan_d = get_number("  tan(δ): ", 0)
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium('tand', eps_r, tan_d, freq)
-        
     elif mode == 4:
-        print("\n  --- Enter parameters ---")
-        sigma = get_number("  σ [S/m]: ", 1)
+        sigma = get_number("  σ [S/m]: ", 0)
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium('conductor', sigma, freq)
-        
     elif mode == 5:
-        print("\n  --- Enter parameters ---")
-        sigma = get_number("  σ [S/m]: ", 1)
+        sigma = get_number("  σ [S/m]: ", 0)
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium('skin', sigma, freq)
-        
-        print()
-        print("  ════════════════════════════════════════")
-        print("       RESULT - SKIN DEPTH")
-        print("  ════════════════════════════════════════")
-        print(f"  σ = {sigma:.3e} S/m")
-        print(f"  freq = {freq:.3e} Hz")
-        print("  ────────────────────────────────────────")
-        print(f"  δ = {result.skin_depth:.4e} m")
-        print(f"  δ = {result.skin_depth*1e6:.4f} μm")
-        print(f"  δ = {result.skin_depth*1e3:.4f} mm")
-        print("  ════════════════════════════════════════")
-        return
-        
     else:
-        print("\n  --- Enter frequency ---")
         freq = get_number("  Frequency [Hz]: ", 1)
-        
         result = Medium('free', freq)
     
-    # Display results for modes 1-4, 6
     print()
     print("  ════════════════════════════════════════")
-    print(f"       {result.classification.upper()} @ {result.freq:.2e} Hz")
+    print("       RESULT")
     print("  ════════════════════════════════════════")
-    print(f"  εr = {result.eps_r:.4f}")
-    print(f"  μr = {result.mu_r:.4f}")
-    if result.sigma > 0:
-        print(f"  σ = {result.sigma:.3e} S/m")
-        print(f"  tan(δ) = {result.tan_delta:.3e}")
-    print("  ────────────────────────────────────────")
+    print(f"  Classification: {result.classification}")
     print(f"  α = {result.alpha:.4e} Np/m")
     print(f"  β = {result.beta:.4e} rad/m")
     print(f"  λ = {result.lambda_:.4e} m")
     print(f"  uₚ = {result.up:.4e} m/s")
-    print(f"  n = {result.n:.4f}")
-    print("  ────────────────────────────────────────")
     print(f"  η = {format_complex(result.eta)} Ω")
-    print(f"  |η| = {abs(result.eta):.4f} Ω")
-    if result.alpha > 0:
-        print("  ────────────────────────────────────────")
+    if result.skin_depth < float('inf'):
         print(f"  Skin depth = {result.skin_depth:.4e} m")
     print("  ════════════════════════════════════════")
 
@@ -574,136 +493,99 @@ def handle_tline():
     print("       TRANSMISSION LINES")
     print("  ═══════════════════════════════════════════")
     print()
-    print("  What do you need?")
-    print()
     print("    1. Basic TL analysis (Zin, Γ, VSWR)")
     print("    2. Find input impedance")
     print("    3. Find load impedance")
     print("    4. Reflection coefficient from Z")
     print("    5. Impedance from Γ")
-    print("    6. Find load from Γ at input (Q13/Q14 type)")
-    print("    7. Quarter-wave transformer design")
-    print("    8. Stub design (realize impedance)")
+    print("    6. Find load from Γ at input")
+    print("    7. Quarter-wave transformer")
+    print("    8. Stub design")
     print()
     
     mode = int(get_number("  Enter choice (1-8): ", 1, 8))
     
     if mode in [1, 2]:
-        print("\n  --- Enter TL parameters ---")
         Z0 = get_number("  Z0 [Ω]: ", 0.1)
-        ZL_r = get_number("  ZL real part [Ω]: ")
-        ZL_i = get_number("  ZL imag part [Ω]: ")
+        ZL_r = get_number("  ZL real [Ω]: ")
+        ZL_i = get_number("  ZL imag [Ω]: ")
         ZL = complex(ZL_r, ZL_i)
-        length = get_number("  Length [wavelengths]: ", 0)
+        length = get_number("  Length [λ]: ", 0)
         
         result = TLine(Z0, ZL, length)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - TL ANALYSIS")
+        print("       RESULT")
         print("  ════════════════════════════════════════")
-        print(f"  Z₀ = {Z0:.2f} Ω")
-        print(f"  Z_L = {format_complex(ZL)} Ω")
-        print(f"  Length = {length:.4f} λ")
-        print("  ────────────────────────────────────────")
         print(f"  Z_in = {format_complex(result.Z_in)} Ω")
-        print(f"  |Z_in| = {abs(result.Z_in):.4f} Ω")
-        print("  ────────────────────────────────────────")
         print(f"  Γ_L = {format_complex(result.Gamma_L)}")
         mag, ang = to_polar(result.Gamma_L)
-        print(f"  |Γ_L| = {mag:.4f}, ∠Γ_L = {ang:.2f}°")
-        print(f"  Γ_in = {format_complex(result.Gamma_in)}")
-        print("  ────────────────────────────────────────")
+        print(f"  |Γ| = {mag:.4f}, ∠Γ = {ang:.2f}°")
         print(f"  VSWR = {result.VSWR:.4f}")
-        print(f"  Return Loss = {result.RL_dB:.2f} dB")
-        print(f"  Power delivered = {result.P_delivered*100:.2f}%")
         print("  ════════════════════════════════════════")
         
     elif mode == 3:
-        print("\n  --- Enter TL parameters ---")
         Z0 = get_number("  Z0 [Ω]: ", 0.1)
-        Zin_r = get_number("  Zin real part [Ω]: ")
-        Zin_i = get_number("  Zin imag part [Ω]: ")
+        Zin_r = get_number("  Zin real [Ω]: ")
+        Zin_i = get_number("  Zin imag [Ω]: ")
         Zin = complex(Zin_r, Zin_i)
-        length = get_number("  Length [wavelengths]: ", 0)
+        length = get_number("  Length [λ]: ", 0)
         
         result = TLine('ZL', Z0, Zin, length)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - FIND LOAD")
-        print("  ════════════════════════════════════════")
         print(f"  Z_L = {format_complex(result.ZL)} Ω")
         print("  ════════════════════════════════════════")
         
     elif mode == 4:
-        print("\n  --- Enter parameters ---")
         Z0 = get_number("  Z0 [Ω]: ", 0.1)
-        Z_r = get_number("  Z real part [Ω]: ")
-        Z_i = get_number("  Z imag part [Ω]: ")
+        Z_r = get_number("  Z real [Ω]: ")
+        Z_i = get_number("  Z imag [Ω]: ")
         Z = complex(Z_r, Z_i)
         
         result = TLine('Gamma', Z0, Z)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - Γ FROM Z")
-        print("  ════════════════════════════════════════")
         print(f"  Γ = {format_complex(result.Gamma_L)}")
         mag, ang = to_polar(result.Gamma_L)
-        print(f"  |Γ| = {mag:.4f}")
-        print(f"  ∠Γ = {ang:.2f}°")
+        print(f"  |Γ| = {mag:.4f}, ∠Γ = {ang:.2f}°")
         print(f"  VSWR = {result.VSWR:.4f}")
         print("  ════════════════════════════════════════")
         
     elif mode == 5:
-        print("\n  --- Enter parameters ---")
         Z0 = get_number("  Z0 [Ω]: ", 0.1)
-        print("\n  Enter Γ in polar form:")
-        Gamma_mag = get_number("  |Γ|: ", 0)
-        Gamma_ang = get_number("  ∠Γ [degrees]: ")
+        Gamma_mag = get_number("  |Γ|: ", 0, 1)
+        Gamma_ang = get_number("  ∠Γ [deg]: ")
         Gamma = from_polar(Gamma_mag, Gamma_ang)
         
         result = TLine('Z', Z0, Gamma)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - Z FROM Γ")
-        print("  ════════════════════════════════════════")
         print(f"  Z = {format_complex(result.ZL)} Ω")
-        print(f"  |Z| = {abs(result.ZL):.4f} Ω")
         print("  ════════════════════════════════════════")
         
     elif mode == 6:
-        print("\n  --- Q13/Q14 Type Problem ---")
-        print("  Given Γ at input, find Γ_L and Z_L")
         Z0 = get_number("  Z0 [Ω]: ", 0.1)
-        print("\n  Enter Γ_in in polar form:")
-        Gamma_mag = get_number("  |Γ_in|: ", 0)
-        Gamma_ang = get_number("  ∠Γ_in [degrees]: ")
+        Gamma_mag = get_number("  |Γ_in|: ", 0, 1)
+        Gamma_ang = get_number("  ∠Γ_in [deg]: ")
         Gamma_in = from_polar(Gamma_mag, Gamma_ang)
-        length = get_number("  Length [wavelengths]: ", 0)
+        length = get_number("  Length [λ]: ", 0)
         
         result = TLine('load', Z0, Gamma_in, length)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - FIND LOAD")
-        print("  ════════════════════════════════════════")
-        print(f"  Phase shift: +2βℓ = +{2*360*length:.2f}°")
-        print("  ────────────────────────────────────────")
         print(f"  Γ_L = {format_complex(result.Gamma_L)}")
         mag, ang = to_polar(result.Gamma_L)
         print(f"  |Γ_L| = {mag:.4f}, ∠Γ_L = {ang:.2f}°")
-        print("  ────────────────────────────────────────")
         print(f"  Z_L = {format_complex(result.ZL)} Ω")
-        print(f"  |Z_L| = {abs(result.ZL):.2f} Ω")
-        print("  ────────────────────────────────────────")
-        print(f"  VSWR = {result.VSWR:.4f}")
         print("  ════════════════════════════════════════")
         
     elif mode == 7:
-        print("\n  --- Quarter-Wave Transformer Design ---")
         Z_source = get_number("  Z_source [Ω]: ", 0.1)
         Z_load = get_number("  Z_load [Ω]: ", 0.1)
         
@@ -711,31 +593,20 @@ def handle_tline():
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - QW TRANSFORMER")
-        print("  ════════════════════════════════════════")
-        print(f"  Required Z₀ = √({Z_source} × {Z_load})")
         print(f"  Z₀ = {result.Z0:.4f} Ω")
         print("  Length = λ/4")
         print("  ════════════════════════════════════════")
         
     else:
-        print("\n  --- Stub Design ---")
-        print("  Realize target impedance with stub")
-        X_target = get_number("  Target reactance X [Ω] (jX): ")
+        X_target = get_number("  Target reactance X [Ω]: ")
         Z0_stub = get_number("  Stub Z0 [Ω]: ", 0.1)
         
         result = TLine('stub', complex(0, X_target), Z0_stub)
         
         print()
         print("  ════════════════════════════════════════")
-        print("       RESULT - STUB DESIGN")
-        print("  ════════════════════════════════════════")
-        print(f"  Target Z = j{X_target} Ω")
-        print(f"  Stub Z₀ = {Z0_stub} Ω")
-        print("  ────────────────────────────────────────")
         print(f"  SHORT stub: ℓ = {result.short_len:.4f} λ")
-        if not np.isnan(result.open_len):
-            print(f"  OPEN stub:  ℓ = {result.open_len:.4f} λ")
+        print(f"  OPEN stub:  ℓ = {result.open_len:.4f} λ")
         print("  ════════════════════════════════════════")
 
 
@@ -748,19 +619,16 @@ def handle_stub_match():
     print("  ═══════════════════════════════════════════")
     print()
     
-    print("  --- Enter parameters ---")
-    ZL_r = get_number("  ZL real part [Ω]: ")
-    ZL_i = get_number("  ZL imag part [Ω]: ")
+    ZL_r = get_number("  ZL real [Ω]: ")
+    ZL_i = get_number("  ZL imag [Ω]: ")
     ZL = complex(ZL_r, ZL_i)
     Z0 = get_number("  Z0 [Ω]: ", 0.1)
     
-    print("\n  Stub type:")
-    print("    1. Short-circuited")
-    print("    2. Open-circuited")
+    print("\n  Stub type: 1=Short, 2=Open")
     stub_choice = int(get_number("  Choice: ", 1, 2))
     stub_type = 'short' if stub_choice == 1 else 'open'
     
-    print("\n  Do you know the wavelength λ?")
+    print("\n  Know the wavelength λ?")
     if get_yes_no("  (y/n): "):
         lambda_ = get_number("  λ [m]: ", 0)
     else:
@@ -770,28 +638,20 @@ def handle_stub_match():
     
     print()
     print("  ════════════════════════════════════════")
-    print("       RESULT - STUB MATCHING")
+    print("       RESULT")
     print("  ════════════════════════════════════════")
-    print(f"  Load: Z_L = {format_complex(ZL)} Ω")
-    print(f"  Line: Z₀ = {Z0} Ω ({stub_type.upper()} stub)")
-    if lambda_:
-        print(f"  λ = {lambda_*100:.2f} cm")
-    print("  ────────────────────────────────────────")
-    print("  SOLUTION 1:")
-    print(f"    d = {result.d:.4f} λ", end="")
+    print(f"  d = {result.d:.4f} λ", end="")
     if lambda_:
         print(f" = {result.d_mm:.2f} mm")
     else:
         print()
-    print(f"    ℓ = {result.l:.4f} λ", end="")
+    print(f"  ℓ = {result.l:.4f} λ", end="")
     if lambda_:
         print(f" = {result.l_mm:.2f} mm")
     else:
         print()
     if not np.isnan(result.d_alt):
-        print("  SOLUTION 2:")
-        print(f"    d = {result.d_alt:.4f} λ")
-        print(f"    ℓ = {result.l_alt:.4f} λ")
+        print(f"  Alt: d={result.d_alt:.4f}λ, ℓ={result.l_alt:.4f}λ")
     print("  ════════════════════════════════════════")
 
 
@@ -803,70 +663,236 @@ def handle_poynting():
     print("       POYNTING VECTOR & H-FIELD")
     print("  ═══════════════════════════════════════════")
     print()
-    print("  What format is your E-field?")
-    print()
     print("    1. Time-domain: E = E0*(a·cos + b·sin)")
     print("    2. Complex phasor E directly")
+    print("    3. Scalar: |E| and η → S_avg (simple)")
     print()
     
-    fmt = int(get_number("  Enter format (1-2): ", 1, 2))
+    fmt = int(get_number("  Enter format (1-3): ", 1, 3))
+    
+    if fmt == 3:
+        # Simple scalar mode
+        print()
+        print("  --- Electric field magnitude ---")
+        print("    1. Enter |E| directly")
+        print("    2. Calculate |E| at position (with attenuation)")
+        E_mode = int(get_number("  Choice: ", 1, 2))
+        
+        k_hat = np.array([0, 0, 1])  # Default: +z propagation
+        
+        if E_mode == 1:
+            E_mag = get_number("  |E| [V/m]: ", 0)
+        else:
+            print("\n  --- E-field at origin ---")
+            print("  Enter E₀ as magnitude, or complex components")
+            print("    1. |E₀| magnitude directly")
+            print("    2. Complex E₀ (e.g., j20 or 20∠90°)")
+            E0_mode = int(get_number("  Choice: ", 1, 2))
+            
+            if E0_mode == 1:
+                E0_mag = get_number("  |E₀| [V/m]: ", 0)
+            else:
+                E0_complex = get_complex("  E₀ [V/m]: ")
+                E0_mag = abs(E0_complex)
+                print(f"  |E₀| = {E0_mag:.4f} V/m")
+            
+            print("\n  --- Propagation direction ---")
+            print("    1. +z only (common case)")
+            print("    2. General direction (kx, ky, kz)")
+            dir_mode = int(get_number("  Choice: ", 1, 2))
+            
+            if dir_mode == 1:
+                k_hat = np.array([0, 0, 1])
+                print("  Propagation: +ẑ")
+            else:
+                kx = get_number("  kx: ")
+                ky = get_number("  ky: ")
+                kz = get_number("  kz: ")
+                k_vec = np.array([kx, ky, kz])
+                k_hat = k_vec / np.linalg.norm(k_vec)
+                print(f"  k̂ = [{k_hat[0]:.4f}, {k_hat[1]:.4f}, {k_hat[2]:.4f}]")
+            
+            print("\n  --- Propagation constant γ ---")
+            print("    1. Enter α (attenuation) directly")
+            print("    2. Enter γ = α + jβ")
+            gamma_mode = int(get_number("  Choice: ", 1, 2))
+            
+            if gamma_mode == 1:
+                alpha = get_number("  α [Np/m]: ", 0)
+            else:
+                alpha = get_number("  α (real part of γ): ")
+                beta = get_number("  β (imag part of γ): ")
+                print(f"  γ = {alpha} + j{beta}")
+            
+            print("\n  --- Surface/observation position ---")
+            print("    1. Enter z only (x=0, y=0)")
+            print("    2. Enter full (x, y, z)")
+            pos_mode = int(get_number("  Choice: ", 1, 2))
+            
+            if pos_mode == 1:
+                z = get_number("  z [m]: ")
+                pos = np.array([0, 0, z])
+            else:
+                x = get_number("  x [m]: ")
+                y = get_number("  y [m]: ")
+                z = get_number("  z [m]: ")
+                pos = np.array([x, y, z])
+                print(f"  Position: ({x}, {y}, {z}) m")
+            
+            # Calculate distance along propagation direction
+            distance = np.dot(k_hat, pos)
+            
+            # Calculate |E| at position
+            attenuation = np.exp(-alpha * distance)
+            E_mag = E0_mag * attenuation
+            
+            print()
+            print(f"  ────────────────────────────────")
+            print(f"  Distance along k̂: {distance:.4f} m")
+            print(f"  |E(r)| = |E₀| × e^(-α × distance)")
+            print(f"        = {E0_mag:.4f} × e^(-{alpha} × {distance:.4f})")
+            print(f"        = {E0_mag:.4f} × {attenuation:.4f}")
+            print(f"        = {E_mag:.4f} V/m")
+            print(f"  ────────────────────────────────")
+        
+        print("\n  --- Intrinsic impedance η ---")
+        print("    1. Free space (η = 377 Ω)")
+        print("    2. Lossless medium (enter εr)")
+        print("    3. Lossy medium (enter complex εr)")
+        print("    4. Enter η directly")
+        eta_mode = int(get_number("  Choice: ", 1, 4))
+        
+        if eta_mode == 1:
+            eta = 377.0
+            eta_real = 377.0
+        elif eta_mode == 2:
+            eps_r = get_number("  εr: ", 0.1)
+            eta = 377 / np.sqrt(eps_r)
+            eta_real = eta
+        elif eta_mode == 3:
+            eps_r_real = get_number("  εr (real part): ")
+            eps_r_imag = get_number("  εr (imag part, negative for loss): ")
+            eps_r_c = eps_r_real + 1j * eps_r_imag
+            eta = 377 / np.sqrt(eps_r_c)
+            eta_real = eta.real
+            print(f"\n  η = {eta:.2f} Ω")
+        else:
+            eta_real = get_number("  Re{η} [Ω]: ", 0.1)
+            eta = eta_real
+        
+        # S_avg = |E|² / (2 * Re{η})
+        S_avg_mag = E_mag**2 / (2 * eta_real)
+        
+        print()
+        print("  ════════════════════════════════════════")
+        print("       RESULT")
+        print("  ════════════════════════════════════════")
+        print(f"  |E| = {E_mag:.4f} V/m")
+        print(f"  Re{{η}} = {eta_real:.2f} Ω")
+        print(f"  S_avg = |E|² / (2·Re{{η}})")
+        print(f"  S_avg = {E_mag:.4f}² / (2 × {eta_real:.2f})")
+        print(f"  S_avg = {S_avg_mag:.6f} W/m²")
+        print(f"       = {S_avg_mag*1000:.4f} mW/m²")
+        
+        # Ask about power calculation
+        if get_yes_no("\n  Calculate power on surface? (y/n): "):
+            A = get_number("  Surface area [m²]: ", 0)
+            
+            print("\n  --- Surface normal vector ---")
+            print("    1. Normal to propagation (|cos θ| = 1)")
+            print("    2. Enter surface normal (nx, ny, nz)")
+            normal_mode = int(get_number("  Choice: ", 1, 2))
+            
+            if normal_mode == 1:
+                cos_theta = 1.0
+                print("  Surface perpendicular to wave → full power")
+            else:
+                nx = get_number("  nx: ")
+                ny = get_number("  ny: ")
+                nz = get_number("  nz: ")
+                n_hat = np.array([nx, ny, nz])
+                n_hat = n_hat / np.linalg.norm(n_hat)  # Normalize
+                
+                # S points in k_hat direction
+                # Power into surface = |S · n̂|
+                dot_product = np.dot(k_hat, n_hat)
+                cos_theta = abs(dot_product)
+                
+                print(f"  n̂ = [{n_hat[0]:.3f}, {n_hat[1]:.3f}, {n_hat[2]:.3f}]")
+                print(f"  k̂ · n̂ = {dot_product:.4f}")
+                
+                if dot_product < 0:
+                    print("  Wave incident on surface (into surface)")
+                elif dot_product > 0:
+                    print("  Wave exiting surface (out of surface)")
+                else:
+                    print("  Wave parallel to surface (grazing)")
+                
+                print(f"  |cos θ| = {cos_theta:.4f}")
+            
+            P = S_avg_mag * A * cos_theta
+            print(f"\n  P = S_avg × A × |cos θ|")
+            print(f"    = {S_avg_mag:.6f} × {A} × {cos_theta:.4f}")
+            print(f"  P = {P:.6f} W = {P*1000:.2f} mW")
+        
+        print("  ════════════════════════════════════════")
+        return
     
     if fmt == 1:
-        print("\n  --- Enter a vector (cos coefficient) ---")
+        print("\n  --- a vector (cos coeff) ---")
         ax = get_number("  ax: ")
         ay = get_number("  ay: ")
         az = get_number("  az: ")
         a = [ax, ay, az]
         
-        print("\n  --- Enter b vector (sin coefficient) ---")
+        print("\n  --- b vector (sin coeff) ---")
         bx = get_number("  bx: ")
         by = get_number("  by: ")
         bz = get_number("  bz: ")
         b = [bx, by, bz]
         
-        E0 = get_number("  E0 amplitude [V/m]: ", 0)
+        E0 = get_number("  E0 [V/m]: ", 0)
         
-        print("\n  --- Enter β vector ---")
+        print("\n  --- β vector ---")
         beta_x = get_number("  βx: ")
         beta_y = get_number("  βy: ")
         beta_z = get_number("  βz: ")
         beta_vec = [beta_x, beta_y, beta_z]
         
-        print("\n  Use custom η? (default is 377 Ω)")
-        if get_yes_no("  Custom η? (y/n): "):
-            eta = get_number("  Enter η [Ω]: ", 0)
-            result = poynting_pw('time', a, b, E0, beta_vec, eta)
+        # Ask for custom η
+        if get_yes_no("\n  Custom η (not free space)? (y/n): "):
+            eta = get_number("  η [Ω]: ", 0.1)
         else:
-            # For time mode we need to handle differently
-            a = np.array(a)
-            b = np.array(b)
-            beta_vec = np.array(beta_vec)
             eta = 377
-            E_phasor = E0 * (a - 1j * b)
-            k_hat = beta_vec / np.linalg.norm(beta_vec)
-            H_phasor = (1/eta) * np.cross(k_hat, E_phasor)
-            S_avg = 0.5 * np.real(np.cross(E_phasor, np.conj(H_phasor)))
-            
-            result = PoyntingResult(
-                E_phasor=E_phasor, H_phasor=H_phasor,
-                k_hat=k_hat, eta=eta, S_avg=S_avg, S_mag=np.linalg.norm(S_avg)
-            )
+        
+        a = np.array(a)
+        b = np.array(b)
+        beta_vec = np.array(beta_vec)
+        E_phasor = E0 * (a - 1j * b)
+        k_hat = beta_vec / np.linalg.norm(beta_vec)
+        H_phasor = (1/eta) * np.cross(k_hat, E_phasor)
+        S_avg = 0.5 * np.real(np.cross(E_phasor, np.conj(H_phasor)))
+        
+        result = PoyntingResult(
+            E_phasor=E_phasor, H_phasor=H_phasor,
+            k_hat=k_hat, eta=eta, S_avg=S_avg, S_mag=np.linalg.norm(S_avg)
+        )
     else:
-        print("\n  --- Enter E phasor components ---")
+        print("\n  --- E phasor components ---")
         Ex = get_complex("  Ex: ")
         Ey = get_complex("  Ey: ")
         Ez = get_complex("  Ez: ")
         E = [Ex, Ey, Ez]
         
-        print("\n  --- Enter k or β vector ---")
+        print("\n  --- k or β vector ---")
         kx = get_number("  kx: ")
         ky = get_number("  ky: ")
         kz = get_number("  kz: ")
         k = [kx, ky, kz]
         
-        print("\n  Use custom η? (default is 377 Ω)")
-        if get_yes_no("  Custom η? (y/n): "):
-            eta = get_number("  Enter η [Ω]: ", 0)
+        # Ask for custom η
+        if get_yes_no("\n  Custom η (not free space)? (y/n): "):
+            eta = get_number("  η [Ω]: ", 0.1)
         else:
             eta = 377
         
@@ -874,17 +900,10 @@ def handle_poynting():
     
     print()
     print("  ════════════════════════════════════════")
-    print("       RESULT - H-FIELD & POYNTING")
+    print("       RESULT")
     print("  ════════════════════════════════════════")
-    print(f"  Ẽ₀ = {format_vector(result.E_phasor)} V/m")
-    print(f"  k̂ = [{result.k_hat[0]:.4f}, {result.k_hat[1]:.4f}, {result.k_hat[2]:.4f}]")
-    print(f"  η = {result.eta:.0f} Ω")
-    print("  ────────────────────────────────────────")
-    print("  H̃₀ = (1/η)·k̂ × Ẽ₀")
     H_mA = result.H_phasor * 1e3
     print(f"  H̃₀ = {format_vector(H_mA, 2)} mA/m")
-    print("  ────────────────────────────────────────")
-    print("  S̄ = ½·Re{Ẽ × H̃*}")
     print(f"  S̄ = [{result.S_avg[0]:.3f}; {result.S_avg[1]:.3f}; {result.S_avg[2]:.3f}] W/m²")
     print(f"  |S̄| = {result.S_mag:.3f} W/m²")
     print("  ════════════════════════════════════════")
@@ -899,12 +918,10 @@ def handle_bfield_wire():
     print("  ═══════════════════════════════════════════")
     print()
     
-    print("  --- Enter parameters ---")
     I = get_number("  Current I [A]: ")
     r = get_number("  Distance r [m]: ", 1e-10)
     
-    print("\n  Is the material magnetic (μr ≠ 1)?")
-    if get_yes_no("  (y/n): "):
+    if get_yes_no("  Magnetic material (μr ≠ 1)? (y/n): "):
         mu_r = get_number("  μr: ", 0.1)
     else:
         mu_r = 1.0
@@ -913,11 +930,8 @@ def handle_bfield_wire():
     
     print()
     print("  ════════════════════════════════════════")
-    print("       RESULT")
-    print("  ════════════════════════════════════════")
     print(f"  B = {B:.6e} T")
     print(f"  B = {B*1e6:.6f} μT")
-    print(f"  B = {B*1e3:.6f} mT")
     print("  ════════════════════════════════════════")
 
 
@@ -926,39 +940,313 @@ def handle_coulomb():
     clear_screen()
     print()
     print("  ═══════════════════════════════════════════")
-    print("       COULOMB FORCE BETWEEN CHARGES")
+    print("       COULOMB FORCE")
     print("  ═══════════════════════════════════════════")
     print()
     
-    print("  --- Enter charge 1 ---")
+    print("  --- Charge 1 ---")
     q1 = get_number("  q1 [C]: ")
-    print("  Position r1:")
-    r1x = get_number("    x [m]: ")
-    r1y = get_number("    y [m]: ")
-    r1z = get_number("    z [m]: ")
+    r1x = get_number("  x [m]: ")
+    r1y = get_number("  y [m]: ")
+    r1z = get_number("  z [m]: ")
     r1 = [r1x, r1y, r1z]
     
-    print("\n  --- Enter charge 2 ---")
+    print("\n  --- Charge 2 ---")
     q2 = get_number("  q2 [C]: ")
-    print("  Position r2:")
-    r2x = get_number("    x [m]: ")
-    r2y = get_number("    y [m]: ")
-    r2z = get_number("    z [m]: ")
+    r2x = get_number("  x [m]: ")
+    r2y = get_number("  y [m]: ")
+    r2z = get_number("  z [m]: ")
     r2 = [r2x, r2y, r2z]
     
     F12, F21 = coulomb_pair(q1, q2, r1, r2)
     
     print()
     print("  ════════════════════════════════════════")
-    print("       RESULT")
+    print(f"  F12 = [{F12[0]:.6e}; {F12[1]:.6e}; {F12[2]:.6e}] N")
+    print(f"  |F12| = {np.linalg.norm(F12):.6e} N")
     print("  ════════════════════════════════════════")
-    print("  F12 (force on q1 due to q2):")
-    print(f"    = [{F12[0]:.6e}; {F12[1]:.6e}; {F12[2]:.6e}] N")
-    print(f"    |F12| = {np.linalg.norm(F12):.6e} N")
+
+
+# =============================================================================
+# NEW FEATURE HANDLERS
+# =============================================================================
+
+def handle_inverse_tline():
+    """Handle inverse TLine solver - find Z_L from VSWR + position"""
+    clear_screen()
     print()
-    print("  F21 (force on q2 due to q1):")
-    print(f"    = [{F21[0]:.6e}; {F21[1]:.6e}; {F21[2]:.6e}] N")
-    print(f"    |F21| = {np.linalg.norm(F21):.6e} N")
+    print("  ═══════════════════════════════════════════")
+    print("       INVERSE TLINE SOLVER")
+    print("       Find Z_L from VSWR + Vmin/Vmax position")
+    print("  ═══════════════════════════════════════════")
+    print()
+    print("  This solves exam problems like:")
+    print("  'Given VSWR=3 and first Vmin at z=0.1λ, find Z_L'")
+    print()
+    
+    Z0 = get_number("  Z0 [Ω]: ", 0.1)
+    
+    print("\n  How is the reflection given?")
+    print("    1. VSWR")
+    print("    2. |Γ| (magnitude)")
+    print("    3. Γ [dB] (e.g., -6 dB)")
+    
+    input_mode = int(get_number("  Choice (1-3): ", 1, 3))
+    
+    VSWR = Gamma_mag = Gamma_dB = None
+    
+    if input_mode == 1:
+        VSWR = get_number("  VSWR: ", 1)
+    elif input_mode == 2:
+        Gamma_mag = get_number("  |Γ|: ", 0, 1)
+    else:
+        Gamma_dB = get_number("  Γ [dB]: ")
+    
+    print("\n  What position is given?")
+    print("    1. Voltage MINIMUM position (z_min)")
+    print("    2. Voltage MAXIMUM position (z_max)")
+    
+    pos_mode = int(get_number("  Choice (1-2): ", 1, 2))
+    
+    z_min = z_max = None
+    
+    if pos_mode == 1:
+        z_min = get_number("  z_min [wavelengths]: ", 0)
+    else:
+        z_max = get_number("  z_max [wavelengths]: ", 0)
+    
+    result = TLine_inverse(Z0=Z0, VSWR=VSWR, Gamma_mag=Gamma_mag, 
+                           Gamma_dB=Gamma_dB, z_min=z_min, z_max=z_max)
+    
+    print()
+    print("  ════════════════════════════════════════")
+    print("       RESULT - INVERSE TLINE")
+    print("  ════════════════════════════════════════")
+    print(f"  Input: {result.input_type} → |Γ| = {result.Gamma_mag:.4f}")
+    print(f"  Position: {result.position_type}")
+    print("  ────────────────────────────────────────")
+    print(f"  |Γ| = {result.Gamma_mag:.4f}")
+    print(f"  ∠Γ = {result.Gamma_angle_deg:.2f}°")
+    print(f"  Γ_L = {format_complex(result.Gamma_L)}")
+    print("  ────────────────────────────────────────")
+    print(f"  ★ Z_L = {format_complex(result.ZL)} Ω")
+    print(f"  |Z_L| = {abs(result.ZL):.4f} Ω")
+    print(f"  ∠Z_L = {np.degrees(cmath.phase(result.ZL)):.2f}°")
+    print("  ────────────────────────────────────────")
+    print(f"  VSWR = {result.VSWR:.4f}")
+    print(f"  z_vmin = {result.z_vmin:.4f}λ")
+    print(f"  z_vmax = {result.z_vmax:.4f}λ")
+    print("  ════════════════════════════════════════")
+
+
+def handle_geometry_library():
+    """Handle geometry/component library calculations"""
+    clear_screen()
+    print()
+    print("  ═══════════════════════════════════════════")
+    print("       GEOMETRY & COMPONENT LIBRARY")
+    print("  ═══════════════════════════════════════════")
+    print()
+    print("    1. Solenoid inductance: L = μN²A/ℓ")
+    print("    2. Coaxial capacitance: C = 2πεℓ/ln(b/a)")
+    print("    3. Parallel wire capacitance")
+    print("    4. Parallel plate capacitance: C = εA/d")
+    print()
+    
+    mode = int(get_number("  Enter choice (1-4): ", 1, 4))
+    
+    if mode == 1:
+        print("\n  ═══ SOLENOID INDUCTANCE ═══")
+        print("  L = μ₀·μᵣ·N²·A/ℓ")
+        print()
+        
+        N = int(get_number("  Number of turns N: ", 1))
+        
+        print("\n  Enter area: 1=directly, 2=from radius")
+        area_mode = int(get_number("  Choice: ", 1, 2))
+        
+        if area_mode == 1:
+            A = get_number("  Area A [m²]: ", 0)
+            radius = None
+        else:
+            radius = get_number("  Radius [m]: ", 0)
+            A = None
+        
+        length = get_number("  Length ℓ [m]: ", 0)
+        
+        if get_yes_no("  Magnetic core (μr ≠ 1)? (y/n): "):
+            mu_r = get_number("  μr: ", 0.1)
+        else:
+            mu_r = 1.0
+        
+        result = solenoid_inductance(N=N, A=A, length=length, radius=radius, mu_r=mu_r)
+        
+        print()
+        print("  ════════════════════════════════════════")
+        print("       RESULT - SOLENOID INDUCTANCE")
+        print("  ════════════════════════════════════════")
+        print(f"  N = {result.N} turns")
+        print(f"  A = {result.A:.6e} m²")
+        print(f"  ℓ = {result.length:.6e} m")
+        print(f"  μr = {result.mu_r}")
+        print("  ────────────────────────────────────────")
+        print(f"  ★ L = {result.L:.6e} H")
+        print(f"    L = {result.L_uH:.4f} μH")
+        print(f"    L = {result.L_nH:.4f} nH")
+        print("  ════════════════════════════════════════")
+        
+    elif mode == 2:
+        print("\n  ═══ COAXIAL CAPACITANCE ═══")
+        print("  C = 2π·ε₀·εᵣ·ℓ / ln(b/a)")
+        print()
+        
+        a = get_number("  Inner radius a [m]: ", 0)
+        b = get_number("  Outer radius b [m]: ", 0)
+        length = get_number("  Length ℓ [m]: ", 0)
+        
+        if get_yes_no("  Dielectric (εr ≠ 1)? (y/n): "):
+            eps_r = get_number("  εr: ", 0.1)
+        else:
+            eps_r = 1.0
+        
+        result = coax_capacitance(a=a, b=b, length=length, eps_r=eps_r)
+        
+        print()
+        print("  ════════════════════════════════════════")
+        print("       RESULT - COAXIAL CAPACITANCE")
+        print("  ════════════════════════════════════════")
+        print(f"  a = {result.inner_radius:.6e} m")
+        print(f"  b = {result.outer_radius:.6e} m")
+        print(f"  ℓ = {result.length:.6e} m")
+        print(f"  εr = {result.eps_r}")
+        print("  ────────────────────────────────────────")
+        print(f"  ★ C = {result.C:.6e} F")
+        print(f"    C = {result.C_pF:.4f} pF")
+        print(f"    C = {result.C_nF:.6f} nF")
+        print("  ════════════════════════════════════════")
+        
+    elif mode == 3:
+        print("\n  ═══ PARALLEL WIRE CAPACITANCE ═══")
+        print("  C = π·ε₀·εᵣ·ℓ / arccosh(d/2R)")
+        print()
+        
+        d = get_number("  Wire separation d [m]: ", 0)
+        R = get_number("  Wire radius R [m]: ", 0)
+        length = get_number("  Length ℓ [m]: ", 0)
+        
+        if get_yes_no("  Dielectric (εr ≠ 1)? (y/n): "):
+            eps_r = get_number("  εr: ", 0.1)
+        else:
+            eps_r = 1.0
+        
+        result = parallel_wire_capacitance(d=d, R=R, length=length, eps_r=eps_r)
+        
+        print()
+        print("  ════════════════════════════════════════")
+        print("       RESULT - PARALLEL WIRE CAPACITANCE")
+        print("  ════════════════════════════════════════")
+        print(f"  d = {result.wire_separation:.6e} m")
+        print(f"  R = {result.wire_radius:.6e} m")
+        print(f"  ℓ = {result.length:.6e} m")
+        print(f"  εr = {result.eps_r}")
+        print("  ────────────────────────────────────────")
+        print(f"  ★ C = {result.C:.6e} F")
+        print(f"    C = {result.C_pF:.4f} pF")
+        print("  ════════════════════════════════════════")
+        
+    else:
+        print("\n  ═══ PARALLEL PLATE CAPACITANCE ═══")
+        print("  C = ε₀·εᵣ·A/d")
+        print()
+        
+        A = get_number("  Plate area A [m²]: ", 0)
+        d = get_number("  Separation d [m]: ", 0)
+        
+        if get_yes_no("  Dielectric (εr ≠ 1)? (y/n): "):
+            eps_r = get_number("  εr: ", 0.1)
+        else:
+            eps_r = 1.0
+        
+        result = parallel_plate_capacitance(A=A, d=d, eps_r=eps_r)
+        
+        print()
+        print("  ════════════════════════════════════════")
+        print("       RESULT - PARALLEL PLATE CAPACITANCE")
+        print("  ════════════════════════════════════════")
+        print(f"  A = {A:.6e} m²")
+        print(f"  d = {d:.6e} m")
+        print(f"  εr = {result.eps_r}")
+        print("  ────────────────────────────────────────")
+        print(f"  ★ C = {result.C:.6e} F")
+        print(f"    C = {result.C_pF:.4f} pF")
+        print("  ════════════════════════════════════════")
+
+
+def handle_wave_uniformity():
+    """Handle wave uniformity analysis"""
+    clear_screen()
+    print()
+    print("  ═══════════════════════════════════════════")
+    print("       WAVE UNIFORMITY ANALYZER")
+    print("  ═══════════════════════════════════════════")
+    print()
+    print("  Checks if α ∥ β for wave propagation")
+    print("  γ = α + jβ (complex propagation constant)")
+    print()
+    print("  UNIFORM:     α ∥ β (same direction)")
+    print("  NON-UNIFORM: α not ∥ β (different directions)")
+    print()
+    
+    print("  Input format:")
+    print("    1. Separate α and β vectors")
+    print("    2. Complex γ vector")
+    
+    fmt = int(get_number("  Choice (1-2): ", 1, 2))
+    
+    if fmt == 1:
+        print("\n  --- Attenuation vector α [Np/m] ---")
+        ax = get_number("  αx: ")
+        ay = get_number("  αy: ")
+        az = get_number("  αz: ")
+        alpha = [ax, ay, az]
+        
+        print("\n  --- Phase vector β [rad/m] ---")
+        bx = get_number("  βx: ")
+        by = get_number("  βy: ")
+        bz = get_number("  βz: ")
+        beta = [bx, by, bz]
+        
+        result = wave_uniformity(alpha=alpha, beta=beta)
+    else:
+        print("\n  --- Complex γ vector ---")
+        print("  Enter each component as α + jβ")
+        gx = get_complex("  γx: ")
+        gy = get_complex("  γy: ")
+        gz = get_complex("  γz: ")
+        gamma = [gx, gy, gz]
+        
+        result = wave_uniformity(gamma=gamma)
+    
+    print()
+    print("  ════════════════════════════════════════")
+    print("       RESULT - WAVE UNIFORMITY")
+    print("  ════════════════════════════════════════")
+    
+    status = "✓ UNIFORM" if result.is_uniform else "✗ NON-UNIFORM"
+    print(f"  ★ Classification: {status}")
+    print(f"    Type: {result.classification}")
+    print("  ────────────────────────────────────────")
+    print(f"  α = [{result.alpha[0]:.4f}; {result.alpha[1]:.4f}; {result.alpha[2]:.4f}]")
+    print(f"  |α| = {result.alpha_mag:.4e} Np/m")
+    print(f"  β = [{result.beta[0]:.4f}; {result.beta[1]:.4f}; {result.beta[2]:.4f}]")
+    print(f"  |β| = {result.beta_mag:.4e} rad/m")
+    print("  ────────────────────────────────────────")
+    print(f"  α × β = [{result.cross_product[0]:.4e}; {result.cross_product[1]:.4e}; {result.cross_product[2]:.4e}]")
+    print(f"  |α × β| = {result.cross_magnitude:.4e}")
+    if result.alpha_mag > 1e-10 and result.beta_mag > 1e-10:
+        print(f"  Angle between α and β: {result.angle_between_deg:.2f}°")
+    print("  ────────────────────────────────────────")
+    print(f"  {result.info}")
     print("  ════════════════════════════════════════")
 
 
@@ -975,7 +1263,7 @@ def main():
         print_menu()
         
         try:
-            choice = int(get_number("  Enter choice (0-9): ", 0, 9))
+            choice = int(get_number("  Enter choice (0-12): ", 0, 12))
         except:
             continue
         
@@ -993,6 +1281,9 @@ def main():
             7: handle_poynting,
             8: handle_bfield_wire,
             9: handle_coulomb,
+            10: handle_inverse_tline,
+            11: handle_geometry_library,
+            12: handle_wave_uniformity,
         }
         
         if choice in handlers:

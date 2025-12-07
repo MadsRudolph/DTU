@@ -6,12 +6,23 @@ Python equivalent of the MATLAB EM Toolbox.
 All functions work with NumPy arrays and complex numbers.
 
 Usage:
-    from em_tools import *
+    from em_calc import *
     
     result = Medium(4, 10e9)
     result = Polarization([1, -1j, 0])
     result = Fresnel(1, 4, 45)
     result = TLine(50, 100, 0.3)
+    
+    # NEW: Inverse TLine - find Z_L from VSWR + position
+    result = TLine_inverse(Z0=75, VSWR=3.0, z_min=0.1)
+    
+    # NEW: Geometry library
+    L = solenoid_inductance(N=100, A=1e-4, length=0.1)
+    C = coax_capacitance(a=1e-3, b=3e-3, length=1.0)
+    C = parallel_wire_capacitance(d=0.01, R=1e-3, length=1.0)
+    
+    # NEW: Wave uniformity check
+    result = wave_uniformity(alpha=[0,0,1], beta=[0,0,5])
 """
 
 import numpy as np
@@ -115,8 +126,8 @@ class MediumResult:
     gamma: complex = 0j
     alpha: float = 0.0
     beta: float = 0.0
-    lambda_: float = 0.0  # wavelength (lambda is reserved)
-    up: float = 0.0  # phase velocity
+    lambda_: float = 0.0
+    up: float = 0.0
     eta: complex = 0j
     n: float = 1.0
     skin_depth: float = float('inf')
@@ -131,13 +142,11 @@ def Medium(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> MediumResult:
         Medium(eps_r, freq)                    - Lossless dielectric
         Medium(eps_r, sigma, freq)             - Lossy medium
         Medium(eps_r, sigma, freq, mu_r)       - Magnetic material
-        Medium(eps_r, sigma, freq, mu_r, name) - With label
         Medium('conductor', sigma, freq)       - Good conductor
         Medium('skin', sigma, freq)            - Skin depth only
         Medium('free', freq)                   - Free space
         Medium('tand', eps_r, tan_delta, freq) - From loss tangent
     """
-    # Detect mode
     if isinstance(arg1, str):
         mode = arg1.lower()
         if mode == 'free':
@@ -154,12 +163,9 @@ def Medium(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> MediumResult:
         else:
             raise ValueError(f"Unknown mode: {mode}")
     else:
-        # Numeric input
         if arg3 is None:
-            # Lossless: Medium(eps_r, freq)
             return _medium_lossless(arg1, arg2)
         else:
-            # Lossy: Medium(eps_r, sigma, freq, [mu_r], [name])
             mu_r = arg4 if arg4 is not None else 1.0
             name = arg5 if arg5 is not None else "Lossy Medium"
             return _medium_lossy(arg1, arg2, arg3, mu_r, name)
@@ -176,13 +182,12 @@ def _medium_lossless(eps_r: float, freq: float, mu_r: float = 1.0) -> MediumResu
     eta = np.sqrt(mu / eps)
     n = C0 / up
     
-    result = MediumResult(
+    return MediumResult(
         eps_r=eps_r, mu_r=mu_r, sigma=0, freq=freq, omega=omega,
         tan_delta=0, classification='Lossless',
         gamma=1j * beta, alpha=0, beta=beta,
         lambda_=lambda_, up=up, eta=eta, n=n, skin_depth=float('inf')
     )
-    return result
 
 
 def _medium_lossy(eps_r: float, sigma: float, freq: float, mu_r: float = 1.0, name: str = "Lossy Medium") -> MediumResult:
@@ -244,7 +249,6 @@ def _medium_conductor(sigma: float, freq: float, mu_r: float = 1.0) -> MediumRes
 def _medium_skin_depth(sigma: float, freq: float, mu_r: float = 1.0) -> MediumResult:
     mu = MU0 * mu_r
     delta = 1 / np.sqrt(np.pi * freq * mu * sigma)
-    
     return MediumResult(sigma=sigma, mu_r=mu_r, freq=freq, skin_depth=delta)
 
 
@@ -276,7 +280,7 @@ class PolarizationResult:
     """Results from Polarization analysis"""
     type: str = ""
     handedness: str = "N/A"
-    AR: float = 1.0  # Axial ratio
+    AR: float = 1.0
     AR_dB: float = 0.0
     major: float = 0.0
     minor: float = 0.0
@@ -296,14 +300,12 @@ def Polarization(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> Polarizati
         Polarization(u, v, beta)                     - Time-domain coefficients
     """
     if isinstance(arg1, str) and arg1.lower() == 'ap':
-        # Amplitude/Phase mode
         Ex, Ey, phi_x, phi_y = arg2, arg3, arg4, arg5
         Fx = Ex * cmath.exp(1j * np.radians(phi_x))
         Fy = Ey * cmath.exp(1j * np.radians(phi_y))
         F = np.array([Fx, Fy, 0], dtype=complex)
         k_hat = np.array([0, 0, 1.0])
     elif arg2 is not None and arg3 is not None and np.isrealobj(arg1) and np.isrealobj(arg2):
-        # Time-domain mode: u, v, beta
         u = np.array(arg1, dtype=float).flatten()
         v = np.array(arg2, dtype=float).flatten()
         beta = np.array(arg3, dtype=float).flatten()
@@ -312,7 +314,6 @@ def Polarization(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> Polarizati
         F = u - 1j * v
         k_hat = beta / np.linalg.norm(beta)
     else:
-        # Complex phasor mode
         F = np.array(arg1, dtype=complex).flatten()
         if len(F) == 2:
             F = np.append(F, 0)
@@ -325,7 +326,6 @@ def Polarization(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> Polarizati
     Fr = np.real(F)
     Fi = np.imag(F)
     
-    # Classification tolerance
     tol = 1e-3
     scale = max(np.linalg.norm(Fr), np.linalg.norm(Fi))
     if scale == 0:
@@ -338,15 +338,12 @@ def Polarization(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> Polarizati
     amp_equal = abs(np.linalg.norm(Fr) - np.linalg.norm(Fi)) < tol * scale
     is_circular = (not is_linear) and (abs(dot_ri) < tol * scale**2) and amp_equal
     
-    # Handedness
     if is_linear:
         handedness = "N/A"
     else:
-        # E(t) = Fr*cos - Fi*sin = u*cos + v*sin where u=Fr, v=-Fi
         hand = np.dot(k_hat, np.cross(Fr, -Fi))
         handedness = "RHCP" if hand > 0 else "LHCP"
     
-    # Type
     if is_linear:
         pol_type = "Linear"
     elif is_circular:
@@ -354,7 +351,6 @@ def Polarization(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> Polarizati
     else:
         pol_type = "Elliptical"
     
-    # Axial ratio calculation
     idx = np.argsort(np.abs(Fr) + np.abs(Fi))[::-1][:2]
     Fr2 = Fr[idx]
     Fi2 = Fi[idx]
@@ -427,11 +423,9 @@ def Fresnel(arg1, arg2=None, arg3=None, arg4=None) -> FresnelResult:
     Modes:
         Fresnel(eps_r1, eps_r2)                 - Normal incidence
         Fresnel(eps_r1, eps_r2, theta_i)        - Oblique incidence
-        Fresnel(eps_r1, eps_r2, theta_i, 'TE')  - TE only
-        Fresnel(eps_r1, eps_r2, theta_i, 'TM')  - TM only
         Fresnel('snell', n1, n2, theta_i)       - Snell's law
-        Fresnel('brewster', eps_r1, eps_r2)    - Brewster angle
-        Fresnel('critical', eps_r1, eps_r2)    - Critical angle
+        Fresnel('brewster', eps_r1, eps_r2)     - Brewster angle
+        Fresnel('critical', eps_r1, eps_r2)     - Critical angle
     """
     if isinstance(arg1, str):
         mode = arg1.lower()
@@ -445,19 +439,17 @@ def Fresnel(arg1, arg2=None, arg3=None, arg4=None) -> FresnelResult:
             raise ValueError(f"Unknown mode: {mode}")
     else:
         if arg3 is None:
-            # Normal incidence
             return _fresnel_normal(arg1, arg2)
         else:
-            # Oblique incidence
             pol = arg4 if arg4 is not None else 'both'
             return _fresnel_oblique(arg1, arg2, arg3, pol)
 
 
-def _fresnel_normal(eps_r1: float, eps_r2: float, mu_r1: float = 1.0, mu_r2: float = 1.0) -> FresnelResult:
-    eta1 = ETA0 * np.sqrt(mu_r1 / eps_r1)
-    eta2 = ETA0 * np.sqrt(mu_r2 / eps_r2)
-    n1 = np.sqrt(eps_r1 * mu_r1)
-    n2 = np.sqrt(eps_r2 * mu_r2)
+def _fresnel_normal(eps_r1: float, eps_r2: float) -> FresnelResult:
+    eta1 = ETA0 / np.sqrt(eps_r1)
+    eta2 = ETA0 / np.sqrt(eps_r2)
+    n1 = np.sqrt(eps_r1)
+    n2 = np.sqrt(eps_r2)
     
     Gamma = (eta2 - eta1) / (eta2 + eta1)
     tau = 2 * eta2 / (eta2 + eta1)
@@ -465,7 +457,7 @@ def _fresnel_normal(eps_r1: float, eps_r2: float, mu_r1: float = 1.0, mu_r2: flo
     T = 1 - R
     
     return FresnelResult(
-        eps_r1=eps_r1, eps_r2=eps_r2, mu_r1=mu_r1, mu_r2=mu_r2,
+        eps_r1=eps_r1, eps_r2=eps_r2,
         eta1=eta1, eta2=eta2, n1=n1, n2=n2,
         theta_i=0, theta_t=0,
         Gamma=Gamma, Gamma_TE=Gamma, Gamma_TM=Gamma,
@@ -475,8 +467,8 @@ def _fresnel_normal(eps_r1: float, eps_r2: float, mu_r1: float = 1.0, mu_r2: flo
 
 
 def _fresnel_oblique(eps_r1: float, eps_r2: float, theta_i_deg: float, pol: str = 'both') -> FresnelResult:
-    eta1 = ETA0 * np.sqrt(1.0 / eps_r1)
-    eta2 = ETA0 * np.sqrt(1.0 / eps_r2)
+    eta1 = ETA0 / np.sqrt(eps_r1)
+    eta2 = ETA0 / np.sqrt(eps_r2)
     n1 = np.sqrt(eps_r1)
     n2 = np.sqrt(eps_r2)
     
@@ -490,7 +482,6 @@ def _fresnel_oblique(eps_r1: float, eps_r2: float, theta_i_deg: float, pol: str 
     )
     
     if abs(sin_theta_t) > 1:
-        # Total internal reflection
         result.TIR = True
         result.theta_t = float('nan')
         result.Gamma_TE = cmath.exp(1j * 2 * _tir_phase(n1, n2, theta_i, 'TE'))
@@ -504,12 +495,10 @@ def _fresnel_oblique(eps_r1: float, eps_r2: float, theta_i_deg: float, pol: str 
     theta_t = np.arcsin(sin_theta_t)
     result.theta_t = np.degrees(theta_t)
     
-    # TE (s-polarized)
     Gamma_TE = (eta2 * np.cos(theta_i) - eta1 * np.cos(theta_t)) / \
                (eta2 * np.cos(theta_i) + eta1 * np.cos(theta_t))
     tau_TE = 2 * eta2 * np.cos(theta_i) / (eta2 * np.cos(theta_i) + eta1 * np.cos(theta_t))
     
-    # TM (p-polarized)
     Gamma_TM = (eta2 * np.cos(theta_t) - eta1 * np.cos(theta_i)) / \
                (eta2 * np.cos(theta_t) + eta1 * np.cos(theta_i))
     tau_TM = 2 * eta2 * np.cos(theta_i) / (eta2 * np.cos(theta_t) + eta1 * np.cos(theta_i))
@@ -573,10 +562,10 @@ def _fresnel_critical(eps_r1: float, eps_r2: float) -> FresnelResult:
     
     if n1 > n2:
         result.theta_critical = np.degrees(np.arcsin(n2 / n1))
-        result.TIR = True  # TIR is possible
+        result.TIR = True
     else:
         result.theta_critical = float('nan')
-        result.TIR = False  # TIR not possible
+        result.TIR = False
     
     return result
 
@@ -599,7 +588,6 @@ class TLineResult:
     P_reflected: float = 0.0
     P_delivered: float = 1.0
     RL_dB: float = float('inf')
-    # For stub design
     short_len: float = 0.0
     open_len: float = 0.0
 
@@ -617,7 +605,6 @@ def TLine(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> TLineResult:
         TLine('load', Z0, Gamma_in, len)       - Find load from Gamma at input
         TLine('QW', Z_source, Z_load)          - Quarter-wave transformer
         TLine('stub', Z_target, Z0)            - Stub design
-        TLine('stub', Z_target, Z0, 'short')   - Short stub only
     """
     if isinstance(arg1, str):
         mode = arg1.lower()
@@ -636,14 +623,9 @@ def TLine(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> TLineResult:
         elif mode == 'stub':
             stub_type = arg4 if arg4 is not None else 'both'
             return _tline_stub(arg2, arg3, stub_type)
-        elif mode == 'gamma_in':
-            return _tline_gamma_propagate(arg2, arg3)
-        elif mode == 'gamma_l':
-            return _tline_gamma_to_load(arg2, arg3)
         else:
             raise ValueError(f"Unknown mode: {mode}")
     else:
-        # Basic analysis: TLine(Z0, ZL, len_lambda)
         return _tline_basic(arg1, arg2, arg3)
 
 
@@ -653,7 +635,6 @@ def _tline_basic(Z0: float, ZL: complex, len_lambda: float) -> TLineResult:
     Gamma_L = (ZL - Z0) / (ZL + Z0)
     Gamma_in = Gamma_L * cmath.exp(-1j * 2 * beta_l)
     
-    # Input impedance
     if abs(len_lambda % 0.5 - 0.25) < 1e-9:
         Z_in = Z0 ** 2 / ZL
     elif abs(len_lambda % 0.5) < 1e-9:
@@ -668,7 +649,6 @@ def _tline_basic(Z0: float, ZL: complex, len_lambda: float) -> TLineResult:
     P_delivered = 1 - P_reflected
     RL_dB = -20 * np.log10(mag_Gamma) if mag_Gamma > 0 else float('inf')
     
-    # Vmax/Vmin positions
     if mag_Gamma > 1e-10:
         phi_L = cmath.phase(Gamma_L)
         z_vmax = (-phi_L / (4 * np.pi)) % 0.5
@@ -707,7 +687,6 @@ def _tline_gamma_from_z(Z0: float, Z: complex) -> TLineResult:
     Gamma = (Z - Z0) / (Z + Z0)
     mag = abs(Gamma)
     VSWR = (1 + mag) / (1 - mag) if mag < 1 else float('inf')
-    
     return TLineResult(Z0=Z0, ZL=Z, Gamma_L=Gamma, VSWR=VSWR)
 
 
@@ -730,113 +709,515 @@ def _tline_find_load(Z0: float, Gamma_in: complex, len_lambda: float) -> TLineRe
     )
 
 
-def _tline_gamma_propagate(Gamma_L: complex, len_lambda: float) -> TLineResult:
-    beta_l = 2 * np.pi * len_lambda
-    Gamma_in = Gamma_L * cmath.exp(-1j * 2 * beta_l)
-    return TLineResult(Gamma_L=Gamma_L, Gamma_in=Gamma_in, len_lambda=len_lambda)
-
-
-def _tline_gamma_to_load(Gamma_in: complex, len_lambda: float) -> TLineResult:
-    beta_l = 2 * np.pi * len_lambda
-    Gamma_L = Gamma_in * cmath.exp(1j * 2 * beta_l)
-    return TLineResult(Gamma_L=Gamma_L, Gamma_in=Gamma_in, len_lambda=len_lambda)
-
-
 def _tline_quarter_wave(Z_source: float, Z_load: float) -> TLineResult:
     Z_qw = np.sqrt(Z_source * Z_load)
     return TLineResult(Z0=Z_qw, ZL=Z_load, len_lambda=0.25)
 
 
 def _tline_stub(Z_target: complex, Z0: float, stub_type: str = 'both') -> TLineResult:
-    X = Z_target.imag if isinstance(Z_target, complex) else Z_target
+    X = Z_target.imag
+    result = TLineResult(Z0=Z0, ZL=Z_target)
     
-    result = TLineResult(Z0=Z0)
+    if stub_type.lower() in ['short', 'both']:
+        if X >= 0:
+            result.short_len = np.arctan(X / Z0) / (2 * np.pi)
+        else:
+            result.short_len = (np.pi + np.arctan(X / Z0)) / (2 * np.pi)
     
-    # Short stub: Z_in = j*Z0*tan(β*ℓ) = jX → tan(βℓ) = X/Z0
-    tan_bl = X / Z0
-    beta_l = np.arctan(tan_bl)
-    if beta_l < 0:
-        beta_l += np.pi
-    result.short_len = beta_l / (2 * np.pi)
-    
-    # Open stub: Z_in = -j*Z0*cot(β*ℓ) = jX → cot(βℓ) = -X/Z0
-    if abs(X) > 1e-10:
-        tan_bl_open = -Z0 / X
-        beta_l_open = np.arctan(tan_bl_open)
-        if beta_l_open < 0:
-            beta_l_open += np.pi
-        result.open_len = beta_l_open / (2 * np.pi)
-    else:
-        result.open_len = float('nan')
+    if stub_type.lower() in ['open', 'both']:
+        if X <= 0:
+            result.open_len = -np.arctan(Z0 / X) / (2 * np.pi) if X != 0 else 0.25
+        else:
+            result.open_len = (np.pi - np.arctan(Z0 / X)) / (2 * np.pi)
     
     return result
 
 
 # =============================================================================
-# STUBMATCH - Single-stub matching
+# NEW FEATURE 1: INVERSE TLINE SOLVER
+# =============================================================================
+@dataclass
+class TLineInverseResult:
+    """Results from inverse TLine calculation (find Z_L from VSWR + position)"""
+    Z0: float = 50.0
+    ZL: complex = 50.0
+    VSWR: float = 1.0
+    Gamma_mag: float = 0.0
+    Gamma_angle_deg: float = 0.0
+    Gamma_L: complex = 0j
+    z_vmin: float = 0.0
+    z_vmax: float = 0.0
+    input_type: str = ""
+    position_type: str = ""
+
+
+def TLine_inverse(Z0: float, 
+                  VSWR: float = None, 
+                  Gamma_mag: float = None,
+                  Gamma_dB: float = None,
+                  z_min: float = None, 
+                  z_max: float = None) -> TLineInverseResult:
+    """
+    Inverse TLine solver: Find Z_L from VSWR (or |Γ|) and voltage min/max position.
+    
+    This solves the common exam problem type where you're given:
+      - VSWR (or |Γ| or Γ in dB)
+      - Position of voltage minimum or maximum (in wavelengths)
+      - Z0 of the line
+    And you need to find Z_L.
+    
+    Parameters:
+        Z0: Characteristic impedance [Ω]
+        VSWR: Voltage standing wave ratio (provide ONE of VSWR, Gamma_mag, Gamma_dB)
+        Gamma_mag: |Γ| magnitude directly
+        Gamma_dB: Γ in dB (20*log10|Γ|)
+        z_min: Position of voltage MINIMUM from load [wavelengths]
+        z_max: Position of voltage MAXIMUM from load [wavelengths]
+    
+    Returns:
+        TLineInverseResult with ZL, Gamma_L, etc.
+    
+    Theory:
+        From VSWR: |Γ| = (VSWR - 1) / (VSWR + 1)
+        From Γ_dB: |Γ| = 10^(Γ_dB/20)
+        
+        At voltage MINIMUM: ∠Γ_L = π + 4π·z_min
+        At voltage MAXIMUM: ∠Γ_L = 4π·z_max
+        
+        Then: Z_L = Z0 · (1 + Γ_L) / (1 - Γ_L)
+    
+    Examples:
+        # Given VSWR=3 and first voltage minimum at z=0.1λ from load
+        result = TLine_inverse(Z0=75, VSWR=3.0, z_min=0.1)
+        
+        # Given |Γ|=0.5 and first voltage maximum at z=0.2λ
+        result = TLine_inverse(Z0=50, Gamma_mag=0.5, z_max=0.2)
+        
+        # Given Γ=-6dB and z_min=0.15λ
+        result = TLine_inverse(Z0=75, Gamma_dB=-6, z_min=0.15)
+    """
+    result = TLineInverseResult(Z0=Z0)
+    
+    # Step 1: Determine |Γ| from input
+    input_count = sum(x is not None for x in [VSWR, Gamma_mag, Gamma_dB])
+    if input_count != 1:
+        raise ValueError("Provide exactly ONE of: VSWR, Gamma_mag, or Gamma_dB")
+    
+    if VSWR is not None:
+        if VSWR < 1:
+            raise ValueError("VSWR must be >= 1")
+        mag_Gamma = (VSWR - 1) / (VSWR + 1)
+        result.VSWR = VSWR
+        result.input_type = "VSWR"
+    elif Gamma_mag is not None:
+        if Gamma_mag < 0 or Gamma_mag > 1:
+            raise ValueError("|Γ| must be between 0 and 1")
+        mag_Gamma = Gamma_mag
+        result.VSWR = (1 + mag_Gamma) / (1 - mag_Gamma) if mag_Gamma < 1 else float('inf')
+        result.input_type = "Gamma_mag"
+    else:
+        mag_Gamma = 10 ** (Gamma_dB / 20)
+        if mag_Gamma > 1:
+            raise ValueError("Γ_dB would give |Γ| > 1, check sign")
+        result.VSWR = (1 + mag_Gamma) / (1 - mag_Gamma) if mag_Gamma < 1 else float('inf')
+        result.input_type = "Gamma_dB"
+    
+    result.Gamma_mag = mag_Gamma
+    
+    # Step 2: Determine ∠Γ from position
+    position_count = sum(x is not None for x in [z_min, z_max])
+    if position_count != 1:
+        raise ValueError("Provide exactly ONE of: z_min or z_max")
+    
+    if z_min is not None:
+        angle_Gamma = np.pi + 4 * np.pi * z_min
+        result.z_vmin = z_min
+        result.z_vmax = (z_min + 0.25) % 0.5
+        result.position_type = "v_min"
+    else:
+        angle_Gamma = 4 * np.pi * z_max
+        result.z_vmax = z_max
+        result.z_vmin = (z_max + 0.25) % 0.5
+        result.position_type = "v_max"
+    
+    angle_Gamma = np.arctan2(np.sin(angle_Gamma), np.cos(angle_Gamma))
+    result.Gamma_angle_deg = np.degrees(angle_Gamma)
+    
+    # Step 3: Form Γ_L and calculate Z_L
+    Gamma_L = mag_Gamma * cmath.exp(1j * angle_Gamma)
+    result.Gamma_L = Gamma_L
+    
+    ZL = Z0 * (1 + Gamma_L) / (1 - Gamma_L)
+    result.ZL = ZL
+    
+    return result
+
+
+# =============================================================================
+# NEW FEATURE 2: GEOMETRY & COMPONENT LIBRARY
+# =============================================================================
+@dataclass
+class InductanceResult:
+    """Results from inductance calculation"""
+    L: float = 0.0
+    L_uH: float = 0.0
+    L_nH: float = 0.0
+    geometry: str = ""
+    N: int = 0
+    A: float = 0.0
+    length: float = 0.0
+    mu_r: float = 1.0
+
+
+def solenoid_inductance(N: int, A: float = None, length: float = None,
+                        radius: float = None, mu_r: float = 1.0) -> InductanceResult:
+    """
+    Calculate self-inductance of a solenoid.
+    
+    Formula: L = μ₀·μᵣ·N²·A/ℓ
+    
+    Parameters:
+        N: Number of turns
+        A: Cross-sectional area [m²] (or provide radius)
+        length: Length of solenoid [m]
+        radius: Radius of solenoid [m] (alternative to A)
+        mu_r: Relative permeability of core (default 1 for air)
+    
+    Examples:
+        L = solenoid_inductance(N=100, A=1e-4, length=0.1)
+        L = solenoid_inductance(N=100, A=1e-4, length=0.1, mu_r=1000)
+        L = solenoid_inductance(N=50, radius=0.01, length=0.05)
+    """
+    if A is None and radius is None:
+        raise ValueError("Provide either A (area) or radius")
+    if A is None:
+        A = np.pi * radius**2
+    if length is None or length <= 0:
+        raise ValueError("Length must be positive")
+    if N <= 0:
+        raise ValueError("Number of turns must be positive")
+    
+    mu = MU0 * mu_r
+    L = mu * N**2 * A / length
+    
+    return InductanceResult(
+        L=L, L_uH=L * 1e6, L_nH=L * 1e9,
+        geometry="solenoid", N=N, A=A, length=length, mu_r=mu_r
+    )
+
+
+@dataclass 
+class CapacitanceResult:
+    """Results from capacitance calculation"""
+    C: float = 0.0
+    C_pF: float = 0.0
+    C_nF: float = 0.0
+    geometry: str = ""
+    length: float = 0.0
+    eps_r: float = 1.0
+    inner_radius: float = 0.0
+    outer_radius: float = 0.0
+    wire_separation: float = 0.0
+    wire_radius: float = 0.0
+
+
+def coax_capacitance(a: float, b: float, length: float, eps_r: float = 1.0) -> CapacitanceResult:
+    """
+    Calculate capacitance of coaxial cable.
+    
+    Formula: C = 2π·ε₀·εᵣ·ℓ / ln(b/a)
+    
+    Parameters:
+        a: Inner conductor radius [m]
+        b: Outer conductor radius [m]
+        length: Length of cable [m]
+        eps_r: Relative permittivity (default 1)
+    
+    Example:
+        C = coax_capacitance(a=1e-3, b=3e-3, length=1.0, eps_r=2.1)
+    """
+    if a <= 0 or b <= 0:
+        raise ValueError("Radii must be positive")
+    if a >= b:
+        raise ValueError("Inner radius a must be less than outer radius b")
+    if length <= 0:
+        raise ValueError("Length must be positive")
+    
+    eps = EPS0 * eps_r
+    C = 2 * np.pi * eps * length / np.log(b / a)
+    
+    return CapacitanceResult(
+        C=C, C_pF=C * 1e12, C_nF=C * 1e9,
+        geometry="coaxial", length=length, eps_r=eps_r,
+        inner_radius=a, outer_radius=b
+    )
+
+
+def parallel_wire_capacitance(d: float, R: float, length: float, eps_r: float = 1.0) -> CapacitanceResult:
+    """
+    Calculate capacitance between two parallel wires.
+    
+    Formula: C = π·ε₀·εᵣ·ℓ / arccosh(d/(2R))
+    
+    Parameters:
+        d: Center-to-center separation [m]
+        R: Radius of each wire [m]
+        length: Length [m]
+        eps_r: Relative permittivity (default 1)
+    
+    Example:
+        C = parallel_wire_capacitance(d=0.01, R=1e-3, length=1.0)
+    """
+    if d <= 0 or R <= 0:
+        raise ValueError("Dimensions must be positive")
+    if d <= 2*R:
+        raise ValueError("Separation d must be greater than 2R")
+    if length <= 0:
+        raise ValueError("Length must be positive")
+    
+    eps = EPS0 * eps_r
+    x = d / (2 * R)
+    arccosh_x = np.log(x + np.sqrt(x**2 - 1))
+    
+    C = np.pi * eps * length / arccosh_x
+    
+    return CapacitanceResult(
+        C=C, C_pF=C * 1e12, C_nF=C * 1e9,
+        geometry="parallel_wire", length=length, eps_r=eps_r,
+        wire_separation=d, wire_radius=R
+    )
+
+
+def parallel_plate_capacitance(A: float, d: float, eps_r: float = 1.0) -> CapacitanceResult:
+    """
+    Calculate capacitance of parallel plate capacitor.
+    
+    Formula: C = ε₀·εᵣ·A/d
+    
+    Parameters:
+        A: Plate area [m²]
+        d: Plate separation [m]
+        eps_r: Relative permittivity (default 1)
+    """
+    if A <= 0 or d <= 0:
+        raise ValueError("Area and separation must be positive")
+    
+    eps = EPS0 * eps_r
+    C = eps * A / d
+    
+    return CapacitanceResult(
+        C=C, C_pF=C * 1e12, C_nF=C * 1e9,
+        geometry="parallel_plate", eps_r=eps_r
+    )
+
+
+# =============================================================================
+# NEW FEATURE 3: WAVE UNIFORMITY ANALYZER
+# =============================================================================
+@dataclass
+class WaveUniformityResult:
+    """Results from wave uniformity analysis"""
+    is_uniform: bool = False
+    classification: str = ""
+    alpha: np.ndarray = field(default_factory=lambda: np.zeros(3))
+    beta: np.ndarray = field(default_factory=lambda: np.zeros(3))
+    alpha_mag: float = 0.0
+    beta_mag: float = 0.0
+    cross_product: np.ndarray = field(default_factory=lambda: np.zeros(3))
+    cross_magnitude: float = 0.0
+    angle_between_deg: float = 0.0
+    gamma: np.ndarray = field(default_factory=lambda: np.zeros(3, dtype=complex))
+    info: str = ""
+
+
+def wave_uniformity(alpha=None, beta=None, gamma=None, tol: float = 1e-6) -> WaveUniformityResult:
+    """
+    Analyze wave uniformity by checking if α ∥ β.
+    
+    A plane wave has propagation factor exp(-γ·r) where γ = α + jβ.
+    
+    Classifications:
+        - UNIFORM wave: α ∥ β (parallel) or α = 0 (lossless)
+        - NON-UNIFORM wave: α not parallel to β
+    
+    Parameters:
+        alpha: Attenuation vector [αx, αy, αz] Np/m
+        beta: Phase vector [βx, βy, βz] rad/m
+        gamma: Complex propagation vector (alternative to alpha+beta)
+        tol: Tolerance for parallelism check
+    
+    Examples:
+        # Uniform wave (α parallel to β)
+        result = wave_uniformity(alpha=[0, 0, 1], beta=[0, 0, 5])
+        
+        # Non-uniform wave (α perpendicular to β)
+        result = wave_uniformity(alpha=[1, 0, 0], beta=[0, 0, 5])
+        
+        # From complex gamma
+        result = wave_uniformity(gamma=[0, 0, 1+5j])
+    """
+    result = WaveUniformityResult()
+    
+    if gamma is not None:
+        gamma = np.array(gamma, dtype=complex)
+        alpha = np.real(gamma)
+        beta = np.imag(gamma)
+    elif alpha is not None and beta is not None:
+        alpha = np.array(alpha, dtype=float)
+        beta = np.array(beta, dtype=float)
+        gamma = alpha + 1j * beta
+    else:
+        raise ValueError("Provide either (alpha, beta) OR gamma")
+    
+    if len(alpha) == 2:
+        alpha = np.append(alpha, 0)
+        beta = np.append(beta, 0)
+        gamma = np.append(gamma, 0)
+    
+    result.alpha = alpha
+    result.beta = beta
+    result.gamma = gamma
+    result.alpha_mag = np.linalg.norm(alpha)
+    result.beta_mag = np.linalg.norm(beta)
+    
+    cross = np.cross(alpha, beta)
+    result.cross_product = cross
+    result.cross_magnitude = np.linalg.norm(cross)
+    
+    if result.alpha_mag > tol and result.beta_mag > tol:
+        cos_angle = np.dot(alpha, beta) / (result.alpha_mag * result.beta_mag)
+        cos_angle = np.clip(cos_angle, -1, 1)
+        result.angle_between_deg = np.degrees(np.arccos(abs(cos_angle)))
+    else:
+        result.angle_between_deg = 0.0
+    
+    if result.alpha_mag < tol:
+        result.is_uniform = True
+        result.classification = "Lossless (Uniform)"
+        result.info = "No attenuation (α ≈ 0), wave is inherently uniform."
+    elif result.beta_mag < tol:
+        result.is_uniform = True
+        result.classification = "Evanescent (Uniform)"
+        result.info = "No propagation (β ≈ 0), pure exponential decay."
+    else:
+        scale = result.alpha_mag * result.beta_mag
+        normalized_cross = result.cross_magnitude / scale if scale > 0 else 0
+        
+        if normalized_cross < tol:
+            result.is_uniform = True
+            result.classification = "Uniform"
+            result.info = "α ∥ β: Wave decays and propagates in same direction."
+        else:
+            result.is_uniform = False
+            result.classification = "Non-uniform"
+            result.info = f"α not ∥ β (angle ≈ {result.angle_between_deg:.1f}°)"
+    
+    return result
+
+
+# =============================================================================
+# STUBMATCH - Stub matching calculator
 # =============================================================================
 @dataclass
 class StubMatchResult:
     """Results from StubMatch calculation"""
     ZL: complex = 0j
     Z0: float = 50.0
-    stub_type: str = "short"
-    lambda_: float = float('nan')
-    d: float = 0.0  # Distance to stub (wavelengths)
-    l: float = 0.0  # Stub length (wavelengths)
+    stub_type: str = 'short'
+    d: float = 0.0
+    l: float = 0.0
     d_alt: float = float('nan')
     l_alt: float = float('nan')
-    d_mm: float = 0.0
-    l_mm: float = 0.0
+    lambda_: Optional[float] = None
+    d_mm: Optional[float] = None
+    l_mm: Optional[float] = None
 
 
-def StubMatch(ZL: complex, Z0: float, stub_type: str = 'short', lambda_: float = None) -> StubMatchResult:
+def StubMatch(ZL: complex, Z0: float, stub_type: str = 'short', 
+              lambda_: float = None) -> StubMatchResult:
     """
-    Single-stub matching calculator.
+    Single-stub matching calculator using analytical solution.
     
-    Parameters:
-        ZL: Load impedance [Ω]
-        Z0: Characteristic impedance [Ω]
-        stub_type: 'short' or 'open'
-        lambda_: Wavelength [m] (optional, for physical lengths)
+    Solves for d where Re(Y_in) = Y0, then calculates stub length
+    to cancel the susceptance.
     """
     zL = ZL / Z0
     yL = 1 / zL
-    beta = 2 * np.pi
+    gL = yL.real
+    bL = yL.imag
     
+    beta = 2 * np.pi
     d_solutions = []
     l_solutions = []
     
-    # Search for solutions
-    for d in np.linspace(0.001, 0.499, 1000):
-        y_in = (yL + 1j * np.tan(beta * d)) / (1 + 1j * yL * np.tan(beta * d))
+    # Analytical solution for d where Re(y_in) = 1
+    # y_in = (yL + jt) / (1 + j*yL*t) where t = tan(βd)
+    # Setting Re(y_in) = 1 gives quadratic in t:
+    # (|yL|² - gL)*t² - 2*bL*t + (1 - gL) = 0
+    
+    yL_mag_sq = gL**2 + bL**2
+    
+    A = yL_mag_sq - gL
+    B = -2 * bL
+    C = 1 - gL
+    
+    # Handle special case: gL = 1 (already matched conductance)
+    if abs(A) < 1e-10:
+        if abs(B) > 1e-10:
+            t_values = [-C / B]
+        else:
+            t_values = []
+    else:
+        discriminant = B**2 - 4*A*C
+        if discriminant >= 0:
+            sqrt_disc = np.sqrt(discriminant)
+            t1 = (-B + sqrt_disc) / (2*A)
+            t2 = (-B - sqrt_disc) / (2*A)
+            t_values = [t1, t2]
+        else:
+            t_values = []
+    
+    # Convert t = tan(βd) to d
+    for t in t_values:
+        d = np.arctan(t) / beta
+        # Ensure d is in [0, 0.5)
+        d = d % 0.5
+        if d < 0:
+            d += 0.5
         
-        if abs(y_in.real - 1) < 0.01:
-            # Refine
-            d_fine = np.linspace(max(0.001, d - 0.01), min(0.499, d + 0.01), 100)
-            errors = [abs((yL + 1j * np.tan(beta * df)) / (1 + 1j * yL * np.tan(beta * df)).real - 1) 
-                      for df in d_fine]
-            d_refined = d_fine[np.argmin(errors)]
-            
-            if not d_solutions or all(abs(ds - d_refined) > 0.02 for ds in d_solutions):
-                d_solutions.append(d_refined)
-                
-                y_in = (yL + 1j * np.tan(beta * d_refined)) / (1 + 1j * yL * np.tan(beta * d_refined))
-                b_in = y_in.imag
-                b_stub = -b_in
-                
-                if stub_type.lower() == 'short':
-                    if abs(b_stub) < 1e-10:
-                        l = 0.25
-                    else:
-                        l = np.arctan(-1 / b_stub) / beta
-                else:
-                    l = np.arctan(b_stub) / beta
-                
-                l = l % 0.5
-                if l < 0.001:
-                    l += 0.5
-                l_solutions.append(l)
+        d_solutions.append(d)
+        
+        # Calculate y_in at this d
+        y_in = (yL + 1j * t) / (1 + 1j * yL * t)
+        b_in = y_in.imag  # Susceptance to cancel
+        
+        # Stub susceptance needed: b_stub = -b_in
+        b_stub = -b_in
+        
+        # Calculate stub length
+        if stub_type.lower() == 'short':
+            # Short stub: Y_stub = -j*cot(βℓ)/Z0 → b_stub = -cot(βℓ)
+            # So cot(βℓ) = -b_stub → tan(βℓ) = -1/b_stub
+            if abs(b_stub) < 1e-10:
+                l = 0.25  # 90 degrees for zero susceptance
+            else:
+                l = np.arctan(-1 / b_stub) / beta
+        else:
+            # Open stub: Y_stub = j*tan(βℓ)/Z0 → b_stub = tan(βℓ)
+            l = np.arctan(b_stub) / beta
+        
+        # Ensure l is in (0, 0.5]
+        l = l % 0.5
+        if l < 0.001:
+            l += 0.5
+        
+        l_solutions.append(l)
+    
+    # Sort solutions by d (closest to load first)
+    if len(d_solutions) >= 2:
+        pairs = sorted(zip(d_solutions, l_solutions), key=lambda x: x[0])
+        d_solutions = [p[0] for p in pairs]
+        l_solutions = [p[1] for p in pairs]
     
     result = StubMatchResult(ZL=ZL, Z0=Z0, stub_type=stub_type)
     
@@ -854,12 +1235,15 @@ def StubMatch(ZL: complex, Z0: float, stub_type: str = 'short', lambda_: float =
         if len(d_solutions) >= 2:
             result.d_alt = d_solutions[1]
             result.l_alt = l_solutions[1]
+            if lambda_ is not None:
+                result.d_alt_mm = result.d_alt * lambda_ * 1000
+                result.l_alt_mm = result.l_alt * lambda_ * 1000
     
     return result
 
 
 # =============================================================================
-# POYNTING_PW - Poynting vector and H-field for plane waves
+# POYNTING_PW - Poynting vector and H-field
 # =============================================================================
 @dataclass
 class PoyntingResult:
@@ -875,13 +1259,8 @@ class PoyntingResult:
 def poynting_pw(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> PoyntingResult:
     """
     Plane wave Poynting vector and H-field calculator.
-    
-    Modes:
-        poynting_pw(E_phasor, k_hat, [eta])           - Vector phasor
-        poynting_pw('time', a, b, E0, beta_vec, [eta]) - Time-domain
     """
     if isinstance(arg1, str) and arg1.lower() == 'time':
-        # Time-domain mode
         a = np.array(arg2, dtype=float).flatten()
         b = np.array(arg3, dtype=float).flatten()
         E0 = arg4
@@ -894,7 +1273,6 @@ def poynting_pw(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> PoyntingRes
         E_phasor = E0 * (a - 1j * b)
         k_hat = beta_vec / np.linalg.norm(beta_vec)
     else:
-        # Vector phasor mode
         E_phasor = np.array(arg1, dtype=complex).flatten()
         if len(E_phasor) == 2:
             E_phasor = np.append(E_phasor, 0)
@@ -907,22 +1285,18 @@ def poynting_pw(arg1, arg2=None, arg3=None, arg4=None, arg5=None) -> PoyntingRes
         else:
             k_hat = beta_or_k / np.linalg.norm(beta_or_k)
     
-    # H-field phasor
     H_phasor = (1 / eta) * np.cross(k_hat, E_phasor)
-    
-    # Time-average Poynting vector
     S_avg = 0.5 * np.real(np.cross(E_phasor, np.conj(H_phasor)))
     S_mag = np.linalg.norm(S_avg)
     
     return PoyntingResult(
         E_phasor=E_phasor, H_phasor=H_phasor,
-        k_hat=k_hat, eta=eta,
-        S_avg=S_avg, S_mag=S_mag
+        k_hat=k_hat, eta=eta, S_avg=S_avg, S_mag=S_mag
     )
 
 
 # =============================================================================
-# PLANEWAVECHECK - Verify plane wave conditions
+# PLANEWAVECHECK
 # =============================================================================
 @dataclass
 class PlaneWaveResult:
@@ -940,14 +1314,7 @@ class PlaneWaveResult:
 
 
 def PlaneWaveCheck(mode: str, E, H, k_or_gamma, eta: float = None) -> PlaneWaveResult:
-    """
-    Verify if E and H fields form a valid plane wave.
-    
-    Modes:
-        PlaneWaveCheck('full', E, H, k, [eta])      - Full check with k from exp term
-        PlaneWaveCheck('maxwell', E0, H0, gamma)    - Maxwell's equations check
-        PlaneWaveCheck('basic', E, H, k)            - Basic orthogonality only
-    """
+    """Verify if E and H fields form a valid plane wave."""
     E = np.array(E, dtype=complex).flatten()
     H = np.array(H, dtype=complex).flatten()
     k_or_gamma = np.array(k_or_gamma, dtype=complex).flatten()
@@ -957,7 +1324,6 @@ def PlaneWaveCheck(mode: str, E, H, k_or_gamma, eta: float = None) -> PlaneWaveR
     if len(k_or_gamma) == 2: k_or_gamma = np.append(k_or_gamma, 0)
     
     result = PlaneWaveResult()
-    
     mode = mode.lower()
     
     if mode == 'basic':
@@ -973,51 +1339,43 @@ def PlaneWaveCheck(mode: str, E, H, k_or_gamma, eta: float = None) -> PlaneWaveR
 
 def _pwc_basic(E, H, k, result):
     k_hat = k / np.linalg.norm(k)
+    tol = 1e-6
     
-    # Check transversality
     E_dot_k = abs(np.dot(E, k_hat))
     H_dot_k = abs(np.dot(H, k_hat))
     scale_E = np.linalg.norm(E)
     scale_H = np.linalg.norm(H)
     
-    tol = 1e-6
     result.transverse_E = E_dot_k < tol * scale_E if scale_E > 0 else True
     result.transverse_H = H_dot_k < tol * scale_H if scale_H > 0 else True
     
-    # Check E ⊥ H
     E_dot_H = abs(np.dot(E, np.conj(H)))
     result.orthogonal_EH = E_dot_H < tol * scale_E * scale_H if scale_E * scale_H > 0 else True
     
     result.is_plane_wave = result.transverse_E and result.transverse_H and result.orthogonal_EH
-    
     return result
 
 
 def _pwc_full(E, H, k, eta, result):
     result = _pwc_basic(E, H, k, result)
-    
     k_hat = k / np.linalg.norm(k)
     
-    # Check H = (1/η) * k̂ × E
     H_expected = np.cross(k_hat, E) / eta
     H_error = np.linalg.norm(H - H_expected) / np.linalg.norm(H) if np.linalg.norm(H) > 0 else 0
     
     result.maxwell_valid = H_error < 0.01
     result.eta_expected = eta
     
-    # Calculate actual η ratio
     E_mag = np.linalg.norm(E)
     H_mag = np.linalg.norm(H)
     if H_mag > 0:
         result.eta_ratio = E_mag / H_mag
     
     result.is_plane_wave = result.is_plane_wave and result.maxwell_valid
-    
     return result
 
 
 def _pwc_maxwell(E0, H0, gamma, result):
-    # Check if gamma is purely imaginary (lossless)
     alpha = np.real(gamma)
     beta = np.imag(gamma)
     
@@ -1028,13 +1386,10 @@ def _pwc_maxwell(E0, H0, gamma, result):
     
     result = _pwc_basic(E0, H0, np.real(k_hat) + np.imag(k_hat), result)
     
-    # Check Maxwell: -γ × E0 = -jωμH0 → γ × E0 ∝ H0
     gamma_cross_E = np.cross(gamma, E0)
     
-    # Should be proportional to H0
     if np.linalg.norm(H0) > 0 and np.linalg.norm(gamma_cross_E) > 0:
         ratio = gamma_cross_E / H0
-        # All components should have same ratio
         nonzero = np.abs(H0) > 1e-10 * np.max(np.abs(H0))
         if np.any(nonzero):
             ratios = ratio[nonzero]
@@ -1042,12 +1397,11 @@ def _pwc_maxwell(E0, H0, gamma, result):
             result.maxwell_valid = spread < 0.01
     
     result.is_plane_wave = result.transverse_E and result.transverse_H and result.orthogonal_EH
-    
     return result
 
 
 # =============================================================================
-# Convenience function for rect2pol
+# Convenience function
 # =============================================================================
 def rect2pol(z: complex) -> Tuple[float, float]:
     """Convert complex number to (magnitude, angle_degrees)"""
