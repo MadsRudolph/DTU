@@ -19,6 +19,63 @@ Interactive menu-driven interface for solving electromagnetic problems.
 
 ---
 
+## ⚠️ Python Environment (READ THIS IF NOTHING RUNS)
+
+> **TL;DR:**  
+> Do **NOT** use the default `python` in Git Bash.  
+> It points to **MSYS2 Python**, which will NOT install NumPy cleanly.  
+> Always use a **Windows Python virtual environment (`venv`)**.
+
+### ✅ One-Time Setup (DO THIS ONCE)
+
+From the **Assistant** folder:
+
+```bash
+py -3 -m venv .venv
+source .venv/Scripts/activate
+python -m pip install --upgrade pip
+python -m pip install numpy
+```
+
+Verify everything works:
+
+```bash
+python -c "import numpy as np; print(np.__version__)"
+python em_assistant.py
+```
+
+---
+
+### ✅ Daily Use
+
+```bash
+cd ~/DTU/3.semester/Electromagnetics/Assistant
+source .venv/Scripts/activate
+python em_assistant.py
+```
+
+If you see:
+
+```
+ModuleNotFoundError: No module named 'numpy'
+```
+
+You forgot to activate the venv.
+
+---
+
+### 🔍 Sanity Check
+
+```bash
+python -c "import sys; print(sys.executable)"
+```
+
+Should point to:
+
+```
+.../Assistant/.venv/Scripts/python.exe
+```
+
 ## Problem → Menu Guide
 
 **Use this table to quickly find the right menu option based on your exam problem.**
