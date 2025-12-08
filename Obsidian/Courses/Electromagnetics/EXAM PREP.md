@@ -7,6 +7,7 @@ Use this page as the index for all other notes (Lectures, Exercises, Home Assign
 
 ---
 
+
 # 1) EM TOPIC MAP  
 Full overview of everything examinable.
 
@@ -16,7 +17,7 @@ Full overview of everything examinable.
 
 - Maxwell’s equations (time domain + phasor form)  
 - Constitutive relations:  
-  $ \mathbf D=\varepsilon\mathbf E,\ \mathbf B=\mu\mathbf H,\ \mathbf J=\sigma\mathbf E $
+  $\mathbf D=\varepsilon\mathbf E,\ \mathbf B=\mu\mathbf H,\ \mathbf J=\sigma\mathbf E$
 - Coordinate systems:
   - Cartesian / Cylindrical / Spherical  
   - Differential elements, Jacobians  
@@ -388,3 +389,4 @@ From here jump to:
 - `[[Home Assignment 1]]`, `[[Home Assignment 2]]`, `[[Home Assignment 3]]`  
 - Any past exam solution notes you add later.
 
+92486
