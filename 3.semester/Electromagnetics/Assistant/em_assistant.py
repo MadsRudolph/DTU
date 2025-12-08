@@ -66,6 +66,7 @@ def print_menu():
     print("  │  10. Inverse TLine (VSWR→Z_L)          │")
     print("  │  11. Geometry Library (L, C)           │")
     print("  │  12. Wave Uniformity Analyzer          │")
+    print("  │  13. 🧠 Smart Solver                   │")
     print("  │                                        │")
     print("  │  0. Exit                               │")
     print("  └────────────────────────────────────────┘")
@@ -1254,6 +1255,454 @@ def handle_wave_uniformity():
 # MAIN
 # =============================================================================
 
+def handle_smart_solver():
+    """Handle Smart Solver with guided interview mode"""
+    clear_screen()
+    
+    # Import SmartSolver
+    try:
+        from em_smart import SmartSolver, parse_value
+    except ImportError:
+        print("  ⚠ Error: em_smart.py not found!")
+        print("  Make sure em_smart.py is in the same folder.")
+        return
+    
+    # =========================================================================
+    # VARIABLE DEFINITIONS FOR EACH TOPIC
+    # =========================================================================
+    TOPICS = {
+        1: {
+            'name': 'Transmission Line',
+            'icon': '📡',
+            'vars': [
+                ('f', 'Frequency', 'Hz', '2G for 2 GHz'),
+                ('Z0', 'Characteristic Impedance Z₀', 'Ω', '50'),
+                ('ZL', 'Load Impedance Z_L', 'Ω', '100+j50'),
+                ('Zg', 'Generator Impedance Z_g', 'Ω', '50'),
+                ('Vg', 'Generator Voltage V_g', 'V', '5'),
+                ('len_lambda', 'Electrical Length', 'λ', '0.25 for λ/4'),
+                ('l', 'Physical Length', 'm', '0.15'),
+                ('up_factor', 'Velocity Factor', '×c₀', '0.66'),
+                ('VSWR', 'VSWR', '', '2.5'),
+            ]
+        },
+        2: {
+            'name': 'Plane Wave / Material',
+            'icon': '🌊',
+            'vars': [
+                ('f', 'Frequency', 'Hz', '300M for 300 MHz'),
+                ('eps_r', 'Relative Permittivity ε_r', '', '4.5'),
+                ('mu_r', 'Relative Permeability μ_r', '', '1'),
+                ('tan_delta', 'Loss Tangent tan(δ)', '', '0.02'),
+                ('sigma', 'Conductivity σ', 'S/m', '58M for copper'),
+                ('n', 'Refractive Index n', '', '1.5'),
+            ]
+        },
+        3: {
+            'name': 'Stub Matching',
+            'icon': '🔧',
+            'vars': [
+                ('f', 'Frequency', 'Hz', '2G'),
+                ('Z0', 'Line Impedance Z₀', 'Ω', '50'),
+                ('ZL', 'Load Impedance Z_L', 'Ω', '100+j50'),
+                ('up_factor', 'Velocity Factor', '×c₀', '0.66'),
+                ('stub_type', 'Stub Type', '', 'open or short'),
+                ('C_eq', 'Equiv. Capacitance (inverse stub)', 'F', '2p for 2 pF'),
+                ('L_eq', 'Equiv. Inductance (inverse stub)', 'H', '20n for 20 nH'),
+            ]
+        },
+        4: {
+            'name': 'RLGC Line',
+            'icon': '⚡',
+            'vars': [
+                ('f', 'Frequency', 'Hz', '10G'),
+                ('R_prime', "Resistance R'", 'Ω/m', '3.112'),
+                ('L_prime', "Inductance L'", 'H/m', '337.3n'),
+                ('G_prime', "Conductance G'", 'S/m', '38.9m'),
+                ('C_prime', "Capacitance C'", 'F/m', '61.9p'),
+            ]
+        },
+        5: {
+            'name': 'Geometry (L, C)',
+            'icon': '📐',
+            'vars': [
+                ('N', 'Number of Turns', '', '200'),
+                ('l_sol', 'Solenoid Length', 'm', '0.1'),
+                ('A_sol', 'Solenoid Cross-Section Area', 'm²', '1.33e-4'),
+                ('a', 'Inner Radius (coax)', 'm', '0.5e-2'),
+                ('b', 'Outer Radius (coax)', 'm', '2.5e-2'),
+                ('L', 'Length', 'm', '0.1'),
+                ('d', 'Separation/Distance', 'm', '1e-3'),
+                ('A', 'Plate Area', 'm²', '0.01'),
+                ('eps_r', 'Relative Permittivity ε_r', '', '4'),
+            ]
+        },
+        6: {
+            'name': 'Interface / Fresnel',
+            'icon': '🪞',
+            'vars': [
+                ('eps_r1', 'ε_r of Medium 1', '', '1'),
+                ('eps_r2', 'ε_r of Medium 2', '', '4'),
+                ('theta_i', 'Incidence Angle θ_i', '°', '45'),
+                ('mu_r1', 'μ_r of Medium 1', '', '1'),
+                ('mu_r2', 'μ_r of Medium 2', '', '1'),
+            ]
+        },
+    }
+    
+    # =========================================================================
+    # DISPLAY HEADER
+    # =========================================================================
+    print()
+    print("  ═══════════════════════════════════════════════════════════")
+    print("       🧠 SMART SOLVER - Interview Mode")
+    print("  ═══════════════════════════════════════════════════════════")
+    print()
+    print("  I'll guide you through the variables step by step.")
+    print("  Press Enter to skip any variable you don't know.")
+    print()
+    print("  ─── MODE SELECTION ───")
+    print("  [G] Guided Interview (recommended)")
+    print("  [R] Raw Input Mode (var=val, var=val, ...)")
+    print("  [T] Run Unit Tests")
+    print()
+    
+    mode = input("  Select mode [G/R/T]: ").strip().lower()
+    
+    if mode == 't':
+        from em_smart import run_tests
+        run_tests()
+        return
+    
+    if mode == 'r':
+        # RAW MODE - original behavior
+        _handle_raw_mode(SmartSolver())
+        return
+    
+    # =========================================================================
+    # GUIDED INTERVIEW MODE
+    # =========================================================================
+    clear_screen()
+    print()
+    print("  ═══════════════════════════════════════════════════════════")
+    print("       🧠 SMART SOLVER - Guided Interview")
+    print("  ═══════════════════════════════════════════════════════════")
+    print()
+    print("  ─── WHAT TYPE OF PROBLEM? ───")
+    print()
+    
+    for num, topic in TOPICS.items():
+        print(f"    {num}. {topic['icon']} {topic['name']}")
+    print()
+    print("    0. ↩ Back to Menu")
+    print()
+    
+    try:
+        choice = input("  Select topic (0-6): ").strip()
+        if not choice or choice == '0':
+            return
+        topic_num = int(choice)
+        if topic_num not in TOPICS:
+            print("  Invalid choice.")
+            return
+    except ValueError:
+        print("  Invalid input.")
+        return
+    
+    topic = TOPICS[topic_num]
+    
+    # =========================================================================
+    # COLLECT VARIABLES
+    # =========================================================================
+    clear_screen()
+    print()
+    print(f"  ═══════════════════════════════════════════════════════════")
+    print(f"       {topic['icon']} {topic['name']} - Enter Known Values")
+    print(f"  ═══════════════════════════════════════════════════════════")
+    print()
+    print("  📝 Enter values with SI prefixes: p n u m k M G")
+    print("     Examples: 2G = 2×10⁹, 50n = 50×10⁻⁹, 38.9m = 0.0389")
+    print("     Press Enter to skip unknown variables")
+    print()
+    print("  ─────────────────────────────────────────────────────────────")
+    
+    collected = {}
+    
+    for var_name, var_desc, var_unit, var_example in topic['vars']:
+        unit_str = f" [{var_unit}]" if var_unit else ""
+        prompt = f"  {var_desc}{unit_str}"
+        hint = f"(e.g., {var_example})"
+        
+        # Format nicely
+        full_prompt = f"{prompt}\n    {hint}: "
+        
+        user_val = input(full_prompt).strip()
+        
+        if user_val:
+            # Handle special string values
+            if var_name == 'stub_type':
+                if user_val.lower() in ['open', 'short', 'o', 's']:
+                    collected[var_name] = 'open' if user_val.lower() in ['open', 'o'] else 'short'
+            else:
+                try:
+                    # Try to parse the value
+                    parsed = parse_value(user_val)
+                    collected[var_name] = parsed
+                    print(f"    ✓ {var_name} = {parsed}")
+                except Exception as e:
+                    print(f"    ⚠ Couldn't parse '{user_val}', skipping...")
+        print()
+    
+    # =========================================================================
+    # ASK FOR ADDITIONAL VARIABLES
+    # =========================================================================
+    print("  ─────────────────────────────────────────────────────────────")
+    print("  📎 Any other variables I missed?")
+    print("     Format: var=value (or press Enter when done)")
+    print()
+    
+    while True:
+        extra = input("  Additional var=value: ").strip()
+        if not extra:
+            break
+        
+        if '=' in extra:
+            try:
+                key, val = extra.split('=', 1)
+                key = key.strip()
+                val = val.strip()
+                
+                if val.lower() in ['open', 'short']:
+                    collected[key] = val.lower()
+                else:
+                    parsed = parse_value(val)
+                    collected[key] = parsed
+                print(f"    ✓ {key} = {collected[key]}")
+            except Exception as e:
+                print(f"    ⚠ Couldn't parse: {e}")
+        else:
+            print("    ⚠ Use format: variable=value")
+    
+    # =========================================================================
+    # SOLVE AND DISPLAY RESULTS
+    # =========================================================================
+    if not collected:
+        print("\n  ⚠ No variables entered. Nothing to solve.")
+        return
+    
+    print()
+    print("  ═══════════════════════════════════════════════════════════")
+    print("       📊 SOLVING...")
+    print("  ═══════════════════════════════════════════════════════════")
+    
+    # Show what was collected
+    print()
+    print("  Known variables:")
+    for k, v in collected.items():
+        print(f"    {k} = {v}")
+    
+    # Run solver
+    solver = SmartSolver()
+    
+    # Build input string for solver
+    input_parts = []
+    for k, v in collected.items():
+        if isinstance(v, str):
+            input_parts.append(f"{k}={v}")
+        elif isinstance(v, complex):
+            if v.imag == 0:
+                input_parts.append(f"{k}={v.real}")
+            else:
+                input_parts.append(f"{k}={v}")
+        else:
+            input_parts.append(f"{k}={v}")
+    
+    # Solve using kwargs directly for better precision
+    try:
+        result = solver.solve(**collected)
+        solver.print_results(result)
+        
+        # Offer to continue
+        print()
+        print("  ─────────────────────────────────────────────────────────────")
+        print("  Would you like to add more variables and re-solve?")
+        again = input("  [Y/N]: ").strip().lower()
+        
+        if again == 'y':
+            print()
+            print("  Enter additional variables (format: var=value)")
+            print("  Press Enter when done.")
+            
+            while True:
+                extra = input("  > ").strip()
+                if not extra:
+                    break
+                
+                if '=' in extra:
+                    try:
+                        key, val = extra.split('=', 1)
+                        key = key.strip()
+                        val = val.strip()
+                        
+                        if val.lower() in ['open', 'short']:
+                            collected[key] = val.lower()
+                        else:
+                            parsed = parse_value(val)
+                            collected[key] = parsed
+                        print(f"    ✓ {key} = {collected[key]}")
+                    except Exception as e:
+                        print(f"    ⚠ Couldn't parse: {e}")
+            
+            # Re-solve
+            if collected:
+                result = solver.solve(**collected)
+                solver.print_results(result)
+                
+    except Exception as e:
+        print(f"\n  ⚠ Error: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def _handle_raw_mode(solver):
+    """Handle raw input mode for Smart Solver (with all features)"""
+    clear_screen()
+    print()
+    print("  ═══════════════════════════════════════════════════════════")
+    print("       🧠 SMART SOLVER - Raw Input Mode (v2.0)")
+    print("  ═══════════════════════════════════════════════════════════")
+    print()
+    print("  Enter known variables in format:")
+    print("    variable=value, variable=value, ...")
+    print()
+    print("  ─── NEW FEATURES ───")
+    print("  • Aliases: freq=2G, imp=50, load=100 (same as f, Z0, ZL)")
+    print("  • Materials: mat=teflon, cond=copper (auto-sets properties)")
+    print("  • SOLVE: 'SOLVE len_lambda FOR Z_in.imag=0' (goal seek)")
+    print()
+    print("  ─── COMMANDS ───")
+    print("  help      - Variable reference    materials - List materials")
+    print("  aliases   - List aliases          test      - Run tests")
+    print("  quit      - Exit to menu")
+    print()
+    
+    # Store base variables for SOLVE command
+    base_vars = {}
+    
+    while True:
+        print("  ─────────────────────────────────────────")
+        user_input = input("  > ").strip()
+        
+        if not user_input:
+            break
+        
+        if user_input.lower() in ['q', 'quit', 'exit', 'back']:
+            break
+        
+        if user_input.lower() in ['materials', 'mat', 'mats']:
+            from em_smart import list_materials
+            list_materials()
+            continue
+        
+        if user_input.lower() in ['aliases', 'alias', 'vars']:
+            from em_smart import list_aliases
+            list_aliases()
+            continue
+        
+        if user_input.lower() == 'help':
+            print("""
+  ═══════════════════════════════════════════════════════════════
+       📖 SMART SOLVER - VARIABLE REFERENCE
+  ═══════════════════════════════════════════════════════════════
+  
+  FREQUENCY/WAVE:
+    f (freq)     = frequency [Hz]          omega (w)  = angular freq [rad/s]
+    lambda_      = wavelength [m]          beta       = phase constant [rad/m]
+    up (vp)      = phase velocity [m/s]    up_factor  = velocity factor (×c0)
+    
+  TRANSMISSION LINE:
+    Z0 (imp)     = char. impedance [Ω]     ZL (load)  = load impedance [Ω]
+    Zg           = generator impedance [Ω] Vg         = generator voltage [V]
+    len_lambda   = length [wavelengths]    l (length) = physical length [m]
+    VSWR         = voltage standing wave ratio
+    
+  MATERIAL:
+    eps_r (er)   = relative permittivity   mu_r       = relative permeability
+    tan_delta    = loss tangent            sigma      = conductivity [S/m]
+    
+  STUB:
+    C_eq (cap)   = equivalent capacitance [F]
+    L_eq (ind)   = equivalent inductance [H]
+    stub_type    = 'open' or 'short'
+    
+  RLGC:
+    R_prime, L_prime, G_prime, C_prime = RLGC parameters [per meter]
+    
+  MATERIALS (use mat=X or cond=X):
+    Dielectrics: air, vacuum, teflon, polyethylene, fr4, glass, silicon
+    Conductors:  copper, gold, silver, aluminum, brass, pec
+    Coax cables: rg58, rg59, rg6, lmr400
+    
+  GOAL SEEKER:
+    SOLVE <vary> FOR <check>.<part> = <value>
+    Example: SOLVE len_lambda FOR Z_in.imag = 0
+    Parts: .real, .imag, .abs, .angle
+            """)
+            continue
+        
+        if user_input.lower() == 'test':
+            from em_smart import run_tests
+            run_tests()
+            continue
+        
+        # Check for SOLVE command
+        if user_input.upper().startswith('SOLVE'):
+            try:
+                from em_smart import parse_solve_command
+                target_var, cond_var, cond_part, cond_value = parse_solve_command(user_input)
+                
+                print(f"\n  🎯 Goal Seek: Vary '{target_var}' to make {cond_var}.{cond_part} = {cond_value}")
+                print(f"  Using base variables: {base_vars}")
+                
+                # Determine search range
+                if 'lambda' in target_var.lower() or 'len_lambda' in target_var:
+                    search_range = (0.001, 0.5)
+                elif target_var == 'l':
+                    search_range = (0.001, 1.0)
+                else:
+                    search_range = (0.001, 1.0)
+                
+                result = solver.goal_seek(
+                    target_var=target_var,
+                    condition_var=f"{cond_var}.{cond_part}",
+                    condition_value=cond_value,
+                    search_range=search_range,
+                    base_vars=base_vars
+                )
+                
+                solver.print_results(result)
+                
+            except ValueError as e:
+                print(f"  ⚠ {e}")
+            continue
+        
+        try:
+            result = solver.solve(user_input)
+            
+            # Store base variables for future SOLVE commands
+            from em_smart import CONSTANTS
+            for k, v in result.items():
+                if isinstance(v, (int, float, complex)) and k not in CONSTANTS:
+                    base_vars[k] = v
+            
+            solver.print_results(result)
+        except Exception as e:
+            print(f"  ⚠ Error: {e}")
+        
+        print()
+        print("  Enter more variables (or press Enter to return to menu)")
+
+
 def main():
     """Main program loop"""
     clear_screen()
@@ -1263,7 +1712,7 @@ def main():
         print_menu()
         
         try:
-            choice = int(get_number("  Enter choice (0-12): ", 0, 12))
+            choice = int(get_number("  Enter choice (0-13): ", 0, 13))
         except:
             continue
         
@@ -1284,6 +1733,7 @@ def main():
             10: handle_inverse_tline,
             11: handle_geometry_library,
             12: handle_wave_uniformity,
+            13: handle_smart_solver,
         }
         
         if choice in handlers:
