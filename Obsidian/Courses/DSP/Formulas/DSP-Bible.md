@@ -12,6 +12,7 @@
     - [[#1.2 Vectors & Indexing]]
     - [[#1.3 Element-Wise Math]]
     - [[#1.4 Preallocation & Efficiency]]
+    - [[#1.5 Publishing Live Scripts to PDF (Exam Essential)]]
 
 2. [[#2. Signals & Sampling]]
     - [[#2.1 Discrete-Time Signals]]
@@ -338,6 +339,152 @@ If you build vectors inside loops without preallocating, MATLAB repeatedly resiz
  ```
 
 **Preallocation = speed + cleaner debugging + fewer mistakes.**
+
+---
+
+## 1.5 Publishing Live Scripts to PDF (Exam Essential)
+
+In timed exams, you need to convert your Live Script (`.mlx`) to a professional PDF **fast**. This section gives you the bullet-proof workflow.
+
+### Step 1: Convert `.mlx` → `.m`
+
+**Method A — GUI:**
+1. In your Live Script: **File → Save As**
+2. Change "Save as type" to **`MATLAB Code File (*.m)`**
+3. Save with a **safe filename** (see trap below!)
+
+**Method B — Command:**
+
+> [!example]- Convert via command
+> ```matlab
+> matlab.internal.liveeditor.openAndConvert('YourFile.mlx', 'YourFile.m');
+> ```
+
+### ⚠️ THE FILENAME TRAP — Critical!
+
+Your filename **MUST** follow these rules or you get "Unable to run file" errors:
+
+| ❌ WRONG | ✅ CORRECT |
+|----------|------------|
+| `E23 Exam.m` | `E23_Exam.m` |
+| `62743_F24.m` | `F24_62743.m` |
+| `My Script.m` | `MyScript.m` |
+| `2024_exam.m` | `Exam_2024.m` |
+
+**Rules:**
+- ✅ **Start with a letter** (not a number!)
+- ✅ **No spaces** — use underscores `_`
+- ✅ **No special characters** — only letters, numbers, underscores
+
+### Step 2: Format for Clean PDF
+
+Add **section breaks** with `%%` for organized output:
+
+> [!example]- Section formatting
+> ```matlab
+> %% Problem 1 — Impulse Response
+> % Description of this section
+> h = [1 2 3 2 1];
+> stem(h);
+> 
+> %% Problem 2 — IIR Filter Design  
+> % Another section starts here
+> [B, A] = butter(4, 0.3);
+> 
+> %% Problem 3 — Spectrum Analysis
+> % Each %% creates a new page section in PDF
+> X = fft(x);
+> ```
+
+Each `%%` creates a **new page section** in the PDF with a header.
+
+### Step 3: The Magic Command
+
+**Type this in the Command Window:**
+
+> [!example]- Publish to PDF
+> ```matlab
+> publish('E23_Exam.m', 'pdf');
+> ```
+
+MATLAB runs your entire script and generates a PDF with code + output + figures.
+
+### Step 4: Find Your PDF
+
+The PDF is saved in the **`html` subfolder** of your current working directory:
+
+```
+📁 Current Folder
+ └── 📁 html
+      └── 📄 E23_Exam.pdf   ← HERE!
+```
+
+**Quick open command:**
+
+> [!example]- Open PDF directly
+> ```matlab
+> winopen('html/E23_Exam.pdf');   % Windows only
+> ```
+
+### Complete Exam Workflow (Copy-Paste Ready)
+
+> [!example]- Full publishing workflow
+> ```matlab
+> %% === EXAM PDF GENERATION ===
+> 
+> % 1. Make sure you're in the right folder
+> cd('C:\Users\Mads2\DTU\3.semester\DSP\EXAM');
+> 
+> % 2. Publish to PDF (filename must start with letter, no spaces!)
+> publish('E23_Exam.m', 'pdf');
+> 
+> % 3. Open the result
+> winopen('html/E23_Exam.pdf');
+> ```
+
+### Emergency Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| "Unable to run file" | Rename: start with letter, no spaces |
+| Figures not showing | Add `figure;` before each plot |
+| PDF is blank | Check for errors in Command Window first |
+| Wrong folder | `cd('C:\Your\Exam\Folder')` first |
+| Want HTML instead | `publish('file.m', 'html');` |
+| Specific figure size | Set `'figureSnapMethod', 'print'` in options |
+
+### Alternative: Export Figures Only
+
+If you just need figures (not full script output):
+
+> [!example]- Export single figure to PNG
+> ```matlab
+> % After creating your figure:
+> exportgraphics(gcf, 'MyFigure.png', 'Resolution', 300);
+> 
+> % Or to PDF:
+> exportgraphics(gcf, 'MyFigure.pdf', 'ContentType', 'vector');
+> ```
+
+### Publishing Options (Advanced)
+
+> [!example]- Custom publish options
+> ```matlab
+> opts = struct('format', 'pdf', ...
+>               'outputDir', 'C:\MyOutput', ...
+>               'showCode', true, ...
+>               'evalCode', true, ...
+>               'catchError', false);
+> publish('E23_Exam.m', opts);
+> ```
+
+### 30-Second Summary
+
+1. **Save As** → `.m` file
+2. **Filename** → Letter first, no spaces: `E23_Exam.m`
+3. **Sections** → Use `%%` for breaks  
+4. **Publish** → `publish('E23_Exam.m', 'pdf');`
+5. **Find** → Look in `html/` folder
 
 ---
 # 2. Signals & Sampling
@@ -966,6 +1113,92 @@ Before we design a digital filter with frequency specifications (passband, stopb
 >
 > Hs = tf(num, den);             % analog filter H(s)
 > ```
+
+### tf() for Display vs Computation — Important Workflow Insight
+
+The `tf()` function creates a **transfer function object** from the Control System Toolbox. Its primary use in this course is for **pretty display**, not computation.
+
+**What happens when you type `sys_HP` without a semicolon:**
+
+```
+sys_HP =
+ 
+           1.234e05 s^4
+  ------------------------------------
+  s^4 + 123.4 s^3 + 5678 s^2 + 91 s + 2
+```
+
+Instead of just seeing raw coefficient vectors:
+```
+B_HP = [123400 0 0 0 0]
+A_HP = [1 123.4 5678 91 2]
+```
+
+### When to Use tf() vs Coefficient Vectors
+
+| Function | What It Uses | tf() Required? |
+|----------|--------------|----------------|
+| `freqs(B, A, Omega)` | Coefficient vectors | ❌ No |
+| `freqz(B, A, ...)` | Coefficient vectors | ❌ No |
+| `bilinear(B, A, Fs)` | Coefficient vectors | ❌ No |
+| `lp2hp(B, A, Wc)` | Coefficient vectors | ❌ No |
+| `filter(B, A, x)` | Coefficient vectors | ❌ No |
+| `bode(sys)` | tf object | ✅ Yes |
+| `step(sys)` | tf object | ✅ Yes |
+| `pole(sys)`, `zero(sys)` | tf object | ✅ Yes |
+
+**Key insight:** The actual filter design pipeline uses **coefficient vectors** (`B`, `A`) directly. The `tf()` object is **never passed** to `freqs`, `bilinear`, or `freqz`.
+
+### Recommended Exam Workflow
+
+Use `tf()` for debugging and verification, but keep your main workflow with vectors:
+
+> [!example]- tf() for display in filter design workflow
+> ```matlab
+> %% Design analog HP filter
+> [B_HP, A_HP] = lp2hp(B_proto, A_proto, Omegap);
+> 
+> % Display nicely (optional — for debugging/verification)
+> sys_HP = tf(B_HP, A_HP);
+> disp('Analog HP filter H(s):');
+> sys_HP
+> 
+> % Continue with coefficient vectors (required)
+> H_analog = freqs(B_HP, A_HP, Omega);      % ← uses vectors
+> [Bz, Az] = bilinear(B_HP, A_HP, Fs);      % ← uses vectors
+> ```
+
+### Digital Transfer Functions with tf()
+
+For digital filters, specify the sample time:
+
+> [!example]- Digital tf() display
+> ```matlab
+> Ts = 1/Fs;
+> sys_digital = tf(Bz, Az, Ts, 'Variable', 'z^-1');
+> disp('Digital filter H(z):');
+> sys_digital
+> ```
+
+This displays in the familiar $z^{-1}$ form:
+
+```
+sys_digital =
+ 
+  0.11 - 0.44 z^-1 + 0.66 z^-2 - 0.44 z^-3 + 0.11 z^-4
+  -----------------------------------------------------
+    1 - 0.33 z^-1 + 0.90 z^-2 + 0.07 z^-3 + 0.33 z^-4
+```
+
+### Summary: tf() Quick Reference
+
+| Purpose | Use |
+|---------|-----|
+| **Computation** (filtering, BLT, frequency response) | Coefficient vectors `B`, `A` |
+| **Display** (verification, debugging, reports) | `tf(B, A)` object |
+| **Control System analysis** (Bode, step response) | `tf(B, A)` object |
+
+**Bottom line:** You can delete every `tf()` line from your scripts and produce identical numerical results. Include them for cleaner console output when reviewing transfer functions.
 
 ---
 
