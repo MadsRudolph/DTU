@@ -539,20 +539,6 @@ Convert back to $z^{-n}$ form (divide by $z^2$): $$ \boxed{H_4(z) = 4 - 8z^{-1} 
 > fprintf('Impulse response: h4[n] = 4δ[n] - 8δ[n-1] - 4δ[n-2]\n');
 > ```
 
-**Expected Output:**
-
-```
-H1(z) + H2(z) = 4 - 8z^(-1) - 5z^(-2) + 2z^(-3) + z^(-4)
-
-After polynomial division:
-H_total(z) = 4 - 8z^(-1) - 4z^(-2)
-
-=== FIR Verification ===
-Coefficients: [4, -8, -4]
-Denominator = 1 → FIR system ✓
-Impulse response: h4[n] = 4δ[n] - 8δ[n-1] - 4δ[n-2]
-```
-
 ---
 
 # Problem 2 — IIR Butterworth Highpass Filter (BLT)
@@ -692,33 +678,6 @@ $$ \boxed{H_{LP}(s) = \frac{1}{s^4 + 2.6131s^3 + 3.4142s^2 + 2.6131s + 1}} $$
 > fprintf('Prototype Butterworth lowpass transfer function H_LP(s):\n');
 > H_proto = tf(B_proto, A_proto)
 > ```
-
-**Expected Output:**
-
-```
-ε = 1.00
-
-Digital frequencies:
-ω_s = 0.7069 rad/sample = 0.2250π
-ω_p = 1.5708 rad/sample = 0.5000π
-
-Pre-warped analog frequencies:
-Ω_s = 2951.36 rad/s
-Ω_p = 8000.00 rad/s
-
-Filter order calculation:
-Ratio (Ω_p/Ω_s) = 2.7103
-n_exact = 3.4656
-n_min = 4
-
-Prototype Butterworth lowpass transfer function H_LP(s):
- 
-                    1
-  ---------------------------------------
-  s^4 + 2.613 s^3 + 3.414 s^2 + 2.613 s + 1
- 
-Continuous-time transfer function.
-```
 
 ---
 
@@ -860,29 +819,6 @@ The plot shows $|H_{HP}(j\Omega)|$ in dB vs. analog angular frequency $\Omega$ (
 > fprintf('Filteret opfylder de analoge design krav.\n');
 > ```
 
-**Expected Output:**
-
-```
-=== Problem 2-2: LP → HP Transformation ===
-
-(a) Transformation formula: s → Ω_p/s
-    Where Ω_p = 8000.00 rad/s
-
-(b) Analog Highpass Filter H_HP(s):
- 
-               s^4
-  ---------------------------------------
-  s^4 + 2.092e04 s^3 + 2.185e08 s^2 + 1.337e12 s + 4.096e15
- 
-Continuous-time transfer function.
-
-(c) Plotting analog magnitude response...
-
-(d) Verification:
-De blå linjer på plottet indikerer kravspecifikationerne for det analoge filter.
-Filteret opfylder de analoge design krav.
-```
-
 ![[Images/DSP_Exam_F25_2_2_AnalogHP_Magnitude.png]]
 
 **Interpretation:**
@@ -1011,24 +947,6 @@ The official solution gives: $$ H_{HP}(z) = \frac{0.09398 - 0.3759z^{-1} + 0.563
 > H_digital = tf(Bz, Az, Ts, 'Variable', 'z^-1')
 > ```
 
-**Expected Output:**
-
-```
-=== Problem 2-3: Bilinear Transform ===
-
-(a) BLT parameter α = 2/T_s = 2·F_s = 8000
-    Transformation: s = α·(z-1)/(z+1)
-
-(b) Digital Highpass Filter H_HP(z):
-
-H_digital =
- 
-  0.09398 - 0.3759 z^-1 + 0.5639 z^-2 - 0.3759 z^-3 + 0.09398 z^-4
-  ----------------------------------------------------------------
-  1 - 4.545e-16 z^-1 + 0.486 z^-2 + 1.585e-16 z^-3 + 0.01767 z^-4
- 
-Sample time: 0.00025 seconds
-Discrete-time transfer function.
 ```
 
 **Transfer function for use in freqz():**
@@ -1148,25 +1066,6 @@ $$\boxed{\text{The digital filter MEETS all specifications}}$$
 > fprintf('Filteret opfylder kravspecifikationerne.\n');
 > fprintf('(The filter meets the specifications.)\n');
 > ```
-
-**Expected Output:**
-
-```
-=== Problem 2-4: Digital Filter Verification ===
-
-(a) Plotting digital magnitude response...
-
-(b) De blå linjer på plottet indikerer de digitale filter kravspecifikationerne
-    (The blue lines indicate the digital filter specifications)
-
-(c) Aflæste værdier på plottet:
-    (Values read from the plot:)
-    At 450 Hz: ≈ -34.6 dB (requirement: ≤ -30 dB) ✓
-    At 1000 Hz: ≈ -3.0 dB (requirement: ≥ -3 dB) ✓
-
-Filteret opfylder kravspecifikationerne.
-(The filter meets the specifications.)
-```
 
 ![[Images/DSP_Exam_F25_2_4_DigitalHP_Magnitude.png]]
 
@@ -1367,7 +1266,11 @@ $$p_1 = \frac{0.7 + 0.3}{2} = 0.5, \quad p_2 = \frac{0.7 - 0.3}{2} = 0.2$$
 
 ### Pole-Zero Summary
 
-| Type | Location | $|z|$ | Position | |------|----------|-------|----------| | Zero | $z = -1$ | 1 | On unit circle | | Pole | $z = 0.5$ | 0.5 | Inside UC | | Pole | $z = 0.2$ | 0.2 | Inside UC |
+|Type|Location|$\|z\|$|Position|
+|---|---|---|---|
+|Zero|$z = -1$|1|On unit circle|
+|Pole|$z = 0.5$|0.5|Inside UC|
+|Pole|$z = 0.2$|0.2|Inside UC|
 
 ---
 
@@ -1407,7 +1310,11 @@ The inverse system swaps numerator and denominator: $$H_2(z) = \frac{1}{H_1(z)} 
 - **Poles of $H_2$:** zeros of $H_1$ → $z = -1$
 - **Zeros of $H_2$:** poles of $H_1$ → $z = 0.5, 0.2$
 
-| $H_2(z)$ | Location | $|z|$ | Position | |----------|----------|-------|----------| | Pole | $z = -1$ | 1 | **On unit circle** | | Zero | $z = 0.5$ | 0.5 | Inside UC | | Zero | $z = 0.2$ | 0.2 | Inside UC |
+|$H_2(z)$|Location|$\|z\|$|Position|
+|---|---|---|---|
+|Pole|$z = -1$|1|**On unit circle**|
+|Zero|$z = 0.5$|0.5|Inside UC|
+|Zero|$z = 0.2$|0.2|Inside UC|
 
 **Stability analysis:**
 
@@ -1484,8 +1391,6 @@ $$\boxed{H_2(z) \text{ is MARGINALLY STABLE (pole on unit circle at } z = -1\tex
 
 ![[Images/DSP_Exam_F25_3_3_H2.png]]
 
----
-
 # Problem 4 — Filter Realization and Signal Filtering
 
 > **Given:** A digital lowpass filter with 3 dB attenuation at 400 Hz, realized as shown in the block diagram.
@@ -1500,16 +1405,28 @@ $$\boxed{H_2(z) \text{ is MARGINALLY STABLE (pole on unit circle at } z = -1\tex
 ---
 
 ## 4-1) Identify filter structure
-
+![[DSP_Exam_F25_4_1.png|350]]
 ### (a) Filter form
 
 Looking at the block diagram structure:
 
-- Left side: input $x[n]$ with feedforward coefficients ($b$ values)
-- Right side: output $y[n]$ with feedback from delayed outputs ($a$ values)
-- Delays ($z^{-1}$) are shared between input and output paths
+- **Left side:** Input $x[n]$ with feedforward coefficients ($b$ values)
+- **Right side:** Output $y[n]$ with feedback from delayed outputs ($a$ values)
+- **Two separate delay chains** (one for input, one for output)
 
-$$ \boxed{\text{Direct Form II (Transposed or Canonical)}} $$
+$$ \boxed{\text{Direct Form I}} $$
+
+> [!info] Direct Form I vs II **Direct Form I:**
+> 
+> - Separate feedforward and feedback sections
+> - Two separate delay chains ($z^{-1}$ blocks)
+> - More delays but better numerical properties
+> 
+> **Direct Form II:**
+> 
+> - Shared delays between feedforward and feedback
+> - Single delay chain (fewer delays)
+> - Also called "canonical form"
 
 ### (b) FIR or IIR?
 
@@ -1546,77 +1463,196 @@ $$ \boxed{H(z) = \frac{0.0102 + 0.0305z^{-1} + 0.0305z^{-2} + 0.0102z^{-3}}{1 - 
 
 ### (a) Plot magnitude response in dB
 
-> [!code]- MATLAB — 4-2a
+> [!code]- MATLAB — 4-2: Magnitude Response with Automatic -3 dB Detection
 > 
 > ```matlab
-> % Problem 4-2a: Magnitude response
-> [H_freq, f] = freqz(b, a, 2048, Fs);
+> %% Problem 4-2: Plot magnitude response og verificer -3 dB frekvens
 > 
+> % Frequency vector (0 to Nyquist)
+> F_vec = linspace(0, Fs/2, 10000);  % High resolution for accurate detection
+> 
+> % Compute frequency response
+> [H_freq, F_resp] = freqz(B, A, F_vec, Fs);
+> 
+> % Magnitude in dB
+> Mag_dB = 20*log10(abs(H_freq));
+> 
+> % Plot
 > figure;
-> plot(f, 20*log10(abs(H_freq)), 'b', 'LineWidth', 1.5);
-> xlabel('Frequency F [Hz]');
-> ylabel('|H(F)| [dB]');
-> title('Lowpass Filter Magnitude Response');
+> plot(F_resp, Mag_dB, 'b-', 'LineWidth', 1.5);
+> hold on;
 > grid on;
-> xlim([0 Fs/2]);
-> yline(-3, '--r', '-3 dB');
-> xline(400, '--g', '400 Hz');
+> xlabel('Frequency [Hz]');
+> ylabel('Magnitude [dB]');
+> title('Lowpass Filter Magnitude Response');
+> 
+> % Mark -3 dB reference line
+> yline(-3, '--r', '-3 dB', 'LineWidth', 1.5, 'FontSize', 12);
+> 
+> % TECHNIQUE: Find -3 dB frequency automatically
+> % Find last index where magnitude is still >= -3 dB
+> idx_3dB = find(Mag_dB >= -3, 1, 'last');
+> F_3dB = F_resp(idx_3dB);
+> 
+> % Mark the found frequency
+> xline(F_3dB, '--g', sprintf('%.1f Hz', F_3dB), ...
+>       'LineWidth', 1.5, 'FontSize', 12, 'LabelOrientation', 'horizontal');
+> 
+> % Also mark specified frequency for comparison
+> xline(400, '--k', '400 Hz (spec)', 'LineWidth', 1, 'FontSize', 10);
+> 
+> xlim([0, 1500]);  % Focus on relevant range
+> ylim([-60, 5]);
+> hold off;
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_2_Magnitude.png'), ...
+>                'Resolution', 300);
+> 
+> % Display results
+> fprintf('\n=== Problem 4-2 Results ===\n');
+> fprintf('Measured -3 dB frequency: %.2f Hz\n', F_3dB);
+> fprintf('Specified frequency:      400.00 Hz\n');
+> fprintf('Difference:               %.2f Hz\n', abs(F_3dB - 400));
+> fprintf('Relative error:           %.2f%%\n\n', abs(F_3dB - 400)/400 * 100);
+> 
+> if abs(F_3dB - 400) < 10
+>     fprintf('✓ Filter meets specification\n');
+> end
 > ```
+
+> [!tip] Technique: Finding Cutoff Frequencies Automatically **The `find()` method for detecting -3 dB (or any threshold):**
+> 
+> ```matlab
+> % Step 1: Compute magnitude response with high resolution
+> F_vec = linspace(0, Fs/2, 10000);  % Many points for accuracy
+> [H, F] = freqz(B, A, F_vec, Fs);
+> Mag_dB = 20*log10(abs(H));
+> 
+> % Step 2: Find last point where magnitude >= threshold
+> idx = find(Mag_dB >= -3, 1, 'last');  % Last point above -3 dB
+> F_cutoff = F(idx);
+> 
+> % Step 3: Mark on plot
+> xline(F_cutoff, '--g', sprintf('%.1f Hz', F_cutoff));
+> ```
+> 
+> **Why use `'last'` instead of `'first'`?**
+> 
+> - For lowpass: Last point ≥ -3 dB gives the **passband edge**
+> - For highpass: First point ≥ -3 dB gives the **passband edge**
+> 
+> **Key parameters:**
+> 
+> - `Mag_dB >= -3`: Finds passband edge (still above threshold)
+> - `Mag_dB <= -30`: Finds stopband edge (below threshold)
+> - `'last'/'first'`: Depends on filter type and what you're finding
 
 ![[Images/DSP_Exam_F25_4_2_Magnitude.png]]
 
-### (b) Read -3 dB frequency
+### (b) Verification and Discussion
 
-> [!code]- MATLAB — 4-2b
+From the plot and calculations:
+
+**Measured values:**
+
+- **-3 dB frequency:** $\approx 400$ Hz ✓
+- **Attenuation at 1000 Hz:** $\approx -27$ dB (strong stopband attenuation)
+
+**Filter characteristics:**
+
+- **Passband (0-400 Hz):** Minimal attenuation (< 3 dB)
+- **Transition band (400-800 Hz):** Rapid rolloff
+- **Stopband (> 800 Hz):** Strong attenuation (> 20 dB)
+- **Filter order:** 3rd order IIR
+
+$$\boxed{\text{Filter meets specification: } f_{-3dB} \approx 400 \text{ Hz}}$$
+
+> [!success] Specification Check The designed filter achieves:
 > 
-> ```matlab
-> % Problem 4-2b: Find -3 dB frequency
-> mag_dB = 20*log10(abs(H_freq));
-> idx_3dB = find(mag_dB <= -3, 1, 'first');
-> f_3dB = f(idx_3dB);
-> fprintf('-3 dB frequency: %.1f Hz\n', f_3dB);
+> - ✅ -3 dB attenuation at 400 Hz (as required)
+> - ✅ Smooth passband response
+> - ✅ Good stopband attenuation
 > 
-> % Or evaluate at exactly 400 Hz
-> [H_400, ~] = freqz(b, a, [400], Fs);
-> fprintf('Attenuation at 400 Hz: %.2f dB\n', 20*log10(abs(H_400)));
-> ```
-
-**Expected:** The -3 dB frequency should be approximately 400 Hz as stated in the problem.
-
-$$ \boxed{f_{-3dB} \approx 400 \text{ Hz — matches specification}} $$
+> **Conclusion:** Filter design is successful
 
 ---
 
 ## 4-3) Pole-zero analysis and stability
 
-### (a) Find and plot poles and zeros
+### Task: Find poles and zeros, plot pole-zero diagram, and discuss stability
 
-> [!code]- MATLAB — 4-3a
+> [!code]- MATLAB — 4-3: Pole-Zero Analysis
 > 
 > ```matlab
-> % Problem 4-3: Poles and zeros
-> zeros_H = roots(b);
-> poles_H = roots(a);
+> %% Spørgsmål 4-3: Pole-zero analyse
 > 
-> fprintf('Zeros:\n'); disp(zeros_H);
-> fprintf('Poles:\n'); disp(poles_H);
-> fprintf('|poles| = '); disp(abs(poles_H).');
+> % Find poles and zeros
+> zeros_H4 = roots(B4);
+> poles_H4 = roots(A4);
 > 
+> % Display
+> fprintf('\nZeros:\n');
+> disp(zeros_H4);
+> fprintf('Zeros magnitudes: ');
+> disp(abs(zeros_H4)');
+> 
+> fprintf('\nPoles:\n');
+> disp(poles_H4);
+> fprintf('Pole magnitudes: ');
+> disp(abs(poles_H4)');
+> 
+> % Stability check
+> fprintf('\n--- Stability ---\n');
+> if all(abs(poles_H4) < 1)
+>     fprintf('✓ STABLE (all |p| < 1)\n');
+> else
+>     fprintf('✗ NOT STABLE\n');
+> end
+> 
+> % Plot pole-zero diagram
 > figure;
-> zplane(b, a);
-> title('Filter Pole-Zero Diagram');
+> zplane(B4, A4);
+> title('F25 Problem 4-3: Pole-Zero Diagram');
 > grid on;
+> 
+> % Make plot prettier
+> hold on;
+> plot(real(poles_H4), imag(poles_H4), 'rx', 'MarkerSize', 12, 'LineWidth', 2);
+> plot(real(zeros_H4), imag(zeros_H4), 'bo', 'MarkerSize', 12, 'LineWidth', 2);
+> hold off;
+> 
+> set(gcf, 'Position', [100, 100, 800, 800]);
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_3_PoleZero.png'), ...
+>                'Resolution', 300);
 > ```
 
 ![[Images/DSP_Exam_F25_4_3_PoleZero.png]]
 
-### (b) Is the filter stable?
+---
 
-**Stability criterion:** All poles must be **strictly inside** the unit circle ($|p| < 1$).
+### Analysis and Results
 
-**YOUR ANALYSIS HERE** — Check $|p_i|$ for each pole.
+**Stability Criterion:**
 
-If all $|p_i| < 1$: $$ \boxed{\text{Filter is stable — all poles inside unit circle}} $$
+A filter is **BIBO stable** if all poles are strictly inside the unit circle:
+
+$$\boxed{|p_i| < 1 \text{ for all poles } p_i}$$
+
+**For this filter:**
+
+- All pole magnitudes are less than 1
+- Maximum pole magnitude < 1
+
+$$\boxed{\text{Filter is STABLE}}$$
+
+> [!success] Conclusion **The filter is BIBO stable** because all poles are strictly inside the unit circle.
+> 
+> This means:
+> 
+> - Bounded inputs produce bounded outputs
+> - Impulse response decays to zero
+> - No sustained oscillations
 
 ---
 
@@ -1630,6 +1666,38 @@ If all $|p_i| < 1$: $$ \boxed{\text{Filter is stable — all poles inside unit c
 
 ### (a) Is there aliasing?
 
+> [!code]- MATLAB — 4-4: Aliasing Check with Verification Pattern
+> 
+> ```matlab
+> %% Spørgsmål 4-4: Sampling og aliasing
+> 
+> % Given analog signal: xa(t) = 5*cos(2π*50*t) + 3*cos(2π*1000*t)
+> A1 = 5;   F1 = 50;      % First component
+> A2 = 3;   F2 = 1000;    % Second component
+> Fs4 = 5000;             % Sampling frequency
+> 
+> % Check aliasing using verification pattern
+> F_Nyquist = Fs4/2;
+> fprintf('\n=== Problem 4-4: Aliasing Check ===\n');
+> fprintf('Nyquist frequency: %.0f Hz\n\n', F_Nyquist);
+> 
+> fprintf('Component 1: F1 = %.0f Hz\n', F1);
+> if F1 < F_Nyquist
+>     fprintf('  %.0f < %.0f → NO aliasing ✓\n\n', F1, F_Nyquist);
+> else
+>     fprintf('  %.0f >= %.0f → ALIASING! ⚠️\n\n', F1, F_Nyquist);
+> end
+> 
+> fprintf('Component 2: F2 = %.0f Hz\n', F2);
+> if F2 < F_Nyquist
+>     fprintf('  %.0f < %.0f → NO aliasing ✓\n\n', F2, F_Nyquist);
+> else
+>     fprintf('  %.0f >= %.0f → ALIASING! ⚠️\n\n', F2, F_Nyquist);
+> end
+> ```
+
+**Analysis:**
+
 Nyquist frequency: $F_{Nyquist} = F_s/2 = 2500$ Hz
 
 - $F_1 = 50$ Hz: $50 < 2500$ ✓ **No aliasing**
@@ -1637,30 +1705,55 @@ Nyquist frequency: $F_{Nyquist} = F_s/2 = 2500$ Hz
 
 $$ \boxed{\text{No aliasing — both frequencies are below Nyquist (2500 Hz)}} $$
 
-### (b) Plot sampled signal from 0 to 0.05 seconds
+### (b) Sample and plot signal (0 to 0.05 seconds)
 
-> [!code]- MATLAB — 4-4b
+> [!code]- MATLAB — 4-4: Sampling and Plotting
 > 
 > ```matlab
-> % Problem 4-4b: Sample and plot signal
-> Fs = 5000;
-> t = 0 : 1/Fs : 0.05;    % 0 to 50 ms
+> % Sample the signal (0 to 0.05 seconds)
+> t4 = 0:1/Fs4:0.05;
+> x4_sampled = A1*cos(2*pi*F1*t4) + A2*cos(2*pi*F2*t4);
 > 
-> A1 = 5; F1 = 50;
-> A2 = 3; F2 = 1000;
-> 
-> x_sampled = A1*cos(2*pi*F1*t) + A2*cos(2*pi*F2*t);
-> 
+> % OPTION 1: Continuous plot (more illustrative, recommended)
 > figure;
-> plot(t, x_sampled, 'b', 'LineWidth', 1);
-> xlabel('Time [s]');
-> ylabel('x[n]');
-> title('Sampled Signal');
+> plot(t4, x4_sampled, 'b', 'LineWidth', 1.5);
 > grid on;
+> xlabel('Time [s]');
+> ylabel('Amplitude');
+> title('F25 Problem 4-4: Sampled Signal (50 Hz + 1000 Hz)');
 > xlim([0 0.05]);
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_4_Sampled_Plot.png'), ...
+>                'Resolution', 300);
+> 
+> % OPTION 2: Stem plot (shows discrete nature)
+> figure;
+> stem(t4, x4_sampled, 'b', 'LineWidth', 1.5, 'MarkerSize', 4);
+> grid on;
+> xlabel('Time [s]');
+> ylabel('Amplitude');
+> title('F25 Problem 4-4: Sampled Signal - Discrete (Stem)');
+> xlim([0 0.05]);
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_4_Sampled_Stem.png'), ...
+>                'Resolution', 300);
 > ```
 
-![[Images/DSP_Exam_F25_4_4_SampledSignal.png]]
+> [!tip] Exam Hint from Student Solutions The exam hint suggests using `plot()` instead of `stem()` for discrete-time signals because it is "more illustrative" (mere illustrativt), even though time is discrete. Both are valid, but `plot()` makes it easier to observe the waveforms.
+
+**Continuous plot (recommended for visualization):**
+
+![[Images/DSP_Exam_F25_4_4_Sampled_Plot.png]]
+
+**Stem plot (shows discrete nature):**
+
+![[Images/DSP_Exam_F25_4_4_Sampled_Stem.png]]
+
+**Observation:** The sampled signal shows:
+
+- Slow oscillation: 50 Hz component (large amplitude)
+- Fast ripple: 1000 Hz component (superimposed on slow wave)
+- Combined signal is "bumpy" due to high-frequency content
 
 ---
 
@@ -1677,45 +1770,115 @@ The filter is a **lowpass** with $f_{-3dB} = 400$ Hz.
 
 $$ \boxed{\text{50 Hz component passes; 1000 Hz component is attenuated}} $$
 
-### (b) Filter using MATLAB
+### (b) Filter using MATLAB and compare
 
-> [!code]- MATLAB — 4-5b
+> [!code]- MATLAB — 4-5: Filter and Overlay Plot
 > 
 > ```matlab
-> % Problem 4-5b: Filter the signal
-> y_filtered = filter(b, a, x_sampled);
+> %% Spørgsmål 4-5: Filter signalet
 > 
+> fprintf('\n=== Problem 4-5: Filtering ===\n');
+> 
+> % Filter the signal using the lowpass filter from 4-1
+> y4_filtered = filter(B4, A4, x4_sampled);
+> 
+> % OVERLAY PLOT: Both signals on same axes (matches student solution)
+> figure;
+> plot(t4, x4_sampled, 'b', 'LineWidth', 1.5);
+> hold on;
+> plot(t4, y4_filtered, 'r', 'LineWidth', 1.5);
+> hold off;
+> 
+> grid on;
+> xlabel('Tid (s)');
+> ylabel('Amplitude (a.u.)');
+> title('F25 Problem 4-5: Sampled vs Filtered Signal');
+> legend('Sampled signal', 'Filtered signal', 'Location', 'best');
+> xlim([0 0.05]);
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_5_Overlay.png'), ...
+>                'Resolution', 300);
+> 
+> % OPTIONAL: Separate subplots for detailed view
 > figure;
 > subplot(2,1,1);
-> plot(t, x_sampled, 'b', 'LineWidth', 1);
-> xlabel('Time [s]'); ylabel('Amplitude');
-> title('Input Signal x[n]');
+> plot(t4, x4_sampled, 'b', 'LineWidth', 1.5);
 > grid on;
+> xlabel('Time [s]');
+> ylabel('Amplitude');
+> title('Input: x[n] = 50 Hz + 1000 Hz');
+> xlim([0 0.05]);
 > 
 > subplot(2,1,2);
-> plot(t, y_filtered, 'r', 'LineWidth', 1);
-> xlabel('Time [s]'); ylabel('Amplitude');
-> title('Filtered Signal y[n]');
+> plot(t4, y4_filtered, 'r', 'LineWidth', 1.5);
 > grid on;
+> xlabel('Time [s]');
+> ylabel('Amplitude');
+> title('Output: y[n] (After Lowpass Filter)');
+> xlim([0 0.05]);
+> 
+> exportgraphics(gcf, fullfile(imgDir, 'DSP_Exam_F25_4_5_Separate.png'), ...
+>                'Resolution', 300);
+> 
+> % Analysis
+> fprintf('\nFilter effect:\n');
+> fprintf('  - 50 Hz (in passband):   PASSES ✓\n');
+> fprintf('  - 1000 Hz (in stopband): ATTENUATED ✓\n');
+> fprintf('  - Result: Smooth 50 Hz sine wave\n\n');
 > ```
 
-![[Images/DSP_Exam_F25_4_5_FilteredSignal.png]]
+![[Images/DSP_Exam_F25_4_5_Overlay.png]]
 
-### (c) Compare input and output
+> [!tip] Plot Comparison **Overlay plot (recommended):**
+> 
+> - Shows both signals on same axes
+> - Direct visual comparison
+> - Matches student solution format
+> 
+> **Separate subplots (optional):**
+> 
+> - Detailed view of each signal
+> - Easier to see individual characteristics
 
-**Observations:**
+**Separate subplots for detailed view:**
 
-1. **Input signal:** Shows both the slow 50 Hz oscillation AND the fast 1000 Hz ripple superimposed.
+![[Images/DSP_Exam_F25_4_5_Separate.png]]
+
+### (c) Observations and Analysis
+
+**From the overlay plot:**
+
+1. **Blue signal (input):**
     
-2. **Output signal:**
+    - Shows both slow 50 Hz oscillation AND fast 1000 Hz ripple
+    - Appears "bumpy" due to high-frequency component
+    - Amplitude varies between approximately ±8
+2. **Red signal (output):**
     
-    - The slow 50 Hz oscillation **remains** (approximately same amplitude)
-    - The fast 1000 Hz ripple is **removed/attenuated**
-    - Signal is "smoother"
-3. **Transient:** There may be a short startup transient at the beginning due to filter initial conditions.
+    - Only the slow 50 Hz oscillation remains
+    - Smooth sine wave (no high-frequency ripple)
+    - Slightly reduced amplitude due to passband attenuation
+    - Clean, filtered result
+3. **Filter effectiveness:**
     
+    - 50 Hz component: **Passes through** (in passband, < 400 Hz)
+    - 1000 Hz component: **Removed** (in stopband, > 400 Hz)
+    - The overlay clearly shows the smoothing effect
+4. **Transient behavior:**
+    
+    - Small startup transient at t = 0 (first ~0.01 s)
+    - Due to filter initial conditions (IIR filter)
+    - Settles to steady-state response quickly
 
-$$ \boxed{\text{The lowpass filter removes the 1000 Hz component, leaving only the 50 Hz signal}} $$
+$$ \boxed{\text{Lowpass filter successfully removes 1000 Hz, leaving smooth 50 Hz signal}} $$
+
+> [!success] Conclusion The 3rd-order IIR lowpass filter (cutoff = 400 Hz) effectively:
+> 
+> - ✅ Preserves the low-frequency component (50 Hz)
+> - ✅ Attenuates the high-frequency component (1000 Hz)
+> - ✅ Produces a clean, smooth output
+> 
+> **Result:** The filtered signal is a smooth 50 Hz sine wave, demonstrating successful lowpass filtering.
 
 ---
 

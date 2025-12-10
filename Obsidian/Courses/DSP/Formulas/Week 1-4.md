@@ -7,6 +7,10 @@
 
 ## 📋 Table of Contents
 
+### Fundamental Reference
+
+- [[#🌊 Fundamental: DSP Frequency Representations]]
+
 ### Week 1: Introduction & MATLAB
 
 - [[#1.1 Discrete-Time Signals]]
@@ -38,6 +42,125 @@
 - [[#4.5 Transfer Function H(z)]]
 - [[#4.6 Poles, Zeros, and Stability]]
 - [[#4.7 Combined Systems and Pole-Zero Cancellation]]
+
+---
+
+## 🌊 Fundamental: DSP Frequency Representations
+
+**The Four Ways to Represent Frequency in DSP**
+
+### Frequency Conversion Diagram
+
+```
+                    Adding "angular" multiply by 2π
+                              ↓
+        F                                    Ω = 2πF
+    "Frequency"                      "Angular frequency"
+    [Hz] = [1/s]  ←─────────────→    [rad/s] = [1/s]
+        ↓                                    ↓
+  To "normalize"                      Multiply by 2π/Fs
+   divide by Fs                              ↓
+        ↓                                    ↓
+     f = F/Fs                           ω = 2πF/Fs
+  "Normalized frequency"      "Normalized angular frequency"
+    [unit-less]                      [rad] = [unit-less]
+```
+
+### The Four Frequency Types
+
+|Type|Symbol|Formula|Units|Range|Used For|
+|---|---|---|---|---|---|
+|**Physical**|$F$|Given|Hz (1/s)|$0$ to $\infty$|Real-world specifications|
+|**Angular**|$\Omega$|$2\pi F$|rad/s|$0$ to $\infty$|Analog filters (s-domain)|
+|**Normalized**|$f$|$F/F_s$|dimensionless|$0$ to $1$|Relative to sampling rate|
+|**Digital Angular**|$\omega$|$2\pi F/F_s = 2\pi f$|rad/sample|$0$ to $2\pi$|**Z-domain DSP**|
+
+### Quick Conversions
+
+**From Physical Frequency F (Hz):** $$f = \frac{F}{F_s} \quad \text{(normalized)}$$
+
+$$\omega = \frac{2\pi F}{F_s} = 2\pi f \quad \text{(digital angular, rad/sample)}$$
+
+$$\Omega = 2\pi F \quad \text{(analog angular, rad/s)}$$
+
+**Key Landmarks:**
+
+- **Nyquist frequency:**
+    - Physical: $F_{Nyquist} = F_s/2$ Hz
+    - Normalized: $f_{Nyquist} = 0.5$
+    - Digital angular: $\omega_{Nyquist} = \pi$ rad/sample
+
+### Example (F25 Problem 3)
+
+Given: $F_1 = 1500$ Hz, $F_s = 8000$ Hz
+
+|Representation|Calculation|Result|
+|---|---|---|
+|Physical|$F_1$|1500 Hz|
+|Normalized|$1500/8000$|$f_1 = 0.1875$|
+|Digital angular|$2\pi \times 0.1875$|$\omega_1 = 0.375\pi$ rad/sample|
+|Analog angular|$2\pi \times 1500$|$\Omega_1 = 9424.8$ rad/s|
+
+### When to Use Each
+
+**Physical F (Hz):**
+
+- Problem specifications
+- Real-world measurements
+- Communication with non-DSP engineers
+
+**Normalized f (dimensionless):**
+
+- Filter design specifications
+- Platform-independent descriptions
+- Range: [0, 0.5] for valid frequencies
+
+**Digital Angular ω (rad/sample):**
+
+- **Z-domain analysis** (most common in DSP!)
+- DTFT calculations: $H(e^{j\omega})$
+- Filter frequency response
+- Range: [0, π] for valid frequencies
+
+**Analog Angular Ω (rad/s):**
+
+- Analog prototype design
+- Bilinear transform (BLT) calculations
+- Pre-warping: $\Omega = \frac{2}{T_s}\tan(\omega/2)$
+
+### Critical Notes
+
+> [!warning] Common Mistakes
+> 
+> - Don't confuse $\omega$ (digital, rad/sample) with $\Omega$ (analog, rad/s)
+> - Digital angular frequency $\omega$ is **unit-less** despite "rad" notation
+> - Always specify which representation you're using!
+> - In z-domain, we use $\omega$ (digital angular frequency)
+
+> [!tip] Quick Check For valid digital frequencies:
+> 
+> - $0 \leq f \leq 0.5$ (normalized)
+> - $0 \leq \omega \leq \pi$ (digital angular)
+> - Above these → **aliasing!**
+
+### Application in Course
+
+**Sampling & Aliasing (Week 5-7):**
+
+- Use $F$ for specifications
+- Convert to $\omega$ to check if $\omega > \pi$ (aliasing)
+
+**IIR Filter Design (Week 8-11):**
+
+- Specify filter in $F$ (Hz)
+- Pre-warp to analog $\Omega$ for prototype
+- Design analog filter in s-domain
+- Convert back to z-domain using BLT
+
+**FIR Filter Design (Week 12-13):**
+
+- Specify cutoff in $\omega$ directly
+- Use $\omega_c$ in design equations
 
 ---
 
