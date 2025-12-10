@@ -1,25 +1,49 @@
-# DTU 62743 DSP Formula Sheet (Weeks 1–4)
-**Digital Signal Processing | Technical University of Denmark**
+# DTU 62743 DSP Formula Sheet: Weeks 1-4 (Iver)
+**Digital Signal Processing | Technical University of Denmark**  
+**Strict adherence to DTU course materials (E19-F25 exam solutions)**
 
 ---
 
-## 📌 Table of Contents
-1. [Week 1: Introduction & MATLAB](#week-1)
-2. [Week 2: Discrete-Time Signals & Systems (Time Domain)](#week-2)
-3. [Week 3: Discrete-Time Signals & Systems (Frequency Domain)](#week-3)
-4. [Week 4: Z-Transform](#week-4)
+## 📋 Table of Contents
+
+### Week 1: Introduction & MATLAB
+- [[#1.1 Discrete-Time Signals]]
+- [[#1.2 Basic Signal Types]]
+- [[#1.3 MATLAB Essentials]]
+- [[#1.4 Signal Energy and Power]]
+
+### Week 2: LTI Systems (Time Domain)
+- [[#2.1 Linear Time-Invariant (LTI) Systems]]
+- [[#2.2 Convolution]]
+- [[#2.3 Impulse Response]]
+- [[#2.4 Step Response]]
+- [[#2.5 System Properties]]
+
+### Week 3: Frequency Domain
+- [[#3.1 DTFT (Discrete-Time Fourier Transform)]]
+- [[#3.2 DTFT Properties]]
+- [[#3.3 Frequency Response]]
+- [[#3.4 Ideal Filters]]
+
+### Week 4: Z-Transform
+- [[#4.1 Z-Transform Definition]]
+- [[#4.2 Common Z-Transform Pairs]]
+- [[#4.3 Z-Transform Properties]]
+- [[#4.4 Inverse Z-Transform Methods]]
+- [[#4.5 Transfer Function H(z)]]
+- [[#4.6 Poles, Zeros, and Stability]]
 
 ---
 
-<a name="week-1"></a>
-# Week 1: Introduction & MATLAB Programming
+## Week 1: Introduction & MATLAB Programming
 
-## Core Concepts
+### 1.1 Discrete-Time Signals
+
 **Discrete-Time (DT) Signals** are sequences indexed by integers, written as $x[n]$ where $n \in \mathbb{Z}$.
 
-### Key Signal Types
+### 1.2 Basic Signal Types
 
-#### 1. Unit Impulse (Delta Function)
+#### Unit Impulse (Delta Function)
 $$
 \delta[n] = \begin{cases}
 1, & n = 0 \\
@@ -35,7 +59,17 @@ A:
 - $n=1$: $3\delta[1] + 2\delta[0] = 3 \cdot 0 + 2 \cdot 1 = 2$
 - $n=2$: $3\delta[2] + 2\delta[1] = 0$
 
-#### 2. Unit Step Function
+
+**Adding Delta Function Signals:**
+Treat δ[n], δ[n-1], δ[n-2], etc. as separate terms.
+Only combine terms with the same time shift.
+
+Example:
+(δ[n] - 2δ[n-1]) + (-δ[n] + 3δ[n-1])
+= (1-1)δ[n] + (-2+3)δ[n-1]
+= 0·δ[n] + 1·δ[n-1]
+= δ[n-1]
+#### Unit Step Function
 $$
 u[n] = \begin{cases}
 1, & n \geq 0 \\
@@ -53,7 +87,7 @@ Q: Express $x[n] = u[n] - u[n-5]$ in words.
 
 A: This is a "rectangular pulse" that equals 1 for $0 \leq n < 5$ and 0 elsewhere.
 
-#### 3. Exponential Sequence
+#### Exponential Sequence
 $$
 x[n] = a^n u[n], \quad a \in \mathbb{R}
 $$
@@ -67,11 +101,11 @@ Q: Sketch $x[n] = (0.5)^n u[n]$ for $n = 0, 1, 2, 3, 4$.
 
 A: Values: $1, 0.5, 0.25, 0.125, 0.0625$ (decaying exponential)
 
-### MATLAB Essentials
+### 1.3 MATLAB Essentials
 
-#### Quick Math Reference: Geometric Series
+#### Geometric Series (Critical for Exams)
 
-**Critical for Energy Calculations** [F20 Exam]:
+**Critical for Energy Calculations** [[F24 Exam]]:
 $$
 \boxed{\sum_{n=0}^{\infty} r^n = \frac{1}{1-r}, \quad |r| < 1}
 $$
@@ -99,544 +133,544 @@ a = 0.5;
 x = a.^n .* u;  % Element-wise operations with "."
 
 % Plotting
-stem(n, x, 'filled');  % Discrete-time plot
-xlabel('n'); ylabel('x[n]'); grid on;
+stem(n, x);  % Discrete-time plot
+xlabel('n'); ylabel('x[n]');
+title('Exponential Sequence');
+grid on;
 ```
 
----
-
-<a name="week-2"></a>
-# Week 2: Discrete-Time Systems (Time Domain)
-
-## LTI Systems
-
-### Definition
-A **Linear Time-Invariant (LTI)** system satisfies:
-1. **Linearity**: $T\{ax_1[n] + bx_2[n]\} = aT\{x_1[n]\} + bT\{x_2[n]\}$
-2. **Time-Invariance**: If $y[n] = T\{x[n]\}$, then $y[n-n_0] = T\{x[n-n_0]\}$
-
-### Impulse Response
-**Definition:** The output when the input is $\delta[n]$:
-$$
-\boxed{h[n] = T\{\delta[n]\}}
-$$
-
-The impulse response **completely characterizes** an LTI system.
-
-### Convolution Sum
-**Key Formula:** For any input $x[n]$, the output is:
-$$
-\boxed{y[n] = x[n] * h[n] = \sum_{k=-\infty}^{\infty} x[k] h[n-k]}
-$$
-
-**Alternative form:**
-$$
-y[n] = \sum_{k=-\infty}^{\infty} h[k] x[n-k]
-$$
-
-### Finding Impulse Response from Step Response
-
-**The DTU Trick** [E23 Q1, F24 Q1]:  
-Given step response $y_{step}[n]$ when input is $u[n]$, use:
-$$
-\boxed{h[n] = y_{step}[n] - y_{step}[n-1]}
-$$
-
-**Why?** Because $\delta[n] = u[n] - u[n-1]$ and LTI systems preserve this relationship.
-
-**Example Problem:**  
-Given: $y_{step}[n] = -\delta[n] - 5\delta[n-1] + 5\delta[n-2] + \delta[n-3]$
-
-Q: Find the impulse response.
-
-A:
-$$
-\begin{aligned}
-h[n] &= y_{step}[n] - y_{step}[n-1] \\
-h[0] &= y_{step}[0] - y_{step}[-1] = -1 - 0 = -1 \\
-h[1] &= y_{step}[1] - y_{step}[0] = -5 - (-1) = -4 \\
-h[2] &= y_{step}[2] - y_{step}[1] = 5 - (-5) = 10 \\
-h[3] &= y_{step}[3] - y_{step}[2] = 1 - 5 = -4 \\
-h[4] &= y_{step}[4] - y_{step}[3] = 0 - 1 = -1
-\end{aligned}
-$$
-
-Result: $h[n] = -\delta[n] - 4\delta[n-1] + 10\delta[n-2] - 4\delta[n-3] - \delta[n-4]$
-
-### FIR vs IIR Classification
-
-**FIR (Finite Impulse Response):**
-- $h[n]$ is **finite-length** (zero outside some range)
-- **No feedback** in difference equation
-- **Always stable**
-
-**IIR (Infinite Impulse Response):**
-- $h[n]$ extends to infinity
-- **Has feedback** (output depends on past outputs)
-- May be unstable
-
-**Red Flags for IIR** [Course Standard]:
-1. Difference equation has $y[n-k]$ terms on right side
-2. Transfer function $H(z)$ has non-trivial denominator
-3. Impulse response doesn't become zero
-
-**Example Problem:**  
-Q: Is $h[n] = (0.5)^n u[n]$ FIR or IIR?
-
-A: **IIR** because it never becomes exactly zero (infinite length).
-
-### Difference Equations
-
-**General form:**
-$$
-\sum_{k=0}^{N} a_k y[n-k] = \sum_{k=0}^{M} b_k x[n-k]
-$$
-
-**Standard causal form:**
-$$
-\boxed{y[n] = -\sum_{k=1}^{N} a_k y[n-k] + \sum_{k=0}^{M} b_k x[n-k]}
-$$
-
-**Example Problem:**  
-Q: Write the difference equation for $H(z) = \frac{2 + 3z^{-1}}{1 - 0.5z^{-1}}$.
-
-A:
-$$
-y[n] = 0.5y[n-1] + 2x[n] + 3x[n-1]
-$$
-
-### Stability
-
-**BIBO Stability Condition:**
-$$
-\boxed{\sum_{n=-\infty}^{\infty} |h[n]| < \infty}
-$$
-
-For exponential $h[n] = a^n u[n]$: stable if $|a| < 1$.
-
-**Example Problem:**  
-Q: Is $h[n] = 2^n u[n]$ stable?
-
-A: No, because $\sum |2^n| = \infty$ (diverges).
-
-### Signal Energy Calculation
+### 1.4 Signal Energy and Power
 
 **Energy of a signal:**
 $$
 E = \sum_{n=-\infty}^{\infty} |x[n]|^2
 $$
 
-**Key Tool: Geometric Series** [F20 Exam]:
-
-For exponential signals $x[n] = a^n u[n]$:
+**Power of a signal:**
 $$
-\boxed{E = \sum_{n=0}^{\infty} |a|^{2n} = \sum_{n=0}^{\infty} (a^2)^n = \frac{1}{1-a^2}, \quad |a| < 1}
+P = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{n=-N}^{N} |x[n]|^2
 $$
 
-**Example Problem:**  
-Q: Find the energy of $x[n] = (0.5)^n u[n]$.
+**Classifications:**
+- **Energy signal:** $E < \infty$, $P = 0$
+- **Power signal:** $E = \infty$, $P$ finite
+- Neither: $E = \infty$, $P = \infty$
 
-A:
+**Example from** [[Uge 01 - Tirsdag]]:
+
+Signal: $x[n] = (0.8)^n u[n]$
+
+Energy:
 $$
-E = \sum_{n=0}^{\infty} (0.5)^{2n} = \sum_{n=0}^{\infty} (0.25)^n = \frac{1}{1-0.25} = \frac{4}{3}
+E = \sum_{n=0}^{\infty} |(0.8)^n|^2 = \sum_{n=0}^{\infty} (0.64)^n = \frac{1}{1-0.64} = \frac{25}{9} < \infty
 $$
 
-**Finite Energy:** If $E < \infty$, the signal has finite energy.  
-**Infinite Energy:** If $E = \infty$, the signal has infinite energy (e.g., $u[n]$).
-
-### MATLAB: Convolution & Filtering
-
-```matlab
-% Define signals
-x = [1 2 3 4];
-h = [0.5 0.5];
-
-% Convolution
-y = conv(x, h);
-% Result: [0.5 1.5 2.5 3.5 2]
-
-% Filtering (for difference equations)
-b = [1 2];     % Numerator coefficients
-a = [1 -0.5];  % Denominator coefficients
-x = [1 0 0 0 0];
-y = filter(b, a, x);
-```
+This is an **energy signal** (finite energy, zero power).
 
 ---
 
-<a name="week-3"></a>
-# Week 3: Frequency Domain Analysis
+## Week 2: LTI Systems (Time Domain)
 
-## Discrete-Time Fourier Transform (DTFT)
+### 2.1 Linear Time-Invariant (LTI) Systems
 
-### Definition
+**Linearity:**
+If $x_1[n] \to y_1[n]$ and $x_2[n] \to y_2[n]$, then:
 $$
-\boxed{X(\omega) = \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n}}
+ax_1[n] + bx_2[n] \to ay_1[n] + by_2[n]
 $$
 
-where $\omega \in [-\pi, \pi]$ is the **normalized digital angular frequency** (rad/sample).
+**Time Invariance:**
+If $x[n] \to y[n]$, then:
+$$
+x[n-n_0] \to y[n-n_0]
+$$
+
+### 2.2 Convolution
+
+**Convolution sum:**
+$$
+y[n] = x[n] * h[n] = \sum_{k=-\infty}^{\infty} x[k]h[n-k]
+$$
+
+**Properties:**
+- **Commutative:** $x * h = h * x$
+- **Associative:** $(x * h_1) * h_2 = x * (h_1 * h_2)$
+- **Distributive:** $x * (h_1 + h_2) = x * h_1 + x * h_2$
+
+**MATLAB:**
+```matlab
+y = conv(x, h);  % Linear convolution
+```
+
+**Manual Convolution Steps** [[Uge 02 - Tirsdag]]:
+1. Flip $h[k]$ to get $h[-k]$
+2. Shift by $n$ to get $h[n-k]$
+3. Multiply point-wise: $x[k] \cdot h[n-k]$
+4. Sum over all $k$
+
+**Example:**
+$x[n] = \{1, 2, 3\}$ (at $n = 0, 1, 2$)  
+$h[n] = \{1, 1\}$ (at $n = 0, 1$)
+
+Result: $y[n] = \{1, 3, 5, 3\}$ (at $n = 0, 1, 2, 3$)
+
+### 2.3 Impulse Response
+
+**Definition:**
+The output when input is $\delta[n]$:
+$$
+h[n] = T\{\delta[n]\}
+$$
+
+**Why it matters:**
+- **Completely characterizes** an LTI system
+- Any output: $y[n] = x[n] * h[n]$
+
+**Example from** [[Uge 02 - Tirsdag]]:
+
+System: $y[n] = 0.5y[n-1] + x[n]$
+
+Find impulse response:
+- Input: $x[n] = \delta[n]$
+- $h[0] = 0.5h[-1] + \delta[0] = 0 + 1 = 1$
+- $h[1] = 0.5h[0] + \delta[1] = 0.5(1) + 0 = 0.5$
+- $h[2] = 0.5h[1] + \delta[2] = 0.5(0.5) + 0 = 0.25$
+
+Pattern: $h[n] = (0.5)^n u[n]$
+
+### 2.4 Step Response
+
+**Definition:**
+The output when input is $u[n]$:
+$$
+s[n] = T\{u[n]\} = u[n] * h[n]
+$$
+
+**Relationship to impulse response:**
+$$
+\boxed{h[n] = s[n] - s[n-1]}
+$$
+$$
+\boxed{s[n] = \sum_{k=-\infty}^{n} h[k]}
+$$
+
+**Example from** [[E23 Exam]]:
+
+Given step response, find impulse response using first difference:
+$$
+h[n] = y_{\text{step}}[n] - y_{\text{step}}[n-1]
+$$
+
+### 2.5 System Properties
+
+**BIBO Stability:**
+$$
+\sum_{n=-\infty}^{\infty} |h[n]| < \infty
+$$
+
+If impulse response is **absolutely summable**, the system is stable.
+
+**Causality:**
+$$
+h[n] = 0 \quad \text{for } n < 0
+$$
+
+System output depends only on past/present inputs.
+
+**Example** [[Uge 02 - Torsdag]]:
+
+System: $h[n] = (0.9)^n u[n]$
+
+Stability check:
+$$
+\sum_{n=0}^{\infty} |(0.9)^n| = \frac{1}{1-0.9} = 10 < \infty
+$$
+✓ Stable
+
+Causality: $h[n] = 0$ for $n < 0$ ✓ Causal
+
+---
+
+## Week 3: Frequency Domain
+
+### 3.1 DTFT (Discrete-Time Fourier Transform)
+
+**Forward DTFT:**
+$$
+X(e^{j\omega}) = \sum_{n=-\infty}^{\infty} x[n] e^{-j\omega n}
+$$
 
 **Inverse DTFT:**
 $$
-\boxed{x[n] = \frac{1}{2\pi} \int_{-\pi}^{\pi} X(\omega) e^{j\omega n} d\omega}
+x[n] = \frac{1}{2\pi} \int_{-\pi}^{\pi} X(e^{j\omega}) e^{j\omega n} d\omega
 $$
 
-### Relationship Between Frequencies
+**Notation:**
+- $\omega$ = digital angular frequency (rad/sample)
+- $\omega \in [-\pi, \pi]$ or $[0, 2\pi]$
 
-**Analog frequency $F$ (Hz) ↔ Digital frequency $\omega$ (rad/sample):**
+**Periodicity:**
 $$
-\boxed{\omega = 2\pi \frac{F}{F_s}}
-$$
-
-where $F_s$ is the sampling frequency (Hz).
-
-**Example Problem:**  
-Q: If $F_s = 8000$ Hz and $F = 1000$ Hz, what is $\omega$?
-
-A:
-$$
-\omega = 2\pi \frac{1000}{8000} = \frac{\pi}{4} \approx 0.785 \text{ rad/sample}
+X(e^{j(\omega + 2\pi)}) = X(e^{j\omega})
 $$
 
-### Key DTFT Properties
+### 3.2 DTFT Properties
 
-| **Property** | **Time Domain** | **Frequency Domain** |
-|---|---|---|
-| Linearity | $ax_1[n] + bx_2[n]$ | $aX_1(\omega) + bX_2(\omega)$ |
-| Time Shift | $x[n - n_0]$ | $e^{-j\omega n_0} X(\omega)$ |
-| Frequency Shift | $e^{j\omega_0 n} x[n]$ | $X(\omega - \omega_0)$ |
-| Convolution | $x[n] * h[n]$ | $X(\omega) H(\omega)$ |
-| Multiplication | $x[n] h[n]$ | $\frac{1}{2\pi} X(\omega) * H(\omega)$ |
-
-### Frequency Response of LTI Systems
-
-**Frequency Response:**
+**Linearity:**
 $$
-\boxed{H(\omega) = \text{DTFT}\{h[n]\} = \sum_{n=-\infty}^{\infty} h[n] e^{-j\omega n}}
+ax_1[n] + bx_2[n] \xleftrightarrow{\text{DTFT}} aX_1(e^{j\omega}) + bX_2(e^{j\omega})
 $$
 
-**Key Insight:** 
+**Time Shifting:**
 $$
-\boxed{Y(\omega) = X(\omega) H(\omega)}
-$$
-
-**From Difference Equation:**  
-Given $\sum a_k y[n-k] = \sum b_k x[n-k]$, take DTFT of both sides:
-$$
-\boxed{H(\omega) = \frac{\sum_{k=0}^{M} b_k e^{-j\omega k}}{\sum_{k=0}^{N} a_k e^{-j\omega k}}}
+x[n-n_0] \xleftrightarrow{\text{DTFT}} e^{-j\omega n_0} X(e^{j\omega})
 $$
 
-**Example Problem:**  
-Q: Find $H(\omega)$ for $y[n] - \frac{1}{2}y[n-1] = x[n]$.
-
-A: Taking DTFT:
+**Frequency Shifting (Modulation):**
 $$
-Y(\omega) - \frac{1}{2}e^{-j\omega} Y(\omega) = X(\omega)
-$$
-$$
-H(\omega) = \frac{Y(\omega)}{X(\omega)} = \frac{1}{1 - \frac{1}{2}e^{-j\omega}}
+e^{j\omega_0 n} x[n] \xleftrightarrow{\text{DTFT}} X(e^{j(\omega - \omega_0)})
 $$
 
-### Magnitude and Phase
-
+**Convolution Theorem:**
 $$
-H(\omega) = |H(\omega)| e^{j\angle H(\omega)}
-$$
-
-- **Magnitude:** $|H(\omega)| = \sqrt{\text{Re}^2\{H(\omega)\} + \text{Im}^2\{H(\omega)\}}$
-- **Phase:** $\angle H(\omega) = \arctan\left(\frac{\text{Im}\{H(\omega)\}}{\text{Re}\{H(\omega)\}}\right)$
-
-### Linear Phase FIR Filters
-
-**Symmetry Condition:**  
-If $h[n] = h[M - n]$ (symmetric), then:
-$$
-\boxed{H(\omega) = e^{-j\omega K} A(\omega)}
+x[n] * h[n] \xleftrightarrow{\text{DTFT}} X(e^{j\omega}) \cdot H(e^{j\omega})
 $$
 
-where $K = M/2$ and $A(\omega)$ is **real-valued**.
+This is **THE KEY** to frequency domain analysis!
 
-**The DTU Phase Factorization Method** [E23 Q1-3]:  
-For symmetric FIR like $h[n] = [h_0, h_1, h_2, h_1, h_0]$ (5 taps, $M=4$, $K=2$):
-
-1. Factor out the center delay: $e^{-j2\omega}$
-2. Group symmetric pairs using $e^{j\theta} + e^{-j\theta} = 2\cos\theta$:
-
+**Multiplication (Modulation):**
 $$
-\begin{aligned}
-H(\omega) &= h_0 + h_1 e^{-j\omega} + h_2 e^{-j2\omega} + h_1 e^{-j3\omega} + h_0 e^{-j4\omega} \\
-&= e^{-j2\omega}\left[h_2 + 2h_1\cos\omega + 2h_0\cos 2\omega\right]
-\end{aligned}
+x[n] \cdot w[n] \xleftrightarrow{\text{DTFT}} \frac{1}{2\pi} X(e^{j\omega}) \circledast W(e^{j\omega})
 $$
 
-**Result:**
-- **Magnitude:** $|H(\omega)| = |h_2 + 2h_1\cos\omega + 2h_0\cos 2\omega|$
-- **Phase:** $\angle H(\omega) = -2\omega$ (linear) when amplitude is positive
+where $\circledast$ denotes periodic convolution.
 
-**Example Problem:**  
-Given: $h[n] = [-1, -4, 10, -4, -1]$
+### 3.3 Frequency Response
 
-Q: Find $|H(\omega)|$ using symmetry.
-
-A:
+**Definition:**
+For an LTI system with impulse response $h[n]$:
 $$
-H(\omega) = e^{-j2\omega}[10 - 8\cos\omega - 2\cos 2\omega]
-$$
-$$
-|H(\omega)| = |10 - 8\cos\omega - 2\cos 2\omega|
+H(e^{j\omega}) = \sum_{n=-\infty}^{\infty} h[n] e^{-j\omega n}
 $$
 
-### MATLAB: Frequency Response
+**Magnitude and Phase:**
+$$
+H(e^{j\omega}) = |H(e^{j\omega})| e^{j\angle H(e^{j\omega})}
+$$
 
+**Physical meaning:**
+- $|H(e^{j\omega})|$ = gain at frequency $\omega$
+- $\angle H(e^{j\omega})$ = phase shift at frequency $\omega$
+
+**MATLAB:**
 ```matlab
-% Define FIR filter
-b = [-1 -4 10 -4 -1];
-a = 1;
-
-% Compute frequency response
-[H, w] = freqz(b, a, 2048);
-
-% Plot magnitude (linear)
-plot(w/pi, abs(H));
-xlabel('\omega/\pi'); ylabel('|H(\omega)|');
-
-% Plot magnitude (dB)
-plot(w/pi, 20*log10(abs(H)));
-ylabel('Magnitude (dB)');
-
-% Plot phase
-plot(w/pi, unwrap(angle(H)));
-ylabel('Phase (radians)');
+[H, w] = freqz(b, a, N);  % N frequency points
+mag = abs(H);             % Magnitude
+phase = angle(H);         % Phase (radians)
+mag_dB = 20*log10(mag);   % Magnitude in dB
 ```
+
+**Example from** [[Uge 03 - Tirsdag]]:
+
+Simple system: $h[n] = \delta[n] + \delta[n-1]$
+
+DTFT:
+$$
+H(e^{j\omega}) = 1 + e^{-j\omega} = e^{-j\omega/2}(e^{j\omega/2} + e^{-j\omega/2}) = 2e^{-j\omega/2}\cos(\omega/2)
+$$
+
+Magnitude: $|H(e^{j\omega})| = 2|\cos(\omega/2)|$  
+Phase: $\angle H(e^{j\omega}) = -\omega/2$ (linear phase)
+
+### 3.4 Ideal Filters
+
+**Ideal Low-Pass:**
+$$
+H_{\text{LP}}(e^{j\omega}) = \begin{cases}
+1, & |\omega| \leq \omega_c \\
+0, & \omega_c < |\omega| \leq \pi
+\end{cases}
+$$
+
+Impulse response:
+$$
+h_{\text{LP}}[n] = \frac{\sin(\omega_c n)}{\pi n}, \quad h_{\text{LP}}[0] = \frac{\omega_c}{\pi}
+$$
+
+**Ideal High-Pass:**
+$$
+h_{\text{HP}}[n] = \delta[n] - h_{\text{LP}}[n]
+$$
+
+**Ideal Band-Pass:**
+$$
+h_{\text{BP}}[n] = h_{\text{LP2}}[n] - h_{\text{LP1}}[n]
+$$
+
+where $\omega_{c1} < \omega_{c2}$ are the lower and upper cutoffs.
+
+**Problem:** Ideal filters are **non-causal** and have **infinite length** → Cannot be implemented exactly
+
+**Solution:** Truncate and shift to make causal (covered in [[62743 E25 Digital filter design IIR part1.pdf]])
 
 ---
 
-<a name="week-4"></a>
-# Week 4: Z-Transform
+## Week 4: Z-Transform
 
-## Definition
+### 4.1 Z-Transform Definition
 
-**Z-Transform:**
+**Forward Z-Transform:**
 $$
-\boxed{X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n}}
-$$
-
-where $z \in \mathbb{C}$ is a complex variable.
-
-**Region of Convergence (ROC):** Set of $z$ values for which $X(z)$ converges.
-
-### Connection to DTFT
-
-**Critical Relationship:**
-$$
-\boxed{X(\omega) = X(z)\Big|_{z = e^{j\omega}}}
+X(z) = \sum_{n=-\infty}^{\infty} x[n] z^{-n}
 $$
 
-DTFT exists when the **unit circle is in the ROC**.
+**Inverse Z-Transform:**
+$$
+x[n] = \frac{1}{2\pi j} \oint_C X(z) z^{n-1} dz
+$$
 
-### Common Z-Transform Pairs
+**Relationship to DTFT:**
+$$
+X(e^{j\omega}) = X(z)\bigg|_{z = e^{j\omega}}
+$$
 
-| **Signal $x[n]$** | **Z-Transform $X(z)$** | **ROC** |
-|---|---|---|
+The DTFT is the Z-transform evaluated on the unit circle.
+
+### 4.2 Common Z-Transform Pairs
+
+| Signal $x[n]$ | Z-Transform $X(z)$ | ROC |
+|---------------|-------------------|-----|
 | $\delta[n]$ | $1$ | All $z$ |
 | $u[n]$ | $\frac{1}{1-z^{-1}} = \frac{z}{z-1}$ | $\|z\| > 1$ |
 | $a^n u[n]$ | $\frac{1}{1-az^{-1}} = \frac{z}{z-a}$ | $\|z\| > \|a\|$ |
 | $-a^n u[-n-1]$ | $\frac{1}{1-az^{-1}}$ | $\|z\| < \|a\|$ |
-| $n a^n u[n]$ | $\frac{az^{-1}}{(1-az^{-1})^2}$ | $\|z\| > \|a\|$ |
+| $na^n u[n]$ | $\frac{az^{-1}}{(1-az^{-1})^2}$ | $\|z\| > \|a\|$ |
 
-**Example Problem:**  
-Q: Find $X(z)$ for $x[n] = (0.5)^n u[n]$.
+**Example from** [[Uge 04 - Tirsdag]]:
 
-A:
+Find Z-transform of $x[n] = (0.5)^n u[n]$:
+
 $$
-X(z) = \frac{1}{1 - 0.5z^{-1}} = \frac{z}{z - 0.5}, \quad |z| > 0.5
-$$
-
-### Transfer Function
-
-**System Function:**
-$$
-\boxed{H(z) = \frac{Y(z)}{X(z)} = \sum_{n=-\infty}^{\infty} h[n] z^{-n}}
+X(z) = \sum_{n=0}^{\infty} (0.5)^n z^{-n} = \sum_{n=0}^{\infty} (0.5z^{-1})^n = \frac{1}{1 - 0.5z^{-1}} = \frac{z}{z - 0.5}
 $$
 
-**From Difference Equation:**
-$$
-H(z) = \frac{\sum_{k=0}^{M} b_k z^{-k}}{\sum_{k=0}^{N} a_k z^{-k}} = \frac{B(z)}{A(z)}
-$$
+ROC: $|z| > 0.5$ (outside the pole)
 
-**Example Problem:**  
-Q: Find $H(z)$ for $y[n] - \frac{3}{4}y[n-1] + \frac{1}{8}y[n-2] = x[n]$.
+### 4.3 Z-Transform Properties
 
-A: Taking Z-transform:
+**Linearity:**
 $$
-Y(z) - \frac{3}{4}z^{-1}Y(z) + \frac{1}{8}z^{-2}Y(z) = X(z)
-$$
-$$
-H(z) = \frac{1}{1 - \frac{3}{4}z^{-1} + \frac{1}{8}z^{-2}}
+ax_1[n] + bx_2[n] \xleftrightarrow{Z} aX_1(z) + bX_2(z)
 $$
 
-Factor denominator:
+**Time Shifting:**
 $$
-H(z) = \frac{1}{(1 - \frac{1}{2}z^{-1})(1 - \frac{1}{4}z^{-1})}
-$$
-
-### Poles and Zeros
-
-**Zeros:** Values of $z$ where $H(z) = 0$ (numerator zeros)  
-**Poles:** Values of $z$ where $H(z) = \infty$ (denominator zeros)
-
-**Example:** For $H(z) = \frac{1 + 0.3z^{-1}}{(1-0.2z^{-1})(1-0.4z^{-1})}$
-- **Zero:** $z_1 = -0.3$
-- **Poles:** $p_1 = 0.2$, $p_2 = 0.4$
-
-### Stability from Poles
-
-**Stability Condition:**  
-All poles must be **inside the unit circle**:
-$$
-\boxed{|p_k| < 1 \text{ for all poles } p_k}
+x[n-n_0] \xleftrightarrow{Z} z^{-n_0} X(z)
 $$
 
-**Example Problem:**  
-Q: Is $H(z) = \frac{1}{(1-0.5z^{-1})(1-2z^{-1})}$ stable?
-
-A: Poles at $z = 0.5$ and $z = 2$.  
-Since $|2| > 1$, the system is **UNSTABLE**.
-
-### Minimum Phase & Stable Inverse Systems
-
-**Critical Exam Concept** [E20, F25]:
-
-For a system $H(z)$ to have a **stable inverse** $H^{-1}(z)$:
+**Scaling in Z-domain:**
 $$
-\boxed{\text{All ZEROS of } H(z) \text{ must be inside the unit circle: } |z_k| < 1}
+a^n x[n] \xleftrightarrow{Z} X(a^{-1}z)
 $$
 
-**Why?** When you invert $H(z) = \frac{B(z)}{A(z)}$, the inverse is $H^{-1}(z) = \frac{A(z)}{B(z)}$. The **zeros become poles** in the inverse system!
-
-**Example Problem:**  
-Q: Can $H(z) = \frac{(1 + 2z^{-1})}{(1 - 0.3z^{-1})}$ have a stable inverse?
-
-A: 
-- Zero: $z = -2$ → $|z| = 2 > 1$ (outside unit circle)
-- The inverse $H^{-1}(z) = \frac{(1 - 0.3z^{-1})}{(1 + 2z^{-1})}$ has a pole at $z = -2$
-- **Answer: NO**, the inverse is unstable.
-
-**Minimum Phase Definition:**  
-A system is **minimum phase** if all its poles AND zeros are inside the unit circle.
-
-### Inverse Z-Transform Methods
-
-#### 1. Partial Fraction Expansion
-
-For $H(z) = \frac{B(z)}{A(z)}$ with simple poles:
+**Convolution:**
 $$
-H(z) = \frac{A_1}{1-p_1z^{-1}} + \frac{A_2}{1-p_2z^{-1}} + \cdots
+x[n] * h[n] \xleftrightarrow{Z} X(z) \cdot H(z)
 $$
 
-Then:
+**Initial Value Theorem:**
+If $x[n]$ is causal:
 $$
-h[n] = A_1 p_1^n u[n] + A_2 p_2^n u[n] + \cdots
-$$
-
-**Example Problem:**  
-Q: Find $h[n]$ for $H(z) = \frac{1+0.3z^{-1}}{(1-0.2z^{-1})(1-0.4z^{-1})}$.
-
-A: Using partial fractions:
-$$
-H(z) = \frac{3.5}{1-0.4z^{-1}} - \frac{2.5}{1-0.2z^{-1}}
-$$
-$$
-h[n] = 3.5(0.4)^n u[n] - 2.5(0.2)^n u[n]
+x[0] = \lim_{z \to \infty} X(z)
 $$
 
-#### 2. Inspection / Pattern Matching
+**Final Value Theorem:**
+If $x[n]$ converges:
+$$
+\lim_{n \to \infty} x[n] = \lim_{z \to 1} (z-1)X(z)
+$$
 
-Use Z-transform tables directly.
+### 4.4 Inverse Z-Transform Methods
 
-#### 3. Long Division (for FIR)
+#### Method 1: Partial Fraction Expansion
 
-Divide numerator by denominator to get $h[0], h[1], h[2], \ldots$
+**For rational functions:**
+$$
+X(z) = \frac{N(z)}{D(z)} = \frac{b_0 + b_1 z^{-1} + \cdots}{1 + a_1 z^{-1} + \cdots}
+$$
 
-### MATLAB: Z-Domain Analysis
-
+**MATLAB:**
 ```matlab
-% Define transfer function
-b = [1 0.3];           % Numerator: 1 + 0.3z^-1
-a = [1 -0.6 0.08];     % Denominator: 1 - 0.6z^-1 + 0.08z^-2
+[r, p, k] = residue(b, a);
+% r = residues
+% p = poles
+% k = direct term
+```
 
-% Find poles and zeros
-[z, p, k] = tf2zp(b, a);
-fprintf('Zeros: '); disp(z.');
-fprintf('Poles: '); disp(p.');
+**Then use:**
+$$
+\frac{A}{1 - pz^{-1}} \xleftrightarrow{Z} A \cdot p^n u[n] \quad \text{(if causal)}
+$$
 
-% Check stability
-if all(abs(p) < 1)
-    disp('System is STABLE');
-else
-    disp('System is UNSTABLE');
-end
+#### Method 2: Long Division
+
+Divide numerator by denominator to get sequence directly.
+
+#### Method 3: Table Lookup
+
+Match $X(z)$ to known transform pairs.
+
+### 4.5 Transfer Function H(z)
+
+**Definition:**
+$$
+H(z) = \frac{Y(z)}{X(z)} = \mathcal{Z}\{h[n]\}
+$$
+
+**Rational form:**
+$$
+H(z) = \frac{b_0 + b_1 z^{-1} + \cdots + b_M z^{-M}}{1 + a_1 z^{-1} + \cdots + a_N z^{-N}}
+$$
+
+Or:
+$$
+H(z) = \frac{\sum_{k=0}^{M} b_k z^{-k}}{1 + \sum_{k=1}^{N} a_k z^{-k}}
+$$
+
+**Corresponds to difference equation:**
+$$
+y[n] = -\sum_{k=1}^{N} a_k y[n-k] + \sum_{k=0}^{M} b_k x[n-k]
+$$
+
+### 4.6 Poles, Zeros, and Stability
+
+**Zeros:** Values of $z$ where $H(z) = 0$  
+**Poles:** Values of $z$ where $H(z) = \infty$
+
+**From rational form:**
+$$
+H(z) = G \frac{(z - z_1)(z - z_2)\cdots(z - z_M)}{(z - p_1)(z - p_2)\cdots(z - p_N)}
+$$
+
+**MATLAB:**
+```matlab
+zeros_H = roots(b);  % Find zeros
+poles_H = roots(a);  % Find poles
 
 % Pole-zero plot
+figure;
 zplane(b, a);
-title('Pole-Zero Plot');
-
-% Partial fraction expansion
-[r, p, k] = residue(b, a);
-fprintf('Residues: '); disp(r.');
-fprintf('Poles: '); disp(p.');
-
-% Impulse response (first 20 samples)
-[h, n] = impz(b, a, 20);
-stem(n, h, 'filled');
-xlabel('n'); ylabel('h[n]');
-title('Impulse Response');
 ```
+
+**Stability Criterion:**
+
+For a **causal** system to be **BIBO stable**:
+$$
+\boxed{\text{All poles must be inside the unit circle: } |p_k| < 1}
+$$
+
+**Example from** [[Uge 04 - Torsdag]]:
+
+$$
+H(z) = \frac{1 + 0.5z^{-1}}{1 - 0.8z^{-1}}
+$$
+
+- Zero at $z = -0.5$ (inside unit circle)
+- Pole at $z = 0.8$ (inside unit circle)
+- Since $|0.8| < 1$, system is **stable**
+
+**For inverse system stability:**
+All **zeros** of $H(z)$ must be inside unit circle (minimum phase condition) [[Week 5]].
 
 ---
 
-## 🎯 Exam Strategy Tips
+## Exam Strategy for Weeks 1-4
 
-### High-Priority Formulas (Based on E19-F25 Exams)
+### Most Common Question Types
 
-**🔥 Top 5 Most Tested Concepts:**
+**Week 1:**
+1. Basic signal operations with $\delta[n]$ and $u[n]$
+2. Energy/power calculations using geometric series
+3. Signal classification (energy vs power)
 
-1. **Step → Impulse** [E23, F24]: $h[n] = y_{step}[n] - y_{step}[n-1]$
-2. **Symmetric FIR Phase** [E23]: Factor $e^{-j\omega K}$ and use $2\cos\omega$ grouping
-3. **Stable Inverse** [E20, F25]: Zeros must be inside unit circle ($|z_k| < 1$)
-4. **Energy via Geometric Series** [F20]: $\sum (a^2)^n = \frac{1}{1-a^2}$
-5. **Partial Fraction on $H(z)$** [E19, E22]: Expand directly, not $H(z)/z$
+**Week 2:**
+1. Convolution calculations (manual or MATLAB)
+2. Finding impulse response from difference equation
+3. Step response → impulse response conversion
+4. Stability checks (absolute summability)
 
-### Pattern Recognition
+**Week 3:**
+1. Computing DTFT of simple sequences
+2. Magnitude/phase plots
+3. Frequency response interpretation
+4. Ideal filter impulse responses
 
-1. **Step → Impulse:** Use $h[n] = y_{step}[n] - y_{step}[n-1]$
-2. **Symmetric FIR:** Factor out $e^{-j\omega K}$ and use cosines
-3. **IIR from Difference Eq:** Convert to $H(z)$, find poles, check stability
-4. **Frequency Conversion:** Always use $\omega = 2\pi F/F_s$
-5. **Inverse Systems:** Check if zeros are inside unit circle!
+**Week 4:**
+1. Z-transform from definition or table
+2. ROC identification (critical!)
+3. Pole-zero plots and stability
+4. Transfer function ↔ difference equation
+5. Inverse Z-transform (partial fractions)
 
-### Red Flags
+### Critical Formulas to Memorize
 
-- **Missing ROC:** Always state it when computing Z-transforms
-- **Unstable Poles:** Check $|p_k| < 1$ for ALL poles
-- **DTFT vs Z-Transform:** Remember $z = e^{j\omega}$ connects them
-- **Causality:** For causal systems, ROC is outside the outermost pole
+1. **Geometric series:**
+   $$\sum_{n=0}^{\infty} r^n = \frac{1}{1-r}, \quad |r| < 1$$
 
-### MATLAB Sanity Checks
+2. **Step ↔ impulse:**
+   $$h[n] = s[n] - s[n-1]$$
 
-Always verify analytical results:
+3. **Convolution theorem (Z-domain):**
+   $$y[n] = x[n] * h[n] \Leftrightarrow Y(z) = X(z)H(z)$$
+
+4. **Stability criterion:**
+   $$\text{All poles: } |p_k| < 1$$
+
+5. **Basic Z-transforms:**
+   $$u[n] \xleftrightarrow{Z} \frac{1}{1-z^{-1}}, \quad a^n u[n] \xleftrightarrow{Z} \frac{1}{1-az^{-1}}$$
+
+### Common Mistakes to Avoid
+
+1. **Forgetting ROC** when writing Z-transforms
+2. **Wrong convolution limits** (start from $k=0$ for causal signals)
+3. **Sign errors** in difference equations ($-a_k$ terms!)
+4. **Confusing poles and zeros** for stability vs inverse stability
+5. **DTFT periodicity** - always $2\pi$ periodic
+6. **Unit circle evaluation** $z = e^{j\omega}$ to get frequency response
+
+---
+
+## Quick Reference: MATLAB Commands
+
 ```matlab
-% Check frequency response matches
-[H_matlab, w] = freqz(b, a, 512);
-% Compare with your H(omega) formula
+% Week 1-2: Basic operations
+n = 0:10;                    % Time index
+delta = (n == 0);            % Unit impulse
+u = (n >= 0);                % Unit step
+y = conv(x, h);              % Convolution
+E = sum(abs(x).^2);          % Energy
 
-% Check impulse response
-[h_matlab, n] = impz(b, a, 50);
-% Compare with your h[n] formula
+% Week 3: Frequency domain
+[H, w] = freqz(b, a, N);     % Frequency response
+mag = abs(H);                % Magnitude
+phase = angle(H);            % Phase
+mag_dB = 20*log10(mag);      % Magnitude in dB
+
+% Week 4: Z-domain
+[r, p, k] = residue(b, a);   % Partial fractions
+zplane(b, a);                % Pole-zero plot
+zeros_H = roots(b);          % Find zeros
+poles_H = roots(a);          % Find poles
+stable = all(abs(poles_H)<1);% Check stability
 ```
 
 ---
 
-**End of Formula Sheet**
+**See also:**
+- [[Week 5-7]]
+- [[Week 8-11]]
+- [[Week 12-13]]
+- [[DSP-Bible]] (Complete MATLAB reference)
+- [[E23 Exam]], [[F24 Exam]], [[E24 Exam]]
 
-*Remember: The official Student Solutions PDFs (E19–F25) are your ground truth. Always cross-reference your work!*
+---

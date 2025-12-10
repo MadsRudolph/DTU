@@ -1,6 +1,6 @@
 > Exam set: [[62743_F25_Exam.pdf]]  
 > Solution sheet: [[62743_F25_Exam_student_solutions.pdf]]  
-> Matlab document: [Open](<file:///C:/Users/YOUR_PATH/F25_Exam_Template.mlx>)
+> Matlab document: [Open](<file:///C:/Users/mads2/F25.mlx>)
 
 ---
 # 62743 — F25 Exam (Digital Signal Processing)  
@@ -31,22 +31,22 @@ Structure:
 > **Given**
 > Two discrete-time input signals
 > $$
-> x_1[n] = \delta[n] - 2\delta[n-1], \qquad
-> x_2[n] = -\delta[n] + 3\delta[n-1]
-> $$
+ x_1[n] = \delta[n] - 2\delta[n-1], \qquad
+ x_2[n] = -\delta[n] + 3\delta[n-1]
+ $$
 > are applied separately to an unknown **LTI system**. The outputs $y_1[n]$ and $y_2[n]$ are:
->
-> | $n$ | $<0$ | 0 | 1 | 2 | 3 | 4 | 5 | $>5$ |
-> |-----|------|---|---|---|-----|-----|-----|------|
-> | $y_1[n]$ | 0 | 1 | 0 | 2 | -10 | -3 | -2 | 0 |
-> | $y_2[n]$ | 0 | -1 | 1 | 0 | 16 | 5 | 3 | 0 |
->
-> You are asked to determine:
-> 1. $x_1[n] + x_2[n]$  
-> 2. $y_1[n] + y_2[n]$ and verify $h[n]$  
-> 3. The **system function** $H(z)$ and frequency response $H(\omega)$  
-> 4. **Analytical** magnitude and phase response  
-> 5. Combined system with $T_1$, $T_2$, $T_3$
+
+| $n$ | $<0$ | 0 | 1 | 2 | 3 | 4 | 5 | $>5$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| $y_1[n]$ | 0 | 1 | 0 | 2 | -10 | -3 | -2 | 0 |
+| $y_2[n]$ | 0 | -1 | 1 | 0 | 16 | 5 | 3 | 0 |
+
+You are asked to determine:
+1. $x_1[n] + x_2[n]$
+2. $y_1[n] + y_2[n]$ and verify $h[n]$
+3. The **system function** $H(z)$ and frequency response $H(\omega)$
+4. **Analytical** magnitude and phase response
+5. Combined system with $T_1$, $T_2$, $T_3$
 
 ---
 

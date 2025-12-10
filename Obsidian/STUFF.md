@@ -1,9 +1,5 @@
 
-login: 
-win\s246132
-Nb3q2DxMRs7W
 
-92486
 
 ---
 
