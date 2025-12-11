@@ -397,7 +397,7 @@ If impulse response is **absolutely summable**, the system is stable.
 
 System output depends only on past/present inputs.
 
-**Example** [[Uge 02 - Torsdag]]:
+**Example** [[Uge_02__to_løsninger.pdf]]:
 
 System: $h[n] = (0.9)^n u[n]$
 

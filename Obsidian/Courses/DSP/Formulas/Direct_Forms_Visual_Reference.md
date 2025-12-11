@@ -296,17 +296,17 @@ y[n] = b₀*w[n] + b₁*w[n-1] + b₂*w[n-2] + ... + b_M*w[n-M]
 
 ## 📊 Quick Comparison Table
 
-| Feature | FIR | IIR Direct Form I | IIR Direct Form II |
-|---------|-----|-------------------|-------------------|
-| **Feedback** | None | Yes | Yes |
-| **Delay chains** | 1 | 2 (separate) | 1 (shared) |
-| **Total delays** | M | M + N | max(M, N) |
-| **Memory usage** | Medium | High | Low (minimum) |
-| **Stability** | Always stable | Depends on poles | Depends on poles |
-| **Linear phase** | Possible | No | No |
-| **Numerical properties** | Excellent | Good | Worse (quantization) |
-| **Implementation** | Simple | Straightforward | Requires state variable |
-| **MATLAB default** | `fir1()`, `fir2()` | Custom | `filter(b, a, x)` |
+| Feature                  | FIR                | IIR Direct Form I | IIR Direct Form II      |
+| ------------------------ | ------------------ | ----------------- | ----------------------- |
+| **Feedback**             | None               | Yes               | Yes                     |
+| **Delay chains**         | 1                  | 2 (separate)      | 1 (shared)              |
+| **Total delays**         | M                  | M + N             | max(M, N)               |
+| **Memory usage**         | Medium             | High              | Low (minimum)           |
+| **Stability**            | Always stable      | Depends on poles  | Depends on poles        |
+| **Linear phase**         | Possible           | No                | No                      |
+| **Numerical properties** | Excellent          | Good              | Worse (quantization)    |
+| **Implementation**       | Simple             | Straightforward   | Requires state variable |
+| **MATLAB default**       | `fir1()`, `fir2()` | Custom            | `filter(b, a, x)`       |
 
 ---
 

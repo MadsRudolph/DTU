@@ -124,7 +124,7 @@ if isempty(ymax)
     if ymax==0, ymax=1; end
 end
 
-% create figure - dark background looks better
+% create figure
 if isempty(figN)
     fig=figure('Color','k');
 else
@@ -182,7 +182,7 @@ if ~isempty(ttl)
     title(ttl,'Color',[0.9 0.9 0.9],'FontSize',13,'FontWeight','bold');
 end
 
-% draw the arrows (this took forever to figure out!)
+% draw the arrows 
 for i=1:length(freqs)
     c=colors{i};
     
