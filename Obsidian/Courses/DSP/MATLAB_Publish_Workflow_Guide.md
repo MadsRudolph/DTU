@@ -131,6 +131,25 @@ grid on;
 % 5. Set reasonable limits
 xlim([0 800]);
 ylim([-60 5]);
+
+% 6. Save high-quality images
+exportgraphics(gcf, 'Problem_2_3_Magnitude_Response.png', 'Resolution', 300);
+```
+
+**Why exportgraphics?**
+- Creates publication-quality images (300 DPI)
+- Better than screenshots or PDF export alone
+- Can be inserted into reports or presentations
+- Easy to share individual figures with instructors
+- Professional appearance for submission
+
+**Best practice workflow:**
+```matlab
+figure('Name', 'Problem 2-3');
+% ... all your plotting code ...
+xlabel('...'); ylabel('...'); title('...');
+grid on;
+exportgraphics(gcf, 'Problem_2_3_Description.png', 'Resolution', 300);
 ```
 
 ### Don't Do These:
@@ -139,8 +158,8 @@ ylim([-60 5]);
 % ❌ DON'T use close all (prevents figures from appearing in PDF)
 close all;
 
-% ❌ DON'T use exportgraphics (publish auto-captures)
-exportgraphics(gcf, 'myplot.png');
+% ✅ DO use exportgraphics AFTER plotting (creates high-quality images)
+exportgraphics(gcf, 'Problem_2_3_Response.png', 'Resolution', 300);
 
 % ❌ DON'T use tiny fonts
 set(gca, 'FontSize', 8);  % Too small!
@@ -148,6 +167,8 @@ set(gca, 'FontSize', 8);  % Too small!
 % ❌ DON'T forget to label
 plot(x, y);  % No xlabel, ylabel, title - BAD!
 ```
+
+**Note:** exportgraphics is GOOD! It creates high-quality images. Just use it AFTER you finish the plot.
 
 ---
 
@@ -315,6 +336,7 @@ xlim([0 Fs/2]);
 ❌ Tiny figure sizes     → Unreadable in PDF
 ❌ No labels on plots    → Unprofessional
 ❌ Publishing mid-exam   → Wastes time
+✅ Using exportgraphics  → GOOD! Creates high-res images
 ```
 
 ---
@@ -399,6 +421,7 @@ figure('Name', 'Problem X-Y');
 % ... plot code ...
 xlabel('X'); ylabel('Y'); title('Title');
 grid on;
+exportgraphics(gcf, 'Problem_X_Y_Description.png', 'Resolution', 300);
 ```
 
 ### Results Output:
@@ -451,6 +474,7 @@ fprintf('Key result: %.2f\n', value);
 - Use %% for section headers
 - No ASCII art or Unicode boxes
 - Test publish workflow beforehand
+- **Use exportgraphics for high-quality images**
 
 ### Key Insight:
 **MATLAB publish is powerful when you work WITH it, not against it.**
@@ -460,12 +484,13 @@ Use:
 - ✅ Markdown formatting in comments
 - ✅ Named figures with proper labels
 - ✅ Default figure size settings
+- ✅ exportgraphics for high-resolution output
 
 Don't use:
 - ❌ fprintf for structure/headers
 - ❌ ASCII art boxes
 - ❌ Tiny figures
-- ❌ close all or exportgraphics
+- ❌ close all
 
 ---
 
