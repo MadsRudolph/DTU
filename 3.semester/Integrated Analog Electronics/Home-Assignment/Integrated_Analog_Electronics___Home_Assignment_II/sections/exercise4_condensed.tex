@@ -1,0 +1,18 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 4 – Bandgap Voltage Reference}
+
+A bandgap reference creates a temperature-independent voltage by summing two voltages with opposite temperature coefficients. $V_{BE}$ is CTAT (complementary to absolute temperature), dropping ~2 mV/K. $\Delta V_{BE} = V_T\ln(M) = (kT/q)\ln(M)$ is PTAT (proportional to absolute temperature), where M is the current density ratio between BJTs.
+
+Output is $V_{REF} = V_{BE} + G\cdot\Delta V_{BE} \approx 1.25$V (silicon's bandgap energy). Gain $G = R_2/R_1$ is chosen so $\partial V_{REF}/\partial T = 0$.
+
+\textbf{Operation:} Op-amp forces equal inputs, making $\Delta V_{BE}$ appear across a resistor, creating PTAT current. CMOS uses parasitic substrate PNPs. Startup circuit prevents zero-current state.
+
+\textbf{Advantages:} Low TC (10-20 ppm/°C), high PSRR, process-independent (based on physics), fully integrated.
+
+\textbf{Disadvantages:} Needs $\geq$1.5V supply ($V_{REF}$ + $V_{DS,sat}$ headroom), second-order temperature effects, startup complexity, ±20-30\% process variations require trimming, resistor/op-amp noise.
+
+Used in ADC/DAC references, LDO regulators, temperature sensors. Not suitable for <1.2V without special topologies.
+
+\end{document}

@@ -1,0 +1,41 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 3 – Find \(V_{IN}\) for \(I_D=250\,\mu\text{A}\) (M1 active)}
+
+\subsection*{Given}
+\[
+\mu_n C_{ox}=1.08\times10^{-5}\ \text{A/V}^2,\quad
+\frac{W}{L}=\frac{6.29\times10^{-5}}{1\times10^{-6}}=62.9,\quad
+V_T=0.6~\text{V},\quad
+\lambda=0,\quad
+I_D=250~\mu\text{A}.
+\]
+
+\subsection*{Method}
+Using the saturation relation:
+\begin{equation}
+I_D=\tfrac{1}{2}\mu_n C_{ox}\tfrac{W}{L}(V_{GS}-V_T)^2,
+\label{eq:3.1}
+\end{equation}
+the effective voltage is
+\begin{equation}
+V_{\text{eff}}=V_{GS}-V_T=\sqrt{\tfrac{2I_D}{\mu_n C_{ox}(W/L)}}.
+\label{eq:3.2}
+\end{equation}
+
+\subsection*{Calculation}
+\[
+V_{\text{eff}}=\sqrt{\tfrac{2(250\times10^{-6})}{(1.08\times10^{-5})\cdot 62.9}}
+=0.859~\text{V},\qquad
+\boxed{V_{IN}=V_{GS}=V_T+V_{\text{eff}}=0.6+0.859=1.46~\text{V}}.
+\]
+
+\subsection*{Check}
+For M1 to remain in saturation:
+\[
+V_{DS}\ge V_{\text{eff}}\approx0.86~\text{V}.
+\]
+With \(V_O\approx1.8~\text{V}\) (Exercise~4), it still remains in saturation.
+
+\end{document}

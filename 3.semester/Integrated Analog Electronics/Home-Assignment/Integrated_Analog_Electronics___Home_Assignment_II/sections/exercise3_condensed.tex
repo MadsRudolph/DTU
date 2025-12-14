@@ -1,0 +1,18 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 3 – Second-Order Feedback System}
+
+Second-order characteristic equation: $s^2 + s\omega_0/Q + \omega_0^2$ where $\omega_0 = \sqrt{(1+L_0)\omega_{p1}\omega_{p2}}$, $Q = \omega_0/(\omega_{p1}+\omega_{p2})$, and damping $\zeta = 1/(2Q)$.
+
+\textbf{Overdamped ($\zeta > 1$):} Real, separated poles ($\omega_{p2} \gg \omega_t$). Very stable, no overshoot, but lower bandwidth and slower settling.
+
+\textbf{Critically damped ($\zeta = 1$):} Repeated real poles ($\omega_{p2} \approx 4\omega_t$). Fastest response without overshoot in theory, but hard to maintain - very sensitive to component variations.
+
+\textbf{Underdamped ($0 < \zeta < 1$):} Complex conjugate poles ($\omega_{p2} < 4\omega_t$). Higher bandwidth, faster response, but overshoots and rings. If $Q > 0.707$ you get frequency peaking.
+
+\textbf{Pole separation:} Widely separated poles (dominant-pole) act like first-order, naturally stable. Close poles hurt phase margin. Miller compensation splits poles for better stability.
+
+Generally want PM $\geq$ 60° for well-damped response. Rough rule: every 10° drop in PM doubles overshoot.
+
+\end{document}

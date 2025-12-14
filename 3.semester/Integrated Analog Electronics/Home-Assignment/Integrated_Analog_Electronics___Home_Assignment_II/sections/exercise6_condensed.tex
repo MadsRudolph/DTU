@@ -1,0 +1,18 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 6 – CMRR Improvement in Differential Amplifier}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/exercise6_circuit.png}
+    \caption{CMOS differential amplifier}
+\end{figure}
+
+CMRR = $|A_d/A_{cm}|$ measures how much better the amp amplifies differential vs common-mode signals. For single-ended output, $A_{cm} \approx -R_D/(2R_B)$, so CMRR $\approx g_m R_B$ (proportional to tail impedance).
+
+\textbf{(a) Improving CMRR:} (1) Cascode tail (MB): increases resistance to $g_m r_{ds}^2$, boosting CMRR by 20-40 dB. (2) Larger W/L for M1-M2: improves matching since $\sigma(\Delta V_T) \propto 1/\sqrt{WL}$. (3) Cascode load (M3-M4): raises both $A_d$ and output impedance. (4) Bypass cap at bias node: AC grounds for AC common-mode rejection.
+
+\textbf{(b) Trade-offs:} Cascode tail: major CMRR boost, simple, but needs $2V_{DS,sat}$ headroom (reduces input range). Larger M1-M2: better matching, lower noise, but more area and parasitics (lower bandwidth). Cascode load: higher $A_d$/CMRR, but less output swing, more bias generators, stability issues. Bypass cap: cheap and simple for AC, but large cap needed for low frequencies, no DC help.
+
+\end{document}

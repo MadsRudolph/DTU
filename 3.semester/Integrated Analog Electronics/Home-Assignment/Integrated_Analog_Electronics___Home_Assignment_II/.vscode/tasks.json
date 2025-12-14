@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Rebuild PDF (Fix Cache)",
+            "type": "shell",
+            "command": "rm -f main.pdf main.aux main.toc main.out main.fls main.fdb_latexmk && latexmk -pdf -interaction=nonstopmode main.tex",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

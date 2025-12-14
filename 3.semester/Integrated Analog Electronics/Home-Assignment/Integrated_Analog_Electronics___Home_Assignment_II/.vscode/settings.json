@@ -1,0 +1,117 @@
+{
+    // ============================================
+    // LaTeX Workshop - SumatraPDF Configuration
+    // ============================================
+
+    // Use external PDF viewer (SumatraPDF)
+    "latex-workshop.view.pdf.viewer": "external",
+
+    // External viewer command
+    "latex-workshop.view.pdf.external.viewer.command": "C:/Users/Mads2/AppData/Local/SumatraPDF/SumatraPDF.exe",
+    "latex-workshop.view.pdf.external.viewer.args": [
+        "%PDF%"
+    ],
+
+    // Forward search: Ctrl+Click in .tex jumps to PDF location
+    "latex-workshop.view.pdf.external.synctex.command": "C:/Users/Mads2/AppData/Local/SumatraPDF/SumatraPDF.exe",
+    "latex-workshop.view.pdf.external.synctex.args": [
+        "-forward-search",
+        "%TEX%",
+        "%LINE%",
+        "-reuse-instance",
+        "-inverse-search",
+        "\"C:/Users/Mads2/AppData/Local/Programs/Microsoft VS Code/Code.exe\" \"C:/Users/Mads2/AppData/Local/Programs/Microsoft VS Code/resources/app/out/cli.js\" --ms-enable-electron-run-as-node -r -g \"%f:%l\"",
+        "%PDF%"
+    ],
+
+    // Auto-build on save
+    "latex-workshop.latex.autoBuild.run": "onSave",
+
+    // Auto-clean auxiliary files
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.synctex(busy)",
+        "*.synctex.gz(busy)",
+        "*.nav"
+    ],
+
+    // Use latexmk for compilation (runs multiple times automatically)
+    "latex-workshop.latex.recipe.default": "latexmk (clean build)",
+
+    // Recipes (compilation workflows)
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (clean build)",
+            "tools": [
+                "latexmk-clean",
+                "latexmk-full"
+            ]
+        },
+        {
+            "name": "pdflatex × 3",
+            "tools": [
+                "pdflatex",
+                "pdflatex",
+                "pdflatex"
+            ]
+        }
+    ],
+
+    // Tools (individual compilation commands)
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-clean",
+            "command": "latexmk",
+            "args": [
+                "-c",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "latexmk-full",
+            "command": "latexmk",
+            "args": [
+                "-pdf",
+                "-interaction=nonstopmode",
+                "-synctex=1",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        }
+    ],
+
+    // Run custom command after successful build
+    "latex-workshop.latex.build.forceRecipeUsage": true
+}

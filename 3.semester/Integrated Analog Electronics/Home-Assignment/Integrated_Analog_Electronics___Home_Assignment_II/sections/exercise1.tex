@@ -1,0 +1,54 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 1 – W/L Ratio in MOSFET Transistor}
+
+\subsection*{W/L Ratio in Shichman-Hodges Model}
+
+The W/L ratio appears as a linear scaling factor in the drain current equations. In saturation:
+$$I_D = \frac{1}{2} \mu_n C_{ox} \frac{W}{L} (V_{GS} - V_T)^2 (1 + \lambda V_{DS})$$
+
+The ratio represents the channel aspect ratio: width $W$ (cross-sectional area for current) divided by length $L$ (distance carriers travel). It directly controls transistor strength and current drive capability.
+
+\subsection*{Effects of Changing W}
+
+\textbf{Increasing W:}
+\begin{itemize}
+    \item \textit{Advantages:} Higher drive current ($I_D \propto W$), increased transconductance ($g_m \propto \sqrt{W}$ for fixed $I_D$), lower on-resistance ($R_{on} \propto 1/W$), better device matching
+    \item \textit{Disadvantages:} Larger chip area, increased parasitic capacitances ($C_{gs}, C_{gd} \propto W$), higher power consumption (if $V_{GS}$ fixed), potentially reduced bandwidth due to parasitics
+\end{itemize}
+
+\textbf{Decreasing W:}
+\begin{itemize}
+    \item \textit{Advantages:} Reduced area, lower parasitics, lower power (if $V_{GS}$ fixed)
+    \item \textit{Disadvantages:} Lower current drive, reduced $g_m$, worse matching, higher $R_{on}$
+\end{itemize}
+
+\subsection*{Effects of Changing L}
+
+\textbf{Increasing L:}
+\begin{itemize}
+    \item \textit{Advantages:} Higher output resistance ($r_o \propto L$ since $\lambda \propto 1/L$), better matching ($\sigma(\Delta V_T) \propto 1/\sqrt{WL}$), reduced channel-length modulation, improved current source performance, mitigated short-channel effects
+    \item \textit{Disadvantages:} Lower transconductance ($g_m \propto 1/\sqrt{L}$), drastically reduced speed ($f_T \propto 1/L^2$), larger area
+\end{itemize}
+
+\textbf{Decreasing L:}
+\begin{itemize}
+    \item \textit{Advantages:} Higher speed, higher $g_m$, smaller area
+    \item \textit{Disadvantages:} Lower $r_o$, worse matching, short-channel effects, threshold voltage variations
+\end{itemize}
+
+\subsection*{Design Guidelines}
+
+\textbf{Large W/L:} Used for high-gain input stages (maximize $g_m$), output drivers (high current), low input-referred noise applications, and when minimizing overdrive voltage for headroom.
+
+\textbf{Small W/L:} Applied in low-power designs and when high resistance is needed.
+
+\textbf{Typical W/L ratios (0.18$\mu$m CMOS):}
+\begin{itemize}
+    \item Current sources: $L \gg L_{min}$ (e.g., 1$\mu$m) for high $r_o$, $W$ scaled for current ratio
+    \item Input stages: Large W/L (e.g., 20/0.5) for high $g_m$ and low noise
+    \item Output stages: Very large W (e.g., 90/0.5) for high drive capability
+\end{itemize}
+
+\end{document}

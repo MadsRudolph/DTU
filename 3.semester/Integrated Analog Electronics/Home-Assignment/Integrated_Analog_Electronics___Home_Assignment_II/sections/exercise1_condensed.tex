@@ -1,0 +1,22 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 1 – W/L Ratio in MOSFET Transistor}
+
+\subsection*{W/L Ratio in the Model}
+In the Shichman-Hodges saturation equation $I_D = \frac{1}{2} \mu_n C_{ox} \frac{W}{L} (V_{GS} - V_T)^2 (1 + \lambda V_{DS})$, W/L appears as a multiplier. W is the channel width (affects current flow) and L is the length (carrier travel distance). The ratio W/L determines transistor strength.
+
+\subsection*{Changing W}
+Increasing W: drain current rises proportionally ($I_D \propto W$), higher transconductance ($\propto \sqrt{W}$), better matching, lower on-resistance. Downsides are more chip area, higher parasitic capacitances ($C_{gs}, C_{gd} \propto W$), more power, and reduced bandwidth from parasitics.
+
+Decreasing W gives opposite effects - saves area and power but loses current drive and $g_m$.
+
+\subsection*{Changing L}
+Larger L: output resistance $r_o$ increases (good for current sources), better matching ($\sigma(\Delta V_T) \propto 1/\sqrt{WL}$), reduced channel modulation. However, $g_m$ decreases ($\propto 1/\sqrt{L}$) and speed drops hard - unity-gain frequency goes like $1/L^2$. Plus more area.
+
+Shorter L gives faster operation, higher $g_m$, smaller size, but lower $r_o$, worse matching, and short-channel effects appear.
+
+\subsection*{Design Choices}
+Large W/L for high-gain input stages (maximize $g_m$), output drivers (high current), low-noise circuits. Small W/L for low-power. Typical 0.18$\mu$m: current sources use L $\approx$ 1$\mu$m for high $r_o$, inputs maybe 20/0.5 for $g_m$, outputs 90/0.5 for drive.
+
+\end{document}

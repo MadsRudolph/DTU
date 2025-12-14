@@ -1,0 +1,20 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 5 – Two-Stage CMOS Operational Amplifier}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/exercise5_circuit.png}
+    \caption{Two-stage CMOS op-amp}
+\end{figure}
+
+\textbf{(a) Circuit blocks:} M1-M2 (differential pair) convert $v_{id}$ to current $g_{m1}v_{id}$. M3-M4 (PMOS mirror) act as active load, converting differential to single-ended with gain $r_{ds2} \parallel r_{ds4}$. M6-M7 (common-source) provide second stage gain: $A_{v2} = -g_{m6}(r_{ds6} \parallel r_{ds7})$. Compensation cap $C_C$ does pole splitting for stability.
+
+\textbf{(b) Parameter effects:} Increasing $I_{tail}$: gain drops ($g_mr_o \propto 1/\sqrt{I_D}$), but GBW rises ($g_{m1}/(2\pi C_C)$), slew rate improves ($I_{tail}/C_C$), stability better ($p_2 = g_{m6}/C_L$ moves higher). Costs more power and noise.
+
+Larger W/L for M1-M2: higher $g_m$, gain, and GBW; lower noise. Trade-off is more parasitics and area.
+
+Larger $C_C$: dominant pole $p_1$ drops, improving phase margin. But GBW and bandwidth decrease, plus more area.
+
+\end{document}

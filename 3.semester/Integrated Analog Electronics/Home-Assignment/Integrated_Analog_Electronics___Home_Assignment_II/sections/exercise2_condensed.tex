@@ -1,0 +1,14 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 2 – Feedback in MOSFET-Transistor Based Circuits}
+
+Negative feedback gives closed-loop gain $A_{CL} = A/(1+A\beta)$ where loop gain $L=A\beta$. When $A\beta \gg 1$, $A_{CL} \approx 1/\beta$ - the gain is set by the passive feedback network.
+
+\textbf{Advantages:} Gain stability improves (variations reduced by $(1+A\beta)$). Bandwidth extends by same factor (constant GBW). Impedance control: series mixing raises $Z_{in}$ by $(1+A\beta)$, shunt sampling lowers $Z_{out}$ by same factor. Better linearity (passive $\beta$) and PSRR.
+
+\textbf{Disadvantages:} Gain reduced by $(1+A\beta)$. Instability risk if phase hits 180° while $|L| \geq 1$ (causes oscillation). Needs compensation (Miller cap). Higher noise bandwidth.
+
+\textbf{Stability:} Phase margin $PM = 180° + \angle L(j\omega_t)$ at unity-gain frequency. Want PM $\approx$ 60-70° for good response. Miller compensation splits poles - $p_1$ moves lower, $p_2$ higher, improving PM.
+
+\end{document}
