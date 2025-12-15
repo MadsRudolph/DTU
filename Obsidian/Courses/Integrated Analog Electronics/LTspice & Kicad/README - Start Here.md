@@ -33,13 +33,13 @@ Complete documentation for SPICEPilot setup and SPICE simulation workflows.
 
 **Easiest way - Double-click:**
 ```
-C:\Users\Mads2\SPICEPilot\examples\1_current_mirror\RUN.bat
+C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror\RUN.bat
 ```
 
 **Or from command line:**
 ```bash
 # 1. Navigate to circuit folder
-cd C:\Users\Mads2\SPICEPilot\examples\1_current_mirror
+cd C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror
 
 # 2. Run ngspice
 ngspice current_mirror_bias.cir
@@ -53,13 +53,13 @@ ngspice current_mirror_bias.cir
 
 **Current Mirror (validated 99.7% accuracy):**
 ```bash
-cd C:\Users\Mads2\SPICEPilot\examples\1_current_mirror
+cd C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror
 # Double-click: RUN.bat
 ```
 
 **Two-Stage Op-Amp:**
 ```bash
-cd C:\Users\Mads2\SPICEPilot\examples\2_two_stage_opamp
+cd C:\Users\Mads2\DTU\SPICEPilot\examples\2_two_stage_opamp
 # Double-click: RUN.bat
 ```
 
@@ -363,11 +363,11 @@ See [[Quick Reference - SPICE Commands]] for complete list.
 ### File Locations
 
 ```
-C:\Users\Mads2\SPICEPilot\examples\        # Working circuits (organized!)
+C:\Users\Mads2\DTU\SPICEPilot\examples\        # Working circuits (organized!)
   ├── 1_current_mirror\                    # Current mirror circuit
   └── 2_two_stage_opamp\                   # Two-stage op-amp
 
-C:\Users\Mads2\SPICEPilot\results\         # Simulation outputs
+C:\Users\Mads2\DTU\SPICEPilot\results\         # Simulation outputs
   ├── plots\                               # Graphs and plots
   └── logs\                                # Simulation logs
 

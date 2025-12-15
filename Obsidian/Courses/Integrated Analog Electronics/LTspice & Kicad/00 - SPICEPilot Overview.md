@@ -82,7 +82,7 @@ AI framework that bridges LLMs with SPICE simulation, enabling natural language 
 
 **SPICEPilot Repository:**
 ```
-C:\Users\Mads2\SPICEPilot\
+C:\Users\Mads2\DTU\SPICEPilot\
 ```
 
 **Conda Environment:**

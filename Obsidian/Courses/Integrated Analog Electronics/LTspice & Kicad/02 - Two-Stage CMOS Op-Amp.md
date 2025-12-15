@@ -274,7 +274,7 @@ plt.show()
 
 **File location:**
 ```
-C:\Users\Mads2\SPICEPilot\two_stage_opamp_improved.py
+C:\Users\Mads2\DTU\SPICEPilot\two_stage_opamp_improved.py
 ```
 
 ## SPICE Netlist
@@ -325,7 +325,7 @@ CL vout 0 15p
 
 **File location:**
 ```
-C:\Users\Mads2\SPICEPilot\two_stage_opamp_kicad.cir
+C:\Users\Mads2\DTU\SPICEPilot\two_stage_opamp_kicad.cir
 ```
 
 ## Design Trade-offs

@@ -356,7 +356,7 @@ freq = data['freq']
 ## File Locations Reference
 
 ```
-C:\Users\Mads2\SPICEPilot\
+C:\Users\Mads2\DTU\SPICEPilot\
 ├── two_stage_opamp.py                    # PySpice script
 ├── two_stage_opamp_improved.py           # Optimized version
 ├── two_stage_opamp_kicad.cir            # SPICE netlist

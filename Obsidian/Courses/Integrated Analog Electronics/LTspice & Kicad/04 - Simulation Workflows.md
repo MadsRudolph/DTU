@@ -33,7 +33,7 @@ graph TD
 
 ```bash
 # Navigate to circuit directory
-cd C:\Users\Mads2\SPICEPilot
+cd C:\Users\Mads2\DTU\SPICEPilot
 
 # Run interactive ngspice
 ngspice two_stage_opamp_kicad.cir
@@ -497,7 +497,7 @@ circuits = [
     'diff_pair.cir'
 ]
 
-os.chdir('C:/Users/Mads2/SPICEPilot')
+os.chdir('C:/Users/Mads2/DTU/SPICEPilot')
 
 for circuit in circuits:
     print(f"Running {circuit}...")

@@ -34,7 +34,7 @@ Add a text directive to your schematic that includes an external SPICE file.
 
 2. **Add .include directive:**
    - Place → Text (press 'T')
-   - Type: `.include "C:/Users/Mads2/SPICEPilot/two_stage_opamp_kicad.cir"`
+   - Type: `.include "C:/Users/Mads2/DTU/SPICEPilot/two_stage_opamp_kicad.cir"`
    - **Important:** Use forward slashes `/` not backslashes `\`
 
 3. **Run simulation:**
@@ -117,7 +117,7 @@ Your SPICE netlist is **perfect and complete**. The issue is purely KiCad integr
 
 **Interactive Mode:**
 ```bash
-cd C:\Users\Mads2\SPICEPilot
+cd C:\Users\Mads2\DTU\SPICEPilot
 ngspice two_stage_opamp_kicad.cir
 ```
 

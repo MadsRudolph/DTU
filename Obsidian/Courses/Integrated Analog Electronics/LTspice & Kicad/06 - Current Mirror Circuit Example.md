@@ -234,7 +234,7 @@ All three transistors operate in saturation:
 
 **Circuit files:**
 ```
-C:\Users\Mads2\SPICEPilot\examples\1_current_mirror\
+C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror\
 ├── current_mirror_bias.py       # PySpice implementation
 ├── current_mirror_bias.cir      # SPICE netlist
 └── RUN.bat                      # Double-click to simulate!
@@ -242,7 +242,7 @@ C:\Users\Mads2\SPICEPilot\examples\1_current_mirror\
 
 **Simulation outputs:**
 ```
-C:\Users\Mads2\SPICEPilot\results\
+C:\Users\Mads2\DTU\SPICEPilot\results\
 ├── plots\                       # Graphs and Bode plots
 └── logs\                        # Simulation logs
 ```
@@ -324,7 +324,7 @@ M3 vd3 vd3 0 0 NMOS_SH
 
 **Double-click:**
 ```
-C:\Users\Mads2\SPICEPilot\examples\1_current_mirror\RUN.bat
+C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror\RUN.bat
 ```
 
 Opens ngspice automatically with the circuit loaded and simulated.
@@ -332,7 +332,7 @@ Opens ngspice automatically with the circuit loaded and simulated.
 ### Method 2: ngspice Command Line
 
 ```bash
-cd C:\Users\Mads2\SPICEPilot\examples\1_current_mirror
+cd C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror
 ngspice current_mirror_bias.cir
 ```
 
@@ -347,7 +347,7 @@ quit                          # Exit
 ### Method 3: PySpice (Python)
 
 ```bash
-cd C:\Users\Mads2\SPICEPilot\examples\1_current_mirror
+cd C:\Users\Mads2\DTU\SPICEPilot\examples\1_current_mirror
 python current_mirror_bias.py
 ```
 
@@ -455,7 +455,7 @@ After studying this example, you should understand:
 
 **Validation:** SPICEPilot setup is production-ready
 
-**Files:** PySpice and SPICE netlist available in `C:\Users\Mads2\SPICEPilot\`
+**Files:** PySpice and SPICE netlist available in `C:\Users\Mads2\DTU\SPICEPilot\`
 
 **Use Case:** Reference example for future SPICE simulation work
 
