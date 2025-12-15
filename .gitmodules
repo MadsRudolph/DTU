@@ -1,0 +1,3 @@
+[submodule "SPICEPilot"]
+	path = SPICEPilot
+	url = https://github.com/MadsRudolph/SPICEPilot.git
