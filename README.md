@@ -25,7 +25,7 @@
 |----------|-------------|
 | **1. Semester** | Intro programming, basic circuits |
 | **2. Semester** | Math, modeling, LabVIEW, digital foundations |
-| **3. Semester** | DSP, Electromagnetics, Analog IC |
+| **3. Semester** | DSP, Electromagnetics, Analog IC (with SPICEPilot integration) |
 
 Everything lives in an **Obsidian vault** with consistent structure per course:
 - Lecture notes, slides, formulas
@@ -37,16 +37,29 @@ Everything lives in an **Obsidian vault** with consistent structure per course:
 ## 🚀 Quick Start
 
 ```bash
-# Clone
-git clone git@github.com:MadsRudolph/DTU.git
+# Clone with submodules
+git clone --recurse-submodules git@github.com:MadsRudolph/DTU.git
 cd DTU
 
 # Pull large files (slides, PDFs)
 git lfs install
 git lfs pull
+
+# If already cloned, initialize submodules
+git submodule update --init --recursive
 ```
 
 Open the `Obsidian/` folder as a vault in [Obsidian](https://obsidian.md/).
+
+### Setting up SPICEPilot (for SPICE simulations)
+
+```bash
+cd SPICEPilot
+setup.bat              # Automated setup (Windows)
+# OR follow SETUP_INSTRUCTIONS.md for manual setup
+```
+
+See [SPICEPilot README](SPICEPilot/README.md) for details.
 
 ---
 
@@ -58,11 +71,21 @@ DTU/
 ├── 2. Semester/
 ├── 3. semester/
 ├── Obsidian/
-│   ├── Courses/<Course>/
+│   ├── Courses/
+│   │   ├── Integrated Analog Electronics/
+│   │   │   └── LTspice & Kicad/        # SPICEPilot documentation
+│   │   └── <Other Courses>/
 │   ├── Exercises/
 │   ├── Lecture Notes/
 │   ├── Formulas/
 │   └── MOC files
+├── SPICEPilot/                          # Git submodule (SPICE simulation framework)
+│   ├── examples/                        # Working circuit examples
+│   ├── results/                         # Simulation outputs
+│   ├── setup.bat                        # Automated setup script
+│   ├── verify_setup.py                  # Installation verification
+│   ├── requirements.txt                 # Python dependencies
+│   └── SETUP_INSTRUCTIONS.md            # Setup guide
 └── scripts/
 ```
 
@@ -74,9 +97,44 @@ DTU/
 |------|-------|
 | Notes | Obsidian (Markdown) |
 | DSP / Math | MATLAB, Maple |
-| Circuits | LTspice |
+| Analog Circuits | LTspice, KiCad 9.0 |
+| SPICE Simulation | SPICEPilot, PySpice, ngspice |
 | MCU | PlatformIO, VS Code |
 | Version Control | Git + Git LFS |
+
+---
+
+## ⚡ SPICEPilot Integration
+
+[SPICEPilot](https://github.com/MadsRudolph/SPICEPilot) is an AI-powered SPICE simulation framework, integrated as a git submodule for analog circuit design and simulation.
+
+### Features
+
+- **PySpice Integration**: Python-based SPICE netlists with programmatic circuit generation
+- **ngspice Backend**: Industry-standard SPICE simulator
+- **Working Examples**:
+  - Current mirror bias circuit (99.7% theoretical accuracy)
+  - Two-stage CMOS operational amplifier
+- **Automated Setup**: One-click installation script for all dependencies
+- **Complete Documentation**: 11+ guides in Obsidian vault
+
+### Quick Test
+
+```bash
+cd SPICEPilot/examples/1_current_mirror
+python current_mirror_bias.py        # PySpice simulation
+# OR
+ngspice current_mirror_bias.cir      # Direct ngspice
+```
+
+### Documentation
+
+Comprehensive guides in `Obsidian/Courses/Integrated Analog Electronics/LTspice & Kicad/`:
+- Setup guide
+- Circuit design examples
+- Simulation workflows
+- KiCad integration methods
+- Troubleshooting
 
 ---
 
