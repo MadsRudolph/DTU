@@ -1,18 +1,34 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Exercise 6 – CMRR Improvement in Differential Amplifier}
+\section{Exercise 6: CMRR Improvement in Differential Amplifier}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{images/exercise6_circuit.png}
+    \includegraphics[width=0.5\linewidth]{images/exercise6_circuit.png}
     \caption{CMOS differential amplifier}
 \end{figure}
 
-CMRR = $|A_d/A_{cm}|$ measures how much better the amp amplifies differential vs common-mode signals. For single-ended output, $A_{cm} \approx -R_D/(2R_B)$, so CMRR $\approx g_m R_B$ (proportional to tail impedance).
+CMRR = $|A_d/A_{cm}|$ tells you how well the circuit amplifies differential signals versus common-mode stuff. For single-ended output, $A_{cm} \approx -R_D/(2R_B)$ which gives CMRR $\approx g_m R_B$ - so it's basically proportional to the tail impedance.
 
-\textbf{(a) Improving CMRR:} (1) Cascode tail (MB): increases resistance to $g_m r_{ds}^2$, boosting CMRR by 20-40 dB. (2) Larger W/L for M1-M2: improves matching since $\sigma(\Delta V_T) \propto 1/\sqrt{WL}$. (3) Cascode load (M3-M4): raises both $A_d$ and output impedance. (4) Bypass cap at bias node: AC grounds for AC common-mode rejection.
+\textbf{(a) CMRR improvement techniques:}
 
-\textbf{(b) Trade-offs:} Cascode tail: major CMRR boost, simple, but needs $2V_{DS,sat}$ headroom (reduces input range). Larger M1-M2: better matching, lower noise, but more area and parasitics (lower bandwidth). Cascode load: higher $A_d$/CMRR, but less output swing, more bias generators, stability issues. Bypass cap: cheap and simple for AC, but large cap needed for low frequencies, no DC help.
+\textit{Cascode tail current source:} If you cascode MB, the tail resistance goes up to $g_m r_{ds}^2$, which can give you 20-40 dB better CMRR just from the higher tail impedance.
+
+\textit{Larger M1-M2 dimensions:} Making W/L bigger improves matching since $\sigma(\Delta V_T) \propto 1/\sqrt{WL}$. This reduces how much common-mode signal gets converted to differential because of mismatch.
+
+\textit{Cascode load:} You can also cascode M3-M4 which increases both the differential gain $A_d$ and the output impedance, helping CMRR indirectly.
+
+\textit{Bypass capacitor:} Adding a cap to AC ground the tail node helps reject AC common-mode signals.
+
+\textbf{(b) Trade-offs:}
+
+The cascode tail gives you a lot of CMRR improvement and is pretty straightforward to implement, but you need $2V_{DS,sat}$ headroom which cuts into your input common-mode range. This can be a problem in low-voltage designs.
+
+Making the input transistors bigger gives better matching and noise, but you use more area and get higher parasitics which might hurt your bandwidth.
+
+Cascode load gets you higher gain and CMRR but reduces the output swing. You also need extra bias generators and the high-impedance nodes can cause stability issues.
+
+The bypass cap is simple and cheap for rejecting AC common-mode, but you need a big capacitor if you want it to work at low frequencies. Also it does nothing for DC CMRR.
 
 \end{document}

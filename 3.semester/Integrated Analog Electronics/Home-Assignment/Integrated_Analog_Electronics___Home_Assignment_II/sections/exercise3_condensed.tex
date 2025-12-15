@@ -1,18 +1,16 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Exercise 3 – Second-Order Feedback System}
+\section{Exercise 3: Second-Order Feedback System}
 
-Second-order characteristic equation: $s^2 + s\omega_0/Q + \omega_0^2$ where $\omega_0 = \sqrt{(1+L_0)\omega_{p1}\omega_{p2}}$, $Q = \omega_0/(\omega_{p1}+\omega_{p2})$, and damping $\zeta = 1/(2Q)$.
+Second-order systems have the characteristic equation $s^2 + s\omega_0/Q + \omega_0^2$ where $\omega_0 = \sqrt{(1+L_0)\omega_{p1}\omega_{p2}}$ is the natural frequency and $Q = \omega_0/(\omega_{p1}+\omega_{p2})$ is the quality factor. How the system responds depends on the damping ratio $\zeta = 1/(2Q)$.
 
-\textbf{Overdamped ($\zeta > 1$):} Real, separated poles ($\omega_{p2} \gg \omega_t$). Very stable, no overshoot, but lower bandwidth and slower settling.
+\textbf{Overdamped ($\zeta > 1$):} Here you have widely separated real poles ($\omega_{p2} \gg \omega_t$) which gives maximum stability with no overshoot. The downside is you sacrifice bandwidth and settling time. This is what you'd go for if stability matters more than speed.
 
-\textbf{Critically damped ($\zeta = 1$):} Repeated real poles ($\omega_{p2} \approx 4\omega_t$). Fastest response without overshoot in theory, but hard to maintain - very sensitive to component variations.
+\textbf{Critically damped ($\zeta = 1$):} With repeated real poles ($\omega_{p2} \approx 4\omega_t$) you theoretically get the fastest response without overshoot. But in practice this is hard to achieve since component tolerances will always push the system toward being either over- or underdamped.
 
-\textbf{Underdamped ($0 < \zeta < 1$):} Complex conjugate poles ($\omega_{p2} < 4\omega_t$). Higher bandwidth, faster response, but overshoots and rings. If $Q > 0.707$ you get frequency peaking.
+\textbf{Underdamped ($0 < \zeta < 1$):} Complex conjugate poles ($\omega_{p2} < 4\omega_t$) give you higher bandwidth and faster response, but you'll get overshoot and ringing. When $Q > 0.707$, you also get frequency peaking in the magnitude response.
 
-\textbf{Pole separation:} Widely separated poles (dominant-pole) act like first-order, naturally stable. Close poles hurt phase margin. Miller compensation splits poles for better stability.
-
-Generally want PM $\geq$ 60° for well-damped response. Rough rule: every 10° drop in PM doubles overshoot.
+\textbf{Pole placement strategy:} Using dominant-pole compensation creates wide pole separation, which makes the system behave like a first-order one and keeps it stable. When poles are close together they interact and degrade the phase margin. Miller compensation does pole splitting - moves $p_1$ lower and $p_2$ higher. You generally want phase margin $\geq 60^\circ$ for well-damped response. Each $10^\circ$ drop in phase margin roughly doubles the overshoot. If you hit exactly $65.5^\circ$ (which corresponds to $\omega_{p2} = 2\omega_t$) you get a Butterworth response with maximally flat frequency response.
 
 \end{document}

@@ -1,14 +1,14 @@
 \documentclass[main.tex]{subfiles}
 \begin{document}
 
-\section{Exercise 2 – Feedback in MOSFET-Transistor Based Circuits}
+\section{Exercise 2: Feedback in MOSFET-Transistor Based Circuits}
 
-Negative feedback gives closed-loop gain $A_{CL} = A/(1+A\beta)$ where loop gain $L=A\beta$. When $A\beta \gg 1$, $A_{CL} \approx 1/\beta$ - the gain is set by the passive feedback network.
+When you add negative feedback to an op-amp circuit, the closed-loop gain becomes $A_{CL} = A/(1+A\beta)$ where the loop gain $L=A\beta$ determines how everything behaves. If $A\beta \gg 1$, this simplifies nicely to $A_{CL} \approx 1/\beta$, meaning the gain depends mostly on the passive feedback network rather than the amplifier's open-loop gain.
 
-\textbf{Advantages:} Gain stability improves (variations reduced by $(1+A\beta)$). Bandwidth extends by same factor (constant GBW). Impedance control: series mixing raises $Z_{in}$ by $(1+A\beta)$, shunt sampling lowers $Z_{out}$ by same factor. Better linearity (passive $\beta$) and PSRR.
+\textbf{Advantages:} The gain stability gets way better since parameter variations are reduced by $(1+A\beta)$. This makes the circuit much less sensitive to temperature drift and process variations. You also get bandwidth extension by the same factor, though the GBW product stays constant - so you're basically trading gain for bandwidth. Another nice thing is impedance control: series feedback increases input impedance while shunt feedback decreases output impedance (both by the factor $(1+A\beta)$). You also get better linearity since the passive feedback elements are linear, plus improved PSRR.
 
-\textbf{Disadvantages:} Gain reduced by $(1+A\beta)$. Instability risk if phase hits 180° while $|L| \geq 1$ (causes oscillation). Needs compensation (Miller cap). Higher noise bandwidth.
+\textbf{Disadvantages:} The obvious downside is you lose gain by a factor of $(1+A\beta)$. Stability also becomes a real concern - if the loop gain phase hits $180^\circ$ while $|L| \geq 1$, the whole thing oscillates. To prevent this you need compensation techniques like Miller capacitors, which take up chip area. The noise bandwidth increases too, which can hurt your SNR in some cases.
 
-\textbf{Stability:} Phase margin $PM = 180° + \angle L(j\omega_t)$ at unity-gain frequency. Want PM $\approx$ 60-70° for good response. Miller compensation splits poles - $p_1$ moves lower, $p_2$ higher, improving PM.
+\textbf{Stability criteria:} You want the phase margin $PM = 180^\circ + \angle L(j\omega_t)$ at the unity-gain frequency to be around $60^\circ$-$70^\circ$ for decent transient response. Miller compensation helps by pole splitting - it pushes the dominant pole $p_1$ down and the second pole $p_2$ up in frequency.
 
 \end{document}
