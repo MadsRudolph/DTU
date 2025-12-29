@@ -1,0 +1,214 @@
+{
+  "main": {
+    "id": "33799f14f941e85b",
+    "type": "split",
+    "children": [
+      {
+        "id": "faa7ba271614f966",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "56b4803d30e42032",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Courses/Electromagnetics/Helpers.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "Helpers"
+            }
+          },
+          {
+            "id": "f0b257c49c912bc1",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "L06b+07a_Smith_Chart_Summary"
+            }
+          },
+          {
+            "id": "4bd33691c6fd32d0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Notes/NYE_Dinner_Plan.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
+              },
+              "icon": "lucide-file",
+              "title": "NYE_Dinner_Plan"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ab08f74d079e936e",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "52eff0e3a356e328",
+        "type": "leaf",
+        "state": {
+          "type": "file-explorer",
+          "state": {
+            "sortOrder": "alphabetical",
+            "autoReveal": false
+          },
+          "icon": "lucide-folder-closed",
+          "title": "Files"
+        }
+      },
+      {
+        "id": "588beaf98ab26581",
+        "type": "leaf",
+        "state": {
+          "type": "search",
+          "state": {
+            "query": "",
+            "matchingCase": false,
+            "explainSearch": false,
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical"
+          },
+          "icon": "lucide-search",
+          "title": "Search"
+        }
+      },
+      {
+        "id": "b8075778b8394ac9",
+        "type": "leaf",
+        "state": {
+          "type": "tag",
+          "state": {
+            "sortOrder": "frequency",
+            "useHierarchy": true,
+            "showSearch": false,
+            "searchQuery": ""
+          },
+          "icon": "lucide-tags",
+          "title": "Tags"
+        }
+      },
+      {
+        "id": "3e90cc3c6e43ecf3",
+        "type": "leaf",
+        "state": {
+          "type": "bookmarks",
+          "state": {},
+          "icon": "lucide-bookmark",
+          "title": "Bookmarks"
+        }
+      }
+    ],
+    "currentTab": 0
+  },
+  "right": {
+    "id": "e2c530560fbc86d3",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "28f04a1fd66110e7",
+        "type": "leaf",
+        "state": {
+          "type": "backlink",
+          "state": {
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical",
+            "showSearch": false,
+            "searchQuery": "",
+            "backlinkCollapsed": false,
+            "unlinkedCollapsed": true
+          },
+          "icon": "links-coming-in",
+          "title": "Backlinks"
+        }
+      },
+      {
+        "id": "6aaaf8b3335d2a5e",
+        "type": "leaf",
+        "state": {
+          "type": "outgoing-link",
+          "state": {
+            "linksCollapsed": false,
+            "unlinkedCollapsed": true
+          },
+          "icon": "links-going-out",
+          "title": "Outgoing links"
+        }
+      },
+      {
+        "id": "02dfbd079d8ef7e2",
+        "type": "leaf",
+        "state": {
+          "type": "outline",
+          "state": {
+            "followCursor": false,
+            "showSearch": false,
+            "searchQuery": ""
+          },
+          "icon": "lucide-list",
+          "title": "Outline"
+        }
+      }
+    ],
+    "currentTab": 0
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false,
+      "omnisearch:Omnisearch": false,
+      "templater-obsidian:Templater": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false
+    }
+  },
+  "active": "4bd33691c6fd32d0",
+  "lastOpenFiles": [
+    "Notes/Beef wellington.md",
+    "Notes/NYE_Dinner_Plan.md",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_Summary.pdf",
+    "Notes/DTU Study Path.md",
+    "Notes/D'Angleterre",
+    "Courses/Electromagnetics/Slides/L06b+07a_Smith_Chart_2.pdf",
+    "Courses/Electromagnetics/Slides/L07b+08_TL_Matching_Circuits.pdf",
+    "Courses/Electromagnetics/Slides/L06b+7b_Smith_Chart.pdf",
+    "Courses/Electromagnetics/Slides/L18_Coordinate_Systems_Integrals_Differential_Space_Operators_Theorems.pdf",
+    "Courses/Electromagnetics/Slides/L19_Electrostatics_I.pdf",
+    "Courses/Electromagnetics/Slides/L20_Electrostatics_II.pdf",
+    "Courses/Electromagnetics/Slides/L21_Electrostatics_III.pdf",
+    "Courses/Electromagnetics/Slides/L22_Magnetostatics_I.pdf",
+    "Notes/D'Angleterre/cocktail_quick_reference.md",
+    "Notes/D'Angleterre/pocket_reference_card.md",
+    "Untitled.md",
+    "Courses/Electromagnetics/Helpers.md",
+    "scripts/EM/Medium/Medium_Troubleshooting.md",
+    "scripts/EM/Medium/Medium_MASTER_INDEX.md",
+    "Courses/Electromagnetics/Exercises/work/Exam Training/E23.md",
+    "Courses/Electromagnetics/Exercises/work/Exam Training/E23 answer key.md",
+    "Courses/Electromagnetics/Exercises/work/Home Assignment 2.md",
+    "Courses/Electromagnetics/Formulas/L20 - Electrostatics II.md",
+    "MOC – Coordinate Systems.md"
+  ]
+}
