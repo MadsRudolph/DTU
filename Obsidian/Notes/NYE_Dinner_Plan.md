@@ -23,33 +23,41 @@
 ## Shopping List
 
 ### Meat/Protein
-- [ ] Beef tenderloin, center-cut — **1.5 kg**
+- [x] Beef tenderloin, center-cut — **1.5 kg**
 - [ ] Prosciutto or lardo, thinly sliced — **150g** (enough to wrap)
 
 ### Produce
-- [ ] Cremini mushrooms — **350g**
-- [ ] Shiitake mushrooms — **150g**
+- [ ] Cremini mushrooms — **550g**
+- [ ] Shiitake mushrooms — **200g**
+  > **Total mushrooms: 750g** (duxelles loses ~80% volume, need generous layer)
 - [ ] Shallots — **6-8 medium** (4 for duxelles, 3-4 for sauce)
 - [ ] Fresh thyme — **1 large bunch**
-- [ ] Waxy potatoes (Yukon Gold or similar) — **1.2 kg**
-- [ ] Broccolini — **400g** (2 bunches)
+- [ ] Waxy potatoes (Yukon Gold) — **1.8-2 kg**
+  > **Important:** Do NOT rinse slices after cutting — you need the starch to bind layers
+- [ ] Broccolini — **600g** (3 bunches)
 - [ ] Lemon — **1**
 - [ ] Garlic — **1 head**
 - [ ] Bay leaves — **2**
 
 ### Dairy
-- [ ] All-butter puff pastry — **500g** (1 sheet or block)
+- [ ] All-butter puff pastry — **1kg** (2 packs/sheets)
+  > **Backup insurance:** You likely only need 500g, but second pack provides error margin
 - [ ] Eggs — **2** (for wash)
-- [ ] Clarified butter or ghee — **150g** (for Pommes Anna)
+- [ ] Clarified butter or ghee — **200g** (for Pommes Anna — need more for larger potato cake)
 - [ ] Unsalted butter, cold — **60g** (for sauce finishing)
+- [ ] Heavy cream or crème fraîche — **2 tbsp** (optional, for binding duxelles)
 
 ### Pantry
 - [ ] Dijon mustard — **2 tbsp**
 - [ ] Tomato paste — **1 tbsp**
 - [ ] Beef stock, good quality — **750ml**
-- [ ] Olive oil
+- [ ] Neutral high-smoke-point oil — **canola, grapeseed, or vegetable**
+  > **Critical:** Do NOT use olive oil for searing beef or Pommes Anna — it will smoke and burn
+- [ ] Olive oil — for broccolini only
 - [ ] Flaky salt
 - [ ] Black pepper
+- [ ] Heavy duty plastic wrap (cling film) — for rolling Wellington tight
+- [ ] Sous vide bags — if using Option A for beef
 
 ### Wine/Alcohol
 - [ ] Madeira wine — **120ml** (for duxelles)
@@ -70,12 +78,13 @@
   - Reduce to ~300ml (coats spoon), strain, chill
 
 - [ ] **10:30 AM** — Make duxelles
-  - Finely chop 500g mushrooms (food processor: pulse, don't purée)
+  - Finely chop 750g mushrooms (food processor: pulse, don't purée)
   - Mince 2 shallots, strip leaves from thyme
-  - Sauté shallots until soft
-  - Add mushrooms, cook on med-high until **completely dry** (15-20 min)
+  - Sauté shallots in neutral oil until soft
+  - Add mushrooms, cook on med-high until **completely dry** (20-25 min)
   - Deglaze with 120ml Madeira
   - Cook until **dry again** — no moisture visible
+  - *Optional:* Add 1-2 tbsp heavy cream at very end to help bind
   - Season, spread on sheet pan to cool, then chill
 
 ### Afternoon: Beef & Assembly
@@ -87,7 +96,8 @@
 
 - [ ] **4:00 PM** — Sear chilled beef
   - Pat completely dry
-  - Sear all sides in smoking-hot pan (30 sec per side)
+  - Heat neutral oil (canola/grapeseed) in pan until smoking hot
+  - Sear all sides (30 sec per side)
   - Return to fridge for 30 min to cool surface
 
 - [ ] **5:00 PM** — Assemble Wellington
@@ -116,6 +126,7 @@
 - [ ] **7:00 PM** — Prepare Pommes Anna
   - Preheat oven to 200°C
   - Slice potatoes 3mm thin (mandoline)
+  - **DO NOT RINSE** — you need the surface starch to bind the layers
   - Brush 9" oven-safe pan generously with clarified butter
   - Layer potatoes in overlapping circles, brushing butter + salt between layers
   - Press down firmly, cover with foil
@@ -143,8 +154,9 @@
 ### 5:50 PM — Wellington Stage 1
 
 - [ ] Place frozen Wellington directly in **230°C** oven
-- [ ] Bake until **deep golden brown** (~40 min)
-- [ ] Watch pastry color — cover loosely with foil if browning too fast
+- [ ] **CHECK PASTRY COLOR AT 20 MIN** — if dark golden, cover with foil immediately
+- [ ] Continue until deep golden brown (total time ~40 min, but color varies)
+- [ ] **Do not rely blindly on 40-min timer** — convection can burn pastry quickly
 
 ### 6:30 PM — Wellington Stage 2
 
@@ -161,7 +173,7 @@
 ### 7:00 PM — Prepare Sides
 
 - [ ] Heat cast iron or heavy pan for Pommes Anna sear
-- [ ] Add butter, sear wedges **2-4 min per side** until crispy
+- [ ] Add clarified butter (high smoke point), sear wedges **2-4 min per side** until crispy
 - [ ] Keep warm on plate, tented
 
 ### 7:10 PM — Wellington Out
@@ -216,6 +228,41 @@
 > | Wellington | Fully assembled, frozen | Bake from frozen |
 > | Pommes Anna | Baked, pressed, chilled | Warm + pan sear |
 > | Broccolini | — | Sauté fresh |
+
+---
+
+## Emergency Fix Guide
+
+> [!danger] Keep This in the Kitchen on NYE
+
+### If Pastry is Dark But Center Still Frozen
+- Cover entire Wellington with foil immediately
+- Drop temp to 120°C
+- Continue until core reaches 40°C (may take extra 20-30 min)
+- Pastry will soften slightly but won't burn
+
+### If Sauce Breaks (Splits/Looks Greasy)
+- Remove from heat immediately
+- Add 1 tbsp cold water
+- Whisk vigorously while adding butter more slowly
+- If still broken: transfer to blender, blend 10 seconds
+
+### If Wellington Rests Too Long (>25 min)
+- Core temp will rise too high (>60°C = medium)
+- Still serve — it will be delicious, just slightly less pink
+- Compensate with extra sauce
+
+### If Pommes Anna Won't Hold Shape
+- Return to oven at 200°C for 10 more minutes to dry out
+- Press harder when weighting
+- If still crumbly: serve rustic-style as "crispy layered potatoes"
+
+### If You Run Out of Time
+**Priority order (most important first):**
+1. Wellington MUST rest 15 min minimum
+2. Sauce can be reheated in microwave (20 sec bursts)
+3. Broccolini can be served at room temp with lemon
+4. Pommes Anna can skip the sear (still delicious warm from oven)
 
 ---
 
