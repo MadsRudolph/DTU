@@ -8,7 +8,25 @@
       "Bash(pdfinfo:*)",
       "Bash(pdftotext:*)",
       "Bash(git init:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:davidantliff.github.io)",
+      "WebFetch(domain:esp-idf-lib.readthedocs.io)",
+      "Bash(while read hash msg)",
+      "Bash(do echo \"=== $msg ===\")",
+      "Bash(git show:*)",
+      "Bash(done)",
+      "Bash(git reset:*)",
+      "Bash(git push:*)",
+      "Bash(if exist build rmdir /s /q build)",
+      "Bash(idf.py build:*)",
+      "Bash(. $HOME/esp/esp-idf/export.sh)",
+      "Bash(ls:*)",
+      "Bash(while read dir)",
+      "Bash(then echo \"$dir\")",
+      "Bash(fi)"
     ]
   }
 }
