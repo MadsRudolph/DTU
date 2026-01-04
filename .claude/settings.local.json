@@ -6,7 +6,9 @@
       "Bash(git commit:*)",
       "Bash(pdflatex:*)",
       "Bash(pdfinfo:*)",
-      "Bash(pdftotext:*)"
+      "Bash(pdftotext:*)",
+      "Bash(git init:*)",
+      "Bash(tree:*)"
     ]
   }
 }

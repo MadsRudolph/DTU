@@ -13,7 +13,7 @@ aliases:
 links:
   - [[DTU – Study Overview]]
   - [[MOC – Audio & Acoustics]]
-updated: 2025-11-25
+updated: 2026-01-04
 ---
 
 # DTU Audio / Amplifier Design Track
@@ -41,11 +41,20 @@ updated: 2025-11-25
   - 62755 Power Electronics  
   - Internship (6th term) + Diplomprojekt (7th term)
 
-- **Tilvalg focus**:  
-  1. More **analog / IC design**  
-  2. More **power electronics** (for class-D, SMPS, etc.)  
-  3. Extra **electroacoustics / transducer** knowledge  
-  4. Optional **PCB/EMC & acoustics** polish in 7th term
+- **Tilvalg focus**:
+  1. More **analog / IC design**
+  2. More **power electronics** (for class-D, SMPS, etc.)
+  3. Extra **electroacoustics / transducer** knowledge
+  4. **IoT + embedded systems** (for connected audio products)
+  5. Optional **PCB/EMC & acoustics** polish in 7th term
+
+> [!info] **Unique Profile: Hardware + Software Audio Engineer**
+> Combining analog/power electronics expertise with IoT/embedded skills creates a rare and valuable profile:
+> - Most audio engineers: strong in analog, weak in embedded/IoT
+> - Most embedded engineers: strong in software, weak in analog hardware
+> - **This profile**: Full-stack audio engineer (analog → power → embedded → network)
+> - **Target companies**: Sonos, KEF, RME, QSC, Devialet, Bang & Olufsen, etc.
+> - **Leverages existing hobby skills**: Raspberry Pi, Home Assistant, embedded C programming
 
 ---
 
@@ -55,7 +64,7 @@ updated: 2025-11-25
 |-----------------|------------:|------------------------------------------------------|-----:|----------------------------------|
 | 4th term (F)    | 34655       | Integrated Analog Electronics 2                      | 5    | Advanced analog / IC design      |
 | 4th term (F)    | 34620       | Basic Power Electronics                              | 5    | Switch-mode + converters        |
-| 4th term (F)    | 30020       | Electronic Measurement and Instrumentation           | 5    | Lab, measurements, instrumentation |
+| 4th term (F)    | 34315       | Internet of Things - Application and Infrastructure  | 5    | IoT + embedded systems for audio |
 | 5th term (Jan)  | 34871       | Nonlinear Transducers                                | 5    | Loudspeaker nonlinearity & models |
 | 7th term (A)    | 34652       | Power Electronics 1                                  | 10   | Advanced converters / design     |
 
@@ -113,21 +122,33 @@ Mandatory courses already in the plan:
 
 ---
 
-### 4.3 30020 – Electronic Measurement and Instrumentation (5 ECTS)
+### 4.3 34315 – Internet of Things - Application and Infrastructure Implementation (5 ECTS)
 
 **Why it matters for audio**
 
-- Focus on **sensors, interfaces, measurement setups and instrumentation systems**
-- Important for:
-  - Measuring **THD, noise, frequency response** of amplifiers and speakers
-  - Building reliable **lab setups** and interpreting results
-  - Debugging analog + power circuits
+- Combines **embedded systems, IoT protocols and application development**
+- Directly relevant for:
+  - **Connected audio products** (smart speakers, networked amps, multi-room systems)
+  - **Embedded control** for class-D amplifiers (microcontroller-based PWM, DSP)
+  - **Remote monitoring/control** of audio equipment (Home Assistant integration, web interfaces)
+  - **Complete product design** - bridging hardware and software layers
+- Modern audio companies (Sonos, KEF, RME, QSC, Devialet) increasingly need engineers who understand both analog/power hardware AND IoT/embedded software
 
 **Key outcomes**
 
-- Stronger practical skills in:
-  - Oscilloscopes, DAQ, bridge circuits, sensor interfacing
-  - Basic metrology and error analysis
+- Ability to design **complete connected audio products**:
+  - Analog front-end (34655) + Power stage (34620) + IoT control (34315)
+  - Network-enabled amplifiers with remote control and monitoring
+  - Integration with smart home systems (Home Assistant, MQTT, web APIs)
+- Leverages existing skills in Raspberry Pi, embedded C, and IoT protocols
+- Unique skillset: most audio engineers are weak in embedded/IoT, most embedded engineers are weak in analog hardware
+
+**Note on measurement skills**
+
+- Originally planned 30020 (Electronic Measurement and Instrumentation) for lab/measurement skills
+- Can be self-learned through hobby projects or taken in future semester (5th/7th term or MSc)
+- Measurement skills will also be developed during internship and diploma project
+- IoT skills can enable building custom measurement tools as projects
 
 ---
 
@@ -216,17 +237,27 @@ You need **10 ECTS tilvalg** on top.
 
 **Target industries**
 
-- Hi-fi / consumer audio (amps, DAC/amp combos, active speakers)  
-- Pro audio (mixers, power amps, studio monitors)  
-- Hearing-aid / headset companies (audio + power + acoustics)  
+- Hi-fi / consumer audio (amps, DAC/amp combos, active speakers)
+- **Connected audio products** (smart speakers, wireless/networked audio systems, multi-room)
+- Pro audio (mixers, power amps, studio monitors, networked audio interfaces)
+- Hearing-aid / headset companies (audio + power + acoustics)
 - Power-electronics companies with interest in **class-D / motor drives / converters**
+
+**Companies particularly interested in IoT + audio combination:**
+
+- **Consumer audio**: Sonos, Bowers & Wilkins, KEF, Bang & Olufsen, Devialet
+- **Pro audio**: RME, Universal Audio, Focusrite, Yamaha, QSC, Lab.Gruppen
+- **Nordic companies**: Dynaudio, System Audio, Danish Sound Technology, GN Audio (Jabra)
+- **Smart home audio**: Google, Amazon, Apple (audio teams)
 
 **Nice selling points from your course mix**
 
-- Analog IC background (34636 + 34655)  
-- Power electronics (34620 + 62755, and possibly 34652)  
-- Electroacoustics (34870 + 34871)  
+- Analog IC background (34636 + 34655)
+- Power electronics (34620 + 62755, and possibly 34652)
+- Electroacoustics (34870 + 34871)
 - DSP (62743) + EM (30035, 34621)
+- **IoT + embedded systems** (34315) - unique differentiator for connected audio products
+- **Full-stack audio engineer**: analog hardware → power stages → embedded control → network connectivity
 
 ---
 
@@ -234,16 +265,21 @@ You need **10 ECTS tilvalg** on top.
 
 **Good project themes**
 
-- Design and measurement of a **class-D audio power amplifier**  
-- **Active loudspeaker**: SMPS + class-D + DSP crossover + loudspeaker modelling  
-- Low-noise **analog pre-amp / phono stage** with attention to EMC and layout  
+- Design and measurement of a **class-D audio power amplifier**
+- **Active loudspeaker**: SMPS + class-D + DSP crossover + loudspeaker modelling
+- Low-noise **analog pre-amp / phono stage** with attention to EMC and layout
 - Integrated **audio front-end** (mic preamp + ADC + DSP + power stage)
+- **IoT-enabled audio products** (combining analog/power hardware with embedded control):
+  - Networked multi-room amplifier system with Home Assistant integration
+  - Smart active speaker with wireless control and DSP
+  - IoT-enabled class-D amp with remote monitoring and configuration
+  - Wireless audio measurement/analysis system
 
 Try to combine:
 
-- Courses on **analog + power + acoustics**  
-- Your side projects (passive speakers, DIY amps, crossovers, etc.)  
-- Possibly a company collaboration in audio/hearing
+- Courses on **analog + power + acoustics + IoT/embedded**
+- Your side projects (passive speakers, DIY amps, crossovers, Raspberry Pi, Home Assistant)
+- Possibly a company collaboration in audio/hearing or connected audio products
 ---
 
 ## 🔭 Future MSc hardware courses I want
@@ -271,19 +307,32 @@ These are **not** part of the current Diplom study plan (because of timetable an
 
 ## ✅ Action list
 
-- [ ] Check the latest DTU course catalogue to confirm:
-  - [ ] 34655, 34620 and 30020 are offered in 4th term spring  
-  - [ ] 34871 runs in January 2027  
-  - [ ] 34652 / 34840 / 34654 are available in 7th term autumn
-- [ ] Verify **prerequisites** (especially for 34655, 34652 and 34871)
+- [x] ~~Check the latest DTU course catalogue to confirm 4th term spring courses~~ (Completed 2026-01-04)
+- [x] ~~Select 4th term tilvalg courses~~ (Completed 2026-01-04)
+  - Selected: 34655, 34620, 34315 (replaced 30020 with IoT course)
+  - Total 4th semester: 30 ECTS (34722, 62711, 62768, 34655, 34620, 34315)
+- [ ] Register for 4th term courses before deadline
+- [ ] Verify **prerequisites** for selected courses:
+  - [ ] 34655 requires 34636 (should be completed in 3rd semester)
+  - [ ] Check 34315 prerequisites
 - [ ] Talk to **study counsellor** to:
-  - [ ] Confirm that this tilvalg combination fits all programme rules  
-  - [ ] Confirm no timetable collisions in the chosen year
-- [ ] Reach out to **relevant DTU groups** (Electronics, Acoustic Technology) for Potential internship ideas  
-  - [ ] Early brainstorming for Diplomprojekt topics
+  - [ ] Get approval for tilvalg combination (34655, 34620, 34315)
+  - [ ] Confirm no timetable collisions
+- [ ] **DSP reexam preparation** (summer 2026):
+  - [ ] Start revision early (don't wait until June)
+  - [ ] Create study schedule alongside 4th semester courses
+- [ ] Future planning:
+  - [ ] Verify 34871 runs in January 2027
+  - [ ] Check 34652 / 34840 / 34654 availability for 7th term
+  - [ ] Consider 30020 for future semester or self-learn measurement skills
+- [ ] Reach out to **relevant DTU groups** (Electronics, Acoustic Technology) for potential internship ideas
+  - [ ] Look for companies working on connected audio products (leverage IoT + audio skills)
+  - [ ] Early brainstorming for IoT-audio Diplomprojekt topics
 - [ ] Keep GitHub / Obsidian updated with:
-  - [ ] Speaker design project  
-  - [ ] Amp / power-electronics experiments  
+  - [ ] Speaker design project
+  - [ ] Amp / power-electronics experiments
+  - [ ] Home Assistant / Raspberry Pi audio projects
   - [ ] Course-related mini-projects and reports
+  - [ ] Potential 34315 project ideas combining IoT + audio
 
 ---

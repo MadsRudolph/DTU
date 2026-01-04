@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:kurser.dtu.dk)",
+      "WebFetch(domain:student.dtu.dk)",
+      "WebFetch(domain:www.dtu.dk)"
+    ]
+  }
+}
