@@ -26,7 +26,14 @@
       "Bash(ls:*)",
       "Bash(while read dir)",
       "Bash(then echo \"$dir\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(chmod:*)",
+      "Bash(where:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(cat:*)",
+      "Bash(cmd //c \"del /F /Q main.aux main.log main.out main.toc 2>nul\")",
+      "Bash(tasklist:*)",
+      "Bash(taskkill:*)"
     ]
   }
 }
