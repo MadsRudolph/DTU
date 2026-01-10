@@ -603,3 +603,10 @@ $$
 > No discrete magnetic charges — **currents only** are the sources of magnetostatic fields.
 
 ---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [Spole Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FCoil%20Design) | B-felt mønstre omkring TX/RX spoler |
+| VLF Metaldetektor (34621) | [Spole Konfiguration](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FCoil%20Configuration%20Comparison) | Koncentrisk vs Double-D feltgeometri |

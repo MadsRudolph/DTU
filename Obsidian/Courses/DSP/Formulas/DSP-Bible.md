@@ -4573,3 +4573,11 @@ Show theoretical spectrum first, then FFT result to validate.
 > spectrum_templates('harmonics', f0, n);
 > spectrum_templates('aliased', f0, Fs);
 > ```
+
+---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [DFT Algoritme](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FDFT%20Algorithm) | Single-bin DFT ved 4× oversampling, faseberegning for metalklassificering |

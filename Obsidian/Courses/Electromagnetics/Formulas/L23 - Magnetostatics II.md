@@ -641,3 +641,9 @@ $$
 | **Parallel wires** | $F/L=\mu_0I_1I_2/(2\pi d)$ | Attract if currents are parallel |
 
 ---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [Spole Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FCoil%20Design) | Wheeler formel til beregning af flerlagsspole induktans, gensidig induktans for TX/RX kobling |

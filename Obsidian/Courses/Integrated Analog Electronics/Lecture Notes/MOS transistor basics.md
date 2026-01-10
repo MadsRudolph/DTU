@@ -32,3 +32,11 @@ Outgoing links
 LIST FROM outgoing([[]])
 WHERE contains(file.path,"Courses/Integrated Analog Electronics")
 ```
+
+---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [TX Driver Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FTX%20Driver%20Design) | MOSFET H-bro driver med IRF5305/IRL530, switching karakteristik |

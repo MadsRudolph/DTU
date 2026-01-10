@@ -1103,3 +1103,11 @@ Each topic includes detailed analysis of principles, trade-offs, design guidelin
 ---
 
 **Study Tip:** Focus on understanding the **fundamental trade-offs** - they appear in every analog circuit design decision. The specific numbers matter less than the directional relationships and design reasoning.
+
+---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [TX Driver Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FTX%20Driver%20Design) | W/L beregninger, transkonduktans for MOSFET driver |

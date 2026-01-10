@@ -1004,3 +1004,9 @@ stable = all(abs(poles_H)<1);% Check stability
 - [[E23 Exam]], [[F24 Exam]], [[E24 Exam]]
 
 ---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [DFT Algoritme](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FDFT%20Algorithm) | Sampling ved 8 kHz, DFT ved 2 kHz, kompleks faseberegning |

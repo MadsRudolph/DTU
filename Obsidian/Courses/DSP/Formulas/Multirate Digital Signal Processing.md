@@ -629,3 +629,11 @@ q### 7.3 Interpolation filter via Parks–McClellan (remez)
 > xlabel('F [Hz]'); ylabel('|Y(F)|');
 > title('Spectrum after interpolation filter');
 > ```
+
+---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [DFT Algoritme](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FDFT%20Algorithm) | 4× oversampling: 8 kHz sampling af 2 kHz signal giver trivielle DFT koefficienter |

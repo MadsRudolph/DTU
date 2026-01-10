@@ -1143,3 +1143,9 @@ smithchart_plot(75, 15-1j*37.5)        % Smith chart
 ```
 
 ---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [Spole Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FCoil%20Design) | Permeabilitet for ferromagnetiske mål, skin dybde beregning |

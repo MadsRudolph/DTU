@@ -169,3 +169,11 @@ $$f_T = \frac{g_m}{2\pi(C_{gs} + C_{gd})}$$
 ---
 
 Remember: These are simplified formulas. Real circuits may have additional second-order effects!
+
+---
+
+## Praktisk Anvendelse
+
+| Projekt | Link | Anvendelse |
+|---------|------|------------|
+| VLF Metaldetektor (34621) | [TX Driver Design](obsidian://open?vault=34621-Metal-Detector&file=Docs%2FTheory%2FTX%20Driver%20Design) | Transferfunktioner, frekvensrespons for H-bro driver |
