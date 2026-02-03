@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Download large files from Google Drive based on manifest.
 
@@ -11,10 +12,22 @@ Requirements:
     pip install gdown requests
 """
 
+# Enable UTF-8 mode on Windows for proper handling of Danish characters (ø, æ, å)
+import os
+import sys
+if sys.platform == "win32":
+    os.environ.setdefault("PYTHONUTF8", "1")
+    # Reconfigure stdout/stderr for UTF-8
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    if hasattr(sys.stderr, 'reconfigure'):
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 import argparse
 import json
 import os
 import sys
+import unicodedata
 from pathlib import Path
 
 try:
@@ -109,7 +122,17 @@ def main():
         drive_id = entry["driveId"]
         expected_size = entry.get("size")
 
-        dest_path = repo_root / rel_path
+        # Try both Unicode normalization forms (handles ø, æ, å etc. across platforms)
+        dest_path_nfc = repo_root / unicodedata.normalize("NFC", rel_path)
+        dest_path_nfd = repo_root / unicodedata.normalize("NFD", rel_path)
+
+        # Use whichever path exists, prefer NFC
+        if dest_path_nfc.exists():
+            dest_path = dest_path_nfc
+        elif dest_path_nfd.exists():
+            dest_path = dest_path_nfd
+        else:
+            dest_path = dest_path_nfc  # Default for download
 
         # Check if file already exists
         if dest_path.exists() and not args.force:
