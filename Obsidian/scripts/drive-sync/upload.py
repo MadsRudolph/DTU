@@ -66,6 +66,8 @@ def find_large_files(repo_root: Path, manifest_paths: set) -> list:
     for root, dirs, files in os.walk(repo_root):
         if ".git" in dirs:
             dirs.remove(".git")
+        if ".venv" in dirs:
+            dirs.remove(".venv")
 
         for filename in files:
             filepath = Path(root) / filename
@@ -149,6 +151,8 @@ def rebuild_manifest(repo_root: Path) -> int:
     for root, dirs, files in os.walk(repo_root):
         if ".git" in dirs:
             dirs.remove(".git")
+        if ".venv" in dirs:
+            dirs.remove(".venv")
 
         for filename in files:
             ext = Path(filename).suffix.lower()
