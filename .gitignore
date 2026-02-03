@@ -1,0 +1,58 @@
+# ===========================================
+# Large files (stored in Google Drive instead)
+# ===========================================
+# These files are managed by Obsidian/scripts/drive-sync/
+# Run: python Obsidian/scripts/drive-sync/download.py
+# ===========================================
+
+# Documents and presentations
+*.pdf
+*.pptx
+*.ppt
+*.docx
+*.doc
+
+# Archives
+*.zip
+*.7z
+*.rar
+*.tar.gz
+*.iso
+
+# Media files
+*.mov
+*.mp4
+*.avi
+*.mkv
+*.wav
+*.mp3
+
+# ===========================================
+# System and editor files
+# ===========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+.venv/
+
+# ===========================================
+# Obsidian (volatile state)
+# ===========================================
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/app.json
+.obsidian/graph.json

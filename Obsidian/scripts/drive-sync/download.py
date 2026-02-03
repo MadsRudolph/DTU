@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""
+Download large files from Google Drive based on manifest.
+
+Usage:
+    python download.py              # Download all missing files
+    python download.py --verify     # Verify existing files match expected size
+    python download.py --force      # Re-download all files even if they exist
+
+Requirements:
+    pip install gdown requests
+"""
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+try:
+    import gdown
+except ImportError:
+    print("Error: gdown not installed. Run: pip install gdown")
+    sys.exit(1)
+
+try:
+    import requests
+except ImportError:
+    print("Error: requests not installed. Run: pip install requests")
+    sys.exit(1)
+
+
+def get_repo_root() -> Path:
+    """Find the repository root (where .git is)."""
+    current = Path(__file__).resolve().parent
+    while current != current.parent:
+        if (current / ".git").exists():
+            return current
+        current = current.parent
+    raise RuntimeError("Could not find repository root")
+
+
+def load_manifest(repo_root: Path) -> dict:
+    """Load the manifest file."""
+    manifest_path = repo_root / "Obsidian" / "scripts" / "drive-sync" / "manifest.json"
+    if not manifest_path.exists():
+        print(f"Error: Manifest not found at {manifest_path}")
+        sys.exit(1)
+
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def download_file(drive_id: str, dest_path: Path, expected_size: int = None) -> bool:
+    """Download a file from Google Drive."""
+    # Ensure parent directory exists
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+
+    url = f"https://drive.google.com/uc?id={drive_id}"
+
+    try:
+        print(f"  Downloading: {dest_path.name}...", end=" ", flush=True)
+        output = gdown.download(url, str(dest_path), quiet=True)
+
+        if output is None:
+            print("FAILED (gdown returned None)")
+            return False
+
+        # Verify size if provided
+        if expected_size and dest_path.exists():
+            actual_size = dest_path.stat().st_size
+            if actual_size != expected_size:
+                print(f"WARNING (size mismatch: expected {expected_size}, got {actual_size})")
+                return True  # Still consider it downloaded
+
+        print("OK")
+        return True
+
+    except Exception as e:
+        print(f"FAILED ({e})")
+        return False
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Download large files from Google Drive")
+    parser.add_argument("--verify", action="store_true", help="Verify existing files")
+    parser.add_argument("--force", action="store_true", help="Re-download all files")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be downloaded")
+    args = parser.parse_args()
+
+    repo_root = get_repo_root()
+    manifest = load_manifest(repo_root)
+
+    files = manifest.get("files", [])
+    if not files:
+        print("No files in manifest. Nothing to download.")
+        return
+
+    print(f"Found {len(files)} files in manifest")
+    print(f"Repository root: {repo_root}")
+    print()
+
+    downloaded = 0
+    skipped = 0
+    failed = 0
+
+    for entry in files:
+        rel_path = entry["path"]
+        drive_id = entry["driveId"]
+        expected_size = entry.get("size")
+
+        dest_path = repo_root / rel_path
+
+        # Check if file already exists
+        if dest_path.exists() and not args.force:
+            if args.verify and expected_size:
+                actual_size = dest_path.stat().st_size
+                if actual_size != expected_size:
+                    print(f"  Size mismatch: {rel_path} (expected {expected_size}, got {actual_size})")
+                    failed += 1
+                else:
+                    skipped += 1
+            else:
+                skipped += 1
+            continue
+
+        if args.dry_run:
+            print(f"  Would download: {rel_path}")
+            continue
+
+        if download_file(drive_id, dest_path, expected_size):
+            downloaded += 1
+        else:
+            failed += 1
+
+    print()
+    print(f"Summary: {downloaded} downloaded, {skipped} skipped, {failed} failed")
+
+    if failed > 0:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
