@@ -26,6 +26,7 @@
 | **1. Semester** | Intro programming, basic circuits |
 | **2. Semester** | Math, modeling, LabVIEW, digital foundations |
 | **3. Semester** | DSP, Electromagnetics, Analog IC (with SPICEPilot integration) |
+| **4. Semester** | Digital Systems (VHDL), Control Design, IoT, Power Electronics, Analog IC 2 |
 
 Everything lives in an **Obsidian vault** with consistent structure per course:
 - Lecture notes, slides, formulas
@@ -41,15 +42,17 @@ Everything lives in an **Obsidian vault** with consistent structure per course:
 git clone --recurse-submodules git@github.com:MadsRudolph/DTU.git
 cd DTU
 
-# Pull large files (slides, PDFs)
-git lfs install
-git lfs pull
+# Download large files (PDFs, slides) from Google Drive
+pip install -r Obsidian/scripts/drive-sync/requirements.txt
+PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
 
 # If already cloned, initialize submodules
 git submodule update --init --recursive
 ```
 
 Open the `Obsidian/` folder as a vault in [Obsidian](https://obsidian.md/).
+
+> **Note:** Large files (PDFs, slides, videos) are stored in Google Drive to keep the repo lightweight. The download script fetches ~335 files (~1GB) automatically.
 
 ### Setting up SPICEPilot (for SPICE simulations)
 
@@ -67,26 +70,32 @@ See [SPICEPilot README](SPICEPilot/README.md) for details.
 
 ```
 DTU/
-├── 1. Semester/
+├── 1. Semester/                         # Archived coursework
 ├── 2. Semester/
 ├── 3. semester/
-├── Obsidian/
-│   ├── Courses/
-│   │   ├── Integrated Analog Electronics/
-│   │   │   └── LTspice & Kicad/        # SPICEPilot documentation
-│   │   └── <Other Courses>/
-│   ├── Exercises/
-│   ├── Lecture Notes/
-│   ├── Formulas/
+├── 4. Semester/                         # Current semester project files
+│   ├── Digital Systems Design/          # Vivado, VHDL
+│   ├── Linear Control Design/           # Matlab, Simulink
+│   ├── Internet of Things/              # Arduino
+│   ├── Power Electronics/               # Matlab, LTspice
+│   └── Integrated Analog Electronics 2/ # LTspice, Kicad, Matlab
+├── Obsidian/                            # Notes vault
+│   ├── Courses/                         # Course notes, slides, literature
+│   │   ├── 34315 Internet of Things/
+│   │   ├── 34620 Basic Power Electronics/
+│   │   ├── 34655 Integrated Analog Electronics 2/
+│   │   ├── 34722 Linear Control Design 1/
+│   │   └── 62711 Digital Systems Design/
+│   ├── Archive/                         # Past semester notes
+│   ├── scripts/
+│   │   └── drive-sync/                  # Google Drive sync for large files
 │   └── MOC files
 ├── SPICEPilot/                          # Git submodule (SPICE simulation framework)
 │   ├── examples/                        # Working circuit examples
 │   ├── results/                         # Simulation outputs
 │   ├── setup.bat                        # Automated setup script
-│   ├── verify_setup.py                  # Installation verification
-│   ├── requirements.txt                 # Python dependencies
 │   └── SETUP_INSTRUCTIONS.md            # Setup guide
-└── scripts/
+└── .gitignore                           # Excludes PDFs, slides (stored in Drive)
 ```
 
 ---
@@ -96,11 +105,12 @@ DTU/
 | Area | Tools |
 |------|-------|
 | Notes | Obsidian (Markdown) |
-| DSP / Math | MATLAB, Maple |
+| DSP / Math | MATLAB, Maple, Simulink |
 | Analog Circuits | LTspice, KiCad 9.0 |
+| Digital Design | Xilinx Vivado, VHDL |
 | SPICE Simulation | SPICEPilot, PySpice, ngspice |
-| MCU | PlatformIO, VS Code |
-| Version Control | Git + Git LFS |
+| MCU / IoT | Arduino IDE, PlatformIO, VS Code |
+| Version Control | Git + Google Drive (large files) |
 
 ---
 
@@ -140,19 +150,29 @@ Comprehensive guides in `Obsidian/Courses/Integrated Analog Electronics/LTspice 
 
 ## 📜 Scripts
 
-Utilities for vault maintenance:
+### Google Drive Sync (large files)
+
+| Script | Purpose |
+|--------|---------|
+| `download.py` | Download all large files from Google Drive |
+| `upload.py --scan` | Find new large files not yet in Drive |
+| `upload.py --add` | Add a file to the manifest after uploading |
+
+```bash
+# Download missing files
+PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
+
+# Check for new files to upload
+python Obsidian/scripts/drive-sync/upload.py --scan
+```
+
+### Vault Maintenance
 
 | Script | Purpose |
 |--------|---------|
 | `check_wikilinks.py` | Find broken `[[wikilinks]]` |
 | `check_wikilinks_courses.py` | Per-course link checks |
 | `wire_courses.py` | Directory structure consistency |
-| `wire_em_vault.py` | EM vault index maintenance |
-
-```bash
-# Run from repo root
-python scripts/check_wikilinks.py
-```
 
 ---
 
