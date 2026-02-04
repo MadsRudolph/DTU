@@ -1,8 +1,8 @@
 # Day 1 - MATLAB Exercise
 
 > [!info] Files
-> - Script: `4. Semester/Linear Control Design/Matlab/FirstEXMatlab_LCD1.m`
-> - Data: `4. Semester/Linear Control Design/Matlab/log.txt`
+> - Script: [FirstEXMatlab_LCD1.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/FirstEXMatlab_LCD1.m)
+> - Data: [log.txt](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/log.txt)
 
 ## Overview
 
