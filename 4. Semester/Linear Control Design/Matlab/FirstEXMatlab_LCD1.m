@@ -82,7 +82,7 @@ figure(5);
 plot(X, Y, X, Y.^2);
 xlabel('Time [s]');
 ylabel('Amplitude');
-title('Y and Y^2');
+title('Y and Y^2', 'Interpreter', 'none');
 legend('Y = e^{-t}', 'Y^2 = e^{-2t}');
 grid on;
 
@@ -110,14 +110,11 @@ disp('Inverse Laplace of F:');
 pretty(f_inverse);
 
 %% Load data from a txt file
-% Read data from the log.txt file using the readtable() function
-data = readtable('log.txt');
+% Read data from the log.txt file using readmatrix (skips % comment lines)
+data_matrix = readmatrix('log.txt', 'CommentStyle', '%');
 
-% Fill the nearest NaN entries using the fillmissing() function
-data = fillmissing(data, 'nearest');
-
-% Convert data from table to matrix
-data_matrix = table2array(data);
+% Fill NaN entries with nearest values
+data_matrix = fillmissing(data_matrix, 'nearest');
 
 % From the log.txt header:
 %  1    time
