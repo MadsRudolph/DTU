@@ -33,6 +33,7 @@ python upload.py --scan    # Just scan, don't upload
 python upload.py --sync    # Upload without prompting
 python upload.py --list    # List all files in manifest
 python upload.py --refresh # Rebuild manifest from Drive
+python upload.py --pull    # Find files on Drive not in manifest (uploaded from another PC)
 ```
 
 ## Download Options

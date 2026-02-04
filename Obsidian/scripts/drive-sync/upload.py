@@ -9,6 +9,7 @@ Usage:
     python upload.py --sync           # Upload all new files without prompting
     python upload.py --list           # List all files in manifest
     python upload.py --remove PATH    # Remove a file from manifest
+    python upload.py --pull           # Find files on Drive not in manifest
 
 Requirements:
     rclone (installed and configured with 'gdrive' remote)
@@ -270,6 +271,71 @@ def list_files(manifest: dict):
             print(f"  {size_str:>10}  {f['path']}")
 
 
+def pull_from_drive(repo_root: Path, manifest: dict) -> int:
+    """Find files on Drive not in manifest and add them."""
+    print("Checking Google Drive for new files...")
+    drive_map = get_drive_file_ids(repo_root)
+
+    # Build set of manifest paths (both normalizations)
+    manifest_paths = set()
+    for entry in manifest.get("files", []):
+        path = entry["path"]
+        manifest_paths.add(unicodedata.normalize("NFC", path.lower()))
+        manifest_paths.add(unicodedata.normalize("NFD", path.lower()))
+
+    # Find files on Drive not in manifest
+    new_files = []
+    seen_paths = set()
+
+    for norm_key, entry in drive_map.items():
+        if norm_key in manifest_paths:
+            continue
+        if norm_key in seen_paths:
+            continue
+
+        original_path = entry.get("original_path", "")
+
+        # Skip .venv and other unwanted paths
+        if ".venv" in original_path or "__pycache__" in original_path:
+            continue
+
+        # Check extension
+        ext = Path(original_path).suffix.lower()
+        if ext not in LARGE_FILE_EXTENSIONS:
+            continue
+
+        seen_paths.add(norm_key)
+        new_files.append({
+            "path": original_path,
+            "driveId": entry["driveId"],
+            "size": entry["size"]
+        })
+
+    if not new_files:
+        print("No new files on Drive.")
+        return 0
+
+    print(f"Found {len(new_files)} files on Drive not in manifest:\n")
+    for f in new_files:
+        size_mb = f["size"] / (1024 * 1024)
+        print(f"  {size_mb:>8.2f} MB  {f['path']}")
+
+    print()
+    response = input("Add these to manifest? [Y/n]: ").strip().lower()
+    if response and response != 'y':
+        print("Cancelled.")
+        return 0
+
+    # Add to manifest
+    manifest["files"].extend(new_files)
+    manifest["files"] = sorted(manifest["files"], key=lambda x: x["path"])
+    save_manifest(repo_root, manifest)
+
+    print(f"\nAdded {len(new_files)} files to manifest.")
+    print("Run 'python download.py' to download them.")
+    return len(new_files)
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Upload large files to Google Drive")
@@ -278,6 +344,7 @@ def main():
     parser.add_argument("--list", action="store_true", help="List all files in manifest")
     parser.add_argument("--remove", metavar="PATH", help="Remove a file from manifest")
     parser.add_argument("--refresh", action="store_true", help="Refresh manifest from Drive")
+    parser.add_argument("--pull", action="store_true", help="Find files on Drive not in manifest")
     args = parser.parse_args()
 
     repo_root = get_repo_root()
@@ -309,6 +376,9 @@ def main():
     elif args.refresh:
         count = rebuild_manifest(repo_root)
         print(f"Manifest refreshed: {count} files")
+
+    elif args.pull:
+        pull_from_drive(repo_root, manifest)
 
     else:
         # Default: scan and prompt to upload
