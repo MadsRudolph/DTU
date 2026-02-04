@@ -22,6 +22,9 @@ Navigate to the regbot_gui directory and run:
 python regbot.py
 ```
 
+> [!warning] Use PowerShell, not Git Bash
+> The GUI only works from PowerShell or CMD, not from Git Bash.
+
 ## Files
 
 The folder contains 23 Python files:
