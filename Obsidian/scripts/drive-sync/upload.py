@@ -304,7 +304,12 @@ def pull_from_drive(repo_root: Path, manifest: dict) -> int:
         if ext not in LARGE_FILE_EXTENSIONS:
             continue
 
-        seen_paths.add(norm_key)
+        # Add BOTH NFC and NFD normalized keys to seen_paths to avoid duplicates
+        nfc_key = unicodedata.normalize("NFC", original_path.lower())
+        nfd_key = unicodedata.normalize("NFD", original_path.lower())
+        seen_paths.add(nfc_key)
+        seen_paths.add(nfd_key)
+
         new_files.append({
             "path": original_path,
             "driveId": entry["driveId"],
