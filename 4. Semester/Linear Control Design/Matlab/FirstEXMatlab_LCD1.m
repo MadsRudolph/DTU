@@ -223,3 +223,20 @@ xlabel('Time [s]');
 ylabel('Voltage [V]');
 title('Right Motor Voltage');
 grid on;
+
+%% Section 7: Export Figures to Images
+% Save all figures as PNG files for documentation
+% Images are saved to the Obsidian course folder
+
+% Define output path (relative to repo root)
+img_path = '../../Obsidian/Courses/34722 Linear Control Design 1/Images/';
+
+% Export each figure
+saveas(figure(1), [img_path 'ex1_step_response.png']);
+saveas(figure(2), [img_path 'ex1_lsim_response.png']);
+saveas(figure(3), [img_path 'ex1_impulse_response.png']);
+saveas(figure(4), [img_path 'ex1_exponential_decay.png']);
+saveas(figure(5), [img_path 'ex1_y_and_y_squared.png']);
+saveas(figure(6), [img_path 'ex1_robot_motor_data.png']);
+
+disp('Figures exported to Images folder.');
