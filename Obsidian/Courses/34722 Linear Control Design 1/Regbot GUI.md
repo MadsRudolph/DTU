@@ -12,16 +12,13 @@ Install Python from Microsoft Store (includes pip). Should be Python 3.x.
 
 ### 2. Install Packages
 Open a terminal (cmd) and run:
-```bash
-pip install pyqt5
-pip install pyserial
-pip install pyqtgraph
-pip install numpy
+```
+pip install pyqt5 pyserial pyqtgraph numpy
 ```
 
 ### 3. Start the GUI
 Navigate to the regbot_gui directory and run:
-```bash
+```
 python regbot.py
 ```
 
@@ -43,4 +40,4 @@ The folder contains 23 Python files:
 
 ## More Info
 
-See the [Regbot Wiki](https://rsewiki.elektro.dtu.dk/index.php/Regbot) for full documentation.
+See the [Regbot Wiki](https://rsewiki.electro.dtu.dk/index.php?title=Regbot_GUI) for full documentation.
