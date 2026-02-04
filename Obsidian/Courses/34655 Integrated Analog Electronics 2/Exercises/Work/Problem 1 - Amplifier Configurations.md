@@ -32,7 +32,9 @@ We calculate for each: output resistance $r_{out}$, voltage gain $A_v$, bandwidt
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the common source amplifier.
 
-### Circuit Description
+### Circuit
+
+![[Fig.1_intro.png|300]]
 
 The common source stage has the input signal applied to the gate, with the source grounded and output taken from the drain. The ideal current source $I_A$ provides biasing.
 
@@ -72,7 +74,9 @@ The common source stage has the input signal applied to the gate, with the sourc
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the cascode amplifier.
 
-### Circuit Description
+### Circuit
+
+![[Fig.2_intro.png|300]]
 
 The cascode configuration stacks a common-gate transistor ($Q_2$) on top of the common-source transistor ($Q_1$). The cascode transistor's gate is held at a fixed bias voltage $V_{BIAS}$.
 
@@ -120,7 +124,9 @@ The cascode configuration dramatically increases output resistance by using the 
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the cascade amplifier with $I_A/2$ per stage.
 
-### Circuit Description
+### Circuit
+
+![[Fig.3_intro.png|350]]
 
 Two common source stages in series. To maintain the same total current as the cascode ($I_A = 20\ \mu\text{A}$), each stage operates at $I_A/2 = 10\ \mu\text{A}$.
 
