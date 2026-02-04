@@ -71,9 +71,7 @@ u = sin(2*pi*t);
 % G(s) = (s + 1) / (s^2 + 2s + 1) = (s + 1) / (s + 1)^2 = 1/(s + 1)
 num = [1, 1];           % Numerator: 1*s + 1 = s + 1
 den = [1, 2, 1];        % Denominator: 1*s^2 + 2*s + 1 = (s+1)^2
-G = tf(num, den);
-disp('Transfer function G:');
-disp(G);
+G = tf(num, den)
 
 %% Section 3: Plot Outputs
 % This section demonstrates different ways to analyze system response:

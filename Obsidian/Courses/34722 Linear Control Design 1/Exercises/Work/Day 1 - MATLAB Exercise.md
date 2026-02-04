@@ -3,6 +3,8 @@
 > [!info] Files
 > - Script: [FirstEXMatlab_LCD1.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/FirstEXMatlab_LCD1.m)
 > - Data: [log.txt](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/log.txt)
+> - Exercises: [PDF]
+
 
 ## Overview
 

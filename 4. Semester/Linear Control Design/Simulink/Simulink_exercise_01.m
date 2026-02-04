@@ -8,8 +8,8 @@ x = 2*sin(2*pi*0.1*t) + 4.5*tanh(0.1*t);    % Define a function of time (same le
 t_f = t(end);                               % Final time
 X = timeseries(x,t,'name','X');             % Put the data in a "timeseries" object
 
-G_n = [0 0 0];	% Transfer function numerator (fill these in)
-G_d = [0 0 0];	% Transfer function denominator (fill these in)
+G_n = [1 1];	% Transfer function numerator (fill these in)
+G_d = [1 0.12 1];	% Transfer function denominator (fill these in)
 
 %% Run Simulink model and plot
 % Save the output that contains all signals in Simulink (should be in the 
@@ -30,7 +30,7 @@ set(0,'DefaultAxesFontSize',20);
 set(0,'DefaultLineLineWidth', 2);
 
 figure(1);
-
+plot(x);
 figure(2);
 
 figure(3);
