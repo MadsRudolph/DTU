@@ -9,7 +9,7 @@ pip install -r Obsidian/scripts/drive-sync/requirements.txt
 PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
 ```
 
-This downloads ~336 files (~1GB) from Google Drive.
+This downloads ~342 files (~1GB) from Google Drive.
 
 ## Adding New Files
 
@@ -19,31 +19,44 @@ When you add a new PDF, slide, or other large file:
 python Obsidian/scripts/drive-sync/upload.py
 ```
 
-That's it. The script will:
+The script will:
 1. Find new large files not yet in Drive
 2. Show them and ask for confirmation
 3. Upload to Google Drive using rclone
 4. Update the manifest automatically
 
-### Upload Options
+## Syncing From Another PC
+
+If you uploaded files to Drive from another machine:
 
 ```bash
-python upload.py           # Scan and prompt to upload
-python upload.py --scan    # Just scan, don't upload
-python upload.py --sync    # Upload without prompting
-python upload.py --list    # List all files in manifest
-python upload.py --refresh # Rebuild manifest from Drive
-python upload.py --pull    # Find files on Drive not in manifest (uploaded from another PC)
+git pull                                # Get latest manifest
+python upload.py --pull                 # Find new files on Drive
+python download.py                      # Download them
 ```
 
-## Download Options
+## Command Reference
 
-```bash
-python download.py           # Download missing files
-python download.py --verify  # Verify existing files match expected size
-python download.py --force   # Re-download all files
-python download.py --dry-run # Show what would be downloaded
-```
+### upload.py
+
+| Command | Description |
+|---------|-------------|
+| `python upload.py` | Scan and prompt to upload new files |
+| `python upload.py --scan` | Just scan, don't upload |
+| `python upload.py --sync` | Upload without prompting |
+| `python upload.py --pull` | Find files on Drive not in manifest |
+| `python upload.py --list` | List all files in manifest |
+| `python upload.py --refresh` | Rebuild manifest from Drive |
+| `python upload.py --remove PATH` | Remove a file from manifest |
+
+### download.py
+
+| Command | Description |
+|---------|-------------|
+| `python download.py` | Download missing files |
+| `python download.py --verify` | Verify existing files match expected size |
+| `python download.py --force` | Re-download all files |
+| `python download.py --dry-run` | Show what would be downloaded |
 
 ## File Types Tracked
 
@@ -73,8 +86,8 @@ New clone    ◄──download.py──  Google Drive
 ## Requirements
 
 - Python 3.8+
-- rclone (configured with `gdrive` remote)
-- gdown (`pip install gdown`)
+- rclone (configured with `gdrive` remote) - for uploading
+- gdown (`pip install gdown`) - for downloading
 
 ## Troubleshooting
 
@@ -83,7 +96,12 @@ New clone    ◄──download.py──  Google Drive
 PYTHONUTF8=1 python download.py
 ```
 
-**Manifest out of sync:**
+**Manifest out of sync with Drive:**
 ```bash
 python upload.py --refresh
+```
+
+**Files uploaded from another PC not showing:**
+```bash
+python upload.py --pull
 ```
