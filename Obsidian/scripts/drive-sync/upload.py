@@ -110,6 +110,16 @@ def upload_file_to_drive(repo_root: Path, rel_path: str) -> bool:
     return result.returncode == 0
 
 
+def normalize_path_key(path: str) -> str:
+    """Normalize a path for comparison, handling Danish characters (ø, æ, å)."""
+    # Try NFC first, then NFD, use the one that gives a "cleaner" result
+    nfc = unicodedata.normalize("NFC", path.lower())
+    nfd = unicodedata.normalize("NFD", path.lower())
+
+    # Use NFC as the canonical form (precomposed characters)
+    return nfc
+
+
 def get_drive_file_ids(repo_root: Path) -> dict:
     """Get all file IDs from Google Drive."""
     cmd = [
@@ -131,11 +141,18 @@ def get_drive_file_ids(repo_root: Path) -> dict:
     for item in data:
         if not item.get("IsDir", False):
             path = item["Path"]
-            norm_path = unicodedata.normalize("NFC", path.lower())
-            drive_map[norm_path] = {
+            # Store under both NFC and NFD normalized keys for robust matching
+            nfc_key = unicodedata.normalize("NFC", path.lower())
+            nfd_key = unicodedata.normalize("NFD", path.lower())
+
+            entry = {
                 "driveId": item["ID"],
-                "size": item["Size"]
+                "size": item["Size"],
+                "original_path": path
             }
+            drive_map[nfc_key] = entry
+            if nfd_key != nfc_key:
+                drive_map[nfd_key] = entry
 
     return drive_map
 
@@ -161,12 +178,17 @@ def rebuild_manifest(repo_root: Path) -> int:
 
             filepath = Path(root) / filename
             rel_path = filepath.relative_to(repo_root).as_posix()
-            norm_path = unicodedata.normalize("NFC", rel_path.lower())
 
-            if norm_path in drive_map:
+            # Try both NFC and NFD normalization to find match
+            nfc_key = unicodedata.normalize("NFC", rel_path.lower())
+            nfd_key = unicodedata.normalize("NFD", rel_path.lower())
+
+            drive_entry = drive_map.get(nfc_key) or drive_map.get(nfd_key)
+
+            if drive_entry:
                 new_files.append({
                     "path": rel_path,
-                    "driveId": drive_map[norm_path]["driveId"],
+                    "driveId": drive_entry["driveId"],
                     "size": filepath.stat().st_size
                 })
 
