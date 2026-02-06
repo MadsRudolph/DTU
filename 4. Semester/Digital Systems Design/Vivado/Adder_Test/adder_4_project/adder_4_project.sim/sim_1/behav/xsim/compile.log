@@ -1,0 +1,8 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Mads2/DTU/4. Semester/Digital Systems Design/Vivado/Adder_Test/src/adder_4_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'adder_4_top'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Mads2/DTU/4. Semester/Digital Systems Design/VHDL/Sources/four_bit_structural_adder.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'half_adder'
+INFO: [VRFC 10-3107] analyzing entity 'full_adder'
+INFO: [VRFC 10-3107] analyzing entity 'adder_4'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Mads2/DTU/4. Semester/Digital Systems Design/Vivado/Adder_Test/sim/tb_adder_4_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'tb_adder_4_top'

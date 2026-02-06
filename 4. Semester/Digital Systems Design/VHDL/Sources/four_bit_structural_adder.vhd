@@ -55,4 +55,4 @@ begin
  port map (B(3), A(3), C(3), S(3), C(4));
  C(0) <= C0;
  C4 <= C(4);
-end structural 4;
+end structural_4;
