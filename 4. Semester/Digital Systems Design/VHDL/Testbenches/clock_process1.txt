@@ -1,0 +1,15 @@
+constant clk_period : time:= 10 ns;
+signal endtest: std_logic:= '0';
+  
+
+clock: process
+                           begin
+                          while endtest='0'  loop
+                          clk<='0';
+                          wait for clk_period/2;
+                          clk<='1';
+                           wait for clk_period/2;
+                           end loop;
+                              wait;
+                           end process;
+
