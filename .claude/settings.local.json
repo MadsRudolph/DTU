@@ -46,7 +46,8 @@
       "Bash(for zipfile in \"C:/Users/Mads2/OneDrive/Skrivebord/62711/\"*.zip)",
       "Bash(gh repo create:*)",
       "Bash(git submodule add:*)",
-      "Bash(PYTHONUTF8=1 python:*)"
+      "Bash(PYTHONUTF8=1 python:*)",
+      "Bash(git rm:*)"
     ]
   }
 }
