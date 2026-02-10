@@ -43,11 +43,9 @@
       "Bash(python:*)",
       "Bash(git checkout:*)",
       "Bash(gh pr edit:*)",
-      "Bash(for zipfile in \"C:/Users/Mads2/OneDrive/Skrivebord/62711/\"*.zip)",
-      "Bash(gh repo create:*)",
-      "Bash(git submodule add:*)",
-      "Bash(PYTHONUTF8=1 python:*)",
-      "Bash(git rm:*)"
+      "Bash(git status:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(git stash:*)"
     ]
   }
 }
