@@ -1,8 +1,8 @@
 # Problem 1 - Amplifier Configurations
 
 > [!info] Exercise Files
-> - Problems: [31632-problems-intro.pdf](file:///C:/Users/Mads2/DTU/Obsidian/Courses/34655%20Integrated%20Analog%20Electronics%202/Exercises/Work/31632-problems-intro.pdf)
-> - Solutions: [31632-solution-intro.pdf](file:///C:/Users/Mads2/DTU/Obsidian/Courses/34655%20Integrated%20Analog%20Electronics%202/Exercises/Solutions/31632-solution-intro.pdf)
+> - Problems: [[31632-problems-intro.pdf]]
+> - Solutions: [[31632-solution-intro.pdf]]
 
 ## Overview
 
