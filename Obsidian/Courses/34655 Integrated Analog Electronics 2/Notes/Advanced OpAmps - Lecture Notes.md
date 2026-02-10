@@ -3,6 +3,9 @@
 **Lecturer:** Per B. Lynggaard
 **Date:** 2026-02-10
 
+> [!example] Related Exercises
+> - [[Problem 2 - Advanced OpAmps]]
+
 ---
 
 ## Topics Covered

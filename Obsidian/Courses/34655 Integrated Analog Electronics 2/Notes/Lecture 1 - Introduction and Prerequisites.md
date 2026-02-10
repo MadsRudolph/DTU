@@ -4,6 +4,9 @@
 **Lecturer:** Per B. Lynggaard
 **Date:** Week 6, Spring 2026
 
+> [!example] Related Exercises
+> - [[Problem 1 - Amplifier Configurations]]
+
 ---
 
 ## Course Overview

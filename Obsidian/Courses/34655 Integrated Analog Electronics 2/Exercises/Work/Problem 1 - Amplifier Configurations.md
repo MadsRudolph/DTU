@@ -3,6 +3,7 @@
 > [!info] Exercise Files
 > - Problems: [[31632-problems-intro.pdf]]
 > - Solutions: [[31632-solution-intro.pdf]]
+> - Related notes: [[Lecture 1 - Introduction and Prerequisites]]
 
 ## Overview
 
@@ -31,6 +32,8 @@ We calculate for each: output resistance $r_{out}$, voltage gain $A_v$, bandwidt
 ## Question 1: Common Source Stage
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the common source amplifier.
+>
+> See: [[Lecture 1 - Introduction and Prerequisites#Common Source Stage]]
 
 ### Circuit
 
@@ -73,6 +76,8 @@ The common source stage has the input signal applied to the gate, with the sourc
 ## Question 2: Cascode (Telescopic) Amplifier
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the cascode amplifier.
+>
+> See: [[Lecture 1 - Introduction and Prerequisites#Cascode Stage (Telescopic)]]
 
 ### Circuit
 
@@ -123,6 +128,8 @@ The cascode configuration dramatically increases output resistance by using the 
 ## Question 3: Two-Stage Cascade Amplifier
 
 > [!question] Calculate $r_{out}$, $A_v$, $f_{3dB}$, and $GBW$ for the cascade amplifier with $I_A/2$ per stage.
+>
+> See: [[Lecture 1 - Introduction and Prerequisites#Cascade Stages (Two CS in Series)]]
 
 ### Circuit
 
