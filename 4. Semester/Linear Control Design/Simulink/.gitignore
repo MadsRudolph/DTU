@@ -1,0 +1,4 @@
+# Simulink cache/generated files
+*.slxc
+*.slx.r2021a
+slprj/
