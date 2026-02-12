@@ -2,12 +2,16 @@
 
 > [!abstract] Exercise Overview
 > Select the gains of a P and PI controller for a DC motor system (voltage to position) using hand-tuning and the Ziegler-Nichols method.
-> Reference: [[Lesson 2 - Block Diagrams and Control Concepts]]
 
 > [!info] Files
-> - Simulink model: DC motor (voltage → angular position)
-> - MATLAB script: `Day2_HandTuning.m`
+> - Simulink model: [DC_motor_Ex_1.slx](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Simulink/Day2/DC_motor_Ex_1.slx)
+> - MATLAB script: [Day2_HandTuning.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Simulink/Day2/Day2_HandTuning.m)
 > - Tunable block: "P/PI controller" (`K_P` and `K_I_gain`)
+
+> [!example] Related Materials
+> - Lecture notes: [[Lesson 2 - Block Diagrams and Control Concepts]]
+> - Quiz: [[Quiz 1 - Block Diagrams and Control Concepts]]
+> - Previous exercise: [[Day 1 - MATLAB Exercise]]
 
 ---
 

@@ -5,6 +5,12 @@
 > - Data: [log.txt](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/log.txt)
 > - Exercises: [PDF]
 
+> [!example] Related Materials
+> - Next exercise: [[Day 2 - Hand-Tuning Exercise]]
+> - Lecture notes: [[Lesson 2 - Block Diagrams and Control Concepts]]
+> - Robot GUI: [[Regbot GUI]]
+> - Prerequisites: [[Pretest Answers]]
+
 
 ## Overview
 

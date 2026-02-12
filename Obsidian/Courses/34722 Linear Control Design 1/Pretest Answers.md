@@ -1,5 +1,11 @@
 # Pretest - 34722 Linear Control Design 1
 
+> [!example] Related Materials
+> - Lecture notes: [[Lesson 2 - Block Diagrams and Control Concepts]]
+> - MATLAB basics: [[Day 1 - MATLAB Exercise]]
+
+---
+
 ## Math
 
 ### Question 1

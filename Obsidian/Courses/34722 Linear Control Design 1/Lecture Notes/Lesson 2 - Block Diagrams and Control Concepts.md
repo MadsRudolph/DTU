@@ -7,8 +7,10 @@
 
 > [!example] Related Materials
 > - Slides: [[2_block_control_concept.pdf]]
-> - Exercise: Hand Tuning + Ziegler-Nichols
+> - Exercise: [[Day 2 - Hand-Tuning Exercise]]
+> - Quiz: [[Quiz 1 - Block Diagrams and Control Concepts]]
 > - Previous: [[Day 1 - MATLAB Exercise]]
+> - Prerequisites: [[Pretest Answers]]
 
 ---
 
