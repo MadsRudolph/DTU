@@ -3,4 +3,4 @@
 	url = https://github.com/MadsRudolph/SPICEPilot.git
 [submodule "4. Semester/Digital Systems Design/team"]
 	path = 4. Semester/Digital Systems Design/team
-	url = https://github.com/MadsRudolph/digital-systems-design.git
+	url = git@github.com:gigurd/Design-of-digital-systems-62711.git

@@ -1,7 +1,7 @@
 # Team Repo Workflow
 
 The shared team repo lives at `team/` as a git submodule pointing to:
-https://github.com/MadsRudolph/digital-systems-design
+https://github.com/gigurd/Design-of-digital-systems-62711
 
 ## First-Time Setup (after cloning DTU repo)
 
@@ -40,30 +40,25 @@ git commit -m "Update team submodule"
 git push
 ```
 
-### Add a collaborator
-
-```bash
-gh repo edit MadsRudolph/digital-systems-design --add-collaborator <github-username>
-```
-
 ## Repo Structure
 
 ```
 team/
-├── Adder_Test/          <- Vivado projects (source + TCL scripts only)
-│   ├── create_project.tcl
-│   ├── src/
-│   └── sim/
-└── VHDL/
-    ├── Sources/         <- Shared VHDL source files
-    └── Constraints/     <- Board constraint files (.xdc)
+└── PWA/                         <- Vivado project (PWA - ALU/DataPath)
+    ├── Nexys_4_DDR_Master.xdc   <- Board constraint file
+    ├── PWA.xpr                  <- Vivado 2025.2 project file
+    └── PWA.srcs/sources_1/new/
+        └── TOP_MODUL.vhd       <- Top-level entity (skeleton)
 ```
 
-## Vivado Projects
+## Vivado Project
 
-Vivado generated files (`.xpr`, `.cache/`, `.sim/`, `.runs/`) are gitignored.
-To open a project, source its TCL script in the Vivado Tcl Console:
+- **Board:** Nexys 4 DDR (Artix-7 xc7a100t)
+- **Vivado:** 2025.2
+- **Top module:** TOP_MODUL
 
-```tcl
-source {C:/Users/Mads2/digital-systems-design/Adder_Test/create_project.tcl}
+Open the project in Vivado:
+
+```
+File → Open Project → team/PWA/PWA.xpr
 ```

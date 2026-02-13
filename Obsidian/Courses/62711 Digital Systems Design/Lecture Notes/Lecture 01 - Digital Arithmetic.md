@@ -34,6 +34,8 @@
 >
 > Groups of 4 students with 2x2 subgroups. One development board per 2 students.
 
+![[attachments/lecture01/slide_07.png]]
+
 ---
 
 ## VHDL Design
@@ -292,6 +294,8 @@
 
 ### Full-Adder
 
+![[attachments/lecture01/slide_15.png]]
+
 > [!note] Full-Adder (FA)
 > Similar to a half-adder but with a **carry-in bit** (Z/Cin) from lower stages. Computes a **sum** (S) and a **carry** (C).
 >
@@ -356,6 +360,8 @@
 
 ### 4-bit Ripple-Carry Adder
 
+![[attachments/lecture01/slide_17.png]]
+
 > [!note] Ripple-Carry Adder (RCA)
 > Chains multiple full adders together. The **carry out** of cell $i$ becomes the **carry in** of cell $i+1$.
 >
@@ -407,6 +413,8 @@
 
 ### Using Complements for Subtraction
 
+![[attachments/lecture01/slide_19.png]]
+
 > [!important] 2's Complement Approach
 > Subtraction $A - B$ can be done by **addition of the 2's complement**:
 >
@@ -417,6 +425,8 @@
 > This allows shared, simpler logic for **both addition and subtraction**!
 
 ### 2's Complement Adder/Subtractor Circuit
+
+![[attachments/lecture01/slide_21.png]]
 
 > [!note] Combined Adder/Subtractor
 > A single circuit computes both $A + B$ and $A - B$ using a control signal $S$:
@@ -468,6 +478,8 @@
 
 ## Introduction to PWA -- ALU Design
 
+![[attachments/lecture01/slide_25.png]]
+
 > [!important] Arithmetic Circuit Block Diagram (Function Unit)
 > The arithmetic circuit is part of the **Function Unit (FU)** in the ALU:
 >
@@ -482,9 +494,13 @@
 
 ### D Flip-Flop with Asynchronous Reset and Enable
 
+![[attachments/lecture01/slide_27.png]]
+
 > [!note] D-FF Reset Types
 > - **Asynchronous reset:** Output goes to 0 **immediately** when reset is asserted, regardless of clock
 > - **Synchronous reset:** Output goes to 0 only on the **next clock edge** after reset is asserted
+
+![[attachments/lecture01/slide_28.png]]
 
 > [!example] D Flip-Flop with Async Reset and Enable (VHDL)
 > ```vhdl
@@ -547,6 +563,8 @@
 >     end generate;
 > end architecture;
 > ```
+
+![[attachments/lecture01/slide_33.png]]
 
 > [!example] 16x8-bit Register File (for generate)
 > The register file uses nested `for...generate` to create 16 registers of 8 bits each:
