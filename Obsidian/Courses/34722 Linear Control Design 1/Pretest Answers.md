@@ -1,3 +1,9 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: exercise
+tags: [LCD, exercise]
+---
 # Pretest - 34722 Linear Control Design 1
 
 > [!example] Related Materials
@@ -197,3 +203,12 @@ From the Bode plot at ω = 15 rad/s:
 - **Line 6:** Creates a shifted sinusoid with amplitude 0.7 and offset 0.4
 - **Line 7:** `y(1:10)` accesses elements 1-10 (MATLAB is 1-indexed), sets them to 0.4
 - **Line 4:** `hold on` allows multiple plots on same axes. Without it, the second `plot` command would overwrite the first, leaving only the sine curve
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> &nbsp;

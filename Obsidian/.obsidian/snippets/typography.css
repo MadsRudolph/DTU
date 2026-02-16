@@ -1,0 +1,85 @@
+/* ============================================================
+   TYPOGRAPHY & VISUAL POLISH
+   General improvements for readability and aesthetics
+   ============================================================ */
+
+/* --- Callout refinements --- */
+.callout {
+    margin: 0.8em 0;
+    border-radius: 6px;
+}
+
+.callout-title {
+    font-weight: 600;
+    font-size: 0.95em;
+    letter-spacing: 0.02em;
+}
+
+.callout-content {
+    font-size: 0.95em;
+}
+
+/* Nested callouts — slightly tighter */
+.callout .callout {
+    margin: 0.4em 0;
+}
+
+/* --- Horizontal rule styling --- */
+.markdown-rendered hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(168, 153, 132, 0.5) 20%,
+        rgba(168, 153, 132, 0.5) 80%,
+        transparent
+    );
+    margin: 2em 0;
+}
+
+/* --- Wider content for reading --- */
+.markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+    max-width: 900px;
+}
+
+/* --- Table improvements --- */
+.markdown-rendered table {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* --- Checkbox styling (task lists) --- */
+.markdown-rendered .task-list-item-checkbox:checked {
+    background-color: #b8bb26;
+    border-color: #b8bb26;
+}
+
+/* --- Tag pills --- */
+.tag {
+    font-size: 0.85em;
+    padding: 0.15em 0.5em;
+    border-radius: 1em;
+}
+
+/* --- Blockquote left border --- */
+.markdown-rendered blockquote {
+    border-left: 3px solid #83a598;
+    padding-left: 1em;
+}
+
+/* --- Inline code readability --- */
+.markdown-rendered code {
+    padding: 0.15em 0.35em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+/* --- Wiki-link hover effect --- */
+.internal-link:hover {
+    text-decoration-color: #8ec07c;
+}
+
+/* --- Dataview table header accents --- */
+.dataview.table-view-table thead tr {
+    border-bottom: 2px solid rgba(250, 189, 47, 0.4);
+}

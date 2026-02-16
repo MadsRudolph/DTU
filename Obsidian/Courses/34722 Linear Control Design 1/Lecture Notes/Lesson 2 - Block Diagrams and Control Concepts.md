@@ -1,3 +1,10 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: lecture-note
+week: 6
+tags: [LCD, lecture]
+---
 # Lesson 2 - Block Diagrams and Control Concepts
 
 > [!abstract] Lecture Overview
@@ -325,3 +332,12 @@ Uses the system in closed-loop with only proportional control:
 5. **PI-control** combines both — tune $K_p$ first, then add $\tau_i$
 6. **Ziegler-Nichols** gives systematic initial tuning parameters (open-loop or closed-loop method)
 7. All tuning methods are starting points — real systems require iterative refinement
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> &nbsp;

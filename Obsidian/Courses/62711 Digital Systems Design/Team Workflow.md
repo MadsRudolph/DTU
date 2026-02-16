@@ -1,3 +1,9 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: workflow
+tags: [DSD, workflow]
+---
 # Team Repo Workflow
 
 The shared team repo lives at `team/` as a git submodule pointing to:
@@ -5,7 +11,7 @@ https://github.com/gigurd/Design-of-digital-systems-62711
 
 ## First-Time Setup (after cloning DTU repo)
 
-```bash
+```
 git submodule update --init
 ```
 
@@ -62,3 +68,12 @@ Open the project in Vivado:
 ```
 File → Open Project → team/PWA/PWA.xpr
 ```
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> &nbsp;

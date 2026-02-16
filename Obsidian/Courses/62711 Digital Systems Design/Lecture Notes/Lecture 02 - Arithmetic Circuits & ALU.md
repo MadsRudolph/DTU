@@ -1,3 +1,11 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: lecture-note
+week: 7
+date: 2026-02-11
+tags: [DSD, lecture]
+---
 # Lecture 02 - Arithmetic Circuits & ALU
 
 > [!info] Course Information
@@ -408,3 +416,12 @@
 > 5. **Decoder expansion**: build large decoders (4-to-16) by cascading smaller decoders with enable
 > 6. **MUX = Decoder + AND-OR** network; scale by using wider gates for n-bit data
 > 7. **`for...generate`** in VHDL creates iterative hardware structures at synthesis time
+
+---
+
+> [!nav]
+> [[Lecture 01 - Digital Arithmetic|← Lecture 01]]
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> &nbsp;

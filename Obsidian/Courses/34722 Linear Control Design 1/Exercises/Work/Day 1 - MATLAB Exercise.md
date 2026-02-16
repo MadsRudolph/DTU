@@ -1,16 +1,15 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: exercise
+tags: [LCD, exercise]
+---
 # Day 1 - MATLAB Exercise
 
 > [!info] Files
-> - Script: [FirstEXMatlab_LCD1.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day1/FirstEXMatlab_LCD1.m)
-> - Data: [log.txt](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day1/log.txt)
-> - Simulink: [Lecture_1.slx](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day1/Lecture_1.slx)
-> - Solutions: [Day1_Matlab_LCD1_Solutions.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day1/Solutions/Day1_Matlab_LCD1_Solutions.m) | [Simulink_exercise_Solution.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day1/Solutions/Simulink_exercise_Solution.m)
-
-> [!example] Related Materials
-> - Next exercise: [[Day 2 - Hand-Tuning Exercise]]
-> - Lecture notes: [[Lesson 2 - Block Diagrams and Control Concepts]]
-> - Robot GUI: [[Regbot GUI]]
-> - Prerequisites: [[Pretest Answers]]
+> - Script: [FirstEXMatlab_LCD1.m](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/FirstEXMatlab_LCD1.m)
+> - Data: [log.txt](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Matlab/log.txt)
+> - Exercises: [PDF]
 
 
 ## Overview
@@ -144,3 +143,12 @@ wl = data_matrix(:, 12);  % Left wheel velocity
 | `subplot(r, c, i)` | Create subplot grid |
 | `laplace(f)` | Laplace transform |
 | `ilaplace(F)` | Inverse Laplace transform |
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> [[Day 2 - Hand-Tuning Exercise|Day 2 →]]

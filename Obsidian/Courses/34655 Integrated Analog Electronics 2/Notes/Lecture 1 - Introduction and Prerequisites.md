@@ -1,3 +1,10 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: lecture-note
+week: 5
+tags: [IAE2, lecture]
+---
 # Lecture 1 - Introduction and Prerequisites
 
 **Course:** 34655 Integrated Analog Electronics 2
@@ -440,3 +447,12 @@ Initial W/L estimates         →     Optimized W/L values
 
 **This course:** Theory + Simulations in Cadence
 **Next course (34656):** Layout, DRC, LVS, Parasitic extraction, Fabrication
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> [[Advanced OpAmps - Lecture Notes|Advanced OpAmps →]]

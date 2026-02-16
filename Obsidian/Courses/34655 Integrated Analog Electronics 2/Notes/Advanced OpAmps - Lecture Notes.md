@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: lecture-note
+tags: [IAE2, lecture]
+---
 # Advanced OpAmps - Lecture Notes
 **Course:** 34655 Integrated Analog Electronics 2
 **Lecturer:** Per B. Lynggaard
@@ -372,3 +378,12 @@ The CMFB circuit:
 5. **Fully differential outputs** suppress common-mode noise and even-order distortion but **require CMFB** to set the output common-mode level
 
 6. **All internal nodes should have low impedance** so the dominant pole comes from the output load, not internal nodes (avoids Miller effect issues)
+
+---
+
+> [!nav]
+> [[Lecture 1 - Introduction and Prerequisites|← Lecture 1]]
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> [[Course Recap - Understanding Analog IC Design|Course Recap →]]

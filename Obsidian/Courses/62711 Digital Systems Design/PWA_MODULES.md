@@ -1,3 +1,9 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: reference
+tags: [DSD, reference, PWA]
+---
 # PWA Module Overview
 
 Overview of all VHDL modules in the PWA project and their origin.
@@ -81,3 +87,12 @@ Not part of the PWA spec, but needed for the Nexys 4 DDR board.
 - **All spec entities are combinatorial** (no process statements) except RegisterR16 which uses processes for register transfer.
 - **Flags**: V (overflow = C8 xor C7), C (carry-out C8), N (sign = J7), Z (zero = NOR of all bits).
 - **FS encoding**: FS3,FS2 = 00/01 → ALU (MF=0), FS3,FS2 = 10 → logic (MF=0), FS3,FS2 = 11 → Shifter (MF=1).
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> &nbsp;

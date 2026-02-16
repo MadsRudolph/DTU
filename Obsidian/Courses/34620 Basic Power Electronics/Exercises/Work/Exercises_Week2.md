@@ -1,3 +1,10 @@
+---
+course: "34620"
+course-name: "Basic Power Electronics"
+type: exercise
+week: 7
+tags: [PE, exercise]
+---
 # 34620 Power Electronics - Exercises Week 2
 
 ## Exercise 1.2: Low Voltage Microcontroller Supply
@@ -223,3 +230,12 @@ $$V_{avg} = \boxed{0}$$
 The RMS is independent of frequency for the same waveform shape:
 
 $$V_{RMS} = \boxed{\frac{\hat{V}}{\sqrt{3}}}$$
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34620 Basic Power Electronics|34620 Home]]
+>
+> &nbsp;

@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: exercise
+tags: [IAE2, exercise]
+---
 # Problem 1 - Amplifier Configurations
 
 > [!info] Exercise Files
@@ -212,3 +218,12 @@ Two common source stages in series. To maintain the same total current as the ca
 > | GBW (single stage) | $GBW = \frac{g_m}{2\pi C_L}$ |
 > | $g_m$ scaling | $g_m \propto \sqrt{I_D}$ |
 > | $r_{ds}$ scaling | $r_{ds} \propto \frac{1}{I_D}$ |
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> [[Problem 2 - Advanced OpAmps|Problem 2 →]]

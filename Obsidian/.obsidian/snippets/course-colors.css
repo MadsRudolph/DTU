@@ -1,0 +1,141 @@
+/* ============================================================
+   COURSE-SPECIFIC COLORS & CUSTOM CALLOUTS
+   Each course gets a unique accent from the gruvbox palette
+   ============================================================ */
+
+/* --- Custom callout: course-card (for dashboard) --- */
+.callout[data-callout="course-card"] {
+    --callout-color: 131, 165, 152;
+    --callout-icon: lucide-graduation-cap;
+    border-left-width: 4px;
+}
+
+/* --- Per-course card variants --- */
+/* 62711 DSD — blue (FPGA / digital) */
+.callout[data-callout="course-62711"] {
+    --callout-color: 131, 165, 152;
+    --callout-icon: lucide-cpu;
+}
+
+/* 34315 IoT — aqua (network / connectivity) */
+.callout[data-callout="course-34315"] {
+    --callout-color: 142, 192, 124;
+    --callout-icon: lucide-wifi;
+}
+
+/* 34620 PE — orange (power / energy) */
+.callout[data-callout="course-34620"] {
+    --callout-color: 254, 128, 25;
+    --callout-icon: lucide-zap;
+}
+
+/* 34655 IAE2 — purple (analog / IC) */
+.callout[data-callout="course-34655"] {
+    --callout-color: 211, 134, 155;
+    --callout-icon: lucide-circuit-board;
+}
+
+/* 34722 LCD — yellow (control / feedback) */
+.callout[data-callout="course-34722"] {
+    --callout-color: 250, 189, 47;
+    --callout-icon: lucide-sliders-horizontal;
+}
+
+/* --- Custom callout: deadline --- */
+.callout[data-callout="deadline"] {
+    --callout-color: 251, 73, 52;
+    --callout-icon: lucide-alarm-clock;
+}
+
+/* --- Custom callout: progress --- */
+.callout[data-callout="progress"] {
+    --callout-color: 142, 192, 124;
+    --callout-icon: lucide-trending-up;
+}
+
+/* --- Custom callout: tools --- */
+.callout[data-callout="tools"] {
+    --callout-color: 250, 189, 47;
+    --callout-icon: lucide-wrench;
+}
+
+/* --- Custom callout: nav (page navigation) --- */
+.callout[data-callout="nav"] {
+    --callout-color: 168, 153, 132;
+    --callout-icon: lucide-compass;
+    border: 1px solid rgba(168, 153, 132, 0.3);
+    border-left-width: 1px;
+    border-radius: 8px;
+    background-color: rgba(60, 56, 54, 0.4);
+    margin-top: 2em;
+}
+
+.callout[data-callout="nav"] .callout-title {
+    display: none;
+}
+
+.callout[data-callout="nav"] .callout-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4em 0.2em;
+    gap: 1em;
+}
+
+.callout[data-callout="nav"] .callout-content p {
+    margin: 0;
+    flex: 1;
+}
+
+.callout[data-callout="nav"] .callout-content p:first-child {
+    text-align: left;
+}
+
+.callout[data-callout="nav"] .callout-content p:nth-child(2) {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.callout[data-callout="nav"] .callout-content p:last-child {
+    text-align: right;
+}
+
+.callout[data-callout="nav"] .internal-link {
+    padding: 0.3em 0.6em;
+    border-radius: 6px;
+    background-color: rgba(168, 153, 132, 0.15);
+    transition: background-color 0.15s ease;
+    text-decoration: none;
+}
+
+.callout[data-callout="nav"] .internal-link:hover {
+    background-color: rgba(168, 153, 132, 0.3);
+}
+
+/* --- Course home page banner --- */
+/* Use cssclass: course-home in frontmatter */
+.course-home .inline-title {
+    font-size: 2em;
+    padding-bottom: 0.3em;
+    border-bottom: 3px solid var(--text-accent);
+}
+
+/* Accent stripe at top of course pages */
+.course-home .markdown-preview-view::before,
+.course-home .markdown-rendered::before {
+    content: "";
+    display: block;
+    height: 4px;
+    margin: -16px -16px 16px -16px;
+    border-radius: 0 0 2px 2px;
+    background: linear-gradient(90deg,
+        #fb4934,
+        #fe8019,
+        #fabd2f,
+        #b8bb26,
+        #83a598,
+        #d3869b
+    );
+}

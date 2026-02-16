@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: lecture-note
+tags: [IAE2, lecture]
+---
 # Course Recap - Understanding Analog IC Design
 
 **Course:** 34655 Integrated Analog Electronics 2
@@ -642,3 +648,12 @@ This capacitor appears **multiplied by the gain** at the first stage (Miller eff
 
 > [!quote] The Key Insight
 > Everything in analog design is a trade-off. Your job is to find the best compromise for your specifications. There's no "best" topology - only the best one for your application.
+
+---
+
+> [!nav]
+> [[Advanced OpAmps - Lecture Notes|← Advanced OpAmps]]
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> &nbsp;

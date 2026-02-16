@@ -1,3 +1,9 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: exercise
+tags: [DSD, exercise]
+---
 # Opg 2 - Digital Arithmetic
 
 > [!abstract] Exercise Overview
@@ -398,3 +404,12 @@ $C_{out} = 1,\ C_{out-1} = 0 \Rightarrow$ **Overflow = 1**
 | 2.5b | $11 + (-26)$ | -15 | No |
 | 2.5c | $-15 - (-18)$ | +3 | No |
 | 2.5d | $-18 - 21$ | -39 (overflow!) | **Yes** |
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> &nbsp;

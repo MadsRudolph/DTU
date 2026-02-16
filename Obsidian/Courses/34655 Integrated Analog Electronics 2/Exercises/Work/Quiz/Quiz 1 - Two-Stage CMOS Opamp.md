@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: quiz
+tags: [IAE2, quiz]
+---
 # Quiz 1 - Two-Stage CMOS Opamp
 
 ## Question 1 (1 point)
@@ -265,3 +271,12 @@
 > | 5 | Dominant + non-dominant pole + RHP zero | Complete response |
 > | 6 | -1.2 V | $V_{in,min} = V_S + V_{GS}$ |
 > | 7 | 10 μA | $I_D = \frac{1}{2}\mu C_{ox}\frac{W}{L}V_{OV}^2$ |
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> [[Quiz 2 - OpAmp Building Blocks|Quiz 2 →]]

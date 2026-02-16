@@ -1,3 +1,8 @@
 {
-  "cssTheme": "Obsidian gruvbox"
+  "cssTheme": "Obsidian gruvbox",
+  "enabledCssSnippets": [
+    "dashboard",
+    "course-colors",
+    "typography"
+  ]
 }

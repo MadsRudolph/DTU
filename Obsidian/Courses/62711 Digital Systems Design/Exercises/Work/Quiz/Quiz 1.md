@@ -1,3 +1,9 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: quiz
+tags: [DSD, quiz]
+---
 # Quiz - VHDL Digital Design
 
 ## Question 1 (1 point)
@@ -311,3 +317,12 @@
 > |7|Binary addition|01011100|Carry propagation|
 > |8|2's complement|10101011|Invert + Add 1|
 > |9|XOR+AND circuit|Half adder|No carry input|
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> [[Quiz 2|Quiz 2 →]]

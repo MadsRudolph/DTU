@@ -1,3 +1,11 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: lecture-note
+week: 6
+date: 2026-02-03
+tags: [DSD, lecture]
+---
 # Lecture 01 - Digital Arithmetic
 
 > [!info] Course Information
@@ -651,3 +659,12 @@
 > 5. **VHDL** supports multiple description styles: structural (gate-level), dataflow, and behavioral
 > 6. **Generics** and **for...generate** enable scalable, parameterized designs
 > 7. The course project builds a complete microprocessor: ALU (PWA) $\rightarrow$ Control Unit (PWB) $\rightarrow$ Full uP (PWF)
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> [[Lecture 02 - Arithmetic Circuits & ALU|Lecture 02 →]]

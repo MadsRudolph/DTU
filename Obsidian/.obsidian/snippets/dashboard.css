@@ -1,0 +1,38 @@
+/* ============================================================
+   DASHBOARD LAYOUT — Home.md
+   Activate with cssclass: dashboard in frontmatter
+   ============================================================ */
+
+/* Style internal links inside the dashboard as cards */
+.dashboard .markdown-preview-view .callout[data-callout="course-card"],
+.dashboard .markdown-rendered .callout[data-callout="course-card"] {
+    border-radius: 8px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    border-left-width: 4px;
+}
+
+.dashboard .markdown-preview-view .callout[data-callout="course-card"]:hover,
+.dashboard .markdown-rendered .callout[data-callout="course-card"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Dashboard heading styles */
+.dashboard .markdown-preview-view h1,
+.dashboard .markdown-rendered h1 {
+    text-align: center;
+    margin-bottom: 0.2em;
+}
+
+/* Recent activity section — tighter spacing in dataview tables */
+.dashboard .dataview.table-view-table {
+    font-size: 0.9em;
+}
+
+.dashboard .dataview.table-view-table td:first-child {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

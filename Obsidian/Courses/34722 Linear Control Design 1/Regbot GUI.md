@@ -1,3 +1,9 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: reference
+tags: [LCD, reference]
+---
 # Regbot GUI
 
 > [!example] Related Materials
@@ -47,3 +53,12 @@ The folder contains 23 Python files:
 ## More Info
 
 See the [Regbot Wiki](https://rsewiki.electro.dtu.dk/index.php?title=Regbot_GUI) for full documentation.
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> &nbsp;

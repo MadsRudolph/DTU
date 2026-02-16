@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: exercise
+tags: [IAE2, exercise]
+---
 # Problem 2 - Advanced OpAmps
 
 > [!info] Exercise Files
@@ -580,3 +586,12 @@ $$I_{total} = I_b + K \cdot I_b = I_b(1 + K) = 75\ \mu\text{A} \times 4$$
 > | Feedback bandwidth | $\omega_{3dB} = \beta \cdot \omega_{ta}$ |
 > | Transconductance | $g_m = 2I_D/V_{eff} = I_{tail}/V_{eff}$ |
 > | Current mirror OTA $G_m$ | $G_{m,eff} = K \cdot g_{m1}$ |
+
+---
+
+> [!nav]
+> [[Problem 1 - Amplifier Configurations|← Problem 1]]
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> &nbsp;

@@ -1,3 +1,9 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: quiz
+tags: [LCD, quiz]
+---
 # Quiz 1 - Block Diagrams and Control Concepts
 
 > [!info] Related Notes
@@ -172,3 +178,12 @@
 > | Steady-state error (P-ctrl) | $e = \frac{R}{1 + GK}$ |
 > | RPM to rad/s | $\omega = \text{RPM} \times 2\pi / 60$ |
 > | Linear velocity | $v = \omega \cdot r$ |
+
+---
+
+> [!nav]
+> &nbsp;
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> &nbsp;

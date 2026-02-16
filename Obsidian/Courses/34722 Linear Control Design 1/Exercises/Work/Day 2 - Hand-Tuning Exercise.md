@@ -1,3 +1,9 @@
+---
+course: "34722"
+course-name: "Linear Control Design 1"
+type: exercise
+tags: [LCD, exercise]
+---
 # Day 2 - Hand-Tuning Exercise
 
 > [!abstract] Exercise Overview
@@ -178,3 +184,12 @@ With $K_u = 0.0483$ and $P_u = 1.0$ s, the script auto-calculates:
 | 3b | Z-N P | OFF | Yes | N/A | ~5-10% overshoot, settles ~6s |
 | 3c | Z-N P | ON | Until t=10s | Cannot reject | Drifts to ~2.3 rad (1.3 rad error) |
 | 3d | Z-N PI | ON | Yes | Returns to ref ~20s | ~2.7 rad spike, faster rejection than hand-tuned |
+
+---
+
+> [!nav]
+> [[Day 1 - MATLAB Exercise|← Day 1]]
+>
+> [[34722 Linear Control Design 1|34722 Home]]
+>
+> &nbsp;

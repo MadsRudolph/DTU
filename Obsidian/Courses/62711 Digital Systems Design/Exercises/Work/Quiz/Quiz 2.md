@@ -1,3 +1,9 @@
+---
+course: "62711"
+course-name: "Digital Systems Design"
+type: quiz
+tags: [DSD, quiz]
+---
 # Quiz 2 - Number Systems & Digital Circuits
 
 ## Question 1 (1 point)
@@ -411,3 +417,12 @@
 > |One's complement|Invert for negative|-127 to +127|±0|
 > |Two's complement|Invert + 1|-128 to +127|Unique|
 > |Biased (excess-127)|Value + 127|-127 to +128|01111111|
+
+---
+
+> [!nav]
+> [[Quiz 1|← Quiz 1]]
+>
+> [[62711 Digital Systems Design|62711 Home]]
+>
+> &nbsp;

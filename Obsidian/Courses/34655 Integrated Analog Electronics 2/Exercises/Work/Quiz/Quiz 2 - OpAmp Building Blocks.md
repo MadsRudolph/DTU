@@ -1,3 +1,9 @@
+---
+course: "34655"
+course-name: "Integrated Analog Electronics 2"
+type: quiz
+tags: [IAE2, quiz]
+---
 # Quiz 2 - OpAmp Building Blocks
 
 > [!info] Related Notes
@@ -286,3 +292,12 @@
 > | Differential gain | $A_v = g_m \cdot r_{out}$ |
 > | PMOS gate voltage | $V_G = V_{DD} - V_{SG} = V_{DD} - (\lvert V_t \rvert + V_{eff})$ |
 > | Current-Veff relation | $I_D \propto V_{eff}^2$ so $V_{eff} \propto \sqrt{I_D}$ |
+
+---
+
+> [!nav]
+> [[Quiz 1 - Two-Stage CMOS Opamp|← Quiz 1]]
+>
+> [[34655 Integrated Analog Electronics 2|34655 Home]]
+>
+> &nbsp;
