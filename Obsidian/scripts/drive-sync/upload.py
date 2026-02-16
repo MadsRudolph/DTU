@@ -56,8 +56,21 @@ def save_manifest(repo_root: Path, manifest: dict):
 
 
 def get_manifest_paths(manifest: dict) -> set:
-    """Get all paths currently in the manifest."""
-    return {entry["path"] for entry in manifest.get("files", [])}
+    """Get all paths currently in the manifest (normalized for comparison)."""
+    paths = set()
+    for entry in manifest.get("files", []):
+        path = entry["path"]
+        paths.add(path)
+        # Also add the mojibake form (UTF-8 bytes read as Latin-1) so files
+        # on disk with garbled Danish chars (LÃ¸sning) match manifest (Løsning)
+        try:
+            paths.add(path.encode('utf-8').decode('latin-1'))
+        except (UnicodeDecodeError, UnicodeEncodeError):
+            pass
+        # And NFC/NFD forms
+        paths.add(unicodedata.normalize("NFC", path))
+        paths.add(unicodedata.normalize("NFD", path))
+    return paths
 
 
 def find_large_files(repo_root: Path, manifest_paths: set) -> list:
@@ -176,6 +189,7 @@ def rebuild_manifest(repo_root: Path) -> int:
 
     extensions = LARGE_FILE_EXTENSIONS
     new_files = []
+    seen_normalized = set()
 
     for root, dirs, files in os.walk(repo_root):
         if ".git" in dirs:
@@ -191,10 +205,20 @@ def rebuild_manifest(repo_root: Path) -> int:
             filepath = Path(root) / filename
             rel_path = filepath.relative_to(repo_root).as_posix()
 
-            # Try both NFC and NFD normalization to find match
+            # Deduplicate: skip mojibake variants of already-seen paths
             nfc_key = unicodedata.normalize("NFC", rel_path.lower())
-            nfd_key = unicodedata.normalize("NFD", rel_path.lower())
+            if nfc_key in seen_normalized:
+                continue
+            seen_normalized.add(nfc_key)
 
+            # Also mark the mojibake-decoded form as seen
+            try:
+                decoded = rel_path.encode('latin-1').decode('utf-8')
+                seen_normalized.add(unicodedata.normalize("NFC", decoded.lower()))
+            except (UnicodeDecodeError, UnicodeEncodeError):
+                pass
+
+            nfd_key = unicodedata.normalize("NFD", rel_path.lower())
             drive_entry = drive_map.get(nfc_key) or drive_map.get(nfd_key)
 
             if drive_entry:
