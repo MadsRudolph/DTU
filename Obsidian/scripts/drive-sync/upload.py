@@ -108,7 +108,18 @@ def upload_file_to_drive(repo_root: Path, rel_path: str) -> bool:
     ]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
-    return result.returncode == 0
+    if result.returncode != 0:
+        return False
+
+    # Set "Anyone with the link" sharing so gdown can download on other machines
+    link_cmd = [
+        RCLONE, "link",
+        f"gdrive:{rel_path}",
+        "--drive-root-folder-id", DRIVE_FOLDER_ID,
+    ]
+    subprocess.run(link_cmd, capture_output=True, text=True)
+
+    return True
 
 
 def normalize_path_key(path: str) -> str:
