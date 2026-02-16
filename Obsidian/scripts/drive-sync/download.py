@@ -9,7 +9,8 @@ Usage:
     python download.py --force      # Re-download all files even if they exist
 
 Requirements:
-    pip install gdown requests
+    rclone (configured with 'gdrive' remote)
+    OR pip install gdown requests (fallback, requires public sharing)
 """
 
 # Enable UTF-8 mode on Windows for proper handling of Danish characters (ø, æ, å)
@@ -25,22 +26,41 @@ if sys.platform == "win32":
 
 import argparse
 import json
-import os
-import sys
+import shutil
+import subprocess
 import unicodedata
 from pathlib import Path
 
+from config import DRIVE_FOLDER_ID
+
+# Try to find rclone
+def find_rclone() -> str | None:
+    """Find rclone executable."""
+    # Check PATH first
+    rclone = shutil.which("rclone")
+    if rclone:
+        return rclone
+
+    # Check known install locations on Windows
+    known_paths = [
+        Path.home() / "AppData/Local/Microsoft/WinGet/Packages",
+    ]
+    for base in known_paths:
+        if base.exists():
+            for match in base.rglob("rclone.exe"):
+                return str(match)
+
+    return None
+
+
+RCLONE = find_rclone()
+
+# gdown is optional fallback
 try:
     import gdown
+    HAS_GDOWN = True
 except ImportError:
-    print("Error: gdown not installed. Run: pip install gdown")
-    sys.exit(1)
-
-try:
-    import requests
-except ImportError:
-    print("Error: requests not installed. Run: pip install requests")
-    sys.exit(1)
+    HAS_GDOWN = False
 
 
 def get_repo_root() -> Path:
@@ -64,19 +84,44 @@ def load_manifest(repo_root: Path) -> dict:
         return json.load(f)
 
 
-def download_file(drive_id: str, dest_path: Path, expected_size: int = None) -> bool:
-    """Download a file from Google Drive."""
-    # Ensure parent directory exists
+def download_rclone(rel_path: str, dest_path: Path) -> bool:
+    """Download a file using rclone (authenticated)."""
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+
+    cmd = [
+        RCLONE, "copyto",
+        f"gdrive:{rel_path}",
+        str(dest_path),
+        "--drive-root-folder-id", DRIVE_FOLDER_ID,
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    return result.returncode == 0 and dest_path.exists()
+
+
+def download_gdown(drive_id: str, dest_path: Path) -> bool:
+    """Download a file using gdown (requires public sharing)."""
     dest_path.parent.mkdir(parents=True, exist_ok=True)
 
     url = f"https://drive.google.com/uc?id={drive_id}"
+    output = gdown.download(url, str(dest_path), quiet=True)
+    return output is not None
 
+
+def download_file(rel_path: str, drive_id: str, dest_path: Path, expected_size: int = None) -> bool:
+    """Download a file, trying rclone first, then gdown."""
     try:
         print(f"  Downloading: {dest_path.name}...", end=" ", flush=True)
-        output = gdown.download(url, str(dest_path), quiet=True)
 
-        if output is None:
-            print("FAILED (gdown returned None)")
+        ok = False
+        if RCLONE:
+            ok = download_rclone(rel_path, dest_path)
+
+        if not ok and HAS_GDOWN:
+            ok = download_gdown(drive_id, dest_path)
+
+        if not ok:
+            print("FAILED")
             return False
 
         # Verify size if provided
@@ -84,7 +129,7 @@ def download_file(drive_id: str, dest_path: Path, expected_size: int = None) -> 
             actual_size = dest_path.stat().st_size
             if actual_size != expected_size:
                 print(f"WARNING (size mismatch: expected {expected_size}, got {actual_size})")
-                return True  # Still consider it downloaded
+                return True
 
         print("OK")
         return True
@@ -101,6 +146,12 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Show what would be downloaded")
     args = parser.parse_args()
 
+    if not RCLONE and not HAS_GDOWN:
+        print("Error: Neither rclone nor gdown available.")
+        print("  Install rclone: winget install Rclone.Rclone")
+        print("  Or install gdown: pip install gdown")
+        sys.exit(1)
+
     repo_root = get_repo_root()
     manifest = load_manifest(repo_root)
 
@@ -109,7 +160,8 @@ def main():
         print("No files in manifest. Nothing to download.")
         return
 
-    print(f"Found {len(files)} files in manifest")
+    backend = "rclone" if RCLONE else "gdown"
+    print(f"Found {len(files)} files in manifest (using {backend})")
     print(f"Repository root: {repo_root}")
     print()
 
@@ -151,7 +203,7 @@ def main():
             print(f"  Would download: {rel_path}")
             continue
 
-        if download_file(drive_id, dest_path, expected_size):
+        if download_file(rel_path, drive_id, dest_path, expected_size):
             downloaded += 1
         else:
             failed += 1

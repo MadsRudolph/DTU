@@ -5,11 +5,13 @@ Large files (PDFs, slides, videos) are stored in Google Drive instead of Git to 
 ## After Cloning
 
 ```bash
-pip install -r Obsidian/scripts/drive-sync/requirements.txt
+winget install Rclone.Rclone          # If rclone not yet installed
+rclone config                         # Set up 'gdrive' remote (one-time)
 PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
 ```
 
-This downloads ~342 files (~1GB) from Google Drive.
+This downloads ~400 files (~1GB) from Google Drive using rclone (authenticated).
+Falls back to gdown if rclone is not available (requires public sharing).
 
 ## Adding New Files
 
@@ -80,14 +82,14 @@ New clone    ◄──download.py──  Google Drive
 
 1. `upload.py` uses rclone to upload files to Drive
 2. `manifest.json` maps local paths to Drive file IDs
-3. `download.py` uses gdown to fetch files by ID
+3. `download.py` uses rclone to download (falls back to gdown)
 4. `.gitignore` excludes large files from git
 
 ## Requirements
 
 - Python 3.8+
-- rclone (configured with `gdrive` remote) - for uploading
-- gdown (`pip install gdown`) - for downloading
+- rclone (configured with `gdrive` remote) - for uploading and downloading
+- gdown (`pip install gdown`) - optional fallback for downloading
 
 ## Troubleshooting
 
