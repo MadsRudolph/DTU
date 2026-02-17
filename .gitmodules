@@ -4,3 +4,6 @@
 [submodule "4. Semester/Digital Systems Design/team"]
 	path = 4. Semester/Digital Systems Design/team
 	url = git@github.com:gigurd/Design-of-digital-systems-62711.git
+[submodule "Obsidian/Courses/34655 Integrated Analog Electronics 2/Report"]
+	path = Obsidian/Courses/34655 Integrated Analog Electronics 2/Report
+	url = https://github.com/MadsRudolph/Design-af-opamp-analog-ic-2.git

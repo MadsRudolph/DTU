@@ -95,7 +95,7 @@ $$r_{in} = \frac{1}{g_{m1} + g_{ds1}} \parallel \frac{1}{g_{m2}}$$
 #### Saturation Conditions
 
 For a MOSFET to be saturated: $V_{DS} \geq V_{eff}$ (i.e., $V_{DS} \geq V_{GS} - V_t$)
-
+ 
 #### Analyzing the Input Side (M1 and M2)
 
 **Voltage at node between M1 and M2:**
