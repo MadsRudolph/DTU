@@ -82,6 +82,7 @@ SORT week ASC
 > - [[Lecture 1 - Introduction and Prerequisites|Lecture 1 -- Introduction and Prerequisites]]
 > - [[Advanced OpAmps - Lecture Notes|Advanced OpAmps]]
 > - [[Course Recap - Understanding Analog IC Design|Course Recap -- Analog IC Design]]
+> - [[QSPICE Schematic Generator Library|QSPICE Schematic Generator]]
 
 ---
 
@@ -137,6 +138,7 @@ SORT date ASC
 > [!tip] Simulation Tools
 > - **Cadence Virtuoso** -- IC design, schematic + simulation (X-FAB 0.18 μm CMOS process)
 > - **ngspice + PySpice** -- SPICE verification of paper design (files in `SPICEPilot/examples/3_34655_opamp/`)
+> - **QSPICE** -- [[QSPICE Schematic Generator Library|Python schematic generator]] (files in `SPICEPilot/qspice/`, example in `SPICEPilot/examples/4_qspice_opamp/`)
 > - [[LT_Spice_notest.pdf|LTSpice notes]]
 > - [[cmos-integrated-circuit-simulation-with-ltpice (1).pdf|CMOS IC Simulation with LTSpice]]
 
