@@ -10,12 +10,14 @@ tags: [IAE2, home]
 > [!info] Course Information
 > **Course:** 34655 Integrated Analog Electronics 2
 > **Semester:** Spring 2026 (4th semester)
-> **Lecturers:** TBD
+> **Lecturers:** Per Barner Lynggaard (plyn@dtu.dk), Christian (exercises)
 > **ECTS:** 5
-> **Textbook:** TBD
-> **Exam:** Written exam
-> **Teaching:** TBD
-> **Prerequisites:** 34636 Integrated Analog Electronics 1
+> **Textbook:** T.C. Carusone, D. Johns & K. Martin, *Analog Integrated Circuit Design* + Erik Bruun, *CMOS Analog IC Design: Fundamentals* & *Problems and Solutions*
+> **Exam:** No formal exam -- continuous assessment (7-step scale, internal examiner)
+> **Grading:** Report on OpAmp paper design (~33%), Poster (~33%), Quizzes (~34%)
+> **Teaching:** Tuesdays 13:00-17:00 (Lectures 13-15, Exercises 15-17), B421 A071
+> **Schedule:** Spring F4A
+> **Prerequisites:** 34630, 31631, 31606 (Knowledge of MOS transistor models and basic CMOS amplifier circuits)
 
 > [!tip] Quick Links
 > - [DTU Course Page](https://kurser.dtu.dk/course/34655)
@@ -25,9 +27,21 @@ tags: [IAE2, home]
 
 ## Roadmap
 
-| Wk | Date | Lec | Topic | Reading | Done |
-|---|---|---|---|---|---|
-| | | | *To be filled when schedule is available* | | |
+![[34655.png]]
+
+| Wk  | Date  | Lec | Topic                                                    | Reading                                    | Deliverables                       | Done  |
+| --- | ----- | --- | -------------------------------------------------------- | ------------------------------------------ | ---------------------------------- | ----- |
+| 6   | 03-02 | 1   | Introduction, pre-requisites                             | Carusone: Ch. 1, Bruun: Entire book        | Quiz 01                            | - [x] |
+| 7   | 10-02 | 2   | Advanced OpAmps (Two-stage Miller OTA, Folded Cascode, Current Mirror OTA, Full Diff. + CMFB) | Carusone: Ch. 6.3                          | Quiz 02                            | - [x] |
+| 8   | 17-02 | 3   | Group work: OpAmp paper design (theory)                  | Carusone: Ch. 5, 6.1-6.2, Bruun: Ch. 6-7  |                                    | - [ ] |
+| 9   | 24-02 | 4   | Noise (Time/Freq Domain, White/Pink, Sources, Circuits)  | Carusone: Ch. 3                            | **Report (27-02)**, Quiz 04        | - [ ] |
+| 10  | 03-03 | 5   | Layout (Fabrication, Junction Cap, Layout Rules, Matching) | Carusone: Ch. 2                            | Quiz 05                            | - [ ] |
+| 11  | 10-03 | 6   | Computer Exercise (Cadence)                              | Carusone: Ch. 5, 6.1-6.2                   |                                    | - [ ] |
+| 12  | 17-03 | 7   | Computer Exercise (Cadence)                              | Carusone: Ch. 5, 6.1-6.2                   |                                    | - [ ] |
+| 13  | 24-03 | 8   | Computer Exercise (Cadence)                              | Carusone: Ch. 5, 6.1-6.2                   |                                    | - [ ] |
+| 14  |       |     | *Påskeferie*                                             |                                            |                                    |       |
+| 15  | 07-04 | 9   | Data converters fundamentals (ADC/DAC, Nyquist converters) | Carusone: Ch. 15                           | Quiz 06                            | - [ ] |
+| 16  | 14-04 | 10  | DTU Chip Day / Poster presentation                       |                                            | **Poster (10-04)**                 | - [ ] |
 
 ---
 
@@ -79,6 +93,7 @@ SORT date ASC
 
 > [!tip] Solutions
 > - [[31632-solution-intro.pdf|Solution -- Introduction problems]]
+> - [[31632-solutions-avd-opamp.pdf|Solution -- ADV Opamps]]
 
 ---
 
@@ -92,7 +107,14 @@ SORT date ASC
 
 ## Literature & Resources
 
-*To be added as course materials become available.*
+> [!tip] Course Textbooks
+> - T.C. Carusone, D. Johns & K. Martin, *Analog Integrated Circuit Design*, 2nd ed. ([Polyteknisk Boghandel](https://www.polyteknisk.dk/home/dtu/detailed_view/1111118379455))
+> - Erik Bruun, *CMOS Analog IC Design: Fundamentals* ([Free - Bookboon](https://bookboon.com/da/cmos-analog-ic-design-fundamentals-ebook))
+> - Erik Bruun, *CMOS Analog IC Design: Problems and Solutions* ([Free - Bookboon](https://bookboon.com/da/cmos-analog-ic-design-problems-and-solutions-ebook))
+
+> [!tip] Simulation Tools
+> - Cadence Virtuoso (IC design, schematic + simulation)
+> - X-FAB 0.18 um CMOS process
 
 ---
 
