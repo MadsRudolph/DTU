@@ -82,9 +82,110 @@ The block diagram contains:
 
 ### 3.3 Reduction to Transfer Function
 
-For a standard feedback loop:
+The goal is to collapse an entire feedback block diagram into **one block** — a single transfer function $\frac{x}{r}$. There are two equivalent derivation methods.
 
-$$\frac{X(s)}{R(s)} = \frac{G(s) \cdot C(s)}{1 + G(s) \cdot C(s) \cdot H(s)}$$
+![[2_block_control_concept.pdf#page=14]]
+
+#### Method I — Direct Substitution (Slide 14)
+
+Consider the standard feedback loop:
+
+```
+r ──→ Σ(+,−) ──→ [C] ──→ [G] ──→ x
+         ↑                         │
+         └──────── [H] ◄──────────┘
+```
+
+We start at the **output** $x$ and trace backwards through the diagram, writing one equation that relates $x$ to $r$:
+
+**Step 1 — Express the output in terms of the input.** The output $x$ comes from the plant $G$. The input to $G$ comes from the controller $C$. The input to $C$ is the error signal, which is $r - Hx$ (reference minus feedback). Chaining these together:
+
+$$x = G \cdot C \cdot (r - Hx)$$
+
+Read this as: "the output = forward path $\times$ error signal." This single equation captures the entire diagram.
+
+**Step 2 — Expand the brackets.** Multiply out:
+
+$$x = GCr - GCHx$$
+
+Now we have $x$ on both sides — this always happens with feedback, because the output influences itself through the loop.
+
+**Step 3 — Collect all $x$ terms on one side.** Move the $GCHx$ term to the left:
+
+$$x + GCHx = GCr$$
+
+**Step 4 — Factor out $x$.**
+
+$$x(1 + GCH) = GCr$$
+
+**Step 5 — Divide both sides by $(1 + GCH)$ to isolate $\frac{x}{r}$:**
+
+$$\boxed{\frac{x}{r} = \frac{GC}{1 + GCH}}$$
+
+> [!tip] How to Read the Result
+> - **Numerator** $GC$ = the **forward path** — every block the signal passes through from the summing junction to the output ($C$ then $G$)
+> - **Denominator** $1 + GCH$ = $1 +$ the **loop gain** — the product of every block around the entire loop ($C \to G \to H$ and back to the summing junction)
+> - The "$1 +$" comes from collecting $x$ terms — it will always appear for negative feedback
+
+![[2_block_control_concept.pdf#page=15]]
+
+#### Method II — Via the Error Signal (Slide 15)
+
+Same diagram, but now we label the **error signal** $E$ at the output of the summing junction:
+
+```
+r ──→ Σ(+,−) ──→ E ──→ [C] ──→ [G] ──→ x
+         ↑                                │
+         └──────── [H] ◄─────────────────┘
+```
+
+Instead of one big equation, we write **two small equations** and combine them:
+
+**Equation ①** — From the forward path (output to error):
+
+$$x = GCE$$
+
+We can rearrange this to express $E$:
+
+$$E = \frac{x}{GC}$$
+
+This says: if the output is $x$, the error that caused it must have been $\frac{x}{GC}$.
+
+**Equation ②** — From the summing junction (error definition):
+
+$$E = r - xH$$
+
+This says: the error is the reference minus what the sensor feeds back.
+
+**Combine — substitute ① into ②.** Both expressions equal $E$, so:
+
+$$\frac{x}{GC} = r - xH$$
+
+**Multiply both sides by $GC$:**
+
+$$x = (r - xH) \cdot GC = rGC - xHGC$$
+
+**Collect $x$ and factor** (same algebra as Method I):
+
+$$x + xGCH = rGC \quad \Longrightarrow \quad x(1 + GCH) = rGC$$
+
+$$\boxed{\frac{x}{r} = \frac{GC}{1 + GCH}}$$
+
+Same result. The algebra is identical — the only difference is whether you write one big equation or two small ones.
+
+> [!tip] When to Use Which Method
+> - **Method I** (direct substitution) — faster for simple diagrams. One equation, expand, solve.
+> - **Method II** (error signal) — more systematic for complex diagrams with multiple loops or nested feedback. Each signal gets its own equation, so it's easier to keep track of what connects to what.
+
+#### Why the Formula Always Works
+
+The key algebraic pattern is always the same:
+
+1. The output depends on itself through feedback → $x$ appears on both sides
+2. Collecting terms pulls out the factor $(1 + \text{loop gain})$
+3. Dividing gives $\frac{\text{forward}}{1 + \text{loop}}$
+
+This works for **any** single-loop negative feedback system, regardless of what $C$, $G$, and $H$ actually are (they can be complex transfer functions with $s$, not just constants).
 
 > [!important] Loop Reduction Rule
 > For any feedback loop, the transfer function is:

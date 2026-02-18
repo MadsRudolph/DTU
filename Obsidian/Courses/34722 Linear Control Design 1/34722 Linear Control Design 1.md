@@ -72,6 +72,7 @@ SORT date ASC
 > - [[Day 1 - MATLAB Exercise|Day 1 -- MATLAB Basics, Transfer Functions, Robot Data]]
 > - [[Day 2 - Hand-Tuning Exercise|Day 2 -- P/PI Hand-Tuning & Ziegler-Nichols]]
 > - [[Day 3 - Block Diagram Exercise|Day 3 -- Block Diagrams & Transfer Functions]]
+> - [[Day 3 - MATLAB Exercise|Day 3 -- MATLAB: Laplace, TFs & Frequency Response]]
 > - [[Pretest Answers|Pretest -- Math, Physics, Frequency, MATLAB]]
 > - [[Day1_MATLAB_Exercise.pdf|Exercise 1 PDF]]
 > - [[matlabexercise.pdf|MATLAB Exercise PDF]]
