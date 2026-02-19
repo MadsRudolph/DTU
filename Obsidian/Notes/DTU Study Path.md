@@ -326,9 +326,12 @@ You need **10 ECTS tilvalg** on top.
 >   - [ ] Get approval for tilvalg combination (34655, 34620, 34315)
 >   - [ ] Confirm no timetable collisions
 
-> [!important] DSP Reexam Preparation (Summer 2026)
-> - [ ] Start revision early (don't wait until June)
-> - [ ] Create study schedule alongside 4th semester courses
+> [!important] DSP Reexam — May 20, 2026 (exam code E2-B)
+> - [x] Create study schedule alongside 4th semester courses → [[62743 Digital Signal Processing (Reexam)]]
+> - [ ] Register for re-exam (April 1--15, 2026)
+> - [ ] Phase 1: Foundation refresh (Feb 19 -- Mar 22)
+> - [ ] Phase 2: Filter design deep dive (Mar 23 -- Apr 26)
+> - [ ] Phase 3: Exam drilling (Apr 27 -- May 20)
 
 > [!todo] Future Course Planning
 > - [ ] Verify 34871 runs in January 2027
