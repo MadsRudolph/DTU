@@ -158,12 +158,13 @@ aliases:
 ## Key Archive Resources
 
 ### Formula Sheets
-- [[DSP Bible]] -- comprehensive reference (168+ sections)
-- [[Formulas Week 1-4]] -- signals, LTI, DTFT, z-transform
-- [[Formulas Week 5-7]] -- higher-order systems, DFT, sampling
-- [[Formulas Week 8-11]] -- filter structures, IIR/FIR design
-- [[Formulas Week 12-13]] -- multirate, under-sampling
-- [[Exam Quick Reference OPTIMIZED]] -- condensed cheat sheet
+- [[DSP-Bible]] -- comprehensive reference (168+ sections)
+- [[Week 1-4]] -- signals, LTI, DTFT, z-transform
+- [[Week 5-7]] -- higher-order systems, DFT, sampling
+- [[Week 8-11]] -- filter structures, IIR/FIR design
+- [[Week 12-13]] -- multirate, under-sampling
+- [[Exam_Quick_Reference_OPTIMIZED]] -- condensed cheat sheet
+- [[Exam_Cheat_Sheet_OPTIMIZED]] -- condensed cheat sheet (alt)
 
 ### Past Exams (in `Archive/3rd Semester/DSP/Exercises/Exams/`)
 | Exam | Set | Solution | MATLAB |
