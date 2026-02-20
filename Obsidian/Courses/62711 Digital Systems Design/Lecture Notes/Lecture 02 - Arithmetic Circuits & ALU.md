@@ -424,4 +424,4 @@ tags: [DSD, lecture]
 >
 > [[62711 Digital Systems Design|62711 Home]]
 >
-> &nbsp;
+> [[Lecture 03 - Adders|Lecture 03 →]]
