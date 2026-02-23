@@ -1,0 +1,80 @@
+* ============================================================
+* 34655 Two-Stage CMOS Operational Amplifier — TRANSIENT
+* Course 34655 - Integrated Analog Electronics 2
+*
+* Topology: PMOS diff pair, NMOS mirror load, NMOS CS 2nd stage
+* Process:  0.18 um CMOS (Carusone Table 1.5)
+* VDD = 1.8 V, Ibias = 20 uA
+*
+* Closed-loop step response for slew rate measurement.
+* ============================================================
+
+* ============================================
+* SUPPLY
+* ============================================
+Vdd vdd 0 DC 1.8
+
+* ============================================
+* INPUT SIGNAL: Step from 0 to 0.5 V at t = 100 ns
+* ============================================
+Vin vin 0 PULSE(0 0.5 100n 1n 1n 500n 1u)
+
+* ============================================
+* FEEDBACK NETWORK (non-inverting, gain = 2)
+* ============================================
+CB vout n_inv 1p
+CA n_inv 0 1p
+R1 n_inv 0 1G
+CL vout 0 1.5p
+
+* ============================================
+* BIAS CIRCUIT
+* ============================================
+Ibias n_bias 0 DC 20u
+MQ8 n_bias n_bias vdd vdd PMOS_018 W=14u L=1u
+
+* ============================================
+* FIRST STAGE: PMOS Differential Pair
+* ============================================
+MQ5 n_tail n_bias vdd vdd PMOS_018 W=17u L=1u
+
+MQ1 n_d1 n_inv n_tail vdd PMOS_018 W=24u L=1u
+MQ2 n_d2 vin   n_tail vdd PMOS_018 W=24u L=1u
+
+MQ3 n_d1 n_d1 0 0 NMOS_018 W=6.2u L=1u
+MQ4 n_d2 n_d1 0 0 NMOS_018 W=6.2u L=1u
+
+* ============================================
+* SECOND STAGE: NMOS Common-Source
+* ============================================
+MQ6 vout n_bias vdd vdd PMOS_018 W=43u L=1u
+MQ7 vout n_d2  0   0   NMOS_018 W=31u L=1u
+
+* ============================================
+* MILLER COMPENSATION (Rc + Cc)
+* ============================================
+Rc n_d2 n_comp 995
+Cc n_comp vout 0.8p
+
+* ============================================
+* TRANSISTOR MODELS (0.18 um CMOS, Level 1)
+* ============================================
+.model NMOS_018 nmos (level=1 kp=270u vto=0.5 lambda=0.08 gamma=0.4 phi=0.65)
+.model PMOS_018 pmos (level=1 kp=70u vto=-0.45 lambda=0.08 gamma=0.4 phi=0.65)
+
+* ============================================
+* SIMULATION: Transient (1.2 us, 0.1 ns step)
+* ============================================
+.tran 0.1n 1.2u
+
+* ============================================
+* MEASUREMENTS: Slew Rate
+* ============================================
+* Measure slew rate on rising edge (10% to 90% of final value)
+* Expected output step: 0 -> ~1.0V (gain of 2 × 0.5V input)
+.meas TRAN vout_low find v(vout) at=100n
+.meas TRAN vout_high find v(vout) at=600n
+.meas TRAN t_rise trig v(vout) val=0.1 rise=1 targ v(vout) val=0.9 rise=1
+.meas TRAN slew_rate param=(0.9-0.1)/t_rise
+
+.end

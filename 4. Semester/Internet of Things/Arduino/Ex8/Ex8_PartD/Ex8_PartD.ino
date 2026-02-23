@@ -1,18 +1,6 @@
 /*
-  Exercise 8 - Part D: 7-Segment Display
-  Use potentiometer to display digits 0-9 on a 7-segment display.
-  Board: Arduino UNO
-  Wiring: Potentiometer wiper -> A0
-          7-segment (common cathode): a-g -> pins 2-8
-
-  Segment layout:
-       a
-      ---
-   f |   | b
-      -g-
-   e |   | c
-      ---
-       d
+  Exercise 8 - Part D
+  Add the 7-segment display. Use the potentiometer to count up values from 0 to 9.
 */
 
 const int potPin = A0;
@@ -38,7 +26,7 @@ const byte digits[10][7] = {
 
 void displayDigit(int digit) {
   for (int i = 0; i < numSegments; i++) {
-    digitalWrite(segPins[i], digits[digit][i]);
+    digitalWrite(segPins[i], !digits[digit][i]); // Invert for common anode
   }
 }
 
@@ -52,8 +40,9 @@ void setup() {
 void loop() {
   int rawValue = analogRead(potPin);
 
-  // Map 0-1023 to 0-9
-  int digit = map(rawValue, 0, 1023, 0, 9);
+  // Map 0-1023 to 0-9 (divide into 10 equal bands)
+  int digit = rawValue / 103;  // 0-102=0, 103-205=1, ... , 927-1023=9
+  if (digit > 9) digit = 9;
 
   displayDigit(digit);
 

@@ -1,11 +1,7 @@
 /*
-  Exercise 8 - Part C: RGB LED Rainbow
-  Use potentiometer to fade an RGB LED through the rainbow.
-  0V = violet/purple, 5V = red.
-  Board: Arduino UNO
-  Wiring: Potentiometer wiper -> A0
-          RGB LED: R -> pin 9, G -> pin 10, B -> pin 11 (all PWM, with resistors)
-          Common cathode RGB LED assumed (HIGH = on)
+  Exercise 8 - Part C
+  Use multicolour LED to change colors of rainbow using potentiometer.
+  0V = violet/purple, 5V = red. Slowly fade between colors.
 */
 
 const int potPin = A0;

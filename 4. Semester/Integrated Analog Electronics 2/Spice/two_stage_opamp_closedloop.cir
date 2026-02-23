@@ -1,0 +1,80 @@
+* ============================================================
+* 34655 Two-Stage CMOS Operational Amplifier — CLOSED LOOP
+* Course 34655 - Integrated Analog Electronics 2
+*
+* Topology: PMOS diff pair, NMOS mirror load, NMOS CS 2nd stage
+* Process:  0.18 um CMOS (Carusone Table 1.5)
+* VDD = 1.8 V, Ibias = 20 uA
+*
+* Non-inverting capacitive feedback, gain = 2 (CA = CB = 1pF)
+* This netlist measures closed-loop gain and bandwidth.
+* ============================================================
+
+* ============================================
+* SUPPLY
+* ============================================
+Vdd vdd 0 DC 1.8
+
+* ============================================
+* INPUT SIGNAL
+* ============================================
+Vin vin 0 DC 0 AC 1
+
+* ============================================
+* FEEDBACK NETWORK (non-inverting, gain = 2)
+* ============================================
+CB vout n_inv 1p
+CA n_inv 0 1p
+R1 n_inv 0 1G
+CL vout 0 1.5p
+
+* ============================================
+* BIAS CIRCUIT
+* ============================================
+Ibias n_bias 0 DC 20u
+MQ8 n_bias n_bias vdd vdd PMOS_018 W=14u L=1u
+
+* ============================================
+* FIRST STAGE: PMOS Differential Pair
+* ============================================
+MQ5 n_tail n_bias vdd vdd PMOS_018 W=17u L=1u
+
+MQ1 n_d1 n_inv n_tail vdd PMOS_018 W=24u L=1u
+MQ2 n_d2 vin   n_tail vdd PMOS_018 W=24u L=1u
+
+MQ3 n_d1 n_d1 0 0 NMOS_018 W=6.2u L=1u
+MQ4 n_d2 n_d1 0 0 NMOS_018 W=6.2u L=1u
+
+* ============================================
+* SECOND STAGE: NMOS Common-Source
+* ============================================
+MQ6 vout n_bias vdd vdd PMOS_018 W=43u L=1u
+MQ7 vout n_d2  0   0   NMOS_018 W=31u L=1u
+
+* ============================================
+* MILLER COMPENSATION (Rc + Cc)
+* ============================================
+Rc n_d2 n_comp 995
+Cc n_comp vout 0.8p
+
+* ============================================
+* TRANSISTOR MODELS (0.18 um CMOS, Level 1)
+* ============================================
+.model NMOS_018 nmos (level=1 kp=270u vto=0.5 lambda=0.08 gamma=0.4 phi=0.65)
+.model PMOS_018 pmos (level=1 kp=70u vto=-0.45 lambda=0.08 gamma=0.4 phi=0.65)
+
+* ============================================
+* SIMULATION: AC Analysis
+* ============================================
+.ac dec 200 1 10G
+
+* ============================================
+* MEASUREMENTS
+* ============================================
+* Closed-loop gain at 1 MHz (well within BW)
+.meas AC cl_gain find vdb(vout) at=1e6
+* -3 dB bandwidth
+.meas AC cl_gain_dc find vdb(vout) at=1
+.meas AC bw_3db when vdb(vout)=3.01
+
+.end

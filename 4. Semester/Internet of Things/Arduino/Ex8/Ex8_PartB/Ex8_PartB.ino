@@ -1,8 +1,6 @@
 /*
-  Exercise 8 - Part B: LED Brightness Control
-  Control a single-color LED brightness with a potentiometer using PWM.
-  Board: Arduino UNO
-  Wiring: Potentiometer wiper -> A0, LED (with resistor) -> pin 9 (PWM)
+  Exercise 8 - Part B
+  Add a single-color LED. Change light intensity depending on turning the potentiometer.
 */
 
 const int potPin = A0;

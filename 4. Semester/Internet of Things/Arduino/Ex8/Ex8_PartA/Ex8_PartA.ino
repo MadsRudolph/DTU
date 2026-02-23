@@ -1,14 +1,12 @@
 /*
-  Exercise 8 - Part A: Analog Read Serial
-  Read potentiometer voltage on A0 and print to serial monitor with 3 decimals.
-  Board: Arduino UNO (10-bit ADC, 0-5V range)
+  Exercise 8 - Part A
+  Read input voltage from potentiometer and write value to serial monitor with 3 decimals.
 */
 
 const int potPin = A0;
-const long baudRate = 9600; // Change to 38400 if serial monitor has issues
 
 void setup() {
-  Serial.begin(baudRate);
+  Serial.begin(9600);
 }
 
 void loop() {
