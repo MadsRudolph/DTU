@@ -7,3 +7,6 @@
 [submodule "Obsidian/Courses/34655 Integrated Analog Electronics 2/Report"]
 	path = Obsidian/Courses/34655 Integrated Analog Electronics 2/Report
 	url = https://github.com/MadsRudolph/Design-af-opamp-analog-ic-2.git
+[submodule "spicepilot-kicad"]
+	path = spicepilot-kicad
+	url = git@github.com:MadsRudolph/spicepilot-kicad.git
