@@ -9,6 +9,7 @@ tags: [IAE2, tools, qspice, spice, python, SPICEPilot]
 > [!info] Location
 > `SPICEPilot/qspice/` -- Python package inside the [[Cadence Exercise - Two-Stage OpAmp Design|SPICEPilot]] repo (submodule at `DTU/SPICEPilot/`).
 > Example: `SPICEPilot/examples/4_qspice_opamp/opamp_qspice.py`
+> Successor: [[SPICEPilot-KiCad]] (adds KiCad output + AI pipeline)
 
 A Python library for programmatically generating QSPICE `.qsch` schematics. Define components and connections in code, then either place them manually or let the auto-layout algorithm arrange everything.
 

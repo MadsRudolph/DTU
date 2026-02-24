@@ -106,11 +106,15 @@ C:\Users\Mads2\miniconda3\Library\bin\ngspice.dll
 | KiCad Project | ⚠️ Partial | Netlist works, schematic wiring issues |
 | ngspice CLI | ✅ Working | Best method for simulation |
 
+## SPICEPilot-KiCad (successor)
+
+**`spicepilot-kicad`** is the next-generation version that adds KiCad `.kicad_sch` output and a Claude AI pipeline for generating schematics from images or text descriptions. Submodule at `DTU/spicepilot-kicad/`, [GitHub](https://github.com/MadsRudolph/spicepilot-kicad).
+
 ## Next Steps
 
 1. **For immediate simulation:** Use ngspice command-line (see [[04 - Simulation Workflows]])
 2. **For KiCad integration:** Use `.include` directive method (see [[03 - KiCad Integration Methods]])
-3. **For new circuits:** Use SPICEPilot with AI assistance
+3. **For new circuits:** Use `spicepilot-kicad` (`pip install -e DTU/spicepilot-kicad && spicepilot generate --from-text "your circuit"`)
 
 ## Tags
 
