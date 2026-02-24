@@ -8,7 +8,7 @@ tags: [IAE2, quiz]
 
 > [!info] Related Notes
 > - [[Lecture 1 - Introduction and Prerequisites]]
-> - [[Advanced OpAmps - Lecture Notes]]
+> - [[Lecture 2 - Advanced OpAmps]]
 > - [[Course Recap - Understanding Analog IC Design]]
 
 ---
@@ -128,7 +128,7 @@ tags: [IAE2, quiz]
 > - Gate-source of CD: No gain across this, no Miller multiplication
 > - Gate-source of CS: Wrong nodes, wouldn't provide pole splitting
 >
-> See: [[Advanced OpAmps - Lecture Notes#2. The Two-Stage OpAmp]]
+> See: [[Lecture 2 - Advanced OpAmps#2. The Two-Stage OpAmp]]
 
 ---
 

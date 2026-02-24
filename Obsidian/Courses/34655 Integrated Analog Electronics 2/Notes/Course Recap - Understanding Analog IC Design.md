@@ -1,8 +1,8 @@
 ---
 course: "34655"
 course-name: "Integrated Analog Electronics 2"
-type: lecture-note
-tags: [IAE2, lecture]
+type: overview
+tags: [IAE2, overview]
 ---
 # Course Recap - Understanding Analog IC Design
 
@@ -13,7 +13,7 @@ tags: [IAE2, lecture]
 >
 > **Detailed Resources:**
 > - [[Lecture 1 - Introduction and Prerequisites]]
-> - [[Advanced OpAmps - Lecture Notes]]
+> - [[Lecture 2 - Advanced OpAmps]]
 > - [[Problem 1 - Amplifier Configurations]]
 > - [[Problem 2 - Advanced OpAmps]]
 
@@ -415,7 +415,7 @@ Stack a common-gate transistor on top of a common-source transistor:
 
 > [!warning] The Catch
 > **Reduced output swing!** Each stacked transistor needs its $V_{eff}$ headroom.
-> See [[Advanced OpAmps - Lecture Notes#6. Folded Cascode Stage]] for the solution.
+> See [[Lecture 2 - Advanced OpAmps#6. Folded Cascode Stage]] for the solution.
 
 ---
 
@@ -533,7 +533,7 @@ Traditional:       Folded:
 
 **Advantage:** Much better output swing because we're not stacking same-polarity transistors.
 
-See [[Advanced OpAmps - Lecture Notes#6. Folded Cascode Stage]] for details.
+See [[Lecture 2 - Advanced OpAmps#6. Folded Cascode Stage]] for details.
 
 ---
 
@@ -640,7 +640,7 @@ This capacitor appears **multiplied by the gain** at the first stage (Miller eff
 
 2. **Review the detailed notes** for derivations
    - [[Lecture 1 - Introduction and Prerequisites]]
-   - [[Advanced OpAmps - Lecture Notes]]
+   - [[Lecture 2 - Advanced OpAmps]]
 
 3. **Start the Cadence simulations** - seeing the frequency response plots helps a lot!
 
@@ -652,7 +652,7 @@ This capacitor appears **multiplied by the gain** at the first stage (Miller eff
 ---
 
 > [!nav]
-> [[Advanced OpAmps - Lecture Notes|← Advanced OpAmps]]
+> [[Lecture 4 - Noise|← Lecture 4]]
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >

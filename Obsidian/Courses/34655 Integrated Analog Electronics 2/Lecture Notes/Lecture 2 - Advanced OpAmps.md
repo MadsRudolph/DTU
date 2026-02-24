@@ -2,9 +2,10 @@
 course: "34655"
 course-name: "Integrated Analog Electronics 2"
 type: lecture-note
+lecture: 2
 tags: [IAE2, lecture]
 ---
-# Advanced OpAmps - Lecture Notes
+# Lecture 2 - Advanced OpAmps
 **Course:** 34655 Integrated Analog Electronics 2
 **Lecturer:** Per B. Lynggaard
 **Date:** 2026-02-10
@@ -386,4 +387,4 @@ The CMFB circuit:
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >
-> [[Course Recap - Understanding Analog IC Design|Course Recap →]]
+> [[Lecture 4 - Noise|Lecture 4 →]]

@@ -9,7 +9,7 @@ tags: [IAE2, exercise, cadence, opamp]
 > [!info] Exercise Files
 > - Specifications: [[Amplifier_design_specifications_v3.pdf]]
 > - Textbook: [[T.C. Carusone, D. Johns & K. Martin, Analog Integrated Circuit Design.pdf#page=228|Carusone, Ch. 5-6]] | [[cmos_analog_ic_design_fundamentals.pdf#page=258|Bruun (EB), Ch. 7]]
-> - Related notes: [[Advanced OpAmps - Lecture Notes]]
+> - Related notes: [[Lecture 2 - Advanced OpAmps]]
 > - Background: [[Course Recap - Understanding Analog IC Design]]
 
 > [!tip] How to Read This Document
@@ -32,7 +32,7 @@ The opamp is used in a **non-inverting capacitive-feedback** configuration: the 
 >
 > **Downside:** It has two high-impedance nodes (one per stage), which means two poles in the frequency response. Without compensation, these two poles would cause oscillation in feedback. That's why Miller compensation is essential.
 >
-> See [[Advanced OpAmps - Lecture Notes#2. The Two-Stage OpAmp]] for the key equations and [[Course Recap - Understanding Analog IC Design#Part 8 Feedback and Stability]] for the stability background.
+> See [[Lecture 2 - Advanced OpAmps#2. The Two-Stage OpAmp]] for the key equations and [[Course Recap - Understanding Analog IC Design#Part 8 Feedback and Stability]] for the stability background.
 
 ---
 
@@ -111,7 +111,7 @@ The circuit has 8 transistors, each with a specific role. Understanding these ro
 
   *Why not just a resistor load?* Resistors have fixed resistance and would limit the gain. The current mirror has very high output impedance ($r_{ds}$), giving much higher gain. Also, resistors take up enormous area on a chip.
 
-  *(See [[Advanced OpAmps - Lecture Notes#1.2 Current Mirror]] and [[Course Recap - Understanding Analog IC Design#Part 6 Current Mirrors - Biasing Done Right]])*
+  *(See [[Lecture 2 - Advanced OpAmps#1.2 Current Mirror]] and [[Course Recap - Understanding Analog IC Design#Part 6 Current Mirrors - Biasing Done Right]])*
 
 - **Q5** (PMOS) — **Tail current source.** This sets the total current flowing through the differential pair: $I_{D5} = I_{D1} + I_{D2}$. It's a current mirror that copies (and scales) the reference current from Q8. By making $W_5/L$ different from $W_8/L$, we can scale the current up or down.
 
@@ -121,7 +121,7 @@ The circuit has 8 transistors, each with a specific role. Understanding these ro
 
 - **Q7** (NMOS) — **Second stage gain device.** This is a common-source amplifier. Its gate is driven by the first-stage output (node `n_d2`). It provides the second round of voltage gain. Q7 mirrors Q3 — they share the same gate-source voltage structure, which means their $V_\text{eff}$ values are related by their $W/L$ ratios.
 
-  *(See [[Advanced OpAmps - Lecture Notes#1.3 Common Source Stage]] for CS stage properties)*
+  *(See [[Lecture 2 - Advanced OpAmps#1.3 Common Source Stage]] for CS stage properties)*
 
 - **Q6** (PMOS) — **Second stage current source.** This provides the bias current for Q7 and acts as the load for the second stage. Like Q5, it mirrors Q8 but with a different scaling ratio to deliver more current (60 μA vs 24 μA). Together, Q6 and Q7 form the second stage: Q7 amplifies, Q6 provides a high-impedance load.
 

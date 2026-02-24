@@ -2,7 +2,7 @@
 course: "34655"
 course-name: "Integrated Analog Electronics 2"
 type: lecture-note
-week: 5
+lecture: 1
 tags: [IAE2, lecture]
 ---
 # Lecture 1 - Introduction and Prerequisites
@@ -455,4 +455,4 @@ Initial W/L estimates         →     Optimized W/L values
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >
-> [[Advanced OpAmps - Lecture Notes|Advanced OpAmps →]]
+> [[Lecture 2 - Advanced OpAmps|Lecture 2 →]]

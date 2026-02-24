@@ -72,15 +72,17 @@ tags: [IAE2, home]
 ## Lecture Notes
 
 ```dataview
-TABLE date AS "Date", week AS "Week"
-FROM "Courses/34655 Integrated Analog Electronics 2/Notes"
+TABLE date AS "Date", lecture AS "Lecture"
+FROM "Courses/34655 Integrated Analog Electronics 2/Lecture Notes"
 WHERE type = "lecture-note"
-SORT week ASC
+SORT lecture ASC
 ```
 
 > [!tip] Notes
 > - [[Lecture 1 - Introduction and Prerequisites|Lecture 1 -- Introduction and Prerequisites]]
-> - [[Advanced OpAmps - Lecture Notes|Advanced OpAmps]]
+> - [[Lecture 2 - Advanced OpAmps|Lecture 2 -- Advanced OpAmps]]
+> - [[Lecture 4 - Noise|Lecture 4 -- Noise]]
+> - [[Chapter 9 - Noise and Linearity Analysis and Modelling|Chapter 9 -- Noise and Linearity]]
 > - [[Course Recap - Understanding Analog IC Design|Course Recap -- Analog IC Design]]
 > - [[QSPICE Schematic Generator Library|QSPICE Schematic Generator]]
 

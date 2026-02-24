@@ -8,7 +8,7 @@ tags: [IAE2, exercise]
 
 > [!info] Exercise Files
 > - Problems: [[31632-problems-avd-opamp.pdf]]
-> - Related notes: [[Advanced OpAmps - Lecture Notes]]
+> - Related notes: [[Lecture 2 - Advanced OpAmps]]
 
 ## Overview
 
@@ -25,7 +25,7 @@ This exercise set covers:
 > [!abstract] Context
 > One important property of the folded cascode OTA is that all internal nodes have low impedance and the dominant pole occurs at the output (the only high impedance node). For this to be true, the input impedance of the wide-swing current mirror must be low.
 >
-> See: [[Advanced OpAmps - Lecture Notes#4.2 Wide-Swing Cascode Current Mirror]]
+> See: [[Lecture 2 - Advanced OpAmps#4.2 Wide-Swing Cascode Current Mirror]]
 
 ### Circuit
 
@@ -178,7 +178,7 @@ This depends on the current source compliance. However, for the current mirror t
 
 ## Problem 2: Enhanced Output Impedance Current Mirror
 
-> See: [[Advanced OpAmps - Lecture Notes#4.3 Self-Regulating Current Mirror (Enhanced Output Impedance)]]
+> See: [[Lecture 2 - Advanced OpAmps#4.3 Self-Regulating Current Mirror (Enhanced Output Impedance)]]
 
 ### Circuit
 
@@ -407,7 +407,7 @@ $$C_{L,eff} = C_2 \cdot \frac{C_1}{C_1 + C_2} + C_2 = C_1 \parallel C_2 + \text{
 >
 > Find the total current consumption.
 >
-> See: [[Advanced OpAmps - Lecture Notes#7. Folded Cascode Differential Pair (OpAmp)]]
+> See: [[Lecture 2 - Advanced OpAmps#7. Folded Cascode Differential Pair (OpAmp)]]
 
 ### Circuit
 
@@ -476,7 +476,7 @@ $$I_{total} = \frac{I_{tail}}{0.8} = \frac{225\ \mu\text{A}}{0.8}$$
 >
 > Find the total current consumption.
 >
-> See: [[Advanced OpAmps - Lecture Notes#8. Current Mirror OpAmp]]
+> See: [[Lecture 2 - Advanced OpAmps#8. Current Mirror OpAmp]]
 
 ### Circuit
 
