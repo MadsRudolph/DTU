@@ -1,0 +1,5 @@
+vel=3, acc=1.5, log=10 : dist=1.0, time=5
+vel=2, tr=0 : turn=-90, time=5
+vel=4 : dist=0.5, time=5
+vel=2, tr=0 : turn=90, time=5
+vel=0 : time=0.5, log=0

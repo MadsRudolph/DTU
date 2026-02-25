@@ -1,0 +1,2 @@
+vel=3, log=4 : time=1
+vel=4 : log=0
