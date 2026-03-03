@@ -498,4 +498,4 @@ $$\boxed{V_{ni}^2(f) = \frac{2}{C_{ox}f}\left[\frac{K_1}{W_1L_1} + \left(\frac{\
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >
-> [[Chapter 9 - Noise and Linearity Analysis and Modelling|Chapter 9 - Noise →]]
+> [[Lecture 5 - Fabrication and Layout|Lecture 5 →]]

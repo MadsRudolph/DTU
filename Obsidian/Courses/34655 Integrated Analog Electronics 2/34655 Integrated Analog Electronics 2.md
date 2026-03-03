@@ -82,6 +82,7 @@ SORT lecture ASC
 > - [[Lecture 1 - Introduction and Prerequisites|Lecture 1 -- Introduction and Prerequisites]]
 > - [[Lecture 2 - Advanced OpAmps|Lecture 2 -- Advanced OpAmps]]
 > - [[Lecture 4 - Noise|Lecture 4 -- Noise]]
+> - [[Lecture 5 - Fabrication and Layout|Lecture 5 -- Fabrication and Layout]]
 > - [[Chapter 9 - Noise and Linearity Analysis and Modelling|Chapter 9 -- Noise and Linearity]]
 > - [[Course Recap - Understanding Analog IC Design|Course Recap -- Analog IC Design]]
 > - [[QSPICE Schematic Generator Library|QSPICE Schematic Generator]]
@@ -101,8 +102,10 @@ SORT date ASC
 > - [[Problem 1 - Amplifier Configurations|Problem 1 -- CS, Cascode, Cascade comparison]]
 > - [[Problem 2 - Advanced OpAmps|Problem 2 -- Advanced OpAmps]]
 > - [[Cadence Exercise - Two-Stage OpAmp Design|Cadence Exercise -- Two-Stage OpAmp Paper Design]]
+> - [[Problem 5 - Layout|Problem 5 -- Layout (Fabrication, Junction Cap, Design Rules)]]
 > - [[31632-problems-intro.pdf|Problem set -- Introduction]]
 > - [[31632-problems-avd-opamp.pdf|Problem set -- Advanced OpAmps]]
+> - [[31632-problems-layout.pdf|Problem set -- Layout]]
 
 > [!tip] Quizzes
 > - [[Quiz 1 - Two-Stage CMOS Opamp|Quiz 1 -- Two-Stage CMOS Opamp]]

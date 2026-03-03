@@ -310,4 +310,4 @@ $$\boxed{V_{no,\text{rms}} = \sqrt{\frac{3.80 \times 10^{-20}}{C}}\,\text{V}}$$
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >
-> &nbsp;
+> [[Problem 5 - Layout|Problem 5 →]]
