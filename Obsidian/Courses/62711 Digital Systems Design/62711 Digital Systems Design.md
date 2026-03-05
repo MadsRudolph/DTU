@@ -58,7 +58,7 @@ tags: [DSD, home]
 > - Structural VHDL design
 > - Digital arithmetic circuits (adders, etc.)
 > - Function unit
-> - [[PWA_MODULES|Module hierarchy overview]]
+> - **[[PWA Project|PWA Project Documentation]]** -- detailed notes on every module
 >
 > **Deliverables:**
 > - [ ] PWA report
