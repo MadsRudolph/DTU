@@ -10,3 +10,6 @@
 [submodule "spicepilot-kicad"]
 	path = spicepilot-kicad
 	url = git@github.com:MadsRudolph/spicepilot-kicad.git
+[submodule "Obsidian/Courses/62711 Digital Systems Design/Report"]
+	path = Obsidian/Courses/62711 Digital Systems Design/Report
+	url = git@github.com:MadsRudolph/PWA.git
