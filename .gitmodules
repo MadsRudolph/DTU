@@ -13,3 +13,6 @@
 [submodule "Obsidian/Courses/62711 Digital Systems Design/Report"]
 	path = Obsidian/Courses/62711 Digital Systems Design/Report
 	url = git@github.com:MadsRudolph/PWA.git
+[submodule "4. Semester/Internet of Things/Arduino/Ex13"]
+	path = 4. Semester/Internet of Things/Arduino/Ex13
+	url = https://github.com/MadsRudolph/iot-ex13.git
