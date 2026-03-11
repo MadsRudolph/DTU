@@ -47,8 +47,8 @@ tags: [IAE2, home]
 
 ## Deliverables
 
-> [!warning] Upcoming: Report due 27 Feb 2026
-> Paper design of two-stage CMOS opamp. Worth ~33% of grade.
+> [!warning] Upcoming: Poster due 10 Apr 2026
+> OpAmp poster with simulation results from Cadence. Worth ~33% of grade.
 
 | Deliverable | Weight | Deadline | Status | Link |
 |-------------|--------|----------|--------|------|
@@ -83,6 +83,7 @@ SORT lecture ASC
 > - [[Lecture 2 - Advanced OpAmps|Lecture 2 -- Advanced OpAmps]]
 > - [[Lecture 4 - Noise|Lecture 4 -- Noise]]
 > - [[Lecture 5 - Fabrication and Layout|Lecture 5 -- Fabrication and Layout]]
+> - [[Lecture - Cadence Lab Exercise (Transistor Characterization)|Lecture 6 -- Cadence Lab Exercise (Transistor Characterization & OpAmp)]]
 > - [[Chapter 9 - Noise and Linearity Analysis and Modelling|Chapter 9 -- Noise and Linearity]]
 > - [[Course Recap - Understanding Analog IC Design|Course Recap -- Analog IC Design]]
 > - [[QSPICE Schematic Generator Library|QSPICE Schematic Generator]]
@@ -122,6 +123,8 @@ SORT date ASC
 - [[34655-01a-introduction-to-course_v1.pdf|01a -- Introduction to Course]]
 - [[34655-01b-introduction-prerequisites_v1.pdf|01b -- Introduction Prerequisites]]
 - [[34655-advanced-opamps_v4.pdf|Advanced OpAmps]]
+- [[34655-cadence-lab-exercise-XT018_v1.pdf|Cadence Lab Exercise (XT018)]]
+- [[34655-cadence-tutorial-XT018_v3.pdf|Cadence Tutorial (XT018)]]
 
 ---
 
@@ -141,7 +144,7 @@ SORT date ASC
 > - [[T.C. Carusone, D. Johns & K. Martin, Analog Integrated Circuit Design.pdf#page=53|Carusone Table 1.5 -- 0.18 μm CMOS Parameters (p. 53)]]
 
 > [!tip] Simulation Tools
-> - **Cadence Virtuoso** -- IC design, schematic + simulation (X-FAB 0.18 μm CMOS process)
+> - **Cadence Virtuoso** -- IC design, schematic + simulation (X-FAB XT018 0.18 μm CMOS process) -- [[Cadence Guide|Setup & Usage Guide]]
 > - **ngspice + PySpice** -- SPICE verification of paper design (files in `SPICEPilot/examples/3_34655_opamp/`)
 > - **QSPICE** -- [[QSPICE Schematic Generator Library|Python schematic generator]] (files in `SPICEPilot/qspice/`, example in `SPICEPilot/examples/4_qspice_opamp/`)
 > - **[[SPICEPilot-KiCad]]** -- AI-powered schematic generator for both KiCad + QSPICE from images or text (submodule at `DTU/spicepilot-kicad/`)
