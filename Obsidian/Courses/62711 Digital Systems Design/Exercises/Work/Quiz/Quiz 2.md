@@ -425,4 +425,4 @@ tags: [DSD, quiz]
 >
 > [[62711 Digital Systems Design|62711 Home]]
 >
-> &nbsp;
+> [[Quiz 3|Quiz 3 →]]
