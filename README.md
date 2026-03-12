@@ -42,6 +42,9 @@ Everything lives in an **Obsidian vault** with consistent structure per course:
 git clone --recurse-submodules git@github.com:MadsRudolph/DTU.git
 cd DTU
 
+# Enable git hooks (auto-downloads new Drive files on pull)
+git config core.hooksPath .githooks
+
 # Download large files (PDFs, slides) from Google Drive
 pip install -r Obsidian/scripts/drive-sync/requirements.txt
 PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py

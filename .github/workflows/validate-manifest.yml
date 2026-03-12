@@ -1,0 +1,92 @@
+name: Validate Drive manifest
+
+on:
+  push:
+    paths:
+      - 'Obsidian/scripts/drive-sync/manifest.json'
+      - '.github/workflows/validate-manifest.yml'
+  pull_request:
+    paths:
+      - 'Obsidian/scripts/drive-sync/manifest.json'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate manifest.json
+        run: |
+          MANIFEST="Obsidian/scripts/drive-sync/manifest.json"
+
+          # Check valid JSON
+          if ! python3 -m json.tool "$MANIFEST" > /dev/null 2>&1; then
+            echo "::error::manifest.json is not valid JSON"
+            exit 1
+          fi
+
+          python3 - "$MANIFEST" << 'PYEOF'
+          import json, sys
+          from pathlib import PurePosixPath
+
+          manifest = json.load(open(sys.argv[1], encoding="utf-8"))
+          errors = []
+
+          # Check required top-level keys
+          for key in ("version", "drive_folder_id", "files"):
+              if key not in manifest:
+                  errors.append(f"Missing top-level key: {key}")
+
+          files = manifest.get("files", [])
+
+          # Check each entry
+          seen_paths = set()
+          seen_drive_ids = set()
+          for i, entry in enumerate(files):
+              prefix = f"files[{i}]"
+
+              for field in ("path", "driveId"):
+                  if field not in entry:
+                      errors.append(f"{prefix}: missing '{field}'")
+                      continue
+
+              path = entry.get("path", "")
+              drive_id = entry.get("driveId", "")
+
+              if not path:
+                  errors.append(f"{prefix}: empty path")
+              if not drive_id:
+                  errors.append(f"{prefix}: empty driveId")
+
+              # Check for duplicates
+              if path in seen_paths:
+                  errors.append(f"{prefix}: duplicate path '{path}'")
+              seen_paths.add(path)
+
+              if drive_id in seen_drive_ids:
+                  errors.append(f"{prefix}: duplicate driveId '{drive_id}' (path: {path})")
+              seen_drive_ids.add(drive_id)
+
+              # Check path doesn't use backslashes
+              if "\\" in path:
+                  errors.append(f"{prefix}: path contains backslash: '{path}'")
+
+              # Check path doesn't start with /
+              if path.startswith("/"):
+                  errors.append(f"{prefix}: path is absolute: '{path}'")
+
+          # Check sorted
+          paths = [e["path"] for e in files if "path" in e]
+          if paths != sorted(paths):
+              errors.append("files are not sorted by path")
+
+          # Report
+          if errors:
+              print(f"::error::Manifest validation failed with {len(errors)} error(s):")
+              for e in errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+          else:
+              print(f"Manifest OK: {len(files)} files, no issues found.")
+          PYEOF

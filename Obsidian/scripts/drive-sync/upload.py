@@ -17,6 +17,7 @@ Requirements:
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 import unicodedata
@@ -24,8 +25,24 @@ from pathlib import Path
 
 from config import LARGE_FILE_EXTENSIONS, MIN_FILE_SIZE_BYTES, DRIVE_FOLDER_ID
 
-# rclone path
-RCLONE = r"C:\Users\Mads2\AppData\Local\Microsoft\WinGet\Packages\Rclone.Rclone_Microsoft.Winget.Source_8wekyb3d8bbwe\rclone-v1.73.0-windows-amd64\rclone.exe"
+
+def find_rclone() -> str | None:
+    """Find rclone executable."""
+    rclone = shutil.which("rclone")
+    if rclone:
+        return rclone
+    # Check known install locations on Windows
+    known_paths = [
+        Path.home() / "AppData/Local/Microsoft/WinGet/Packages",
+    ]
+    for base in known_paths:
+        if base.exists():
+            for match in base.rglob("rclone.exe"):
+                return str(match)
+    return None
+
+
+RCLONE = find_rclone()
 
 
 def get_repo_root() -> Path:
@@ -386,6 +403,11 @@ def main():
     parser.add_argument("--refresh", action="store_true", help="Refresh manifest from Drive")
     parser.add_argument("--pull", action="store_true", help="Find files on Drive not in manifest")
     args = parser.parse_args()
+
+    if not RCLONE:
+        print("Error: rclone not found.")
+        print("  Install: winget install Rclone.Rclone")
+        sys.exit(1)
 
     repo_root = get_repo_root()
     manifest = load_manifest(repo_root)

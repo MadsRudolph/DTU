@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# Post-merge hook: auto-download new Drive files when manifest.json changes
+#
+
+MANIFEST="Obsidian/scripts/drive-sync/manifest.json"
+
+# Check if manifest.json was changed in this merge/pull
+if git diff-tree -r --name-only ORIG_HEAD HEAD 2>/dev/null | grep -qF "$MANIFEST"; then
+    echo ""
+    echo "=== Drive sync: manifest.json changed, checking for new files... ==="
+    echo ""
+
+    # Find Python
+    if command -v python3 >/dev/null 2>&1; then
+        PYTHON=python3
+    elif command -v python >/dev/null 2>&1; then
+        PYTHON=python
+    else
+        echo "Warning: Python not found. Run manually:"
+        echo "  python Obsidian/scripts/drive-sync/download.py"
+        exit 0
+    fi
+
+    # Run download (only downloads missing files by default)
+    PYTHONUTF8=1 $PYTHON Obsidian/scripts/drive-sync/download.py
+
+    echo ""
+    echo "=== Drive sync complete ==="
+    echo ""
+fi
