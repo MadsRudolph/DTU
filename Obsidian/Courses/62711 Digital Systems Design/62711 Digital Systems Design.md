@@ -18,7 +18,7 @@ tags: [DSD, home]
 
 > [!tip] Quick Links
 > - Team repo: [digital-systems-design](https://github.com/gigurd/Design-of-digital-systems-62711) | [[Team Workflow]]
-> - Lesson plan: [[62711_Lektionsplan_F2026.pdf|Lektionsplan F2026]]
+> - Lesson plan: [[62711_Lektionsplan_F2026_v2.pdf|Lektionsplan F2026 v2]]
 > - Report template: [[Rapport_template_v22.dotx|Report template]]
 
 ---
@@ -28,16 +28,16 @@ tags: [DSD, home]
 | Wk  | Date  | Lec | Topic                                                         | Reading                                              | Phase     | Deliverables                            | Done  |
 | --- | ----- | --- | ------------------------------------------------------------- | ---------------------------------------------------- | --------- | --------------------------------------- | ----- |
 | 6   | 06-02 | 1   | Intro, structural VHDL, FPGA architecture                     | 3.1-3.5, 3.7, 3.8, Datasheet                         | PWA       |                                         | - [x] |
-| 7   | 13-02 | 2   | Digital Arithmetic, combinatorial & register logic            | 4.2, 4.3, 6.1, 3.1-3.4, 3.5, 3.7, 3.8, 8.2-8.4 hints | PWA       | Opg 2                                   | - [ ] |
-| 8   | 20-02 | 3   | Digital Arithmetic video, adders                              | 3.9, 3.10, 3.11, 3.12, 8.2, 8.3, 8.4 (FU)            | PWA       | Opg 3                                   | - [ ] |
-| 9   | 27-02 | 4   | PWA function unit                                             |                                                      | PWA       | **PWA deadline (05-03-2025)**           | - [ ] |
-| 10  | 06-03 | 5   | Micro-operations, register transfer, shift register, counters | 6.2-6.6, 6.8, 8.1-8.6                                | PWB       |                                         | - [ ] |
-| 11  | 13-03 | 6   | Control word, Datapath architecture, Midterm evaluation       | 6.8, 6.10, 6.11, 6.13, 8.6-8.9                       | PWB       | Opg 5                                   | - [ ] |
+| 7   | 13-02 | 2   | Digital Arithmetic, combinatorial & register logic            | 4.2, 4.3, 6.1, 3.1-3.5, 3.7, 3.8, 8.2-8.4 hints     | PWA       | Opg 2                                   | - [x] |
+| 8   | 20-02 | 3   | Digital Arithmetic video, adders                              | 3.9-3.12, 8.2, 8.3, 8.4 (FU)                         | PWA       | Opg 3                                   | - [x] |
+| 9   | 27-02 | 4   | PWA function unit                                             |                                                      | PWA       | **PWA deadline (12-03-2026)**           | - [x] |
+| 10  | 06-03 | 5   | *(PWA work)*                                                  |                                                      | PWA       | **PWA deadline (12-03-2026)**           | - [x] |
+| 11  | 13-03 | 6   | Micro-operations, register transfer, shift register, counters, control word, Datapath architecture, midterm evaluation | 6.2-6.6, 6.8, 8.1-8.6, 6.8, 6.10, 6.11, 6.13, 8.6-8.9 | PWB       | Opg 5 (19-03-2026)                     | - [ ] |
 | 12  | 20-03 | 7   | Control & register transfer, ASM (Algorithmic State Machines) | 8.9                                                  | PWB       | Opg 6, **MC test PWA (before 21 Mar)**  | - [ ] |
-| 13  | 27-03 | 8   | Computer design, summing up                                   | 8.7, 8.8, 8.9                                        | PWB       | **PWB deadline (02-04-2025)**           | - [ ] |
-| 14  |       |     | *Paskeferie*                                                  |                                                      |           |                                         |       |
+| 13  | 27-03 | 8   | Computer design, summing up                                   | 8.7, 8.8, 8.9                                        | PWB       | **PWB deadline (09-04-2026)**           | - [ ] |
+| 14  |       |     | *Påskeferie*                                                  |                                                      |           |                                         |       |
 | 15  | 10-04 | 9   | Memory Design, FPGA Memory                                    | 7.1-7.7, ug473                                       | Final PWF |                                         | - [ ] |
-| 16  | 17-04 | 10  | Assembler Language Programming                                | 9.1-9.9, 9.5, 9.7, 9.6, 9.8, 9.9                     | Final PWF | **MC test PWB (before 25 Apr)**         | - [ ] |
+| 16  | 17-04 | 10  | Assembler Language Programming                                | 9.1-9.5, 9.6-9.9                                     | Final PWF | **MC test PWB (before 25 Apr)**         | - [ ] |
 | 17  | 24-04 | 11  | I/O, Interfaces & Memory Systems                              | 11.1-11.8, 12.1-12.4                                 | Final PWF |                                         | - [ ] |
 | 18  | 01-05 | 12  | CPU Models                                                    | 10.1-10.5                                            | Final PWF | Opg 9 (simulation for PWA)              | - [ ] |
 | 19  | 08-05 | 13  | PWF completion & final evaluation                             |                                                      | Final PWF | **Video presentation + Report (11-05)** | - [ ] |
@@ -49,10 +49,10 @@ tags: [DSD, home]
 
 ### PWA -- ALU / DataPath
 
-> [!abstract] PWA
+> [!abstract] PWA -- Completed
 > **Goal:** Design and implement an ALU (Arithmetic Logic Unit) as part of the DataPath
-> **Lectures:** 1-4
-> **Deadline:** 05-03-2026 (Week 9)
+> **Lectures:** 1-5
+> **Deadline:** 12-03-2026 (Week 10)
 >
 > **Key components:**
 > - Structural VHDL design
@@ -61,16 +61,17 @@ tags: [DSD, home]
 > - **[[PWA Project|PWA Project Documentation]]** -- detailed notes on every module
 >
 > **Deliverables:**
-> - [ ] PWA report
+> - [x] PWA report
 > - [ ] Multiple choice test (before 21 March)
-> - [ ] Opg 2, Opg 3
+> - [x] Opg 2, Opg 3
 
 ### PWB -- MPU / Control Unit
 
 > [!abstract] PWB
 > **Goal:** Design and implement the Control Unit (MPU -- Micro Processing Unit)
-> **Lectures:** 5-8
-> **Deadline:** 02-04-2025 (Week 13)
+> **Lectures:** 6-8
+> **Deadline:** 09-04-2026 (Week 13)
+> - **[[PWB Project|PWB Project Documentation]]** -- detailed notes on every module
 >
 > **Key components:**
 > - Micro-operations and register transfer
@@ -88,7 +89,7 @@ tags: [DSD, home]
 > [!abstract] PWF
 > **Goal:** Complete working soft microprocessor on FPGA hardware
 > **Lectures:** 9-13
-> **Final deadline:** 11-05-2025 (Week 19)
+> **Final deadline:** 11-05-2026 (Week 19)
 >
 > **Key components:**
 > - Memory design (Block RAM, FPGA memory)
@@ -128,8 +129,8 @@ tags: [DSD, home]
 | 2 | Arithmetic Circuits & ALU | [[Lecture 02 - Arithmetic Circuits & ALU]] |
 | 3 | Digital Arithmetic -- Adders | [[Lecture 03 - Adders]] |
 | 4 | PWA Function Unit | [[Lecture 04 - Function Unit]] |
-| 5 | Micro-operations & Register Transfer | [[Lecture 05 - Micro-operations]] |
-| 6 | Control Word & Datapath | [[Lecture 06 - Datapath Architecture]] |
+| 5 | *(PWA work)* | |
+| 6 | Micro-operations, Register Transfer, Control Word & Datapath | [[Lecture 06 - Datapath Architecture]] |
 | 7 | ASM & Control Transfer | [[Lecture 07 - ASM]] |
 | 8 | Computer Design | [[Lecture 08 - Computer Design]] |
 | 9 | Memory Design & FPGA Memory | [[Lecture 09 - Memory Design]] |
@@ -165,7 +166,8 @@ tags: [DSD, home]
 ## Literature & Resources
 
 ### Course Materials
-- [[62711_Lektionsplan_F2026.pdf|Lesson plan]]
+- [[62711_Lektionsplan_F2026_v2.pdf|Lesson plan (v2)]]
+- [[62711_Lektionsplan_F2026.pdf|Lesson plan (v1)]]
 - [[Assembler mockup guide_v4.pdf|Assembler mockup guide]]
 - [[Rapport_template_v22.dotx|Report template]]
 - [[templatePWB.dotx|PWB template]]
@@ -206,6 +208,8 @@ tags: [DSD, home]
 - [[Lecture_01_Preparation.pdf|Lecture 01 Preparation]]
 - [[Preparation slides lecture 2.pdf|Lecture 02 Preparation]]
 - [[Preparation slides lesson 3.pdf|Lecture 03 Preparation]]
+- [[Preparation slides lesson 5.pdf|Lecture 05 Preparation]]
+- [[62711_lesson6_f2026.pdf|Lesson 6]]
 - [[Eksempel på multiplexer og decoder med when else.pdf|Multiplexer & decoder example]]
 - [[Example_Flip-flops.pdf|Flip-flops example]]
 - [[05_Carrylookahead_supp4.pdf|Carry-lookahead (supplement)]]
