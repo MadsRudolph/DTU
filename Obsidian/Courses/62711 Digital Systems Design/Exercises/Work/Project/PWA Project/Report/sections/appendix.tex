@@ -1,0 +1,161 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\lstdefinestyle{vhdl}{
+    language=VHDL,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=4,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+}
+\begin{document}
+\fi
+
+\newpage
+\appendix
+
+\section{Simuleringslog}
+\label{sec:appendix-sim-logs}
+
+\subsection{Register File Timing Diagram -- Simuleringslog}
+\label{sec:appendix-timing-log}
+
+Herunder ses konsol-outputtet fra Vivado xsim for \texttt{RegisterFile\_timing\_tb}. Testbenchen verificerer skrivning til register R10 (DA = 1010) som beskrevet i \textbf{Afsnit \ref{sec:timing-diagram}}.\\
+\textit{Bemærk: Denne testbench er genereret ved hjælp af AI (Claude).}
+
+\begin{lstlisting}[style=vhdl, language={}, title={Vivado xsim konsol-output}]
+Time resolution is 1 ps
+
+Note: PHASE 1: Reset complete, R10 = 0x00
+Time: 60 ns  Iteration: 0
+Process: /RegisterFile_timing_tb/STIM
+
+Note: PHASE 2: Write successful, R10 = 0x42
+Time: 81 ns  Iteration: 0
+Process: /RegisterFile_timing_tb/STIM
+
+Note: PHASE 3: Write blocked (RW=0), R10 still = 0x42
+Time: 121 ns  Iteration: 0
+Process: /RegisterFile_timing_tb/STIM
+
+Note: PHASE 4: R5 = 0xAB, R10 still = 0x42
+Time: 162 ns  Iteration: 0
+Process: /RegisterFile_timing_tb/STIM
+
+Note: TIMING DIAGRAM TB: ALL PHASES PASSED
+Time: 182 ns  Iteration: 0
+Process: /RegisterFile_timing_tb/STIM
+\end{lstlisting}
+
+\noindent
+Alle fire faser bestod uden fejl, hvilket bekræfter at Register File'en korrekt håndterer skrivning, blokering ved RW = 0, og isolation mellem registre.
+
+\subsection{Register File Timing Diagram -- VHDL Testbench}
+\label{sec:appendix-timing-vhdl}
+
+\begin{lstlisting}[style=vhdl, caption={RegisterFile\_timing\_tb.vhd}, label={lst:timing-tb}]
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
+
+entity RegisterFile_timing_tb is
+end RegisterFile_timing_tb;
+
+architecture timing_diagram of RegisterFile_timing_tb is
+
+    signal RESET  : STD_LOGIC := '0';
+    signal CLK    : STD_LOGIC := '0';
+    signal RW     : STD_LOGIC := '0';
+    signal DA     : STD_LOGIC_VECTOR(3 downto 0) := "0000";
+    signal AA     : STD_LOGIC_VECTOR(3 downto 0) := "0000";
+    signal BA     : STD_LOGIC_VECTOR(3 downto 0) := "0000";
+    signal D_Data : STD_LOGIC_VECTOR(7 downto 0) := x"00";
+    signal A_Data : STD_LOGIC_VECTOR(7 downto 0);
+    signal B_Data : STD_LOGIC_VECTOR(7 downto 0);
+
+    constant CLK_PERIOD : time := 20 ns;
+    signal test_done : boolean := false;
+
+begin
+
+    UUT: entity work.RegisterFile
+    port map (
+        RESET => RESET, CLK => CLK, RW => RW,
+        DA => DA, AA => AA, BA => BA,
+        D_Data => D_Data, A_Data => A_Data, B_Data => B_Data
+    );
+
+    CLK_PROC: process
+    begin
+        if test_done then wait; end if;
+        CLK <= '0'; wait for CLK_PERIOD / 2;
+        CLK <= '1'; wait for CLK_PERIOD / 2;
+    end process;
+
+    AA <= "1010"; -- observe R10 on A_Data
+
+    STIM: process
+    begin
+        -- PHASE 1: Reset
+        RESET <= '1'; RW <= '0'; DA <= "0000"; D_Data <= x"00";
+        wait for CLK_PERIOD * 2;
+        RESET <= '0'; wait for CLK_PERIOD;
+        assert A_Data = x"00" report "PHASE 1 FAIL" severity error;
+        report "PHASE 1: Reset complete, R10 = 0x00";
+
+        -- PHASE 2: Write 0x42 to R10
+        RW <= '1'; DA <= "1010"; D_Data <= x"42";
+        wait for CLK_PERIOD;
+        wait for 1 ns;
+        assert A_Data = x"42" report "PHASE 2 FAIL" severity error;
+        report "PHASE 2: Write successful, R10 = 0x42";
+        RW <= '0'; wait for CLK_PERIOD - 1 ns;
+
+        -- PHASE 3: RW=0 blocks write
+        DA <= "1010"; D_Data <= x"FF"; RW <= '0';
+        wait for CLK_PERIOD;
+        wait for 1 ns;
+        assert A_Data = x"42" report "PHASE 3 FAIL" severity error;
+        report "PHASE 3: Write blocked (RW=0), R10 still = 0x42";
+        wait for CLK_PERIOD - 1 ns;
+
+        -- PHASE 4: Write R5, verify R10 unchanged
+        RW <= '1'; DA <= "0101"; D_Data <= x"AB";
+        wait for CLK_PERIOD;
+        wait for 1 ns;
+        assert A_Data = x"42" report "PHASE 4 FAIL: R10 changed" severity error;
+        BA <= "0101"; wait for 1 ns;
+        assert B_Data = x"AB" report "PHASE 4 FAIL: R5" severity error;
+        report "PHASE 4: R5 = 0xAB, R10 still = 0x42";
+
+        RW <= '0'; wait for CLK_PERIOD;
+        report "TIMING DIAGRAM TB: ALL PHASES PASSED" severity note;
+        test_done <= true; wait;
+    end process;
+
+end timing_diagram;
+\end{lstlisting}
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

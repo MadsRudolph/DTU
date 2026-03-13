@@ -1,0 +1,104 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+\section{Datapath Design}
+\label{sec:datapath-design}
+
+Datapath er den centrale enhed i vores PWA-arkitektur og forbinder alle de moduler, der er nødvendige for at lagre, transportere og behandle data. Det overordnede blokdiagram (se figur PWA-1 i opgavebeskrivelsen) viser, hvordan de tre hovedblokke --- Register File, Function Unit og den tilhørende multiplexer-/dekoderlogik --- er forbundet.
+
+\subsection{Input- og outputsignaler}
+\label{sec:io-signals}
+
+Datapath-modulet har følgende eksterne signaler:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|c|c|p{7cm}}
+        \textbf{Signal} & \textbf{Retning} & \textbf{Bredde} & \textbf{Beskrivelse} \\
+        \hline
+        CLK        & in  & 1 bit  & Clock-signal til synkron register-overførsel \\
+        RESET      & in  & 1 bit  & Asynkront reset af alle registre \\
+        RW         & in  & 1 bit  & Read/Write --- aktiverer skrivning til Register File ved rising edge \\
+        DA(3:0)    & in  & 4 bit  & Destination Address --- vælger hvilket register der skrives til \\
+        AA(3:0)    & in  & 4 bit  & A Address --- vælger register til A\_Data output \\
+        BA(3:0)    & in  & 4 bit  & B Address --- vælger register til B\_Data output \\
+        ConstantIn(7:0) & in & 8 bit & Ekstern konstant til MUXB \\
+        MB         & in  & 1 bit  & Styrer MUXB: 0 = B\_Data fra RF, 1 = ConstantIn \\
+        FS3--FS0   & in  & 4 bit  & Function Select --- bestemmer mikrooperationen i Function Unit \\
+        Cin        & in  & 1 bit  & Carry-in til ALU'ens adder \\
+        DataIn(7:0)& in  & 8 bit  & Ekstern data-input til MUXD \\
+        MD         & in  & 1 bit  & Styrer MUXD: 0 = F fra Function Unit, 1 = DataIn \\
+        \hline
+        Address\_Out(7:0) & out & 8 bit & A\_Data fra Register File (bruges som adresse-bus) \\
+        Data\_Out(7:0)    & out & 8 bit & B\_Data direkte fra Register File \\
+        V          & out & 1 bit  & Overflow-flag fra ALU \\
+        C          & out & 1 bit  & Carry-flag fra ALU \\
+        N          & out & 1 bit  & Negative-flag fra NegZero \\
+        Z          & out & 1 bit  & Zero-flag fra NegZero \\
+    \end{tabular}
+    \caption{Datapath input- og outputsignaler}
+    \label{tab:datapath-signals}
+\end{table}
+
+\subsection{Datapath Flow}
+\label{sec:datapath-flow}
+
+Signalflowet gennem datapath kan beskrives i følgende trin:
+
+\begin{enumerate}
+    \item \textbf{Register File $\rightarrow$ A\_Data og B\_Data (8 bit):} Register File modtager adresserne AA(3:0) og BA(3:0), som via to 16-til-1 multiplexere (MUX16x1x8) vælger de ønskede registerværdier. A\_Data og B\_Data er begge 8 bit brede og føres ud som operander.
+
+    \item \textbf{A\_Data $\rightarrow$ Function Unit input A (8 bit):} A\_Data føres direkte til Function Unit som operand A. Derudover føres A\_Data ud som Address\_Out.
+
+    \item \textbf{B\_Data $\rightarrow$ MUXB $\rightarrow$ Function Unit input B (8 bit):} B\_Data passerer gennem MUXB (MUX2x1x8), som styres af MB-signalet (1 bit). Hvis MB = 0, vælges B\_Data; hvis MB = 1, vælges ConstantIn (8 bit). Outputtet Bus\_B føres til Function Unit som operand B. Bemærk at Data\_Out tages direkte fra B\_Data (før MUXB).
+
+    \item \textbf{Function Unit --- intern signalflow:}
+    \begin{itemize}
+        \item FS(3:0) føres til Function Select (FSel), som genererer MF-signalet (1 bit) ved at AND'e FS3 og FS2.
+        \item JSel (4 bit) afledt af FS styrer ALU'ens operation. ALU modtager A og B (begge 8 bit) samt Cin (1 bit) og producerer J (8 bit) samt V og C (begge 1 bit).
+        \item HSel (2 bit) afledt af FS(1:0) styrer Shifterens operation. Shifteren modtager B (8 bit) og producerer H (8 bit).
+        \item MUXF (MUX2x1x8) styres af MF (1 bit) og vælger mellem J (ALU-output) og H (Shifter-output). Resultatet F (8 bit) sendes til NegZero og MUXD.
+        \item NegZero modtager F (8 bit) og genererer N- og Z-flagene (begge 1 bit).
+    \end{itemize}
+
+    \item \textbf{F $\rightarrow$ MUXD $\rightarrow$ D\_Data (8 bit):} Resultatet F fra Function Unit passerer gennem MUXD (MUX2x1x8), som styres af MD-signalet (1 bit). Hvis MD = 0, vælges F; hvis MD = 1, vælges DataIn (8 bit). MUXD's output D\_Data (8 bit) føres tilbage til Register File.
+
+    \item \textbf{D\_Data $\rightarrow$ Register File (skrivning):} D\_Data (8 bit) skrives til det register, som er valgt af DA(3:0) via Destination Decoder, men kun hvis RW = 1 og der er en opadgående clock-kant.
+\end{enumerate}
+
+\noindent
+\textbf{Tabel \ref{tab:signal-widths}} opsummerer de interne signaler og deres bredder:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|c|l}
+        \textbf{Signal} & \textbf{Bredde} & \textbf{Forbindelse} \\
+        \hline
+        A\_Data     & 8 bit  & Register File $\rightarrow$ FU (A), Address\_Out \\
+        B\_Data     & 8 bit  & Register File $\rightarrow$ MUXB \\
+        Bus\_B      & 8 bit  & MUXB $\rightarrow$ FU (B) \\
+        D\_Data     & 8 bit  & MUXD $\rightarrow$ Register File \\
+        J           & 8 bit  & ALU $\rightarrow$ MUXF \\
+        H           & 8 bit  & Shifter $\rightarrow$ MUXF \\
+        F           & 8 bit  & MUXF $\rightarrow$ NegZero, MUXD \\
+        Load(15:0)  & 16 bit & Destination Decoder $\rightarrow$ RegisterR16 \\
+        JSel        & 4 bit  & FS(3:0) $\rightarrow$ ALU (styrer B-transformation og aritmetik/logik) \\
+        HSel        & 2 bit  & FS(1:0) $\rightarrow$ Shifter \\
+        Cin         & 1 bit  & Ekstern carry-in $\rightarrow$ ALU adder \\
+        MF          & 1 bit  & FSel $\rightarrow$ MUXF \\
+    \end{tabular}
+    \caption{Interne signaler i datapath med bredde og forbindelse}
+    \label{tab:signal-widths}
+\end{table}
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

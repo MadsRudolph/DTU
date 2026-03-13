@@ -1,0 +1,19 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+\section{Introduktion}
+\label{sec:intro}
+I dette projekt har vi designet, simuleret og dokumenteret en komplet Programmable Word Architecture (PWA), som udgør grundstrukturen for en simpel datapath bestående af en Register File, en Function Unit (ALU + shifter) samt den nødvendige dekoder- og multiplexerlogik. Projektet er første del af en større modulopbygget udviklingsproces, hvor fokus ligger på at forstå, konstruere og verificere de centrale hardwarekomponenter i et digitalt system.\\
+Formålet med arbejdet er dels at opnå en dybere forståelse af, hvordan en datapath fungerer på signalniveau, og dels at udvikle de enkelte moduler gennem strukturel VHDL og systematiske testbenches. Register File-modulet er ansvarligt for lagring og selektiv udlæsning af data til datapathen, mens Function Unit-enheden udfører de aritmetiske og logiske mikrooperationer, der styres via det 4‑bit brede function select‑signal. I projektet indgår også design af både timingdiagrammer, funktionsoversigter og verificering af signalflow mellem modulerne.\\ Hver komponent konstrueres, simuleres og dokumenteres, før den indgår i det samlede datapath-design. Resultatet er en fuldt fungerende PWA‑datapath, der korrekt kan modtage, gemme, behandle og returnere data gennem de specificerede mikrooperationer.
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

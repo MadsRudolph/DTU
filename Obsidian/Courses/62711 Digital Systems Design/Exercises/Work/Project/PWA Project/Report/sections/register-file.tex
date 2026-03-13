@@ -1,0 +1,249 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+% begynder afsnittet fra en ny side så formatet er det samme i main.tex
+\newpage
+
+\section{Register File}
+\label{sec:register-file}
+% 16x8-bit register file med dual read ports og synkron write
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//Register/register_top.png}
+    \caption{Register File top}
+    \label{fig:Register_File_top}
+\end{figure}
+Register File udgør den ene halvdel af Datapath, \textbf{Fig \ref{fig:Register_File_top}} viser Register File og de underliggende komponenter som er følgende:
+\begin{itemize}
+    \item \textbf{Destination Decoder} - En 4x16 dekoder som modtager Write signal samt adressen på hvilket register som skal skrives til.
+    \item \textbf{RegisterR16} - En register blok som indeholder 16 registre.
+    \item \textbf{MUXA \& MUXB} - To multiplexer som udvælger hvilke register værdier som skal skrives til output A og B.
+\end{itemize}
+\noindent
+Hovedopgaverne som Register File udfører er at lagre data fra Function Unit eller inputdata som kommer udefra datapath.
+
+\subsection{Timing Diagram --- Register Transfer}
+\label{sec:timing-diagram}
+
+For at illustrere, hvordan en skrivning til Register File foregår, beskrives her et eksempel med DA = 1010 (register R10).
+
+\noindent
+Forløbet er som følger:
+\begin{enumerate}
+    \item \textbf{Opsætningsfase:} Kontrolsignalerne sættes: RW = 1, DA = \texttt{"1010"}, og D\_Data indeholder den ønskede værdi (fx \texttt{0x42}).
+    \item \textbf{Destination Decoder:} Da RW = 1, dekoder DD adressen DA = 1010 til Load(10) = 1, mens alle øvrige Load-signaler forbliver 0.
+    \item \textbf{Opadgående clock-kant:} Ved den opadgående flanke af CLK overføres D\_Data til register R10, da Load(10) er aktiv. Alle andre registre beholder deres nuværende værdi, da deres respektive Load-signaler er 0.
+    \item \textbf{Efter clock-kanten:} R10 indeholder nu den nye værdi. Hvis AA eller BA peger på register 10, vil A\_Data eller B\_Data afspejle den opdaterede værdi.
+\end{enumerate}
+
+\noindent
+Hvis RW = 0 i stedet, vil Destination Decoder producere Load = \texttt{0x0000} uanset DA-værdien, og ingen registre opdateres --- selv ved en opadgående clock-kant.
+
+\noindent
+\textbf{Fig \ref{fig:timing-diagram}} viser simuleringen af dette forløb. Testbenchen anvender \texttt{assert}-statements til at verificere hvert trin automatisk. Den tilhørende testbench-kode og det fulde simuleringslog kan ses i \textbf{Appendix \ref{sec:appendix-timing-log}}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{images/Register/timing_diagram.png}
+    \caption{Timing diagram for skrivning til register R10 (DA = 1010)}
+    \label{fig:timing-diagram}
+\end{figure}
+
+\subsection{D-Flip-Flop}
+\label{sec:flip-flop}
+
+Vi har programmeret en D-Flip-Flop, som vi senere anvendte til at konstruere registrene som RegisterR16 består af. D-Flip-Floppen er den eneste del af Datapath som er skrevet med behavioral VHDL-kode og skiller sig derfor lidt ud, men dette er nødvendigt, da en D-Flip-Flop skrevet via strukturel VHDL har problemer med at blive implementeret i hardware. \textbf{Fig \ref{fig:flipflop_sim}} viser en testbench af flip-floppen som bekræfter flip-floppens funktionalitet, imens \textbf{tabel \ref{tab:flip-flop_sim_table}} forklarer hvad som simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Register/flip-flop_sim.png}
+    \caption{D-flip-flop simulering}
+    \label{fig:flipflop_sim}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{9cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        10 ns & Input (\texttt{D}) overføres til output (\texttt{Q}) ved opadgående clock-kant \\
+        \hline
+        20 ns & Input (\texttt{D}) ændres før opadgående clock-kant for at teste at forrige input holdes helt indtil næste opadgående clock-kant \\
+        \hline
+        30 ns & Først nu opdateres output (\texttt{Q}) til det nye input (\texttt{D = 1}) \\
+        \hline
+        41 ns & Asynkront reset testes \\
+    \end{tabular}
+    \caption{Gennemgang af flip-flop simuleringen}
+    \label{tab:flip-flop_sim_table}
+\end{table}
+
+\subsection{MUX2x1}
+
+Parallel-registrerene som RegisterR16 består af, skal have et enable-signal implementeret. Dette er nødvendigt, således at datapath selectivt kan vælge hvilket af de seksten registre i RegisterR16 som skal skrives til på et vilkårligt tidspunkt. \\
+
+\noindent
+Dette enable-signal har vi implementeret med en 2 til 1 MUX, som sidder på indgangen af hver eneste D-flip-flop. MUX'erne, hvis output er forbundet til flip-floppernes input, vælger at sende enten det forrige output fra flip-floppen tilbage ind i dens input, eller en ny dataværdi som er modtaget fra \texttt{D\_Data}-bussen.\\
+
+\noindent
+Dette er en simpel måde at implementere et enable-signal på. Det tillader en D-flip-flop enten at gemme nye data, eller holde på den forrige data indtil der slukkes helt for systemet.\\
+
+\noindent
+\textbf{Fig \ref{fig:1_bit_register_diagram}} viser en diagramtegning af hvordan MUX'erne og D-flip-flopperne er forbundne. \textbf{Fig \ref{fig:MUX2x1_sim}} viser en simulering af 2 til 1 MUX'en som bekræfter dens funktionalitet, imens \textbf{Tabel \ref{tab:MUX2x1_sim_table}} forklarer hvad simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//Register/MUX2x1_sim.png}
+    \caption{Simulering af 2 til 1 MUX}
+    \label{fig:MUX2x1_sim}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{4.5cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        0 ns $\rightarrow$ 10 ns & Output (\texttt{Y}) følger input \texttt{Q} \\
+        \hline
+        20 ns $\rightarrow$ 35 ns & Output (\texttt{Y}) følger input \texttt{D} \\
+    \end{tabular}
+    \caption{Gennemgang af MUX2x1 simuleringen}
+    \label{tab:MUX2x1_sim_table}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//Register/MUX2x1_diagram.png}
+    \caption{1-bit register diagrm}
+    \label{fig:1_bit_register_diagram}
+\end{figure}
+
+\subsection{8-bit Register}
+\label{sec:8bit-register}
+
+8-bit parallel-registrerene som RegisterR16 indeholder, er sammensat af otte 1-bit registre som det på \textbf{Fig \ref{fig:1_bit_register_diagram}}. Hvert af de 1-bit registre modtager et enkelt bit fra \texttt{D\_Data}-bussen, som varierer fra indeks 0 til 7.
+
+\subsection{RegisterR16}
+\label{sec:registerr16}
+
+RegisterR16 er som beskrevet i de forrige afsnit en blok af seksten parallel-registre. Hvert register er opbygget af otte 1-bit registre, som alle benytter den samme MUX-baserede enable-funktionalitet fra \textbf{Fig \ref{fig:1_bit_register_diagram}}. \\ \\
+\noindent
+\textbf{Fig \ref{fig:RegisterR16_sim}} viser en simulering af RegisterR16, som bekræfter dets funktionalitet. \textbf{Tabel \ref{tab:RegisterR16_sim_table}} forklarer, hvad simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//Register/RegisterR16_sim.png}
+    \caption{Simulering af RegisterR16}
+    \label{fig:RegisterR16_sim}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{9cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        0 ns $\rightarrow$ 65 ns & Reset har været høj så alle registre er nul inden opadgående clock-kant \\
+        \hline
+        65 ns $\rightarrow$ 140 ns & LOAD sættes højt for alle registre og D\_Data gemmes i alle registre \\
+        \hline
+        140 ns & alle registre resetes igen\\
+    \end{tabular}
+    \caption{Gennemgang af RegisterR16 simuleringen}
+    \label{tab:RegisterR16_sim_table}
+\end{table}
+
+\subsection{Destination Decoder}
+\label{sec:destination-decoder}
+
+Destination Decoder er en 4 til 16 decoder, som udvælger hvilket register der skal loades data ind i, i register-blokken RegisterR16. \\ \\
+\noindent
+Ydermere har Destination Decoder et enable-signal kaldet RW (Read Write). Hvis ikke dette signal er højt, skrives der ikke til nogen registre.\\ \\
+\noindent
+\textbf{Fig \ref{fig:DD_sim}} viser en simulering af Destination Decoder, som bekræfter dets funktionalitet. \textbf{Tabel \ref{tab:DD_sim_table}} forklarer, hvad simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images//Register/DestinationDecoder_sim.png}
+    \caption{Simulering af DestinationDecoder}
+    \label{fig:DD_sim}
+\end{figure}
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{9cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        0 ns $\rightarrow$ 310 ns & Alle udgange fra decoderen testes for både korrekt aflæsning af data-adressen og for at bekræfte, at \texttt{RW} aktiverer de relevante udgange. \\
+    \end{tabular}
+    \caption{Gennemgang af DestinationDecoder-simuleringen}
+    \label{tab:DD_sim_table}
+\end{table}
+
+\subsection{MUX16x1x8}
+\label{sec:mux16x1}
+
+Både MUXA og MUXB består af en 16 til 1-byte MUX. Disse multiplexere er hver konstrueret af otte 16 til 1-bit MUX'er. \\ \\
+\noindent
+\textbf{Fig \ref{fig:MUX16x1x8_sim}} viser en simulering af MUX16x1x8, som bekræfter dets funktionalitet. \textbf{Tabel \ref{tab:MUX16x1x8_sim_table}} forklarer, hvad simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//Register/MUX16x1x8.png}
+    \caption{Simulering af MUX16x1x8}
+    \label{fig:MUX16x1x8_sim}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{9cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        0 ns $\rightarrow$ 160 ns & MUX16x1x8 skifter mellem registerværdierne R0–R16 baseret på \texttt{D\_Select}, med et skifte hver 10 ns
+    \end{tabular}
+    \caption{Gennemgang af MUX16x1x8 simuleringen}
+    \label{tab:MUX16x1x8_sim_table}
+\end{table}
+
+\subsection{Register File Test}
+\label{sec:register-file-test}
+
+Vi har testet hele register-file i en samlet simulering, som kan ses i \textbf{Fig \ref{fig:RF_sim}}. Dette gøres for at bekræfte, at alle underdelene fungerer koblet sammen. \\
+\noindent
+\textbf{Tabel \ref{tab:RF_sim_table}} forklarer, hvad simuleringen tester.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images//Register/RegisterFile_sim.png}
+    \caption{Simulering af hele RegisterFile}
+    \label{fig:RF_sim}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{2.5cm}|p{9cm}}
+        \textbf{Tidspunkt} & \textbf{Test parametre} \\
+        \hline
+        0 ns $\rightarrow$ 70 ns  & Reset aktiveres for at sikre et klart udgangspunkt. \\
+        \hline
+        70 ns $\rightarrow$ 90 ns & Test af at indlæsning kun sker ved den opadgående clock-kant, samt at \texttt{Write}-signalet fungerer som forventet. \\
+        \hline
+        90 ns $\rightarrow$ 250 ns & Indlæsning af en unik værdi i hvert register. \\
+        \hline
+        250 ns $\rightarrow$ 410 ns & Skiftevis udskrift af alle registerværdier på \texttt{A\_Data} og \texttt{B\_Data}. \\
+    \end{tabular}
+    \caption{Gennemgang af RegisterFile-simuleringen}
+    \label{tab:RF_sim_table}
+\end{table}
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

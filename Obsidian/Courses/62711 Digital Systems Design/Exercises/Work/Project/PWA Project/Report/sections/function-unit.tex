@@ -1,0 +1,214 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+\section{Function Unit}
+\label{sec:function-unit}
+Function Unit udfører mikro-operationer på operanderne A og B. Enheden kan udføre både logiske og aritmiske operationer samt right shift og left shift på B operanden. \\
+Function Unit er styret af signalet FS(3:0) (function select), som bestemmer hvilken mikro-operation der udføres. Resultatet af den valgte mikro-operation F(7:0) føres herefter ind i MUXD. \\
+Signalerne V, C, Z og N er flag der bliver sat ved forskellige forhold under operationen: \\
+\begin{itemize}
+\item V flaget kommer fra ALU'en og går højt hvis vi har aritmisk overflow.
+\item C flaget kommer fra ALU'en og går højt hvis vi har en \textbf{carry out} på \textbf{C(8)}.
+\item Z flaget går højt hvis resultatet på F(7:0) er lig 0.
+\item N flaget går højt hvis F(7:0) er et negativt resultat dvs. F(7) = N. 
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/function-unit/FU.png}
+    \caption{Function Unit blok diagram}
+    \label{fig:function-unit}
+\end{figure}
+
+\subsection{Eksempelberegninger}
+\label{sec:fu-examples}
+
+For at demonstrere Function Unit's funktionalitet er der i \textbf{Tabel \ref{tab:fu-examples}} vist konkrete eksempler på addition, subtraktion (2's komplement), XOR og shift left med de tilhørende styresignaler og flag-værdier.
+
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|l}
+        \textbf{\#} & \textbf{FS} & \textbf{J\_Sel} & \textbf{H\_Sel} & \textbf{MF} & \textbf{A} & \textbf{B} & \textbf{F} & \textbf{V} & \textbf{C} & \textbf{N} & \textbf{Z} \\
+        \hline
+        \multicolumn{12}{l}{\textit{Addition (A + B), FS = 0010}} \\
+        \hline
+        1 & 0010 & 0010 & XX & 0 & 03h & 02h & 05h & 0 & 0 & 0 & 0 \\
+        2 & 0010 & 0010 & XX & 0 & 7Fh & 01h & 80h & 1 & 0 & 1 & 0 \\
+        3 & 0010 & 0010 & XX & 0 & FFh & 01h & 00h & 0 & 1 & 0 & 1 \\
+        \hline
+        \multicolumn{12}{l}{\textit{Subtraktion (A + $\overline{B}$ + 1), FS = 0101}} \\
+        \hline
+        4 & 0101 & 0101 & XX & 0 & 08h & 03h & 05h & 0 & 1 & 0 & 0 \\
+        5 & 0101 & 0101 & XX & 0 & 03h & 08h & FBh & 0 & 0 & 1 & 0 \\
+        6 & 0101 & 0101 & XX & 0 & 80h & 01h & 7Fh & 1 & 1 & 0 & 0 \\
+        \hline
+        \multicolumn{12}{l}{\textit{XOR (A $\oplus$ B), FS = 1010}} \\
+        \hline
+        7 & 1010 & 1X10 & XX & 0 & AAh & 55h & FFh & 0 & 0 & 1 & 0 \\
+        \hline
+        \multicolumn{12}{l}{\textit{Shift Left (sl B), FS = 1110}} \\
+        \hline
+        8 & 1110 & XXXX & 10 & 1 & --  & 55h & AAh & -- & -- & 1 & 0 \\
+    \end{tabular}
+    \caption{Eksempelberegninger for Function Unit med flag-værdier. V og C er kun meningsfulde når MF = 0 (ALU-output valgt).}
+    \label{tab:fu-examples}
+\end{table}
+
+\noindent
+\textbf{Bemærkninger til tabellen:}
+\begin{itemize}
+    \item \textbf{Eksempel 2:} $127 + 1 = 128$, men i signed 8-bit er 128 = $-128$ (overflow). V = 1 da carry ind i MSB $\neq$ carry ud af MSB.
+    \item \textbf{Eksempel 3:} $-1 + 1 = 0$. Carry out C = 1, men intet overflow (V = 0). Z = 1 da resultatet er nul.
+    \item \textbf{Eksempel 5:} $3 - 8 = -5$ (FBh i 2's komplement). C = 0 indikerer borrow.
+    \item \textbf{Eksempel 6:} $-128 - 1 = -129$, som ikke kan repræsenteres i signed 8-bit. V = 1 (overflow).
+    \item \textbf{Eksempel 8:} Ved shift left er V og C fra ALU'en ikke relevante, da MF = 1 vælger shifterens output.
+\end{itemize}
+
+\subsection{ALU}
+\label{sec:alu}
+% Arithmetic Logic Unit -- 8-bit adder + logic unit
+ALU modulet står for at udføre både aritmiske og logiske operationer. De aritmiske operationer er udført af en 8x1-bit full adder som er beskrevet i næste afsnit. De logiske operationer følger den sandhedstabel der er opgivet i opgavebeskrivelsen. Vi kan med JSel(3 downto 0) som styresignaler styre hvilken af de 4 logiske operationer ALU'en udfører. \\
+Hver af de fire logiske funktioner (A OR B, A AND B, A XOR B og NOT A) genereres parallelt. JSel‑signalet fungerer herefter som et selektionssignal, der bestemmer, hvilken af de logiske outputs der skal sendes videre til J‑bussen. I praksis sker dette ved, at JSel‑bittene aktiverer én af de fire logiske veje gennem AND‑gates, hvorefter alle disse samles i en OR‑gate. \\
+Det betyder, at kun den funktion, som matcher mønsteret på JSel, bliver ført ud.\\
+Figuren nedenfor viser strukturen: de fire logiske operationer beregnes først, og JSel‑bittene bruges derefter til at vælge det aktive resultat.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/function-unit/ALU_logic.png}
+    \caption{ALU Logic operation}
+    \label{fig:placeholder}
+\end{figure}
+\noindent De aritmetiske operationer i ALU’en er implementeret direkte ud fra funktionsdiagrammet, som blev gennemgået i Lesson 3. Diagrammet angiver, hvordan hver 1‑bit full‑adder skal forsynes med de korrekte signaler for at kunne udføre addition og subtraction i 2’s komplement. Vi har taget strukturen fra diagrammet og omsat den én‑til‑én til VHDL i Vivado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/function-unit/ALUArit.png}
+    \caption{Funktionsdiagram for aritmetiske funktioner for ALU }
+    \label{fig:placeholder}
+\end{figure}
+\noindent Til sidst har vi samlet de aritmetiske og logiske operationer, som, de bliver valgt JSel(3), som styre hvilken operation bliver lukket igennem. 
+
+
+\noindent Nedenfor ses testbench af ALU'en og det er tydeligt at se at den opfører sig som forventet. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/function-unit/ALU_TB.png}
+    \caption{ALU TB}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsubsection{Full Adder}
+\label{sec:full-adder}
+% 8 og 1-bit full adder
+8-bit full adderen er sat sammen af 8x1-bit full adders der hver består af to half adders. måden den fungerer på er at ved det pågældende bit nummer (i), tages den binære værdi af operanderne A og B og føres ind på indgangene i den første half adder. For at vi i resultatet på samme bitnummer S(i) får et logisk 1 kræver det at enten kun en af operanderne er logisk 1 eller at begge operander samt carry in (Ci) er logisk 1. og for at vores carry out (Ci+1) bliver logisk 1 skal 2 eller 3 af A, B og Ci være logisk 1.\\
+\newpage\noindent Nedenfor ses det logiske design af 1-bit full-adderen. Designet er inspireret af full adder designet fra slideshow 62711\_lesson2\_f2026 slide 5. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/function-unit/Full_adder_dia.png}
+    \caption{1bit full adder}
+    \label{fig:placeholder}
+\end{figure}
+\newpage
+\noindent Herunder ses implementeringen af 8x1-bit full-adders med en enkelt 1-bit full adder expanderet så man kan se det logiske indhold.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/function-unit/Full_adder.png}
+    \caption{8 bit full adder funktions diagram}
+    \label{fig:placeholder}
+\end{figure}
+
+\noindent Efter at have implementeret 8x1-bit full-adderen har vi lavet en test bench og vi kan konkludere at den virker efter hensigten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/function-unit/TB_Full_adder.png}
+    \caption{Full-adder TB}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection{Shifter}
+\label{sec:shifter}
+Shifteren er designet ud fra vores eget funktionsdiagram og opfylder kravene i opgavebeskrivelsen. HSel‑signalernes to bit føres ind i en XOR‑gate, som sikrer, at der kun sker et shift, når bittene er forskellige. Når de er ens, forbliver Htemp = 0, og der udføres derfor intet shift.\\
+For at opnå dette inverteres HTemp og AND’es med den originale B‑værdi. Når HSel‑bittene er forskellige, bliver Htemp = 1, og dette signal AND’es med både HSel(0) og HSel(1). På den måde dannes to enable‑signaler, sr og sl, som hver især aktiverer henholdsvis et højre‑ eller venstreshift. Disse enable‑signaler trækkes ud til 8 individuelle porte, så hele 8‑bit‑bussen behandles korrekt og alle bit bliver shiftet ens.
+Selve shiftet sker ved at ”klistre” et bit ind på enten MSB eller LSB, mens resten af bittene flyttes én position i den ønskede retning. Til sidst samles både det shiftede og det ikke‑shiftede signal i en OR‑gate. Da kun én betingelse kan være opfyldt ad gangen, sikrer OR‑gaten, at det korrekte resultat altid fremkommer på output H, samtidig med at alle funktioner kan deles om samme udgang.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/shifter/Shifter.png}
+    \caption{Shifter funktionsdiagram}
+    \label{fig:shifter}
+\end{figure}
+\noindent Efter at have implementeret vores shifter‑design i Vivado, har vi udarbejdet en testbench for at verificere, at modulet fungerer som forventet. \\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/shifter/TestbenchShifter.png}
+    \caption{Test bench for shifter}
+    \label{fig:shifter-tb}
+\end{figure}
+\noindent Resultaterne fra simuleringen bekræfter, at designet opfører sig korrekt under alle testede betingelser.
+
+\subsection{Function Select}
+\label{sec:function-select}
+Function‑select‑signalet bruges til at generere MF‑signalet. MF dannes ved at AND’e FS(3) og FS(2), hvilket sikrer, at MF kun bliver aktivt for de funktioner, hvor begge bit er sat. Dette signal anvendes efterfølgende til at vælge mellem ALU’ens og shifterens output.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/function-unit/FuncSelFunc.png}
+    \caption{Funktionsdiagram for Function Select}
+    \label{fig:placeholder}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/function-unit/FuntionSelectTB.png}
+    \caption{Testbench for function select}
+    \label{fig:placeholder}
+\end{figure}
+Testbenchen for function select viser at fungere som forventet.
+
+\subsection{MUX2x1x8 (MUXF)}
+\label{sec:muxf}
+MUXF bruges til at vælge, hvilket resultat der skal sendes videre til MUXD. Her kan resultatet komme enten fra ALU’en eller shifteren. Det videresendte resultat bestemmes af MF‑signalet: Når MF = 1, vælges shifterens output, og når MF = 0, vælges ALU’ens output. Det valgte resultat sendes desuden videre til NegZero‑modulet.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/function-unit/MUXFFunc.png}
+    \caption{Funktionsdiagram for MUXF}
+    \label{fig:placeholder}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/function-unit/MUXFtb.png}
+    \caption{Test bench for MUXF}
+    \label{fig:placeholder}
+\end{figure}
+Test bench for MUXF viser, at den fungere som forventet.
+
+\subsection{NegZero} 
+\label{sec:negzero}
+NegZero‑modulet modtager resultatet fra MUXF og sætter N‑ og Z‑flagene for at indikere, om resultatet er negativt eller lig med 0. Det negative flag bestemmes ved at undersøge MSB’en af F: Hvis dette bit er 1, tolkes resultatet som et signed negativt tal, og N‑flaget sættes.
+Zero‑detektionen sker ved at AND’e alle bit i resultatet. Det samlede signal inverteres derefter, hvilket giver en logisk 1 på Z‑flaget, når hele resultatet er 0.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/function-unit/NegZero.png}
+    \caption{Funktionsdiagram for NegZero}
+    \label{fig:placeholder}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/function-unit/NegZeroTB.png}
+    \caption{Test bench for NegZero}
+    \label{fig:placeholder}
+\end{figure}
+Test bench for NegZero viser at den fungere som forventet.
+
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

@@ -7,11 +7,12 @@ tags: [DSD, PWA, project]
 # PWA Project -- ALU & Datapath
 
 > [!info] Project Info
-> **Phase:** PWA (Project Work A)
+> **Phase:** PWA (Project Work A) -- **Completed**
 > **Goal:** Design and implement the ALU and Register File as part of the Datapath
 > **Deadline:** 05-03-2026 (Week 9)
 > **Spec:** [[62711_ProjectWork_A_F2026.pdf|PWA Project Assignment]]
 > **Repo:** [GitHub](https://github.com/gigurd/Design-of-digital-systems-62711) &mdash; `team/PWA/`
+> **Next:** [[PWB Project]]
 
 ---
 
@@ -122,6 +123,6 @@ The function unit performs all arithmetic, logic, and shift operations. Controll
 > [!nav]
 > &nbsp;
 >
-> [[62711 Digital Systems Design|62711 Home]]
+> [[62711 Digital Systems Design|62711 Home]] | [[PWB Project|PWB Project ->]]
 >
 > &nbsp;

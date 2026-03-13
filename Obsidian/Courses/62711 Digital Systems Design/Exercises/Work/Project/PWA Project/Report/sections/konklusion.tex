@@ -1,0 +1,63 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+\section{Konklusion}
+\label{sec:conclusion}
+I dette projekt har vi udviklet og testet en fuldt fungerende Programmable Word Architecture (PWA), som består af en Register File, en Function Unit samt de nødvendige multiplexere og dekodere. Undervejs har vi designet hver komponent ud fra de krav, der er angivet i opgavebeskrivelsen, og verificeret deres funktion gennem målrettede testbenches.\\
+Resultaterne viser, at Register File’en korrekt kan lagre, opdatere og udlæse data baseret på de styrende signaler. Function Unit’en udfører alle specificerede mikrooperationer — herunder addition, subtraction, logiske funktioner og shift‑operationer — og genererer de korrekte flag for overflow, carry, zero og negative resultater. Samspillet mellem modulerne fungerer som forventet, og den samlede datapath lever op til kravene i projektets specifikation.\\
+Projektet har givet os en solid forståelse af, hvordan en datapath er opbygget, hvordan signalerne flyder mellem modulerne, og hvordan digital hardware kan struktureres, testes og dokumenteres systematisk. Det færdige design opfylder alle opstillede funktionelle krav og danner et stabilt grundlag for det videre arbejde i de kommende projektfaser.
+
+\subsection*{Modulansvar}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|l|l}
+        \textbf{Modul (VHDL + TB)} & \textbf{Ansvarlig} & \textbf{Subgruppe} \\
+        \hline
+        D-Flip-Flop, MUX2x1          & Sigurd  & 1 \\
+        Register8bit, RegisterR16     & Sigurd  & 1 \\
+        Destination Decoder           & Sigurd  & 1 \\
+        MUX16x1x8, RegisterFile       & Sigurd  & 1 \\
+        RegisterFile TB               & Mads    & 1 \\
+        ALU (logik + aritmetik)       & Andreas & 2 \\
+        Full Adder (1-bit + 8-bit)    & Andreas & 2 \\
+        Shifter                       & Jonas   & 2 \\
+        Function Select, NegZero      & Jonas   & 2 \\
+        MUX2x1x8 (MUXF)              & Jonas   & 2 \\
+        FunctionUnit                  & Andreas \& Jonas & 2 \\
+        Datapath (top-level wiring)   & Mads    & Fælles \\
+        Datapath TB                   & Mads    & Fælles \\
+        Rapport                       & Alle    & Fælles \\
+    \end{tabular}
+    \caption{Fordeling af modulansvar}
+    \label{tab:modulansvar}
+\end{table}
+
+% TODO: Udfyld faktiske timetal for hvert gruppemedlem
+\subsection*{Tidsforbrug}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|c}
+        \textbf{Gruppemedlem} & \textbf{Timer} \\
+        \hline
+        Andreas Skånning (s241123)             & XX \\
+        Jonas Beck Jensen (s240324)            & XX \\
+        Mads Rudolph (s246132)                 & XX \\
+        Sigurd Hestbech Christiansen (s245534) & XX \\
+    \end{tabular}
+    \caption{Tidsforbrug per gruppemedlem}
+    \label{tab:tidsforbrug}
+\end{table}
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

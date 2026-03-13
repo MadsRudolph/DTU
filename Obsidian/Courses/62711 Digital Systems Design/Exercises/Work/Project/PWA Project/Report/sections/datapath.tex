@@ -1,0 +1,47 @@
+\ifdefined\mainfile\else
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\begin{document}
+\fi
+
+\section{Datapath}
+\label{sec:datapath}
+% Top-level wiring: RegisterFile -> MUXB -> FunctionUnit -> MUXD -> write-back
+
+\subsection{MUXB}
+\label{sec:muxb}
+MUXB er en 8-bit 2-to-1 multiplexer, der vælger hvilken operand der føres ind som B-input til Function Unit. Multiplexeren styres af kontrolsignalet MB, som bestemmer om data fra Register File eller en ekstern konstant bruges som operand.
+Når MB er 0, vælges B\_Data fra Register File, som er den værdi der læses fra det register som er valgt af B-adressen. Når MB er 1, vælges ConstantIn, hvilket gør det muligt at bruge en immediate konstant direkte i en mikrooperation.
+MUXB er implementeret som en instans af MUX2x1x8 komponenten, hvor J er forbundet til B\_Data, H til ConstantIn, og MF til MB signalet. Outputtet Bus\_B føres videre som B-operand til Function Unit.
+
+
+\subsection{MUXD}
+\label{sec:muxd}
+MUXD er en 8-bit 2-to-1 multiplexer, der vælger hvilken data der skrives tilbage til Register File som D\_Data. Multiplexeren styres af kontrolsignalet MD, som bestemmer om resultatet fra Function Unit (F) eller ekstern data (DataIn) føres videre.
+Når MD er 0, vælges resultatet F fra Function Unit, hvilket bruges ved aritmetiske og logiske operationer. Når MD er 1, vælges DataIn, som gør det muligt at loade ekstern data direkte ind i registrene. MUXD er implementeret som en instans af MUX2x1x8 komponenten, hvor J er forbundet til F\_Out, H til DataIn, og MF til MD signalet.
+
+\subsection{Datapath Test}
+\label{sec:datapath-test}
+% Integrations-testbench -- 19 tests
+
+Vi har lavet en testbench, som tester at Datapath fungerer korrekt. 
+\textbf{Fig \ref{fig:Datapath_sim}} viser simuleringen af den samlede Datapath. 
+Simuleringen tester, at Datapath kan udføre alle funktionerne fra 
+funktionstabellerne i opgavebeskrivelsen og bekræfter dermed, at vores 
+implementering virker som forventet.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images//datapath/Datapath_sim.png}
+    \caption{Simulering af Datapath}
+    \label{fig:Datapath_sim}
+\end{figure}
+
+\ifdefined\mainfile\else
+\end{document}
+\fi

@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{subcaption}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[absolute,overlay]{textpos}
+\usepackage{float} % indeholder H komando
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{listings}           % Code listing support
+\usepackage{xcolor}             % Color for syntax highlighting
+\usepackage[colorlinks=true,    % Make links colored instead of boxed
+            linkcolor=black,    % Internal links (sections, figures, etc.) in black
+            citecolor=blue,     % Citations in blue
+            urlcolor=blue]{hyperref} % URLs in blue
+
+% VHDL listing style configuration
+\lstdefinestyle{vhdl}{
+    language=VHDL,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=4,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    literate=%
+        {æ}{{\ae}}1
+        {ø}{{\o}}1
+        {å}{{\aa}}1
+        {Æ}{{\AE}}1
+        {Ø}{{\O}}1
+        {Å}{{\AA}}1,
+}
+
+\title{PWA -- Programmable Word Architecture} 
+\author{Andreas Skånning (s241123), Jonas Beck Jensen (s240324)
+\\Mads Rudolph (s246132), Sigurd Hestbech Christiansen (s245534)}
+\date{Marts 2026}
+
+\newcommand{\mainfile}{}
+\newcommand{\doubleunderline}[1]{\underline{\underline{#1}}}
+
+\begin{document}
+
+% ============================================================
+%  FORSIDE
+% ============================================================
+
+% Logo i højre hjørne
+\begin{textblock*}{3cm}(17.5cm,1cm)
+  \includegraphics[scale=0.5]{images/frontpage/dtu_logo.png}
+\end{textblock*}
+
+\maketitle
+
+\begin{center}
+     \textbf{Kursus 62711 -- Design of Digital Systems}
+\end{center}
+
+\vspace*{0cm}
+\begin{figure}
+    \vspace{-6cm}
+    \hspace{-2cm}
+    \includegraphics[width=1.0\linewidth]{images/frontpage/dtu_retning.png}
+    \label{fig:frontpage}
+\end{figure}
+
+\begin{textblock*}{8cm}(6cm,9cm)
+    \fbox{\includegraphics[scale=0.5]{images/frontpage/dtu_andreas.png}}
+\end{textblock*}
+\begin{textblock*}{14cm}(6cm,12cm)
+    \textbf{Andreas}
+\end{textblock*}
+\begin{textblock*}{8cm}(6cm,12.4cm)
+    \textbf{s241123}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(11.8cm,9cm)
+    \fbox{\includegraphics[scale=0.23]{images/frontpage/Mads.png}}
+\end{textblock*}
+\begin{textblock*}{8cm}(11.8cm,12cm)
+    \textbf{Mads}
+\end{textblock*}
+\begin{textblock*}{8cm}(11.8cm,12.4cm)
+    \textbf{s246132}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(6cm,13cm)
+    \fbox{\includegraphics[scale=0.26]{images/frontpage/dtu_jonas.png}}
+\end{textblock*}
+\begin{textblock*}{8cm}(6cm,16cm)
+    \textbf{Jonas}
+\end{textblock*}
+\begin{textblock*}{8cm}(6cm,16.4cm)
+    \textbf{s240324}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(11.8cm,13cm)
+    \fbox{\includegraphics[scale=0.5]{images/frontpage/dtu_sigurd.png}}
+\end{textblock*}
+\begin{textblock*}{8cm}(11.8cm,16cm)
+    \textbf{Sigurd}
+\end{textblock*}
+\begin{textblock*}{8cm}(11.8cm,16.4cm)
+    \textbf{s245534}
+\end{textblock*}
+
+\vspace{9cm}
+\begin{center}
+     \textbf{\large Gruppe 3}
+\end{center}
+
+% ============================================================
+%  INDHOLD
+% ============================================================
+\newpage
+\tableofcontents
+\newpage
+
+\input{sections/introduktion}
+\input{sections/design-overblik}
+\input{sections/register-file}
+\input{sections/function-unit}
+\input{sections/datapath}
+\input{sections/syntese}
+\input{sections/konklusion}
+\input{sections/appendix}
+
+\end{document}
