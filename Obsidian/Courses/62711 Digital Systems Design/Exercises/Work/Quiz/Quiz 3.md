@@ -12,12 +12,12 @@ tags: [DSD, quiz]
 >
 > (K1 + K2): R1 ← R1 ∨ R3
 >
-> - [ ] R1 eller R3 indhold overføres til R1 når K1 eller K2 er 1
+> - [x] **R1 eller R3 indhold overføres til R1 når K1 eller K2 er 1**
 > - [ ] R1 eller R3 indhold overføres til R1 når K1 og K2 er 1
-> - [x] **R1 og R3 indhold overføres til R1 når K1 eller K2 er 1**
+> - [ ] R1 og R3 indhold overføres til R1 når K1 eller K2 er 1
 > - [ ] R1 og R3 indhold overføres til R1 når K1 og K2 er 1
 
-> [!success] Answer: R1 og R3 indhold overføres til R1 når K1 eller K2 er 1
+> [!success] Answer: R1 eller R3 indhold overføres til R1 når K1 eller K2 er 1
 
 > [!note]- Explanation The micro-operation has two parts: a **condition** and a **transfer**.
 >
@@ -35,7 +35,7 @@ tags: [DSD, quiz]
 > >
 > > $$R1 \leftarrow R1 \lor R3$$
 > >
-> > The contents of R1 **and** R3 are OR'ed together, and the result is stored in R1.
+> > The result of OR'ing R1 and R3 is stored in R1. The phrasing "R1 **eller** R3 indhold" refers to the OR operation — content from R1 or R3 (bitwise) is transferred to R1.
 >
 > > [!info] Key Distinction: `+` vs `∨`
 > >
@@ -44,7 +44,7 @@ tags: [DSD, quiz]
 > > |`+`|Control condition|OR (when to execute)|
 > > |`∨`|Data operation|Bitwise OR (what to compute)|
 > >
-> > - "R1 **og** R3 indhold" — both registers are used (OR operation combines them)
+> > - "R1 **eller** R3 indhold" — the OR operation selects bits from either R1 or R3
 > > - "når K1 **eller** K2 er 1" — the condition triggers on either control signal
 
 ---
@@ -56,13 +56,13 @@ tags: [DSD, quiz]
 > Circuit: Adder-Subtractor with Select(S) ← X, R1 with Load ← K1, R2 as input
 >
 > - [ ] X=0 og K1=0
-> - [ ] X=1 og K1=1
+> - [x] **X=1 og K1=1**
 > - [ ] X=1 og K1=0
-> - [x] **X=0 og K1=1**
+> - [ ] X=0 og K1=1
 
-> [!success] Answer: X=0 og K1=1
+> [!success] Answer: X=1 og K1=1
 
-> [!note]- Explanation The circuit is an **Adder-Subtractor** with a parallel load register.
+> [!note]- Explanation The circuit is an **Adder-Subtractor** with a parallel load register. The question asks for **2's complement addition**, which uses the complement-and-add method.
 >
 > > [!abstract] Select Signal (X → S)
 > >
@@ -70,10 +70,10 @@ tags: [DSD, quiz]
 > >
 > > |S (= X)|Operation|How|
 > > |---|---|---|
-> > |0|**Addition**: R1 + R2|B input passed unchanged, Cᵢₙ = 0|
-> > |1|Subtraction: R1 - R2|B input complemented, Cᵢₙ = 1 (2's complement)|
+> > |0|Regular addition: R1 + R2|B input passed unchanged, Cᵢₙ = 0|
+> > |1|**2's complement addition**: R1 + R2̄ + 1|B input complemented, Cᵢₙ = 1|
 > >
-> > For **addition**: **X = 0**
+> > For **2's complement addition** (subtraction via complement): **X = 1**
 >
 > > [!abstract] Load Signal (K1)
 > >
@@ -88,7 +88,7 @@ tags: [DSD, quiz]
 >
 > > [!tip] Micro-operation notation
 > >
-> > $$X = 0, \; K1 = 1: \quad R1 \leftarrow R1 + R2$$
+> > $$X = 1, \; K1 = 1: \quad R1 \leftarrow R1 + \bar{R2} + 1$$
 
 ---
 
@@ -242,14 +242,14 @@ tags: [DSD, quiz]
 >
 > Circuit: 4-bit Shift Register with Parallel Load (SHR 4), with Shift, Load, and Serial Input (SI) controls
 >
-> - [ ] Shift: Q←slQ, Shift̄·Load: Q←D
+> - [x] **Shift: Q←slQ, Shift̄·Load: Q←D**
 > - [ ] Load·Shift: Q←srQ, Shift̄·Load: Q←D
-> - [x] **Shift: Q←srQ, Shift̄·Load: Q←D**
+> - [ ] Shift: Q←srQ, Shift̄·Load: Q←D
 > - [ ] Load·Shift: Q←slQ, Shift·Load: Q←D
 
-> [!success] Answer: Shift: Q←srQ, Shift̄·Load: Q←D
+> [!success] Answer: Shift: Q←slQ, Shift̄·Load: Q←D
 
-> [!note]- Explanation The circuit is a **4-bit Shift Right Register with Parallel Load** (SHR 4).
+> [!note]- Explanation The circuit is a **4-bit Shift Register with Parallel Load** (SHR 4). Despite the name SHR, examining the circuit shows the data shifts **left**.
 >
 > > [!abstract] Control Logic
 > >
@@ -257,23 +257,23 @@ tags: [DSD, quiz]
 > > |---|---|---|---|
 > > |0|0|**Hold**|Q ← Q (no change)|
 > > |0|1|**Load**|Q ← D (parallel load)|
-> > |1|X|**Shift right**|Q ← srQ (shift right, SI enters Q₀)|
+> > |1|X|**Shift left**|Q ← slQ (shift left, SI enters Q₃)|
 >
-> > [!abstract] Shift Right Operation
+> > [!abstract] Shift Left Operation
 > >
 > > When **Shift = 1**:
 > >
 > > ```
 > > Before: [Q₀] [Q₁] [Q₂] [Q₃]
 > >           ↓    ↓    ↓    ↓
-> > After:  [SI] [Q₀] [Q₁] [Q₂]   (Q₃ shifted out)
+> > After:  [Q₁] [Q₂] [Q₃] [SI]   (Q₀ shifted out)
 > > ```
 > >
-> > $$Q \leftarrow srQ$$
+> > $$Q \leftarrow slQ$$
 > >
-> > - Serial Input (SI) enters at Q₀ (MSB side)
-> > - Each bit shifts one position to the right
-> > - Q₃ is lost (shifted out)
+> > - Each bit shifts one position to the left
+> > - Serial Input (SI) enters at Q₃ (LSB side)
+> > - Q₀ is lost (shifted out)
 >
 > > [!abstract] Parallel Load Operation
 > >
@@ -287,22 +287,10 @@ tags: [DSD, quiz]
 > >
 > > The condition for load is $\overline{Shift} \cdot Load$ — Shift must be 0 for Load to take effect. This means:
 > >
-> > - **Shift = 1** always causes shift right (regardless of Load)
+> > - **Shift = 1** always causes shift left (regardless of Load)
 > > - **Load** only works when Shift = 0
 > >
 > > This is reflected in the circuit's MUX-like AND/OR structure at each flip-flop input.
->
-> > [!tip] SHR 4 Symbol
-> >
-> > The block symbol shows:
-> >
-> > |Input|Purpose|
-> > |---|---|
-> > |Shift|Enable shift operation|
-> > |Load|Enable parallel load|
-> > |SI|Serial input (enters during shift)|
-> > |D₀-D₃|Parallel data inputs|
-> > |Q₀-Q₃|Parallel outputs|
 
 ---
 
@@ -312,12 +300,12 @@ tags: [DSD, quiz]
 >
 > |Q|Topic|Answer|Key Concept|
 > |---|---|---|---|
-> |1|Micro-operation|R1 og R3 OR'd, K1 eller K2|`+` = OR (condition), `∨` = OR (data)|
-> |2|Adder-Subtractor|X=0, K1=1|S=0 for add, Load=1 to store|
+> |1|Micro-operation|R1 eller R3 OR'd, K1 eller K2|`+` = OR (condition), `∨` = OR (data)|
+> |2|Adder-Subtractor|X=1, K1=1|S=1 for 2's complement add, Load=1 to store|
 > |3|Counter circuit|4-bit tæller med hold/load/count|Versatile counter building block|
 > |4|Truth table|Hold, Load, Count, Load|Load has priority over Count|
 > |5|Ripple counter|4 bit ripple tæller|Async: Q̄→D toggle, Q→next clock|
-> |6|Shift register|Shift: srQ, Shift̄·Load: Q←D|SHR 4 with parallel load|
+> |6|Shift register|Shift: slQ, Shift̄·Load: Q←D|Shift left with parallel load|
 
 > [!abstract] Register Transfer Notation
 >
