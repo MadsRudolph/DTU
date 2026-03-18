@@ -261,4 +261,4 @@ The floor adds friction and load, which:
 >
 > [[34722 Linear Control Design 1|34722 Home]]
 >
-> &nbsp;
+> [[Day 6 - Bode Plot and P-Controller Design|Day 6 →]]

@@ -539,4 +539,15 @@ if has_floor
     fprintf('Poles (on floor):    '); disp(pole(G_floor_avg)');
 end
 
+%% ========================================================================
+%  SECTION 14: Save Transfer Functions for Day 6
+%  ========================================================================
+
+save('Day5_results.mat', 'G_wu_L', 'G_wu_R', 'G_wu_avg', 'T_s');
+if has_floor
+    save('Day5_results.mat', 'G_floor_L', 'G_floor_R', 'G_floor_avg', ...
+        'Ts_f', '-append');
+end
+fprintf('Saved transfer functions to Day5_results.mat\n');
+
 fprintf('\n=== All sections complete ===\n');
