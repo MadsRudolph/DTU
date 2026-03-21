@@ -31,6 +31,16 @@ COURSES = {
 
 WHISPER_MODELS = ["tiny", "base", "small", "medium", "large", "api"]
 
+# Domain vocabulary per course — passed as initial_prompt to Whisper for better accuracy
+COURSE_VOCAB = {
+    "34315": "IoT, Internet of Things, microcontroller, Arduino, sensor, actuator, WiFi, Bluetooth, MQTT, GPIO, ADC, DAC, SPI, I2C, UART, PWM",
+    "34620": "power electronics, MOSFET, IGBT, diode, rectifier, inverter, DC-DC converter, buck, boost, duty cycle, switching frequency, PWM, inductor, capacitor, transformer",
+    "34655": "CMOS, NMOS, PMOS, OpAmp, operational amplifier, transconductance, gm, gain-bandwidth, slew rate, common-mode, differential, feedback, bias current, noise, flicker noise, thermal noise, layout, fabrication, Cadence, Virtuoso",
+    "34722": "Laplace transform, transfer function, Bode plot, Nyquist plot, gain margin, phase margin, P-controller, PI-controller, PID-controller, feedback, open-loop, closed-loop, stability, poles, zeros, step response, frequency response, block diagram",
+    "62711": "VHDL, FPGA, digital design, combinational, sequential, flip-flop, register, multiplexer, decoder, ALU, datapath, FSM, finite state machine, timing, clock, synthesis, simulation, testbench",
+    "62743": "DFT, discrete Fourier transform, FFT, fast Fourier transform, z-transform, FIR, IIR, filter, convolution, sampling, aliasing, Nyquist, frequency response, magnitude, phase, poles, zeros, transfer function",
+}
+
 LANGUAGE_CODES = {
     "English": "en", "Danish": "da", "German": "de", "French": "fr",
     "Spanish": "es", "Italian": "it", "Portuguese": "pt", "Dutch": "nl",
@@ -81,6 +91,36 @@ def list_course_pdfs(course_id: str) -> list[Path]:
     return sorted(slides_dir.glob("*.pdf"), key=lambda p: p.name.lower())
 
 
+import re
+
+# Regex patterns per course for extracting lecture number from PDF filenames
+PDF_LECTURE_PATTERNS = {
+    "34722": [r"^(\d+)_", r"Lecture_0*(\d+)"],
+    "62711": [r"62711_lesson(\d+)", r"lesson[_ ]?(\d+)"],
+    "34655": [r"34655-0*(\d+)"],
+    "34315": [],
+    "34620": [],
+    "62743": [],
+}
+
+
+def match_pdf_to_lecture(course_id: str, lecture_num: int, pdfs: list[Path]) -> Path | None:
+    patterns = PDF_LECTURE_PATTERNS.get(course_id, [])
+    for pdf in pdfs:
+        name = pdf.stem
+        for pattern in patterns:
+            m = re.search(pattern, name, re.IGNORECASE)
+            if m and int(m.group(1)) == lecture_num:
+                return pdf
+    # Fallback: try any number in filename
+    if not patterns:
+        for pdf in pdfs:
+            m = re.search(r"(\d+)", pdf.stem)
+            if m and int(m.group(1)) == lecture_num:
+                return pdf
+    return None
+
+
 def count_pdf_pages(pdf_path: Path) -> int:
     try:
         from PyPDF2 import PdfReader
@@ -91,46 +131,54 @@ def count_pdf_pages(pdf_path: Path) -> int:
 
 # ── Transcription ──────────────────────────────────────────────────
 
-def transcribe_audio(audio_path: Path, model: str = "base", language: str = "English") -> dict:
+def transcribe_audio(audio_path: Path, model: str = "base", language: str = "English",
+                      course_id: str | None = None) -> dict:
     import whisper
     model_obj = whisper.load_model(model)
-    return model_obj.transcribe(str(audio_path), language=language)
+    kwargs = {"language": language}
+    if course_id and course_id in COURSE_VOCAB:
+        kwargs["initial_prompt"] = COURSE_VOCAB[course_id]
+    return model_obj.transcribe(str(audio_path), **kwargs)
 
 
-def transcribe_audio_api(audio_path: Path, language: str = "English") -> dict:
+def transcribe_audio_api(audio_path: Path, language: str = "English",
+                          course_id: str | None = None) -> dict:
     from openai import OpenAI
 
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set")
 
-    # Support OpenRouter keys (sk-or-...) by routing to their API
-    base_url = None
+    # OpenRouter keys don't support Whisper API
     if api_key.startswith("sk-or-"):
-        base_url = "https://openrouter.ai/api/v1"
+        raise ValueError("OpenRouter doesn't support Whisper API. Use a direct OpenAI API key (sk-proj-...) or switch to a local Whisper model.")
 
-    client = OpenAI(api_key=api_key, **({"base_url": base_url} if base_url else {}))
+    client = OpenAI(api_key=api_key)
     lang_code = LANGUAGE_CODES.get(language, language[:2].lower())
+    prompt = COURSE_VOCAB.get(course_id, "") if course_id else ""
 
     max_size = 25 * 1024 * 1024  # 25MB
     file_size = audio_path.stat().st_size
 
     if file_size <= max_size:
-        return _transcribe_chunk_api(client, audio_path, lang_code)
+        return _transcribe_chunk_api(client, audio_path, lang_code, prompt)
 
     # Split large files into 10-minute chunks
-    return _transcribe_chunked_api(client, audio_path, lang_code)
+    return _transcribe_chunked_api(client, audio_path, lang_code, prompt)
 
 
-def _transcribe_chunk_api(client, audio_path: Path, lang_code: str) -> dict:
+def _transcribe_chunk_api(client, audio_path: Path, lang_code: str, prompt: str = "") -> dict:
+    kwargs = {
+        "model": "whisper-1",
+        "language": lang_code,
+        "response_format": "verbose_json",
+        "timestamp_granularities": ["segment"],
+    }
+    if prompt:
+        kwargs["prompt"] = prompt
     with open(audio_path, "rb") as f:
-        response = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=f,
-            language=lang_code,
-            response_format="verbose_json",
-            timestamp_granularities=["segment"],
-        )
+        kwargs["file"] = f
+        response = client.audio.transcriptions.create(**kwargs)
 
     segments = []
     for seg in getattr(response, "segments", []):
@@ -143,7 +191,7 @@ def _transcribe_chunk_api(client, audio_path: Path, lang_code: str) -> dict:
     return {"text": response.text, "segments": segments}
 
 
-def _transcribe_chunked_api(client, audio_path: Path, lang_code: str) -> dict:
+def _transcribe_chunked_api(client, audio_path: Path, lang_code: str, prompt: str = "") -> dict:
     with tempfile.TemporaryDirectory() as tmpdir:
         chunk_pattern = os.path.join(tmpdir, "chunk_%03d.mp3")
         subprocess.run([
@@ -159,7 +207,7 @@ def _transcribe_chunked_api(client, audio_path: Path, lang_code: str) -> dict:
         time_offset = 0.0
 
         for chunk_path in chunks:
-            result = _transcribe_chunk_api(client, chunk_path, lang_code)
+            result = _transcribe_chunk_api(client, chunk_path, lang_code, prompt)
             all_text.append(result["text"])
 
             for seg in result["segments"]:
@@ -575,7 +623,8 @@ def enhance_notes_with_claude(json_path: Path, course_id: str, lecture_num: int,
 
     slide_info = ""
     if data["slides"]["pdf_filename"]:
-        slide_info = f"- Slides PDF: {data['slides']['pdf_filename']} ({data['slides']['total_pages']} pages)\n"
+        slide_info = f"- Slides PDF: {data['slides']['pdf_filename']} ({data['slides']['total_pages']} pages/slides)\n"
+        slide_info += f"- Slide markers recorded: {len(data['slides']['markers'])}\n"
 
     prompt = f"""You are creating lecture notes from a transcription. Generate comprehensive, well-structured
 Obsidian-compatible markdown notes.
@@ -614,7 +663,7 @@ Generate ONLY the markdown content, no explanations or preamble."""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
-        max_tokens=8192,
+        max_tokens=16384,
         messages=[{"role": "user", "content": prompt}],
     )
 
@@ -666,6 +715,10 @@ class LectureRecorderApp:
         self._build_ui()
         self._update_lecture_number()
         self._update_pdf_list()
+        self._try_auto_select_pdf()
+
+        # Auto-match PDF when lecture number changes
+        self.num_var.trace_add("write", lambda *_: self._try_auto_select_pdf())
 
         # Keyboard shortcut: Right arrow or Space for next slide
         self.root.bind("<Right>", lambda e: self._mark_next_slide())
@@ -824,6 +877,7 @@ class LectureRecorderApp:
     def _on_course_changed(self):
         self._update_lecture_number()
         self._update_pdf_list()
+        self._try_auto_select_pdf()
 
     def _update_lecture_number(self):
         cid = self._get_course_id()
@@ -858,6 +912,20 @@ class LectureRecorderApp:
             self.selected_pdf_path = get_slides_dir(cid) / val
             self.total_slide_count = count_pdf_pages(self.selected_pdf_path)
             self.pdf_page_label.config(text=f"{self.total_slide_count} slides")
+
+    def _try_auto_select_pdf(self):
+        cid = self._get_course_id()
+        if not cid:
+            return
+        num_str = self.num_var.get()
+        if not num_str.isdigit():
+            return
+        lecture_num = int(num_str)
+        pdfs = list_course_pdfs(cid)
+        matched = match_pdf_to_lecture(cid, lecture_num, pdfs)
+        if matched:
+            self.pdf_var.set(matched.name)
+            self._on_pdf_selected()
 
     def _browse_pdf(self):
         cid = self._get_course_id()
@@ -1047,9 +1115,9 @@ class LectureRecorderApp:
             try:
                 # Transcribe
                 if use_api:
-                    result = transcribe_audio_api(audio_path, language=self.lang_var.get())
+                    result = transcribe_audio_api(audio_path, language=self.lang_var.get(), course_id=cid)
                 else:
-                    result = transcribe_audio(audio_path, model=model, language=self.lang_var.get())
+                    result = transcribe_audio(audio_path, model=model, language=self.lang_var.get(), course_id=cid)
 
                 # Diarize if requested
                 if do_diarize:
@@ -1202,10 +1270,10 @@ Examples:
     model = "api" if args.whisper_api else args.model
     if model == "api":
         print(f"\nTranscribing with OpenAI Whisper API...")
-        result = transcribe_audio_api(audio_path, language=args.language)
+        result = transcribe_audio_api(audio_path, language=args.language, course_id=args.course)
     else:
         print(f"\nTranscribing with Whisper ({model})...")
-        result = transcribe_audio(audio_path, model=model, language=args.language)
+        result = transcribe_audio(audio_path, model=model, language=args.language, course_id=args.course)
 
     # Diarize if requested
     if args.diarize:
