@@ -1,0 +1,70 @@
+* 180nm CMOS SPICE Library (Predictive Technology Model)
+* For use in QSPICE / LTspice
+
+
+* ================= NMOS MODEL =================
+.MODEL NMOS-BSIM NMOS (
++ LEVEL    = 49               VERSION  = 3.1           TNOM     = 27
++ TOX      = 4.0E-9           XJ       = 6.0E-8        NCH      = 5.95E17
++ VTH0     = 0.3999           K1       = 0.5613        K2       = 1.0E-2
++ K3       = 0.0              K3B      = 0.0           W0       = 0.0
++ NLX      = 1.65E-7          DVT0     = 8.0           DVT1     = 0.75
++ DVT2     = 8.0E-3           DVT0W    = 0.0           DVT1W    = 0.0
++ DVT2W    = 0.0              U0       = 0.035         UA       = -7.0E-10
++ UB       = 3.5E-18          UC       = -5.25E-11     VSAT     = 1.38E5
++ A0       = 1.1              AGS      = -1.0E-2       B0       = 0.0
++ B1       = 0.0              KETA     = 0.04          A1       = 0.0
++ A2       = 1.0              RDSW     = 250           PRWG     = 0.0
++ PRWB     = 0.0              WR       = 1.0           WINT     = 0.0
++ LINT     = 4.0E-8           DWG      = 0.0           DWB      = 0.0
++ VOFF     = -0.1235          NFACTOR  = 0.9           CIT      = 0.0
++ CDSC     = 0.0              CDSCD    = 0.0           CDSCB    = 0.0
++ ETA0     = 0.22             ETAB     = 0.0           DSUB     = 0.8
++ PCLM     = 0.05             PDIBLC1  = 1.2E-2        PDIBLC2  = 7.5E-3
++ PDIBLCB  = -1.35E-2         DROUT    = 1.799E-2      PSCBE1   = 8.66E8
++ PSCBE2   = 1.0E-20          PVAG     = -0.28         DELTA    = 0.01
++ MOBMOD   = 1                BINUNIT  = 2             KT1      = -0.37
++ KT2      = -0.04            AT       = 5.5E4         UTE      = -1.48
++ UA1      = 9.5829E-10       UB1      = -3.3473E-19   UC1      = 0.0
++ KT1L     = 4.0E-9           PRT      = 0.0           CJ       = 0.00365
++ MJ       = 0.54             PB       = 0.982         CJSW     = 7.9E-10
++ MJSW     = 0.31             PHP      = 0.841         JS       = 1.5E-8
++ JSW      = 2.5E-13          CAPMOD   = 2             XPART    = 1
++ CGDO     = 2.786E-10        CGSO     = 2.786E-10     CGBO     = 0.0
++ CGSL     = 1.6E-10          CGDL     = 1.6E-10       CKAPPA   = 2.886
++ CF       = 1.069E-10        ELM      = 5             XTI      = 3.0
++ N        = 1.0              DLC      = 4.0E-8        VFBCV   = -1.0 )
+
+* ================= PMOS MODEL =================
+.MODEL PMOS-BSIM PMOS (
++ LEVEL    = 49               VERSION  = 3.1           TNOM     = 27
++ TOX      = 4.2E-9           XJ       = 7.0E-8        NCH      = 5.92E17
++ VTH0     = -0.42            K1       = 0.556         K2       = 0.0
++ K3       = 0.0              K3B      = 0.0           W0       = 0.0
++ NLX      = 9.5E-8           DVT0     = 11.2          DVT1     = 0.72
++ DVT2     = -0.01            DVT0W    = 0.0           DVT1W    = 0.0
++ DVT2W    = 0.0              U0       = 0.008         UA       = -1.2E-10
++ UB       = 1.0E-18          UC       = -2.999E-11    VSAT     = 1.05E5
++ A0       = 2.1199           AGS      = -0.1          B0       = 0.0
++ B1       = 0.0              KETA     = 0.0299        A1       = 0.0
++ A2       = 0.4              RDSW     = 450           PRWG     = 0.0
++ PRWB     = 0.0              WR       = 1.0           WINT     = 0.0
++ LINT     = 3.0E-8           DWG      = 0.0           DWB      = 0.0
++ VOFF     = -0.064           NFACTOR  = 1.4           CIT      = 0.0
++ CDSC     = 0.0              CDSCD    = 0.0           CDSCB    = 0.0
++ ETA0     = 8.5              ETAB     = 0.0           DSUB     = 2.8
++ PCLM     = 2.0              PDIBLC1  = 0.12          PDIBLC2  = 8.0E-5
++ PDIBLCB  = 0.145            DROUT    = 0.05          PSCBE1   = 1.0E-20
++ PSCBE2   = 1.0E-20          PVAG     = -0.06         DELTA    = 0.01
++ MOBMOD   = 1                BINUNIT  = 2             KT1      = -0.37
++ KT2      = -0.04            AT       = 5.5E4         UTE      = -1.48
++ UA1      = 9.5829E-10       UB1      = -3.3473E-19   UC1      = 0.0
++ KT1L     = 4.0E-9           PRT      = 0.0           CJ       = 0.00138
++ MJ       = 1.05             PB       = 1.24          CJSW     = 1.44E-9
++ MJSW     = 0.43             PHP      = 0.841         JS       = 1.5E-8
++ JSW      = 2.5E-13          CAPMOD   = 2             XPART    = 1
++ CGDO     = 2.786E-10        CGSO     = 2.786E-10     CGBO     = 0.0
++ CGSL     = 1.6E-10          CGDL     = 1.6E-10       CKAPPA   = 2.886
++ CF       = 1.058E-10        ELM      = 5             XTI      = 3.0
++ N        = 1.0              DLC      = 3.0E-8        VFBCV   = -1.0 )
+

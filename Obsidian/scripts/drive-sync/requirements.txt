@@ -1,2 +1,93 @@
-gdown>=4.7.0
-requests>=2.28.0
+Exercise Day 5
+Black Box Modeling for REGBOT
+
+Find the transfer function from the step response
+Requirements
+
+Find the transfer function from the motor voltage to the robot speed (at normal speeds) when:
+- driving with wheels up (not on the floor);
+- driving on the floor.
+
+Evaluate the transfer functions you found in relation to the measurements.
+Instructions
+Generate a log file
+
+    Since the motor does not run at voltages below approx. 1 V, the system is nonlinear. This means that a step must be used where the motor voltage is always in the range 1-6 V (with a certain margin).
+    Remember to note down the parameters that you obtained from hand tuning for both speed and heading controllers. For this experiments these parameters will need to be changed. Set Kp = 0 and Kff = 1 on the velocity controller, which must be enabled. Disable the heading controller.
+    The encoder calibration can provide better data and also better estimation of the transfer function. Use for example a step from 3V to 4V on the motors (and stop when the log is full).
+        vel=3, log=2 : time=0.5
+        vel=4 : log=0
+    Driving on the floor probably requires a longer sampling time (and plenty of space) e.g. log = 3 or log = 4 ms.
+
+Load the .txt file in Matlab.
+
+    Example:
+
+data = readtable('log_velocity_4_volts.txt');
+data = fillmissing(data,'nearest');
+
+Assign variables
+
+We need the data that capture the change in voltage from 3 Volts to 4 Volts. We will have to trim the data before that point.
+
+t = table2array(data(:,1));     % time stamps
+u_L = table2array(data(:,8));   % left motor voltage
+u_R = table2array(data(:,9));   % right motor voltage
+v_L = table2array(data(:,10));  % left motor velocity 
+v_R = table2array(data(:,11));  % right motor velocity
+T_s = t(2) - t(1);              % compute sampling time
+
+Note that we only want the change in voltage from e.g. 3 Volts to 4 Volts. So it is a good idea to trim everything before the voltage has become 3 Volts. We do that with the following commands
+
+idx = find(X >= 3,1,'first');   % Find the index where X becomes 3 for the first time
+X = X(idx:end);                 % Keep only the data after this index
+t = t(idx:end);                 % Do the same for the time vector
+t = t - t(1);                   % Offset time to begin from 0
+
+Do the trimming for ALL time series, i.e. u_L, u_R, v_L, v_R based on the same index "idx" because everything needs to be of the same sample number and start at the same time.
+
+Note: If you want to use the "step" command (see further down in the plotting section) to evaluate your identified transfer function against the real data, you must remove all offsets from your data, i.e. your voltages and velocities need to start from 0. We can do that with the commands
+
+u_L = u_L - u_L(1);
+v_L = v_L - v_L(1);
+
+etc. Do that for all your signals. Alternatively, you can use the "compare" command.
+
+Remember to delete any outliers in the data. You can spot where they are either by plotting the data (they look like spikes) or by looking at the log file itself.
+
+Identify the transfer function from voltage to velocity
+
+We want to identify the transfer function from the voltage to the wheel velocity. We will do that for the left wheel, the right wheel and the average voltage and velocity. To do that we first compute the average voltage and velocity over the two wheels and then we put the input data (voltage) and output data (velocity) in a special structure that is needed for the identification (fitting) function in Matlab.
+
+vel = 1/2*(v_L + v_R);          % average wheel velocity
+volt = 1/2*(u_L + u_R);         % average voltage
+
+idd_L = iddata(v_L,u_L,T_s);    % Prepare left wheel data
+
+Do the same for right wheel and average data.
+
+G_wu_L = tfest(idd_l,2,0);      % Identify left wheel transfer function (2 poles, no zeros - you can try other combinations)
+
+Do the same for right wheel and average data.
+
+Plot the results and compare with the real data
+To evaluate the identified transfer functions, we need to compare them with the real data. In the example above we used a unit step in voltage (from 3 Volts to 4 Volts). Trim the output data so that
+
+    we start just before we jump from 3 Volts to 4 Volts
+        idx_out = find(u_L >= 3,1,'first')
+        v_L = v_L(idx_out:end);
+        t = t(idx_out:end);
+        t = t - t(1);
+    our output starts from 0 (this is because the "step command always assumes 0 initial output")
+        v_L = v_L - v_L(1);
+
+Compare the "trimmed" velocity output with a step command on the identified transfer function by plotting the two of them on the same figure.
+
+[y_L,t_L] = step(G_wu_L,t(end));
+plot(t_L,y_L);
+hold on;
+plot(t,v_L);
+hold off;
+legend('Estimated out','Measured out');
+
+Note: you can also use the "compare" function for visually evaluation of the model fit to the data

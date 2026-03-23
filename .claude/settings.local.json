@@ -59,7 +59,12 @@
       "Bash(# Try a broader search for any QSPICE executable find /c/Users/Mads2/AppData -iname \"\"qspice*\"\" -type f)",
       "Bash(xxd:*)",
       "Bash(python3:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(mkdir -p /tmp/lcd_extract)",
+      "Read(//tmp/**)",
+      "Bash(rm -rf *)",
+      "Bash(cmd //c \"del C:\\\\Users\\\\Mads2\\\\DTU\\\\.git\\\\index.lock\")",
+      "Bash(GIT_TRACE=1 git add \"4. Semester/Linear Control Design/Day6/Day6.m\")"
     ]
   }
 }
