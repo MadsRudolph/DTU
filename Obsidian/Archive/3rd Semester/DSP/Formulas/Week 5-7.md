@@ -1,3 +1,13 @@
+---
+course: "62743"
+course-name: "Digital Signal Processing"
+type: formula
+date: 2025-12-10
+tags:
+  - DSP
+  - formula
+  - weeks-5-7
+---
 # DTU 62743 DSP Formula Sheet: Weeks 5-7 (Maryam)
 **Z-Domain Continuation, DFT, and Sampling**  
 **Strict adherence to DTU course materials (E19-F25 exam solutions)**

@@ -1,3 +1,13 @@
+---
+course: "62743"
+course-name: "Digital Signal Processing"
+type: formula
+date: 2025-12-10
+tags:
+  - DSP
+  - formula
+  - weeks-8-11
+---
 # DTU 62743 DSP Formula Sheet: Weeks 8-11 (Lars)
 
 **Filter Structures & FIR/IIR Design**  

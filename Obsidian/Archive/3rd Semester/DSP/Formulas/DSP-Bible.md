@@ -1,3 +1,13 @@
+---
+course: "62743"
+course-name: "Digital Signal Processing"
+type: formula
+date: 2025-01-28
+tags:
+  - DSP
+  - formula
+  - MATLAB
+---
 # 📘 MATLAB DSP — Master Reference Sheet (Part 1)
 **Course:** 62743 Digital Signal Processing (DTU)  
 **Purpose:** Deep theoretical explanations + MATLAB code for every DSP concept used in the course.  

@@ -22,6 +22,7 @@ aliases:
 > - [DTU Course Page](https://kurser.dtu.dk/course/62743)
 > - [[DTU Study Path#Big-picture structure|Study path context]]
 > - [[EXAM PREP|Original Exam Prep Master Note]]
+> - [[DSP Materials Index|Materials Index]] — all archived DSP resources
 
 > [!warning] Key Locations
 > **Obsidian notes (archive):** `Archive/3rd Semester/DSP/`

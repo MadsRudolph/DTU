@@ -1,3 +1,13 @@
+---
+course: "30035"
+course-name: "Engineering Electromagnetics"
+type: formula
+date: 2025-01-28
+tags:
+  - Electromagnetics
+  - formula
+  - Magnetostatics
+---
 **worked examples**:[[Exercise 20 - Magnetostatics]]
 **Slides**:[[L22_Magnetostatics_I.pdf]]
 

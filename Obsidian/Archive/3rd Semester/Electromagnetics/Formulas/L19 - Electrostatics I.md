@@ -1,3 +1,13 @@
+---
+course: "30035"
+course-name: "Engineering Electromagnetics"
+type: formula
+date: 2025-11-10
+tags:
+  - Electromagnetics
+  - formula
+  - Electrostatics
+---
 > 🔗 [[MOC – Electromagnetics]] · [[MOC – Lectures]] · [[MOC – Exercises]] · [[Courses/Electromagnetics/Formulas/Electrostatics — Quick Formula Sheet]]  
 > **Quick refs:** [[MOC – Maxwell’s Equations]] · [[MOC – Charge Distributions]] · [[MOC – Electric Fields]] · [[30035 Engineering Electromagnetics]]  
 > For **30035 Engineering Electromagnetics – Fall 2025** (DTU Space, Rasmus E. Jacobsen) — complete, highly descriptive reference for **Electrostatics I** (Lecture 19, 10 Nov 2025) and corresponding summary slides I–III.  

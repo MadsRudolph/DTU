@@ -1,3 +1,13 @@
+---
+course: "62743"
+course-name: "Digital Signal Processing"
+type: formula
+date: 2025-02-03
+tags:
+  - DSP
+  - formula
+  - weeks-1-4
+---
 # DTU 62743 DSP Formula Sheet: Weeks 1-4 (Iver)
 
 **Digital Signal Processing | Technical University of Denmark**  

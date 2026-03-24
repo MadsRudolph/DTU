@@ -1,0 +1,39 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 2 – Feedback in MOSFET-Transistor Based Circuits}
+
+\subsection*{Feedback Fundamentals}
+
+\textbf{Negative feedback} subtracts a fraction $\beta$ of the output from the input, yielding closed-loop gain:
+$$A_{CL} = \frac{A}{1 + A\beta}$$
+where $A$ is open-loop gain and loop gain $L = A\beta$. When $A\beta \gg 1$, $A_{CL} \approx 1/\beta$, determined by passive components.
+
+\textbf{Stability} requires loop gain magnitude $|L(j\omega)| < 1$ when phase reaches $-180°$. Phase margin $PM = 180° + \angle L(j\omega_t)$ at unity-gain frequency; $PM = 60°$-$70°$ ensures well-damped response.
+
+\subsection*{Advantages of Negative Feedback}
+
+\begin{itemize}
+    \item \textbf{Gain stability:} Sensitivity to variations reduced by $(1+A\beta)$: $\frac{dA_{CL}}{A_{CL}} = \frac{1}{1+A\beta}\frac{dA}{A}$
+    \item \textbf{Bandwidth extension:} Bandwidth increases by $(1+A\beta)$ while gain decreases by same factor, maintaining constant gain-bandwidth product
+    \item \textbf{Impedance control:} Series mixing increases input impedance by $(1+A\beta)$; shunt sampling decreases output impedance by $(1+A\beta)$
+    \item \textbf{Linearity improvement:} Gain determined by linear $\beta$ network rather than nonlinear transistors, significantly reducing harmonic distortion
+    \item \textbf{PSRR enhancement:} Improved power supply rejection
+\end{itemize}
+
+\subsection*{Disadvantages of Negative Feedback}
+
+\begin{itemize}
+    \item \textbf{Gain reduction:} Overall gain reduced by factor $(1+A\beta)$ - fundamental trade-off for stability improvements
+    \item \textbf{Potential instability:} If phase shift exceeds $180°$ while $|L| \geq 1$, negative feedback becomes positive, causing oscillation or latch-up
+    \item \textbf{Compensation required:} Frequency compensation (e.g., Miller capacitor) needed to ensure adequate phase margin, adding circuit complexity
+    \item \textbf{Noise bandwidth:} Extended bandwidth increases integrated noise, though feedback improves noise rejection from supplies
+\end{itemize}
+
+\subsection*{Implementation in OPAMP Amplifiers}
+
+\textbf{Compensation:} Miller compensation places capacitor $C_c$ between input/output of second stage, creating pole splitting. Dominant pole $p_1$ moves lower while non-dominant pole $p_2$ moves higher, improving phase margin. Nulling resistor $R_c$ in series with $C_c$ eliminates right-half-plane zero.
+
+\textbf{Common topologies:} Series-shunt (voltage amplifier), shunt-shunt (transresistance), series-series (transconductance), shunt-series (current amplifier).
+
+\end{document}

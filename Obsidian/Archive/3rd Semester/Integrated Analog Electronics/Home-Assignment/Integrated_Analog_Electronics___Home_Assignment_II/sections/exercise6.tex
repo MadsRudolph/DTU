@@ -1,0 +1,80 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 6 – CMRR Improvement in Differential Amplifier}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{images/exercise6_circuit.png}
+    \caption{CMOS differential amplifier circuit}
+    \label{fig:ex6_circuit}
+\end{figure}
+
+\subsection*{CMRR Fundamentals}
+
+Common-Mode Rejection Ratio quantifies differential amplifier performance:
+$$\text{CMRR} = \frac{|A_d|}{|A_{cm}|} \quad \text{or} \quad \text{CMRR}_{(dB)} = 20\log\left(\frac{A_d}{A_{cm}}\right)$$
+
+For single-ended output, $A_{cm} \approx -R_D/(2R_B)$ where $R_B$ is tail source output resistance. Thus $\text{CMRR} \approx g_m R_B$ - directly proportional to tail impedance.
+
+\textbf{Current limitations:} MB (W/L = 20/100) has long channel for moderate $r_o$, but simple current source limits CMRR. Device mismatch in M1-M2 and load M3-M4 further degrades rejection.
+
+\subsection*{Part a) CMRR Improvement Methods}
+
+\textbf{1. Cascode Tail Current Source:}
+
+Replace MB with cascode structure (two stacked transistors). Output impedance increases to $r_{out} \approx g_m r_{ds}^2$, dramatically improving CMRR (20-40 dB gain typical).
+
+\textbf{2. Improved Matching:}
+
+Increase W/L of M1-M2 (currently 20/5) since mismatch $\sigma(\Delta V_T) \propto 1/\sqrt{WL}$. Larger devices reduce random variations. Use common-centroid layout and matched orientation.
+
+\textbf{3. Cascode Active Load:}
+
+Replace simple M3-M4 mirror with cascode configuration. Increases differential gain $A_d$ and output impedance, thus improving CMRR.
+
+\textbf{4. Bias Voltage Filtering:}
+
+Add bypass capacitor at tail bias node to AC ground high-frequency common-mode signals. Improves AC CMRR but not DC.
+
+\subsection*{Part b) Trade-offs Analysis}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{|p{2.5cm}|p{2cm}|p{1.8cm}|p{1.5cm}|p{2cm}|}
+\hline
+\textbf{Method} & \textbf{Headroom} & \textbf{Power} & \textbf{Area} & \textbf{Speed} \\
+\hline
+Cascode Tail & $-2V_{DS,sat}$ penalty & Same current & +1 device & Minimal impact \\
+\hline
+Large W/L & No penalty & Same for $I_D$ & Significant $\uparrow$ & Reduced BW (parasitics) \\
+\hline
+Cascode Load & Output swing $\downarrow$ & Same & +2 devices & Dominant pole $\downarrow$ \\
+\hline
+Bypass Cap & No penalty & No change & Large cap area & AC only \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Cascode Tail:}
+\textit{Pros:} Major CMRR boost (20-40 dB), simple implementation
+\textit{Cons:} Requires $2V_{DS,sat}$ headroom, reduces input common-mode range, process sensitive
+
+\textbf{Improved Matching:}
+\textit{Pros:} Better statistical matching, reduced offset, lower noise
+\textit{Cons:} Significant area increase, higher parasitics reduce bandwidth
+
+\textbf{Cascode Load:}
+\textit{Pros:} Higher $A_d$ boosts CMRR, better PSRR
+\textit{Cons:} Reduced output swing, needs additional bias voltages, affects stability (compensation required)
+
+\textbf{Bypass Capacitor:}
+\textit{Pros:} Simple, low cost, improves AC PSRR
+\textit{Cons:} DC CMRR unchanged, large capacitor for low frequencies
+
+\subsection*{Recommended Design Approach}
+
+Combine cascode tail (primary CMRR improvement) with moderate W/L increase (e.g., M1-M2: 40/5 instead of 20/5). This balances CMRR, area, and headroom. Add bypass capacitor for AC noise rejection. Reserve cascode load for applications requiring maximum gain where voltage swing can be sacrificed.
+
+\end{document}

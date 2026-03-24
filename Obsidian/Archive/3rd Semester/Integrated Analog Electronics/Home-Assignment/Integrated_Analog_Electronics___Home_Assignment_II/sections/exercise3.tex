@@ -1,0 +1,57 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 3 – Second-Order Feedback System}
+
+\subsection*{Second-Order System Fundamentals}
+
+The characteristic equation denominator is:
+$$s^2 + s\frac{\omega_0}{Q} + \omega_0^2$$
+where $\omega_0 = \sqrt{(1+L_0)\omega_{p1}\omega_{p2}}$ is natural frequency, $Q = \omega_0/(\omega_{p1}+\omega_{p2})$ is quality factor, and damping ratio $\zeta = 1/(2Q)$.
+
+Pole locations:
+$$s = -\frac{1}{2}(\omega_{p1}+\omega_{p2}) \pm \frac{1}{2}\sqrt{(\omega_{p1}+\omega_{p2})^2 - 4(1+\beta A_0)\omega_{p1}\omega_{p2}}$$
+
+\subsection*{Pole Placement Scenarios}
+
+\textbf{Overdamped ($\zeta > 1$, low $Q$):}
+\begin{itemize}
+    \item \textit{Configuration:} Real, widely separated poles; occurs when $\omega_{p2} \gg \omega_t$
+    \item \textit{Pros:} Unconditionally stable, no overshoot, monotonic step response
+    \item \textit{Cons:} Lower bandwidth, slower settling compared to aggressive designs
+\end{itemize}
+
+\textbf{Critically Damped ($\zeta = 1$, $Q = 0.5$):}
+\begin{itemize}
+    \item \textit{Configuration:} Repeated real poles; occurs when $\omega_{p2} \approx 4\omega_t$
+    \item \textit{Pros:} Fastest transient response without overshoot, optimal balance
+    \item \textit{Cons:} Difficult to maintain in practice, sensitive to parameter variations
+\end{itemize}
+
+\textbf{Underdamped ($0 < \zeta < 1$, $Q > 0.5$):}
+\begin{itemize}
+    \item \textit{Configuration:} Complex conjugate poles; occurs when $\omega_{p2} < 4\omega_t$
+    \item \textit{Pros:} Higher bandwidth, faster response
+    \item \textit{Cons:} Overshoot and ringing in step response; frequency response peaking if $Q > 1/\sqrt{2} \approx 0.707$; longer settling time due to oscillations
+\end{itemize}
+
+\subsection*{Pole Separation and Stability}
+
+\textbf{Widely separated (dominant pole):} When one pole is at much lower frequency, system behaves as first-order, inherently stable. Ideal placement: $\omega_{p2} \gg \omega_t$ (unity-gain frequency).
+
+\textbf{Closely spaced:} Poles near $\omega_t$ cause phase shift approaching $-180°$ at crossover, reducing phase margin and increasing ringing.
+
+\textbf{Pole splitting:} Miller compensation moves dominant pole down and non-dominant pole up, increasing separation and improving PM.
+
+\subsection*{Phase Margin Requirements}
+
+\begin{itemize}
+    \item $PM > 0°$: Minimum for stability
+    \item $PM = 45°$-$60°$: Typical design targets
+    \item $PM = 60°$: Well-damped with minimal overshoot
+    \item $PM = 65.5°$: Butterworth (maximally flat) response
+\end{itemize}
+
+\textbf{Relationship:} Every $10°$ decrease in PM roughly doubles overshoot. Phase margin and pole placement have 1-to-1 relationship with transient response.
+
+\end{document}

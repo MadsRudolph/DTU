@@ -1,3 +1,13 @@
+---
+course: "62743"
+course-name: "Digital Signal Processing"
+type: formula
+date: 2025-12-11
+tags:
+  - DSP
+  - formula
+  - exam
+---
 # DSP Exam Cheat Sheet - Publish Workflow Edition
 
 **DTU 62743 - December 12, 2025 - 4 hours - 3 problems**

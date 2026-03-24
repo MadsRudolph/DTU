@@ -1,0 +1,22 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+
+\section{Exercise 5: Two-Stage CMOS Operational Amplifier}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/exercise5_circuit.png}
+    \caption{Two-stage CMOS op-amp}
+\end{figure}
+
+\textbf{(a) Circuit functionality:} The differential pair (M1-M2) takes the input voltage $v_{id}$ and converts it to a differential current $g_{m1}v_{id}$. Then the PMOS current mirror (M3-M4) works as an active load that converts the differential signal to single-ended, with the first stage gain set by $r_{ds2} \parallel r_{ds4}$. The second stage is a common-source amplifier (M6-M7) that adds more gain: $A_{v2} = -g_{m6}(r_{ds6} \parallel r_{ds7})$. For stability we use a Miller compensation capacitor $C_C$ which does pole splitting, but this also creates a right-half-plane zero at $\omega_z = g_{m6}/C_C$ that actually hurts the phase margin. You can fix this by adding a nulling resistor in series with $C_C$.
+
+\textbf{(b) Parameter effects:}
+
+If you increase $I_{tail}$, the gain goes down since $g_mr_o \propto 1/\sqrt{I_D}$, but GBW improves ($g_{m1}/(2\pi C_C)$), slew rate gets better ($I_{tail}/C_C$), and you get better stability because the second pole $p_2 = g_{m6}/C_L$ moves up. The trade-off is more power and higher noise.
+
+Making M1-M2 W/L bigger increases $g_m$, which helps gain, GBW, and noise. But you pay with larger parasitics and more area, which might hurt bandwidth.
+
+Increasing $C_C$ moves the dominant pole $p_1$ down and pushes the RHP zero higher (which helps since the zero has less effect), giving you better phase margin and stability. But your GBW and bandwidth both drop, and the cap takes up more area.
+
+\end{document}

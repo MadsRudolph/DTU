@@ -52,6 +52,17 @@ SORT date ASC
 
 ---
 
+## Formula Sheets & References
+
+```dataview
+TABLE date AS "Date"
+FROM "<% tp.file.folder(true) %>"
+WHERE type = "formula"
+SORT file.name ASC
+```
+
+---
+
 ## Literature & Resources
 
 

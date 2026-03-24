@@ -78,6 +78,7 @@ LIMIT 10
 
 > [!tip] Vault Areas
 > - [[DTU Study Path]] -- Career planning and course strategy
+> - **[[Concepts|Concepts/]]** -- Cross-course concept definitions and knowledge graph
 > - **Archive/** -- Previous semester notes (DSP, Electromagnetics, IAE1)
 > - **Projects/** -- Project workspace
 > - **Resources/** -- General references

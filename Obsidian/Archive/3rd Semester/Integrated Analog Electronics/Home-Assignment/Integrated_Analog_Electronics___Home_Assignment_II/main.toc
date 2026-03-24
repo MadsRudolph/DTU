@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {1}Exercise 1: W/L Ratio in MOSFET Transistor}{3}{section.1}%
+\contentsline {section}{\numberline {2}Exercise 2: Feedback in MOSFET-Transistor Based Circuits}{3}{section.2}%
+\contentsline {section}{\numberline {3}Exercise 3: Second-Order Feedback System}{3}{section.3}%
+\contentsline {section}{\numberline {4}Exercise 4: Bandgap Voltage Reference}{4}{section.4}%
+\contentsline {section}{\numberline {5}Exercise 5: Two-Stage CMOS Operational Amplifier}{4}{section.5}%
+\contentsline {section}{\numberline {6}Exercise 6: CMRR Improvement in Differential Amplifier}{5}{section.6}%
