@@ -1,0 +1,262 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-03-25T16:41:22.530680",
+  "course": {
+    "id": "34722",
+    "name": "Linear Control Design 1",
+    "short": "LCD"
+  },
+  "lecture": {
+    "number": 8,
+    "title": "",
+    "prefix": "Lesson",
+    "date": "2026-03-25"
+  },
+  "audio": {
+    "filename": "34722_untitled_20260325_163722.mp3",
+    "duration_seconds": 359.6
+  },
+  "slides": {
+    "pdf_filename": "Lecture_08_PI_LEAD_design.pdf",
+    "total_pages": 34,
+    "markers": []
+  },
+  "transcript": {
+    "full_text": " pro-laboration, time mandaronto.nl. there. Okay, I think we can start. следующIII lecture of How are you? How are we doing? All good? Very good. So today I would say with some confidence it's probably the most important lecture of the class. And that's because we will be doing systematic control design and we will lay the foundations for the designs that will be revisiting for the entire rest of the lecture. So we will talk about PILD design. PILD design, as you will see, it is a variation of what we mentioned at the very first lecture as PID design. And you will understand why we have to replace this differential part with what it sounds very cryptic, but it's not, and it's called lead part. So for the time being you should consider this lead part is just a variation and modification of this differential part of the PID controller. So we will find out how we will be designing proportional integral and differential controllers for a given system with a known transfer function. And we will see how we can evaluate our design against some specifications. The next lecture, those specifications will be very, very engineering. This will be specifications that also our project manager or our client will understand. I want the system to be fast. I want the system to be accurate. I want the system not to overshoot. That's next lecture. This lecture, the specifications will be more control theoretic. And we will be talking about I want to have this face margin. And we will understand whether it is good or bad, but of course the client will not. So what's in for today? We will have a super fast recap of the proportional control design. And I'm saying recap because we've seen that before. You have at least in two lectures we've seen how design P controllers. Today we will put it in a more generalized framework and then we will expand from there by adding an integral part to have a PID controller. And if needed to add a differential part to have a PID controller. Needless to say that the methods that we will say today, if you really want to have a pure differential part in your PID controller, you can still apply those methods. But we will talk about why it's better most of the times to have a lead part instead of the P part. Before we move on, is there some question from the previous lecture we would like to discuss? We can be a bit more relaxed for the time being about the Nyquist plots because this will not annoy us until lecture 10 where we're going to talk about unstable systems. But in general, if you have any question regarding basic concepts like frequency domain margins, polyp those and so on, feel free to ask. Should I assume that we are having some sort of comfort with these kind of terms because we will be using them? Okay. So let's start from the absolute basics. But we will be using as benchmark for block diagram is what you see here on the dashboard. We will have the transfer function of the system. So we assume that somebody did some experiments with our robot, with our motors collected input and output data, made some system identification like some transfer function fitting and came up with a transfer function. And for the time being, we will assume that this transfer function is also open loop stable. So if we take the pulse of this transfer function, there will all be on the left half plane. At the very worst, we might have one single pole at the origin like a pure indicator, but nothing more than that. Then we will take the feedback from the output, we will compare it to the reference, we will calculate the error and this error will pass through a controller. And we will have three variations for today. Just proportional, proportional integral and proportional integral differential aka the lead part. And all of these will fit here. Yes? Okay. Now just to remember a bit, if I have a closed loop like here and I want to calculate the loop or open loop transfer function, what would that be? So if I just make, if I call my controller K of S, that's the transfer function of my controller. What would be the loop transfer function here? So this is a closed loop transfer function. I want to want the thing that you add to the one in the denominator, that's the loop transfer function. So what is that here? K times g, right? And",
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 29.5,
+        "text": "pro-laboration, time mandaronto.nl. there. Okay, I think we can start. следующIII lecture of"
+      },
+      {
+        "start": 29.5,
+        "end": 40.1,
+        "text": "How are you? How are we doing? All good? Very good. So today I would say with some confidence"
+      },
+      {
+        "start": 40.1,
+        "end": 45.7,
+        "text": "it's probably the most important lecture of the class. And that's because we will be"
+      },
+      {
+        "start": 45.7,
+        "end": 51.1,
+        "text": "doing systematic control design and we will lay the foundations for the designs that will"
+      },
+      {
+        "start": 51.1,
+        "end": 56.78,
+        "text": "be revisiting for the entire rest of the lecture."
+      },
+      {
+        "start": 56.78,
+        "end": 65.86,
+        "text": "So we will talk about PILD design. PILD design, as you will see, it is a variation of what"
+      },
+      {
+        "start": 65.86,
+        "end": 72.1,
+        "text": "we mentioned at the very first lecture as PID design. And you will understand why we have"
+      },
+      {
+        "start": 72.1,
+        "end": 80.46,
+        "text": "to replace this differential part with what it sounds very cryptic, but it's not, and it's"
+      },
+      {
+        "start": 80.46,
+        "end": 86.02,
+        "text": "called lead part. So for the time being you should consider this lead part is just a"
+      },
+      {
+        "start": 86.02,
+        "end": 94.02,
+        "text": "variation and modification of this differential part of the PID controller. So we will find out"
+      },
+      {
+        "start": 94.02,
+        "end": 101.34,
+        "text": "how we will be designing proportional integral and differential controllers for a given system"
+      },
+      {
+        "start": 101.34,
+        "end": 109.18,
+        "text": "with a known transfer function. And we will see how we can evaluate our design against some"
+      },
+      {
+        "start": 109.18,
+        "end": 116.74,
+        "text": "specifications. The next lecture, those specifications will be very, very engineering. This will be"
+      },
+      {
+        "start": 116.74,
+        "end": 123.7,
+        "text": "specifications that also our project manager or our client will understand. I want the system"
+      },
+      {
+        "start": 123.7,
+        "end": 128.82,
+        "text": "to be fast. I want the system to be accurate. I want the system not to overshoot. That's"
+      },
+      {
+        "start": 128.82,
+        "end": 135.22,
+        "text": "next lecture. This lecture, the specifications will be more control theoretic. And we will be"
+      },
+      {
+        "start": 135.22,
+        "end": 140.34,
+        "text": "talking about I want to have this face margin. And we will understand whether it is good or"
+      },
+      {
+        "start": 140.34,
+        "end": 150.54,
+        "text": "bad, but of course the client will not. So what's in for today? We will have a super fast recap"
+      },
+      {
+        "start": 150.54,
+        "end": 156.1,
+        "text": "of the proportional control design. And I'm saying recap because we've seen that before. You have"
+      },
+      {
+        "start": 156.1,
+        "end": 162.06,
+        "text": "at least in two lectures we've seen how design P controllers. Today we will put it in a more"
+      },
+      {
+        "start": 162.06,
+        "end": 168.02,
+        "text": "generalized framework and then we will expand from there by adding an integral part to have a PID"
+      },
+      {
+        "start": 168.02,
+        "end": 175.5,
+        "text": "controller. And if needed to add a differential part to have a PID controller. Needless to say that"
+      },
+      {
+        "start": 175.5,
+        "end": 183.06,
+        "text": "the methods that we will say today, if you really want to have a pure differential part in your PID"
+      },
+      {
+        "start": 183.06,
+        "end": 188.54,
+        "text": "controller, you can still apply those methods. But we will talk about why it's better most of the"
+      },
+      {
+        "start": 188.54,
+        "end": 197.54,
+        "text": "times to have a lead part instead of the P part. Before we move on, is there some question from"
+      },
+      {
+        "start": 197.54,
+        "end": 204.38,
+        "text": "the previous lecture we would like to discuss? We can be a bit more relaxed for the time being about"
+      },
+      {
+        "start": 204.38,
+        "end": 209.86,
+        "text": "the Nyquist plots because this will not annoy us until lecture 10 where we're going to talk about"
+      },
+      {
+        "start": 209.86,
+        "end": 215.78,
+        "text": "unstable systems. But in general, if you have any question regarding basic concepts like frequency"
+      },
+      {
+        "start": 215.78,
+        "end": 228.62,
+        "text": "domain margins, polyp those and so on, feel free to ask. Should I assume that we are having some sort of"
+      },
+      {
+        "start": 228.62,
+        "end": 240.26,
+        "text": "comfort with these kind of terms because we will be using them? Okay. So let's start from the absolute"
+      },
+      {
+        "start": 240.26,
+        "end": 248.02,
+        "text": "basics. But we will be using as benchmark for block diagram is what you see here on the"
+      },
+      {
+        "start": 248.02,
+        "end": 255.1,
+        "text": "dashboard. We will have the transfer function of the system. So we assume that somebody did some"
+      },
+      {
+        "start": 255.1,
+        "end": 260.86,
+        "text": "experiments with our robot, with our motors collected input and output data, made some system"
+      },
+      {
+        "start": 260.86,
+        "end": 267.26,
+        "text": "identification like some transfer function fitting and came up with a transfer function. And for"
+      },
+      {
+        "start": 267.26,
+        "end": 272.42,
+        "text": "the time being, we will assume that this transfer function is also open loop stable. So if we take"
+      },
+      {
+        "start": 272.42,
+        "end": 277.82,
+        "text": "the pulse of this transfer function, there will all be on the left half plane. At the very worst, we"
+      },
+      {
+        "start": 277.82,
+        "end": 284.82,
+        "text": "might have one single pole at the origin like a pure indicator, but nothing more than that. Then we"
+      },
+      {
+        "start": 284.82,
+        "end": 289.7,
+        "text": "will take the feedback from the output, we will compare it to the reference, we will calculate the"
+      },
+      {
+        "start": 289.7,
+        "end": 298.18,
+        "text": "error and this error will pass through a controller. And we will have three variations for today. Just"
+      },
+      {
+        "start": 298.18,
+        "end": 305.74,
+        "text": "proportional, proportional integral and proportional integral differential aka the lead part. And all of"
+      },
+      {
+        "start": 305.74,
+        "end": 318.06,
+        "text": "these will fit here. Yes? Okay. Now just to remember a bit, if I have a closed loop like here and I"
+      },
+      {
+        "start": 318.06,
+        "end": 326.34,
+        "text": "want to calculate the loop or open loop transfer function, what would that be? So if I just make,"
+      },
+      {
+        "start": 326.34,
+        "end": 333.54,
+        "text": "if I call my controller K of S, that's the transfer function of my controller. What would be the loop"
+      },
+      {
+        "start": 333.54,
+        "end": 348.02,
+        "text": "transfer function here? So this is a closed loop transfer function. I want to"
+      },
+      {
+        "start": 348.02,
+        "end": 354.98,
+        "text": "want the thing that you add to the one in the denominator, that's the loop transfer function. So what is that here?"
+      },
+      {
+        "start": 354.98,
+        "end": 359.58,
+        "text": "K times g, right? And"
+      }
+    ]
+  },
+  "slide_sections": [],
+  "playback_speed": 2.0,
+  "normalized_audio": "C:\\Users\\Mads2\\DTU\\lecture-recorder\\recordings\\34722_untitled_20260325_163722_1x.mp3"
+}

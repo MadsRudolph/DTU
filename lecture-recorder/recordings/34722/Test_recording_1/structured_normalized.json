@@ -1,0 +1,317 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-03-25T16:44:26.343538",
+  "course": {
+    "id": "34722",
+    "name": "Linear Control Design 1",
+    "short": "LCD"
+  },
+  "lecture": {
+    "number": 8,
+    "title": "",
+    "prefix": "Lesson",
+    "date": "2026-03-25"
+  },
+  "audio": {
+    "filename": "34722_untitled_20260325_163722_1x.mp3",
+    "duration_seconds": 764.3
+  },
+  "slides": {
+    "pdf_filename": "Lecture_08_PI_LEAD_design.pdf",
+    "total_pages": 34,
+    "markers": []
+  },
+  "transcript": {
+    "full_text": " cscm file term, switch per coupe. Okay. I think we're going to start. Okay. I think we're going to start. So welcome everyone to the eighth lecture of the New York Conservatory Design Month. How are you? How are you doing? How good? Very good. So today I would say with some confidence is probably the most important lecture of the class. And that's because we will be doing systematic control design and we will lay the foundations for the design that will be revisiting for the entire rest of the lecture. So we will talk about P.I. Lead Design. P.I. Lead Design, as you will see, it is a variation of what? We mentioned at the very first lecture as P.I. Lead Design. And you will understand why we had to replace this differential part with what? It sounds very cryptic but it's not and it's called Lead Part. So for the time being you should consider this Lead Part is just a variation and modification of this differential part of the P.I. Lead Design. So we will find out how we will be designing proportional integral and differential controllers for a given system with a known transfer function. And we will see how can evaluate our design against some specifications. The next lecture, those specifications will be very, very engineering. This will be specifications that also our project manager or our client will understand. I want the system to be fast, I want the system to be accurate, I want the system not to overshed. That's next lecture. This lecture, the specifications will be more controlled theoretical. And we will be talking about I want to have this face margin and we will understand whether it is good or bad, but of course the client will not. So once in for the day we will have a super fast recap of the proportional control design. And I'm saying recap because we've seen that before, you have at least in two lectures we've seen how design these peak controllers. Today we will put it in a more generalized framework and then we will expand from there by adding an integral part to have the P.I. controller. And if needed to add a differential part to have a P.I. lead controller, needless to say the methods that we will say today, if you really want to have a pure differential part in your P.I. In the peak controller you can still apply those methods, but we will talk about why is better most of the times to have a lead part instead of the P part. Before we move on, is there some person from the previous lecture we would like to discuss? We can be a bit more relaxed for the time being about the Nyquist plots because this will not annoy us until lecture 10, where we will talk about unstable systems. In general, if you have any questions regarding basic concepts like frequency domain margins, all of those in sort of one, feel free to ask. Should I assume that we are having sounds of comfort with these kind of terms because we will be using them? So, let's start from the absolute basics. But we will be using as benchmark for block diagram is what you see here on the diagram. We will have the transfer function of the system. We assume that somebody did some experiments with our robot, with our motors collected input and output data, made some system identification like some transfer function feeding and came up with a transfer function. For the time being, we will assume that these transfer functions is also open loop stable. So, if we take the pulse of this transfer function, there will all be on left out there. At the very worst, we might have one single pole at the origin like a curing the greater, but nothing more than that. Then, we will take the feedback from the output. We will compare it to the reference, we will calculate the error, and this error will pass through a controller. We will have three variations per day, just proportional integral and proportional integral differential aka the lead part. And all of this will fit here. Yes? Okay. Now, just to remember a bit, if I have a closed loop like here, and I want to calculate the loop or open loop transfer function, what would that be? So, if I just make a effect called my controller, k of s, that's the transfer function of my controller, what would be the loop transfer function here? So, this is a closed loop transfer function. I wanted the thing that should add to the one in the denominator, that's the loop transfer function. So, what is that here? k times g, right? And k times g, right? k times g, right? k times g, right? k times g, right? k times g, right?",
+    "segments": [
+      {
+        "start": 0.0,
+        "end": 16.3,
+        "text": "cscm file term, switch per coupe."
+      },
+      {
+        "start": 16.3,
+        "end": 17.3,
+        "text": "Okay."
+      },
+      {
+        "start": 17.3,
+        "end": 23.3,
+        "text": "I think we're going to start."
+      },
+      {
+        "start": 23.3,
+        "end": 38.3,
+        "text": "Okay."
+      },
+      {
+        "start": 38.3,
+        "end": 47.3,
+        "text": "I think we're going to start."
+      },
+      {
+        "start": 47.3,
+        "end": 62.3,
+        "text": "So welcome everyone to the eighth lecture of the New York Conservatory Design Month."
+      },
+      {
+        "start": 62.3,
+        "end": 64.3,
+        "text": "How are you?"
+      },
+      {
+        "start": 64.3,
+        "end": 66.3,
+        "text": "How are you doing?"
+      },
+      {
+        "start": 66.3,
+        "end": 67.3,
+        "text": "How good?"
+      },
+      {
+        "start": 67.3,
+        "end": 71.3,
+        "text": "Very good."
+      },
+      {
+        "start": 71.3,
+        "end": 87.3,
+        "text": "So today I would say with some confidence is probably the most important lecture of the class."
+      },
+      {
+        "start": 88.3,
+        "end": 113.3,
+        "text": "And that's because we will be doing systematic control design and we will lay the foundations for the design that will be revisiting for the entire rest of the lecture."
+      },
+      {
+        "start": 113.3,
+        "end": 121.3,
+        "text": "So we will talk about P.I. Lead Design."
+      },
+      {
+        "start": 121.3,
+        "end": 131.3,
+        "text": "P.I. Lead Design, as you will see, it is a variation of what?"
+      },
+      {
+        "start": 131.3,
+        "end": 140.3,
+        "text": "We mentioned at the very first lecture as P.I. Lead Design."
+      },
+      {
+        "start": 140.3,
+        "end": 153.3,
+        "text": "And you will understand why we had to replace this differential part with what?"
+      },
+      {
+        "start": 153.3,
+        "end": 163.3,
+        "text": "It sounds very cryptic but it's not and it's called Lead Part."
+      },
+      {
+        "start": 164.3,
+        "end": 184.3,
+        "text": "So for the time being you should consider this Lead Part is just a variation and modification of this differential part of the P.I. Lead Design."
+      },
+      {
+        "start": 184.3,
+        "end": 206.3,
+        "text": "So we will find out how we will be designing proportional integral and differential controllers for a given system with a known transfer function."
+      },
+      {
+        "start": 207.3,
+        "end": 222.3,
+        "text": "And we will see how can evaluate our design against some specifications."
+      },
+      {
+        "start": 222.3,
+        "end": 232.3,
+        "text": "The next lecture, those specifications will be very, very engineering."
+      },
+      {
+        "start": 232.3,
+        "end": 245.3,
+        "text": "This will be specifications that also our project manager or our client will understand."
+      },
+      {
+        "start": 245.3,
+        "end": 256.3,
+        "text": "I want the system to be fast, I want the system to be accurate, I want the system not to overshed."
+      },
+      {
+        "start": 257.3,
+        "end": 269.3,
+        "text": "That's next lecture. This lecture, the specifications will be more controlled theoretical."
+      },
+      {
+        "start": 269.3,
+        "end": 288.3,
+        "text": "And we will be talking about I want to have this face margin and we will understand whether it is good or bad, but of course the client will not."
+      },
+      {
+        "start": 289.3,
+        "end": 305.3,
+        "text": "So once in for the day we will have a super fast recap of the proportional control design."
+      },
+      {
+        "start": 306.3,
+        "end": 319.3,
+        "text": "And I'm saying recap because we've seen that before, you have at least in two lectures we've seen how design these peak controllers."
+      },
+      {
+        "start": 320.3,
+        "end": 338.3,
+        "text": "Today we will put it in a more generalized framework and then we will expand from there by adding an integral part to have the P.I. controller."
+      },
+      {
+        "start": 338.3,
+        "end": 366.3,
+        "text": "And if needed to add a differential part to have a P.I. lead controller, needless to say the methods that we will say today, if you really want to have a pure differential part in your P.I."
+      },
+      {
+        "start": 366.3,
+        "end": 386.3,
+        "text": "In the peak controller you can still apply those methods, but we will talk about why is better most of the times to have a lead part instead of the P part."
+      },
+      {
+        "start": 386.3,
+        "end": 403.3,
+        "text": "Before we move on, is there some person from the previous lecture we would like to discuss?"
+      },
+      {
+        "start": 403.3,
+        "end": 423.3,
+        "text": "We can be a bit more relaxed for the time being about the Nyquist plots because this will not annoy us until lecture 10, where we will talk about unstable systems."
+      },
+      {
+        "start": 423.3,
+        "end": 449.3,
+        "text": "In general, if you have any questions regarding basic concepts like frequency domain margins, all of those in sort of one, feel free to ask."
+      },
+      {
+        "start": 450.3,
+        "end": 469.3,
+        "text": "Should I assume that we are having sounds of comfort with these kind of terms because we will be using them?"
+      },
+      {
+        "start": 470.3,
+        "end": 484.3,
+        "text": "So, let's start from the absolute basics."
+      },
+      {
+        "start": 485.3,
+        "end": 497.3,
+        "text": "But we will be using as benchmark for block diagram is what you see here on the diagram."
+      },
+      {
+        "start": 498.3,
+        "end": 504.3,
+        "text": "We will have the transfer function of the system."
+      },
+      {
+        "start": 504.3,
+        "end": 533.3,
+        "text": "We assume that somebody did some experiments with our robot, with our motors collected input and output data, made some system identification like some transfer function feeding and came up with a transfer function."
+      },
+      {
+        "start": 534.3,
+        "end": 543.3,
+        "text": "For the time being, we will assume that these transfer functions is also open loop stable."
+      },
+      {
+        "start": 543.3,
+        "end": 553.3,
+        "text": "So, if we take the pulse of this transfer function, there will all be on left out there."
+      },
+      {
+        "start": 554.3,
+        "end": 568.3,
+        "text": "At the very worst, we might have one single pole at the origin like a curing the greater, but nothing more than that."
+      },
+      {
+        "start": 569.3,
+        "end": 575.3,
+        "text": "Then, we will take the feedback from the output."
+      },
+      {
+        "start": 575.3,
+        "end": 588.3,
+        "text": "We will compare it to the reference, we will calculate the error, and this error will pass through a controller."
+      },
+      {
+        "start": 589.3,
+        "end": 610.3,
+        "text": "We will have three variations per day, just proportional integral and proportional integral differential aka the lead part."
+      },
+      {
+        "start": 611.3,
+        "end": 617.3,
+        "text": "And all of this will fit here."
+      },
+      {
+        "start": 617.3,
+        "end": 622.3,
+        "text": "Yes? Okay."
+      },
+      {
+        "start": 622.3,
+        "end": 649.3,
+        "text": "Now, just to remember a bit, if I have a closed loop like here, and I want to calculate the loop or open loop transfer function, what would that be?"
+      },
+      {
+        "start": 649.3,
+        "end": 669.3,
+        "text": "So, if I just make a effect called my controller, k of s, that's the transfer function of my controller, what would be the loop transfer function here?"
+      },
+      {
+        "start": 680.3,
+        "end": 695.3,
+        "text": "So, this is a closed loop transfer function."
+      },
+      {
+        "start": 695.3,
+        "end": 706.3,
+        "text": "I wanted the thing that should add to the one in the denominator, that's the loop transfer function."
+      },
+      {
+        "start": 706.3,
+        "end": 715.3,
+        "text": "So, what is that here?"
+      },
+      {
+        "start": 716.3,
+        "end": 719.3,
+        "text": "k times g, right?"
+      },
+      {
+        "start": 719.3,
+        "end": 722.3,
+        "text": "And k times g, right?"
+      },
+      {
+        "start": 722.3,
+        "end": 725.3,
+        "text": "k times g, right?"
+      },
+      {
+        "start": 746.3,
+        "end": 752.3,
+        "text": "k times g, right?"
+      },
+      {
+        "start": 752.3,
+        "end": 757.3,
+        "text": "k times g, right?"
+      },
+      {
+        "start": 757.3,
+        "end": 764.3,
+        "text": "k times g, right?"
+      }
+    ]
+  },
+  "slide_sections": [],
+  "playback_speed": 2.0,
+  "normalized_audio": "C:\\Users\\Mads2\\DTU\\lecture-recorder\\recordings\\34722_untitled_20260325_163722_1x_1x.mp3"
+}
