@@ -65,8 +65,8 @@ LIMIT 10
 ## Upcoming Deadlines
 
 > [!deadline] Key Dates
-> - [ ] **PWA deadline** -- 05-03-2026 (Week 9)
-> - [ ] **MC test PWA** -- Before 21 March 2026
+> - [x] **PWA deadline** -- 05-03-2026 (Week 9)
+> - [x] **MC test PWA** -- Before 21 March 2026
 > - [ ] **PWB deadline** -- 02-04-2026 (Week 13)
 > - [ ] **MC test PWB** -- Before 25 April 2026
 > - [ ] **PWF + Video** -- 11-05-2026 (Week 19)
