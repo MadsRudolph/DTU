@@ -478,6 +478,39 @@ The saturation causes **integrator windup**: while the motor is saturated at 9V,
 > - **Steady-state error** is effectively zero in all cases ($< 0.001$ m) — the PI controller works as designed.
 > - **Best result**: $K_P = 10.6$ with training wheels — reaches 0.5m target, settles in ~4s, zero $e_{ss}$.
 
+### Re-identification and v2 Controller
+
+The persistent ~60% overshoot motivated re-doing the Day 5 system identification with training wheels. The new 1-pole model better captures the real dynamics (see [[Day 5 - Black Box Modeling#Re-identification with Training Wheels (v2)]]):
+
+$$G_{vel}(s) = \frac{2.198}{s + 5.985} \quad \Rightarrow \quad G_{pos}(s) = \frac{2.198}{s^2 + 5.985s}$$
+
+**v2 Design** ($N_I = 3$, $\alpha = 0.3$, $\gamma_M = 60°$, 1-pole model):
+
+| Parameter | v1 (old model) | v2 (1-pole model) |
+|---|---|---|
+| $K_P$ | 21.20 | 11.46 |
+| $\tau_i$ | 0.2841 | 0.5164 |
+| $\tau_{zero}$ | 0.1729 | 0.3143 |
+| $\tau_{pole}$ | 0.0519 | 0.0943 |
+| $\omega_c$ | 10.56 rad/s | 5.81 rad/s |
+| Initial control | 10.6 V | 5.7 V |
+
+**Fifth attempt** (v2 controller, training wheels):
+
+| Metric | v1 best (attempt 4) | **v2 (new model)** |
+|---|---|---|
+| $K_P$ | 10.60 | 11.46 |
+| Rise time | 0.680 s | 0.680 s |
+| Settling time | 4.16 s | **3.56 s** |
+| Overshoot | 57.0% | **21.9%** |
+| $e_{ss}$ | 0.0001 m | 0.004 m |
+
+![[day8_regbot_v2_predicted.png]]
+![[day8_log_position_v2.png]]
+
+> [!success] Model Accuracy is Key
+> The improved 1-pole model cut overshoot from **57% to 22%** — more than any amount of $K_P$ tuning could achieve with the old model. The initial control effort (5.7V) stays below the 9V saturation, avoiding integrator windup entirely.
+
 ---
 
 ## Key Observations
@@ -489,8 +522,9 @@ The saturation causes **integrator windup**: while the motor is saturated at 9V,
 > - **Lead placement** matters: forward path = higher bandwidth + larger control signals; feedback path = lower bandwidth + smoother response
 > - The **phase balance equation** $-180° + \gamma_M = \phi_G + \phi_i + \phi_m$ is the core design tool
 > - **Saturation + integrator windup** is the dominant real-world issue: the PI integrator accumulates error while the motor is saturated, causing large overshoot that linear analysis doesn't predict
-> - **Model accuracy matters**: the 57%-fit Day 5 transfer function leads to significant theory-vs-reality mismatch, especially at high gains. Iterative tuning on the real system is essential
+> - **Model accuracy matters**: the original 2-pole Day 5 TF led to 57–80% overshoot. Re-identifying with training wheels and a 1-pole model cut overshoot to 22% — better than any amount of gain tuning
 > - **Lower $K_P$** reduces settling time on the real REGBOT even though linear theory predicts slower response — avoiding saturation is more important than maximizing crossover frequency
+> - **1-pole models** can outperform 2-pole models when the fast pole is just fitting noise — simpler models are more robust to real-world conditions
 
 ---
 

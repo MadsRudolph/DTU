@@ -244,6 +244,38 @@ The floor adds friction and load, which:
 
 ---
 
+## Re-identification with Training Wheels (v2)
+
+The original floor identification (57% fit) led to poor controller performance in Day 8 — the position controller produced 57–80% overshoot regardless of $K_P$ tuning. Re-identification was done with **training wheels** for tilt stabilization.
+
+### Setup Changes
+- Training wheels attached (removes tilt disturbance)
+- Same mission: `vel=3, log=4 : time=0.5` then `vel=4 : log=0`
+- 4508 samples at 4 ms sampling
+
+### Results: 1-Pole vs 2-Pole
+
+Both models achieve the same fit (43.1%), confirming the system is essentially **first order**:
+
+$$G_{vel}(s) = \frac{2.198}{s + 5.985} \qquad (\text{1-pole, DC gain} = 0.367, \tau = 0.167 \text{ s})$$
+
+| Model | Fit | DC gain | Poles |
+|---|---|---|---|
+| 2-pole (old, no support) | 57.2% | 0.361 | $-32712$, $-10.9$ |
+| 2-pole (v2, training wheels) | 43.1% | 0.368 | $-1966$, $-5.6$ |
+| **1-pole (v2, training wheels)** | **43.1%** | **0.367** | **$-5.985$** |
+
+The old model's fast pole at $s = -32712$ was fitting noise — the 1-pole model is a better representation. The slow pole moved from $s = -10.9$ to $s = -5.985$, meaning the real system is **slower** than originally estimated.
+
+![[day5_v2_compare.png]]
+![[day5_v2_model_vs_meas.png]]
+![[day5_v2_old_vs_new.png]]
+
+> [!tip] Impact on Controller Design
+> Using the 1-pole model for the Day 8 position controller reduced REGBOT overshoot from **57% to 22%** — see [[Day 8 & 9 - Position Controller Design]].
+
+---
+
 ## Key Observations
 
 > [!success] Summary
@@ -253,6 +285,8 @@ The floor adds friction and load, which:
 > - **Fit percentages** are limited by encoder noise (28–57%), not by model structure — the model shapes track the data mean correctly
 > - The **floor data required careful trimming** — the robot hit a wall at t ≈ 6 s, producing unusable data that was automatically excluded
 > - Left and right wheels show **slight asymmetry** in both conditions, visible in the individual wheel fits
+> - **Re-identification with training wheels** showed the system is essentially 1st order ($\tau = 0.167$ s) — the 2-pole model's fast pole was fitting noise
+> - **Model accuracy directly impacts controller performance** — the improved 1-pole model cut position controller overshoot from 57% to 22%
 
 ---
 
