@@ -56,7 +56,9 @@ jobs:
 
               if not path:
                   errors.append(f"{prefix}: empty path")
-              if not drive_id:
+              if drive_id is None:
+                  pass  # null driveId = pending upload, allowed
+              elif not drive_id:
                   errors.append(f"{prefix}: empty driveId")
 
               # Check for duplicates
@@ -64,9 +66,10 @@ jobs:
                   errors.append(f"{prefix}: duplicate path '{path}'")
               seen_paths.add(path)
 
-              if drive_id in seen_drive_ids:
-                  errors.append(f"{prefix}: duplicate driveId '{drive_id}' (path: {path})")
-              seen_drive_ids.add(drive_id)
+              if drive_id is not None:
+                  if drive_id in seen_drive_ids:
+                      errors.append(f"{prefix}: duplicate driveId '{drive_id}' (path: {path})")
+                  seen_drive_ids.add(drive_id)
 
               # Check path doesn't use backslashes
               if "\\" in path:
