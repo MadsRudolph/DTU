@@ -174,6 +174,11 @@ def main():
         drive_id = entry["driveId"]
         expected_size = entry.get("size")
 
+        # Skip files pending upload (null driveId)
+        if drive_id is None:
+            skipped += 1
+            continue
+
         # Try both Unicode normalization forms (handles ø, æ, å etc. across platforms)
         dest_path_nfc = repo_root / unicodedata.normalize("NFC", rel_path)
         dest_path_nfd = repo_root / unicodedata.normalize("NFD", rel_path)
