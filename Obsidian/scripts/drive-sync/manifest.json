@@ -494,6 +494,21 @@
       "size": 3631698
     },
     {
+      "path": "4. Semester/Digital Systems Design/team/Report-PWB/main.pdf",
+      "driveId": "1SscrIeumrYxfyTJB8JLhp9O6s30fHWef",
+      "size": 2251395
+    },
+    {
+      "path": "4. Semester/Digital Systems Design/team/Report-PWB/sections/instruction-decoder-controller.pdf",
+      "driveId": "1mLs3HL0L6HK9UjYV-C7X60uIGA4WWuZS",
+      "size": 242392
+    },
+    {
+      "path": "4. Semester/Digital Systems Design/team/Report-PWB/sections/testdiagram.pdf",
+      "driveId": "1oNkHdr8aWGffkCKRRhMvQSp_qf9LZkkc",
+      "size": 87076
+    },
+    {
       "path": "4. Semester/Digital Systems Design/team/Submissions/Group03_PWA.zip",
       "driveId": "1ILPzcZ7yYNqVBklGOPhzKtafj4f0_zJ1",
       "size": 3631698
@@ -1529,6 +1544,11 @@
       "size": 331665
     },
     {
+      "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/31632-problems-dac.pdf",
+      "driveId": "1NtmU15Pp0AYvt7Bhv-8UeYDafFknGFyT",
+      "size": 383345
+    },
+    {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/31632-problems-intro.pdf",
       "driveId": "1RTXXto7KtJ3bfXZbPagCqrqlKoXJ3X43",
       "size": 49367
@@ -1557,6 +1577,16 @@
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/Amplifier_design_specifications_v3.pdf",
       "driveId": "1jzhlNcimtdZGVAV7Suvl7wxvIOyZf6Ph",
       "size": 266594
+    },
+    {
+      "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/Solutions/31632-solution-dac.pdf",
+      "driveId": "1pVcIvVdwLbh5NKjNzp3KbydeINWJ3Dk9",
+      "size": 265847
+    },
+    {
+      "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/Solutions/31632-solution-dataconv-fund.pdf",
+      "driveId": "1Fpmpu14ZQ1E9vTiBUSQSqQp7okNxmSOB",
+      "size": 126265
     },
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Exercises/Solutions/31632-solution-intro.pdf",
@@ -1616,7 +1646,7 @@
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Report/main.pdf",
       "driveId": "1noox7wEi1-vm8JfdG2T-2UBeNXJU19MQ",
-      "size": 151440
+      "size": 793471
     },
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Slides/34655-01a-introduction-to-course_v1.pdf",
@@ -1637,6 +1667,11 @@
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Slides/34655-05-noise_v5.pdf",
       "driveId": "1NPAibRF-uVIgnJXRB3WYokns5LsOKp3h",
       "size": 1817765
+    },
+    {
+      "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Slides/34655-09-dataconv-fundamentals_v4.pdf",
+      "driveId": "1ynKmjnIasTEFTHYAg3AbZoLPpLUeOfz3",
+      "size": 2353173
     },
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Slides/34655-advanced-opamps_v4.pdf",
@@ -1766,7 +1801,7 @@
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Exercises/Work/opg5_submission.pdf",
       "driveId": "1I6--40dt9wmOB80yi735kChxa_kToU6o",
-      "size": 144027
+      "size": 257265
     },
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Exercises/opg3.pdf",
@@ -1937,6 +1972,11 @@
       "path": "Obsidian/Courses/62711 Digital Systems Design/Literature/M_Morris_Mano_Charles_R_Kime-Logic_and_Computer_Design_Fundamentals-EN.pdf",
       "driveId": "1rUgVfFj5ggj9AHtO8rLRRDtfWzq0Vh-B",
       "size": 17190603
+    },
+    {
+      "path": "Obsidian/Courses/62711 Digital Systems Design/Literature/Reference/Logic and Computer Design Fundamentals 5th Edition.pdf",
+      "driveId": "1m7Md71CTlQBUc4GkGRsPNUCH94BD6CQi",
+      "size": 11362296
     },
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Literature/Reference/M_Morris_Mano_Charles_R_Kime-Logic_and_Computer_Design_Fundamentals-EN.pdf",

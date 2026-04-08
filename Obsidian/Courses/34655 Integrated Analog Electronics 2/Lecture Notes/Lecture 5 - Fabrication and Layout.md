@@ -437,4 +437,4 @@ Digital content drives **System-on-Chip (SoC)**, while non-digital content drive
 >
 > [[34655 Integrated Analog Electronics 2|34655 Home]]
 >
-> [[Lecture 5 - Fabrication and Layout|Lecture 5 →]]
+> [[Lecture 9 - Data Converter Fundamentals|Lecture 9 →]]
