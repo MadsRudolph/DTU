@@ -21,6 +21,10 @@ tags: [LCD, home]
 > - [DTU Course Page](https://kurser.dtu.dk/course/34722)
 > - [[Regbot GUI|Regbot GUI setup]]
 > - [[DTU Study Path|Study path context]]
+> - [[Fundamentals - Intuitive Control Theory|Fundamentals Guide — Intuition-first study reference]]
+> - [[Diagnostic Guide - What Went Wrong|Diagnostic Guide — Troubleshooting symptoms & fixes]]
+> - [[Worked Example - REGBOT Position Controller|Worked Example — PILead design start-to-finish]]
+> - [[Midterm Cheatsheet|Midterm Cheatsheet — Formulas & quick reference]]
 
 ---
 
@@ -28,12 +32,15 @@ tags: [LCD, home]
 
 | Wk | Date | Lec | Topic | Reading | Done |
 |---|---|---|---|---|---|
-| 5 | | 1 | Introduction | Intro to feedback control, Pre-Test | |
-| 6 | | 2 | Control concepts | Block diagrams, hand tuning, Z-N | |
+| 5 | | 1 | Introduction | Intro to feedback control, Pre-Test | x |
+| 6 | | 2 | Control concepts | Block diagrams, hand tuning, Z-N | x |
 | 7 | 18/02 | 3 | Transfer function & Laplace | Laplace transform, phasors, block diagrams | x |
-| 8 | | 4 | Frequency domain | Frequency domain properties | |
-| 9 | | 5 | Modelling & Linearization | White/black box modelling | |
-| 10 | | 6 | Bode plots & Stability | Bode plot, stability margins, P-design | |
+| 8 | 25/02 | 4 | Frequency domain | Frequency domain properties, poles, zeros | x |
+| 9 | | 5 | Modelling & Linearization | White/black box modelling | x |
+| 10 | | 6 | Bode plots & Stability | Bode plot, stability margins, P-design | x |
+| 11 | | 7 | Nyquist plot & Stability | Nyquist criterion, stability analysis | x |
+| 12 | | 8 | PI-Lead Design | PI-Lead controller, phase balance equation | x |
+| 13 | 08/04 | 9 | PI-Lead with Specifications | Closed-loop specs, bandwidth, type-n systems | x |
 
 ---
 
@@ -73,11 +80,18 @@ SORT date ASC
 > - [[Day 2 - Hand-Tuning Exercise|Day 2 -- P/PI Hand-Tuning & Ziegler-Nichols]]
 > - [[Day 3 - Block Diagram Exercise|Day 3 -- Block Diagrams & Transfer Functions]]
 > - [[Day 3 - MATLAB Exercise|Day 3 -- MATLAB: Laplace, TFs & Frequency Response]]
+> - [[Day 4 - REGBOT Introduction|Day 4 -- REGBOT Introduction & Motor Characterization]]
+> - [[Day 5 - Black Box Modeling|Day 5 -- Black Box Modeling & System Identification]]
+> - [[Day 6 - Bode and P-Controller Design|Day 6 -- Bode Plot & P-Controller Design]]
+> - [[Day 8 - Position Controller|Day 8 -- PI-Lead Position Controller Design]]
+> - [[Day 9 - PI-Lead with Specifications|Day 9 -- PI-Lead Design with Specifications]]
 > - [[Pretest Answers|Pretest -- Math, Physics, Frequency, MATLAB]]
 > - [[Day1_MATLAB_Exercise.pdf|Exercise 1 PDF]]
 > - [[matlabexercise.pdf|MATLAB Exercise PDF]]
 > - [[Exercises_Day3.pdf|Exercise 3 PDF]]
 > - [[Assignment_3_BlockDiagrams.pdf|Assignment 3 -- Block Diagrams]]
+> - [[Extra_Exercises_Day5.pdf|Extra Exercises Day 5 PDF]]
+> - [[Theoretical Exercises LCD1.pdf|Theoretical Exercises 1-9 PDF]]
 
 > [!tip] Quizzes
 > - [[Quiz 1 - Block Diagrams and Control Concepts|Quiz 1 -- Block Diagrams & Control Concepts]]
@@ -102,6 +116,12 @@ SORT date ASC
 - [[1_Welcome_Lecture.pdf|Lecture 1 -- Welcome]]
 - [[2_block_control_concept.pdf|Lecture 2 -- Block Diagrams & Control Concepts]]
 - [[3_Laplace_TF.pdf|Lecture 3 -- Laplace & Transfer Functions]]
+- [[4_Frequency_and_Time_Analysis_NoSol.pdf|Lecture 4 -- Frequency & Time Analysis]]
+- [[5_Modelling.pdf|Lecture 5 -- Modelling]]
+- [[6_bode_plot_and_stability.pdf|Lecture 6 -- Bode Plots & Stability]]
+- [[7_Nyquist_Plot_and_Stability.pdf|Lecture 7 -- Nyquist Plot & Stability]]
+- [[8_PI_Lead_Design.pdf|Lecture 8 -- PI-Lead Design]]
+- [[9_PI_Lead_Design_with_Specifications.pdf|Lecture 9 -- PI-Lead with Specifications]]
 
 ---
 
