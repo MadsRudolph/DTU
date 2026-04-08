@@ -12,11 +12,12 @@ date: 2026-03-25
 
 > [!info] Files
 > - MATLAB scripts: [Day8 folder](file:///C:/Users/Mads2/DTU/4.%20Semester/Linear%20Control%20Design/Day8/)
-> - Exercise scripts: `Lecture_08_exercise_1.m`, `Lecture_08_exercise_2.m`, `Lecture_08_exercise_3.m`
-> - Solutions: `Lecture_08_exercise_1_solution.m`, `Lecture_08_exercise_2_solution.m`, `Lecture_08_exercise_3_solution.m`
-> - Helper scripts: `K_P_bode_plot.m`, `K_P_step_Nyquist.m`, `P_controller_bode.m`
+> - REGBOT controller: `regbot_position_controller_v2.m`
+> - Simulink model: `regbot_position_sim.slx`
+> - Results plotting: `regbot_plot_results.m`, `regbot_simulink.m`
 
 > [!example] Related Materials
+> - Lecture exercises: [[Lecture 8 - PI-Lead Controller Design Exercises]]
 > - Previous exercise: [[Day 6 - Bode Plot and P-Controller Design]]
 > - Prerequisite: Transfer functions from [[Day 5 - Black Box Modeling]]
 > - Lecture slides: [[Lecture_08_PI_LEAD_design.pdf]]
@@ -38,163 +39,229 @@ Design a position controller for the REGBOT and evaluate in simulation (MATLAB a
 
 ## Task 1: Transfer Function from Voltage to Position
 
-Starting from the voltage-velocity transfer function identified in Day 5, find the transfer function $G(s)$ from voltage to forward position (along $x$).
+Velocity TF from Day 5 → multiply by $\frac{1}{s}$ to get position:
 
-> [!tip] Key Insight
-> Position is the integral of velocity, so multiply the velocity transfer function by $\frac{1}{s}$:
->
-> $$G(s) = G_{vel}(s) \cdot \frac{1}{s}$$
+```matlab
+s = tf('s');
+G_vel = 2.198 / (s + 5.985);       % Day 5 velocity TF (1-pole, training wheels)
+G = minreal(G_vel / s);             % Position TF = velocity * 1/s
+```
+
+$$G(s) = \frac{2.198}{s(s + 5.985)}$$
+
+Poles: $s = 0$ and $s = -5.985$. The pole at $s = 0$ makes it **type-1** (has an integrator), so it will have zero steady-state error.
 
 ---
 
 ## Task 2: PI-Lead Position Controller Design
 
-Design a PI-Lead controller such that:
-- **No steady-state error** in position
-- **Phase margin $\geq 60°$**
+Goal: no steady-state error, phase margin $\geq 60°$.
 
-### Step 2.1: Bode Plot of $G(s)$
+### Step 1: Look at the Bode plot of $G(s)$
 
 ```matlab
-bode(G);
-grid on;
+w = logspace(-2, 3, 5000);
+[M, P, w_out] = bode(G, w);
+M = mag2db(squeeze(M));
+P = squeeze(P);
 ```
 
-### Step 2.2: Select Initial Parameters
-
-Choose starting values:
-- $N_i = 5$ (PI zero placement factor)
-- $\alpha = 0.1$ (Lead controller ratio)
-
-### Step 2.3: Find Crossover Frequency $\omega_c$
-
-Using the phase-balance equation and the Bode plot of $G(s)$, find the new crossover frequency $\omega_c$ such that the required phase margin is achieved.
-
-> [!note] Phase-Balance Equation
-> The phase contributions of all controller parts must sum to give the desired phase margin at $\omega_c$.
-
-### Step 2.4: PI Controller Design
-
-Find the time constant $\tau_i$ associated with the zero of the PI part:
-
-$$\tau_i = \frac{N_i}{\omega_c}$$
-
-The PI transfer function:
-
-$$C_{PI}(s) = \frac{\tau_i s + 1}{\tau_i s}$$
-
-### Step 2.5: Lead Controller Design
-
-Find the time constant $\tau_d$ associated with the Lead part:
-
-$$C_D(s) = \frac{\tau_d s + 1}{\alpha \tau_d s + 1}$$
-
-### Step 2.6: Proportional Gain $K_P$
-
-Find $K_P$ such that the combined open-loop transfer function has 0 dB magnitude at $\omega_c$:
-
-$$G_{ol}(s) = K_P \cdot C_{PI}(s) \cdot C_D(s) \cdot G(s)$$
-
-$$|G_{ol}(j\omega_c)| = 1 \quad (0 \text{ dB})$$
-
-### Step 2.7: Closed-Loop Transfer Function
-
-Calculate $G_{cl}(s)$ for two architectures:
-
-**a) Lead in forward branch:**
-
-$$G_{cl}(s) = \frac{K_P \cdot C_{PI}(s) \cdot C_D(s) \cdot G(s)}{1 + K_P \cdot C_{PI}(s) \cdot C_D(s) \cdot G(s)}$$
-
-**b) Lead in feedback branch:**
-
-$$G_{cl}(s) = \frac{K_P \cdot C_{PI}(s) \cdot G(s)}{1 + K_P \cdot C_{PI}(s) \cdot C_D(s) \cdot G(s)}$$
-
-### Step 2.8: Step Response Evaluation
+### Step 2: Pick $N_i$ and $\alpha$
 
 ```matlab
-step(G_cl_a);  % Lead in forward
-hold on;
-step(G_cl_b);  % Lead in feedback
-legend('Lead Forward', 'Lead Feedback');
-stepinfo(G_cl_a)
-stepinfo(G_cl_b)
+N_i   = 3;       % How far below omega_c to place the PI zero (start with 5)
+alpha = 0.3;     % Lead ratio, between 0 and 1 (start with 0.1)
+gamma_M = 60;    % Desired phase margin [deg]
 ```
 
-**Evaluate:**
-- Is there steady-state error?
-- Is the final value reached in less than 10 sec?
-- Which architecture has the smallest overshoot?
-- Which has the fastest convergence?
+### Step 3: Find $\omega_c$ using the phase-balance equation
 
-> [!warning] Design Iteration
-> Readjust $N_i$ and $\alpha$ so that:
-> - No steady-state error
-> - Convergence below 10 seconds
+Each controller part adds phase at $\omega_c$. We need the total to give $60°$ margin:
+
+$$\underbrace{\angle G(j\omega_c)}_{\text{plant phase}} + \underbrace{\phi_i}_{\text{PI (negative)}} + \underbrace{\phi_m}_{\text{Lead (positive)}} = -180° + 60°$$
+
+Rearranging — the plant phase we need:
+
+$$\phi_G = -180° + 60° - \phi_i - \phi_m$$
+
+```matlab
+phi_i = rad2deg(-atan(1/N_i));              % PI phase (always negative)
+phi_m = rad2deg(asin((1-alpha)/(1+alpha))); % Lead phase (always positive)
+phi_G_req = -180 + gamma_M - phi_i - phi_m; % Required plant phase
+
+% Find where the plant phase crosses phi_G_req => that's omega_c
+i_c = find(P <= phi_G_req, 1, 'first');
+omega_c = w_out(i_c);
+```
+
+### Step 4: Build the PI controller
+
+The PI zero goes at $\omega_c / N_i$ (well below crossover so it doesn't mess up phase too much):
+
+```matlab
+tau_i = N_i / omega_c;
+C_PI = (tau_i*s + 1) / (tau_i*s);    % = 1 + 1/(tau_i*s)
+```
+
+### Step 5: Build the Lead controller
+
+```matlab
+tau_d = 1 / (omega_c * sqrt(alpha));
+C_D = (tau_d*s + 1) / (alpha*tau_d*s + 1);
+```
+
+### Step 6: Find $K_P$
+
+We need $|K_P \cdot C_{PI} \cdot C_D \cdot G| = 1$ at $\omega_c$ (0 dB):
+
+```matlab
+G_ol_noK = minreal(C_PI * C_D * G);
+K_P = 1 / abs(freqresp(G_ol_noK, omega_c));
+```
+
+Bode plot of all three components ($G$, $C_{PI}$, $C_D$):
+
+![[day8_regbot_component_bode.png]]
+
+Open-loop Bode ($K_P \cdot C_{PI} \cdot C_D \cdot G$) with $\omega_c$ marked:
+
+![[day8_regbot_bode_ol.png]]
+
+### Step 7: Close the loop — two ways
+
+```matlab
+% a) Lead in forward path (faster, more overshoot)
+G_cl_fwd = minreal(K_P*C_PI*C_D*G / (1 + K_P*C_PI*C_D*G));
+
+% b) Lead in feedback path (smoother, less overshoot)
+G_cl_fb = minreal(K_P*C_PI*G / (1 + K_P*C_PI*C_D*G));
+```
+
+Closed-loop Bode for both architectures:
+
+![[day8_regbot_bode_cl.png]]
+
+### Step 8: Compare step responses
+
+```matlab
+step(G_cl_fwd); hold on; step(G_cl_fb); hold off;
+legend('Lead forward', 'Lead feedback');
+stepinfo(G_cl_fwd)
+stepinfo(G_cl_fb)
+```
+
+![[day8_regbot_step.png]]
+
+### Results
+
+With $N_i = 3$, $\alpha = 0.3$, $\gamma_M = 60°$:
+
+**Phase balance:**
+
+| | Value |
+|---|---|
+| $\phi_i$ (PI) | $-18.43°$ |
+| $\phi_m$ (Lead) | $+32.58°$ |
+| $\phi_G$ required | $-134.14°$ |
+| $\omega_c$ | 5.82 rad/s |
+
+**Controller parameters:**
+
+| | Value |
+|---|---|
+| $\tau_i$ | 0.5159 s |
+| $\tau_d$ (zero) | 0.3140 s |
+| $\tau_d \cdot \alpha$ (pole) | 0.0942 s |
+| $K_P$ | 11.47 |
+
+Achieved phase margin: $59.97°$. Initial control effort: $11.47 \times 0.5 = 5.7$ V (below the 9 V limit).
+
+**Step response comparison:**
+
+| Metric | Lead forward | Lead feedback |
+|---|---|---|
+| Rise time | 0.202 s | 0.449 s |
+| Settling time | 1.858 s | 2.129 s |
+| Overshoot | 17.2% | 7.8% |
+| $e_{ss}$ | 0 | 0 |
+
+Feedback is smoother (7.8% vs 17.2% overshoot). Forward is faster (0.2 s vs 0.4 s rise). Both converge well under 10 s.
+
+> [!important] REGBOT Controller Values (Lead in feedback)
+> ```
+> K_P      = 11.47
+> tau_i    = 0.5159
+> tau_zero = 0.3140
+> tau_pole = 0.0942
+> ```
 
 ---
 
 ## Task 3: Simulink Implementation
 
-### Setting Up the Model
-
-1. Open Simulink: type `simulink` in MATLAB command line
-2. Select "Blank Model"
-3. Add blocks from Library Browser:
-   - **Sources:** Step block (start at $t = 0.1$ s, step size $= 0.5$ m)
-   - **Continuous:** Transfer Function blocks for $G_{vu}$, $C_{PI}$, $C_D$, $K_P$, integrator ($1/s$)
-   - **Commonly Used:** Sum, Gain
-   - **Sinks:** Scope, To Workspace
-   - **Discontinuities:** Saturation (limits: $-9$ to $+9$)
+Implement the closed-loop in Simulink to test with motor voltage saturation ($\pm 9$ V).
 
 > [!important] Architecture
-> Use only the case of **Lead in the feedback branch**.
+> Use only **Lead in the feedback branch**.
 
 ### Block Diagram
 
 ```
-                          ┌──────────┐
-Position  ──►(Sum)──►│Saturation│──►[G_vu]──►[1/s]──► pos ──► To Workspace
-  step       -│      └──────────┘                        │
-              │                                          │
-              └────────[C_D]◄────[C_PI]◄────[K_P]◄──────┘
+                     ┌──────────┐
+Position  ──►(Sum)──►│Saturation│──►[G_vu]──►[1/s]──► pos
+  step       -│      └──────────┘                       │
+              │                                         │
+              └────────[C_D]◄────[C_PI]◄────[K_P]◄─────┘
 ```
 
-### Extracting Polynomials for Transfer Function Blocks
+- `G_vu` = velocity TF from Day 5 (not the full position TF — the $1/s$ integrator is separate)
+- Saturation limits: $-9$ to $+9$ V (same as the real REGBOT motor)
+- Step: start at $t = 0.1$ s, size $= 0.5$ m
+
+### Setting up the Transfer Function blocks
+
+To get the numerator/denominator polynomials from MATLAB TF objects:
 
 ```matlab
-[num_G, den_G] = tfdata(G, 'v');   % Get polynomials from transfer functions
+[num_vel, den_vel] = tfdata(G_vel, 'v');   % Velocity TF
+[num_pi,  den_pi]  = tfdata(C_PI, 'v');    % PI controller
+[num_cd,  den_cd]  = tfdata(C_D, 'v');     % Lead controller
 ```
 
 ### Running the Simulation
 
 ```matlab
-% Method 1
-sim('model_name', 5);   % simulate for 5 seconds
-plot(simout);
-
-% Method 2 (newer MATLAB versions)
-regbot_sim = sim("model_name", 5);
-plot(regbot_sim.simout);
+sim_out = sim("regbot_position_sim", 5);   % simulate 5 seconds
+plot(sim_out.pos_data);                     % plot position output
 ```
 
-**Compare** Simulink results with MATLAB simulation from Task 2. Does the saturation affect performance? What happens with limits at $-3$ and $+3$?
+### Results: Simulink with $\pm 9$ V saturation
+
+Since our controller gives 5.7 V initial effort (below the 9 V limit), the saturation barely affects the response:
+
+![[day8_simulink_9V.png]]
+
+### MATLAB (linear) vs Simulink (with saturation)
+
+![[day8_simulink_vs_matlab.png]]
+
+### What happens with tighter saturation ($\pm 3$ V)?
+
+With $\pm 3$ V limits the motor saturates, making the response slower — but the PI integrator still eliminates steady-state error:
+
+![[day8_simulink_sat_comparison.png]]
 
 ---
 
 ## Task 4: REGBOT Implementation
 
+Implement the designed PI-Lead controller on the physical REGBOT using the "Control" tab.
+
 ### Controller Setup
 
 1. **Bypass velocity controller:** Enable, set $K_{ff} = 1$, $K_p = 0$
-2. **Activate heading controller:** set $K_p = 1$
-3. **Position controller** (Lead/Lag in feedback):
-
-```
-K_P      = 111.73
-tau_i    = 0.1358
-tau_zero = 0.0859
-tau_pole = 0.00859
-```
+2. **Activate heading controller:** set $K_p = 1$ (or hand-tuned value)
+3. **Position controller** (Lead/Lag in feedback): set the values from Task 2
 
 ### Mission Script
 
@@ -218,17 +285,6 @@ Log the following signals:
 ### Analysis
 
 Load data in MATLAB, plot "Pose x" (driven distance / position reference) and compare with simulated results.
-
----
-
-## How to Present Results
-
-> [!important] Required Plots
-> 1. **Bode plots** of $G(s)$, $C_{PI}(s)$, $C_D(s)$ on the same plot (use `hold on`, `hold off`)
-> 2. **Bode plot** of $G_{ol}(s)$ with crossover frequency shown
-> 3. **Bode plot** of $G_{cl}(s)$ for both architectures (Lead forward and Lead feedback) with bandwidth frequency
-> 4. **Step response** of $G_{cl}(s)$ for both architectures on the same plot
-> 5. **Experimental results** from REGBOT: position, position reference, and voltages
 
 ### REGBOT Plot Template
 
@@ -260,277 +316,37 @@ bb = subplot(2,1,2);
 linkaxes([aa, bb], 'x');
 ```
 
----
+### Results: REGBOT Experiment
 
-## Results
-
-### Exercise 1: P Controller — $G(s) = \frac{40}{s(s+10)^2}$
-
-**System analysis:**
-- Poles: $s = 0, -10, -10$ (type-1 system — integrator at origin)
-- Original $\omega_c = 0.399$ rad/s, $\gamma_M = 85.4°$ (stable but very slow)
-
-**Design for $\gamma_M = 60°$:**
-- New $\omega_c = 2.69$ rad/s (6.7x faster)
-- $K_P = 7.21$
+With the v2 controller ($K_P = 11.46$, training wheels):
 
 | Metric | Value |
 |---|---|
-| Rise time | 0.451 s |
-| Settling time | 1.413 s |
-| Overshoot | 7.87% |
-| $e_{ss}$ | 0 (type-1 system) |
+| Rise time | 0.680 s |
+| Settling time | 3.56 s |
+| Overshoot | 21.9% |
+| $e_{ss}$ | 0.004 m |
 
-![[day8_ex1_bode.png]]
-![[day8_ex1_step.png]]
-
-> [!tip] Key Insight
-> Type-1 systems achieve zero steady-state error with just a P controller. The integrator in the plant eliminates the need for a PI part.
-
----
-
-### Exercise 2: PI Controller — $G(s) = \frac{3.3}{s^3 + 5s^2 + 2.1s + 1}$
-
-**System analysis:**
-- Poles: $s = -4.59$, $s = -0.205 \pm 0.419j$ (type-0, oscillatory complex pair near imaginary axis)
-- PI phase contribution: $\phi_i = -18.43°$
-- Required plant phase: $\phi_G = -101.57°$
-
-**Design ($N_I = 3$, $\gamma_M = 60°$):**
-- $\omega_c = 0.49$ rad/s, $\tau_i = 6.12$ s, $K_P = 0.269$
-
-| Metric | P controller | PI controller |
-|---|---|---|
-| Rise time | 2.09 s | 4.42 s |
-| Settling time | 21.65 s | 38.05 s |
-| Overshoot | 38.69% | 0% |
-| $e_{ss}$ | 0.530 | 0 |
-
-![[day8_ex2_bode.png]]
-![[day8_ex2_bode_ol.png]]
-![[day8_ex2_step.png]]
-
-> [!warning] Trade-off
-> The PI controller eliminates steady-state error and overshoot, but at the cost of much slower response. The PI phase penalty (-18.4°) forces a lower crossover frequency. This motivates adding a Lead part to recover speed.
-
----
-
-### Exercise 3: PI-Lead Controller — $G(s) = \frac{40}{(s+1)(s+10)^2}$
-
-**System analysis:**
-- Type-0 system, stable, needs PI for zero $e_{ss}$
-
-**Design ($N_I = 3$, $\alpha = 0.3$, $\gamma_M = 60°$):**
-- PI: $\phi_i = -18.43°$, Lead: $\phi_m = +32.58°$ (net: $+14.15°$)
-- $\omega_c = 5.30$ rad/s, $\tau_i = 0.567$ s, $\tau_d = 0.345$ s, $K_P = 8.96$
-- Achieved phase margin: $59.04°$, gain margin: $12.51$ dB
-
-| Metric | P | PI | PI-Lead (fwd) | PI-Lead (fb) |
-|---|---|---|---|---|
-| Rise time | 0.34 s | 0.32 s | 0.22 s | 0.72 s |
-| Settling time | 1.12 s | 1.95 s | 1.58 s | 1.19 s |
-| Overshoot | 12.3% | 31.5% | 11.4% | 1.3% |
-| $e_{ss}$ | 0.218 | 0 | 0 | 0 |
-| Bandwidth | — | — | 10.20 rad/s | 3.12 rad/s |
-
-![[day8_ex3_component_bode.png]]
-![[day8_ex3_bode_ol.png]]
-![[day8_ex3_step.png]]
-![[day8_ex3_bode_cl.png]]
-
-> [!success] Architecture Comparison
-> - **PI-Lead (forward):** fastest response (0.22s rise), good for reference tracking. But amplifies high-frequency reference content $\to$ larger control signals.
-> - **PI-Lead (feedback):** smoothest response (1.3% overshoot), best for disturbance rejection. Lower bandwidth (3.1 vs 10.2 rad/s) means less aggressive control effort.
-> - For the REGBOT, we use **Lead in feedback** to avoid aggressive motor voltages.
-
----
-
----
-
-### REGBOT Position Controller Design
-
-**Plant:** Floor velocity TF from Day 5, multiplied by $1/s$ for position:
-
-$$G_{pos}(s) = \frac{G_{vel}(s)}{s} = \frac{128400}{s^3 + 32720s^2 + 355900s}$$
-
-- Type-1 system (integrator at origin)
-- Fast pole at $s = -32712$ (nearly instantaneous), slow pole at $s = -10.9$
-- Original margins: $\gamma_M = 88.1°$ at $\omega_c = 0.36$ rad/s (very slow)
-
-**Design ($N_I = 5$, $\alpha = 0.1$, $\gamma_M = 60°$):**
-
-| Parameter | Value |
-|---|---|
-| $\phi_i$ (PI) | $-11.31°$ |
-| $\phi_m$ (Lead) | $+54.90°$ |
-| $\omega_c$ | 36.82 rad/s |
-| $\tau_i$ | 0.1358 s |
-| $\tau_d$ | 0.0859 s |
-| $K_P$ | 111.73 |
-
-**Achieved margins:** $\gamma_M = 60.0°$, gain margin = 58.2 dB.
-
-| Metric | PI-Lead (forward) | PI-Lead (feedback) |
-|---|---|---|
-| Rise time | 0.032 s | 0.133 s |
-| Settling time | 0.300 s | 0.215 s |
-| Overshoot | 17.21% | 1.15% |
-| Bandwidth | 58.4 rad/s | 15.8 rad/s |
-| $e_{ss}$ | 0 | 0 |
-
-![[day8_regbot_bode_plant.png]]
-![[day8_regbot_component_bode.png]]
-![[day8_regbot_bode_ol.png]]
-![[day8_regbot_step.png]]
-![[day8_regbot_bode_cl.png]]
-
-> [!important] REGBOT Controller Values
-> ```
-> K_P   = 111.73
-> tau_i = 0.1358 s
-> tau_d = 0.0859 s
-> alpha = 0.10
-> ```
-> Use **Lead in feedback** architecture for smoother control effort.
-
-> [!warning] Saturation
-> With $K_P = 112$ and a 0.5 m step, the initial control signal is $\sim 56$ V — far exceeding the $\pm 9$ V motor limit. The saturation will limit the actual voltage, making the real response slower than the linear simulation. The PI integrator will wind up during saturation and correct any residual error.
-
----
-
-### Simulink Results
-
-Simulink model with Lead-in-feedback architecture, including motor voltage saturation.
-
-**With $\pm 9$ V saturation:**
-
-| Metric | MATLAB (linear) | Simulink ($\pm 9$ V) |
-|---|---|---|
-| Rise time | 0.133 s | 0.164 s |
-| Settling time | 0.215 s | 0.742 s |
-| Overshoot | 1.15% | 26.47% |
-| $e_{ss}$ | 0 | 0 |
-
-The saturation causes **integrator windup**: while the motor is saturated at 9V, the PI integrator keeps accumulating error. When the system catches up, the integrator has built up excess control effort, causing significant overshoot (26.5% vs 1.15% without saturation). With $\pm 3$ V limits, the response is even slower but still converges to zero error.
-
-![[day8_simulink_9V.png]]
-![[day8_simulink_vs_matlab.png]]
-![[day8_simulink_sat_comparison.png]]
-
-### REGBOT Experimental Results
-
-**First attempt** ($K_P = 111.73$, $N_I = 5$, $\alpha = 0.1$):
-
-| Metric | Simulink ($\pm 9$ V) | REGBOT (experiment) |
-|---|---|---|
-| Rise time | 0.164 s | 0.660 s |
-| Settling time | 0.742 s | 26.4 s |
-| Overshoot | 26.5% | 80.3% |
-| $e_{ss}$ | 0 m | 0.013 m |
-
-![[day8_regbot_results.png]]
-![[day8_regbot_vs_matlab.png]]
-
-> [!warning] Controller Too Aggressive
-> The high $K_P = 112$ causes severe integrator windup and sustained oscillations on the real REGBOT. The identified transfer function (57% fit) doesn't perfectly match the real system — model mismatch at high gain leads to much worse performance than predicted. Need to retune with more conservative parameters.
-
-**Second attempt** ($K_P = 21.20$, $N_I = 3$, $\alpha = 0.3$):
-
-| Metric | REGBOT (attempt 1) | REGBOT (attempt 2) |
-|---|---|---|
-| $K_P$ | 111.73 | 21.20 |
-| Rise time | 0.660 s | 0.720 s |
-| Settling time | 26.4 s | 19.6 s |
-| Overshoot | 80.3% | 60.3% |
-| $e_{ss}$ | 0.013 m | 0.0005 m |
-
-![[day8_regbot_conservative.png]]
-![[day8_regbot_comparison.png]]
-
-**Third attempt** ($K_P = 10.60$, $N_I = 3$, $\alpha = 0.3$, same $\tau$ values):
-
-| Metric | Attempt 1 | Attempt 2 | Attempt 3 |
-|---|---|---|---|
-| $K_P$ | 111.73 | 21.20 | 10.60 |
-| Rise time | 0.660 s | 0.720 s | 0.730 s |
-| Settling time | 26.4 s | 19.6 s | 10.8 s |
-| Overshoot | 80.3% | 60.3% | 60.1% |
-| $e_{ss}$ | 0.013 m | 0.0005 m | 0.0001 m |
-
-![[day8_regbot_half_kp.png]]
-![[day8_regbot_all_attempts.png]]
-
-**Fourth attempt** ($K_P = 10.60$ with training wheels):
-
-| Metric | No support | With training wheels |
-|---|---|---|
-| Rise time | 0.730 s | 0.680 s |
-| Settling time | 10.8 s | 4.2 s |
-| Overshoot | 60.1% | 57.0% |
-| $e_{ss}$ | 0.0001 m | 0.0001 m |
-
-![[day8_regbot_support.png]]
-![[day8_regbot_support_comparison.png]]
-
-> [!note] Analysis
-> - **Overshoot** plateaus around 57–60% regardless of $K_P$ or training wheels — the identified transfer function (57% fit) doesn't capture the real dynamics accurately enough. The model likely underestimates delay and friction nonlinearities.
-> - **Training wheels** dramatically improve settling time (10.8s → 4.2s) by removing tilt disturbances, but don't fix overshoot.
-> - **Steady-state error** is effectively zero in all cases ($< 0.001$ m) — the PI controller works as designed.
-> - **Best result**: $K_P = 10.6$ with training wheels — reaches 0.5m target, settles in ~4s, zero $e_{ss}$.
-
-### Re-identification and v2 Controller
-
-The persistent ~60% overshoot motivated re-doing the Day 5 system identification with training wheels. The new 1-pole model better captures the real dynamics (see [[Day 5 - Black Box Modeling#Re-identification with Training Wheels (v2)]]):
-
-$$G_{vel}(s) = \frac{2.198}{s + 5.985} \quad \Rightarrow \quad G_{pos}(s) = \frac{2.198}{s^2 + 5.985s}$$
-
-**v2 Design** ($N_I = 3$, $\alpha = 0.3$, $\gamma_M = 60°$, 1-pole model):
-
-| Parameter | v1 (old model) | v2 (1-pole model) |
-|---|---|---|
-| $K_P$ | 21.20 | 11.46 |
-| $\tau_i$ | 0.2841 | 0.5164 |
-| $\tau_{zero}$ | 0.1729 | 0.3143 |
-| $\tau_{pole}$ | 0.0519 | 0.0943 |
-| $\omega_c$ | 10.56 rad/s | 5.81 rad/s |
-| Initial control | 10.6 V | 5.7 V |
-
-**Fifth attempt** (v2 controller, training wheels):
-
-| Metric | v1 best (attempt 4) | **v2 (new model)** |
-|---|---|---|
-| $K_P$ | 10.60 | 11.46 |
-| Rise time | 0.680 s | 0.680 s |
-| Settling time | 4.16 s | **3.56 s** |
-| Overshoot | 57.0% | **21.9%** |
-| $e_{ss}$ | 0.0001 m | 0.004 m |
-
-![[day8_regbot_v2_predicted.png]]
 ![[day8_log_position_v2.png]]
 
-> [!success] Model Accuracy is Key
-> The improved 1-pole model cut overshoot from **57% to 22%** — more than any amount of $K_P$ tuning could achieve with the old model. The initial control effort (5.7V) stays below the 9V saturation, avoiding integrator windup entirely.
+The initial control effort (5.7 V) stays below the 9 V saturation limit, avoiding integrator windup. Steady-state error is effectively zero.
 
 ---
 
-## Key Observations
+## How to Present Results
 
-> [!success] Summary
-> - **Type-1 systems** (with plant integrator) achieve zero $e_{ss}$ with P control alone
-> - **Type-0 systems** need PI for zero $e_{ss}$, but PI introduces phase penalty that degrades speed/stability
-> - **Lead compensation** recovers the phase lost from PI, enabling higher crossover frequencies and faster response
-> - **Lead placement** matters: forward path = higher bandwidth + larger control signals; feedback path = lower bandwidth + smoother response
-> - The **phase balance equation** $-180° + \gamma_M = \phi_G + \phi_i + \phi_m$ is the core design tool
-> - **Saturation + integrator windup** is the dominant real-world issue: the PI integrator accumulates error while the motor is saturated, causing large overshoot that linear analysis doesn't predict
-> - **Model accuracy matters**: the original 2-pole Day 5 TF led to 57–80% overshoot. Re-identifying with training wheels and a 1-pole model cut overshoot to 22% — better than any amount of gain tuning
-> - **Lower $K_P$** reduces settling time on the real REGBOT even though linear theory predicts slower response — avoiding saturation is more important than maximizing crossover frequency
-> - **1-pole models** can outperform 2-pole models when the fast pole is just fitting noise — simpler models are more robust to real-world conditions
+> [!important] Required Plots
+> 1. **Bode plots** of $G(s)$, $C_{PI}(s)$, $C_D(s)$ on the same plot (use `hold on`, `hold off`)
+> 2. **Bode plot** of $G_{ol}(s)$ with crossover frequency shown
+> 3. **Bode plot** of $G_{cl}(s)$ for both architectures (Lead forward and Lead feedback) with bandwidth frequency
+> 4. **Step response** of $G_{cl}(s)$ for both architectures on the same plot
+> 5. **Experimental results** from REGBOT: position, position reference, and voltages
 
 ---
 
 > [!nav]
 > [[Day 6 - Bode Plot and P-Controller Design|← Day 6]]
 >
-> [[34722 Linear Control Design 1|34722 Home]]
+> [[Lecture 8 - PI-Lead Controller Design Exercises|Lecture Exercises]]
 >
-> &nbsp;
+> [[34722 Linear Control Design 1|34722 Home]]
