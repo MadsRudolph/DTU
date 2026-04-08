@@ -3,7 +3,7 @@
 %  on the real REGBOT without severe integrator windup.
 clear all; clc;
 
-load('../Day5/Day5_results.mat');
+load('../../Day5/Day5_results.mat');
 s = tf('s');
 G_pos = minreal(G_floor_avg * (1/s));
 

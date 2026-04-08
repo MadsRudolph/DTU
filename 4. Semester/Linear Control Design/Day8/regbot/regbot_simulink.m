@@ -18,7 +18,7 @@ set(0,'DefaultLineLineWidth', 2);
 %  SECTION 1: Recompute Controller (same as regbot_position_controller.m)
 %  ========================================================================
 
-load('../Day5/Day5_results.mat');
+load('../../Day5/Day5_results.mat');
 s = tf('s');
 
 G_vel = G_floor_avg;

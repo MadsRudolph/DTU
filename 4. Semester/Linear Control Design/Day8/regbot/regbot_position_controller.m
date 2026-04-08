@@ -16,7 +16,7 @@ set(0,'DefaultLineLineWidth', 2);
 %  SECTION 1: Load Day 5 Transfer Function
 %  ========================================================================
 
-load('../Day5/Day5_results.mat');
+load('../../Day5/Day5_results.mat');
 s = tf('s');
 
 G_vel = G_floor_avg;        % Voltage -> velocity (on floor)
