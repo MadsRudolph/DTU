@@ -132,6 +132,6 @@ Structural wrapper that wires all submodules together.
 > [!nav]
 > &nbsp;
 >
-> [[62711 Digital Systems Design|62711 Home]] | [[PWA Project]]
+> [[62711 Digital Systems Design|62711 Home]] | [[PWA Project|<- PWA Project]] | [[PWF Project|PWF Project ->]]
 >
 > &nbsp;
