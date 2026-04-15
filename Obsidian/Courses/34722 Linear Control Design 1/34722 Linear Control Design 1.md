@@ -41,6 +41,7 @@ tags: [LCD, home]
 | 11 | | 7 | Nyquist plot & Stability | Nyquist criterion, stability analysis | x |
 | 12 | | 8 | PI-Lead Design | PI-Lead controller, phase balance equation | x |
 | 13 | 08/04 | 9 | PI-Lead with Specifications | Closed-loop specs, bandwidth, type-n systems | x |
+| 15 | 15/04 | 10 | Unstable systems | Instability, stabilising open-loop unstable systems via Nyquist, cascaded control for REGBOT balance | |
 
 ---
 
@@ -122,6 +123,7 @@ SORT date ASC
 - [[7_Nyquist_Plot_and_Stability.pdf|Lecture 7 -- Nyquist Plot & Stability]]
 - [[8_PI_Lead_Design.pdf|Lecture 8 -- PI-Lead Design]]
 - [[9_PI_Lead_Design_with_Specifications.pdf|Lecture 9 -- PI-Lead with Specifications]]
+- [[Lecture_10_Unstable_systems.pdf|Lecture 10 -- Unstable Systems]]
 
 ---
 
