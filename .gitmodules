@@ -27,4 +27,4 @@
 	url = git@github.com:MadsRudolph/REGBOT-Balance-assignment.git
 [submodule "4. Semester/Linear Control Design/REGBOT-Balance-Assignment"]
 	path = 4. Semester/Linear Control Design/REGBOT-Balance-Assignment
-	url = git@github.com:MadsRudolph/REGBOT-Balance.git
+	url = git@github.com:Skab101/REGBOT-Balance.git
