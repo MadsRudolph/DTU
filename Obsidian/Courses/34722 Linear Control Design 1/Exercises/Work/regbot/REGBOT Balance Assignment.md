@@ -11,6 +11,7 @@ date: 2026-04-15
 > Design, implement and test a control strategy for the REGBOT such that we achieve motion while keeping balance.
 
 > [!example] Related Materials
+> - [[Lesson 10 - Unstable Systems and REGBOT Balance]] — unstable-system theory and Nyquist primer (§2)
 > - [[Lecture_10_Unstable_systems.pdf|Lecture 10 Slides]]
 > - [[Fundamentals - Intuitive Control Theory|Fundamentals Guide]]
 > - [[Diagnostic Guide - What Went Wrong|Diagnostic Guide]]
@@ -264,6 +265,21 @@ $$G_{wv}(s) = \frac{7.023\times10^5 s^3 + 7.023\times10^8 s^2 - 5.083\times10^7 
 
 ![[regbot_Gtilt_pzmap_zoom.png]]
 *$G_{tilt}$ zoomed to ±50 rad/s. RHP pole at $\approx +8.7$ rad/s is the pendulum falling mode the balance controller must stabilise. Nearby LHP poles and zeros show the slow dynamics.*
+
+**Nyquist plot of $G_{tilt}$:**
+
+![[regbot_Gtilt_nyquist.png]]
+*$G_{tilt}$ Nyquist plot. Solid blue = $\omega > 0$, dashed = mirror for $\omega < 0$. The red "+" marks the critical point $(-1, 0)$ that governs closed-loop stability. Title shows the open-loop RHP-pole count $P$.*
+
+> [!important] Reading the Nyquist Plot for Task 2
+> $G_{tilt}$ has **$P = 1$** RHP pole (the falling-pendulum mode). The Nyquist criterion says $Z = N + P$, so for a stable closed loop we need $Z = 0$, i.e. $N = -1$ — exactly **one counter-clockwise encirclement** of $(-1, 0)$.
+>
+> Key implications for the balance controller:
+> 1. **Sign check first.** Look at which side of the complex plane the curve lives on. If the real-axis crossing is positive, no proportional gain alone can shift the curve past $(-1, 0)$ in the correct direction — we'll need to absorb a minus sign (which is exactly what the "$-C_{PI,\text{post}}$" structure from Lecture 10 does).
+> 2. **Post-integrator choice.** After inserting $-C_{PI,\text{post}}(s)$, redraw the Nyquist plot. With $\tau_{i,\text{post}} = 1/\omega_{i,\text{post}}$ (peak of $|G_{tilt}|$), the curve should now make one clean CCW loop around $(-1, 0)$ — visually confirming that Task 2 is on the right track before any PI-Lead design.
+> 3. **Distance to $(-1,0)$ = robustness.** A curve that skims past $(-1, 0)$ has low margins. We want the corrected curve to give a comfortable clearance so the real REGBOT (with model mismatch and sensor noise) still works.
+
+In practice this means the Task 2 workflow is: (i) plot $G_{tilt}$ on Nyquist, (ii) insert the sign-absorbing post-integrator, (iii) **replot** and verify the CCW encirclement visually, (iv) only then start the phase-balance calculation for the outer PI-Lead.
 
 #### Task 1 — Wheel Speed PI Controller ✅
 
