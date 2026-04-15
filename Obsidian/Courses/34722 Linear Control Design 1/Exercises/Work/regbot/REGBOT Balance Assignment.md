@@ -554,7 +554,134 @@ The small non-zero steady-state voltage ($\approx 0.5$ V) is expected with no ve
 - [x] Build the balance controller in Simulink following the corrected diagram
 - [x] First simulation test: $\theta_0 = 10°$ recovery in Simulink ✓
 - [ ] Physical REGBOT test at zero velocity (Test 3a: `vel=0, bal=1, log=15 : time=10`)
-- [ ] Move on to **Task 3** (velocity outer loop — linearise `theta_ref → wheel_vel_filter` output)
+- [x] Refactor balance controller into a Simulink subsystem
+- [ ] Build Task 3 wiring (see below)
+- [ ] Run `design_task3_velocity` and commit the resulting gains
+
+---
+
+### Task 3 — Velocity outer loop 🚧 (building in Simulink)
+
+The balance controller is now a subsystem with three ports (In1: pitch, In2: gyro, Out1: vel_ref). Task 3 adds a velocity outer loop that wraps around this subsystem:
+
+- At the top level: a PI controller takes `v_ref − wheel_vel` and outputs a tilt reference `θ_ref`.
+- Inside the subsystem: the hard-coded `Constant = 0` reference gets replaced by a new `Inport` (port 3) for `θ_ref`.
+
+#### Top level — velocity controller wrapping the balance subsystem
+
+```mermaid
+flowchart LR
+    classDef ref   fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef fb    fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+    classDef sum   fill:#374151,stroke:#9ca3af,color:#f3f4f6,stroke-width:1.5px
+    classDef sub   fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:2px
+    classDef out   fill:#8b6914,stroke:#d4a84a,color:#fef3c7,stroke-width:1.5px
+
+    Vref["Constant = 0<br/>v_ref<br/>(swap to Step for Test 3b)"]:::ref
+    SumVel((Sum<br/>+ −)):::sum
+    VelPI["Transfer Fcn<br/>num = [tivel 1]<br/>den = [tivel 0]<br/><b>velocity PI</b>"]:::ctrl
+    Kpvel["Gain = Kpvel<br/><b>block name: Kpvel_gain</b><br/>(linearize targets this)"]:::ctrl
+    Bal["Balance<br/>Controller<br/>(subsystem)<br/><br/>In1: pitch<br/>In2: gyro<br/>In3: theta_ref 🆕<br/>Out1: vel_ref"]:::sub
+    WV["Wheel-speed<br/>controller<br/>(Task 1 — unchanged)"]:::ctrl
+    Robot["robot with<br/>balance"]:::sub
+    WVF["wheel_vel_filter<br/>1/(twvlp·s + 1)"]:::fb
+
+    Vref --> SumVel
+    SumVel -->|error| VelPI
+    VelPI --> Kpvel
+    Kpvel -->|theta_ref| Bal
+    Bal -->|vel_ref| WV
+    WV -->|motor V| Robot
+    Robot -->|pitch, gyro| Bal
+    Robot -->|wheel vel| WVF
+    WVF --> WV
+    WVF -->|tap feedback| SumVel
+
+    linkStyle 6,7,8,9 stroke:#c07878,stroke-width:1.5px
+```
+
+*New blocks: `v_ref` constant, `Sum_vel(+−)`, `Vel_PI`, `Kpvel_gain`. Red arrows are measurement feedback (pitch, gyro, wheel vel).*
+
+#### Inside the balance subsystem — one change
+
+```mermaid
+flowchart LR
+    classDef ref  fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef fb   fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+    classDef out  fill:#8b6914,stroke:#d4a84a,color:#fef3c7,stroke-width:1.5px
+    classDef sum  fill:#374151,stroke:#9ca3af,color:#f3f4f6,stroke-width:1.5px
+    classDef newp fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:2px
+
+    In3["Inport 3<br/>theta_ref 🆕<br/><i>(replaces Constant = 0)</i>"]:::newp
+    SumLead((Sum<br/>+ +)):::sum
+    LeadGain["Gain = tdtilt<br/>(gyro Lead)"]:::ctrl
+    Sum1((Sum<br/>+ −)):::sum
+    SignFlip["Gain = −1"]:::ctrl
+    PostInt["Transfer Fcn<br/>num = [tipost 1]<br/>den = [tipost 0]<br/><b>post-integrator</b>"]:::ctrl
+    OuterPI["Transfer Fcn<br/>num = [titilt 1]<br/>den = [titilt 0]<br/><b>outer PI</b>"]:::ctrl
+    Kp["Gain = Kptilt"]:::ctrl
+
+    In1["Inport 1<br/>pitch"]:::fb
+    In2["Inport 2<br/>gyro"]:::fb
+    Out1["Outport 1<br/>vel_ref"]:::out
+
+    In1 --> SumLead
+    In2 --> LeadGain
+    LeadGain --> SumLead
+    In3 --> Sum1
+    SumLead -->|"(τ_d s + 1)·θ"| Sum1
+    Sum1 -->|error| SignFlip
+    SignFlip --> PostInt
+    PostInt --> OuterPI
+    OuterPI --> Kp
+    Kp --> Out1
+```
+
+*Only change inside the subsystem: the `Constant = 0` block is deleted and replaced by a new `Inport` (auto-numbered as port 3) labelled `theta_ref`. Everything else from Task 2 stays untouched.*
+
+#### Block-by-block
+
+| #   | Location         | Block type     | Parameter                          | Why                                                                                                        |
+| --- | ---------------- | -------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 1   | top level        | `Constant`     | value `0`, label `v_ref`           | Velocity reference — swap to a `Step` (0.8 m/s) for Test 3b, or a signal builder for the square run        |
+| 2   | top level        | `Sum`          | signs `+ -`                        | Velocity error = `v_ref − wheel_vel_filter output`                                                         |
+| 3   | top level        | `Transfer Fcn` | num `[tivel 1]`, den `[tivel 0]`   | Outer velocity PI — integrator drives steady-state velocity error to zero                                  |
+| 4   | top level        | `Gain`         | value `Kpvel`, **name `Kpvel_gain`** | Overall velocity-loop gain. `design_task3_velocity` linearises at this block by name — rename it exactly |
+| 5   | inside subsystem | `Inport`       | port 3, label `theta_ref`          | Replaces the `Constant = 0` — exposes the tilt reference so the velocity loop can drive it                 |
+| —   | top level        | signal tap     | —                                  | From the existing `wheel_vel_filter` output, draw a second branch into the `-` input of Sum (#2)           |
+
+All three new parameters (`Kpvel`, `tivel`, and optionally a Lead time constant if the design script reports one is needed) are written to the base workspace by `regbot_mg.m`, so the Simulink blocks read them automatically after the script runs.
+
+> [!tip] Outer loop must be slower than inner
+> Design spec: $\omega_{c,\text{vel}} = \omega_{c,\text{tilt}}/5 = 3$ rad/s. Rule of thumb in cascaded control — the outer loop's crossover should sit at least a factor of 5 below the inner loop's, so from the outer loop's perspective the inner loop looks like an "instantaneous" unity gain. Break this rule and the loops fight each other, degrading both bandwidth and disturbance rejection.
+
+#### Build order
+
+**Inside the balance subsystem**
+1. Double-click the subsystem to open it.
+2. Delete the `Constant = 0` block feeding the `+` input of the error Sum.
+3. Drag an `Inport` into the subsystem (auto-numbers as 3); rename its label to `theta_ref`.
+4. Wire `theta_ref` into the `+` input of the error `Sum(+−)`.
+5. Close the subsystem — a third port `3` appears on the block at the top level.
+
+**At the top level**
+6. `Constant` block, value `0`, label `v_ref`.
+7. `Sum` block, signs `+-`.
+8. `Transfer Fcn`, Num `[tivel 1]`, Den `[tivel 0]`.
+9. `Gain` block — **rename to `Kpvel_gain` exactly** (the design script linearises at this block). Value: `Kpvel`.
+10. Wire: `v_ref → Sum(+) → Vel_PI → Kpvel_gain → subsystem port 3`.
+11. Tap `wheel_vel_filter` output → second branch into `Sum(−)`.
+
+**Verify before running the design script**
+12. Ctrl+D to update diagram — must compile cleanly.
+13. With `v_ref = 0`, `startAngle = 10`, `Kpvel = 0` (current value in `regbot_mg.m`), simulation should still show the same Task 2 recovery from 10° → 0°. If it does, the wiring is correct (the velocity loop contributes nothing when `Kpvel = 0`).
+
+**Design**
+14. `>> design_task3_velocity` — linearises `/Kpvel_gain → /wheel_vel_filter` and designs a PI at $\omega_c = 3$ rad/s, $\gamma_M = 60°$, $N_i = 3$.
+15. Paste the printed `Kpvel`, `tivel` block into `regbot_mg.m` under the Task 3 heading.
+16. Re-run simulation with a non-zero `v_ref` (Step at 0.8 m/s for Test 3b).
 
 ---
 
