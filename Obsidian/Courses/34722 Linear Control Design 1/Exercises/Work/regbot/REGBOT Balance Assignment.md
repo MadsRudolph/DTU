@@ -40,6 +40,118 @@ Before you start designing:
 
 ---
 
+## Plain-English Guide — Start Here if You're New to This
+
+> [!tip] For the whole team
+> This section is a **beginner-friendly primer**. If you haven't done much linear control design before, read this first — the math deeper in this note will make sense once these ideas land. You don't need to memorise equations; just understand *what each piece is doing and why*.
+
+### 1. What are we actually building?
+
+The REGBOT is a **Segway-like robot** — two wheels, a tall body, a battery and motors up top. Left alone with no control, it falls over. The assignment is to make it:
+
+1. **Balance** (stay upright even when pushed).
+2. **Move at a commanded velocity** while balancing.
+3. **Drive to a commanded position** while balancing.
+
+Think of balancing a broom on your hand. The broom naturally falls over (it's *unstable*). You keep it up by **moving your hand** — forward when it tips back, back when it tips forward. Our job is to do this automatically, and to make the "hand" (the wheels) also obey speed and position commands.
+
+### 2. Why four controllers and not one?
+
+One controller trying to do everything would be a nightmare. Instead we stack four, like Russian nesting dolls — each one tells the next one what to do:
+
+| Layer | What it does | Command it receives | Command it sends |
+|---|---|---|---|
+| **Task 1 — Wheel speed** (innermost, fastest) | Makes the wheels spin at a commanded speed | `vel_ref` (m/s) | motor voltage |
+| **Task 2 — Balance** | Keeps the robot tilted at a commanded angle | `θ_ref` (rad) | `vel_ref` |
+| **Task 3 — Velocity** | Makes the robot move at a commanded speed | `v_ref` (m/s) | `θ_ref` |
+| **Task 4 — Position** (outermost, slowest) | Drives the robot to a commanded location | `x_ref` (m) | `v_ref` |
+
+The trick that makes this work: **each outer loop is slower than the one inside it** (at least 5× slower). From the outer loop's point of view, the inner loop looks "instantaneous" — you just send it a command and trust it to follow. If they have similar speeds, they fight each other. Rule of thumb, nothing more.
+
+### 3. The three ideas you need from linear control
+
+**(a) Transfer function `G(s)`.** A mathematical model of a system that answers: *"if I shake the input at frequency ω, how big is the output shake and how delayed is it?"*  Every frequency gets two numbers: **magnitude** (how big) and **phase** (how delayed). You don't need to derive G(s) yourself — MATLAB's `linearize()` builds it from the Simulink model.
+
+**(b) The open-loop Bode plot.** A picture of magnitude and phase across all frequencies for the product `L(s) = C(s)·G(s)` (controller × plant). Reading this plot tells you whether the closed-loop will be stable and how it will respond. Two numbers to look at:
+
+- **Crossover frequency `ω_c`** — where the magnitude crosses 1 (= 0 dB). This roughly equals the bandwidth of the closed loop. Higher = faster response.
+- **Phase margin `γ_M`** — at ω_c, how many degrees above −180° is the phase? If `γ_M > 0` the system is stable. Target: **60°** (comfortable). 30° is shaky. 0° oscillates forever.
+
+**(c) Closed-loop stability.** When you connect the controller output back as feedback, the loop becomes "closed". For the closed loop to be stable, **all its poles must be in the left-half plane (LHP)**. Poles in the right-half plane (RHP) mean "this signal grows forever → system explodes". For normal (stable) plants, positive phase margin = LHP closed-loop poles. For unstable plants there's an extra twist (see next section).
+
+### 4. Why Task 2 (balance) needs the Lecture 10 trick
+
+The balance plant `G_tilt` has **one RHP pole at +8.7 rad/s** — the "falling" mode of an inverted pendulum. No matter what gain you pick, a simple P controller can't stabilise it. From the Nyquist criterion, we need the controller to make the Nyquist curve **encircle the point (−1, 0) once counter-clockwise**, and `G_tilt` with a positive gain can't do that.
+
+**Lecture 10's fix (Method 2):**
+
+1. **Flip the sign.** Put a "−1" gain in the loop. Now the Nyquist curve is flipped, and it *can* encircle −1 in the right direction.
+2. **Add a "post-integrator".** This is a PI block *in front of the plant* whose zero is placed exactly at the magnitude peak of `|G_tilt|`. The peak sits at `ω_peak = 5.95 rad/s`, so we pick `τ_i,post = 1/ω_peak = 0.168 s`. After this, the "new plant" `G_tilt,post = −C_PI,post · G_tilt` has a monotonically decreasing magnitude curve — ordinary design techniques work on it.
+3. **Design a PI-Lead outer controller** on `G_tilt,post` like you would for any stable plant (see next section).
+
+The minus sign and the post-integrator are **bundled together** — that's why the block diagram shows `−1 → post-integrator` right after the error sum.
+
+### 5. The four-step design recipe we use for every loop
+
+Once you understand this recipe, every task looks the same.
+
+**Step 1 — Sign check.** Is the plant stable? If yes (Tasks 1, 3, 4), skip to Step 3. If no (Task 2), use Lecture 10's post-integrator trick from the section above.
+
+**Step 2 — Stabilise (only for unstable plants).** Build `G_stab = −C_PI,post · G_plant` as described. Now `G_stab` is stable and ready for ordinary design.
+
+**Step 3 — Design the outer PI (or PI-Lead):**
+
+1. **Pick `ω_c`** (how fast you want the loop). Use the Lecture 10 rules:
+   - As high as possible for good bandwidth.
+   - But inner loop ≪ outer loop: at least 5× separation.
+   - Watch out for RHP zeros — they limit `ω_c ≤ z/5`.
+2. **Place the PI zero.** `τ_i = N_i/ω_c` with `N_i = 3` (standard). This puts the PI's knee three times below crossover, which means the PI still contributes integration at ω_c without dropping the phase too much.
+3. **Check the phase at `ω_c`.** On the Bode plot, read off `φ_G`, the plant's phase at `ω_c`. The PI adds `−arctan(1/N_i) = −18.43°`. The total phase must equal `−180° + γ_M = −120°` for a 60° margin. Anything missing is made up by a Lead.
+4. **If a Lead is needed:** `τ_d = tan(φ_Lead)/ω_c`. For the balance loop, we cheat: the gyro already measures `dθ/dt`, so `τ_d · gyro + pitch = (τ_d s + 1) · pitch` — an ideal Lead for free, no filter pole needed.
+5. **Set the gain.** Pick `K_p` so that `|L(jω_c)| = 1`, i.e. `K_p = 1 / |C_PI · C_Lead · G(jω_c)|`.
+
+**Step 4 — Verify.** Three checks:
+
+- `margin(L)` reports achieved `ω_c`, `γ_M`, `GM`. They should match the targets.
+- All closed-loop poles have negative real parts (LHP → stable).
+- In Simulink, simulate a realistic scenario and make sure motor voltage doesn't saturate, pitch stays small, and the closed-loop response looks like what you expected.
+
+### 6. What each knob *physically means*
+
+| Symbol | Physical meaning | Increase it → | Decrease it → |
+|---|---|---|---|
+| `ω_c` | Closed-loop bandwidth (how fast it responds) | Faster, but less robust | Slower, but more forgiving |
+| `γ_M` | Safety buffer before oscillation | Safer, more damped | Jumpier, closer to instability |
+| `N_i` | How far below `ω_c` the PI zero sits | More phase margin, slower | Less phase margin, faster integration |
+| `τ_i` | PI time constant = `N_i/ω_c` | Slower at removing steady-state error | Faster, but eats phase margin |
+| `τ_d` | How hard the Lead kicks the phase up | More phase boost, amplifies high-freq noise | Less boost, smoother |
+| `K_p` | Overall loop gain (sets the actual `ω_c`) | Higher bandwidth, possibly lower margin | Lower bandwidth, more margin |
+
+### 7. Tricks we use that aren't obvious from the equations
+
+- **Sign absorption** (Task 2): we need a minus sign somewhere because of the RHP pole. We bundle it into the post-integrator block (`−C_PI,post`) rather than having a standalone `Gain = −1` in a weird place. Cleaner.
+- **Gyro-based ideal Lead** (Task 2): instead of numerically differentiating pitch (noisy) or using a proper Lead with a filter pole (reduces the phase boost), we note that the gyro already *is* the derivative. Adding `τ_d · gyro` to `pitch` gives a **pure** `(τ_d s + 1)` Lead with no filter pole — free lunch.
+- **Placement of the Lead matters** (Task 2 — we got this wrong at first): the gyro-based Lead has to be combined with pitch *on the feedback path, before the error sum*. If you add `τ_d · gyro` in parallel after the PI blocks, you implement `C_PI · C_PI,post + τ_d s` (additive, wrong) instead of `C_PI · C_PI,post · (τ_d s + 1)` (multiplicative, right).
+- **Linearise with the inner loop closed but the current loop open** (Tasks 3, 4): for Task 3 we want the plant `θ_ref → wheel_vel` *with the balance loop working*. We set `Kpvel = 0` to break the velocity loop, then `linearize()` the Simulink model. The balance loop stays active (because `Kptilt, tdtilt, titilt, tipost` have their designed values), so the RHP pole is already stabilised in the identified plant.
+
+### 8. What bit us and why
+
+- **The Simulink Lead was wired as a parallel sum instead of multiplicative series.** Any disturbance saturated the motor. Fix: move the gyro-based Lead to the feedback path before the error sum. Took a while to diagnose because the signal-flow math isn't obvious until you write it out.
+- **Task 3's plant has a real RHP zero at +8.5 rad/s** (the robot must roll *backward* before it can tilt forward). This **fundamentally** limits `ω_c,vel` to below the zero — `ω_c ≤ z/5 ≈ 1.7 rad/s` is safe. We originally picked `ω_c = 3 rad/s`, got an unstable design because `|L|` crossed 1 twice (a second crossing at 13.5 rad/s where phase was already past −180°). Re-designed at `ω_c = 1 rad/s` and it worked cleanly.
+- **Large-signal nonlinearities break the linear design.** At 0.8 m/s step commands, the robot tilts to ~23° and the linearisation around 0° pitch stops being accurate. Design is stable in the linear regime but limit-cycles at large amplitudes. Fixes (if needed later): rate-limit the velocity reference, or saturate `θ_ref` to ±10° with anti-windup on the velocity PI integrator.
+
+### 9. Negative gain margin — wait, that's OK?
+
+For Task 2 (and other unstable plants), `margin(L)` reports `GM = −4.6 dB`. Don't panic.
+
+For a **stable plant**, gain margin is an **upper bound**: "you can increase gain by this much before things go unstable". Positive GM is good.
+
+For an **unstable plant** with `P = 1` RHP pole, gain margin is a **lower bound**: "you must NOT decrease gain below this much, or you'll drop below the minimum needed for stability". Negative GM (in dB) is what you expect — it's the normal signature of controlling an unstable plant.
+
+If you see a big negative GM for Task 2, things are **fine**. If you see a positive GM for Task 2, something is wrong.
+
+---
+
 ## Control Architecture Overview
 
 The REGBOT balance problem requires a **cascaded control** structure with four nested loops. Each task in this assignment builds the next loop in the cascade, from the innermost (Task 1) outward (Task 4).
