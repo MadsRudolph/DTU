@@ -31,7 +31,7 @@ Sequence: **Task 1 → Task 2 → Task 3 → Task 4 → Report**
 - [ ] **All:** Watch `REGBOT balance introduction.mp4`
 - [ ] **All:** Review Lecture 10 slides — unstable systems, Nyquist stabilisation, cascaded control
 - [ ] **All:** Install MATLAB packages: Simscape Multibody, Simulink Control Design
-- [ ] **All:** Read through [[REGBOT Balance Assignment]] notes and [[Fundamentals Guide]] sections 9 (Nyquist) and 11 (Type-n)
+- [ ] **All:** Read through [[REGBOT Balance Assignment]] notes and [[Fundamentals - Intuitive Control Theory]] sections 9 (Nyquist) and 11 (Type-n)
 - [ ] **1 person:** Download starter files `regbot_1mg.slx` and `regbot_mg.m` from Learn → Resources/REGBOT balance resources
 - [ ] **1 person:** Calibrate gyro and tilt-offset on physical REGBOT
 - [ ] **Meeting:** Team discusses control architecture and divides roles

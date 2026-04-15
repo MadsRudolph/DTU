@@ -24,13 +24,13 @@ date: 2026-04-15
 
 Before you start designing:
 
-- [ ] Watch `REGBOT balance introduction.mp4` (Resources/Videos and Tutorials)
-- [ ] Review the **REGBOT control architecture** slides (included in Lecture 10 slides)
-- [ ] Download starter files from Resources/REGBOT balance resources:
+- [x] Watch `REGBOT balance introduction.mp4` (Resources/Videos and Tutorials)
+- [x] Review the **REGBOT control architecture** slides (included in Lecture 10 slides)
+- [x] Download starter files from Resources/REGBOT balance resources:
     - `regbot_1mg` — REGBOT system with wheel velocity control loop
     - `regbot_mg` — associated model file
 - [ ] Calibrate the **gyro** and **tilt-offset** before testing on the robot
-- [ ] Install MATLAB packages (from **Add-Ons** in the Home tab):
+- [x] Install MATLAB packages (from **Add-Ons** in the Home tab):
     - **Simscape Multibody** (required to simulate the model)
     - **Simulink Control Design**
 
@@ -201,6 +201,115 @@ Follow this order to systematically work through the assignment:
 > - For zero steady-state error to a **step** reference, you need **at least one integrator** in the loop (see [[Fundamentals - Intuitive Control Theory#11. Type-n Systems and Steady-State Error|Type-n systems]])
 > - The post-integrator makes the loop Type-2 → zero error for both step and ramp references
 > - Phase margin target: typically $\gamma_M = 50°$–$65°$ for balance between speed and overshoot
+
+---
+
+## Progress Log
+
+> [!abstract] Purpose
+> This section tracks what we have actually done so far. Add to it as we progress.
+
+### 2026-04-15 — Session 1: Plant Identification & Task 1 Design
+
+#### Preparation completed
+- [x] Watched `REGBOT balance introduction.mp4`
+- [x] Downloaded starter files `regbot_1mg.slx` and `regbot_mg.m` from Learn
+- [x] Files committed to repo: [`4. Semester/Linear Control Design/REGBOT-Balance-Assignment/simulink/`](../../../../../../4.%20Semester/Linear%20Control%20Design/REGBOT-Balance-Assignment/simulink/)
+
+#### Plant identification via LINEARIZE
+
+Used MATLAB's `linearize()` on the Simulink model at two sets of I/O points:
+
+**1. Voltage → wheel velocity ($G_{wv}$)** — I/O points: `/Limit9v → /wheel_vel_filter`
+
+$$G_{wv}(s) = \frac{7.023\times10^5 s^3 + 7.023\times10^8 s^2 - 5.083\times10^7 s - 5.083\times10^{10}}{s^6 + 2418 s^5 + 1.317\times10^6 s^4 + 1.872\times10^8 s^3 + 2.371\times10^9 s^2 - 3.032\times10^{10} s - 1.881\times10^{11}}$$
+
+**Poles:** $-1713, -490, -200, -21.1, \boxed{+10.6}, -5.0$ rad/s
+**DC gain:** 0.270 (m/s)/V
+**RHP poles: 1** → physically consistent with the inverted pendulum mode
+
+**2. Velocity reference → tilt angle ($G_{tilt}$)** — I/O points: `/vel_ref → /robot with balance (port 1)`
+
+**Poles:** $-1715, -515.8, -83.7 \pm 63.7j, \boxed{+8.7}, -19.3, -9.2$ rad/s
+**DC gain:** $5.04 \times 10^{-4}$ rad/(m/s)
+**RHP poles: 1** → the same falling pendulum mode, seen through the closed velocity loop
+
+> [!important] Key finding
+> **Both plants have exactly 1 RHP pole** (around $+8$–$+11$ rad/s). This corresponds to the inverted-pendulum falling dynamics — the robot is open-loop unstable, as expected.
+>
+> **Nyquist implication:** The balance controller must produce **1 CCW encirclement** of $-1$ for the closed-loop system to be stable ($Z = N + P \Rightarrow 0 = N + 1 \Rightarrow N = -1$).
+
+#### Plots generated
+
+**Bode plots:**
+
+![[regbot_Gwv_bode.png]]
+*$G_{wv}$: Motor voltage → wheel velocity. Low-frequency DC gain matches physical expectation.*
+
+![[regbot_Gtilt_bode.png]]
+*$G_{tilt}$: Velocity reference → tilt angle. This is the plant the balance controller will see.*
+
+**Pole–zero maps (shaded stability regions):**
+
+![[regbot_Gwv_pzmap.png]]
+*$G_{wv}$ in the s-plane. The RHP pole (highlighted) is the unstable pendulum mode.*
+
+![[regbot_Gtilt_pzmap.png]]
+*$G_{tilt}$ in the s-plane. One RHP pole — the same physical falling mode.*
+
+**Zoomed pole–zero maps (focus on the slow dynamics around origin):**
+
+![[regbot_Gwv_pzmap_zoom.png]]
+*$G_{wv}$ zoomed to ±50 rad/s. The RHP pole at $\approx +10.6$ rad/s is clearly visible with its orange ring.*
+
+![[regbot_Gtilt_pzmap_zoom.png]]
+*$G_{tilt}$ zoomed to ±50 rad/s. RHP pole at $\approx +8.7$ rad/s is the pendulum falling mode the balance controller must stabilise. Nearby LHP poles and zeros show the slow dynamics.*
+
+#### Task 1 — Wheel Speed PI Controller ✅
+
+**Plant used:** Day 5 black-box identification $G_{vel}(s) = \dfrac{13.34}{s + 35.71}$
+(Chosen over the linearized $G_{wv}$ because the assignment specifies the Day 5 TF, and because the inner velocity loop should be designed in isolation from the unstable tilt mode.)
+
+**Design choices:**
+
+| Parameter | Value | Reason |
+|---|---|---|
+| $\omega_c$ | 30 rad/s | Fast inner loop, still below $\omega$ of plant pole (35.71) |
+| $\gamma_M$ (target) | $\geq 60°$ | Spec |
+| $N_i$ | 3 | PI zero placed 3× below crossover |
+
+**Computed values:**
+
+| Parameter                      | Value                                |
+| ------------------------------ | ------------------------------------ |
+| $\tau_i = N_i/\omega_c$        | **0.10 s**                           |
+| $K_p$ (from $L(j\omega_c)= 1$) | **3.31**                             |
+| Achieved $\omega_c$            | ~30 rad/s                            |
+| Achieved $\gamma_M$            | ~121° (well above 60° spec — robust) |
+
+**Controller:**
+$$C_{wv}(s) = 3.31 \cdot \frac{0.1s + 1}{0.1s}$$
+
+**Simulink:** The starter model variables `Kpwv` and `tiwv` have been updated to these design values.
+
+![[regbot_task1_bode.png]]
+*Task 1 open-loop Bode with phase and gain margins marked.*
+
+![[regbot_task1_step.png]]
+*Task 1 closed-loop step response — confirms $e_{ss} = 0$ and low overshoot.*
+
+---
+
+### Next Session — Planned Work
+
+- [ ] **Task 2: Balance controller design**
+    - Use $G_{tilt}$ as the plant
+    - Design PILead with **post-integrator** (2nd PI block)
+    - Target: 1 CCW encirclement of $-1$ on Nyquist (because $P = 1$)
+    - Verify phase margin $\geq 60°$ on Bode plot
+- [ ] Integrate balance controller into Simulink model
+- [ ] First simulation test: can the robot balance in place?
+- [ ] Physical REGBOT test at zero velocity (Test 3a)
 
 ---
 
