@@ -42,16 +42,36 @@ Before you start designing:
 
 ## Control Architecture Overview
 
-The REGBOT balance problem requires a **cascaded control** structure with multiple nested loops:
+The REGBOT balance problem requires a **cascaded control** structure with four nested loops. Each task in this assignment builds the next loop in the cascade, from the innermost (Task 1) outward (Task 4).
 
-```
-Position ref ──► [Position Ctrl] ──► Velocity ref ──► [Velocity Ctrl] ──► Balance ref
-                                                                               │
-                                                                               ▼
-                                                       [Balance Ctrl] ──► Voltage ──► REGBOT
+```mermaid
+flowchart LR
+    classDef ref   fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef plant fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:1.5px
+    classDef fb    fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+
+    XRef["x_ref"]:::ref
+    PosCtrl["Position<br/>controller<br/><b>(Task 4)</b>"]:::ctrl
+    VelCtrl["Velocity<br/>controller<br/><b>(Task 3)</b>"]:::ctrl
+    BalCtrl["Balance<br/>controller<br/><b>(Task 2)</b>"]:::ctrl
+    WVCtrl["Wheel-speed PI<br/><b>(Task 1)</b>"]:::ctrl
+    Robot["REGBOT<br/>(non-linear<br/>plant)"]:::plant
+
+    XRef -->|x_ref| PosCtrl
+    PosCtrl -->|v_ref| VelCtrl
+    VelCtrl -->|θ_ref| BalCtrl
+    BalCtrl -->|vel_ref| WVCtrl
+    WVCtrl -->|motor V| Robot
+    Robot -->|pitch, gyro| BalCtrl
+    Robot -->|wheel vel| WVCtrl
+    Robot -->|lin vel| VelCtrl
+    Robot -->|x_position| PosCtrl
+
+    linkStyle 5,6,7,8 stroke:#c07878,stroke-width:1.5px
 ```
 
-Each task in this assignment builds the next inner/outer loop in this cascade.
+*Cascaded structure: the position loop (outermost) drives a velocity reference, which drives a tilt reference, which drives a velocity-reference for the inner wheel-speed PI, which drives the motor voltage. Red arrows show measurement feedback paths.*
 
 ---
 
@@ -316,16 +336,225 @@ $$C_{wv}(s) = 3.31 \cdot \frac{0.1s + 1}{0.1s}$$
 
 ---
 
+### Task 2 — Balance Controller (Lecture 10, Method 2) ✅ (MATLAB)
+
+> [!info] Workflow followed
+> [[Lecture_10_Unstable_systems.pdf|Lecture 10 slides]] describe two methods for stabilising an open-loop unstable plant. We follow **Method 2** (slide 13) specialised to the tilt loop (slides 21–24).
+
+```mermaid
+flowchart TD
+    classDef start fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef step  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef decis fill:#8b6914,stroke:#d4a84a,color:#fef3c7,stroke-width:1.5px
+    classDef done  fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:1.5px
+
+    A["Linearise Simulink<br/>vel_ref → tilt_angle<br/>→ G_tilt(s), P RHP poles"]:::start
+    B{"<b>Step 1</b>: Nyquist sign-check<br/>can +K_PS give<br/>P CCW encirclements of −1?"}:::decis
+    C["sign(K_PS) = −1<br/>(absorbed into post-integrator)"]:::step
+    D["<b>Step 2</b>: Post-integrator<br/>τ_i,post = 1/ω_peak of |G_tilt|<br/>C_PI,post = (τ s + 1)/(τ s)"]:::step
+    E["G_tilt,post = sign·C_PI,post·G_tilt<br/>→ stabilisable by outer loop<br/>(1 CCW encirclement of −1)"]:::step
+    F["<b>Step 3</b>: Outer PI-Lead on G_tilt,post<br/>specs: ω_c, γ_M, N_i<br/>3a. τ_i = N_i/ω_c"]:::step
+    G["3b. Phase balance<br/>φ_Lead = −180° + γ_M − φ_G − φ_PI"]:::step
+    H["3c. τ_d = tan(φ_Lead)/ω_c<br/>(gyro shortcut: τ_d·gyro + θ)"]:::step
+    I["3d. K_P from |L(jω_c)| = 1"]:::step
+    J{"<b>Step 4</b>: Verify<br/>closed-loop poles in LHP?<br/>margins match specs?"}:::decis
+    K["Export Kptilt, titilt,<br/>tdtilt, tipost to Simulink"]:::done
+
+    A --> B
+    B -->|no, positive DC gain + P=1| C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+    J -->|yes| K
+    J -.->|no, iterate on ω_c or Lead| F
+```
+
+*Lecture 10 Method 2 applied to the REGBOT balance loop. Each green box is a design step, each orange diamond a go/no-go gate, and the purple box is the handoff to Simulink.*
+
+#### Step 1 — Nyquist sign-check
+
+From the linearisation in Plant Identification above:
+
+| Property | Value |
+|---|---|
+| DC gain of $G_{tilt}$ | $+5.04 \times 10^{-4}$ rad/(m/s) |
+| RHP poles ($P$) | $1$  (pole at $+8.7$ rad/s) |
+
+The Nyquist criterion requires $Z = N + P = 0 \Rightarrow N = -1$ (one CCW encirclement of $(-1,0)$).
+
+A positive DC gain plus $P = 1$ means **no positive $K_{PS}$ can produce the required CCW encirclement** — the Nyquist curve cannot be scaled into encircling $-1$ in the correct direction. We therefore need
+$$\boxed{\text{sign}(K_{PS}) = -1}$$
+This minus sign is absorbed into the post-integrator (Lecture 10 slide 21, $G_{tv,\text{post}}(s) = -C_{PI,\text{post}}(s)\,G_{tv}(s)$).
+
+#### Step 2 — Post-integrator design
+
+Find the peak of $|G_{tilt}|$ on the Bode magnitude curve:
+
+| Quantity | Value |
+|---|---|
+| Peak magnitude $\lvert G_{tilt}\rvert_{\max}$ | $0.588$ |
+| Peak frequency $\omega_{\text{peak}}$ | $5.95$ rad/s |
+
+Place the post-integrator zero at the peak so the combined magnitude curve rolls off monotonically:
+$$\tau_{i,\text{post}} = \frac{1}{\omega_{\text{peak}}} = \frac{1}{5.95} = 0.1682\ \text{s}$$
+$$C_{PI,\text{post}}(s) = \frac{\tau_{i,\text{post}} s + 1}{\tau_{i,\text{post}} s} = \frac{0.1682\, s + 1}{0.1682\, s}$$
+$$G_{tilt,\text{post}}(s) = -\,C_{PI,\text{post}}(s)\cdot G_{tilt}(s)$$
+
+![[regbot_task2_bode_post.png]]
+*Bode plots of $G_{tilt}$ (blue) and $G_{tilt,\text{post}}$ (orange). After the post-integrator the magnitude curve is monotonically decreasing beyond $\omega_{\text{peak}}$ — the condition Method 2 requires before designing the outer loop.*
+
+![[regbot_task2_nyquist_post.png]]
+*Nyquist of $G_{tilt,\text{post}}$. One clean CCW encirclement of $(-1, 0)$ — matches $P = 1$, so the plant is now stabilisable by a standard outer controller.*
+
+#### Step 3 — Outer PI-Lead on $G_{tilt,\text{post}}$
+
+**Design specifications:**
+
+| Spec | Value |
+|---|---|
+| Crossover $\omega_c$ | $15$ rad/s |
+| Phase margin $\gamma_M$ | $60°$ |
+| PI zero placement $N_i$ | $3$ |
+
+**3a. I-part (outer PI).** Place the PI zero at $\omega_c/N_i$:
+$$\tau_i = \frac{N_i}{\omega_c} = \frac{3}{15} = 0.200\ \text{s}, \qquad C_{PI}(s) = \frac{0.200\, s + 1}{0.200\, s}$$
+
+**3b. Phase balance at $\omega_c$.** We need $\angle L(j\omega_c) = -180° + \gamma_M$. Breaking the loop phase into contributions:
+
+| Contribution | Value at $\omega_c = 15$ rad/s |
+|---|---|
+| $\angle G_{tilt,\text{post}}(j\omega_c)$ (from Bode) | $-165.4°$ |
+| $\angle C_{PI}(j\omega_c) = -\arctan(1/N_i)$ | $-18.43°$ |
+| $\phi_\text{Lead}$ required $= -180° + \gamma_M - \phi_G - \phi_{PI}$ | $+63.8°$ |
+
+**3c. Lead from gyro.** The REGBOT gyro directly measures $\dot\theta$, so
+$$\tau_d\, \dot\theta + \theta = (\tau_d s + 1)\,\theta$$
+is a proper, noise-free realisation of the ideal Lead — no filter pole needed (Lecture 10 slide 24). Solve for $\tau_d$:
+$$\tau_d = \frac{\tan(\phi_\text{Lead})}{\omega_c} = \frac{\tan(63.8°)}{15} = 0.1355\ \text{s}$$
+
+**3d. Loop gain.** Choose $K_P$ so $|L(j\omega_c)| = 1$:
+$$|C_{PI}(j\omega_c)\cdot C_{\text{Lead}}(j\omega_c)\cdot G_{tilt,\text{post}}(j\omega_c)| = 0.879$$
+$$K_P = \frac{1}{0.879} = 1.137$$
+
+**Full controller** (as viewed from pitch measurement to `vel_ref`):
+$$C_\text{total}(s) = K_P \cdot \underbrace{\frac{-(\tau_{i,\text{post}}s + 1)}{\tau_{i,\text{post}}s}}_{\text{sign + post-integrator}} \cdot \underbrace{\frac{\tau_i s + 1}{\tau_i s}}_{\text{outer PI}} \cdot \underbrace{(\tau_d s + 1)}_{\text{Lead (gyro)}}$$
+
+#### Step 4 — Closed-loop verification
+
+**Margins and crossover** (from `margin(L_tilt)`):
+
+| Metric | Value | Note |
+|---|---|---|
+| Achieved $\omega_c$ | $15.0$ rad/s | matches spec ✓ |
+| Phase margin $\gamma_M$ | $60.0°$ | matches spec ✓ |
+| Gain margin | $-4.6$ dB | see note below |
+| Closed-loop RHP poles | $0$ | stable ✓ |
+
+![[regbot_task2_loop_bode.png]]
+*Open-loop Bode of $L = K_P\, C_{PI}\, C_{\text{Lead}}\, G_{tilt,\text{post}}$. Crossover at $15$ rad/s with $60°$ phase margin.*
+
+> [!note] Why negative gain margin is OK here
+> For a plant with $P = 1$ RHP pole, the gain margin reported by `margin` is a **lower bound** — we need $|K|$ above a minimum, not below a maximum. A negative $GM$ in dB means "do not reduce gain below $10^{GM/20}\approx 0.59$× of designed value". This is the standard signature of an unstable-plant design (see Lecture 10 slides 5–7).
+
+![[regbot_task2_ic_response.png]]
+*Linear-model regulation: response to a $10°$ output-disturbance step on pitch. Settling time $\approx 1.5$ s, small undershoot. This is a linear-model proxy — the authoritative IC test is the Simulink simulation shown below.*
+
+#### Design summary
+
+| Parameter           | Symbol                 | Value      | Source                                              |
+| ------------------- | ---------------------- | ---------- | --------------------------------------------------- |
+| Target crossover    | $\omega_c$             | $15$ rad/s | spec                                                |
+| Target phase margin | $\gamma_M$             | $60°$      | spec                                                |
+| PI zero ratio       | $N_i$                  | $3$        | standard placement                                  |
+| Post-integrator     | $\tau_{i,\text{post}}$ | $0.1682$ s | $1/\omega_{\text{peak}}$ of $\lvert G_{tilt}\rvert$ |
+| Outer PI            | $\tau_i$               | $0.200$ s  | $N_i/\omega_c$                                      |
+| Lead (gyro)         | $\tau_d$               | $0.1355$ s | $\tan(\phi_\text{Lead})/\omega_c$                   |
+| Loop gain           | $K_P$                  | $1.137$    | $L(j\omega_c)= 1$                                   |
+
+These four values (`Kptilt`, `titilt`, `tdtilt`, `tipost`) are written to the MATLAB base workspace by `regbot_mg.m` and read automatically by the Simulink blocks when the model loads.
+
+---
+
+### Simulink implementation — balance controller
+
+The balance controller wraps around the existing Simulink model. Pitch and gyro outputs from the `robot with balance` subsystem feed into the controller, which outputs a velocity reference to the inner wheel-velocity loop.
+
+```mermaid
+flowchart LR
+    classDef ref  fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef fb   fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+    classDef out  fill:#8b6914,stroke:#d4a84a,color:#fef3c7,stroke-width:1.5px
+    classDef sum  fill:#374151,stroke:#9ca3af,color:#f3f4f6,stroke-width:1.5px
+
+    Ref["Constant = 0<br/>tilt reference"]:::ref
+    SumLead((Sum<br/>+ +)):::sum
+    LeadGain["Gain = tdtilt<br/>(gyro-based Lead)"]:::ctrl
+    Sum1((Sum<br/>+ −)):::sum
+    SignFlip["Gain = −1<br/>(sign flip)"]:::ctrl
+    PostInt["Transfer Fcn<br/>num = [tipost 1]<br/>den = [tipost 0]<br/><b>post-integrator</b>"]:::ctrl
+    OuterPI["Transfer Fcn<br/>num = [titilt 1]<br/>den = [titilt 0]<br/><b>outer PI</b>"]:::ctrl
+    Kp["Gain = Kptilt<br/>(final gain)"]:::ctrl
+
+    Pitch["pitch<br/>from 'robot with balance'"]:::fb
+    Gyro["gyro<br/>from 'robot with balance'"]:::fb
+
+    VelRef["vel_ref<br/>into wheel-velocity loop"]:::out
+
+    Pitch --> SumLead
+    Gyro --> LeadGain
+    LeadGain --> SumLead
+    Ref --> Sum1
+    SumLead -->|"(τ_d s + 1)·θ"| Sum1
+    Sum1 -->|error| SignFlip
+    SignFlip --> PostInt
+    PostInt --> OuterPI
+    OuterPI --> Kp
+    Kp --> VelRef
+```
+
+#### Block-by-block
+
+| #   | Block type     | Parameter                          | Why                                                                                        |
+| --- | -------------- | ---------------------------------- | ------------------------------------------------------------------------------------------ |
+| 1   | `Gain`         | `tdtilt`                           | Multiplies the gyro signal — this is the ideal Lead $\tau_d s$ part                        |
+| 2   | `Sum`          | signs `+ +`                        | Combines $\theta$ (pitch) with $\tau_d \dot\theta$ (gyro) → feedback signal $(\tau_d s + 1)\theta$ |
+| 3   | `Constant`     | `0`                                | Tilt reference — we want the robot upright                                                 |
+| 4   | `Sum`          | signs `+ -`                        | Error = reference − Lead-filtered pitch                                                    |
+| 5   | `Gain`         | `-1`                               | Sign flip absorbed into the post-integrator (Lecture 10 trick)                             |
+| 6   | `Transfer Fcn` | num `[tipost 1]`, den `[tipost 0]` | Post-integrator stabilises the RHP pole                                                    |
+| 7   | `Transfer Fcn` | num `[titilt 1]`, den `[titilt 0]` | Outer PI for zero steady-state tilt error                                                  |
+| 8   | `Gain`         | `Kptilt`                           | Overall loop gain to hit $\omega_c = 15$ rad/s                                             |
+
+> [!important] Placement of the Lead matters
+> The gyro-based Lead must be combined with pitch **on the feedback path (before the error sum)**, not added in parallel after the PI blocks. Putting the Lead in parallel implements $C_{PI,post}\cdot C_{PI} + \tau_d s$ (additive, no high-frequency phase boost) instead of the intended $C_{PI,post}\cdot C_{PI}\cdot(\tau_d s + 1)$ (multiplicative Lead in series). The parallel version has too little phase margin at $\omega_c$ and saturates the motor on any disturbance.
+
+All four parameters (`tipost`, `titilt`, `tdtilt`, `Kptilt`) are written to the base workspace by `regbot_mg.m`, so the Simulink blocks read them automatically after the script runs.
+
+> [!tip] Why the gyro shortcut?
+> An ideal Lead $\tau_d s + 1$ is improper and cannot be implemented as a Transfer Fcn block. The trick is that the REGBOT gyro *already measures* $\dot\theta$ directly, so we don't need to differentiate $\theta$ numerically — we just multiply the gyro signal by $\tau_d$ and add it to $\theta$. Mathematically: $\tau_d\dot\theta + \theta = (\tau_d s + 1)\theta$. No filter pole needed.
+
+#### Simulink verification — authoritative IC test ✅
+
+With `startAngle = 10°` and no push disturbance, the full Simulink model (non-linear plant + ±9 V limiter + corrected controller topology) recovers cleanly:
+
+![[regbot_task2_sim_recovery_10deg.png]]
+*Recovery from $\theta_0 = 10°$ initial tilt in Simulink. Yellow = pitch in radians (starts at $\approx 0.175$ rad $= 10°$, settles to $0$). Blue = motor voltage in volts (peak $\approx 1.3$ V, steady $\approx 0.5$ V). No saturation — well below the $\pm 9$ V limit. Settling time $\approx 1$ s, matching the linear-model prediction.*
+
+The small non-zero steady-state voltage ($\approx 0.5$ V) is expected with no velocity outer loop closed: the inner wheel-speed loop just needs a small bias to hold the wheels against residual position offset. It vanishes once Task 3 (velocity outer loop) wraps around this.
+
+---
+
 ### Next Session — Planned Work
 
-- [ ] **Task 2: Balance controller design**
-    - Use $G_{tilt}$ as the plant
-    - Design PILead with **post-integrator** (2nd PI block)
-    - Target: 1 CCW encirclement of $-1$ on Nyquist (because $P = 1$)
-    - Verify phase margin $\geq 60°$ on Bode plot
-- [ ] Integrate balance controller into Simulink model
-- [ ] First simulation test: can the robot balance in place?
-- [ ] Physical REGBOT test at zero velocity (Test 3a)
+- [x] Build the balance controller in Simulink following the corrected diagram
+- [x] First simulation test: $\theta_0 = 10°$ recovery in Simulink ✓
+- [ ] Physical REGBOT test at zero velocity (Test 3a: `vel=0, bal=1, log=15 : time=10`)
+- [ ] Move on to **Task 3** (velocity outer loop — linearise `theta_ref → wheel_vel_filter` output)
 
 ---
 
