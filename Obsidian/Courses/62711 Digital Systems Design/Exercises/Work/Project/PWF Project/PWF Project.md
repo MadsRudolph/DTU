@@ -115,6 +115,14 @@ Wraps the Microprocessor core and the Seven-Segment Driver, mapping signals to t
 
 A small assembly program loaded into RAM that reads operands from the button-triggered input registers, performs a computation (e.g. addition), and writes the result to the LED / 7-seg output registers.
 
+Assembled using [[dsdasm|dsdasm]] — our custom Python assembler (replaces the Java `Assembler_vX.jar`).
+
+### 8. Tooling
+
+| # | Tool | Purpose | Page |
+|---|--------|------|------|
+| 8.0 | **dsdasm** | Assembler / disassembler / simulator — converts `.asm` → `INIT_xx` in `Ram256x16.vhd` | [[dsdasm]] |
+
 ---
 
 ## Instruction Set (reused from PWB)
