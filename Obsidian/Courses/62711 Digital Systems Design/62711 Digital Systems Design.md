@@ -134,7 +134,7 @@ tags: [DSD, home]
 | 7 | ASM & Control Transfer | [[Lecture 07 - ASM]] |
 | 8 | Computer Design | [[Lecture 08 - Computer Design]] |
 | 9 | Memory Design & FPGA Memory | [[Lecture 09 - Memory Design]] |
-| 10 | Assembler Language | [[Lecture 10 - Assembler Programming]] |
+| 10 | Floating Point & Assembly Language | [[Lecture 10 - Floating Point & Assembly Language]] |
 | 11 | I/O & Memory Systems | [[Lecture 11 - IO and Memory Systems]] |
 | 12 | CPU Models | [[Lecture 12 - CPU Models]] |
 | 13 | PWF Completion | [[Lecture 13 - PWF Final]] |
@@ -146,6 +146,10 @@ tags: [DSD, home]
 > [!tip] Quizzes
 > - [[Quiz 1]]
 > - [[Quiz 2]]
+> - [[Quiz 3]]
+> - [[Quiz 4]]
+> - [[Quiz before lection 9]]
+> - [[Quiz 10]]
 
 > [!tip] Exercises
 > - [[Opg 2 - Digital Arithmetic|Opg 2 -- Digital Arithmetic (notes)]]
