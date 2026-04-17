@@ -1,4 +1,10 @@
 # ===========================================
+# Claude Code local settings (may contain API keys)
+# ===========================================
+.claude/settings.local.json
+.claude/worktrees/
+
+# ===========================================
 # Large files (stored in Google Drive instead)
 # ===========================================
 # These files are managed by Obsidian/scripts/drive-sync/
