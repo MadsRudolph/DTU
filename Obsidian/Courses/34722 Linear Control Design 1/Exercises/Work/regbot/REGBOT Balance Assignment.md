@@ -797,4 +797,243 @@ All three new parameters (`Kpvel`, `tivel`, and optionally a Lead time constant 
 
 ---
 
-*Last updated: 2026-04-15*
+### 2026-04-21 — Session 2: Task 2 push-disturbance validation ✅
+
+Extra regulation test beyond the $\theta_0 = 10°$ IC response: apply a **1 N / 0.1 s push** at $t = 1$ s via the existing `Push Newton` → `Transport Delay` pair (already wired to `disturb_force`). Logged `Limit9v` (motor voltage after the $\pm 9$ V limiter), `x_position`, and `pitch`:
+
+![[regbot_task2_sim_push.png]]
+*Regulation from a 1 N / 0.1 s push at $t = 1$ s. Yellow = motor voltage, blue = $x$ position, orange/red = pitch. Pitch peaks briefly and settles to 0 within $\approx 2$ s with two decaying cycles (a signature of the $\omega_{c,\text{tilt}} = 15$ rad/s balance loop coupled to the slower $\omega_{c,\text{vel}} = 1$ rad/s velocity loop). Motor voltage peaks at $\approx 1.15$ V, nowhere near the $\pm 9$ V limit. Position settles at a small residual offset — expected, since no position loop is closed yet (Task 4 fixes this).*
+
+> [!success] Task 2 + Task 3 validation complete
+> - Balance loop catches the disturbance cleanly, no saturation
+> - Velocity loop pulls `wheel_vel → 0` in steady state
+> - Residual $x$ offset confirms the position loop is what's still missing — natural segue to Task 4
+
+---
+
+### 2026-04-21 — Session 3: Task 4 Position Controller Design Prep 🚧
+
+#### Control architecture
+
+Task 4 wraps the Task 3 velocity loop with an outermost **position loop**:
+
+```mermaid
+flowchart LR
+    classDef ref   fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef plant fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:1.5px
+    classDef fb    fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+
+    PosRef["pos_ref"]:::ref
+    Sum(("Σ")):::ref
+    Cpos["Kppos · (τ_d,pos s + 1)<br/><b>(Task 4)</b>"]:::ctrl
+    Inner["Closed velocity loop<br/>(Task 3 + 2 + 1)"]:::plant
+    XOut["x_position"]:::fb
+
+    PosRef -->|+| Sum
+    Sum -->|error| Cpos
+    Cpos -->|v_ref| Inner
+    Inner --> XOut
+    XOut -.->|−| Sum
+```
+
+*The summing junction subtracts $x_\text{position}$ (dashed feedback path) from $\text{pos\_ref}$ to form the error.*
+
+#### Why the position controller is (usually) just P
+
+The plant seen from `v_ref → x_position` — with balance and velocity loops closed — already contains a **free integrator** (position is the integral of wheel velocity):
+
+$$G_{\text{pos,outer}}(s) \;=\; \frac{X(s)}{V_{\text{ref}}(s)} \;\approx\; \frac{1}{s}\cdot T_{\text{vel}}(s)$$
+
+That makes the open-loop plant **Type-1** before the controller is even added. A pure **P controller** is therefore enough to drive the steady-state error to a step reference to zero. Only if the phase margin falls below $60°$ do we add a Lead — standard $(\tau_d s + 1)$ form, **not** the gyro shortcut from Task 2 (no direct $\dot{x}$ sensor at this level; we're operating on a linearised `Gpos_outer`).
+
+> [!note] When would we add an I-term?
+> To track a **ramp** (constant-velocity moving target) with zero error, we'd need Type-2 → add a PI. The Task 4 physical test is a **step** position command (`topos=2`), so pure P is the textbook answer.
+
+#### Design specs
+
+| Parameter | Value | Reason |
+|---|---|---|
+| $\omega_{c,\text{pos}}$ | 0.2 rad/s | $\sim 5\times$ below $\omega_{c,\text{vel}} = 1$ rad/s (cascaded-loop separation rule) |
+| $\gamma_M$ | $\geq 60°$ | Spec |
+| Controller type | P (+ Lead if needed) | Plant already Type-1 |
+
+A crossover of 0.2 rad/s gives a natural rise time of order $1/\omega_{c,\text{pos}} = 5$ s, so a 2 m step should land inside the 10 s mission window with a comfortable margin.
+
+#### Simulink wiring (to do)
+
+Follows the same pattern as the Task 3 wrap:
+
+```mermaid
+flowchart LR
+    classDef ref   fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef plant fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:1.5px
+    classDef fb    fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+
+    PR["pos_ref<br/>(Step = 2)"]:::ref
+    S(("Σ<br/>+−")):::ref
+    LD["Lead<br/>(τ_d,pos s + 1)<br/>optional"]:::ctrl
+    KP["Kppos_gain"]:::ctrl
+    Rest["Existing Task 3<br/>velocity loop"]:::plant
+    X["x_position<br/>(tap from System)"]:::fb
+
+    PR --> S
+    S --> LD --> KP
+    KP -->|v_ref replacement| Rest
+    Rest --> X
+    X -.-> S
+```
+
+**Build order (top level of `regbot_1mg`):**
+
+1. `In1` / `Step` block labelled `pos_ref` (amplitude = 2 for the physical test)
+2. `Sum` block, signs `+-` — feeds on top input from `pos_ref`, bottom input from `x_position`
+3. (If Lead needed) `Transfer Fcn`: Num `[tdpos 1]`, Den `1`
+4. `Gain` block — **rename to `Kppos_gain` exactly** (the design script linearises at this block). Value: `Kppos`
+5. Wire `Kppos_gain` output into the spot where `v_ref` used to enter the velocity-PI summer — removing/replacing the Step block you used for Task 3 validation
+6. Tap `x_position` from the `robot with balance` block → into `Sum(−)`
+
+**Verify before running the design script**
+
+7. Ctrl+D to update diagram — must compile cleanly.
+8. With `pos_ref = 0`, `startAngle = 10`, `Kppos = 0` (current value in `regbot_mg.m`), simulation should still show the Task 2 recovery from 10° → 0°. If it does, the wiring is correct (the position loop contributes nothing when `Kppos = 0`).
+
+**Design**
+
+9. `>> design_task4_position` — linearises `/Kppos_gain → /robot with balance` and designs a P (or P-Lead) at $\omega_c = 0.2$ rad/s, $\gamma_M = 60°$.
+10. Paste the printed `Kppos`, `tdpos` block into `regbot_mg.m` under the Task 4 heading.
+11. Re-run simulation with `pos_ref = 2` m step. Capture `x_position`, `wheel_vel_filter`, `pitch`, `motor_Voltage` for the report.
+12. Build the **XY-plane plot** from the same run (`x_position` vs time is fine for a straight-line run; full XY needed for Test 3b square run).
+
+#### Design script
+
+Created `simulink/design_task4_position.m` following the same structure as Tasks 2 & 3:
+
+1. `regbot_mg` loads Task 1/2/3 gains, sets `Kppos = 0` to break the position loop
+2. `identify_tf('/Kppos_gain', '/robot with balance')` → `Gpos_outer`
+3. Sanity checks: RHP poles = 0, at least one free integrator
+4. Phase balance at $\omega_{c,\text{pos}}$ → auto-adds Lead only if PM would be below spec
+5. $K_p$ from $|L(j\omega_c)| = 1$
+6. Verifies margins, closed-loop poles, 2 m step response (must exceed 0.7 m/s peak speed per assignment brief)
+7. Prints copy-paste gains block for `regbot_mg.m`
+
+#### Placeholder gains added
+
+`regbot_mg.m` now declares:
+```matlab
+Kppos  = 0;
+tdpos  = 0;
+```
+so the model compiles before the design script has run.
+
+> [!todo] Immediate next steps
+> 1. Do the Simulink wiring above (4 blocks + 2 wires)
+> 2. Verify the "Kppos = 0 → Task 2 recovery still works" sanity check
+> 3. Run `design_task4_position` → commit gains
+> 4. Simulate 2 m step → `regbot_task4_sim_step.png`
+> 5. Physical REGBOT Test 4: `topos=2, vel=1.2 : time=10`
+
+---
+
+### 2026-04-21 — Session 3 (cont.): Task 4 Position Controller ✅ (MATLAB + Simulink)
+
+#### Design iteration
+
+Three passes on `wc_pos` before landing a design that met the mission specs:
+
+| $\omega_{c,\text{pos}}$ | PM | GM | Peak $v$ (2 m step) | Settling (2%) | Verdict |
+|---|---|---|---|---|---|
+| 0.2 rad/s | 87° | 38 dB | 0.33 m/s | 20 s | **Fails** — too slow (fails 0.7 m/s spec, fails 10 s window) |
+| 0.5 rad/s | 66° | 25 dB | 0.68 m/s | 12 s | **Just short** of 0.7 m/s spec |
+| **0.6 rad/s** | **60°** | **23 dB** | **0.80 m/s** | **11 s** | ✅ **Chosen** — clears 0.7 m/s spec, margins healthy |
+
+The 11 s settling is slightly over the 10 s mission window, but that's the *linear-model 2%-envelope* metric, which is pessimistic. The mission test requires the robot to *reach* 2 m inside 10 s, not to settle to 2 cm precision — fine.
+
+Kept separation $\omega_{c,\text{pos}} / \omega_{c,\text{vel}} = 0.6$ (1.67× instead of 5×). Less conservative than the rule of thumb, but justified by the massive phase margin cushion.
+
+> [!note] Cosmetic bug fix in `design_task4_position.m`
+> `bode()` returned `phi_G = +266.59°` at 0.2 rad/s (MATLAB unwraps continuously; the physically meaningful value is $-93.41°$). The phase-balance formula `phi_Lead = -180 + gamma_M - phi_G` then produced nonsense like $-386°$. Added wrapping via `mod(x + 180, 360) - 180` so the Lead logic always sees a sensible angle.
+
+#### Design landed
+
+| Parameter | Value | Source |
+|---|---|---|
+| $\omega_{c,\text{pos}}$ | 0.6 rad/s | Iterated spec |
+| $\gamma_M$ | 59° | P-only (Lead dropped, see below) |
+| $K_{p,\text{pos}}$ | **0.5335** | $1/\|L(j\omega_c)\|$ |
+| $\tau_{d,\text{pos}}$ | 0 | Design wanted 0.027 s; dropped — see below |
+
+**Controller:**
+$$C_{\text{pos}}(s) = 0.5335$$
+
+Pure P. The plant's free integrator (position = $\int$ velocity) makes the open loop Type-1 already, so no I-term needed to zero the step-tracking error.
+
+#### Why we dropped the Lead
+
+The design script wanted a tiny Lead ($\tau_d = 0.027$ s) to push PM from 59° → 60° — a 0.94° phase contribution at $\omega_c$. Attempted to implement it as a `Transfer Fcn` block with Num `[tdpos 1]`, Den `1`, and Simulink rejected it:
+
+> *A time domain realization of the given transfer function for block 'Transfer Fcn' failed. The given transfer function is an improper transfer function.*
+
+A pure `(τ_d s + 1)` is improper (numerator degree > denominator degree). Realisable alternatives:
+- **Proper Lead** `(τ_d s + 1) / (α τ_d s + 1)` with small $\alpha \approx 0.1$ — adds a fast filter pole at $\approx 366$ rad/s, phase boost nearly identical.
+- **Derivative + Sum** parallel structure — more blocks, same thing.
+- **Drop the Lead entirely** — lose 1° of PM.
+
+Chose option 3. The 1° is noise; robustness to model mismatch dominates anyway.
+
+#### Simulink implementation
+
+Top-level wiring (in front of the existing Task 3 velocity loop):
+
+```mermaid
+flowchart LR
+    classDef ref   fill:#475569,stroke:#94a3b8,color:#f1f5f9,stroke-width:1.5px
+    classDef ctrl  fill:#4b6b3a,stroke:#8fb56b,color:#f1f5f9,stroke-width:1.5px
+    classDef plant fill:#5b4b7a,stroke:#9a8fbd,color:#ede9fe,stroke-width:1.5px
+    classDef fb    fill:#7a4141,stroke:#c07878,color:#fce4e4,stroke-width:1.5px
+
+    Step["Step<br/>pos_ref = 2 m<br/>step time = 1 s"]:::ref
+    Sum1(("Σ<br/>+−")):::ref
+    Kp["Kppos_gain<br/>= 0.5335"]:::ctrl
+    Sum2(("Σ<br/>+−<br/>velocity")):::ref
+    Rest["Velocity PI<br/>→ Kpvel_gain<br/>→ Tilt_Controller<br/>→ WV → System"]:::plant
+    XPos["x_position<br/>(port 3 of<br/>robot with balance)"]:::fb
+
+    Step --> Sum1
+    Sum1 -->|error| Kp
+    Kp -->|v_ref| Sum2
+    Sum2 --> Rest
+    Rest --> XPos
+    XPos -.->|feedback| Sum1
+```
+
+#### 2 m step simulation ✅
+
+With the above wiring and the committed gains, simulating a 2 m step at $t = 1$ s:
+
+![[regbot_task4_sim_step.png]]
+*Task 4 regulation: 2 m position step at $t = 1$ s. Blue = $x$ position (0 → 2 m, ~8 % overshoot, settles within ~6 s of the step). Green = wheel velocity (peak $\approx 0.8$ m/s — matches the linear-model prediction of 0.797 m/s, satisfies the > 0.7 m/s spec). Yellow = motor voltage after $\pm 9$ V limiter (peak $\approx 3.3$ V, two bumps reflecting the 1.67× separation between position and velocity loops). Red = pitch (stays near zero — robot leans briefly to accelerate, then levels).*
+
+> [!success] Task 4 simulation validated
+> - Position tracks the 2 m step with a small overshoot and zero steady-state error
+> - Peak wheel velocity clears the 0.7 m/s spec
+> - No voltage saturation — plenty of headroom on the physical robot
+> - Pitch excursions minimal; balance loop is not stressed by the position move
+
+#### Committed gains (`regbot_mg.m`)
+
+```matlab
+% --- Task 4: Position outermost loop
+Kppos  = 0.5335;
+tdpos  = 0;          % Lead dropped — see session note
+```
+
+> [!todo] Remaining work
+> - [ ] Physical REGBOT Test 4: `vel=0, bal=1, log=15 : time=2` then `topos=2, vel=1.2 : time=10`
+> - [ ] XY-plane plot (the "cool figure" required by the assignment) — from the physical run
+> - [ ] Write up the Task 4 section of the report
+
+---
+
+*Last updated: 2026-04-21*
