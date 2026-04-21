@@ -89,7 +89,7 @@ Alternative: use the GUI's motor-test tab to manually command a wheel velocity w
 | Max \|V\| | < 8 V | **2.06 V** (74% headroom) |
 
 - Noise floor ~10% std on velocity — encoder quantisation aliased by the 67 Hz log rate; the 1 kHz internal loop is smoother than shown.
-- Steady-state voltage ~1.8 V vs Day 5 model prediction of ~0.8 V → **real friction higher than the Day 5 ID captured** (bearings/gearbox/air). PI integrator compensates cleanly; flagged for future re-identification if margins ever get tight.
+- Steady-state voltage ~1.8 V at 0.3 m/s. **Not comparable to Day 5** — Test 0 is wheels-up (no rolling load), Day 5 was on the floor. Back-EMF alone at 0.3 m/s wheel velocity is `Kemf · v/WR · NG = 0.0105 · 0.3/0.03 · 9.69 ≈ 1.02 V`, and the remaining ~0.8 V is `I·R` across the armature to overcome bearing + gearbox friction. Physics consistent with wheels-up; **no evidence of Day 5 model error**. The on-floor behaviour is validated indirectly by Tests 3a/3b/4 which all pass.
 - Motors very well matched (0.36% diff) → no trim needed.
 
 ![[test0_wheel_speed_2026-04-21.png]]
