@@ -3,7 +3,7 @@ course: "34722"
 course-name: "Linear Control Design 1"
 type: handoff
 tags: [LCD, regbot, handoff]
-date: 2026-04-15
+date: 2026-04-21
 ---
 # REGBOT Balance Assignment — Session Handoff
 
@@ -16,14 +16,19 @@ date: 2026-04-15
 
 ## 1. Where to Resume
 
-**Current status:** Tasks 1–3 are designed in MATLAB and verified in Simulink. The balance recovery from a 10° initial tilt works. The velocity loop tracks `v_ref = 0.5 m/s` cleanly. Nothing has been tested on the physical REGBOT yet.
+**Current status:** Tasks 1–4 are designed in MATLAB and verified in Simulink.
+- Task 2: balance recovery from 10° initial tilt works.
+- Task 3: velocity tracking at 0.5 m/s step is clean (RHP-zero inverse response visible and expected); 0.8 m/s step triggers large-signal limit cycles in the non-linear model.
+- Task 4: 2 m position step reaches peak velocity 0.80 m/s (spec ≥ 0.7 ✓), settles at 2 m cleanly, closed-loop stable with PM = 59°, GM = 23.2 dB.
+
+**Nothing has been tested on the physical REGBOT yet.**
 
 **Next decision point:** pick one of:
 
-1. **Physical REGBOT Test 3a** (`vel=0, bal=1, log=15 : time=10`) — validate Task 2 on the real robot before layering on Task 4.
-2. **Task 4** (position outer loop) — same pattern as Task 3, one layer further out.
-3. **Report writing** — LaTeX report submodule has Task 1 + Task 2 written; Task 3 and Task 4 sections still have TODOs.
-4. **Physical Test 3b** (square run at 0.8 m/s) — note: sim shows limit-cycle growth at 0.8 m/s step; real-world smoothness might make this work, might not.
+1. **Physical REGBOT tests** — start with Test 3a (`vel=0, bal=1, log=15 : time=10`) for Task 2, then Test 3b (square run), then Test 4 (2 m position move). All four controllers are ready for it.
+2. **Report polish + submission** — LaTeX is written for Tasks 1–4 and Task 2 polish. Final pass, add physical-test plots and comments, export PDF, submit as `Group_47.pdf` on Learn.
+3. **Tune any controller that underperforms on the real robot** — bring the gain back into the matching `design_task*.m`, iterate, copy new block into `regbot_mg.m`.
+4. **Fix the 0.8 m/s limit cycle in Task 3** (if needed) — add `Saturation` on `theta_ref` (±0.175 rad) with anti-windup on the velocity PI integrator. Simplest: swap the PI `Transfer Fcn` for Simulink's `PID Controller` block in "clamping" mode.
 
 ---
 
@@ -46,9 +51,10 @@ simulink/
 ├── design_task1_wheel.m        ← standalone Task 1 design (PI on Gvel,day5)
 ├── design_task2_balance.m      ← standalone Task 2 design (Lecture 10 Method 2)
 ├── design_task3_velocity.m     ← standalone Task 3 design (PI on Gvel,outer)
+├── design_task4_position.m     ← standalone Task 4 design (P on Gpos,outer)
 └── lib/                        ← 9 helper function files
     ├── describe_plant.m
-    ├── identify_tf.m
+    ├── identify_tf.m           ← 4-arg: (model, in, out, out_port=1)
     ├── pick_image_dir.m
     ├── plot_nyquist_critical.m
     ├── plot_pz_stability.m
@@ -64,10 +70,13 @@ simulink/
 regbot/
 ├── REGBOT Balance Assignment.md   ← primary note — read this first
 ├── HANDOFF.md                     ← this file
-├── PLAN.md                        ← 5-phase plan until deadline (older, less important)
+├── PLAN.md                        ← older 5-phase plan (superseded by this note)
 ├── Images/                        ← all plots from MATLAB + Simulink scope screenshots
 └── Report/                        ← LaTeX report (submodule, junction)
 ```
+
+> [!note] Mirror in the MATLAB submodule
+> A `docs/` folder in the `REGBOT-Balance-Assignment` submodule contains a copy of `REGBOT Balance Assignment.md` + images for teammates who don't have the Obsidian vault set up. If you edit one, remember to mirror to the other (they can drift otherwise).
 
 ---
 
@@ -78,20 +87,19 @@ The script was split so `regbot_mg.m` is fast to load and the design work is qua
 - **To just simulate:** open Simulink — `regbot_mg.m` loads via `PreLoadFcn` (or run it manually first). No plots, no linearise, no design math. Takes under a second.
 - **To redesign a controller:** run the corresponding `design_taskN_*.m` script. Each one:
   1. Calls `regbot_mg` at the top to get physical params + prior-task gains in the workspace.
-  2. Does the full Lecture 10 workflow with all intermediate values printed to the command window.
-  3. Generates all plots for the report.
-  4. Pushes the new gains to the base workspace (so you can immediately test in Simulink).
-  5. Ends by printing a copy-pasteable gains block. Example:
+  2. Temporarily sets the current loop's gain to 0 (breaking the loop at that point) before calling `linearize()`.
+  3. Does the full Lecture 10 workflow with all intermediate values printed to the command window.
+  4. Generates all plots for the report.
+  5. Pushes the new gains to the base workspace (so you can immediately test in Simulink).
+  6. Ends by printing a copy-pasteable gains block. Example:
      ```
      ==============================================================
-       Copy-paste this block into regbot_mg.m (Task 2 gains)
+       Copy-paste this block into regbot_mg.m (Task 4 gains)
      ==============================================================
-         Kptilt = 1.1372;
-         titilt = 0.2000;
-         tdtilt = 0.1355;
-         tipost = 0.1682;
+         Kppos = 0.5335;
+         tdpos = 0.0273;
      ```
-  6. You paste that block into the matching "Committed controller gains" heading in `regbot_mg.m` and commit.
+  7. You paste that block into the matching "Committed controller gains" heading in `regbot_mg.m` and commit.
 
 Never edit gains inside `regbot_mg.m` by hand — always derive them from a design script so the Bode/Nyquist/step plots are reproducible.
 
@@ -100,7 +108,7 @@ Never edit gains inside `regbot_mg.m` by hand — always derive them from a desi
 All loaded automatically when `regbot_mg.m` runs (it adds its folder + `lib/` to the MATLAB path). Call them from any script without special setup:
 
 - `print_tf(name, G)` — pretty-print a transfer function in polynomial form.
-- `identify_tf(model, inBlockPath, outBlockPath)` — linearise a Simulink model between two top-level block paths, return a minimum-realisation `tf`.
+- `identify_tf(model, in_block, out_block, out_port)` — linearise a Simulink model between two top-level block paths, return a minimum-realisation `tf`. The optional `out_port` (default 1) selects which output port of the out_block to measure — used for `/robot with balance` where port 1 = pitch, port 3 = x_position.
 - `describe_plant(G)` — compact poles/zeros/DC-gain/RHP-count summary.
 - `plot_pz_stability(G, title)` — pole-zero map with LHP/RHP shading.
 - `plot_nyquist_critical(G, title)` — Nyquist with (−1, 0) highlighted.
@@ -112,27 +120,28 @@ All loaded automatically when `regbot_mg.m` runs (it adds its folder + `lib/` to
 
 ## 4. Simulink Model State
 
-### Top level (as currently wired)
+### Top level (as currently wired — all four loops)
 
 ```
-v_ref ── Sum(+−) ── Vel_PI ── Kpvel_gain ── Tilt_Controller(subsystem)
-          ↑                                         ↓
-     wheel_vel_filter ←──── wheel_vel_filter output (tap)
-                                                    ↓
-                    vel_ref ── Wheel-speed PI ── Limit9v ── robot with balance
-                                                                ↓
-                                                    pitch, gyro, x_position, lin_vel
-                                                                ↓
-                                                pitch, gyro → Tilt_Controller
+pos_ref ── Sum(+−) ── Kppos_gain ── (acts as v_ref) ── Sum_vel(+−) ── Vel_PI ── Kpvel_gain ── Tilt_Controller(subsystem)
+              ↑                                             ↑                                       ↓
+      x_position (tap)                              wheel_vel_filter (tap)                    vel_ref out
+                                                                                                    ↓
+                                                                              Wheel-speed PI ── Limit9v ── robot with balance
+                                                                                                            ↓
+                                                                                  pitch, gyro, x_position, lin_vel
+                                                                                                            ↓
+                                                                                      pitch, gyro → Tilt_Controller
 ```
 
 Top-level blocks that `linearize()` calls reference by name (case-sensitive):
 
-- `/vel_ref` — gain block at balance output / wheel-speed input.
-- `/Limit9v` — the ±9 V saturation block.
-- `/wheel_vel_filter` — the 1/(twvlp·s + 1) low-pass.
-- `/robot with balance` — the Simscape Multibody robot model (outputs pitch, gyro, x_position, lin_vel; inputs motor_Voltage, desturb_force).
-- `/Kpvel_gain` — Gain block that outputs `theta_ref`. **Must be named exactly `Kpvel_gain`**; Task 3 design script references it.
+- `/vel_ref` — gain block at balance output / wheel-speed input. Used by Task 2 design.
+- `/Limit9v` — the ±9 V saturation block. Used by Task 1-style ID of Gwv.
+- `/wheel_vel_filter` — the 1/(twvlp·s + 1) low-pass. Used by Task 3 design (velocity feedback point).
+- `/robot with balance` — the Simscape Multibody robot model. Outputs (port order) **1 = pitch, 2 = gyro, 3 = x_position, 4 = wheel_vel/lin_vel**. Inputs are motor_Voltage and desturb_force.
+- `/Kpvel_gain` — Gain block that outputs `theta_ref`. **Exact name required by** `design_task3_velocity.m`.
+- `/Kppos_gain` — Gain block that outputs the velocity-reference branch. **Exact name required by** `design_task4_position.m`.
 
 ### Balance controller subsystem (Task 2 wiring)
 
@@ -152,7 +161,7 @@ gyro·τd ┘                ↑
                       theta_ref (In3)
 ```
 
-The gyro Lead is combined with pitch **before** the error sum (multiplicative `(τ_d s + 1)` Lead), not added in parallel after the PI blocks (additive `τ_d s`). The distinction matters — see Plain-English Guide section 7 and "What bit us" section 8 in the Obsidian note.
+The gyro Lead is combined with pitch **before** the error sum (multiplicative `(τ_d s + 1)` Lead), not added in parallel after the PI blocks (additive `τ_d s`). See Plain-English Guide section 7 in the Obsidian note.
 
 ---
 
@@ -173,7 +182,7 @@ The gyro Lead is combined with pitch **before** the error sum (multiplicative `(
 | | `tipost` | 0.1682 s | 1/ω_peak of \|Gtilt\| | — |
 | | `titilt` | 0.200 s | N_i/ω_c | — |
 | | `tdtilt` | 0.1355 s | tan(φ_Lead)/ω_c | — |
-| | `Kptilt` | 1.1372 | \|L(jω_c)\| = 1 | — |
+| | `Kptilt` | 1.1370 | \|L(jω_c)\| = 1 | — |
 | **3 — Velocity outer loop** (plant: `Gvel,outer`, 9th order, stable, RHP zero at +8.51 rad/s) | ω_c | 1 rad/s (limited by RHP zero: `ω_c ≤ z/5`) | 1 | 1.00 |
 | | γ_M | 60° min | 60° | 64.2° |
 | | GM | upper bound | — | +7.84 dB |
@@ -181,13 +190,18 @@ The gyro Lead is combined with pitch **before** the error sum (multiplicative `(
 | | `Kpvel` | 0.1616 | \|L(jω_c)\| = 1 | — |
 | | `tivel` | 3.0000 s | N_i/ω_c | — |
 | | Lead | none (PI alone gave PM) | — | — |
-| **4 — Position** | — | not started | — | — |
+| **4 — Position outermost loop** (plant: `Gpos,outer`, has a free integrator `v→x` already, so no I-term needed) | ω_c | 0.6 rad/s (iterated 0.2 → 0.5 → 0.6 to hit mission-speed spec) | ≈ ω_c,vel / 1.7 | 0.60 |
+| | γ_M | 60° target | 59° | 59° |
+| | GM | upper bound | — | +23.2 dB |
+| | `Kppos` | 0.5335 | \|L(jω_c)\| = 1 | — |
+| | `tdpos` | 0.0273 s | wanted by script (+0.94° phase) but dropped — see gotchas | — |
 
 ### Simulation state (what's been verified)
 
-- **Task 2 (balance):** 10° initial tilt → recovery to 0° in ~1 s, motor voltage peaks 1.3 V (far below ±9 V limit). `regbot_task2_sim_recovery_10deg.png` in Images/.
-- **Task 3 (velocity) at 0.5 m/s step:** clean tracking with visible RHP-zero inverse response (wheel vel dips to −0.3 m/s at t = 1 s before climbing to 0.52 m/s). Pitch peaks ~7°, motor voltage ~2.15 V, settling ~5 s.
-- **Task 3 at 0.8 m/s step:** limit-cycle growth. Pitch swings ±23°, oscillation period ~1.5 s (near the plant's complex pole pair). Large-signal nonlinearities break the linear design. See gotchas section.
+- **Task 2 (balance):** 10° initial tilt → recovery to 0° in ~1 s, motor voltage peaks 1.3 V. `regbot_task2_sim_recovery_10deg.png` in Images/.
+- **Task 3 (velocity) at 0.5 m/s step:** clean tracking with visible RHP-zero inverse response. Pitch peaks ~7°, settling ~5 s.
+- **Task 3 at 0.8 m/s step:** limit-cycle growth. Pitch swings ±23°, large-signal nonlinearities break the linear design. Acceptable for ramped mission profiles; would need saturation + anti-windup for pure step commands.
+- **Task 4 (position) 2 m step:** peak velocity 0.80 m/s (spec ≥ 0.7 m/s ✓), settles at 2 m, closed-loop stable.
 
 ---
 
@@ -195,20 +209,21 @@ The gyro Lead is combined with pitch **before** the error sum (multiplicative `(
 
 ### Works cleanly
 
-- End-to-end MATLAB script runs without errors.
+- End-to-end MATLAB scripts run without errors.
 - Every `print_tf` prints a clean polynomial.
-- `linearize()` identifies `Gtilt`, `Gwv`, and `Gvel,outer` reproducibly. Numbers match across runs to 4+ decimals.
-- Task 2 MATLAB design reproduces all the documented values when re-run.
+- `linearize()` identifies `Gwv`, `Gtilt`, `Gvel,outer`, and `Gpos,outer` reproducibly. Numbers match across runs to 4+ decimals.
 - Simulink model compiles with any valid gain set. Setting any task's gain to 0 breaks only that loop (the lower-layer ones still work).
 
 ### Known gotchas
 
-- **Block naming for `linearize()` is case-sensitive.** We have `VEL_CTRL_OUT_BLOCK = '/Kpvel_gain'` in `design_task3_velocity.m`. The Simulink block has to be named exactly `Kpvel_gain` — not `kpvel_gain`, not `KpvelGain`.
-- **Task 3 phase unwrapping is iffy** at `ω_c = 1`: `bode()` reports `+262°` which is equivalent to `−98°`. The script's `if phi_Lead <= 0` fallback saved it, but if someone changes `wc_vel`, the unwrap math could produce wrong `phi_Lead`. Robust fix (not yet applied): wrap phase to `[−180°, 180°]` before using. Worth tightening later.
-- **Nonlinear limit cycling at large `v_ref` commands.** Pitch >20° breaks the linearisation. If Task 3 needs full-speed step responses, add a `Saturation` block on `theta_ref` (±0.175 rad ≈ ±10°) with anti-windup on the velocity PI integrator. Simplest anti-windup: swap the PI `Transfer Fcn` for a Simulink `PID Controller` block in "clamping" mode.
-- **Negative gain margin is OK** for Task 2 (unstable plant). If `margin(L_tilt)` ever reports a positive GM, something's been mis-wired.
-- **Autosave files (`*.slx.autosave`, `*.asv`) and build artefacts (`slprj/`, `*.slxc`) are gitignored.** Don't panic if they show up — they regenerate on use.
-- **`startAngle` in `regbot_mg.m`.** Set to 0 for velocity tracking tests, 10 for balance recovery tests. The physical robot always starts at 0 (held still), this variable is purely a simulation initial condition.
+- **Block naming for `linearize()` is case-sensitive.** `Kpvel_gain` and `Kppos_gain` must be named exactly that.
+- **`robot with balance` output ports are ordered 1=pitch, 2=gyro, 3=x_position, 4=lin_vel.** Use the 4th arg of `identify_tf` (`out_port`) to pick the right one. Task 4 design uses port 3.
+- **Phase unwrapping.** `bode()` returns unwrapped phase. For Tasks 3 and 4, the raw `φ_G` reads as `+262°` (really `−98°`) at low ω because of how MATLAB wraps. Task 4 now wraps `φ_G` to `(−180°, 180°]` via mod arithmetic before using it in the Lead formula; Task 3 still relies on the `if phi_Lead <= 0` fallback (which happened to work). If you change `wc_vel`, update Task 3 the same way Task 4 was fixed.
+- **Pure-Lead TFs are improper.** Simulink rejects a standalone `(τ_d s + 1)` Transfer Fcn. For Task 2 we use the gyro shortcut (`τ_d · gyro + pitch` ≡ `(τ_d s + 1)·pitch`) so no problem. For Task 4 the design script *wanted* a 0.94° Lead (tdpos = 0.027 s) but Simulink can't host the block without a filter pole, and that tiny amount of PM isn't worth one — Lead was dropped. If you ever do need a proper Lead, use `(τ_d s + 1)/(α·τ_d s + 1)` with `α = 0.1`.
+- **Nonlinear limit cycling at large `v_ref` commands.** Pitch >20° breaks the linearisation. If needed for testing full-speed steps, add `Saturation` on `theta_ref` with anti-windup.
+- **Negative gain margin is OK** for Task 2 (unstable plant). If `margin(L_tilt)` ever reports positive GM, something's been mis-wired.
+- **Autosave files (`*.slx.autosave`, `*.asv`) and build artefacts (`slprj/`, `*.slxc`) are gitignored.** Don't panic if they show up.
+- **`startAngle` in `regbot_mg.m`.** Set to 0 for velocity/position tracking tests, 10 for balance recovery tests. Physical robot always starts at 0 — this is purely a simulation initial condition.
 
 ---
 
@@ -217,20 +232,18 @@ The gyro Lead is combined with pitch **before** the error sum (multiplicative `(
 `REGBOT Balance Assignment.md` is the primary reference. Sections in order:
 
 1. Intro + Preparation checklist.
-2. **Plain-English Guide — Start Here if You're New to This** — nine sub-sections covering the whole pedagogy from the broom analogy to why Task 2 needs Lecture 10 Method 2, the four-step recipe, physical meanings of each knob, and the gotchas we hit. Any teammate without a strong linear-control background should read this first.
+2. **Plain-English Guide — Start Here if You're New to This** — nine sub-sections covering the whole pedagogy from the broom analogy through the four-step recipe to the gotchas. Anyone without a strong linear-control background should read this first.
 3. Control Architecture Overview (mermaid diagram — cascaded loops).
 4. Tasks 1–4 abstract descriptions (from the course brief).
-5. Mandatory Report instructions (course brief).
+5. Mandatory Report instructions.
 6. Design Workflow Checklist.
-7. Key Design Principles (Lecture 10 takeaways).
-8. **Progress Log** — chronological log of sessions. Session 1 (2026-04-15) has the detailed writeup:
-   - Plant identification via `linearize()` (Gwv, Gtilt prints and plots).
-   - Task 1 design with verification.
-   - **Task 2 — Balance Controller (Lecture 10 Method 2)** with full step-by-step derivation, mermaid for the Method 2 workflow, block-by-block table for the Simulink implementation, all intermediate design values, and the Simulink IC recovery screenshot.
-   - **Task 3 — Velocity outer loop (in progress)** — mermaid for top level + inside the subsystem, block-by-block table, build order, design rationale.
+7. Key Design Principles.
+8. **Progress Log** — chronological detail:
+   - Session 1 (2026-04-15): plant ID, Task 1, Task 2 Lecture 10 Method 2 writeup, Task 3 mermaids + block-by-block table.
+   - Session 2 (2026-04-21): Task 4 added to the note (position controller wiring, design numbers, mermaid if present).
 9. Next Session — Planned Work.
 
-Mermaid diagrams use a **muted pastel palette** for Obsidian dark mode compatibility. The palette is consistent across all diagrams:
+Mermaid diagrams use a **muted pastel palette** for Obsidian dark mode compatibility. Consistent across all diagrams:
 - `ref` / `start` → slate (#475569)
 - `ctrl` / `step` → sage (#4b6b3a)
 - `plant` / `done` → muted violet (#5b4b7a)
@@ -245,32 +258,33 @@ Mermaid diagrams use a **muted pastel palette** for Obsidian dark mode compatibi
 | `introduction.tex` | ✅ Written |
 | `control-architecture.tex` | ✅ Written |
 | `wheel-speed-controller.tex` | ✅ Written (Task 1 complete) |
-| `balance-controller.tex` | ✅ Written (full Lecture 10 Method 2 writeup + figures) |
-| `velocity-controller.tex` | Stub — Task 3 TODO |
-| `position-controller.tex` | Stub — Task 4 TODO |
-| `conclusion.tex` | Stub |
+| `balance-controller.tex` | ✅ Written (polished — full Method 2 writeup, IC recovery + velocity tracking figures) |
+| `velocity-controller.tex` | ✅ Written (Task 3) |
+| `position-controller.tex` | ✅ Written (Task 4) |
+| `conclusion.tex` | Likely stub — verify before final compile |
 
-The Report's `images/` folder has Task 1 and Task 2 figures copied in. When Task 3 artwork needs to appear in the report, copy the matching Task 3 images from `regbot/Images/` into `Report/images/` and reference from the new section.
+Task 3 and Task 4 images are in `Report/images/`.
 
 ---
 
 ## 8. Recent Commits (top of each branch)
 
 ### `MadsRudolph/DTU` — main
+- `9a8676e` Refresh REGBOT HANDOFF.md with end-of-session state (previous)
 - `e7d3a1d` Add beginner-friendly Plain-English Guide to REGBOT Balance note
 - `e7d63ba` REGBOT Task 3: velocity outer loop + Obsidian writeup
 - `62d0728` Bump REGBOT-Balance submodule: drop unused starter image
 - `e045654` Bump REGBOT-Balance submodule: subsystem refactor + MATLAB split
-- `301c348` REGBOT balance: Task 2 restructure + Simulink IC verification
 
 ### `Skab101/REGBOT-Balance` — main
+- `46f1cee` Task 4: position outermost loop (P at wc = 0.6 rad/s)
 - `7c363aa` Task 3: velocity outer loop (PI at wc = 1 rad/s)
 - `7e714e4` Drop unused starter image motor to velocity.png
 - `191ac40` Split MATLAB into thin loader + per-task design scripts + lib/ helpers
 - `74b0744` Refactor balance controller into a Simulink subsystem
-- `839a7b0` Task 2: align balance controller with Lecture 10 Method 2
 
 ### `MadsRudolph/REGBOT-Balance-assignment` (Report) — main
+- `bc46ffc` Tasks 3 + 4 writeup and Task 2 polish
 - `8dd29e8` Task 2: Lecture 10 Method 2 writeup with full design trace
 
 ---
@@ -305,12 +319,11 @@ Read C:\Users\Mads2\DTU\Obsidian\Courses\34722 Linear Control Design 1\Exercises
 
 Then pick one:
 
-- "Help me do the physical REGBOT Test 3a to verify Task 2 on the real robot."
-- "Let's start Task 4 — position outer loop."
-- "Let's fill in the Task 3 and Task 4 LaTeX report sections."
-- "Help me tighten the phase-unwrapping logic in design_task3_velocity.m so ω_c changes don't break the Lead math."
-- "Add saturation + anti-windup to the Task 3 velocity controller so the 0.8 m/s step works."
+- "Help me run the physical REGBOT tests (3a, 3b, 4) and collect the plots for the report."
+- "Final pass on the report — verify all sections compile cleanly and finish the conclusion."
+- "A controller misbehaves on the real robot — help me re-tune."
+- "Fix the 0.8 m/s limit cycle in Task 3 with a saturation + anti-windup on theta_ref."
 
 ---
 
-*Document last updated: 2026-04-15 — end of session covering the Simulink Lead-placement fix, MATLAB split into per-task design scripts + lib/, balance-controller subsystem refactor, Task 3 design and wiring, and the Plain-English Guide.*
+*Document last updated: 2026-04-21 — Tasks 1–4 all designed in MATLAB and verified in Simulink, controllers ready for physical REGBOT testing.*
