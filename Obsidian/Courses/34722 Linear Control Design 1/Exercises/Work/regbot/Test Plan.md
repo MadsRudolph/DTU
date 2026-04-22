@@ -236,13 +236,39 @@ vel=0
 - **Balance holds beautifully through aggressive 0.2 m-radius corners** — biggest test of the controller yet. 17° pitch excursions are transient and always recover.
 - **End-pose offset** (endpoint 0.24 m away from start, heading off by 0.1°): geometric consequence of `vel=X : dist=1` + `tr=0.2 : turn=90` — each turn arc bulges the path outward by the turn radius, so the "square" is really 4 straight segments linked by quarter-circles. Consistent with physics.
 - **Not a tuning issue.** Balance loop is doing real work, but never loses it. No reason to back off `Kptilt`.
-- **We did NOT re-test at 0.8 m/s** — optional stretch goal; 0.5 m/s is already well within the assignment's "square run" requirement.
-
 ![[test3b_xy_2026-04-21.png]]
 *XY trajectory — the "cool figure" the assignment asks for. Clean closed square, 359.8° cumulative heading change. Corners visibly rounded by the 0.2 m turn radius. Side lengths ~1.4 m (1 m straight + 0.31 m arc).*
 
 ![[test3b_timeseries_2026-04-21.png]]
 *Time series of the square run. Tilt peaks during corners are transient and always recover; wheel velocities split symmetrically on turns (outer wheel faster); position traces out the XY square as four linear ramps.*
+
+#### Second attempt — full 0.8 m/s spec (2026-04-22) ✅ **PASS**
+
+Re-ran the same mission with every `vel=0.5` replaced by `vel=0.8` to hit the original assignment spec. Hardware completed it cleanly.
+
+| Metric | 0.5 m/s run | **0.8 m/s run** |
+|---|---|---|
+| Duration | 15.86 s | **12.35 s** |
+| Sides + turns completed | 4 + 3 | 4 + 3 |
+| Heading change | 359.8° | 359.8° |
+| Wheel vel peak | 0.91 m/s | **1.07 m/s** |
+| `vel_ref` peak | 0.76 m/s | 0.94 m/s |
+| Tilt range | −10.7° to +18.0° | **−9.0° to +22.0°** |
+| Tilt std | 4.76° | **5.72°** |
+| Mean tilt | 3.0° | **5.9°** (steeper forward lean) |
+| Motor voltage peak | 4.07 V | **4.67 V** (still 42% headroom) |
+| Square shape / endpoint offset | identical | identical |
+
+**Key finding vs simulation warning.** The Simulink design-time analysis predicted a large-signal limit cycle at 0.8 m/s step commands because pitch exceeds the linearisation range (sim showed ~23° swings). On hardware the **peak tilt was +22°** — right at the sim prediction — but **the robot did not limit-cycle**, stayed bounded, recovered each swing, and completed the full square with the same geometric shape as the 0.5 m/s run. The hardware is more robust than the pessimistic linear sim in this regime; the physical balance loop + gyro feedback has real-world damping the linear model doesn't fully capture.
+
+**Log file:**
+- [x] Saved to: `REGBOT-Balance-Assignment/logs/test3b_square_0.8ms_2026-04-21.txt`
+
+![[test3b_xy_0.8ms_2026-04-21.png]]
+*0.8 m/s XY trajectory — visually identical to the 0.5 m/s run. Same ~1.4 m sides (geometry dominated by the `dist=1 + 0.2 m turn arc` construction, not by speed).*
+
+![[test3b_timeseries_0.8ms_2026-04-21.png]]
+*0.8 m/s time series. Larger tilt excursions than 0.5 m/s (peak +22° vs +18°) and higher mean tilt (5.9° vs 3.0°) reflecting the steeper lean needed to sustain higher velocity. Voltage peaks at 4.67 V, well below ±8 V saturation.*
 
 ---
 
