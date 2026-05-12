@@ -1,0 +1,40 @@
+{
+  "notebooks": {
+    "iot": {
+      "id": "6538cade-bebc-456a-83ca-0a4409a381aa",
+      "name": "iot",
+      "description": "DTU 34315 Internet of Things \u2014 slides, literature, exercises",
+      "topics": "",
+      "uses": 0
+    },
+    "iae2": {
+      "id": "c74324e8-d323-42c0-bbdb-0084b5b40d11",
+      "name": "iae2",
+      "description": "DTU 34655 Integrated Analog Electronics 2 \u2014 CMOS analog IC design",
+      "topics": "",
+      "uses": 0
+    },
+    "lcd1": {
+      "id": "dcddcf87-0a72-40eb-afae-7dab260350e8",
+      "name": "lcd1",
+      "description": "DTU 34722 Linear Control Design 1 \u2014 slides, exercises, Laplace, Bode, Nyquist",
+      "topics": "",
+      "uses": 0
+    },
+    "dsd": {
+      "id": "eb1f49b9-61a5-4494-8a3e-9821f8514324",
+      "name": "dsd",
+      "description": "DTU 62711 Digital Systems Design \u2014 VHDL, Vivado, Xilinx, FPGA",
+      "topics": "",
+      "uses": 0
+    },
+    "dsp": {
+      "id": "5bd40a62-b09c-406d-b854-2ed2be6d894c",
+      "name": "dsp",
+      "description": "DTU 62743 Digital Signal Processing \u2014 REEXAM prep: slides, past exams + solutions, weekly solutions",
+      "topics": "",
+      "uses": 0
+    }
+  },
+  "active": null
+}
