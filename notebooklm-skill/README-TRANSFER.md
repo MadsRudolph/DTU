@@ -27,10 +27,11 @@ notebooklm-transfer/
 
 ## Install steps
 
-1. Copy this whole `notebooklm-transfer\` folder to the new PC (USB / cloud drive / however).
+1. If you cloned the DTU repo, this dir is already at `C:\Users\Mads2\DTU\notebooklm-skill\` — skip to step 2. Otherwise copy the folder there.
 2. Open PowerShell, navigate to the folder, and run:
 
    ```powershell
+   cd C:\Users\Mads2\DTU\notebooklm-skill
    .\INSTALL.ps1
    ```
 

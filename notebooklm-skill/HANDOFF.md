@@ -30,8 +30,10 @@ If the skill dir already exists: **stop and ask Mads** before overwriting. The l
 
 ### 2. Run the installer
 
+The DTU repo lives at `C:\Users\Mads2\DTU` on this user's machines.
+
 ```powershell
-cd <path-to-DTU-repo>\notebooklm-skill
+cd C:\Users\Mads2\DTU\notebooklm-skill
 .\INSTALL.ps1
 ```
 
