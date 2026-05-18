@@ -10,8 +10,9 @@ This file is auto-loaded by Claude Code and travels with `git pull`. It records 
 
 ### ▶️ PICK UP HERE (next action)
 
-**F25 Question 4** — digital LP filter realization + application. Working file: `3.semester/DSP/EXAMS/F25_new.m` (section `%% Problem 4`).
-Q4 sub-parts: 4-1 (read H(z) off the Direct-Form block diagram, FIR vs IIR), 4-2 (magnitude dB plot, read 3 dB point), 4-3 (poles/zeros + stability), 4-4 (sample xa(t), aliasing check), 4-5 (filter with `filter()`, compare before/after).
+**E25 (the failed exam) — full re-solve.** Working file: `3.semester/DSP/EXAMS/E25_new.m` (skeleton built, all 3 problems scaffolded). Official solution PDF (truth source) now at `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/Solutions/62743 E25 Exam student solutions.pdf`.
+Filter-first order: **P2** (IIR Direct Form II analysis, 30%) then **P3** (FIR highpass via windowing, 30%) = 60%. P1 is Z-transform math (40%, do last if time).
+🚩 **Key trap (likely cause of the fail):** P2's DF-II feedback taps sit after the **2nd and 4th** delays → `A2 = [1, 0, 0.4860, 0, 0.0177]` (denominator `1+0.486z⁻²+0.0177z⁻⁴`), NOT `[1,0.486,0.0177]`. Skeleton already corrected; the vault `E25 Exam.md` writeup has this WRONG — don't trust it, use the official PDF.
 
 Give a small hint and let the user attempt first (see Workflow below).
 
@@ -24,8 +25,9 @@ Give a small hint and let the user attempt first (see Workflow below).
 | Exam | Filter questions | State |
 |---|---|---|
 | **F24** | Q2 (AA Butterworth LP), Q4 (IIR bandstop BLT) | ✅ complete + walkthrough; Q1/Q3 deferred math |
-| **F25** | Q2 (IIR highpass BLT), Q4 (filter realization + apply) | Q2 ✅ done & verified; **Q4 = next** |
-| **F23** | Q2 (spectrum + given H(z)), Q4 (FIR HP Fourier + Blackman) | scaffolded only, not started |
+| **F25** | Q2 (IIR highpass BLT), Q4 (filter realization + apply) | ✅ complete + walkthrough; Q1/Q3-3 deferred math |
+| **F23** | Q2 (spectrum + given H(z)), Q4 (FIR HP Fourier + Blackman) | scaffolded only; deferred (pivoted to E25) |
+| **E25** | P2 (IIR DF-II analysis), P3 (FIR HP windowing); P1 = Z-math | **active** — skeleton ready + official solution PDF; P2 DF-II trap fixed |
 
 Walkthrough notes (Obsidian): `Obsidian/Courses/62743 Digital Signal Processing (Reexam)/Notes/` — `F24/F25/F23 exam walkthrough.md`, `DSP MATLAB helpers cheat sheet.md`.
 Exam + solution PDFs: `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/` (gitignored — must exist locally / via Drive sync).

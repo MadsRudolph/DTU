@@ -86,8 +86,10 @@ fprintf('Om_s=%.0f -> %.2f dB\n', Omega_s, 20*log10(abs(H_chk(1))));
 fprintf('Om_p=%.0f -> %.2f dB\n', Omega_p, 20*log10(abs(H_chk(2))));
 
 
-%Den opfylder ligepræcis kravene, på AsdB på 30 dB den er 34.64, og ApdB
-%på 3 dB er 3.01
+%%
+% *Svar 2-2:* Filteret opfylder netop kravene: ved stopbåndskanten er
+% dæmpningen ≈ 34.6 dB (krav ≥ 30 dB), og ved pasbåndskanten ≈ 3.0 dB
+% (krav 3 dB).
 
 
 %% 2-3  Digitalt højpasfilter HHP(z) via BLT
@@ -121,11 +123,11 @@ dB2 = 20*log10(abs(H_chk2));
 fprintf('F = 450 Hz  (stopbånd) -> %.2f dB\n', dB2(1));
 fprintf('F = 1000 Hz (pasbånd)  -> %.2f dB\n', dB2(2));
 
-% Sammenligning med kravspec:
-% BLT bevarer responsen ved de prewarpede kanter, så de digitale tal
-% matcher de analoge fra 2-2 (~-34.6 dB @ 450 Hz, ~-3.0 dB @ 1000 Hz).
-% Krav: >= 30 dB dæmpning i stopbånd (450 Hz), ~3 dB i pasbånd (1000 Hz).
-% -> filteret opfylder kravene.
+%%
+% *Svar 2-4:* BLT bevarer responsen ved de prewarpede kanter, så de
+% digitale tal matcher de analoge fra 2-2 (≈ -34.6 dB @ 450 Hz,
+% ≈ -3.0 dB @ 1000 Hz). Kravene (≥ 30 dB dæmpning i stopbånd @ 450 Hz,
+% ~3 dB i pasbånd @ 1000 Hz) er dermed opfyldt.
 
 
 
@@ -146,28 +148,60 @@ Fs3 = 8000;
 %   feedback gains:     2.0038, -1.4471, 0.3618          (y[n-1..n-3])
 
 Fs4 = 5000;
+Ts4= 1/Fs4;
+
+b=[0.0102, 0.0305, 0.0305, 0.0102];
+a=[1, -2.0038, 1.4471, -0.3618];
 
 %% 4-1  Filterform, FIR/IIR, transferfunktion H(z)
 % - Navngiv den digitale filterform.
 % - FIR eller IIR? Argumentér.
 % - Opskriv H(z) (byg b og a fra blokdiagrammets koefficienter).
 
+Hz = tf(b, a, Ts4, 'Variable','z^-1');
+Hz                                      % vis H(z) i output
 
-
+%%
+% *Svar 4-1:* Det er et *Direct Form I*-filter. Det er et *IIR*-filter,
+% fordi y[n] afhænger af tidligere udgange y[n-1..n-3] (feedback, a ≠ [1])
+% → uendelig impulsrespons. Overføringsfunktionen H(z) ses ovenfor.
 
 %% 4-2  Magnituderespons
 % - Plot |H| i dB som funktion af F = f*Fs i Hz.
 % - Aflæs pasbåndsfrekvensen (3 dB punktet). Stemmer med 400 Hz?
 
+F_vec = frequency_vec(Fs4, 1000);
+[h,f]=freqz(b,a,F_vec,Fs4);
 
+figure
+plot(f, 20*log10(abs(h)))
+title('Magnitude Response')
+xlabel('f·F_s [Hz]');
+ylabel('|H| [dB]');
+xlim([0 1000]);
+yline(-3, '--r', '-3dB');
+xline(400, '--g', '400 Hz');
+grid on
 
+%%
+% *Svar 4-2:* Magnitudeplottet skærer -3 dB-linjen ved ≈ 400 Hz, hvilket
+% stemmer med opgavens krav om 3 dB dæmpning ved 400 Hz.
 
 %% 4-3  Poler og nulpunkter
 % - Find og plot poler/nulpunkter.
 % - Stabil eller ej?
 
+nuller = roots(b)
+poler  = roots(a)
 
+figure
+zplane(b, a)
+title('Pol-/nulpunktsplot')
 
+%%
+% *Svar 4-3:* Alle poler ligger inden for enhedscirklen (største
+% polradius < 1), se de viste poler og pol-/nulpunktsplottet ovenfor
+% → filteret er *stabilt*.
 
 %% 4-4  Sampling af analogt signal
 % xa(t) = A1*cos(2*pi*F1*t) + A2*cos(2*pi*F2*t)
@@ -176,15 +210,39 @@ A2 = 3;   F2 = 1000;
 % - Aliasering ved Fs = 5000 Hz?
 % - Plot det samplede signal, t = 0 .. 0.05 s.
 
+t4 = 0:1/Fs4:0.05;
 
+xa_sampled = A1*cos(2*pi*F1*t4) + A2*cos(2*pi*F2*t4);
 
+figure
+plot(t4, xa_sampled);
+grid on;
+hold off;
+
+%%
+% *Svar 4-4:* Nyquist-frekvensen er Fs/2 = 2500 Hz. Den højeste
+% signalfrekvens F2 = 1000 Hz < 2500 Hz, så der sker *ingen aliasing*
+% ved Fs = 5000 Hz.
 
 %% 4-5  Filtrér det samplede signal
 % - Hvad forventes filteret at gøre ved de to frekvenskomponenter?
 % - Filtrér med filter(b, a, x), plot t = 0 .. 0.05 s.
 % - Kommentér forskellen før/efter.
 
+xa_filt = filter(b, a, xa_sampled);
 
+figure
+plot(t4, xa_sampled, t4, xa_filt, 'LineWidth', 1.2)
+legend('Før (rå)','Efter (filtreret)'); grid on
+xlabel('t [s]'); ylabel('amplitude')
+title('xa[n] før og efter LP-filtrering')
+
+%%
+% *Svar 4-5:* Filteret er et lavpasfilter med 3 dB ved 400 Hz, så vi
+% forventer at 50 Hz-komponenten passerer næsten uændret, mens
+% 1000 Hz-komponenten dæmpes kraftigt. Det ses tydeligt: efter
+% filtrering er den hurtige 1000 Hz-svingning næsten væk, og signalet
+% følger den glatte 50 Hz-komponent.
 
 
 %% --- Scratch / sandbox ---
