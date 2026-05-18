@@ -6,102 +6,167 @@ tags: [DSP, reexam, home]
 aliases:
   - DSP Reexam
 ---
-# 62743 DSP Re-exam -- Hub
+# 62743 DSP Re-exam — Hub
 
 > [!info] Exam
-> **Date:** Wednesday 20 May 2026 -- code **E2-B**
-> **Format:** 4 hours, written, all aid allowed, no internet
-> **Room/time:** `eksamensplan.dtu.dk` publishes ~1 week before (Wed 13 May)
+> **Date:** Wednesday 20 May 2026 — code **E2-B**
+> **Format:** 4 hours, written, all aids allowed, no internet
+> **Room/time:** `eksamensplan.dtu.dk` publishes ~1 week before
+
+> [!important] Expected structure — **3 questions** (re-exam of the E25 sitting)
+> The Dec-2025 (**E25**) exam dropped from 4 questions to **3**, weighted **40 / 30 / 30**. The May-2026 re-exam re-examines that sitting, so plan for **3 questions**:
+>
+> | # | Weight | Topic | Your level |
+> |---|---|---|---|
+> | **Q1** | **~40 %** | LTI / Z-transform: poles-zeros, H(z), ROC, stability, inverse-Z, **min-phase/all-pass** | ⚠️ weak — but biggest |
+> | **Q2** | ~30 % | Filter realisation (block diagram → H(z)) + sampling + **FFT** + filtering | ✅ strong |
+> | **Q3** | ~30 % | **FIR design** (Fourier + window method) | ✅ strong |
+>
+> *(Content didn't shrink — E25 merged the old sampling/FFT/filter-realisation questions into one big Q2 and grew Q1 to 40 %. Treat 3-question as the plan; if it's 4, the archetypes below still cover every part.)*
 
 ---
 
-## How this works
+## 📊 Re-exam (F) vs ordinary (E) — the pattern
 
-1. Open the next exam in the order below.
-2. Open its MATLAB skeleton in `C:\Users\Mads2\DTU\3.semester\DSP\EXAMS\`.
-3. Attempt it (talk to me live -- I walk you through anything you're stuck on, especially the DFT / DTFT / z-transform stuff).
-4. When done, copy `Exam Evals/_template.md` to `Exam Evals/<exam>.md` and we fill it in together.
-5. Tick the box below. Move to the next one.
+**The re-exam is a parallel form of the ordinary exam it follows** — same archetypes, same difficulty, different numbers. Evidence from 6 sittings:
 
-That's the whole system.
+| Sitting           | Type        | #Q               | Weights       | Q1                | Q2                 | Q3                 | Q4                 |
+| ----------------- | ----------- | ---------------- | ------------- | ----------------- | ------------------ | ------------------ | ------------------ |
+| E23 (Dec '23)     | ordinary    | 4                | 25·25·25·25   | LTI table         | IIR BLT (Cheby)    | sampling/ROC       | FIR window         |
+| **F24 (May '24)** | **re-exam** | 4                | 25·25·25·25   | LTI table         | sampling+AA filt   | spectrum+min-phase | IIR BLT            |
+| E24 (Dec '24)     | ordinary    | 4                | 25·30·20·25   | LTI table         | 3 given H(z)       | sampling+min-phase | FIR window         |
+| **F25 (May '25)** | **re-exam** | 4                | 25·25·25·25   | LTI table         | IIR BLT            | sampling+ROC       | filter realisation |
+| **E25 (Dec '25)** | ordinary    | **3**            | **40·30·30**  | LTI+min-phase     | filt-real+samp+FFT | FIR window         | —                  |
+| **F26 (May '26)** | **re-exam** | **3 ⟵ expected** | **~40·30·30** | *(this is yours)* |                    |                    |                    |
 
----
-
-## Exam schedule (in order)
-
-Start with the simpler / older exams. Save the well-annotated "golden" ones for later when you know what to look for. E25 last -- the one you failed, fresh attempt after 4 weeks of drilling.
-
-- [ ] **1. F20** -- first one, we go slow and I explain everything. MATLAB: `EXAMS\F20.m`
-- [ ] **2. F21** -- MATLAB: `EXAMS\F21.m`
-- [ ] **3. F23** -- MATLAB: `EXAMS\F23.m`
-- [ ] **4. E19** -- MATLAB: `EXAMS\E19.m`
-- [ ] **5. E20** -- MATLAB: `EXAMS\E20.m`
-- [ ] **6. E22** -- MATLAB: `EXAMS\E22.m`
-- [ ] **7. E23** (golden -- has MATLAB walkthrough + md notes) -- MATLAB: `EXAMS\E23.mlx`, ref [[E23 Exam]]
-- [ ] **8. F24** (golden -- has md notes) -- MATLAB: `EXAMS\F24.m`, ref [[F24 Exam]]
-- [ ] **9. E24** -- MATLAB: `EXAMS\E24.mlx`
-- [ ] **10. F25** (golden) -- MATLAB: `EXAMS\F25.mlx`, ref [[F25 Exam]]
-- [ ] **11. E25** (the one you failed -- final attempt) -- MATLAB: `EXAMS\E25.mlx`, refs: [[E25 Exam]], `62743 E25 Exam with student solutions.pdf`
-
-Exam PDFs + solution PDFs: `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/`
+**Findings:**
+1. **Same 6-archetype pool, recycled every time:** (A) LTI/Z-transform by hand — *always Q1, every exam*; (B) IIR design via BLT; (C) sampling/aliasing/spectrum; (D) FIR Fourier+window; (E) filter realisation from block diagram; (F) min-phase/all-pass (rides on A or C).
+2. **The re-exam tracks its paired ordinary in count & structure.** E23→F24 and E24→F25 are both 4-question parallel forms with the same topic set, only renumbered/reweighted.
+3. **The only real change is packaging.** Through F25: 4 questions. **E25 consolidated to 3 (40/30/30)** — no content cut, just merged C+E+FFT into Q2 and inflated archetype A to 40 %.
+4. **Difficulty is constant** — re-exam is *not* harder; it's a re-shuffle of the same templates.
+5. **Conclusion:** since the re-exam mirrors its paired ordinary, and E25 (the sitting F26 re-examines) was **3 × 40/30/30**, plan firmly for **3 questions, Q1 ≈ 40 %**. Practising E25 ≈ practising F26.
 
 ---
 
-## Canonical flow notes (built as we work through exams)
+## ▶️ IN-EXAM TRIAGE — "what kind of problem is this?"
 
-Dedicated deep-dive reference notes for recurring exam patterns. Revisit any of these mid-exam when the pattern comes up.
+Read the question, match the cue, click the flow. Each flow is a top-to-bottom recipe with MATLAB + the traps.
 
-- [[LTI z-transform flow]] -- diff eq to H(z) to poles/zeros/stability to h[n] to y[n] to energy (every exam has this)
-- *(more as we hit new patterns -- FIR design, FFT/DFT, IIR BLT, multirate)*
+### 🟧 Looks like Q1 — LTI / Z-transform  *(by-hand, ~40 %)*
+
+**Cue:** a difference equation **or** "poler/nulpunkter er…" + `H(1)=1`; asks H(z), ROC, stable?, h[n], y[n], or "minimum fase / all-pass".
+
+→ **[[LTI z-transform flow]]** — diff eq → H(z) → poles/zeros/stability → h[n] → y[n] → energy
+→ **[[Partial fraction practice]]** — the inverse-Z step (your documented weak spot)
+
+> [!warning] E25 added two Q1 twists not yet in the flow note — know these cold:
+> **(a) Poles/zeros given, reconstruct H(z):** build $H(z)=G\dfrac{\prod(1-z_k z^{-1})}{\prod(1-p_k z^{-1})}$, then fix the gain `G` from the stated `H(1)=1` (plug z=1, solve for G).
+> **(b) Min-phase / all-pass split** $H(z)=H_{mp}(z)\,H_{ap}(z)$ — course procedure for a **zero outside** the unit circle at $z_0$ ($|z_0|>1$):
+> 1. In $H_{mp}$: **replace** the bad factor $(1-z_0 z^{-1})$ with its reflection $(1-\tfrac{1}{z_0^{*}}z^{-1})$ (zero moved *inside*). Poles unchanged.
+> 2. Build the all-pass section $H_{ap}(z)=G\,\dfrac{1-z_0 z^{-1}}{1-\tfrac{1}{z_0^{*}}z^{-1}}$ (standard 1st-order all-pass form $\tfrac{z^{-1}-a^{*}}{1-a z^{-1}}$).
+> 3. Fix gain `G` from $H_{ap}(1)=1$ → then $H_{mp}$ carries the matching $1/G$, so $H_{mp}H_{ap}=H$ exactly.
+> 4. Check: `freqz(Hap)` → **flat magnitude** (only phase varies). That's the plot the exam asks for.
+>
+> Appears in **E24 Q3 and E25 Q1** — recurring, drill it.
+
+### 🟦 Looks like Q2 — filter analysis + sampling + FFT  *(MATLAB, ~30 %)*
+
+**Cue:** a **block diagram** (Direct Form I/II, gains on z⁻¹ taps) or given H(z); then "samples med Fs…", "frekvensspektrum (FFT)", "filtrer signalet med `filter`".
+
+→ **[[Filter analysis and FFT flow]]** — block diagram → b,a → freqz/zplane → sampling → **FFT scaling** → filter & read dB
+
+### 🟩 Looks like Q3 — FIR design  *(MATLAB, ~30 %)*
+
+**Cue:** "Filter design metode: **Fourier transform**", gives Fpass/Fstop/As/Fs, asks Fc, ωc, window, Ntaps, truncated causal h[n].
+
+→ **[[FIR window design flow]]** — Fc → ωc → window-from-As table → Ntaps → truncated h[n] → freqz → phase
+
+### Other patterns (could appear as a sub-part)
+
+- **IIR design via BLT** (butterworth, `lp2hp`/`bilinear`): see [[F25 exam walkthrough]] Q2, [[F24 exam walkthrough]] Q4 — prewarp → prototype (appendix) → `lp2xx` → `bilinear` → `freqz`.
+- **Sampling spectrum sketch / aliasing only:** see [[Filter analysis and FFT flow]] §5 and [[F25 exam walkthrough]] Q3.
+- **Multirate / under-sampling:** [[Multirate Digital Signal Processing]].
 
 ---
 
-## Good-to-know references
+## ⏱️ Strategy for the 3-question format
 
-Pull these up when a topic comes up in an exam and we need to fill a gap.
+> [!important] "Filter-first" still holds — but Q1 is 40 %, so it's no longer optional.
+> Q2+Q3 (~60 %) are your strong MATLAB areas. Q1 (~40 %) is the weak by-hand area **and the single biggest block**.
 
-**The master reference:**
-- [[EXAM PREP]] -- topic map, heatmap, common error patterns
-- [[DSP-Bible]] -- full reference, all topics
+**Order of attack:**
+1. **Q3 first** (~30 %, strong, most formulaic) — bank it cleanly with [[FIR window design flow]].
+2. **Q2** (~30 %, strong) — [[Filter analysis and FFT flow]]; the only risk is FFT scaling, which the flow nails.
+3. **Q1** (~40 %, weak) — even if the deep partial-fraction / min-phase parts are hard, the **early sub-parts are free MATLAB points**: pole-zero plot (`zplane`), write H(z), ROC, stability. *Never* leave those blank — they're ~half of Q1's marks and pure recipe.
 
-**Condensed cheat sheets:**
-- [[Exam_Cheat_Sheet_OPTIMIZED]]
-- [[Exam_Quick_Reference_OPTIMIZED]]
-
-**Formula sheets by topic:**
-- [[Week 1-4]] -- DT signals, LTI, DTFT, z-transform
-- [[Week 5-7]] -- DFT, sampling
-- [[Week 8-11]] -- filter structures, IIR + FIR design
-- [[Week 12-13]] -- multirate, under-sampling
-
-**Topic guides (weak areas per your self-assessment -- DFT side):**
-- [[FIR_Windowing_Complete_Guide]]
-- [[Multirate Digital Signal Processing]]
-
-**Weekly exercise notes (already worked through once):**
-- [[Uge 4 Tirsdag]] -- LTI + H(z)
-- [[Uge 10 - Tirsdag]], [[Uge 10 - Torsdag]] -- IIR BLT
-- [[Uge 11 - Tirsdag]], [[Uge 11 - Torsdag]] -- FIR design
-- [[Uge 12 - Tirsdag]], [[Uge 12 - Torsdag]] -- multirate
+Rough time budget (4 h): Q3 ≈ 60 min · Q2 ≈ 70 min · Q1 ≈ 80 min · 30 min review/publish.
 
 ---
 
-## Known weak spots (from failed E25)
+## 🖨️ Publishing your answer (the new way)
 
-Not a study list -- just flags so I know what to explain harder when they come up in an exam problem:
+The submission must be **kommenteret kode** and the examiners run your `.m`. Use the converter for a clean PDF — but the *style of the code itself* is what scores.
 
-1. Partial fractions under time pressure
+**Result-presentation convention** (already applied to `F25_new.m`; use it for every exam):
+
+| Content | How |
+|---|---|
+| Conclusions / "FIR vs IIR fordi…" / "opfylder kravene" | a **bare `%%`** then `% *Svar X-Y:* …` → renders as prose **outside** the code box, no TOC clutter, works in raw MATLAB too |
+| A computed value that *is* the answer | **no semicolon** (`poler = roots(a)`) or a value-bearing `fprintf('%.2f dB', dB)` |
+| A static sentence in `fprintf('...')` | ❌ never — duplicates code line + echoed output |
+
+**Make the PDF** — from `C:\Users\Mads2\DTU\3.semester\DSP\` :
+
+```
+pretty F25_new.m                ← MATLAB publish + styled PDF (one command)
+pretty F25_new.m --open         ← also open it when done
+pretty F25_new.m --no-matlab    ← just re-style (skip the ~30 s MATLAB run)
+```
+
+Output → `EXAMS\html\F25_new_pretty.pdf`. It forces white figures, real syntax highlighting, collapses RCOND warning spam, strips internal scaffolding, and renders each `Svar` block as a green ✓ callout. Defaults to *Mads Rudolph / s246132* (`--name/--studentid` to change). If you have the PDF open in a viewer it auto-writes a timestamped copy instead of failing.
+
+> [!tip] During the exam: write answers as `%%` `Svar` blocks **as you go**, then run `pretty <exam>.m` once at the end. No rework.
+
+---
+
+## 📚 Reference shelf (pull up mid-exam to fill a gap)
+
+**Master refs:** [[EXAM PREP]] · [[DSP-Bible]]
+**Cheat sheets:** [[Exam_Cheat_Sheet_OPTIMIZED]] · [[Exam_Quick_Reference_OPTIMIZED]] · [[DSP MATLAB helpers cheat sheet]]
+**Formula sheets:** [[Week 1-4]] (DT/LTI/DTFT/z) · [[Week 5-7]] (DFT/sampling) · [[Week 8-11]] (filter structures, IIR+FIR) · [[Week 12-13]] (multirate)
+**Topic depth:** [[FIR_Windowing_Complete_Guide]] · [[Multirate Digital Signal Processing]]
+**Worked exams:** [[F20 exam walkthrough]] · [[F23 exam walkthrough]] · [[F24 exam walkthrough]] · [[F25 exam walkthrough]]
+
+Exam + solution PDFs: `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/` (E25 set: `Archive/3rd Semester/DSP/62743 E25 Exam v3.pdf`).
+
+---
+
+## 🎯 Known weak spots (from failed E25)
+
+Flags so I explain these harder when they show up — all live in **Q1**:
+1. Partial fractions under time pressure → [[Partial fraction practice]]
 2. Fast DTFT via properties (not from definition)
-3. BLT pre-warping details (Hz vs rad/s)
-4. ROC classification
+3. ROC classification (causal ⇒ outside outermost pole)
+4. Min-phase / all-pass decomposition  *(E24 Q3, E25 Q1 — drill this)*
 5. FIR linear-phase indexing (K = M/2)
 6. Time management
 
-Self-assessed: **filter design OK, DFT / DTFT / z-transform weak.**
+Self-assessed: **filter design (Q2/Q3) OK, Z-transform/DTFT (Q1) weak.**
+
+---
+
+## Pre-exam practice schedule
+
+Older/simpler first; golden annotated ones last. Tick and move on; fill `Exam Evals/_template.md → Exam Evals/<exam>.md` after each.
+
+- [ ] F20 · [ ] F21 · [ ] F23 · [ ] E19 · [ ] E20 · [ ] E22
+- [ ] E23 (golden, `EXAMS\E23.mlx`, [[E23 Exam]]) · [ ] F24 (golden, `EXAMS\F24.m`, [[F24 Exam]])
+- [ ] E24 (`EXAMS\E24.mlx`) · [ ] F25 (golden, `EXAMS\F25.mlx`, [[F25 Exam]])
+- [ ] **E25** — the one you failed, final attempt (`EXAMS\E25.mlx`, [[E25 Exam]]) — **this is the format the re-exam mirrors; do it last and full-speed**
 
 ---
 
 ## MATLAB setup
 - R2025a + Signal Processing Toolbox confirmed
-- Helpers folder on path: `C:\Users\Mads2\DTU\3.semester\DSP\Helpers\`
-- Optional (install via Add-Ons if wanted): DSP System, Communications, Symbolic Math
+- Helpers on path: `C:\Users\Mads2\DTU\3.semester\DSP\Helpers\`
+- Publisher: `C:\Users\Mads2\DTU\3.semester\DSP\pretty.bat`
