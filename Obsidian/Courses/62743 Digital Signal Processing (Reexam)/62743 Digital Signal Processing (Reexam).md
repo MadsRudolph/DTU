@@ -24,6 +24,26 @@ aliases:
 > 6. **Order of attack:** Q3 (~60 min) → Q2 (~70 min) → Q1 (~80 min) → 30 min review + `pretty F26.m` → hand in **PDF + .m**.
 > 7. **Q1 trap:** a sub-part saying *"uden brug af MATLAB/Maple"* → write the analytic setup by hand (table pair, PFD ansatz) even if unfinished; a residuez-only answer there scores **0**.
 
+> [!important]+ 📄 PUBLISH FOR SUBMISSION — copy-paste in PowerShell
+> Save `F26.m` first. Then from `(base) PS C:\Users\Mads2>` (any directory works — it auto-finds the file in `EXAMS\`):
+> ```powershell
+> & "C:\Users\Mads2\DTU\3.semester\DSP\pretty.bat" F26.m --open
+> ```
+> **Submit this file:** `C:\Users\Mads2\DTU\3.semester\DSP\EXAMS\html\F26_pretty.pdf` (+ the `.m`).
+> Name/ID default to **Mads Rudolph / s246132** (baked in). `--open` opens the PDF to eyeball before handing in.
+>
+> Faster re-render after a tiny styling tweak (skips MATLAB):
+> ```powershell
+> & "C:\Users\Mads2\DTU\3.semester\DSP\pretty.bat" F26.m --no-matlab --open
+> ```
+> If the PDF is locked (left open in a viewer) it auto-saves a **timestamped** copy instead of failing — grab the newest.
+>
+> ⚠️ **Test this tonight** so the toolchain is proven before exam pressure:
+> ```powershell
+> & "C:\Users\Mads2\DTU\3.semester\DSP\pretty.bat" E25_new.m --open
+> ```
+> Clean `E25_new_pretty.pdf` ⇒ you're good for tomorrow.
+
 > [!important] Expected structure — **3 questions** (re-exam of the E25 sitting)
 > The Dec-2025 (**E25**) exam dropped from 4 questions to **3**, weighted **40 / 30 / 30**. The May-2026 re-exam re-examines that sitting, so plan for **3 questions**:
 >
