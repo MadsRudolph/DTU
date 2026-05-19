@@ -65,14 +65,28 @@ Ideal response, then shift by K so it's causal:
 > [!danger] MATLAB `sinc` is normalised: `sinc(x) = sin(πx)/(πx)`.
 > So `2*fc*sinc(2*fc*(n-K))` — do **not** add an extra π. Index `n = 0:Ntaps-1`, centre `K`.
 
-Then **multiply by the window**: `h = hd .* w(:)'` where `w = hanning(Ntaps)` etc. The **`FIR_fourier`** / **`FIR_window`** helpers do steps 5+6 in one call — use them, then `stem(0:Ntaps-1, h)`.
+### 6 — Multiply by the window (THE step that's easy to skip)
 
-### 6 — Transfer function & verify
+> [!danger] `FIR_fourier` does **NOT** apply a window — it returns only the *ideal, truncated* (= rectangular) response. For **any non-rectangular window you must explicitly multiply**:
+> ```matlab
+> hd = FIR_fourier("HP", n, wc);    % ideel/trunkeret (= rektangulær)
+> w  = FIR_window("hanning", M);    % "hamming" / "blackman"
+> h  = hd .* w;                     % <-- DENNE linje glemmes nemt
+> ```
+> **Rectangular is the trap:** its weights are all 1, so there is *no* multiply step — `h = FIR_fourier(...)` alone is the complete design. If an earlier sub-part used a rectangular window (e.g. E25 3-2, As = 20 dB) you write zero window code, which trains "FIR_fourier, done." Then the redesign sub-part bumps As (E25 3-5: 40 dB → Hanning) and the `.* FIR_window` line gets skipped out of habit. A rectangular window's stopband **envelope is stuck at ~21 dB no matter how many taps** — adding taps only narrows the transition, the worst-case stopband never improves past ~21 dB.
+>
+> ⚠️ **Red-herring numeric coincidence (E25):** the un-windowed 31-tap rect filter happened to read ≈ −38.6 dB *at exactly Fstop = 1250 Hz* — because 1250 Hz lands near a ripple null. The **correctly Hann-windowed** design reads ≈ **−39.07 dB at 1250 Hz too** (first sidelobe ≈ −44 dB). So the single datatip number barely moves — the bug does **not** announce itself numerically. You catch it by *the code not matching the claimed window*, not by the dB value. Always apply the window even if the one read looks "close enough."
+>
+> **Expected E25 3-6 conclusion (verified vs official PDF):** Hann design *meets* the 40 dB stopband requirement (sidelobes ≈ −44 dB), with the caveat that *exactly at the band edge* Fstop = 1250 Hz the attenuation is ≈ −39 dB (just shy of 40). Trade-off vs the 20 dB rectangular design: a **much wider transition band / far more taps (9 → 31)** for the stronger attenuation.
+
+Then `stem(0:Ntaps-1, h)`.
+
+### 7 — Transfer function & verify
 - `H(z)`: numerator = `h`, denominator = `1` (FIR → all zeros, no poles → always stable).
 - `[H,F] = freqz(h, 1, F_vec, Fs);` plot `20*log10(abs(H))` vs F in Hz.
 - Mark **Fc, Fpass, Fstop, As** with `xline`/`yline`. Comment: does it clear As at Fstop and ~0 dB at Fpass?
 
-### 7 — Phase
+### 8 — Phase
 - `plot(F, unwrap(angle(H)))` → **linear** in the passband (straight line).
 - Why: symmetric truncated `h` (type-I/II linear phase) → constant group delay = K samples. Always say *"linear phase, fordi h[n] er symmetrisk om n = K"*.
 
@@ -91,8 +105,11 @@ dF = abs(Fpass - Fstop)/Fs;      % normaliseret transition width
 [K, M] = MK_values(...);         % -> Ntaps = M+1
 n  = 0:M;
 
-% trunkeret + forsinket impulsrespons (HP-eksempel) + vindue
-h  = FIR_fourier(...);           % eller FIR_window(...) — se cheat sheet
+% trunkeret impulsrespons -- FIR_fourier giver KUN den ideelle (= rektangulære) del
+hd = FIR_fourier("HP", n, wc);             % LP/HP/BP/BS
+% MULTIPLICÉR med vinduet -- glemmes nemt! (rektangulær: spring over, hd er færdig)
+w  = FIR_window("hanning", M);             % "hamming" / "blackman"
+h  = hd .* w;                              % <-- den linje der dumpede E25 3-5
 
 F_vec = frequency_vec(Fs, Fs/2);
 [H,F] = freqz(h, 1, F_vec, Fs);
@@ -116,9 +133,10 @@ yline(-AsdB,'--r','As'); title('FIR magnituderespons')
 
 1. **Wrong Fc** — it's the *midpoint* of Fpass/Fstop, not Fpass.
 2. **`sinc` double-π** — MATLAB `sinc` already has π baked in.
-3. **Window too weak** — Rectangular only gives ~21 dB; if As > 21 you *must* go Hanning+.
-4. **Forgot the K-shift** — un-delayed `h` is non-causal; centre at K = M/2.
-5. **Ntaps vs order** — `Ntaps = M + 1`. The exam sometimes states Ntaps, sometimes M.
+3. **Forgot the `.* FIR_window` multiply** *(this dumped E25 3-5 — see step 6 danger box)*. `FIR_fourier` ≠ windowed filter; it's the ideal/rectangular response only. Rectangular sub-parts need no window code, so the redesign-with-higher-As sub-part skips it out of habit → filter stuck at ~21 dB, fails the dB spec by a hair, wrong "doesn't meet spec" conclusion. **Any non-rectangular window ⇒ explicit `h = hd .* FIR_window(...)`.**
+4. **Window too weak** — Rectangular only gives ~21 dB; if As > 21 you *must* go Hanning+.
+5. **Forgot the K-shift** — un-delayed `h` is non-causal; centre at K = M/2.
+6. **Ntaps vs order** — `Ntaps = M + 1`. The exam sometimes states Ntaps, sometimes M.
 
 ---
 

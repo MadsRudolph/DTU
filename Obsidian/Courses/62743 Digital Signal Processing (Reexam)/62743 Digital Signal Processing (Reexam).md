@@ -13,6 +13,17 @@ aliases:
 > **Format:** 4 hours, written, all aids allowed, no internet
 > **Room/time:** `eksamensplan.dtu.dk` publishes ~1 week before
 
+> [!todo]+ ▶️ EXAM-DAY CHECKLIST — do this the moment you open the computer (~5 min)
+> 1. **`git pull`** in `C:\Users\Mads2\DTU` — pulls this hub, the cookbook, F26.m, every walkthrough.
+> 2. **Open the exam skeleton:** `3.semester\DSP\EXAMS\F26.m` — it has the same checklist at the top + 3-question scaffold ready to fill.
+> 3. **Open all previous solutions in the MATLAB editor** (as reference tabs), from `3.semester\DSP\EXAMS\`:
+>    `E25_new.m` (the closest to F26 — full P1+P2+P3, facit-grade) · `F24.m` · `F25_new.m` · `F23.m` · `F20.m` · `E19.m` · `E20.m` · `E22.m` · `F21.m`
+> 4. **Toolbox test** — paste into MATLAB, must not error:
+>    `ver` (must list **Signal Processing Toolbox**) · `which residuez tf2zpk zplane impz freqz` · (Symbolic listed? → `syms`/`iztrans`/`ztrans` also usable)
+> 5. **Read the exam.** For each problem, find its type in the **[chart below](#📊-problem--which-exam-set-has-a-worked-example)** → open the linked flow/cookbook + the named walkthrough.
+> 6. **Order of attack:** Q3 (~60 min) → Q2 (~70 min) → Q1 (~80 min) → 30 min review + `pretty F26.m` → hand in **PDF + .m**.
+> 7. **Q1 trap:** a sub-part saying *"uden brug af MATLAB/Maple"* → write the analytic setup by hand (table pair, PFD ansatz) even if unfinished; a residuez-only answer there scores **0**.
+
 > [!important] Expected structure — **3 questions** (re-exam of the E25 sitting)
 > The Dec-2025 (**E25**) exam dropped from 4 questions to **3**, weighted **40 / 30 / 30**. The May-2026 re-exam re-examines that sitting, so plan for **3 questions**:
 >
@@ -58,6 +69,7 @@ Read the question, match the cue, click the flow. Each flow is a top-to-bottom r
 
 → **[[LTI z-transform flow]]** — diff eq → H(z) → poles/zeros/stability → h[n] → y[n] → energy
 → **[[Partial fraction practice]]** — the inverse-Z step (your documented weak spot)
+→ 🆘 **[[Q1 via MATLAB cookbook]]** — **can't do the math by hand? every Q1 sub-type → exact MATLAB commands + Danish `Svar`, with a panic protocol. Go here if stuck.**
 
 > [!warning] E25 added two Q1 twists not yet in the flow note — know these cold:
 > **(a) Poles/zeros given, reconstruct H(z):** build $H(z)=G\dfrac{\prod(1-z_k z^{-1})}{\prod(1-p_k z^{-1})}$, then fix the gain `G` from the stated `H(1)=1` (plug z=1, solve for G).
@@ -86,6 +98,33 @@ Read the question, match the cue, click the flow. Each flow is a top-to-bottom r
 - **IIR design via BLT** (butterworth, `lp2hp`/`bilinear`): see [[F25 exam walkthrough]] Q2, [[F24 exam walkthrough]] Q4 — prewarp → prototype (appendix) → `lp2xx` → `bilinear` → `freqz`.
 - **Sampling spectrum sketch / aliasing only:** see [[Filter analysis and FFT flow]] §5 and [[F25 exam walkthrough]] Q3.
 - **Multirate / under-sampling:** [[Multirate Digital Signal Processing]].
+
+---
+
+## 📊 Problem → which exam set has a worked example
+
+Match what's in front of you to a row → open that **walkthrough** for a fully solved twin, and the **flow/cookbook** for the recipe.
+
+| If the problem is… | Worked example (open this) | Recipe |
+|---|---|---|
+| **Q1** diff eq → H(z), poles/zeros, h[n], y[n] | [[F20 exam walkthrough]] P1 · [[F23 exam walkthrough]] P1 | [[LTI z-transform flow]] · [[Q1 via MATLAB cookbook]] §1 |
+| **Q1** poles/zeros given **+ H(1)=1** → H(z), ROC | [[E25 exam walkthrough]] §P1 (1-1…1-3) | [[Q1 via MATLAB cookbook]] §2 |
+| **Q1** two input/output pairs → h[n] (linearity) | [[F24 exam walkthrough]] P1 | [[Q1 via MATLAB cookbook]] §1B |
+| **Q1** given H(z) factored → ROC/h[n]/y[n]/realisation | [[F20 exam walkthrough]] P3 | [[Q1 via MATLAB cookbook]] §6/§10 |
+| **Q1** Z-transform of a signal (formula given) | [[E25 exam walkthrough]] 1-4 | [[Q1 via MATLAB cookbook]] §5 |
+| **Q1** inverse-Z / partial fractions → h[n], y[n] | [[F20 exam walkthrough]] P1-3/P1-4 | [[Q1 via MATLAB cookbook]] §6 · [[Partial fraction practice]] |
+| **Q1** min-phase / all-pass decomposition ⭐ | [[F24 exam walkthrough]] P3-4 · [[E25 exam walkthrough]] 1-7 | [[Q1 via MATLAB cookbook]] §8 |
+| **Q1** cascade / parallel realisation | [[F20 exam walkthrough]] P3-5 | [[Q1 via MATLAB cookbook]] §10 |
+| **Q2** filter from block diagram (DF-I/II) → H(z) | [[E25 exam walkthrough]] §P2 · [[F25 exam walkthrough]] Q4 | [[Filter analysis and FFT flow]] |
+| **Q2** sampling + aliasing + **FFT spectrum** scaling | [[F20 exam walkthrough]] P2 · [[E25 exam walkthrough]] 2-3/2-4 | [[Filter analysis and FFT flow]] §5 |
+| **Q2** product/AM signal — hidden sum/diff frequency | [[F20 exam walkthrough]] P2-3 | [[Filter analysis and FFT flow]] |
+| **Q2** filter a signal, read dB before/after | [[E25 exam walkthrough]] 2-5 · [[F25 exam walkthrough]] Q4 | [[Filter analysis and FFT flow]] |
+| **Q3** FIR window design (Fourier method) | [[E25 exam walkthrough]] §P3 · [[F23 exam walkthrough]] Q4 | [[FIR window design flow]] |
+| sub-part: **IIR via BLT** (Butterworth, lp2xx+bilinear) | [[F24 exam walkthrough]] Q4 · [[F25 exam walkthrough]] Q2 | [[F24 exam walkthrough]] §IIR-BLT playbook |
+| sub-part: analog AA filter (`lp2lp`+`freqs`) | [[F24 exam walkthrough]] Q2 | same playbook |
+| sub-part: sampling theorem in Ω (angular) | [[F24 exam walkthrough]] P3-1/P3-2 | [[Filter analysis and FFT flow]] §5 |
+
+> [!tip] No exact twin? Q1 is **always** the LTI/Z-transform archetype, just a different entry point — go straight to [[Q1 via MATLAB cookbook]] (it has a 🟥 panic protocol that banks partial credit for *any* Q1).
 
 ---
 

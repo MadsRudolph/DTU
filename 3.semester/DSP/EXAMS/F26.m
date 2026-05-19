@@ -1,4 +1,22 @@
-%% 62743 DSP -- F26 Reexam -- Working Script
+%% ░░░░░ 62743 DSP -- F26 REEKSAMEN -- EKSAMENSDAG: GØR DETTE FØRST ░░░░░
+% =====================================================================
+%  CHECKLISTE NÅR DU ÅBNER COMPUTEREN (5 min, før du læser opgaven):
+%
+%  [ ] 1. git pull            (i C:\Users\Mads2\DTU  -- henter alt dette)
+%  [ ] 2. Åbn Obsidian-hub:   "62743 Digital Signal Processing (Reexam)"
+%         -> den har navigations-chart: "min opgave ligner X -> gå hertil"
+%  [ ] 3. Åbn ALLE gamle løsninger i MATLAB-editoren som opslag:
+%         E25_new.m (FACIT-agtig, fuld P1+P2+P3) , F24.m , F25_new.m ,
+%         F23.m , F20.m , E19/E20/E22/F21.m   (mappe: 3.semester\DSP\EXAMS)
+%  [ ] 4. Kør disse 4 linjer (toolbox-tjek) -- skal IKKE fejle:
+%           ver                 % "Signal Processing Toolbox" SKAL stå
+%           which residuez tf2zpk zplane impz freqz   % alle skal findes
+%           % (Symbolic Math Toolbox? -> så virker syms/iztrans/ztrans også)
+%  [ ] 5. Læs opgaven. Find opgavetype i hub-chartet -> åbn det flow/cookbook.
+%  [ ] 6. REKKEFØLGE: Opgave 3 (60m) -> Opgave 2 (70m) -> Opgave 1 (80m)
+%         -> 30 min: gennemse + 'pretty F26.m' -> aflever PDF + .m
+% =====================================================================
+%
 % Date attempted:
 % Time target:    4 timer hard cap  (Q3 ~60 min, Q2 ~70 min, Q1 ~80 min, 30 min review+publish)
 % Self-score:     / 100
@@ -10,7 +28,19 @@
 %
 % Arbejdsgang: skriv svar som "%%"-Svar-blokke MENS du regner.
 % Til sidst: i mappen 3.semester\DSP  ->  pretty F26.m   (giver pæn PDF).
-% Flows i Obsidian-hub: [[LTI z-transform flow]] / [[Filter analysis and FFT flow]] / [[FIR window design flow]].
+%
+% NAVIGATION (Obsidian-hub har det fulde chart):
+%   Opgave 1  -> [[Q1 via MATLAB cookbook]]  (kan du ikke regne i hånden:
+%                hver Q1-type -> præcise MATLAB-kommandoer + dansk Svar.
+%                Har en PANIK-protokol nederst.)  + [[LTI z-transform flow]]
+%   Opgave 2  -> [[Filter analysis and FFT flow]]
+%   Opgave 3  -> [[FIR window design flow]]
+%   Facit-eksempler: [[E25 exam walkthrough]] (mest lig F26) m.fl.
+%
+% ⚠️ Q1-FÆLDE: hvis et delspørgsmål siger "UDEN brug af MATLAB/Maple"
+%    -> så scorer en ren residuez-dump 0. Skriv den analytiske OPSTILLING
+%    i hånden (tabelpar, partialbrøk-ansats, cover-up) selv hvis du ikke
+%    kan regne den færdig. Ellers brug cookbooken frit.
 
 clear; clc; close all;
 addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
@@ -22,10 +52,17 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 % Genkend: differensligning  ELLER  "poler/nulpunkter er ..." + H(1)=1
 %          ELLER  input/output-tabel.  Spørger H(z), ROC, stabil?, h[n], y[n], min-fase.
 %
-% --- Indtast opgavens data her ---
-% Variant A (differensligning):  b = [...]; a = [1, ...];
-% Variant B (poler/nulpunkter):  zer = [...]; pol = [...]; Hz1 = 1;  % H(1)=1
-% Variant C (I/O-tabel):         x1=[...]; y1=[...];  -> find h[n] ved aftrapning
+% --- Indtast opgavens data her (vælg den variant opgaven giver) ---
+% Variant A (differensligning):
+%   flyt alle y-led til venstre. y[n]=0.5y[n-1]+x[n] -> a=[1 -0.5], b=[1].
+%   b = [...]; a = [1, ...];
+% Variant B (poler/nulpunkter + H(1)=1):
+%   b0=real(poly(zer)); a0=real(poly(pol));
+%   G = Hval*polyval(a0,1)/polyval(b0,1);   % her Hval=1 (H(1)=1)
+%   b = G*b0;  a = a0;
+% Variant C (I/O-tabel, system er LTI -> INGEN z-transform):
+%   find c1,c2 så c1*x1+c2*x2 = delta[n];  så er h = c1*y1 + c2*y2.
+%   (fx x1-x2 = 2*delta -> h = 0.5*(y1 - y2);  stem(h))
 
 b = [];                 % tæller (z^-1 form)   <-- UDFYLD
 a = [1];                % nævner (z^-1 form)   <-- UDFYLD

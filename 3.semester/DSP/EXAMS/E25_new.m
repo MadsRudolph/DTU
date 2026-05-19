@@ -29,10 +29,24 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 % - Skitsér/plot pol-/nulpunktsdiagram i det komplekse z-plan.
 % - Marker enhedscirklen.
 
+z=[-2 ((1+i)/2) ((1-i)/2)];
+p= [0 1/3 2/3];
+
+figure;
+zplane(z.', p.');                 % kolonnevektorer -> ægte nul-/polplacering
+title('Pol-/nulpunktsdiagram for H(z)')
+
+% Polynomieform (genbruges i 1-2..1-7). poly() -> koeff. i faldende z-potens.
+b0 = real(poly(z));               % tæller, monisk (uden forstærkning endnu)
+a0 = real(poly(p));               % nævner
 
 
 %%
-% *Svar 1-1:* TODO
+% *Svar 1-1:* 3 nulpunkter: z=-2 (UDEN for enhedscirklen) samt det
+% komplekst konjugerede par (1±i)/2 (|z|=0.707, inden for cirklen).
+% 3 poler: z=0, 1/3, 2/3 -- alle inden for enhedscirklen. At nulpunktet
+% z=-2 ligger uden for cirklen betyder, at systemet IKKE er minimumfase
+% (det udnyttes i 1-7).
 
 %% 1-2  Overføringsfunktion H(z) og ROC
 % - Opskriv H(z) på faktoriseret form ud fra poler/nulpunkter.
@@ -41,8 +55,21 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 
 
 
+
+% H(z) = G * N(z)/D(z). Bestem G så H(1) = 1  (ved z=1 er z^-1=1):
+G = polyval(a0,1) / polyval(b0,1)        % forstærkning -> 4/27 ≈ 0.1481
+b = G*b0;                                % endelige tællerkoefficienter
+a = a0;                                  % nævnerkoefficienter
+
+Hz1 = tf(b, a, 1, 'Variable','z^-1')     % H(z) på polynomieform (z^-1)
+ROC_12 = max(abs(roots(a)))              % kausal -> ROC: |z| > 2/3
+
 %%
-% *Svar 1-2:* TODO
+% *Svar 1-2:* H(z) = G·(1+2z⁻¹)(1−½(1+i)z⁻¹)(1−½(1−i)z⁻¹) /
+% [(1−⅓z⁻¹)(1−⅔z⁻¹)], hvor G = 4/27 er bestemt af betingelsen H(1)=1.
+% Polynomieform er vist som Hz1 ovenfor (b = G·[1 1 -1.5 1],
+% a = [1 -1 2/9 0]). Systemet er kausalt, så ROC ligger uden for den
+% yderste pol: |z| > 2/3.
 
 %% 1-3  Stabilitetsanalyse
 % - Er systemet stabilt? Argumentér ud fra polernes placering ift.
@@ -50,8 +77,13 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 
 
 
+poler = roots(a)
+stabil = all(abs(poler) < 1)             % logisk 1 = stabilt
+
 %%
-% *Svar 1-3:* TODO
+% *Svar 1-3:* Polerne er z=0, 1/3 og 2/3; alle har |p| < 1 og ligger
+% dermed inden for enhedscirklen. Systemet er kausalt, og ROC (|z|>2/3)
+% indeholder enhedscirklen -> systemet er STABILT (stabil = 1).
 
 %% 1-4  Z-transformation af signal
 % Signal:  x1[n] = (sqrt(2)/2)^n * sin(pi/4 * n) * u[n]
@@ -63,24 +95,53 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 
 
 
+a_x  = sqrt(2)/2;                        % a i den givne formel
+w0   = pi/4;                             % w0 i den givne formel
+numX = [0, a_x*sin(w0)];                 % tæller:  a·sin(w0)·z⁻¹
+denX = [1, -2*a_x*cos(w0), a_x^2];       % nævner:  1 − 2a·cos(w0)z⁻¹ + a²z⁻²
+X1z  = tf(numX, denX, 1, 'Variable','z^-1')
+ROC_x = a_x                              % ROC: |z| > a ≈ 0.707
+
 %%
-% *Svar 1-4:* TODO
+% *Svar 1-4:* x1[n] har a = √2/2 og w0 = π/4. Indsat i den udleverede
+% formel fås X1(z) = 0.5·z⁻¹ / (1 − z⁻¹ + 0.5·z⁻²), med ROC: |z| > √2/2
+% ≈ 0.707.
 
 %% 1-5  Udgangens Z-transformation Y1(z)
 % - Y1(z) = H(z) * X1(z).  Opskriv produktet (og reducér hvis muligt).
 
 
 
+numY = conv(b, numX);                    % produkt af tællere
+denY = conv(a, denX);                    % produkt af nævnere
+Y1z  = minreal(tf(numY, denY, 1, 'Variable','z^-1'))   % forkort fælles faktorer
+
 %%
-% *Svar 1-5:* TODO
+% *Svar 1-5:* Y1(z) = H(z)·X1(z). X1's nævner (1−z⁻¹+½z⁻²) er præcis
+% H's konjugerede nulpunktspar, så disse udgår (minreal forkorter dem).
+% Resultat: Y1(z) = (2/27)·z⁻¹(1+2z⁻¹) / [(1−⅓z⁻¹)(1−⅔z⁻¹)].
 
 %% 1-6  Udgangssignal y1[n]
 % - Find y1[n] ved invers Z-transformation (delbrøksopspaltning).
 
 
 
+% Y1(z) = z⁻¹ · W(z),  W(z) = (2/27)(1+2z⁻¹)/[(1−⅓z⁻¹)(1−⅔z⁻¹)]
+numW = (2/27)*[1 2];
+denW = conv([1 -1/3], [1 -2/3]);         % = [1 -1 2/9]
+[r, pz, kdir] = residuez(numW, denW)     % delbrøk: residues r, poler pz
+
+n  = 0:15;
+y1 = filter((2/27)*[0 1 2], denW, [1 zeros(1,numel(n)-1)]);   % numerisk kontrol
+figure; stem(n, y1); grid on
+xlabel('n'); ylabel('y_1[n]'); title('y_1[n]')
+
 %%
-% *Svar 1-6:* TODO
+% *Svar 1-6:* residuez på W giver poler 1/3 og 2/3 med residues
+% -14/27 og 16/27, dvs. w[n] = (-14/27)(1/3)^n + (16/27)(2/3)^n.
+% Faktoren z⁻¹ er en forsinkelse, så y1[n] = w[n-1]:
+%   y1[n] = (2/27)·( -7·(1/3)^(n-1) + 8·(2/3)^(n-1) )·u[n-1].
+% (Stem-plottet bekræfter forløbet numerisk.)
 
 %% 1-7  Minimumfase- og all-pass-dekomposition
 % - Dekomponér H(z) = H_min(z) * H_ap(z).
@@ -89,8 +150,30 @@ addpath('C:\Users\Mads2\DTU\3.semester\DSP\Helpers');
 
 
 
+% Nulpunktet z=-2 ligger uden for enhedscirklen -> spejl ind: z0 -> 1/conj(z0)
+z0   = -2;
+zref = 1/conj(z0);                       % = -0.5  (inde i cirklen)
+
+bap = [1, -z0];                          % (1 − z0·z⁻¹)   = (1 + 2z⁻¹)
+aap = [1, -zref];                        % (1 − zref·z⁻¹) = (1 + 0.5z⁻¹)
+Gap = sum(aap)/sum(bap);                 % sikrer Hap(1)=1  -> 0.5
+bap = Gap*bap;
+Hap = tf(bap, aap, 1, 'Variable','z^-1')
+
+[Hapw, fw] = freqz(bap, aap, 1024);      % all-pass-kontrol
+figure; plot(fw/pi, 20*log10(abs(Hapw))); grid on
+xlabel('\omega/\pi'); ylabel('|H_{ap}| [dB]')
+title('All-pass: |H_{ap}| skal være 0 dB overalt')
+
+Hmin = minreal(tf(b,a,1,'Variable','z^-1') / Hap)   % H_min = H / H_ap
+
 %%
-% *Svar 1-7:* TODO
+% *Svar 1-7:* H er ikke minimumfase pga. nulpunktet z=-2 (uden for
+% enhedscirklen). Dekomponering H(z)=Hmin(z)·Hap(z) med all-pass
+% Hap(z) = (z⁻¹+½)/(1+½z⁻¹), som flytter nulpunktet fra z=-2 til
+% z=-½ inde i cirklen (Gap=½ fra Hap(1)=1). Plottet bekræfter
+% |Hap|=0 dB for alle ω. Hmin (= H/Hap) har alle nulpunkter inden
+% for enhedscirklen.
 
 %% Problem 2 -- IIR-filter analyse (Direct Form II)   [FILTER -- 30%]
 % Digitalt LAVPASfilter givet i Direct Form II (koefficienter aflæst fra
@@ -183,7 +266,7 @@ Nfft2 = 2^14;          % antal samples
 % - Aliasering ved Fs = 1600 Hz?  (Nyquist vs. højeste signalfrekvens)
 % - Generér og plot det samplede signal.
 
-t2 = 0:Ts2:(Nfft2-1)*Ts2;        % fuld diskret tidsvektor, N=2^14 samples (Ts2 findes allerede)
+t2 = time_vec(Fs2, Nfft2);        % fuld diskret tidsvektor, N=2^14 samples (Ts2 findes allerede)
 XA_sampled = A1*cos(2*pi*F1*t2) + A2c*cos(2*pi*F2*t2) + A3*cos(2*pi*F3*t2);
 
 figure
@@ -191,7 +274,9 @@ stem(t2, XA_sampled, '.');
 xlim([0 0.05]);                  % vis kun 0..0.05 s -- signalet findes for hele N
 xlabel('Time [s]'); ylabel('Amplitude [a.u.]'); grid on
 %%
-% *Svar 2-3:* Maksimale signalfrekvens er 800Hz da Fs=1600Hz
+% *Svar 2-3:* Maksimale signalfrekvens uden aliasing er Fs/2 = 800 Hz
+% (Nyquist). Alle komponenter F1=100, F2=300 og F3=600 Hz ligger under
+% 800 Hz, så der er ingen aliasing.
 
 %% 2-4  Frekvensspektrum
 % - Beregn FFT af det samplede signal (en-sidet, normér med N).
@@ -323,28 +408,80 @@ end
 % - Plot fasen. Er den lineær i pasbåndet?
 % - Argumentér ud fra impulsresponsens symmetri (Type I/II FIR).
 
-
+figure;
+phaseX = rad2deg(unwrap(angle(H3)));
+plot(f3, phaseX);
+xlabel('Frequency [Hz]');
+ylabel('Phase [degrees]');
+title('Phase Response');
+grid on;
+xline(Fc, '--g', 'F_c'); 
+xline(Fpass3, '--g', 'F_{pass}'); 
+xline(Fstop3, '--g', 'F_{stop}');
 
 %%
-% *Svar 3-4:* TODO
+% *Svar 3-4:* Filteret har lineær fase i pasbåndet (ses på phase-response-
+% plottet). Det er forventet: impulsresponset h[n] er symmetrisk om n=K=4,
+% og med M=8 (lige) er det et Type-I lineær-fase FIR-filter. Faseforløbet
+% er en ret linje med konstant grupperløb = K = 4 samples. π-springene i
+% plottet er fortegnsskift hvor |H| -> 0, ikke ulinearitet.
 
 %% 3-5  Redesign med As = 40 dB
 % - Vælg nyt vindue der opfylder 40 dB (se appendix). Ny orden N.
 % - Genberegn h[n] med det nye vindue.
 
+Asdb_new = 40;
+
+n_taps_han = ceil(3.1/F_sharpnes)
+
+M = n_taps_han - 1        
+K = M / 2
+
+n=-K:K;
+
+w = FIR_window("hanning", M);          % M = 30, length M+1 = 31
+h_new = FIR_fourier("HP", n, wc) .* w; % ideel respons * Hann-vindue
+
+figure;
+stem(0:M, h_new);
+title('New Impulse Response with 40 dB Stopband Attenuation');
+grid on;
 
 
 %%
-% *Svar 3-5:* TODO
+% *Svar 3-5:* Et Hanning-vindue vælges, da det giver ca. 44 dB
+% stopbåndsdæmpning og dermed opfylder 40 dB-kravet. Nyt antal taps
+% N = 3.1/ΔF = 31 (M = 30, K = 15). Den ideelle FIR_fourier-respons
+% multipliceres med Hann-vinduet (FIR_window); en rektangulær ville
+% her IKKE nå 40 dB uanset antal taps.
 
 %% 3-6  Verifikation af redesignet filter
 % - Plot |H| i dB; verificér >= 40 dB dæmpning ved Fstop.
 % - Sammenlign overgangsbåndsbredde med 20 dB-designet (trade-off).
 
 
+Hz = tf(h_new, 1, 1/Fs3, 'Variable','z^-1')      % overførselsfunktion
+
+[H, f] = freqz(h_new, 1, 1024, Fs3);            
+
+figure
+hLine = plot(f, 20*log10(abs(H)), 'LineWidth',1.5);   % fang handle (f fra freqz ovenfor)
+title('Magnitude Response'); xlabel('F = f·F_s [Hz]'); ylabel('|H| [dB]')
+xline(Fc,'--g','F_c'); xline(Fpass3,'--g','F_{pass}'); xline(Fstop3,'--g','F_{stop}');
+yline(-Asdb_new,'--k','-40 dB'); grid on
+
+for F = [1250 1750]
+    [~, idx] = min(abs(f - F));
+    datatip(hLine, 'DataIndex', idx);
+end
+
 
 %%
-% *Svar 3-6:* TODO
+% *Svar 3-6:* Ved båndkanten Fstop = 1250 Hz aflæses ca. -39 dB, men
+% stopbåndets sidelober ligger ca. -44 dB, så filteret opfylder 40 dB-
+% kravet i stopbåndet. Trade-off vs. 20 dB-designet (rektangulær, N=9):
+% den kraftigere dæmpning koster et meget bredere overgangsbånd / langt
+% flere taps (N: 9 -> 31).
 
 %% --- Scratch / sandbox ---
 

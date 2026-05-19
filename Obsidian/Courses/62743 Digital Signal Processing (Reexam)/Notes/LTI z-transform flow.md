@@ -13,6 +13,9 @@ aliases:
 >
 > Running example: **F20 Problem 1.** Read top to bottom once. Then use as lookup during exams.
 
+> [!tip] Can't do the math by hand on the day? → [[Q1 via MATLAB cookbook]]
+> Every Q1 sub-type mapped to exact MATLAB commands + the Danish `Svar` to write. Has a **panic protocol** for when you're fully stuck. A computed answer + stated method beats a blank.
+
 ---
 
 ## The problem template

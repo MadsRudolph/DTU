@@ -132,6 +132,7 @@ h_BP = FIR_fourier("BP", n, 0.5*pi, 0.2*pi);   % BP needs both cutoffs
 ```
 - `type` $\in$ `"LP"`, `"HP"`, `"BP"`, `"BS"`
 - Handles the $n=0$ singularity correctly by setting the centre sample explicitly.
+- ⚠️ **Returns the ideal/truncated (= rectangular) response ONLY — no window applied.** Any non-rectangular window ⇒ you MUST do `h = FIR_fourier(...) .* FIR_window(...)`. Rectangular needs no multiply — that's the trap that dumped E25 3-5 (see [[FIR window design flow]] step 6).
 
 ### `FIR_window(type, M)` -- window coefficients (length $M+1$)
 ```matlab
