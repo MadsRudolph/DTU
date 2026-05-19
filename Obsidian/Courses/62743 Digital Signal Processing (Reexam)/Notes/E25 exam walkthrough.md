@@ -27,14 +27,15 @@ aliases:
 
 ## ▶️ PICK UP HERE
 
-Re-solve **E25** filter-first: **P2 → P3 → P1**. Skeleton sections are ready
-with given data + Danish task comments; solution space is blank.
+Re-solve **E25** filter-first: **P2 → P3 → P1**.
 
-1. **P2-1** (start here) — IIR Direct Form II analysis. The corrected
-   coefficients are already in `E25_new.m`. Solve the 6 sub-tasks.
-2. P2-2 … P2-5, then all of P3, then P1 if time.
-3. Hints-first: attempt, then ask for a check. "walk me through PX-Y" for
-   the guided version.
+**Status (verified vs official solution PDF):**
+- ✅ **P2 COMPLETE** — 2-1…2-5 all solved & verified (DF-II trap fixed; filtered amplitudes 0.50/0.98/0.044 → −30.6 dB ≈ 2-1).
+- ✅ **P3 partial** — 3-1 (rect window, N=9, M=8, K=4), 3-2 (`FIR_fourier("HP",…)`, causal shift by K), 3-3 (freqz dB, meets ≥20 dB) all done.
+- ⏭️ **NEXT = P3-4** — phase response + linearity argument from impulse-response symmetry (Type-I FIR). Then 3-5 (redesign As=40 dB → Hann, N=31), 3-6 (verify).
+- ⬜ **P1 not started** — Z-transform math (40%). Answers below if time runs short.
+
+Hints-first: attempt, then ask for a check. "walk me through PX-Y" for the guided version.
 
 ---
 
@@ -109,8 +110,17 @@ zeros −2,(1±i)/2; poles 0,⅓,⅔; H(1)=1.
 
 # Exam-day takeaways for E25
 
-> Filled in as sub-questions are completed.
+> P2 ✅ complete, P3 ✅ to 3-3. Filled as sub-questions are completed.
 
 - **Patterns used:**
-- **What tripped me up (besides the P2 DF-II trap):**
-- **Quick reference if this comes up again:**
+  - DF-II read-off + sign-flip → `freqz` dB / phase / `datatip` value read-off.
+  - Two-sided FFT spectrum (`fftshift(fft(x)/N)`), amplitude = A/2 per ±line; filter the signal, re-FFT, attenuation = `20log10(A_out/A_in)`.
+  - FIR window method: `Fc=(Fpass+Fstop)/2`, `wc=2π Fc/Fs`, `ΔF=|Fstop−Fpass|/Fs`, window from As table, `N`, `M=N−1`, `K=M/2`, `FIR_fourier("HP",-K:K,wc)`, causal shift by K.
+- **What tripped me up (besides the P2 DF-II trap) — helper/MATLAB gotchas:**
+  - `MK_values(9)` crashes (`sym/double … maplemex … unevaluated name 'M'`) on this PC's symbolic backend → **use closed form** `M=N−1; K=M/2`.
+  - `0.9/0.1 = 8.999…` not 9 → `n_taps = ceil(0.9/ΔF)` before use.
+  - `FIR_fourier(HP,…)` errors — type arg must be the **quoted string** `"HP"`.
+  - `tf(b,a,Fs,…)` wrong — 3rd arg is **Ts = 1/Fs**; add `'Variable','z^-1'`.
+  - Reusing `h` for both impulse response *and* `freqz` output overwrites it; and `datatip` needs a **plot line handle** (`hLine=plot(...)`), not the response vector.
+  - All of these are now in [[DSP MATLAB helpers cheat sheet]].
+- **Quick reference if this comes up again:** see the cheat-sheet sections "Mark specific values on a plot", "Impulse response over any n-range", and the `MK_values` danger callout.

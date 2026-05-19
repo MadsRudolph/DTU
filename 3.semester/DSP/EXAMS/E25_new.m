@@ -115,19 +115,63 @@ Ts2 = 1/Fs2;
 % - Plot fasen af frekvensresponset.
 % - Er fasen i pasbåndet lineær? Forventet ud fra filtertypen? (IIR -> nej)
 
+Hz = tf(B2, A2, Ts2, 'Variable','z^-1'); %laver overførselsfunktion vha.tf
+Hz %printer overførselsfunktion
 
+
+[H, f] = freqz(B2, A2, 4096, Fs2);
+
+figure
+subplot(2,1,1)
+hH = plot(f, 20*log10(abs(H)), 'DisplayName','|H(f)|');
+hold on
+x1 = xline(400,  '--g', 'DisplayName','400 Hz');
+y1 = yline(-3,   '--r', 'DisplayName','-3 dB');
+x2 = xline(600,  '--b', 'DisplayName','600 Hz');
+y2 = yline(-30.61,'--y','DisplayName','-30.61 dB');
+title('Magnitude Response')
+xlabel('Hz'); ylabel('dB'); grid on
+legend([hH x1 y1 x2 y2], 'Location','best')
+grid on;
+
+subplot(2,1,2)
+plot(f, unwrap(angle(H)))
+title('Phase Response')
+xlabel('Hz'); ylabel('rad');
+grid on;
+hold off;
+
+
+%dæmpning ved 400 og 600Hz
+dB = 20*log10(abs(freqz(B2, A2, [400 600], Fs2)))   % -> -3.01 dB, -30.61 dB
 
 %%
-% *Svar 2-1:* TODO
+% *Svar 2-1:* Dæmpningen ved 400Hz er -3dB som stemmer overens med
+% filterets spec. Dæmpningen ved 600Hz aflæses på plottet til at være
+% -30.61 dB. Fasen er ikke linieært, dette stemmer overens med at filteret er
+% et IIR filter
 
 %% 2-2  Pol-/nulpunktsdiagram og impulsrespons
 % - Plot poler/nulpunkter (roots(B2)/roots(A2) eller zplane). Stabil?
-% - Plot impulsresponsen (impz). Endelig eller uendelig?
+% - Plot impulsresponsen. Endelig eller uendelig?
 
+nulpunkter = roots(B2)
+poler      = roots(A2)
+
+figure
+zplane(B2, A2)
+
+n   = -10:30;
+imp = [zeros(1,10) 1 zeros(1,30)];   % unit impulse at n=0 (index 11)
+IR  = filter(B2, A2, imp);
+figure
+stem(n, IR)
+xlabel('Sample number, n'); ylabel('amplitude'); grid on
 
 
 %%
-% *Svar 2-2:* TODO
+% *Svar 2-2:* Filteret er stabilt da polerne er indenfor enhedscirklen, og
+% vi kan også se at impulsresponset går mod 0.
 
 %% 2-3  Sampling af analogt signal
 % XA(t) = A1*cos(2*pi*F1*t) + A2c*cos(2*pi*F2*t) + A3*cos(2*pi*F3*t)
@@ -135,33 +179,68 @@ F1 = 100;   A1  = 1;
 F2 = 300;   A2c = 2;
 F3 = 600;   A3  = 3;
 Nfft2 = 2^14;          % antal samples
+
 % - Aliasering ved Fs = 1600 Hz?  (Nyquist vs. højeste signalfrekvens)
 % - Generér og plot det samplede signal.
 
+t2 = 0:Ts2:(Nfft2-1)*Ts2;        % fuld diskret tidsvektor, N=2^14 samples (Ts2 findes allerede)
+XA_sampled = A1*cos(2*pi*F1*t2) + A2c*cos(2*pi*F2*t2) + A3*cos(2*pi*F3*t2);
 
-
+figure
+stem(t2, XA_sampled, '.');
+xlim([0 0.05]);                  % vis kun 0..0.05 s -- signalet findes for hele N
+xlabel('Time [s]'); ylabel('Amplitude [a.u.]'); grid on
 %%
-% *Svar 2-3:* TODO
+% *Svar 2-3:* Maksimale signalfrekvens er 800Hz da Fs=1600Hz
 
 %% 2-4  Frekvensspektrum
 % - Beregn FFT af det samplede signal (en-sidet, normér med N).
 % - Plot |spektrum| vs. F = f*Fs [Hz].
 % - Aflæs linjefrekvenser og amplituder. Stemmer med F1/F2/F3?
 
+XA = fftshift(fft(XA_sampled) / Nfft2);
+f  = frequency_vec(Fs2, Nfft2);
+
+figure;
+plot(f, abs(XA), 'LineWidth', 1.5);
+xlabel('f·F_s  [Hz]'); ylabel('|X_A[k]|');
+title('Spectrum of x_A[n], F_s = 1600 Hz'); grid on;
 
 
 %%
-% *Svar 2-4:* TODO
+% *Svar 2-4:* vi ser ingen alliasering af de 3 frekvenser F1 F2 & F3, og
+% deres amplituder stemmer også overerns med dem der er givet i
+% specifikationen, fx A3=3 ( vi ser F3 har en amplitude på 1.5 på hver side
+% af spektret hvilket giver 3)
 
 %% 2-5  Filtrering
 % - Filtrér det samplede signal: y = filter(B2, A2, x).
 % - FFT af det filtrerede signal; plot spektrum før/efter.
 % - Dæmpning ved 100, 300, 600 Hz. Sammenlign med |H| fra 2-1.
 
+xa_filt = filter(B2, A2, XA_sampled);
+XA_filt = fftshift(fft(xa_filt) / Nfft2);          % samme skalering som 2-4
+
+figure
+h = plot(f, abs(XA_filt), 'LineWidth',1.5);        % fang handle til datatip
+xlabel('Frequency [Hz]'); ylabel('|X|'); grid on
+title('Spektrum af det filtrerede signal')
+for F = [100 300 600]
+    [~, idx] = min(abs(f - F));                    % nærmeste bin (f, ikke f_v)
+    datatip(h, 'DataIndex', idx);
+end
+
+A600=0.0442224; % aflæst på graf
+
+A600_in  = 1.5;                                    % oprindelig amplitude 600 Hz = A3/2
+A_600_dB = 20*log10(A600 / A600_in)                % -> ca. -30.6 dB
 
 
 %%
-% *Svar 2-5:* TODO
+% *Svar 2-5:* Efter filtrering aflæses amplituderne til ca. 0.50 ved 100 Hz,
+% 0.98  ved 300 Hz og 0.044 ved 600 Hz. Dæmpningen ved 600 Hz er
+% 20*log10(0.044/1.5) ≈ -30.6 dB. Dette stemmer overens med dæmpningen
+% fundet fra |H| i 2-1 (≈ -30.61 dB ved 600 Hz).
 
 %% Problem 3 -- FIR højpasfilter via vindue (Fourier-metode)  [FILTER -- 30%]
 % FIR HØJPAS designet med vinduesmetoden (Fourier-transform-design).
@@ -178,29 +257,67 @@ Fs3    = 5000;         % samplingsfrekvens [Hz]
 % - Vælg vindue der lige opfylder As = 20 dB (se appendix-tabel).
 % - Beregn antal taps N  (helper: MK_values).
 
+Fc=(Fpass3+Fstop3)/2
+
+f_c = Fc/Fs3;
+wc= 2*pi*f_c
+
+F_sharpnes = abs(Fstop3-Fpass3)/Fs3
+
+n_taps = ceil(0.9/F_sharpnes)
+
 
 
 %%
-% *Svar 3-1:* TODO
+% *Svar 3-1:* Fc er udregnet ovenfor, wc bestemt til 1.8850. Fsharpnes
+% bestemt til 0.1. For at opfylde stopbåndsdæmpningen på 20 dB vælges et
+% Rectangulært vindue. Ntaps udregnet til 9
 
 %% 3-2  Impulsrespons
 % Ideel HØJPAS:  h_d[n] = delta[n] - (wc/pi) * sinc(wc*n/pi)
 % - Beregn h_d[n], påtryk det valgte vindue, gør filteret kausalt
 %   (forskyd med M). Plot h[n].   (helpers: FIR_fourier, FIR_window)
 
+M_values = n_taps - 1        
+K_values = M_values / 2
+
+      
+n3=-K_values:K_values;
+
+h=FIR_fourier("HP",n3,wc);
+
+figure;
+stem(0:M_values, h);
+title('Impulsrespons');
+grid on;
 
 
 %%
-% *Svar 3-2:* TODO
+% *Svar 3-2:* M = 8, K = 4. Ideelt højpas via Fourier-metoden,
+% h[n] = -(wc/pi)*sinc(wc*n/pi) med midtersample (pi-wc)/pi. Rektangulært
+% vindue -> kun trunkering (ingen vindues-multiplikation). Filteret gøres
+% kausalt ved at forskyde K=4 samples, så n går 0..M (symmetrisk -> lineær fase).
 
 %% 3-3  Frekvensrespons og verifikation
-% - Plot |H| i dB vs. F = f*Fs [Hz]. Marker Fpass og Fstop.
-% - Opfylder filteret stopbåndskravet (>= 20 dB ved Fstop = 1250 Hz)?
+Hz3 = tf(h, 1, 1/Fs3, 'Variable','z^-1')      % overførselsfunktion (h = impulsrespons fra 3-2)
 
+[H3, f3] = freqz(h, 1, 1024, Fs3);            % NB: ny variabel H3, overskriv ikke h
 
+figure
+hLine = plot(f3, 20*log10(abs(H3)), 'LineWidth',1.5);   % fang handle
+title('Magnitude Response'); xlabel('F = f·F_s [Hz]'); ylabel('|H| [dB]')
+xline(Fc,'--g','F_c'); xline(Fpass3,'--g','F_{pass}'); xline(Fstop3,'--g','F_{stop}');
+yline(-AsdB3,'--k','-20 dB'); grid on
+
+for F = [1250 1750]
+    [~, idx] = min(abs(f3 - F));
+    datatip(hLine, 'DataIndex', idx);
+end
 
 %%
-% *Svar 3-3:* TODO
+% *Svar 3-3:* Ved F_stop = 1250 Hz aflæses dæmpningen på datatip til
+% ca. -20 dB (>= 20 dB krav netop opfyldt), og pasbåndet F >= 1750 Hz
+% ligger nær 0 dB. Filteret opfylder dermed stopbåndskravet.
 
 %% 3-4  Faserespons og linearitet
 % - Plot fasen. Er den lineær i pasbåndet?

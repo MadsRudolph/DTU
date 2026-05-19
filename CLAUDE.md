@@ -19,10 +19,18 @@ Evidence: re-exam (F) is a parallel form of the ordinary (E) it follows — same
 
 ### ▶️ PICK UP HERE (next action)
 
-**Practice E25 — full re-solve.** Working file `3.semester/DSP/EXAMS/E25_new.m` is now fully formatted (3 problems, all sub-cells, `Svar` answer blocks pre-placed, dividers cleaned). The user fills code in the work areas + replaces each `% *Svar N-M:* TODO`, then runs `pretty E25_new.m`. Truth source: `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/Solutions/62743 E25 Exam student solutions.pdf` + notebooklm.
-🚩 **Key trap (likely cause of the fail):** P2's DF-II feedback taps sit after the **2nd and 4th** delays → `A2 = [1, 0, 0.4860, 0, 0.0177]` (denominator `1+0.486z⁻²+0.0177z⁻⁴`), NOT `[1,0.486,0.0177]`. Skeleton already corrected; the vault `E25 Exam.md` writeup has this WRONG — trust the official PDF.
+**E25 re-solve — next action: P3-4** (phase response + linearity argument from impulse-response symmetry) in `3.semester/DSP/EXAMS/E25_new.m`.
+
+Progress (verified vs official solution PDF):
+- **P2 COMPLETE** ✅ — 2-1…2-5 all done & verified (DF-II trap fixed, filtered-spectrum amplitudes 0.50/0.98/0.044, −30.6 dB ≈ 2-1).
+- **P3 in progress** — 3-1 ✅ (rect window, N=9, M=8, K=4), 3-2 ✅ (FIR_fourier "HP", causal shift), 3-3 ✅ (freqz dB, meets ≥20 dB). **3-4, 3-5, 3-6 = TODO.**
+- **P1 not started** — Z-transform math (40%), do after P3 if time. Answers in [[E25 exam walkthrough]].
+
+🚩 The DF-II trap (P2's `A2=[1,0,0.4860,0,0.0177]`, not `[1,0.486,0.0177]`) was confirmed as the original fail cause — already fixed in the skeleton.
+Truth source: `Obsidian/Archive/3rd Semester/DSP/Exercises/Exams/Solutions/62743 E25 Exam student solutions.pdf` (supersedes notebooklm for E25).
 
 Hints-first: give a small hint, let the user attempt, walk through only on request.
+Helper gotchas hit this session (now in [[DSP MATLAB helpers cheat sheet]]): `MK_values` crashes on broken symbolic backend → use `M=N-1; K=M/2`; `FIR_fourier("HP",…)` needs the **quoted** string; `tf(b,a,1/Fs,'Variable','z^-1')` (Ts not Fs); never reuse `h` for both impulse response and `freqz` output; capture `hLine=plot(...)` before `datatip`.
 
 ### Strategy (UPDATED — supersedes the old "filters alone = pass")
 
@@ -45,7 +53,7 @@ Exam submission = "kommenteret kode"; examiners run the `.m`. Tooling in `3.seme
 | `EXAMS/F24.m` | ✅ Q2/Q4 complete + walkthrough |
 | `EXAMS/F25_new.m` | ✅ Q2/Q4 complete; **refactored to Svar convention** |
 | `EXAMS/F23.m` | scaffolded only; deferred |
-| `EXAMS/E25_new.m` | **active** — fully formatted skeleton, Svar blocks ready, P2 DF-II trap fixed; **practice next** |
+| `EXAMS/E25_new.m` | **active** — P2 ✅ complete (2-1…2-5), P3 ✅ 3-1/3-2/3-3; **next = P3-4**; P1 (Z-math) not started |
 | `EXAMS/F26.m` | ✅ blank reexam skeleton (3-question, exam-day template) |
 
 ### Obsidian assets (the in-exam navigator)
