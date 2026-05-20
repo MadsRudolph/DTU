@@ -22,10 +22,10 @@ There is **nothing left to build.** If the user is still prepping, help them pra
 | Exam-day skeleton | `3.semester/DSP/EXAMS/F26.m` | ✅ checklist header + 3Q scaffold + appendix |
 | Full reference solution | `3.semester/DSP/EXAMS/E25_new.m` | ✅ P1 (MATLAB-solved), P2, P3 all complete + verified |
 | Previous solutions | `3.semester/DSP/EXAMS/{F24,F25_new,F23,F20,E19,E20,E22,F21}.m` | ✅ open as reference tabs |
-| Q1 fallback cookbook | `Obsidian/.../Notes/Q1 via MATLAB cookbook.md` | ✅ every Q1 type → MATLAB + Danish Svar + panic protocol; slide-verified |
-| Flows | `Notes/{LTI z-transform flow, Filter analysis and FFT flow, FIR window design flow}.md` | ✅ |
-| Walkthroughs | `Notes/{E25,F24,F25,F23,F20} exam walkthrough.md` | ✅ worked twins for the chart |
-| Cheat sheet | `Notes/DSP MATLAB helpers cheat sheet.md` | ✅ |
+| Q1 fallback cookbook | `Obsidian/.../Notes/Reference/Q1 via MATLAB cookbook.md` | ✅ every Q1 type → MATLAB + Danish Svar + panic protocol; slide-verified |
+| Flows | `Notes/Flows/{LTI z-transform, Filter analysis and FFT, FIR window design} flow.md` | ✅ |
+| Walkthroughs | `Notes/Walkthroughs/{E25,F24,F25,F23,F20} exam walkthrough.md` | ✅ worked twins for the chart |
+| Cheat sheet | `Notes/Reference/DSP MATLAB helpers cheat sheet.md` | ✅ |
 | Helpers | `3.semester/DSP/Helpers/` (FIR_fourier, FIR_window, MK_values, …) | ✅ `addpath` in F26.m |
 | Publisher | `3.semester/DSP/pretty.bat` (+ `publish_pretty.py`) | ✅ `pretty F26.m` → styled PDF |
 

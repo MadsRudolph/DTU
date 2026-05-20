@@ -93,3 +93,8 @@ Obsidian/Courses/*/Images/ex*_*.png
 
 # MATLAB autosave files
 *.asv
+
+# ===========================================
+# MATLAB pretty.bat publishing artifacts
+# ===========================================
+3.semester/DSP/EXAMS/html/
