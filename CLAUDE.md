@@ -4,7 +4,34 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ---
 
-## ACTIVE WORK: 62711 Digital Systems Design — oral exam Thu 28-May-2026
+## ACTIVE WORK: 34722 Linear Control Design 1 — multiple-choice exam Tue 2-June-2026
+
+### ▶️ FIRST ACTION ON A FRESH PC
+1. `git pull` in `C:\Users\Mads2\DTU`.
+2. PDFs are **not in git** (gitignored, stored in Google Drive) — fetch with `python Obsidian/scripts/drive-sync/download.py`.
+3. Open the formula cheat-sheet: `Obsidian/Courses/34722 Linear Control Design 1/Formulas/Exam Formula Cheat-Sheet.md`.
+
+### 📌 Exam format
+**Multiple-choice.** Prep = drill quizzes + old exams. Highest-value assets are the previous-student materials (added 28-May-2026).
+
+### Where the LCD materials live
+- **Obsidian** `…/34722 …/Exercises/Solutions/Past Exams/` — 8 old exam PDFs (S20, S21, F22 sol, REExam F21, 2022 no-answers, Final Test, Theoretical Exercises, 2-block) + 4 screenshots.
+- **Obsidian** `…/Exercises/Work/Quiz/Solutions/` — 11 quiz solution PDFs + Midterm + combined quiz PDF.
+- **MATLAB** `4. Semester/Linear Control Design/EXAM/` → `Scripts/` (.mlx/.m/.slx exam scripts), `Maple solutions/` (6 .mw), `Helpers/` (formula .m), `Regbot/` (Simulink models).
+- PDFs → Google Drive via drive-sync; `.m/.mlx/.slx/.mw` are in git. Source backup still at `OneDrive\Skrivebord\Regulerings_eksamen_tildigere_studerende`.
+
+### 🚩 Gotcha — previous-student helper scripts have typos
+`EXAM/Helpers/bandwidth_second_order.m` and `crossover_frequency2bandwidth.m` use `4*zeta`/`4*zeta^2` where it must be `4*zeta^4`. The **corrected** bandwidth formula is in the cheat-sheet §4. The overshoot/damping/phase-margin helpers are correct.
+
+### NotebookLM
+`nlm.bat ask "..." --notebook-id lcd1` — the 34722 notebook (slides 1-12: Laplace, Bode, Nyquist, PI/LEAD, stability, sensitivity + MATLAB exercises).
+
+### Drive-sync (PDFs)
+`python Obsidian/scripts/drive-sync/upload.py --sync` pushes all new large files (≥ extensions in `config.py`) to Google Drive + rebuilds the manifest. Needs `rclone` with the `gdrive` remote (both present on this PC).
+
+---
+
+## ARCHIVED: 62711 Digital Systems Design — DONE (oral exam 28-May-2026, grade 4)
 
 ### ▶️ FIRST ACTION ON A FRESH PC (do this, in order)
 
