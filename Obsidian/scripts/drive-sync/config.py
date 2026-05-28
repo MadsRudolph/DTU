@@ -21,6 +21,8 @@ LARGE_FILE_EXTENSIONS = {
     ".7z",
     ".mov",
     ".mp4",
+    # Maple worksheets (large binaries; kept out of git, stored in Drive)
+    ".mw",
 }
 
 # Minimum file size to consider "large" (in bytes) - optional filter

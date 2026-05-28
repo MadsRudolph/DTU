@@ -33,6 +33,9 @@
 *.wav
 *.mp3
 
+# Maple worksheets (large; stored in Google Drive via drive-sync)
+*.mw
+
 # ===========================================
 # System and editor files
 # ===========================================
