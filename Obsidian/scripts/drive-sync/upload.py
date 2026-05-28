@@ -26,6 +26,24 @@ from pathlib import Path
 from config import LARGE_FILE_EXTENSIONS, MIN_FILE_SIZE_BYTES, DRIVE_FOLDER_ID
 
 
+def _canon(path: str) -> str:
+    """Canonical key for a repo-relative path.
+
+    Robust to (a) NFC vs NFD Unicode (Windows and Google Drive store ø/æ/å
+    differently) and (b) UTF-8-read-as-Latin-1 mojibake (e.g. 'LÃ¸sning' for
+    'Løsning'). Applied symmetrically to disk paths, manifest paths and Drive
+    paths so all three compare equal regardless of how the OS/Drive encoded
+    the Danish characters.
+    """
+    s = path
+    if "Ã" in s or "Â" in s:  # looks like UTF-8 misread as Latin-1 -> repair
+        try:
+            s = s.encode("latin-1").decode("utf-8")
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            pass
+    return unicodedata.normalize("NFC", s).lower()
+
+
 def find_rclone() -> str | None:
     """Find rclone executable."""
     rclone = shutil.which("rclone")
@@ -73,21 +91,8 @@ def save_manifest(repo_root: Path, manifest: dict):
 
 
 def get_manifest_paths(manifest: dict) -> set:
-    """Get all paths currently in the manifest (normalized for comparison)."""
-    paths = set()
-    for entry in manifest.get("files", []):
-        path = entry["path"]
-        paths.add(path)
-        # Also add the mojibake form (UTF-8 bytes read as Latin-1) so files
-        # on disk with garbled Danish chars (LÃ¸sning) match manifest (Løsning)
-        try:
-            paths.add(path.encode('utf-8').decode('latin-1'))
-        except (UnicodeDecodeError, UnicodeEncodeError):
-            pass
-        # And NFC/NFD forms
-        paths.add(unicodedata.normalize("NFC", path))
-        paths.add(unicodedata.normalize("NFD", path))
-    return paths
+    """Canonical keys of all paths currently in the manifest."""
+    return {_canon(entry["path"]) for entry in manifest.get("files", [])}
 
 
 def find_large_files(repo_root: Path, manifest_paths: set) -> list:
@@ -99,6 +104,8 @@ def find_large_files(repo_root: Path, manifest_paths: set) -> list:
             dirs.remove(".git")
         if ".venv" in dirs:
             dirs.remove(".venv")
+        if ".claude" in dirs:
+            dirs.remove(".claude")  # throwaway git worktrees / tooling — never sync
 
         for filename in files:
             filepath = Path(root) / filename
@@ -109,7 +116,7 @@ def find_large_files(repo_root: Path, manifest_paths: set) -> list:
 
             rel_path = filepath.relative_to(repo_root).as_posix()
 
-            if rel_path in manifest_paths:
+            if _canon(rel_path) in manifest_paths:
                 continue
 
             size = filepath.stat().st_size
@@ -183,18 +190,11 @@ def get_drive_file_ids(repo_root: Path) -> dict:
     for item in data:
         if not item.get("IsDir", False):
             path = item["Path"]
-            # Store under both NFC and NFD normalized keys for robust matching
-            nfc_key = unicodedata.normalize("NFC", path.lower())
-            nfd_key = unicodedata.normalize("NFD", path.lower())
-
-            entry = {
+            drive_map[_canon(path)] = {
                 "driveId": item["ID"],
                 "size": item["Size"],
                 "original_path": path
             }
-            drive_map[nfc_key] = entry
-            if nfd_key != nfc_key:
-                drive_map[nfd_key] = entry
 
     return drive_map
 
@@ -213,6 +213,8 @@ def rebuild_manifest(repo_root: Path) -> int:
             dirs.remove(".git")
         if ".venv" in dirs:
             dirs.remove(".venv")
+        if ".claude" in dirs:
+            dirs.remove(".claude")  # throwaway git worktrees / tooling — never sync
 
         for filename in files:
             ext = Path(filename).suffix.lower()
@@ -222,21 +224,13 @@ def rebuild_manifest(repo_root: Path) -> int:
             filepath = Path(root) / filename
             rel_path = filepath.relative_to(repo_root).as_posix()
 
-            # Deduplicate: skip mojibake variants of already-seen paths
-            nfc_key = unicodedata.normalize("NFC", rel_path.lower())
-            if nfc_key in seen_normalized:
+            # Deduplicate via canonical key (handles NFC/NFD + mojibake)
+            key = _canon(rel_path)
+            if key in seen_normalized:
                 continue
-            seen_normalized.add(nfc_key)
+            seen_normalized.add(key)
 
-            # Also mark the mojibake-decoded form as seen
-            try:
-                decoded = rel_path.encode('latin-1').decode('utf-8')
-                seen_normalized.add(unicodedata.normalize("NFC", decoded.lower()))
-            except (UnicodeDecodeError, UnicodeEncodeError):
-                pass
-
-            nfd_key = unicodedata.normalize("NFD", rel_path.lower())
-            drive_entry = drive_map.get(nfc_key) or drive_map.get(nfd_key)
+            drive_entry = drive_map.get(key)
 
             if drive_entry:
                 new_files.append({
@@ -331,9 +325,7 @@ def pull_from_drive(repo_root: Path, manifest: dict) -> int:
     # Build set of manifest paths (both normalizations)
     manifest_paths = set()
     for entry in manifest.get("files", []):
-        path = entry["path"]
-        manifest_paths.add(unicodedata.normalize("NFC", path.lower()))
-        manifest_paths.add(unicodedata.normalize("NFD", path.lower()))
+        manifest_paths.add(_canon(entry["path"]))
 
     # Find files on Drive not in manifest
     new_files = []
@@ -356,11 +348,8 @@ def pull_from_drive(repo_root: Path, manifest: dict) -> int:
         if ext not in LARGE_FILE_EXTENSIONS:
             continue
 
-        # Add BOTH NFC and NFD normalized keys to seen_paths to avoid duplicates
-        nfc_key = unicodedata.normalize("NFC", original_path.lower())
-        nfd_key = unicodedata.normalize("NFD", original_path.lower())
-        seen_paths.add(nfc_key)
-        seen_paths.add(nfd_key)
+        # Mark as seen via canonical key (handles NFC/NFD + mojibake)
+        seen_paths.add(_canon(original_path))
 
         new_files.append({
             "path": original_path,
