@@ -81,3 +81,8 @@ REEXAM_F21_Q16 = dict(G_unstable_marginal=40.5)  # documented K_marginal
 
 # P3: solve_margins — F22 Q11 documents Nyquist crossing at -0.1639 → GM = 1/0.1639 → 15.71 dB
 F22_Q11 = dict(x_crossing=-0.1639, facit_GM_dB=15.71)
+
+# P4: solve_2nd_order
+REEXAM_F21_Q10 = dict(zeta=math.sqrt(2)/2, facit_Mp_pct=4.32)  # zeta=sqrt(2)/2 → 4.32%
+F22_Q10 = dict(zeta=math.sqrt(2)/2, facit_Mp_pct=4.32)
+S20_Q5 = dict(y_peak=2.9, y_ss=2.0, facit_zeta_approx=0.2)
