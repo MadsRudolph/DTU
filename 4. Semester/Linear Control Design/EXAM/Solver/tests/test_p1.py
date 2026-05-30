@@ -31,3 +31,15 @@ def test_S21_Q8_ode_to_poles():
 def test_Theory_Q4_ode_to_poles():
     G = solve_ode_to_tf(THEORY_Q4["y_coeffs"], THEORY_Q4["u_coeffs"])
     _close(G, THEORY_Q4["facit_poles"])
+
+
+from lcd_solver.solvers.p1_models import solve_state_space_to_tf
+from tests.oracle_data import REEXAM_F21_Q6
+
+
+def test_REExam_F21_Q6_ss_to_tf():
+    o = REEXAM_F21_Q6
+    G = solve_state_space_to_tf(o["A"], o["B"], o["C"], o["D"])
+    assert float(control.dcgain(G).real) == pytest.approx(o["facit_dc_gain"], rel=1e-6)
+    poles = sorted(control.poles(G), key=lambda p: (p.real, p.imag))
+    assert all(abs(p - (-1.0)) < 1e-9 for p in poles)

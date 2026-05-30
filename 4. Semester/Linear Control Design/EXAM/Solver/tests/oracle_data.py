@@ -20,3 +20,13 @@ THEORY_Q4 = dict(
     u_coeffs=[71],              # = 71 u
     facit_poles=[0.0, 0.0, -4.0, -5.0],
 )
+
+# P1: solve_state_space_to_tf
+REEXAM_F21_Q6 = dict(
+    A=[[-1.0, 0.0], [0.0, -1.0]],
+    B=[[1.0], [9.0]],
+    C=[[1.0, 1.0]],
+    D=[[0.0]],
+    facit_poles=[-1.0],
+    facit_dc_gain=10.0,
+)
