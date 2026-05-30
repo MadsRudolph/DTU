@@ -93,20 +93,32 @@ class SolverFormWidget(QWidget):
         layout.addWidget(self.result_panel)
 
     def _gather_inputs(self) -> dict[str, Any]:
+        import ast
         kwargs: dict[str, Any] = {}
         for f in self.spec.fields:
             w = self._field_widgets[f.name]
             if f.kind == "tf":
-                kwargs[f.name] = w.get_tf()
+                txt = w.edit.text().strip() if hasattr(w, "edit") else w.text().strip()
+                kwargs[f.name] = None if not txt else w.get_tf()
             elif f.kind == "dropdown":
                 kwargs[f.name] = w.currentText()
             elif f.kind == "int":
-                kwargs[f.name] = int(w.text())
+                txt = w.text().strip()
+                kwargs[f.name] = None if not txt else int(txt)
             elif f.kind == "float":
-                kwargs[f.name] = float(w.text())
-            else:
-                kwargs[f.name] = w.text()
-        return kwargs
+                txt = w.text().strip()
+                kwargs[f.name] = None if not txt else float(txt)
+            else:  # str — try Python-literal first for lists/tuples/etc.
+                txt = w.text().strip() if hasattr(w, "text") else ""
+                if not txt:
+                    kwargs[f.name] = None
+                else:
+                    try:
+                        kwargs[f.name] = ast.literal_eval(txt)
+                    except (ValueError, SyntaxError):
+                        kwargs[f.name] = txt
+        # Strip None entries: solver kwargs use missing-means-default
+        return {k: v for k, v in kwargs.items() if v is not None}
 
     def _call_solver(self, kwargs: dict[str, Any]):
         mod = importlib.import_module(self.spec.solver_module)
@@ -121,7 +133,12 @@ class SolverFormWidget(QWidget):
             self.result_panel.display(f"Error: {e}", [], [])
             return
 
-        result = Result(value=raw, kind=self.spec.result_kind)
+        # Solvers that show a plot return (value, matplotlib_figure)
+        plot_fig = None
+        if self.spec.show_plot and isinstance(raw, tuple) and len(raw) == 2:
+            raw, plot_fig = raw
+
+        result = Result(value=raw, kind=self.spec.result_kind, plot_data=plot_fig)
         match_key = self.match_key_combo.currentText() if self.match_key_combo else None
         options = match(result, self.options_box.toPlainText(), match_key=match_key)
 
@@ -129,7 +146,15 @@ class SolverFormWidget(QWidget):
             value_text = f"{float(raw):.6g}"
         elif self.spec.result_kind == ResultKind.DICT:
             value_text = ", ".join(f"{k} = {v:.6g}" for k, v in raw.items())
-        else:
+        elif self.spec.result_kind == ResultKind.PICK:
+            # PICK can be tuple (stable-K range) or dict (feedforward) — render generically
+            if isinstance(raw, tuple):
+                value_text = f"({', '.join(f'{x:.6g}' if isinstance(x, float) else str(x) for x in raw)})"
+            elif isinstance(raw, dict):
+                value_text = raw.get("formula_latex") or str(raw)
+            else:
+                value_text = str(raw)
+        else:  # TF
             value_text = str(raw)
         self.result_panel.display(value_text, options, [])
 

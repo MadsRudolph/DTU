@@ -64,7 +64,7 @@ ALL_FORMS: list[FormSpec] = [
         fields=[FieldSpec("G", "G(s)", "tf")],
         solver_module="lcd_solver.solvers.p3_stability",
         solver_function="solve_stable_K_range",
-        result_kind=ResultKind.NUMBER,  # tuple — overridden to PICK in Task 22
+        result_kind=ResultKind.PICK,   # tuple — display canonical, user eyeball-matches
     ),
     FormSpec(
         title="P3 — Margins",
