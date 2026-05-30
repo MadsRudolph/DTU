@@ -3,6 +3,7 @@
 Each entry is a dict of solver inputs plus the official facit.
 Source: 4. Semester/Linear Control Design/EXAM/Scripts/solved/solve_*.m
 """
+import math
 
 # P1: solve_ode_to_tf — coefficient lists ordered HIGHEST degree first
 F22_Q8 = dict(
@@ -42,4 +43,30 @@ S20_Q3 = dict(
 S21_Q1 = dict(
     dsl="(series(A, B, C, D) + series(E, C, D)) / (1 + B*C*F)",
     facit_str="(A*B*C*D + E*C*D) / (1 + B*C*F)",
+)
+
+# P2: compose_tf_from_bode
+# Each test gives the user's read-off (DC dB, corners, phase events) → expected factored G(s).
+# A "corner" is (omega, slope_change_dB_per_dec) at that frequency.
+# A "phase_event" is (omega, phase_change_deg) — sign disambiguates LHP vs RHP.
+
+F22_Q5 = dict(
+    # G(s) = (s-2)/(1+s)**2  →  RHP zero at +2, double LHP pole at -1
+    # DC: G(0) = -2/1 = -2 → |G(0)| = 2 → 20*log10(2) ≈ 6.0206 dB
+    dc_gain_dB=20.0 * math.log10(2.0),
+    corners=[(1, -20), (1, -20), (2, +20)],          # two poles at 1, RHP zero at 2
+    phase_events=[(1, -90), (1, -90), (2, -90)],     # RHP zero: phase DROPS
+    facit_poles=[-1.0, -1.0],
+    facit_zeros=[+2.0],
+    facit_dc_gain_linear_abs=2.0,
+)
+
+REEXAM_F21_Q5 = dict(
+    # G(s) = 100*(s+10)/(s-1)  →  LHP zero at -10, RHP pole at +1, DC = 100*10/(-1) = -1000 → 60 dB
+    dc_gain_dB=60.0,
+    corners=[(1, -20), (10, +20)],                    # pole at 1, zero at 10
+    phase_events=[(1, +90), (10, +90)],               # RHP pole: phase RISES; LHP zero: phase RISES
+    facit_poles=[+1.0],
+    facit_zeros=[-10.0],
+    facit_dc_gain_linear_abs=1000.0,
 )
