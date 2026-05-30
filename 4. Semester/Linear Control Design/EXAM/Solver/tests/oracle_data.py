@@ -135,3 +135,7 @@ THEORY_Q8 = dict(
     facit_option="d",
     facit_tau_f_bound="tau_f <= min(tau_k)/5",
 )
+
+# P7: solve_nested_ess
+THEORY_Q9 = dict(architecture="two_KP_same", G0=0.75, ess_target=0.25, facit_KP=4.0)
+THEORY_Q6 = dict(architecture="nested_K1_K2", eps1=0.4, eps2=0.05, G2_0=0.4, facit_K2=79.17)
