@@ -104,3 +104,17 @@ REEXAM_F21_Q4 = dict(
     facit_ess_ramp=0.0,
     facit_ess_parabola=1.0,
 )
+
+# P6: solve_pi_lead — three modes (alpha, Ni, KP)
+F22_Q17 = dict(unknown="alpha", omega_c=6.4, gamma_M_deg=75, phi_G_deg=-112.77,
+               N_i=5, facit=0.5)
+
+REEXAM_F21_Q15 = dict(unknown="alpha", phi_G_deg=-167.842, gamma_M_deg=50, N_i=3,
+                      omega_c=15.0, facit_alpha_implied_by_MD=1/(3.3**2))
+# (REExam Q15 gives M_D=3.3 directly; M_D = 1/sqrt(alpha) → alpha = 1/M_D^2 = 0.0918)
+
+REEXAM_F21_Q17 = dict(unknown="Ni", omega_c=25.04, phi_G_deg=-151.064,
+                      gamma_M_deg=75, alpha=0.01, facit=1.57)
+
+F22_Q19 = dict(unknown="KP", G_str="900 / ((0.25*s+1)*(s**2+50*s+3000))",
+               gamma_M_deg=75, alpha=0.01, N_i=3, facit=3.4154)
