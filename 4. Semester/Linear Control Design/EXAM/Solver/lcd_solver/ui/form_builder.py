@@ -296,6 +296,15 @@ class SolverFormWidget(QWidget):
         # Build the value-text first so it's visible even if matching fails
         if self.spec.result_kind == ResultKind.NUMBER:
             value_text = f"{float(raw):.6g}"
+            if self.spec.solver_function == "solve_pi_lead":
+                import math
+                unknown = self._field_widgets["unknown"].currentText()
+                if unknown == "alpha":
+                    alpha_val = float(raw)
+                    if alpha_val > 0:
+                        md_val = 1.0 / math.sqrt(alpha_val)
+                        md_db = 20.0 * math.log10(md_val)
+                        value_text += f"  (Implied MD = {md_val:.3g} = {md_db:.2f} dB)"
         elif self.spec.result_kind == ResultKind.DICT:
             value_text = ", ".join(f"{k} = {v:.6g}" for k, v in raw.items())
         elif self.spec.result_kind == ResultKind.PICK:

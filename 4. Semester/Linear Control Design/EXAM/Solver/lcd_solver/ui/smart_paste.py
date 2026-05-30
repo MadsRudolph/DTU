@@ -139,18 +139,30 @@ class SmartPasteWidget(QWidget):
         # Extract Options (usually isolated numbers or text lines near the end)
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
         options_list = []
-        for ln in lines:
-            # Matches standard float options, or formulas, or labels, e.g. "1.73", "8.4 dB", "a) 0.5"
-            cleaned = ln.strip()
-            # If line is just a number, option marker, or TF-like, collect it
-            # e.g. "a) 1.73", "0.87 rad/s", "10.0"
-            if re.match(r"^(?:[a-d\*\-\s\)\.]{1,4})?\s*(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)$", cleaned, re.I):
-                # Extract only the numeric part + units
-                m = re.search(r"(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)", cleaned, re.I)
+
+        # Try to find labeled options anywhere in the text (even split on a single line)
+        # e.g. "a) MD = 5.5 dB b) MD = 3.55 dB" or "A. 1.73 B. 2.0"
+        opt_matches = re.findall(
+            r"\b([a-eA-E])[\s\)\.\:]{1,3}(?:[A-Z_a-z0-9\(\)]+\s*=\s*)?\s*(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)\b",
+            text
+        )
+        if len(opt_matches) >= 3:
+            options_list = [m[1] for m in opt_matches]
+        else:
+            # Fall back to line-by-line parsing for isolated options
+            for ln in lines:
+                cleaned = ln.strip()
+                if "options" in cleaned.lower() or "facit" in cleaned.lower():
+                    continue
+                # Match a line that looks like an option (optionally labeled and with variable assignment)
+                # e.g. "a) 1.73" or "1.73" or "MD = 11 dB"
+                m = re.match(r"^(?:[a-eA-E][\)\.\:\s]+)?(?:[A-Z_a-z0-9\(\)]+\s*=\s*)?\s*(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)$", cleaned, re.I)
                 if m:
-                    options_list.append(m.group(1))
-            elif "options" in cleaned.lower() or "facit" in cleaned.lower():
-                continue
+                    sub_m = re.search(r"(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)", cleaned, re.I)
+                    if sub_m:
+                        options_list.append(sub_m.group(1))
+                elif re.match(r"^\s*(-?\d+(?:\.\d+)?(?:\s*dB|\s*rad/s|°|%)?)\s*$", cleaned, re.I):
+                    options_list.append(cleaned)
 
         options = "\n".join(options_list)
 
@@ -219,6 +231,8 @@ class SmartPasteWidget(QWidget):
         if "pi-lead" in lower_text or "phase budget" in lower_text or "crossover frequency" in lower_text:
             # Extract wc, PM, plant phase
             wc = self._extract_number(text, r"\b(?:omega_c|ω_c|w_c)\b\s*=\s*(\d+(?:\.\d+)?)")
+            if not wc:
+                wc = self._extract_number(text, r"\|G(?:ol)?\(\s*(?:j\s*\*?\s*)?(\d+(?:\.\d+)?)(?:\s*\*?\s*j)?\s*\)\|\s*=\s*1")
             pm = self._extract_number(text, r"\b(?:gamma_m|γ_m|pm)\b\s*=\s*(\d+(?:\.\d+)?)")
             phi_g = self._extract_number(text, r"\b(?:phi_g|φ_g|phase)\b\s*=\s*([-\d\.]+)")
             inputs = {}
