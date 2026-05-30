@@ -18,3 +18,17 @@ def test_linear_input_passes_through():
 def test_invalid_unit_raises():
     with pytest.raises(ValueError):
         solve_KP_from_ess(0.4, "bogus", 0.5)
+
+
+from lcd_solver.tf_input import parse_tf
+from lcd_solver.solvers.p5_ess import solve_ess_table
+from tests.oracle_data import REEXAM_F21_Q4
+
+
+def test_REExam_F21_Q4_type2_ess_table():
+    G = parse_tf(REEXAM_F21_Q4["G_str"])
+    t = solve_ess_table(G)
+    assert t["type"] == REEXAM_F21_Q4["facit_type"]
+    assert t["ess_step"] == pytest.approx(REEXAM_F21_Q4["facit_ess_step"], abs=1e-9)
+    assert t["ess_ramp"] == pytest.approx(REEXAM_F21_Q4["facit_ess_ramp"], abs=1e-9)
+    assert t["ess_parabola"] == pytest.approx(REEXAM_F21_Q4["facit_ess_parabola"], rel=1e-3)

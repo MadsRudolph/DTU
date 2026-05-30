@@ -94,3 +94,13 @@ S21_Q9 = dict(G_str="K / (s*(s+5))", spec="Mp <= 0.12", facit_K_max=19.97)
 # (True ess = 1/(1+2*0.4) = 5/9 = 0.5555...; exam displays rounded "0.555".
 # Use 5/9 here so the rounded facit_KP=2.0 satisfies rel=1e-3.)
 F22_Q16 = dict(G0=-7.9588, G0_unit="dB", ess_target=5.0 / 9.0, facit_KP=2.0)
+
+
+# P5: solve_ess_table — REExam F21 Q4 type-2 plant
+REEXAM_F21_Q4 = dict(
+    G_str="5*(s+4) / (s**2 * (s+1) * (s+20))",
+    facit_type=2,
+    facit_ess_step=0.0,
+    facit_ess_ramp=0.0,
+    facit_ess_parabola=1.0,
+)
