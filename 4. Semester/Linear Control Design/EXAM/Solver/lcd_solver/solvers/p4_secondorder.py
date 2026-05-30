@@ -104,3 +104,74 @@ def solve_K_for_spec(G_str: str, spec: str) -> float:
     if not sols:
         raise ValueError(f"No positive real K satisfies the spec boundary {spec!r}")
     return float(max(sols))
+
+
+def solve_closed_loop_2nd_order(closed_loop_str: str, given_kind: str, given_value: float) -> dict:
+    """Given a parametric closed-loop TF and one known 2nd-order metric, return the full table.
+
+    Combines the symbolic K-extraction from solve_K_for_spec with the metric
+    derivation from solve_2nd_order. Use when the exam gives you a closed-loop
+    expression in (s, K) plus one spec value (Mp, zeta, omega_n, omega_d, t_p, t_s_2pct, or K).
+
+    closed_loop_str: e.g. "K / (s**2 + 2*s + K)" — may use literal numbers in place of K
+                     if K is already known (then use given_kind="K", given_value=K_known).
+    given_kind: one of {"Mp", "zeta", "omega_n", "omega_d", "t_p", "t_s_2pct", "K"}
+    given_value: the known numeric value of that metric.
+
+    Returns a dict with K, zeta, Mp, Mp_pct, omega_n, omega_d, t_p, t_s_2pct, t_s_5pct,
+    t_r, omega_BW (+ omega_r, M_r if underdamped enough).
+    """
+    s, K = sympy.symbols("s K", positive=True, real=True)
+    Gcl = sympy.sympify(closed_loop_str, locals={"s": s, "K": K})
+    _num, den = sympy.fraction(sympy.cancel(sympy.together(Gcl)))
+    coeffs = sympy.Poly(den, s).all_coeffs()
+    if len(coeffs) != 3:
+        raise NotImplementedError(
+            "solve_closed_loop_2nd_order requires a 2nd-order denominator. "
+            f"Got order {len(coeffs)-1} from {closed_loop_str!r}."
+        )
+    a2, a1, a0 = coeffs
+    # wn^2 = a0/a2, 2*zeta*wn = a1/a2  → both possibly depend on K
+    wn_sq_expr = sympy.simplify(a0 / a2)
+    wn_expr = sympy.sqrt(wn_sq_expr)
+    zeta_expr = sympy.simplify((a1 / a2) / (2 * wn_expr))
+
+    # Solve for K from the given metric. omega_d = wn * sqrt(1 - zeta^2).
+    if given_kind == "K":
+        K_val = float(given_value)
+    else:
+        if given_kind == "Mp":
+            target_zeta = _zeta_from_Mp(float(given_value))
+            eq = sympy.Eq(zeta_expr, target_zeta)
+        elif given_kind == "zeta":
+            eq = sympy.Eq(zeta_expr, float(given_value))
+        elif given_kind == "omega_n":
+            eq = sympy.Eq(wn_expr, float(given_value))
+        elif given_kind == "omega_d":
+            omega_d_expr = wn_expr * sympy.sqrt(1 - zeta_expr ** 2)
+            eq = sympy.Eq(omega_d_expr, float(given_value))
+        elif given_kind == "t_p":
+            omega_d_expr = wn_expr * sympy.sqrt(1 - zeta_expr ** 2)
+            eq = sympy.Eq(sympy.pi / omega_d_expr, float(given_value))
+        elif given_kind == "t_s_2pct":
+            sigma_expr = wn_expr * zeta_expr
+            eq = sympy.Eq(4 / sigma_expr, float(given_value))
+        else:
+            raise ValueError(
+                f"given_kind must be one of {{Mp, zeta, omega_n, omega_d, t_p, t_s_2pct, K}}, "
+                f"got {given_kind!r}"
+            )
+        sols = [s_ for s_ in sympy.solve(eq, K, positive=True) if s_.is_real]
+        if not sols:
+            raise ValueError(
+                f"No positive real K satisfies {given_kind}={given_value} for {closed_loop_str!r}"
+            )
+        # Prefer the smallest positive real K that produces a physical (underdamped) closed loop
+        K_val = float(min(sols, key=lambda x: float(x)))
+
+    wn_val = float(wn_expr.subs(K, K_val))
+    zeta_val = float(zeta_expr.subs(K, K_val))
+
+    out = solve_2nd_order(zeta=zeta_val, omega_n=wn_val)
+    out["K"] = K_val
+    return out

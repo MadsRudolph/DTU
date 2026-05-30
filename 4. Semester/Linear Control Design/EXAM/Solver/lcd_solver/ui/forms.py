@@ -93,6 +93,22 @@ ALL_FORMS: list[FormSpec] = [
                          "t_p", "t_s_2pct", "t_s_5pct", "t_r", "omega_BW"],
     ),
     FormSpec(
+        title="P4 — Closed-loop + 1 spec → full table",
+        pattern="P4", variant="Closed-loop TF + 1 known metric",
+        fields=[
+            FieldSpec("closed_loop_str", "Closed-loop TF in s, K", "str",
+                      default="K / (s**2 + 2*s + K)"),
+            FieldSpec("given_kind", "Known metric", "dropdown", default="Mp",
+                      options=["Mp", "zeta", "omega_n", "omega_d", "t_p", "t_s_2pct", "K"]),
+            FieldSpec("given_value", "Value of that metric", "float", default=0.17),
+        ],
+        solver_module="lcd_solver.solvers.p4_secondorder",
+        solver_function="solve_closed_loop_2nd_order",
+        result_kind=ResultKind.DICT,
+        dict_match_keys=["K", "zeta", "Mp", "Mp_pct", "omega_n", "omega_d",
+                         "t_p", "t_s_2pct", "t_s_5pct", "t_r", "omega_BW"],
+    ),
+    FormSpec(
         title="P4 — K for transient spec",
         pattern="P4", variant="K range for Mp / ζ spec",
         fields=[

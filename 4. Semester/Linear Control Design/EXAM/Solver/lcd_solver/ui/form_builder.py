@@ -73,7 +73,8 @@ class SolverFormWidget(QWidget):
 
         if spec.dict_match_keys:
             self.match_key_combo = QComboBox()
-            self.match_key_combo.addItems(spec.dict_match_keys)
+            # 'auto' first → matcher tries every numeric key and picks the best
+            self.match_key_combo.addItems(["auto"] + spec.dict_match_keys)
             row = QFormLayout()
             row.addRow("Match against key:", self.match_key_combo)
             layout.addLayout(row)
@@ -138,16 +139,12 @@ class SolverFormWidget(QWidget):
         if self.spec.show_plot and isinstance(raw, tuple) and len(raw) == 2:
             raw, plot_fig = raw
 
-        result = Result(value=raw, kind=self.spec.result_kind, plot_data=plot_fig)
-        match_key = self.match_key_combo.currentText() if self.match_key_combo else None
-        options = match(result, self.options_box.toPlainText(), match_key=match_key)
-
+        # Build the value-text first so it's visible even if matching fails
         if self.spec.result_kind == ResultKind.NUMBER:
             value_text = f"{float(raw):.6g}"
         elif self.spec.result_kind == ResultKind.DICT:
             value_text = ", ".join(f"{k} = {v:.6g}" for k, v in raw.items())
         elif self.spec.result_kind == ResultKind.PICK:
-            # PICK can be tuple (stable-K range) or dict (feedforward) — render generically
             if isinstance(raw, tuple):
                 value_text = f"({', '.join(f'{x:.6g}' if isinstance(x, float) else str(x) for x in raw)})"
             elif isinstance(raw, dict):
@@ -156,6 +153,22 @@ class SolverFormWidget(QWidget):
                 value_text = str(raw)
         else:  # TF
             value_text = str(raw)
+
+        result = Result(value=raw, kind=self.spec.result_kind, plot_data=plot_fig)
+        match_key = self.match_key_combo.currentText() if self.match_key_combo else None
+        try:
+            options = match(result, self.options_box.toPlainText(), match_key=match_key)
+        except KeyError as e:
+            available = list(raw.keys()) if isinstance(raw, dict) else "<not a dict>"
+            self.result_panel.display(
+                f"{value_text}   —   match-key {e} not in result; available: {available}",
+                [], [],
+            )
+            return
+        except Exception as e:
+            self.result_panel.display(f"{value_text}   —   match error: {e}", [], [])
+            return
+
         self.result_panel.display(value_text, options, [])
 
 

@@ -61,9 +61,11 @@ class ResultPanel(QGroupBox):
         layout = QVBoxLayout(self)
         self.value_label = QLabel("—")
         self.value_label.setStyleSheet("font-size: 14pt; font-weight: bold;")
+        self.value_label.setWordWrap(True)
         layout.addWidget(self.value_label)
-        self.options_table = QTableWidget(0, 2)
-        self.options_table.setHorizontalHeaderLabels(["Option", "Flag"])
+        self.options_table = QTableWidget(0, 3)
+        self.options_table.setHorizontalHeaderLabels(["Option", "Flag", "Note"])
+        self.options_table.horizontalHeader().setStretchLastSection(True)
         layout.addWidget(self.options_table)
         self.traps_label = QLabel("")
         self.traps_label.setStyleSheet("color: #b58900;")
@@ -83,4 +85,6 @@ class ResultPanel(QGroupBox):
             elif opt.flag == "unparseable":
                 cell.setBackground(QColor(230, 180, 180))
             self.options_table.setItem(i, 1, cell)
+            note = getattr(opt, "note", "") or ""
+            self.options_table.setItem(i, 2, QTableWidgetItem(note))
         self.traps_label.setText(" • ".join(traps) if traps else "")

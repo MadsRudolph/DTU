@@ -22,6 +22,7 @@ class Option:
     parsed: Any
     distance: float | None
     flag: str  # "match" | "also_plausible" | "no_match" | "unparseable"
+    note: str = ""  # e.g. matched-against-key when auto-matching a DICT result
 
 
 def _parse_number(raw: str) -> float:
@@ -46,8 +47,8 @@ def match(result: Result, options_text: str, match_key: str | None = None) -> li
     if result.kind == ResultKind.TF:
         return _match_tf(result.value, lines)
     if result.kind == ResultKind.DICT:
-        if match_key is None:
-            raise ValueError("DICT result requires match_key")
+        if match_key in (None, "", "auto"):
+            return _match_dict_auto(result.value, lines)
         return _match_number(float(result.value[match_key]), lines)
     if result.kind == ResultKind.PICK:
         # PICK: solver returns canonical text; no symbolic option comparison
@@ -76,6 +77,72 @@ def _match_number(target: float, lines: list[str]) -> list[Option]:
         for o in parseable:
             if o is not winner and o.distance < 0.01:
                 o.flag = "also_plausible"
+    return options
+
+
+def _match_dict_auto(result_dict: dict, lines: list[str]) -> list[Option]:
+    """Auto-mode for DICT results.
+
+    For each option, find every dict key it's near (within 5%). Annotate the note
+    with all near matches and their distances. Crown a single 'match' only when
+    one option is tightly (<1%) and uniquely matched — otherwise surface all
+    plausible options and let the user pick the metric explicitly. This is
+    deliberately conservative because exam distractors are designed to look
+    like other metrics in the same problem (e.g. t_r ≈ ω_d for some ζ).
+    """
+    TIGHT = 0.01   # 1% — single-winner threshold
+    SOFT = 0.05    # 5% — surface as also_plausible
+
+    numeric_items = [(k, float(v)) for k, v in result_dict.items()
+                     if isinstance(v, (int, float)) and not isinstance(v, bool)
+                     and math.isfinite(float(v))]
+    if not numeric_items:
+        return [Option(raw_text=ln, parsed=None, distance=None, flag="no_match") for ln in lines]
+
+    options: list[Option] = []
+    for ln in lines:
+        try:
+            val = _parse_number(ln)
+        except (ValueError, TypeError, sympy.SympifyError):
+            options.append(Option(raw_text=ln, parsed=None, distance=None, flag="unparseable"))
+            continue
+        # Score against every key
+        scored = []
+        for k, target in numeric_items:
+            denom = abs(target) if abs(target) > 1e-12 else 1.0
+            d = abs(val - target) / denom
+            scored.append((k, d))
+        scored.sort(key=lambda x: x[1])
+        best_key, best_dist = scored[0]
+        # Build a note that mentions all keys within SOFT — that's the "feels like AI" hint
+        near = [(k, d) for k, d in scored if d < SOFT]
+        if near:
+            note = "near: " + ", ".join(f"{k} (Δ={d:.1%})" for k, d in near)
+        else:
+            note = f"closest: {best_key} (Δ={best_dist:.1%})"
+        options.append(Option(
+            raw_text=ln, parsed=val, distance=best_dist, flag="no_match", note=note,
+        ))
+
+    parseable = [o for o in options if o.distance is not None]
+    if not parseable:
+        return options
+
+    # Tight matches: option within 1% of its best key
+    tight = [o for o in parseable if o.distance < TIGHT]
+    if len(tight) == 1:
+        # Single unambiguous winner
+        tight[0].flag = "match"
+        tight[0].note = "match — " + tight[0].note
+    elif len(tight) > 1:
+        # Multiple tight matches → ambiguous: surface all
+        for o in tight:
+            o.flag = "also_plausible"
+            o.note = "ambiguous — " + o.note
+    # Otherwise: no winner crowned. Mark soft matches as also_plausible.
+    for o in parseable:
+        if o.flag == "no_match" and o.distance < SOFT:
+            o.flag = "also_plausible"
     return options
 
 
