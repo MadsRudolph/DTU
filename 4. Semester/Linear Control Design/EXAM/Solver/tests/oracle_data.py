@@ -70,3 +70,11 @@ REEXAM_F21_Q5 = dict(
     facit_zeros=[-10.0],
     facit_dc_gain_linear_abs=1000.0,
 )
+
+# P3: solve_stable_K_range — G as expression string for tf_input.parse_tf
+S21_Q4 = dict(G="1 / (s+1)**3", facit_low=0.0, facit_high=8.0)
+F22_Q12 = dict(G="1 / (s - 2.5)", facit_low=None, facit_high=None,
+               # Documented in solve_F22.m: Nyquist crossing at -0.0222 → K_marginal ≈ 45
+               facit_K_marginal=45.0)
+REEXAM_F21_Q14 = dict(G="25 / (s**3 + s**2 + 10*s)", facit_low=0.0, facit_high=0.398)
+REEXAM_F21_Q16 = dict(G_unstable_marginal=40.5)  # documented K_marginal
