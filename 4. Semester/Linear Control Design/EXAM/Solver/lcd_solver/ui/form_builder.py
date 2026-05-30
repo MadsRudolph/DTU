@@ -299,6 +299,28 @@ class SolverFormWidget(QWidget):
                     return
             else:
                 raw = self._call_solver(kwargs)
+
+            # Coerce solve_pi_lead float result to a dictionary containing derived metrics (like M_D, M_D_dB)
+            if self.spec.solver_function == "solve_pi_lead":
+                import math
+                unknown = kwargs.get("unknown")
+                if unknown == "alpha":
+                    alpha_val = float(raw)
+                    md_val = 1.0 / math.sqrt(alpha_val) if alpha_val > 0 else 0.0
+                    md_db = 20.0 * math.log10(md_val) if md_val > 0 else 0.0
+                    raw = {
+                        "alpha": alpha_val,
+                        "M_D": md_val,
+                        "M_D_dB": md_db
+                    }
+                elif unknown == "Ni":
+                    raw = {
+                        "N_i": float(raw)
+                    }
+                elif unknown == "KP":
+                    raw = {
+                        "K_P": float(raw)
+                    }
         except Exception as e:
             self.result_panel.display(f"Error: {e}", [], [])
             return
@@ -311,15 +333,6 @@ class SolverFormWidget(QWidget):
         # Build the value-text first so it's visible even if matching fails
         if self.spec.result_kind == ResultKind.NUMBER:
             value_text = f"{float(raw):.6g}"
-            if self.spec.solver_function == "solve_pi_lead":
-                import math
-                unknown = self._field_widgets["unknown"].currentText()
-                if unknown == "alpha":
-                    alpha_val = float(raw)
-                    if alpha_val > 0:
-                        md_val = 1.0 / math.sqrt(alpha_val)
-                        md_db = 20.0 * math.log10(md_val)
-                        value_text += f"  (Implied MD = {md_val:.3g} = {md_db:.2f} dB)"
         elif self.spec.result_kind == ResultKind.DICT:
             value_text = ", ".join(f"{k} = {v:.6g}" for k, v in raw.items())
         elif self.spec.result_kind == ResultKind.PICK:

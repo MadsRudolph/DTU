@@ -342,7 +342,8 @@ ALL_FORMS: list[FormSpec] = [
         ],
         solver_module="lcd_solver.solvers.p6_control",
         solver_function="solve_pi_lead",
-        result_kind=ResultKind.NUMBER,
+        result_kind=ResultKind.DICT,
+        dict_match_keys=["alpha", "M_D", "M_D_dB", "N_i", "K_P"],
         explanation=(
             "Solves the Phase-Budget design equation: -180 + gamma_M = phi_G + phi_Lead + phi_PI.\n"
             "Hides irrelevant inputs dynamically based on which parameter is the unknown."

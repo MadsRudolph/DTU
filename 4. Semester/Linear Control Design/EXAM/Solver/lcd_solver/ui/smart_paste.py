@@ -233,11 +233,17 @@ class SmartPasteWidget(QWidget):
             wc = self._extract_number(text, r"\b(?:omega_c|ω_c|w_c)\b\s*=\s*(\d+(?:\.\d+)?)")
             if not wc:
                 wc = self._extract_number(text, r"\|G(?:ol)?\(\s*(?:j\s*\*?\s*)?(\d+(?:\.\d+)?)(?:\s*\*?\s*j)?\s*\)\|\s*=\s*1")
+            
+            # Extract tau_d
+            td = self._extract_number(text, r"(\d+(?:\.\d+)?)\s*\*?\s*s\s*\+\s*1")
+            
             pm = self._extract_number(text, r"\b(?:gamma_m|γ_m|pm)\b\s*=\s*(\d+(?:\.\d+)?)")
             phi_g = self._extract_number(text, r"\b(?:phi_g|φ_g|phase)\b\s*=\s*([-\d\.]+)")
             inputs = {}
             if wc:
                 inputs["omega_c"] = str(wc)
+            if td:
+                inputs["tau_d"] = str(td)
             if pm:
                 inputs["gamma_M_deg"] = pm
             if phi_g:
