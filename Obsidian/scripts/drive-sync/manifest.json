@@ -154,6 +154,31 @@
       "size": 2705664
     },
     {
+      "path": "1. Semester/Elektroteknologi/Evalueringer/Evaluering 1.mw",
+      "driveId": "18oWRA5ADjYoyvxzuBr5onbKw-9SgH9QM",
+      "size": 87054
+    },
+    {
+      "path": "1. Semester/Elektroteknologi/Regneøvelser/Lektion 7 Knudepunktsmetode.mw",
+      "driveId": "1Fb9mrn1s9R6lsDmHxefEx_BII19WDcvm",
+      "size": 134716
+    },
+    {
+      "path": "1. Semester/Elektroteknologi/Regneøvelser/T12.mw",
+      "driveId": "1w-iUK7xTEQTLaB9-1yVQ6kAEEvoNUfzb",
+      "size": 73268
+    },
+    {
+      "path": "1. Semester/Elektroteknologi/Regneøvelser/eksmane.mw",
+      "driveId": "14GRYcRNSnzWl_5g_t2wK8KUgNAe3_37Q",
+      "size": 53342
+    },
+    {
+      "path": "1. Semester/Elektroteknologi/Regneøvelser/opgavesæt forår 2024.mw",
+      "driveId": "1X_gUZq7ORyTXwQnnu8HnOQte8ERXxsKs",
+      "size": 48304
+    },
+    {
       "path": "1. Semester/Elektroteknologi/Ã˜velser/Evaluering 1 S246132.pdf",
       "driveId": "1PL2WXDalyiRm_AwBq8qnQVNwBH1eESie",
       "size": 2596994
@@ -314,9 +339,219 @@
       "size": 1328581
     },
     {
+      "path": "1. Semester/Fysik/Regneøvelser/Lektion 7 Knudepunktsmetode.mw",
+      "driveId": "1ptxdxnd6DCil1B32f6jS0Uf3Foh3l3DB",
+      "size": 134716
+    },
+    {
+      "path": "1. Semester/Fysik/Regneøvelser/kapitel_2_opgaver.mw",
+      "driveId": "1j2QgZLnV3P9_YpPVAMcLZaRGKxV3jHR7",
+      "size": 40781
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/Dokument over nyttige maple funktioner.mw",
+      "driveId": "1G_39md4lDmI5lcq_XatuE1H61nEmWa_4",
+      "size": 222102
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/Eksamens-Type-Opgaver.mw",
+      "driveId": "1dZfWQU_qK1uVFrZnv7ujBpGt8AXjOLxs",
+      "size": 1243277
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/Eksamenssæt August .mw",
+      "driveId": "1lwJ4PDU7CBfznlIl3iYDuEXLQ1JtIiQi",
+      "size": 180246
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/1. ordens lineëre diff ligninger - 04-11-2019.mw",
+      "driveId": "1iZ0bMUExPnbL75HeJ-bZNqB4bLd9v2UL",
+      "size": 241081
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/2. ordens diff. ligning - 02-11-2019.mw",
+      "driveId": "10Uq3yeTMmtRKIWHdOiv7I9lq5jkvI-f0",
+      "size": 245778
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Approksimernede polynomier - 23-09-2019.mw",
+      "driveId": "1EvQbN1MJWyb6SYSb5m3ugmloWOlbzjpr",
+      "size": 150697
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Basismat-1-The-Book-of-Thruth.mw",
+      "driveId": "1DO_oXmh723g_P26kx5SA_-hFRBkbk6UO",
+      "size": 623554
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Determinater og vektoere - 07-10-2019.mw",
+      "driveId": "1-lIGPnyy_ecZVfC4cawDkIZ-kGxdyiO8",
+      "size": 248847
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Diagonalisering ved ortogonal substition - 21-11-2019.mw",
+      "driveId": "1W6KYF4ORurCHy2wnsQTngLIMs2LEcsFl",
+      "size": 144444
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Diagonalisering ved similartransformation - 14-11-2019.mw",
+      "driveId": "1uY53biMXHF1vsoH_4U2kiDS9itmzyT6_",
+      "size": 183607
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Differentialligningssystemmer - 25-11-2019.mw",
+      "driveId": "1EV3Ut4zYYsWjcNkRmdSBEcjDuaWKFOK3",
+      "size": 259124
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Differentiation - 19-09-2019.mw",
+      "driveId": "1c79a1DsaWVXBHJD1I3rmD4-GK_CZGEWM",
+      "size": 179506
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Egenvërdier og egenvektore - 11-11-2019.mw",
+      "driveId": "1DeqAurnK-sL_WLSjdmFJCzgOUJhaz7WL",
+      "size": 240896
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Generelle vektorrum - 21-10-2019.mw",
+      "driveId": "1yFAScbJNigc42jjZH5nJB2ujaBpp3f4_",
+      "size": 221682
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Lineëre afbildninger - 28-10-2019.mw",
+      "driveId": "1VkYN4rAUG69ejyFLe-dpBhJJvXbQivRk",
+      "size": 180618
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Lineëre afbildninger - 31-10-2019.mw",
+      "driveId": "1Lk-yKJ1r33wmJYjmVchiyIvyCUkBGrFZ",
+      "size": 203146
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Lineëre ligninssystemer - 30-09-2019.mw",
+      "driveId": "1dk5ZILY42RV9dzplJMt9yEy8dzhj_npc",
+      "size": 302851
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Matricer - 03-10-2019.mw",
+      "driveId": "14JNZHgZlhEhbqrHCndKyYsZeCaGWL8vm",
+      "size": 250064
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Pi, Cos og Sin.mw",
+      "driveId": "1Uwhk6h6lwN_Sp2DHeiDBZWmfP2f9nC2d",
+      "size": 162533
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Polynomier.mw",
+      "driveId": "1BbVoWcMuxVN-u_yx5TSea5K4lX_L9h3Y",
+      "size": 248976
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Polëre koordinater og eksponentialfunktionen - 12-09-2019.mw",
+      "driveId": "1mXwR72asTY8pvfbtxBRWiNAdQI0Mo-OF",
+      "size": 170027
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Prik, kryds og det - 10-10-2019.mw",
+      "driveId": "1Yctz3GiyuB-x_NsXTSk1CzEzcPC4b3M6",
+      "size": 156495
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Regning med R og C.mw",
+      "driveId": "1e8JVBL65M2lPblv4Y2LTmtjFGhTyjG75",
+      "size": 138194
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/VS_/Symmetriske matricer - 18-11-2019.mw",
+      "driveId": "1CGh3ireTH1Szn7lTJia79koHBECM87VS",
+      "size": 260392
+    },
+    {
+      "path": "1. Semester/MAM/EksamensHjælp/matematik løsninger til gamle eksamensopgaver .mw",
+      "driveId": "11SZ5alTZo7c093e2vmCltMVwla67AeY2",
+      "size": 2590025
+    },
+    {
+      "path": "1. Semester/MAM/Jnas/Aug-21.mw",
+      "driveId": "15LwmdZcMe3aQKKUauXmc6bg6eMhLa8t1",
+      "size": 2490248
+    },
+    {
+      "path": "1. Semester/MAM/Jnas/Aug-24.mw",
+      "driveId": "1j4ZonmuU-eYfQiKzv4tVJCoUzEoXyPY_",
+      "size": 760889
+    },
+    {
+      "path": "1. Semester/MAM/Jnas/E-21.mw",
+      "driveId": "1h6hDuSBMxz4sjjzQI7CnMBAw3WdczHBn",
+      "size": 518645
+    },
+    {
+      "path": "1. Semester/MAM/Jnas/E23.mw",
+      "driveId": "1Gb9-LIyyFtelo_nmgXYs_iKkuv_qqEFq",
+      "size": 1730195
+    },
+    {
+      "path": "1. Semester/MAM/Jnas/F-24.mw",
+      "driveId": "1kKsLVsMO9eLd8az3H8xB8ZRlgslUH4AT",
+      "size": 1047214
+    },
+    {
       "path": "1. Semester/MAM/Kursusnoter_01911.pdf",
       "driveId": "1jHHMaL-wZ1XviUeXrpJQO-eaqMt_oMtq",
       "size": 626527
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 01.mw",
+      "driveId": "1H_FaaryqrpC8k6PL9K52Pn9cVYE5jPCF",
+      "size": 89068
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 02.mw",
+      "driveId": "1sHBvmYtOr8iKtk37rW76BYc0aZHRELUc",
+      "size": 56337
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 03 (1).mw",
+      "driveId": "1OUdbgWOIvNN57nn00l6md5O7xWmpnAHM",
+      "size": 85536
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 04.mw",
+      "driveId": "1vXP6FDqQ_e41ojbYLdhhu6d5LpPXkTpS",
+      "size": 68416
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 05.mw",
+      "driveId": "1GhgSmi_P6jqDHNbPNQCYmGWV5XM6GJPX",
+      "size": 93467
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 07.mw",
+      "driveId": "1XtODNIMTLhvT8DMTslpivUUU9OXy3iBW",
+      "size": 44695
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 08 (1).mw",
+      "driveId": "1NxkeaSpZVjyLFLA6NEcS93OQl7rVuYOr",
+      "size": 151811
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 09.mw",
+      "driveId": "15nJ1h6RvHmLartFqu_X4WdJJoH2Qamn7",
+      "size": 84455
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 10.mw",
+      "driveId": "1jQlb3dYVsaEmK3jDtQcydOgG9yiRfSNq",
+      "size": 36409
+    },
+    {
+      "path": "1. Semester/MAM/Maple eksempler undervisning/MAM Maple 11.mw",
+      "driveId": "1UEj_OpUClXTtFQwOHbbJlR9t5mfXckdA",
+      "size": 180832
     },
     {
       "path": "1. Semester/MAM/eksamenssÃ¦t/LÃ¸sninger/LoesningEksamenE21.pdf",
@@ -474,6 +709,11 @@
       "size": 110095
     },
     {
+      "path": "2. Semester/LAM/Eksamen/EKSAMEN 2025.mw",
+      "driveId": "1CRgMXb5BqPscG0xqrDcaqBP94zaXwp8-",
+      "size": 438521
+    },
+    {
       "path": "2. Semester/LAM/Eksamen/Eksamen BasisMat 2 F20.pdf",
       "driveId": "1FaMl29Uwjjd6jTaTQzgzo3c0xK9kmLnW",
       "size": 101508
@@ -499,14 +739,44 @@
       "size": 99120
     },
     {
+      "path": "2. Semester/LAM/Eksamen/Modelleringsøvelse 2 Christian.mw",
+      "driveId": "1RPUrxoM24E8PaoX6Kw09sOTyPS8FJjg6",
+      "size": 1455733
+    },
+    {
+      "path": "2. Semester/LAM/Eksamen/Modelleringsøvelse 2 JONAS.mw",
+      "driveId": "1RIVqBcwJmK6yUcJuoOJx87yvELC6wcPg",
+      "size": 10286891
+    },
+    {
       "path": "2. Semester/LAM/Eksamen/Spring 2025 Exam.pdf",
       "driveId": "1uJvgBwihFuqyzbWEA889kYPxy9Ovh71b",
       "size": 225928
     },
     {
+      "path": "2. Semester/LAM/Eksamen/Typeopgaver Eksamen.mw",
+      "driveId": "1dATOYpB3mOLvRZ6qEXxWmp9x8QaQQ5dw",
+      "size": 2001992
+    },
+    {
       "path": "2. Semester/LAM/Kursusnoter_01922.pdf",
       "driveId": "1Lxhrs3X3b6Z9GlevFu1oUiYTEVZedxho",
       "size": 1825211
+    },
+    {
+      "path": "2. Semester/LAM/Maple/UGE 1/LAM Maple 01.mw",
+      "driveId": "1_dTOsbptCpMTKFT210JN0vReOjZNucj-",
+      "size": 3028605
+    },
+    {
+      "path": "2. Semester/LAM/Maple/UGE 1/Løsninger_uge01.mw",
+      "driveId": "1EVp0CjvDf6fuyyq0ycKHzF2pz8jdmDnw",
+      "size": 288129
+    },
+    {
+      "path": "2. Semester/LAM/Modelleringsøvelse2.mw",
+      "driveId": "1V1dB0gkOSY8Q5IoUT_Lc-5jIReIrQS5B",
+      "size": 233940
     },
     {
       "path": "2. Semester/LAM/Opgaver uge01.pdf",
@@ -529,6 +799,11 @@
       "size": 1574487
     },
     {
+      "path": "2. Semester/advanced math/Eksamens sæt/E21.mw",
+      "driveId": "10xWfunLDQgcNi_U7X7cW_opdnC8jz2Wa",
+      "size": 2456681
+    },
+    {
       "path": "2. Semester/advanced math/Eksamens sæt/Exam Solution F22.pdf",
       "driveId": "1qbtveBCexT-PAPKdYK3WzRAa7DvjWemo",
       "size": 521469
@@ -549,9 +824,29 @@
       "size": 2528087
     },
     {
+      "path": "2. Semester/advanced math/Eksamens sæt/Fall-22.mw",
+      "driveId": "1kcwViQmY7nQnPeF1SzdRwtQ3tZAbKTjL",
+      "size": 901981
+    },
+    {
+      "path": "2. Semester/advanced math/Eksamens sæt/Spring 2025 Exam.mw",
+      "driveId": "1q_jQqs2-g6YOxk17QaUGgoLoqWRi37xd",
+      "size": 395611
+    },
+    {
       "path": "2. Semester/advanced math/Eksamens sæt/Spring 24 Mysolution.pdf",
       "driveId": "1H3KTXF_hhY4F5Vf7kll0FJJWNjBKFMwf",
       "size": 2911043
+    },
+    {
+      "path": "2. Semester/advanced math/Eksamens sæt/Spring-2023-vildt-godt-dokument.mw",
+      "driveId": "1mnr1pg9iagPSD3kX1Kyx_XNyR0ug3eEo",
+      "size": 893599
+    },
+    {
+      "path": "2. Semester/advanced math/Eksamens sæt/avanceret matematik maple .mw",
+      "driveId": "1LSo2ITGUahlUvL_VyGqR17DIFP4Elu4m",
+      "size": 12536245
     },
     {
       "path": "2. Semester/advanced math/Signals et systems for dummies (Wickert, Mark) (Z-Library).pdf",
@@ -564,9 +859,69 @@
       "size": 65121711
     },
     {
+      "path": "2. Semester/advanced math/ue 7.mw",
+      "driveId": "1xNLwBw1N44sMyWz9bSfGrtPT9DO1L59f",
+      "size": 79884
+    },
+    {
       "path": "3.semester/DSP/EXAMS/E25_exam_attempt/DSP_Exam_E25_S246132.pdf",
       "driveId": "1qLYAzirL_Y3oGa2fMZAYqB3sDuql3vhP",
       "size": 362153
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/E21 exam.mw",
+      "driveId": "1Qe2sLjDjEhSSIBbKIpwZadSp-6O8NdVE",
+      "size": 631316
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/E22 exam.mw",
+      "driveId": "14r5-wLmOG8YP2D1doVJfTH_jMRbtZ0w_",
+      "size": 1296975
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/E23.mw",
+      "driveId": "1eDtVZ5S_UPbhB9SJOyoaB2jKA5_iprmI",
+      "size": 3473018
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/E24 Exam.mw",
+      "driveId": "1V6CgCPrhCmtmaqymGa4CIUIT60gNgM2X",
+      "size": 1967174
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/F21.mw",
+      "driveId": "17EgCImFEK0sY8PhPRW0zscmb7F8PxqAl",
+      "size": 2063235
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/F23_eksamen.mw",
+      "driveId": "1e3S944VaWzssoUJqTHxHERQs5pD-lbwO",
+      "size": 3489444
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/F24 Exam '.mw",
+      "driveId": "1JY0QZJxFx63_-pDN3_pCf1XalvilsmLn",
+      "size": 2385026
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/F25_eksamen.mw",
+      "driveId": "1wGGI1EQ5y-WmL3gUSoWTWXAULF8ZjLdp",
+      "size": 3170852
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/Friends/Maple/OLIVERS.mw",
+      "driveId": "1qslwyf70HoeRvn9uGYfRPsKF3hzZLANV",
+      "size": 2413036
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/html/E25_new_pretty.pdf",
+      "driveId": "1OKwRdfIxpANb2qGSnZjc_trT_g0SRUGA",
+      "size": 1244397
+    },
+    {
+      "path": "3.semester/DSP/EXAMS/html/F20.pdf",
+      "driveId": "1wWaTL4BFQT3cXhwTtBE-3Du9E_Hkfq6-",
+      "size": 370696
     },
     {
       "path": "3.semester/DSP/html/DSP_E23_Exam.pdf",
@@ -582,6 +937,11 @@
       "path": "3.semester/Electromagnetics/EXAM/Exam25.pdf",
       "driveId": "1B_MfB5kvWRTkfNTzjS8ZNg-zSgLAaTUv",
       "size": 1014694
+    },
+    {
+      "path": "3.semester/Electromagnetics/GroupTutorials/L03.mw",
+      "driveId": "1jvzvihTUKC2PaaJwvu26FbKFQTgbE4SV",
+      "size": 65878
     },
     {
       "path": "3.semester/Integrated Analog Electronics/Home-Assignment/Integrated_Analog_Electronics___Home_Assignment_II/main.pdf",
@@ -604,6 +964,16 @@
       "size": 3386
     },
     {
+      "path": "3.semester/Integrated Analog Electronics/Problems/EXAM CRAP.mw",
+      "driveId": "1ExFLEtwMMYXjjDGNfe0liaWNOVTwWzP0",
+      "size": 451204
+    },
+    {
+      "path": "3.semester/Integrated Analog Electronics/Problems/L02.mw",
+      "driveId": "10_N_5G0_6ZNMnci01LJYx3dFzg5nV4ru",
+      "size": 32977
+    },
+    {
       "path": "4. Semester/Digital Systems Design/Tools/vivado-boards-master.zip",
       "driveId": "1jy_31VKJVD4_v7Cb_rcDlRJRRCCIoisG",
       "size": 265089
@@ -621,7 +991,7 @@
     {
       "path": "4. Semester/Digital Systems Design/team/Report-PWB/main.pdf",
       "driveId": "1SscrIeumrYxfyTJB8JLhp9O6s30fHWef",
-      "size": 2251395
+      "size": 3582230
     },
     {
       "path": "4. Semester/Digital Systems Design/team/Report-PWB/sections/instruction-decoder-controller.pdf",
@@ -637,6 +1007,16 @@
       "path": "4. Semester/Digital Systems Design/team/Submissions/Group03_PWA.zip",
       "driveId": "1ILPzcZ7yYNqVBklGOPhzKtafj4f0_zJ1",
       "size": 3631698
+    },
+    {
+      "path": "4. Semester/Digital Systems Design/team/Submissions/Group03_PWB.zip",
+      "driveId": "1ptcMgBaX39mryZGRyHn2SxTSzTifRngU",
+      "size": 28318
+    },
+    {
+      "path": "4. Semester/Digital Systems Design/team/Submissions/Group03_PWB_Report.pdf",
+      "driveId": "1caRSRalStKSqS0xFQ5MZCu9-C0WbgyXV",
+      "size": 3582230
     },
     {
       "path": "4. Semester/Internet of Things/Arduino/Ex13/Ex13_Demo.mp4",
@@ -684,6 +1064,11 @@
       "size": 46209
     },
     {
+      "path": "4. Semester/Internet of Things/Group Project/34315_IntroProjectWork_2026.pdf",
+      "driveId": "1vO50kM_L9ZePr5_XQbPNwTgj50U7MzdM",
+      "size": 901237
+    },
+    {
       "path": "4. Semester/Linear Control Design/EXAM/Maple solutions/Eksamen F20, løst.mw",
       "driveId": "17P1mubWAFjKpgSdW_Uv4Zb6_2KlXESVW",
       "size": 9725885
@@ -714,9 +1099,569 @@
       "size": 532979
     },
     {
+      "path": "4. Semester/Linear Control Design/REGBOT-Balance-Assignment/Report/main.pdf",
+      "driveId": "11tHM4PGumcqQcnkGWf1BY77LcDzVXoR-",
+      "size": 3462693
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/Opg3/Flowcharts/opg 3 flowcharts.pdf",
+      "driveId": "1IAiF5X0EL-AfkupwBybtqmparADwmNDs",
+      "size": 185173
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg1/Flowcharts/Flowcharts opg 1.b & 1.pdf",
+      "driveId": "1aHCyTTB57pE7pZX988l-_HjOF3tdBv7Y",
+      "size": 404581
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg1/PDF/Aflevering_1a_1b_1c.c.pdf",
+      "driveId": "1Lb4Sea2LRTNztbXU5WynHYgnyf4NVqGY",
+      "size": 160381
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg10/Opg10-Flowchart.pdf",
+      "driveId": "1oYuxnK5HgAziIZhJvT5qYjU18NkW_Nr7",
+      "size": 253610
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg10/Opgave 10-E24 (1).pdf",
+      "driveId": "18Q0S5Y7eEu-470WIr_SlSlHY34u4Azzb",
+      "size": 279529
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg11/Installation%20af%20pakker%20for%20datah%C3%A5ndtering%20og%20behandling%20samt%20downlod%20af%20JSON%20filer.pdf",
+      "driveId": "18iKgXHgfD7v8MzJo0yM1yUxgyQp__p6N",
+      "size": 815683
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg11/Opgave 11.pdf",
+      "driveId": "1YKn1L98A6Scep608dI8wll0YB_QcAK8g",
+      "size": 526802
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg11/cJSON-master/cJSON-master/tests/unity/docs/UnityAssertionsCheatSheetSuitableforPrintingandPossiblyFraming.pdf",
+      "driveId": "1dV7d_RVWcqaixEoFbBBr1Rc-slUl-50n",
+      "size": 144467
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg2/Flowchart/Flowchart opg 2.pdf",
+      "driveId": "15DvKbDglzEaMnbQziDzhUfloNICDYlSm",
+      "size": 375893
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg4/Flowchart/opg 5_a_flowchart.pdf",
+      "driveId": "1ZByDkIrACD0wSPMkuA22fPxGp8AvQd25",
+      "size": 219768
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg5/Opg 5 flowchart.pdf",
+      "driveId": "1obuFb3IPsN2WOuvrzuqJ3ROTUYrdvngF",
+      "size": 164467
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg6/Opgave 6-E24.pdf",
+      "driveId": "1y4syX9W4SKRuPUvqoifs2H3QNT5F9-iy",
+      "size": 157046
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg6/flowchart opg6.pdf",
+      "driveId": "1VJ2hMpOunl2qUIeFVN4GwITqIgXw0Cy9",
+      "size": 1683202
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg7/opg7_flowchart.pdf",
+      "driveId": "1e4fSO6_KJ2AppMGIBVGDAP4K09GHlCI1",
+      "size": 177534
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg8/opg 8 flowchart.pdf",
+      "driveId": "1lR0lQ9CFjaITpnQarLh3PY6luCobOaaL",
+      "size": 293081
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Basic C Programming/Afleveringer/opg9/opg9_Flowchart.pdf",
+      "driveId": "1gT90oWjOlPdMSv6IRPWIc0ZpfQSnV66H",
+      "size": 308311
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/LÃ¸sning TrÃ¦ningsopgavesÃ¦t T21 (1).pdf",
+      "driveId": "1yVLuroH1LpMTbIYaMbMYjE8Wt6jYloxC",
+      "size": 2413983
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/LÃ¸sning TrÃ¦ningsopgavesÃ¦t T22.pdf",
+      "driveId": "1PQDvZP1iCMQD_ZhI8jOm1PRyWXhkTOMc",
+      "size": 1721444
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/LÃ¸sning TrÃ¦ningsopgavesÃ¦t T23.pdf",
+      "driveId": "1dCWzOuD-VkGpJckenFRpKDnyYYoVlcEa",
+      "size": 1513517
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/TrÃ¦ningsopgavesÃ¦t T21 (1).pdf",
+      "driveId": "1AyE6jiE9T_PqPBlgngsn5Tw9B2VZhLI7",
+      "size": 1373819
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/TrÃ¦ningsopgavesÃ¦t T22.pdf",
+      "driveId": "1BqajtxnFPFGYeO1DGzrwwEjUZQn76BVA",
+      "size": 1284620
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/LÃ¸sningsforslag/TrÃ¦ningsopgavesÃ¦t T23 1.pdf",
+      "driveId": "1V5bROpXqY2nMfgggCcptWeadHxstsWuZ",
+      "size": 1350750
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/Evaluerin 1.pdf",
+      "driveId": "10SAH5oZA1RgiQZ4Mx9VaoV5xYnUJvGXM",
+      "size": 4339183
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/Evaluerin 2.pdf",
+      "driveId": "1OsiahQkyAcP6h7vBetveL918VYply--M",
+      "size": 2705664
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/Skabeloner.pdf",
+      "driveId": "1PX4j0bTL1mOR136pkObVpWJ2KoWsAWaC",
+      "size": 1206838
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/T12.pdf",
+      "driveId": "1HrT-3zqqph7T8uG0vnCVlU2ADTFQGCEr",
+      "size": 5547894
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/T21.pdf",
+      "driveId": "1hri-DcfINr1bpWAmQS7KuUUh-LbZZ9Bi",
+      "size": 9821391
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/T23.pdf",
+      "driveId": "1KpgrzhiLU0IZC5qqDeK4ZG1F5Fl10giD",
+      "size": 8726197
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Eksamen/Noter/Transistor diagram.pdf",
+      "driveId": "1CanCzQPG-KfjYU4Z_AAe3KQXw5zEi95c",
+      "size": 292694
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Elektroteknologi/Evalueringer/EvaluerinG 2.pdf",
+      "driveId": "10eSxgPZIuebN3Zo6LwjvGQOWerSubXGc",
+      "size": 2705664
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/10935 Eksamen E20_solutions.pdf",
+      "driveId": "1_IlzLu6PFBlVoz0PBDvVtnHfodc-YyF5",
+      "size": 1328581
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/10935 Eksamen E22 med lÃ¸sninger.pdf",
+      "driveId": "11CZUvFGe1t0iWop9fHyqw3fH7bP-DOky",
+      "size": 774553
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/10935 Eksamen F21 (reeksamen E20) facit.pdf",
+      "driveId": "1IFjvoK8COPXBvjChXu5A-oarwRAiv84T",
+      "size": 23925
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/10935 Eksamen F21 (reeksamen E20).pdf",
+      "driveId": "1_SwHCZRH2pvr8FVL_A2RowjCIdp6oEJG",
+      "size": 467733
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/10935 Eksamen F22 (reeksamen E21) (1).pdf",
+      "driveId": "1NcbXJsJfwfrZx9ijIAC7xzrP_eazsL1h",
+      "size": 266324
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/Eksamen 10935 E21 med lÃ¸sning.pdf",
+      "driveId": "18cviQBcJTip5FEXbj49yOyWwT_ng1TLh",
+      "size": 793480
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/Fysik Summary.pdf",
+      "driveId": "1E_a3zrnf0M37baeVyVn7NruSVWHh8gId",
+      "size": 1101695
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_fysik-cheat-sheet-pdf_2024-12-13_2234/Samlet+noter+fysik.pdf",
+      "driveId": "1-RiyOVKXvY4WKdXFfCypc6I1uQm_HbGk",
+      "size": 33428979
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_fysik-cheat-sheet-pdf_2024-12-13_2234/fysik-cheat-sheet.pdf",
+      "driveId": "1aNpWtWPzyNO52dk4_bzUK1OaUU_LcoJi",
+      "size": 3106681
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_fysik-cheat-sheet-pdf_2024-12-13_2234/fysik-noter.pdf",
+      "driveId": "1Gnw7xgEzX-HxETbYGSwnGlNBxarxk5hT",
+      "size": 828727
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_fysik-cheat-sheet-pdf_2024-12-13_2234/physics-1-list-of-formulas.pdf",
+      "driveId": "1r2_5Qg8AFXsBX0Jj3C4mAhzded1oSWzx",
+      "size": 116954
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/10935 Eksamen E20 v2 - genereret af DE.pdf",
+      "driveId": "1E1XsorS17GwEu44T1k6u_46iRsSNKhcC",
+      "size": 1964608
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/10935 Eksamen F21 (reeksamen E20) facit.pdf",
+      "driveId": "1XvaV0EVxyybOw4oCXuMefwv1luaW_jOv",
+      "size": 23925
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/10935 Eksamen F21 (reeksamen E20).pdf",
+      "driveId": "1UAgtw9OzosmYCPRh0ZpbmgV5j3Io38xI",
+      "size": 467733
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/10935 Eksamen F22 (reeksamen E21) - med lÃ¸sninger.pdf",
+      "driveId": "1-FoaJX5bBrZamDIRnwzp_RrJCcBJgl0E",
+      "size": 491059
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/10935 Eksamen F22 (reeksamen E21).pdf",
+      "driveId": "1fPonKn0hyR8depXp8WSEy031tv9Kl25B",
+      "size": 266324
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen 10935 E21 med lÃ¸sning.pdf",
+      "driveId": "1p1cGotjEDFDhMDG5qncY1k9LKwkSd1-0",
+      "size": 793480
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen 10935 E21.pdf",
+      "driveId": "1YRwXWSa8mBAOM_e-sXPg8M6u4gTJjQFO",
+      "size": 424090
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E16.pdf",
+      "driveId": "1_z3zcmE6OMjZ3zuZSEKq5qTujiX_JeNd",
+      "size": 506140
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E16_facit.pdf",
+      "driveId": "1GM6Cq5bstqmeani1t-3vTrIpboI4k9fi",
+      "size": 389224
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E17.pdf",
+      "driveId": "14WFcwcTsX9b4I1amifmYrcelZvh48UIt",
+      "size": 529741
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E17_facit.pdf",
+      "driveId": "196MNSimsNorY7j3gaSeQtJGqYIxzzsEG",
+      "size": 312230
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E18.pdf",
+      "driveId": "16Sa_yvN9uBufNvj9WRnK9yvGbvFE-k16",
+      "size": 488459
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E18_facit.pdf",
+      "driveId": "1SNApdqT1qFKBNcZN2Y_SObp5t_k9cP3g",
+      "size": 281616
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E19.pdf",
+      "driveId": "1mvm7Y7OCPV1rRH_wX_6SqyDYTH82lVRq",
+      "size": 325596
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935E19_facit.pdf",
+      "driveId": "1utSXZHJsu72SbnGlwBDR07ZNDQhXqz1c",
+      "size": 327160
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935F17.pdf",
+      "driveId": "12q6jseb2L88es3Tiz0CvyGMFwTACGAN1",
+      "size": 639751
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935F19.pdf",
+      "driveId": "1BlIFPJuVhj_V0FlzY-QGH8EAQetkyHgE",
+      "size": 579529
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen10935F20.pdf",
+      "driveId": "1XwWVSQUThLtSINV0Sj-cZxze3HxkgZ-q",
+      "size": 573433
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Fysik/Eksamen/wetransfer_gamle-eksamenssaet-losningerne-hertil_2024-12-13_2236/Gamle eksamenssÃ¦t + lÃ¸sningerne hertil/Eksamen_10935_E20_solutions.pdf",
+      "driveId": "1QG3cgE_knmcHWMR_C8sVH3V_4zGeLT-T",
+      "size": 1328581
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/Kursusnoter_01911.pdf",
+      "driveId": "1TCXWJeKXrF5redeaYVrMIZCABbXzOEmW",
+      "size": 626527
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenE21.pdf",
+      "driveId": "1p_w_CmfyUiJczezvzdNHxq3XzlD6It2m",
+      "size": 86032
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenE22.pdf",
+      "driveId": "15pb59VI8fgJ3owFfLwBcWEbDZ_Xvr3lB",
+      "size": 410148
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenE23.pdf",
+      "driveId": "1tFBloFulnk8MOMHjnUzHdjYsnADps6mS",
+      "size": 365517
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenF21.pdf",
+      "driveId": "1PCoRdZ_CwE0QLNlUezNIga7VkIrrb--d",
+      "size": 86263
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenF22.pdf",
+      "driveId": "1ou8TPJAXfaKERWITj078XdCYxrJw1Sfp",
+      "size": 95635
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenF23.pdf",
+      "driveId": "1XnxFy1V7uHTTiseYVTEN2GDj6AcyH9KG",
+      "size": 389640
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenF24.pdf",
+      "driveId": "1rvODDWgcTpjroetGrdNKxI9O2_jH95cK",
+      "size": 352227
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenaug21.pdf",
+      "driveId": "1MTn8oBHfwWasQooQ8VWLqh20tM8S8PGC",
+      "size": 87509
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenaug22.pdf",
+      "driveId": "1fUZRWrJq8ZWynWarwzVMOkSV9wnaEVv_",
+      "size": 85554
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenaug23.pdf",
+      "driveId": "1NaiLTPFsNPVa7_JO5thlmQwr7HJHn-o6",
+      "size": 357761
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Løsninger/LoesningEksamenaug24.pdf",
+      "driveId": "1UUYisBa97tplI_jBoVfRwa_4XMREeSLc",
+      "size": 324782
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen E 21.pdf",
+      "driveId": "1gkD1jHVSY83UJeVjSm1Pk9x194phiBOJ",
+      "size": 66927
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen E 22.pdf",
+      "driveId": "1EHu0FCMytm5FBkWgIss1J8qDbFTGvq2d",
+      "size": 78833
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen E 23.pdf",
+      "driveId": "1XyyLT_wjdHMOuimVYpbxpUmIjoS4tAdO",
+      "size": 83906
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen F 21.pdf",
+      "driveId": "1MmvQywKy5jo7lxSz6nIQTwkXSnYlCO8v",
+      "size": 72515
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen F 22.pdf",
+      "driveId": "1xswGElqucLR6ZjIjLzvXyz2Ic_5PHfQe",
+      "size": 68158
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen F 23.pdf",
+      "driveId": "1rPfCTu8JQAxzZRu2ByhTwMxvlxJj8Z8J",
+      "size": 84344
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen F 24.pdf",
+      "driveId": "14zgaeSihZ7YKlcmlEhdz0hiWxPE2MIK1",
+      "size": 77972
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen aug 21 (1).pdf",
+      "driveId": "1eBmIpPYnq7WbUSjwKVGHPcL4G9nR_b2f",
+      "size": 76577
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen aug 21.pdf",
+      "driveId": "1oXJCnaNew2xABtQ6tVHWarMaRDriWbLv",
+      "size": 76577
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen aug 22.pdf",
+      "driveId": "1wRF_czEabIiiaDTZAY-JsLhShMN1-Htw",
+      "size": 64919
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen aug 23.pdf",
+      "driveId": "1Jkf0yuSD6TgbvDuWRVd50iOGpl0Pr879",
+      "size": 78454
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/eksamenssæt/Opgaver/Eksamen aug 24.pdf",
+      "driveId": "1xWllHZ9R0LCUOKwfsblVNR3Lss7nmfoQ",
+      "size": 81130
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAM/htrMHJAbWUfSQii6it8SQ2.pdf",
+      "driveId": "13GvMO4ecEjbvMdskLJCObN5BCFXe9Lx3",
+      "size": 7008202
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/MAT Brushup/Matematik brushup.pdf",
+      "driveId": "1XwmMmaVN94fBz8Ua2uqIuLR32q8N2xww",
+      "size": 2862884
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Projektarbejde i elektroteknologi/Afvigelsesdisplay rapport - Google Docs.pdf",
+      "driveId": "1qsdnzS35o5sWBj_iMa0EfeS0RZmchUnZ",
+      "size": 13161840
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Projektarbejde i elektroteknologi/HDSP-5501-GH000-Avago.pdf",
+      "driveId": "1ONcOhmvi-zjw74KD8DVhjjkCkgxZv7ll",
+      "size": 227644
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Projektarbejde i elektroteknologi/OVN.mov",
+      "driveId": "1373b3LKsWyTOj7kvkkdpgcrcccoxvKzQ",
+      "size": 369289058
+    },
+    {
+      "path": "Obsidian/Archive/1st Semester/Projektarbejde i elektroteknologi/OVN.mp4",
+      "driveId": "1pFwpJWRtjwHbvEAWzaz0B-_Py-J3gk_4",
+      "size": 47008019
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/Digital engineering/D0_Træningsopgaver.pdf",
+      "driveId": "1XYdJRxT5Lf76clNS9Kn_Xc6GHPNrI1ex",
+      "size": 2919495
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/Elektriske kredsløb/repetition.pdf",
+      "driveId": "1cnUeM3hAF_kQu2uPMoLrh5VVRsLqhZ1L",
+      "size": 110095
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Eksamen BasisMat 2 F20.pdf",
+      "driveId": "1hqPIxutrGgZvtOt7B3mdJCuvafgc0wAj",
+      "size": 101508
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Eksamen BasisMat 2 aug20.pdf",
+      "driveId": "1I_Lu7yficUUoRcBnC1Vc2NewJGx_3jrS",
+      "size": 98799
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Kursusnoter_01922.pdf",
+      "driveId": "17oNEoaLmTMKrLmKqKFXrwk9vmEjJBYI9",
+      "size": 2008244
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Losning Eksamen BasisMat 2 F20.pdf",
+      "driveId": "1shXvrLSWG7BT-VCIizC1e_cRtcJYxzRE",
+      "size": 95328
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Losning Eksamen BasisMat 2 aug 20.pdf",
+      "driveId": "1K8IkRmA1ZwDXAGpFx97tRkJden86TdC3",
+      "size": 99120
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Eksamen/Spring 2025 Exam.pdf",
+      "driveId": "1XzxthK6RZfFUgscu2tM-xoLN7DOh9yZc",
+      "size": 225928
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Kursusnoter_01922.pdf",
+      "driveId": "1Zd2htVv5_Eoydw_4mCyqJwjRdzSiUlWE",
+      "size": 1825211
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/LAM/Opgaver uge01.pdf",
+      "driveId": "1lIMimDsB0Z3HEY8kMh2KlO1Xm3VSo4hF",
+      "size": 79692
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/62735 Spring 2023 - solution.pdf",
+      "driveId": "17PhDXHt3FuWEeoQnNwW_17FVhKijdhsn",
+      "size": 32438409
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/E21 Mysolution.pdf",
+      "driveId": "1c2WsJ5o_0vIxsXT0M00K_iRjoYsi54HR",
+      "size": 2682511
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/E21-62735.solution-V2.pdf",
+      "driveId": "1M3l-jstIALOp0_7EGO61dBLDu7iekTEC",
+      "size": 1574487
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/Exam Solution F22.pdf",
+      "driveId": "1VxTKlSHgYEUsruVxcSEHRUhOoFUc_vIf",
+      "size": 521469
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/Exam Solution.pdf",
+      "driveId": "1xdtm9t7qmBl7f7m2X1d3_ZcHA-DYeZcO",
+      "size": 521469
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/Fall 22 Mysolution.pdf",
+      "driveId": "1HxBSMcyAW9fm9T9w-s5BxDKLjQlk8Rdy",
+      "size": 2787084
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/Fall 23 Mysolution.pdf",
+      "driveId": "1wVgqWMrjrewBTfPo2zRwGTV5DDP7ZBa3",
+      "size": 2528087
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Eksamens sæt/Spring 24 Mysolution.pdf",
+      "driveId": "1nzNDdobHEFvXufu4ebSnlqfPXr27G4wC",
+      "size": 2911043
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Signals et systems for dummies (Wickert, Mark) (Z-Library).pdf",
+      "driveId": "13n8kMGraT6wT-aH7H9LnEeTtaQLfPdMz",
+      "size": 59134400
+    },
+    {
+      "path": "Obsidian/Archive/2nd Semester/advanced math/Signals, systems, and transforms (Parr, John M. Phillips, Charles L. Riskin etc.) (Z-Library).pdf",
+      "driveId": "1hFnroLpjuXOBwnVrSpI806dpPWx7zDOv",
+      "size": 65121711
+    },
+    {
       "path": "Obsidian/Archive/3rd Semester/DSP/62743 E25 Exam v3.pdf",
       "driveId": "1Lk_bPO2m5m-hpn-H-6tD0SiQZHtfJbEC",
       "size": 340698
+    },
+    {
+      "path": "Obsidian/Archive/3rd Semester/DSP/EXAMS/E25_exam_attempt/DSP_Exam_E25_S246132.pdf",
+      "driveId": "1TfIxCddf-JQHRiifkfq6AFb9fcwTAnV7",
+      "size": 362153
     },
     {
       "path": "Obsidian/Archive/3rd Semester/DSP/Exercises/62743 E25 Digital Signal Processing Uge 09 Tirsdag.pdf",
@@ -1199,6 +2144,11 @@
       "size": 1127082
     },
     {
+      "path": "Obsidian/Archive/3rd Semester/Electromagnetics/EXAM/Exam25.pdf",
+      "driveId": "1uTQ3Ed2OpyfBFOl-FqKfhj_3BLU9mBjz",
+      "size": 1014694
+    },
+    {
       "path": "Obsidian/Archive/3rd Semester/Electromagnetics/Exam25.pdf",
       "driveId": "1JwOU9Wt70jh4z7TIpRBnjhurnz90zS32",
       "size": 1014694
@@ -1619,6 +2569,21 @@
       "size": 192791
     },
     {
+      "path": "Obsidian/Archive/3rd Semester/Integrated Analog Electronics/Kicad/Spice_Pilot_Test/Spice_Pilot_Test-backups/Spice_Pilot_Test-2025-12-14_221801.zip",
+      "driveId": "1nnyIdXMGoL1QfJZ4-R5gGvhdY8Xk4zfr",
+      "size": 881
+    },
+    {
+      "path": "Obsidian/Archive/3rd Semester/Integrated Analog Electronics/Kicad/Spice_Pilot_Test/Spice_Pilot_Test-backups/Spice_Pilot_Test-2025-12-14_223608.zip",
+      "driveId": "1JGTK1KODju2sP4kXFiGIE8v-_5HaqMaW",
+      "size": 3343
+    },
+    {
+      "path": "Obsidian/Archive/3rd Semester/Integrated Analog Electronics/Kicad/Spice_Pilot_Test/Spice_Pilot_Test-backups/Spice_Pilot_Test-2025-12-14_233527.zip",
+      "driveId": "11q2GdEMNlzItmouyKXA5VoT1FRgNn1-Z",
+      "size": 3386
+    },
+    {
       "path": "Obsidian/Archive/3rd Semester/Integrated Analog Electronics/Literature/LT_Spice_notest.pdf",
       "driveId": "1nK9_-k-AswIcjl-BJFzRCSU5Jl7fW8_r",
       "size": 1181194
@@ -1871,7 +2836,7 @@
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Report/main.pdf",
       "driveId": "1noox7wEi1-vm8JfdG2T-2UBeNXJU19MQ",
-      "size": 793471
+      "size": 151440
     },
     {
       "path": "Obsidian/Courses/34655 Integrated Analog Electronics 2/Slides/34655-01a-introduction-to-course_v1.pdf",
@@ -1927,46 +2892,6 @@
       "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Extra_Exercises_Day5.pdf",
       "driveId": "1H7mvcO7mo5tdpswtb6j65JBysQqUcwHA",
       "size": 173262
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/2_block_control_concept.pdf",
-      "driveId": "1GrJMECH4JuK0tkTEWIG6Mi_Pmln10wFo",
-      "size": 9110774
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/EXAMS_LCD1_2022_no_answerS.pdf",
-      "driveId": "1SFzKrN7Yb-TcvirKE5jPVCZz6DQZizUz",
-      "size": 1323442
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/Exam_S20.pdf",
-      "driveId": "1RezbH1wOjOwumEtIG87q_LlKoiAb3rm3",
-      "size": 2773945
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/Exam_S21.pdf",
-      "driveId": "1MrXpnofWFmvgRGaQUPcqEZVmmzF3r9gO",
-      "size": 1515432
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/Final Test Exam (Short version).pdf",
-      "driveId": "1ZvABQX9YL-3NUhpXyhI8FrYkJtupcNpe",
-      "size": 1428480
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/REExam_F21 with Solutions.pdf",
-      "driveId": "1KY8Z1arnuVgdtUWpOmQaUk5-xIrrCYbt",
-      "size": 1071141
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/Solutions to Exam F22 LCD1.pdf",
-      "driveId": "1Hp1Av-ZkRLcnKXKVqeCrpJ7W_9AIGN4n",
-      "size": 1391789
-    },
-    {
-      "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Solutions/Past Exams/Theoretical Exercises LCD1.pdf",
-      "driveId": "19_pBnDugVENgEAtfws6iZ2zV09jXUWzT",
-      "size": 407026
     },
     {
       "path": "Obsidian/Courses/34722 Linear Control Design 1/Exercises/Theoretical Exercises LCD1.pdf",
@@ -2156,7 +3081,7 @@
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Exercises/Work/opg5_submission.pdf",
       "driveId": "1I6--40dt9wmOB80yi735kChxa_kToU6o",
-      "size": 257265
+      "size": 144027
     },
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Exercises/opg3.pdf",
@@ -2301,7 +3226,7 @@
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Literature/Guides/guide for creating the bit file.ppt",
       "driveId": "1uxWCp7cKdycCNc3Crsw9zugfBniE4w8h",
-      "size": 1561600
+      "size": 1563648
     },
     {
       "path": "Obsidian/Courses/62711 Digital Systems Design/Literature/Guides/guide start af gbar-computer.pdf",
