@@ -1,6 +1,7 @@
 """PyQt6 main window. Sidebar shows P1..P7 tree; content area swaps form widgets."""
 from __future__ import annotations
 import sys
+from collections import defaultdict
 
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QSplitter, QTreeWidget, QTreeWidgetItem,
@@ -8,37 +9,42 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 
+from lcd_solver.ui.form_builder import build_form
+from lcd_solver.ui.forms import ALL_FORMS
+
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("LCD1 Solver — 34722")
-        self.resize(1100, 700)
+        self.resize(1200, 800)
 
         splitter = QSplitter(Qt.Orientation.Horizontal)
-
         self.sidebar = QTreeWidget()
         self.sidebar.setHeaderLabels(["Pattern / variant"])
-        self.sidebar.setMinimumWidth(260)
-
+        self.sidebar.setMinimumWidth(280)
         self.content = QStackedWidget()
-        placeholder = QLabel("Select a pattern from the sidebar.")
+        placeholder = QLabel("Select a variant from the sidebar.")
         placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.content.addWidget(placeholder)
-
         splitter.addWidget(self.sidebar)
         splitter.addWidget(self.content)
         splitter.setStretchFactor(1, 1)
-
         self.setCentralWidget(splitter)
         self._populate_sidebar()
         self.sidebar.itemClicked.connect(self._on_item_clicked)
 
     def _populate_sidebar(self) -> None:
-        # Populated by Task 21 as forms are added. Skeleton just shows the patterns.
-        for label in ["P1 — Models", "P2 — Bode", "P3 — Stability",
-                      "P4 — 2nd-order", "P5 — ess", "P6 — Controllers", "P7 — Theory"]:
-            QTreeWidgetItem(self.sidebar, [label])
+        by_pattern: dict[str, list] = defaultdict(list)
+        for spec in ALL_FORMS:
+            by_pattern[spec.pattern].append(spec)
+        for pattern in sorted(by_pattern):
+            top = QTreeWidgetItem(self.sidebar, [pattern])
+            for spec in by_pattern[pattern]:
+                child = QTreeWidgetItem(top, [spec.variant])
+                widget = build_form(spec)
+                self.content.addWidget(widget)
+                child.setData(0, Qt.ItemDataRole.UserRole, widget)
         self.sidebar.expandAll()
 
     def _on_item_clicked(self, item: QTreeWidgetItem, _col: int) -> None:
