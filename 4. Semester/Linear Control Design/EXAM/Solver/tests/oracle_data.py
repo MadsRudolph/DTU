@@ -89,3 +89,8 @@ S20_Q5 = dict(y_peak=2.9, y_ss=2.0, facit_zeta_approx=0.2)
 
 # P4: solve_K_for_spec — closed-loop K/(s(s+5)), want Mp <= 0.12 → K <= ~20.0
 S21_Q9 = dict(G_str="K / (s*(s+5))", spec="Mp <= 0.12", facit_K_max=19.97)
+
+# P5: solve_KP_from_ess — F22 Q16: G(0)=-7.9588 dB → 0.4, want ess=0.555 → K_P=2
+# (True ess = 1/(1+2*0.4) = 5/9 = 0.5555...; exam displays rounded "0.555".
+# Use 5/9 here so the rounded facit_KP=2.0 satisfies rel=1e-3.)
+F22_Q16 = dict(G0=-7.9588, G0_unit="dB", ess_target=5.0 / 9.0, facit_KP=2.0)
