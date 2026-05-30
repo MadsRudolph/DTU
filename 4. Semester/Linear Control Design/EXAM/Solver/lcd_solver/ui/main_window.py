@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (
     QStackedWidget, QLabel, QWidget, QVBoxLayout, QLineEdit,
 )
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QKeySequence, QShortcut
+from PyQt6.QtGui import QKeySequence, QShortcut, QFont, QColor
 
 from lcd_solver.ui.form_builder import build_form
 from lcd_solver.ui.forms import ALL_FORMS
@@ -65,7 +65,10 @@ class MainWindow(QMainWindow):
     def _populate_sidebar(self) -> None:
         # Add special Smart Paste item at the top
         smart_item = QTreeWidgetItem(self.sidebar, ["★ Smart Paste"])
-        smart_item.setStyleSheet(0, "font-weight: bold; color: #007acc;")
+        font_bold = QFont()
+        font_bold.setBold(True)
+        smart_item.setFont(0, font_bold)
+        smart_item.setForeground(0, QColor("#007acc"))
         from lcd_solver.ui.smart_paste import SmartPasteWidget
         smart_widget = SmartPasteWidget(self)
         self.content.addWidget(smart_widget)
@@ -76,7 +79,7 @@ class MainWindow(QMainWindow):
             by_pattern[spec.pattern].append(spec)
         for pattern in sorted(by_pattern):
             top = QTreeWidgetItem(self.sidebar, [pattern])
-            top.setStyleSheet(0, "font-weight: bold;")
+            top.setFont(0, font_bold)
             for spec in by_pattern[pattern]:
                 child = QTreeWidgetItem(top, [spec.variant])
                 widget = build_form(spec)
