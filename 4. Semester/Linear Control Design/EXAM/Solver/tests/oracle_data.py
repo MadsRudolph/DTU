@@ -30,3 +30,16 @@ REEXAM_F21_Q6 = dict(
     facit_poles=[-1.0],
     facit_dc_gain=10.0,
 )
+
+# P1: reduce_block_diagram — the DSL expression string vs the expected simplified sympy form
+S20_Q3 = dict(
+    dsl="parallel(A, 1 / (1 + B/s))",
+    facit_str="((1+A)*s + A*B) / (s + B)",
+)
+# S21 Q1: two forward paths share feedback through B*C*F. The TEXTBOOK reduced form is
+# (A*B*C*D + E*C*D)/(1 + B*C*F). One valid algebraic composition that yields that
+# canonical form symbolically:
+S21_Q1 = dict(
+    dsl="(series(A, B, C, D) + series(E, C, D)) / (1 + B*C*F)",
+    facit_str="(A*B*C*D + E*C*D) / (1 + B*C*F)",
+)

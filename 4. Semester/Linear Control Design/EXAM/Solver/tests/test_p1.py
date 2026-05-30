@@ -43,3 +43,44 @@ def test_REExam_F21_Q6_ss_to_tf():
     assert float(control.dcgain(G).real) == pytest.approx(o["facit_dc_gain"], rel=1e-6)
     poles = sorted(control.poles(G), key=lambda p: (p.real, p.imag))
     assert all(abs(p - (-1.0)) < 1e-9 for p in poles)
+
+
+import sympy
+
+from lcd_solver.solvers.p1_block_reduce import reduce_block_diagram, DSL_PRIMITIVES
+from tests.oracle_data import S20_Q3, S21_Q1
+
+
+def _eq(a_str: str, b_str: str) -> bool:
+    a = sympy.sympify(a_str)
+    b = sympy.sympify(b_str)
+    return sympy.simplify(a - b) == 0
+
+
+def test_S20_Q3_parallel_with_feedback():
+    got = reduce_block_diagram(S20_Q3["dsl"])
+    assert _eq(str(got), S20_Q3["facit_str"]), f"got {got}"
+
+
+def test_S21_Q1_two_forward_shared_feedback():
+    got = reduce_block_diagram(S21_Q1["dsl"])
+    assert _eq(str(got), S21_Q1["facit_str"]), f"got {got}"
+
+
+def test_dsl_primitives_exist():
+    # Each primitive callable should be available for the parser
+    assert set(DSL_PRIMITIVES) >= {"series", "parallel", "feedback"}
+
+
+def test_basic_series_parallel_feedback():
+    A, B, C, D = sympy.symbols("A B C D")
+    got = reduce_block_diagram("feedback(series(A, B, C), D)")
+    expected = A * B * C / (1 + A * B * C * D)
+    assert sympy.simplify(got - expected) == 0
+
+
+def test_positive_feedback_sign():
+    A, B = sympy.symbols("A B")
+    got = reduce_block_diagram("feedback(A, B, sign=1)")
+    expected = A / (1 - A * B)
+    assert sympy.simplify(got - expected) == 0
