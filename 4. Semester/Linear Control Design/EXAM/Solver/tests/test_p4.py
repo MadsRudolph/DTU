@@ -1,8 +1,8 @@
 import math
 import pytest
 
-from lcd_solver.solvers.p4_secondorder import solve_2nd_order
-from tests.oracle_data import REEXAM_F21_Q10, F22_Q10, S20_Q5
+from lcd_solver.solvers.p4_secondorder import solve_2nd_order, solve_K_for_spec
+from tests.oracle_data import REEXAM_F21_Q10, F22_Q10, S20_Q5, S21_Q9
 
 
 def test_zeta_to_Mp_REExam_Q10():
@@ -25,3 +25,8 @@ def test_t_p_with_omega_n():
 def test_inconsistent_inputs_raise():
     with pytest.raises(ValueError):
         solve_2nd_order(Mp=0.5, zeta=0.7)  # Mp=0.5 implies zeta ≈ 0.215, not 0.7
+
+
+def test_S21_Q9_K_for_overshoot_spec():
+    K_max = solve_K_for_spec(S21_Q9["G_str"], S21_Q9["spec"])
+    assert K_max == pytest.approx(S21_Q9["facit_K_max"], rel=5e-3)

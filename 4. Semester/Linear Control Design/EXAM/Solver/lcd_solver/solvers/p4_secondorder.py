@@ -57,3 +57,50 @@ def solve_2nd_order(*, Mp=None, zeta=None, omega_n=None, t_p=None, t_s_2pct=None
         out["omega_r"] = omega_n * math.sqrt(1 - 2 * zeta ** 2)
         out["M_r"] = 1 / (2 * zeta * math.sqrt(1 - zeta ** 2))
     return out
+
+
+import re
+import sympy
+
+
+def solve_K_for_spec(G_str: str, spec: str) -> float:
+    """Closed-loop K/(s(s+a))-style plants only (v1 limitation).
+
+    spec ∈ {"Mp <= X", "zeta >= X"}.
+    Returns the K boundary (upper bound for Mp<=, upper bound for zeta>=).
+    """
+    s, K = sympy.symbols("s K", positive=True)
+    G = sympy.sympify(G_str, locals={"s": s, "K": K})
+    Gcl = sympy.cancel(G / (1 + G))
+    # Express as wn^2 / (s^2 + 2*zeta*wn*s + wn^2)
+    num, den = sympy.fraction(Gcl)
+    den_poly = sympy.Poly(den, s)
+    coeffs = den_poly.all_coeffs()
+    if len(coeffs) != 3:
+        raise NotImplementedError(
+            "solve_K_for_spec v1 only handles 2nd-order-reducible closed loops"
+        )
+    a2, a1, a0 = coeffs
+    # Normalise so leading coeff is 1
+    a1_n = a1 / a2
+    a0_n = a0 / a2
+    # omega_n^2 = a0_n, 2*zeta*omega_n = a1_n
+    wn = sympy.sqrt(a0_n)
+    zeta_expr = a1_n / (2 * wn)
+
+    m = re.match(r"\s*(Mp|zeta)\s*(<=|>=)\s*([\d.eE+-]+)\s*$", spec)
+    if not m:
+        raise ValueError(f"Unrecognised spec: {spec!r}")
+    var, op, val = m.group(1), m.group(2), float(m.group(3))
+
+    if var == "Mp":
+        zeta_req = _zeta_from_Mp(val)  # ζ ≥ zeta_req
+    else:
+        zeta_req = val
+
+    # Solve zeta_expr == zeta_req for K → that's the boundary
+    eq = sympy.Eq(zeta_expr, zeta_req)
+    sols = [sol for sol in sympy.solve(eq, K, positive=True) if sol.is_real]
+    if not sols:
+        raise ValueError(f"No positive real K satisfies the spec boundary {spec!r}")
+    return float(max(sols))

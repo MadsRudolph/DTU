@@ -86,3 +86,6 @@ F22_Q11 = dict(x_crossing=-0.1639, facit_GM_dB=15.71)
 REEXAM_F21_Q10 = dict(zeta=math.sqrt(2)/2, facit_Mp_pct=4.32)  # zeta=sqrt(2)/2 → 4.32%
 F22_Q10 = dict(zeta=math.sqrt(2)/2, facit_Mp_pct=4.32)
 S20_Q5 = dict(y_peak=2.9, y_ss=2.0, facit_zeta_approx=0.2)
+
+# P4: solve_K_for_spec — closed-loop K/(s(s+5)), want Mp <= 0.12 → K <= ~20.0
+S21_Q9 = dict(G_str="K / (s*(s+5))", spec="Mp <= 0.12", facit_K_max=19.97)
