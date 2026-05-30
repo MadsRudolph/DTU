@@ -1,0 +1,22 @@
+"""Historical exam facit values, used as solver regression oracles.
+
+Each entry is a dict of solver inputs plus the official facit.
+Source: 4. Semester/Linear Control Design/EXAM/Scripts/solved/solve_*.m
+"""
+
+# P1: solve_ode_to_tf — coefficient lists ordered HIGHEST degree first
+F22_Q8 = dict(
+    y_coeffs=[5, 1, 0.5],       # 5y'' + y' + 0.5y
+    u_coeffs=[3],               # = 3u
+    facit_poles=[-0.1 + 0.3j, -0.1 - 0.3j],
+)
+S21_Q8 = dict(
+    y_coeffs=[1, 2, 1],         # y'' + 2y' + y
+    u_coeffs=[1],               # = u
+    facit_poles=[-1.0, -1.0],
+)
+THEORY_Q4 = dict(
+    y_coeffs=[1, 9, 20, 0, 0],  # y(4) + 9 y(3) + 20 y'' (zeros for y' and y)
+    u_coeffs=[71],              # = 71 u
+    facit_poles=[0.0, 0.0, -4.0, -5.0],
+)
