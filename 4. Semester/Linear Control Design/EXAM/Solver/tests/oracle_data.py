@@ -128,3 +128,10 @@ S20_Q9 = dict(G_str="20833 / (s*(s+43.3))", target_PM_deg=60, facit_KP_approx=0.
 # G=1/(s(s+2.1)), target PM=40 → exam facit K=8.4 (rounded multiple-choice answer).
 # Solver returns ~8.18 from log-grid phase interpolation; use multiple-choice tolerance.
 S21_Q6 = dict(G_str="1 / (s*(s+2.1))", target_PM_deg=40, facit_KP=8.4)
+
+# P7: pick_feedforward_form — Theory Q8 (n lags, 2nd-order disturbance)
+THEORY_Q8 = dict(
+    n_lags=3, D_order=2,
+    facit_option="d",
+    facit_tau_f_bound="tau_f <= min(tau_k)/5",
+)
