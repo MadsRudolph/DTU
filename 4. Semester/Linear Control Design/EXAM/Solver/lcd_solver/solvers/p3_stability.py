@@ -57,3 +57,19 @@ def solve_stable_K_range(G) -> tuple[float, float]:
     # Stable plant
     gm, _pm, _wpc, _wgc = control.margin(G)
     return (0.0, float(gm))
+
+
+def solve_margins(G) -> dict[str, float]:
+    """Bode margins for an open-loop plant.
+
+    Returns {GM, GM_dB, PM_deg, omega_pc, omega_gc}.
+    For plants with no finite gain crossover, PM_deg / omega_gc = math.inf.
+    """
+    gm, pm, wpc, wgc = control.margin(G)
+    return {
+        "GM": float(gm),
+        "GM_dB": 20 * math.log10(float(gm)) if float(gm) > 0 else float("-inf"),
+        "PM_deg": float(pm),
+        "omega_pc": float(wpc) if wpc is not None else float("nan"),
+        "omega_gc": float(wgc) if wgc is not None else float("nan"),
+    }

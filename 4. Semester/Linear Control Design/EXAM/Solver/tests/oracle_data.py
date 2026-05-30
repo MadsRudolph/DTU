@@ -78,3 +78,6 @@ F22_Q12 = dict(G="1 / (s - 2.5)", facit_low=None, facit_high=None,
                facit_K_marginal=45.0)
 REEXAM_F21_Q14 = dict(G="25 / (s**3 + s**2 + 10*s)", facit_low=0.0, facit_high=0.398)
 REEXAM_F21_Q16 = dict(G_unstable_marginal=40.5)  # documented K_marginal
+
+# P3: solve_margins — F22 Q11 documents Nyquist crossing at -0.1639 → GM = 1/0.1639 → 15.71 dB
+F22_Q11 = dict(x_crossing=-0.1639, facit_GM_dB=15.71)

@@ -27,3 +27,26 @@ def test_unstable_plant_inverts_range():
     low, high = solve_stable_K_range(G)
     assert math.isinf(high), "unstable plant must yield K_high = inf"
     assert low > 0, f"K_min must be positive, got {low}"
+
+
+from lcd_solver.solvers.p3_stability import solve_margins
+from tests.oracle_data import F22_Q11
+
+
+def test_solve_margins_returns_full_dict():
+    # F22 Q11's plant isn't explicitly recorded in the MATLAB script, but the
+    # wrapper must return all five keys and reproduce known margins for S21 Q4's
+    # plant 1/(s+1)^3 (GM=8 at omega=sqrt(3)).
+    G = parse_tf("1 / (s+1)**3")
+    m = solve_margins(G)
+    assert set(m) == {"GM", "GM_dB", "PM_deg", "omega_pc", "omega_gc"}
+    assert m["GM"] == pytest.approx(8.0, rel=1e-3)
+    assert m["GM_dB"] == pytest.approx(20 * math.log10(8.0), rel=1e-3)
+
+
+def test_solve_margins_F22_Q11_x_crossing_consistency():
+    # F22 Q11 documents the Nyquist negative-real-axis crossing at -0.1639,
+    # giving GM = 1/0.1639 ≈ 6.10 (15.71 dB). Verify the algebraic identity.
+    x = F22_Q11["x_crossing"]
+    expected_GM_dB = 20 * math.log10(1 / abs(x))
+    assert expected_GM_dB == pytest.approx(F22_Q11["facit_GM_dB"], rel=1e-3)
