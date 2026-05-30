@@ -155,7 +155,7 @@ class SmartPasteWidget(QWidget):
         options = "\n".join(options_list)
 
         # 1. ODE -> TF (P1)
-        if "ode" in lower_text or "differential equation" in lower_text:
+        if re.search(r"\bodes?\b", lower_text) or "differential equation" in lower_text:
             y_coeffs = ""
             u_coeffs = ""
             # Look for coeffs pattern, e.g. "y'' + 2y' + y = u"
@@ -167,7 +167,7 @@ class SmartPasteWidget(QWidget):
             }
 
         # 2. State-space -> TF (P1)
-        if "state matrix" in lower_text or "state-space" in lower_text or "a =" in lower_text:
+        if "state matrix" in lower_text or "state-space" in lower_text or re.search(r"\bA\s*=\s*", text):
             return {
                 "solver_function": "solve_state_space_to_tf",
                 "inputs": {},
@@ -191,7 +191,7 @@ class SmartPasteWidget(QWidget):
             }
 
         # 5. Margins (P3)
-        if "margin" in lower_text and ("gain crossover" in lower_text or "phase crossover" in lower_text or "gm" in lower_text or "pm" in lower_text):
+        if "margin" in lower_text and ("gain crossover" in lower_text or "phase crossover" in lower_text or re.search(r"\b(?:gm|pm)\b", lower_text)):
             # Extract plant if present
             plant = self._extract_tf(text)
             return {
@@ -255,7 +255,7 @@ class SmartPasteWidget(QWidget):
             }
 
         # 10. Steady-state error table (P5)
-        if "steady-state error" in lower_text or "system type" in lower_text or "ess" in lower_text:
+        if "steady-state error" in lower_text or "system type" in lower_text or re.search(r"\bess\b", lower_text):
             plant = self._extract_tf(text)
             if plant:
                 return {
