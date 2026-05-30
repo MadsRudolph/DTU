@@ -118,3 +118,13 @@ REEXAM_F21_Q17 = dict(unknown="Ni", omega_c=25.04, phi_G_deg=-151.064,
 
 F22_Q19 = dict(unknown="KP", G_str="900 / ((0.25*s+1)*(s**2+50*s+3000))",
                gamma_M_deg=75, alpha=0.01, N_i=3, facit=3.4154)
+
+# P6: solve_P_for_PM
+# S20 Q9: original Bode-readoff problem reports wc=25 rad/s, |G(25)|≈+23 dB, KP≈0.06.
+# The exam plant itself isn't in the MATLAB solve script — we use a 2nd-order plant
+# K/(s(s+a)) chosen so that wc≈25, PM=60 gives K_P≈0.06 (a≈25*sqrt(3), K≈20833).
+S20_Q9 = dict(G_str="20833 / (s*(s+43.3))", target_PM_deg=60, facit_KP_approx=0.06)
+# S21 Q6 (actually F22 Q6 in the MATLAB solve script — note misprint s+21 vs s+2.1):
+# G=1/(s(s+2.1)), target PM=40 → exam facit K=8.4 (rounded multiple-choice answer).
+# Solver returns ~8.18 from log-grid phase interpolation; use multiple-choice tolerance.
+S21_Q6 = dict(G_str="1 / (s*(s+2.1))", target_PM_deg=40, facit_KP=8.4)

@@ -45,3 +45,21 @@ def test_F22_Q19_KP_mode():
                       alpha=F22_Q19["alpha"],
                       N_i=F22_Q19["N_i"])
     assert KP == pytest.approx(F22_Q19["facit"], rel=2e-2)
+
+
+from tests.oracle_data import S20_Q9, S21_Q6
+
+
+def test_S21_Q6_P_for_PM_40():
+    G = parse_tf(S21_Q6["G_str"])
+    out = solve_P_for_PM(G, S21_Q6["target_PM_deg"])
+    # Facit 8.4 is the rounded multiple-choice answer; solver yields ~8.18 from
+    # interpolation of phase on the log-spaced frequency grid. 5% picks "8.4" cleanly.
+    assert out["K_P"] == pytest.approx(S21_Q6["facit_KP"], rel=5e-2)
+
+
+def test_S20_Q9_P_for_PM_60_approximate():
+    G = parse_tf(S20_Q9["G_str"])
+    out = solve_P_for_PM(G, S20_Q9["target_PM_deg"])
+    # Loose tolerance: plant is reconstructed approximately from MATLAB Bode read-off
+    assert out["K_P"] == pytest.approx(S20_Q9["facit_KP_approx"], rel=0.5)
