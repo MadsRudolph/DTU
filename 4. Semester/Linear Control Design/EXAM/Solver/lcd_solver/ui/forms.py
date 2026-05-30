@@ -310,6 +310,11 @@ ALL_FORMS: list[FormSpec] = [
                 tooltip="Design crossover frequency omega_c in rad/s."
             ),
             FieldSpec(
+                "tau_d", "τ_d (s, Lead time constant, optional)", "str",
+                placeholder="e.g. 0.355",
+                tooltip="Lead compensator time constant, e.g. 0.355 from (0.355s + 1)."
+            ),
+            FieldSpec(
                 "gamma_M_deg", "γ_M (°)", "float", default=75,
                 placeholder="e.g. 75",
                 tooltip="Target Phase Margin in degrees."

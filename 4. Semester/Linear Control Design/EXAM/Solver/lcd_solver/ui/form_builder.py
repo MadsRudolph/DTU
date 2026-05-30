@@ -167,9 +167,9 @@ class SolverFormWidget(QWidget):
                 if name == "unknown":
                     continue
                 if unknown == "alpha":
-                    visible = (name in ["omega_c", "gamma_M_deg", "phi_G_deg", "N_i"])
+                    visible = (name in ["omega_c", "tau_d", "gamma_M_deg", "phi_G_deg", "N_i"])
                 elif unknown == "Ni":
-                    visible = (name in ["omega_c", "gamma_M_deg", "phi_G_deg", "alpha"])
+                    visible = (name in ["omega_c", "tau_d", "gamma_M_deg", "phi_G_deg", "alpha"])
                 elif unknown == "KP":
                     visible = (name in ["G", "gamma_M_deg", "alpha", "N_i"])
                 else:
@@ -283,7 +283,22 @@ class SolverFormWidget(QWidget):
     def _on_solve(self) -> None:
         try:
             kwargs = self._gather_inputs()
-            raw = self._call_solver(kwargs)
+
+            # Handle Lead-only magnitude contribution case (avoids NoneType error if phase budget is incomplete)
+            if self.spec.solver_function == "solve_pi_lead" and kwargs.get("unknown") == "alpha" and "phi_G_deg" not in kwargs:
+                if "tau_d" in kwargs and "omega_c" in kwargs:
+                    try:
+                        td_val = float(kwargs["tau_d"])
+                        wc_val = float(kwargs["omega_c"])
+                        raw = 1.0 / (td_val * wc_val) ** 2
+                    except Exception as e:
+                        self.result_panel.display(f"Error: {e}", [], [])
+                        return
+                else:
+                    self.result_panel.display("Error: Please provide φ_G and γ_M to solve the phase budget, or both τ_d and ω_c for Lead-only magnitude.", [], [])
+                    return
+            else:
+                raw = self._call_solver(kwargs)
         except Exception as e:
             self.result_panel.display(f"Error: {e}", [], [])
             return
