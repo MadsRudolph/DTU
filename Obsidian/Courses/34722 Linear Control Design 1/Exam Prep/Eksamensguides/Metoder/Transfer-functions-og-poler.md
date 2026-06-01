@@ -37,6 +37,60 @@ disp(roots([5 1 0.5]).')        % samme
 
 ---
 
+## 1b. Fra state-space / koblede ODE'er til transfer function (F21 Q6 type)
+
+> [!info] Genkend
+> *"$\dot x_1=\dots,\ \dot x_2=\dots,\ y=\dots$ — find $G(s)$"* eller *"opskriv $A,B,C,D$"*. Optræder som T11-slot (E25 Q6, E23 Q7, F21 Q6).
+
+### Rute A — den hurtige MC-rute: Laplace pr. tilstand
+
+Når systemet er **afkoblet** (hver $\dot x_i$ afhænger kun af sit eget $x_i$): Laplace-transformér hver linje for sig, isolér $X_i(s)$, og indsæt i $y$.
+
+> [!example] F21 Q6
+> $\dot x_1=-x_1+u,\quad \dot x_2=-x_2+9u,\quad y=x_1+x_2$
+> $$X_1=\frac{1}{s+1}U,\quad X_2=\frac{9}{s+1}U \;\Rightarrow\; Y=X_1+X_2=\frac{10}{s+1}U$$
+> **Intuition:** to parallelle 1.-ordens veje $\frac{1}{s+1}$ og $\frac{9}{s+1}$ summeret i outputtet $\to \frac{10}{s+1}$. → **mulighed 5**.
+
+Til MC er dette næsten altid hurtigst — du slipper for matricer helt.
+
+### Rute B — opskriv $A,B,C,D$ (nødvendig hvis et spørgsmål *giver* dig $A$)
+
+$$\dot{\mathbf x}=A\,\mathbf x+B\,u,\qquad y=C\,\mathbf x+D\,u$$
+
+**Sorteringsreglen — for hvert led, spørg "hvad ganger det?":**
+
+| Leddet ganger… | …havner i |
+|---|---|
+| en **tilstand** ($x_1,x_2,\dots$) | **$A$** |
+| **inputtet** $u$ | **$B$** |
+| en tilstand i $y$-ligningen | **$C$** |
+| $u$ direkte i $y$ (gennemløb) | **$D$** |
+
+- **$A[i,j]$** = koefficienten til $x_j$ i ligningen for $\dot x_i$. Én **række pr. afledt** ($\dot x_i$), én **søjle pr. tilstand** ($x_j$).
+- **$B[i]$** = koefficienten til $u$ i $\dot x_i$.
+
+> [!example] Samme F21 Q6 på matrixform
+> $$A=\begin{bmatrix}-1&0\\0&-1\end{bmatrix},\quad B=\begin{bmatrix}1\\9\end{bmatrix},\quad C=\begin{bmatrix}1&1\end{bmatrix},\quad D=[0]$$
+> Derefter $G(s)=C(sI-A)^{-1}B+D=\dfrac{10}{s+1}$.
+
+> [!warning] De to klassiske misforståelser
+> **Hvorfor er $B$ ikke $-1+9=8$?** Fordi $-1$ ganger en **tilstand** ($-x_2$ → hører i $A$), mens $9$ ganger **inputtet** ($9u$ → hører i $B$). Forskellige variable ⟹ forskellige matricer — de lægges aldrig sammen.
+>
+> **Hvorfor er $A$ ikke $-1+1=0$?** $A$ er ikke ét tal, men et $2\times2$-gitter (2 tilstande). De to $-1$'er sidder i **forskellige celler**: øverst-venstre $-1$ = "$x_1$'s effekt på $\dot x_1$", nederst-højre $-1$ = "$x_2$'s effekt på $\dot x_2$". Kun led i **samme celle** lægges sammen (fx hvis én ligning havde både $-x_1$ og $+2x_1$ → $+1\cdot x_1$).
+>
+> **Tommelfinger:** en koefficients plads er låst af *(hvilken ligning, hvilken variabel)*. Samme ligning, anden variabel → anden søjle. Anden ligning → anden række.
+
+> [!note] Diagonal $A$ = afkoblet system
+> Her optræder $x_2$ aldrig i $\dot x_1$-ligningen (og omvendt) → nuller off-diagonalt → $A$ bliver diagonal. Det er præcis derfor Rute A virker: de to tilstande påvirker kun sig selv.
+
+```matlab hl:/minreal\(|ss\(/
+% F21 Q6: byg ss-objekt og reducér til G(s)
+G = minreal(tf(ss([-1 0;0 -1],[1;9],[1 1],0)));
+zpk(G)        % 10/(s+1)
+```
+
+---
+
 ## 2. DC-gain
 
 $$G(0)=\lim_{s\to 0}G(s)=\frac{b_0}{a_0}$$
