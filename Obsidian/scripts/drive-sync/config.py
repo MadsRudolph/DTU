@@ -21,6 +21,8 @@ LARGE_FILE_EXTENSIONS = {
     ".7z",
     ".mov",
     ".mp4",
+    # Word documents (gitignored via *.docx; store in Drive so they aren't lost)
+    ".docx",
     # Maple worksheets (large binaries; kept out of git, stored in Drive)
     ".mw",
 }

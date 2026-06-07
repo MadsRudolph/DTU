@@ -106,6 +106,9 @@ def find_large_files(repo_root: Path, manifest_paths: set) -> list:
             dirs.remove(".venv")
         if ".claude" in dirs:
             dirs.remove(".claude")  # throwaway git worktrees / tooling — never sync
+        # Skip nested git repos (e.g. shared team product repos): they version-control
+        # their own binaries, so the umbrella's Drive must not duplicate them.
+        dirs[:] = [d for d in dirs if not (Path(root) / d / ".git").exists()]
 
         for filename in files:
             filepath = Path(root) / filename
@@ -215,6 +218,9 @@ def rebuild_manifest(repo_root: Path) -> int:
             dirs.remove(".venv")
         if ".claude" in dirs:
             dirs.remove(".claude")  # throwaway git worktrees / tooling — never sync
+        # Skip nested git repos (e.g. shared team product repos): they version-control
+        # their own binaries, so the umbrella's Drive must not duplicate them.
+        dirs[:] = [d for d in dirs if not (Path(root) / d / ".git").exists()]
 
         for filename in files:
             ext = Path(filename).suffix.lower()

@@ -4,7 +4,34 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ---
 
-## ACTIVE WORK: 34722 Linear Control Design 1 — multiple-choice exam Tue 2-June-2026
+## ACTIVE WORK: 62768 Electrical Energy Systems — project (June 2026, 3-week course)
+
+### ▶️ FIRST ACTION ON A FRESH PC
+1. `git pull` in `C:\Users\Mads2\DTU`.
+2. PDFs in the **Obsidian course folder** are gitignored (drive-sync) — fetch with `python Obsidian/scripts/drive-sync/download.py`. (The **team repo** below carries its own binaries directly in git — see note.)
+3. Open the course index: `Obsidian/Courses/62768 Electrical Energy Systems/62768 Electrical Energy Systems.md` (system block diagram + 18-requirement table + asset links).
+4. **Clone the team repo if not present** (see below).
+
+### 📌 Course format
+**Project-based (CDIO), no written exam** — assessment = group report + working functional model. Groups of up to 6. Intro: Mon 8-June-2026 09:00, room **X2.70**. Lab work in **V1.01-04**. Lecturers: Ashraf (ashka@dtu.dk), Sam (samro@dtu.dk), Audrey (auddel@dtu.dk).
+
+**The product:** complete electrical energy system per the *Kravspecifikation* — AC-generator → 3× transformer → rectifier → self-built buck; solar + MPPT → 1F energy store → self-built boost → pulsing load; Arduino PID + monitoring. Converters & current sensing must use **discrete components** (op-amps OK).
+
+### 🔧 THE TEAM REPO (shared with 6 teammates — separate git repo)
+- **GitHub:** `github.com/MadsRudolph/62768-energy-system` — **private**, owner MadsRudolph.
+- **On disk:** `4. Semester/Electrical Energy Systems/team/` — its own git repo (HTTPS remote). Mirrors the 62711 team-repo pattern.
+- **Gitignored from the umbrella** (`.gitignore` ~line 106: `4. Semester/Electrical Energy Systems/team/`) so the nested repo can't trigger the `git add` nested-repo failure. To work on it: `cd` into `team/` and use its own git.
+- **Layout:** `firmware/` (Arduino), `simulation/` (Simulink .slx + param .m — seeded with course buck/boost + 3-phase models), `hardware/{schematics,bom}/`, `docs/` (spec, lab guides, `docs/datasheets/`), `measurements/`.
+- ⚠️ Unlike the umbrella, **the team repo tracks PDFs/.docx/.xlsx/.slx directly in git** (no drive-sync) — it's a self-contained shared product repo.
+- **TODO — invite teammates:** `gh api -X PUT repos/MadsRudolph/62768-energy-system/collaborators/USERNAME -f permission=push` (per teammate), then fill the team table in the repo README.
+
+### Where the 62768 course materials live (personal, in umbrella repo)
+- **Obsidian** `Obsidian/Courses/62768 Electrical Energy Systems/` — `Slides/` (6 lectures + intro), `Labs/`, `Literature/` (spec + `Datasheets/`), empty `Lecture Notes/Formulas/Images/` for own notes.
+- **Code** `4. Semester/Electrical Energy Systems/` — `Three Phase Transformer/` + `DC-DC Converters/` Simulink models (the personal copies; team repo has copies too).
+
+---
+
+## ARCHIVED: 34722 Linear Control Design 1 — DONE (multiple-choice exam Tue 2-June-2026)
 
 ### ▶️ FIRST ACTION ON A FRESH PC
 1. `git pull` in `C:\Users\Mads2\DTU`.

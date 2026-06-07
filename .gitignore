@@ -101,3 +101,6 @@ Obsidian/Courses/*/Images/ex*_*.png
 # MATLAB pretty.bat publishing artifacts
 # ===========================================
 3.semester/DSP/EXAMS/html/
+
+# 62768 team product repo (separate git repo, do not nest into umbrella)
+4. Semester/Electrical Energy Systems/team/
