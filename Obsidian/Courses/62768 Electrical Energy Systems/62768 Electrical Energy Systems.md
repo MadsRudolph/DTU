@@ -80,13 +80,22 @@ Full list (18) in [[Project Specifications.pdf]]. **Priority 1 = must design & i
 ## Lectures / Slides
 
 In [[Slides]]:
-- [[Lecture 1.pdf|Lecture 1 — Intro]]
-- [[Lecture 1 Modeling.pdf|Lecture 1 — Modeling]]
-- [[Lec 2.pdf|Lecture 2]]
-- [[Lec 3.pdf|Lecture 3]]
-- [[Lec 4.pdf|Lecture 4]]
-- [[Lecture 5.pdf|Lecture 5]]
+- [[Lecture 1.pdf|Lecture 1 — Project Description]]
+- [[Lecture 1 Modeling.pdf|Lecture 1 — Modeling (companion)]]
+- [[Lec 2_PowerElectronics.pdf|Lecture 2 — Power Electronics (buck/boost)]] · ⚠️ the 2024 [[Lec 2.pdf]] is an old DC-Motor deck (superseded)
+- [[Lec 3.pdf|Lecture 3 — PMSM]]
+- [[Lec 4.pdf|Lecture 4 — Diode Rectifiers]]
+- [[Lecture 5.pdf|Lecture 5 — DC/DC Converters (chopper)]]
 - [[Introduction to 62768.pdf|Course introduction (practical & group work)]]
+
+### 📝 My lecture notes (in [[Lecture Notes]])
+Conversational write-ups with mermaid diagrams + the key formulas:
+- [[Lec 1 — Project Description and Plan]] — CDIO + the 9-section project-plan skeleton + project diagram
+- [[Lec 1b — Modelling, PID and MPPT]] — motor/gen transfer function, **digital PID in C**, Ziegler-Nichols, **MPPT P&O** (the control/firmware deck)
+- [[Lec 2 — Buck and Boost Converters]] — buck/boost sizing (Erickson), the ripple formulas + the factor-of-2 convention
+- [[Lec 3 — Permanent-Magnet AC Machines]] — the 3-phase generator theory
+- [[Lec 4 — Diode Rectifiers]] — 3φ bridge, `V_dc = 1.654·V_m`, filters → V1
+- [[Lec 5 — DC-DC Converters (Chopper)]] — buck/boost the Rashid way (`k`-notation, RL ripple, worst-case at k=0.5)
 
 ## Labs / Experiments
 
