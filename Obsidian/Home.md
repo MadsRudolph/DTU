@@ -3,12 +3,13 @@ cssclass: dashboard
 type: home
 tags: [dashboard, home]
 ---
-# DTU -- 4th Semester
+# DTU -- 5th Semester
 
-> [!abstract] Spring 2026
+> [!abstract] Autumn 2026 + January 2027
 > **Programme:** Diplomingeniør, Electrical Engineering
-> **Focus:** Analog IC design, Power electronics, IoT, Digital systems, Control
-> **Semester total:** 30 ECTS (3 mandatory + 3 tilvalg)
+> **Focus:** Innovation project, Electroacoustics, Power electronics, PCB/EMC
+> **Autumn total:** 30 ECTS (62999 + 34870 + 62755 + 34654)
+> **January:** 34871 Nonlinear Transducers (5 ECTS, 3-week)
 >
 > [[DTU Study Path|Full study plan and career track]]
 
@@ -16,37 +17,35 @@ tags: [dashboard, home]
 
 ## Courses
 
-> [!course-62711] 62711 -- Digital Systems Design
-> **FPGA design, VHDL, soft microprocessor**
-> `5 ECTS` | Mandatory | Oral exam (May 28-29)
+> [!course-62999] 62999 -- Innovation Pilot
+> **Interdisciplinary innovation / entrepreneurship project**
+> `10 ECTS` | Project | Placement: More
 >
-> [[62711 Digital Systems Design|Open course page]]
->
-> **Current phase:** PWA (ALU / DataPath)
+> [[62999 Innovation Pilot|Open course page]]
 
-> [!course-34722] 34722 -- Linear Control Design 1
-> **Transfer functions, Bode plots, PID, Regbot**
-> `5 ECTS` | Mandatory | Written exam
+> [!course-34870] 34870 -- Electroacoustics
+> **Loudspeaker & microphone modelling, transducers, radiation**
+> `10 ECTS` | E2
 >
-> [[34722 Linear Control Design 1|Open course page]]
+> [[34870 Electroacoustics|Open course page]]
 
-> [!course-34655] 34655 -- Integrated Analog Electronics 2
-> **CMOS opamps, gain stages, frequency compensation**
-> `5 ECTS` | Tilvalg | Written exam
+> [!course-62755] 62755 -- Power Electronics
+> **Converter design, switching, control (builds on 34620)**
+> `5 ECTS` | E1A
 >
-> [[34655 Integrated Analog Electronics 2|Open course page]]
+> [[62755 Power Electronics|Open course page]]
 
-> [!course-34620] 34620 -- Basic Power Electronics
-> **DC-DC converters, switch-mode, MOSFET drivers**
-> `5 ECTS` | Tilvalg | Written exam
+> [!course-34654] 34654 -- Circuit Technology and EMC
+> **PCB layout, grounding/shielding, EMC/EMI, lab project**
+> `5 ECTS` | E4A (Tue 13--17)
 >
-> [[34620 Basic Power Electronics|Open course page]]
+> [[34654 Circuit Technology and EMC|Open course page]]
 
-> [!course-34315] 34315 -- Internet of Things
-> **Embedded systems, IoT protocols, connected devices**
-> `5 ECTS` | Tilvalg
+> [!course-34871] 34871 -- Nonlinear Transducers
+> **Loudspeaker nonlinearity, distortion, compensation**
+> `5 ECTS` | January 2027 (3-week intensive)
 >
-> [[34315 Internet of Things|Open course page]]
+> [[34871 Nonlinear Transducers|Open course page]]
 
 ---
 
@@ -65,12 +64,9 @@ LIMIT 10
 ## Upcoming Deadlines
 
 > [!deadline] Key Dates
-> - [ ] **PWA deadline** -- 05-03-2026 (Week 9)
-> - [ ] **MC test PWA** -- Before 21 March 2026
-> - [ ] **PWB deadline** -- 02-04-2026 (Week 13)
-> - [ ] **MC test PWB** -- Before 25 April 2026
-> - [ ] **PWF + Video** -- 11-05-2026 (Week 19)
-> - [ ] **Oral exam DSD** -- 28/29-05-2026 (Week 20)
+> - [ ] **Register for 5th term courses** -- when registration opens (planner: "Register/Withdraw not open")
+> - [ ] **Autumn 2026 start** -- 1 September 2026
+> - [ ] **January 2027 (34871)** -- 3-week period, Jan 2027
 
 ---
 
@@ -78,7 +74,7 @@ LIMIT 10
 
 > [!tip] Vault Areas
 > - [[DTU Study Path]] -- Career planning and course strategy
-> - **Archive/** -- Previous semester notes (DSP, Electromagnetics, IAE1)
+> - **Archive/** -- Previous semester notes (DSP, Electromagnetics, IAE1, 4th sem)
 > - **Projects/** -- Project workspace
 > - **Resources/** -- General references
 

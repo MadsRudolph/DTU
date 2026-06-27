@@ -104,3 +104,9 @@ Obsidian/Courses/*/Images/ex*_*.png
 
 # 62768 team product repo (separate git repo, do not nest into umbrella)
 4. Semester/Electrical Energy Systems/team/
+
+# ===========================================
+# Block Diagram Reducer Standalone App
+# ===========================================
+block-diagram-reducer/
+Launch-Desktop-App.bat

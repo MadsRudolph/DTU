@@ -13,7 +13,7 @@ aliases:
 links:
   - [[DTU – Study Overview]]
   - [[MOC – Audio & Acoustics]]
-updated: 2026-01-04
+updated: 2026-06-28
 ---
 
 # DTU Audio / Amplifier Design Track
@@ -37,7 +37,7 @@ updated: 2026-01-04
 > - 34722 Linear Control Design 1
 > - 62711 Digital Systems, Design Of
 > - 62768 Electrical Energy Systems Project
-> - 34870 Electroacoustic Transducers and Systems
+> - 34870 Electroacoustics
 > - 62755 Power Electronics
 > - Internship (6th term) + Diplomprojekt (7th term)
 
@@ -62,9 +62,11 @@ updated: 2026-01-04
 
 | Term            | Course code | Title (EN) / (DA)                                    | ECTS | Theme                            |
 |-----------------|------------:|------------------------------------------------------|-----:|----------------------------------|
-| 4th term (F)    | 34655       | Integrated Analog Electronics 2                      | 5    | Advanced analog / IC design      |
-| 4th term (F)    | 34620       | Basic Power Electronics                              | 5    | Switch-mode + converters        |
-| 4th term (F)    | 34315       | Internet of Things - Application and Infrastructure  | 5    | IoT + embedded systems for audio |
+| 4th term (F) ✅ | 34655       | Integrated Analog Electronics 2                      | 5    | Advanced analog / IC design      |
+| 4th term (F) ✅ | 34620       | Basic Power Electronics                              | 5    | Switch-mode + converters        |
+| 4th term (F) ✅ | 34315       | Internet of Things - Application and Infrastructure  | 5    | IoT + embedded systems for audio |
+| 5th term (E)    | 62755       | Power Electronics                                    | 5    | Switch-mode / converters         |
+| 5th term (E)    | 34654       | Circuit Technology and EMC                          | 5    | PCB layout & EMC for hardware    |
 | 5th term (Jan)  | 34871       | Nonlinear Transducers                                | 5    | Loudspeaker nonlinearity & models |
 | 7th term (A)    | 34652       | Power Electronics 1                                  | 10   | Advanced converters / design     |
 
@@ -77,7 +79,10 @@ updated: 2026-01-04
 
 ---
 
-## 🧱 4th Term — Spring 2026 (Tilvalg 15 ECTS)
+## 🧱 4th Term — Spring 2026 (Tilvalg 15 ECTS) ✅ DONE
+
+> [!success] Completed June 2026
+> All six courses finished (34722, 62711, 62768, 34655, 34620, 34315 = 30 ECTS). DSP 62743 reexam passed (May 2026). Section kept for reference.
 
 Mandatory courses already in the plan:
 - 34722 Linear Control Design 1 (5 ECTS)  
@@ -152,14 +157,38 @@ Mandatory courses already in the plan:
 
 ---
 
-## 🔊 5th Term — January 2027 Tilvalg (5 ECTS)
+## 🔊 5th Term — Autumn 2026 + January 2027 (30 + 5 ECTS)
 
-Autumn 5th-term courses (already in plan):
-- 62999 Innovation Pilot (10 ECTS)  
-- 34870 Electroacoustic Transducers and Systems (10 ECTS)  
-- 62755 Power Electronics (5 ECTS)
+> [!abstract] Confirmed in the DTU planner (year of study 1 Sep 2026 – 31 Aug 2027)
+> **Autumn 2026 (13 weeks) — 30 ECTS:**
+> - 62999 Innovation Pilot (10 ECTS) — *More*
+> - 34870 Electroacoustics (10 ECTS) — *E2*
+> - 62755 Power Electronics (5 ECTS) — *E1A*
+> - 34654 Circuit Technology and EMC (5 ECTS) — *E4A*
+>
+> **January 2027 (3-week intensive) — 5 ECTS:**
+> - 34871 Nonlinear Transducers (5 ECTS) — fills the previously-empty January slot
+>
+> **Change vs. Jan-2026 plan:** 34654 (autumn) replaced 34871 as a *future* course; 34871 now slots into January 2027 instead. See the 34374 note below for why the wanted IoT/PCB course didn't make it.
 
-### 5.1 34871 – Nonlinear Transducers (5 ECTS, January)
+### 5.1 34654 – Circuit Technology and EMC (5 ECTS, autumn, E4A)
+
+> [!note] Why It Matters for Audio
+> The PCB-layout + EMC course brought forward from the original 7th-term plan:
+> - Grounding, shielding, routing for low noise
+> - EMC/EMI compliance thinking
+> - Flipped classroom + 4 assignments + lab/PCB project (lecturer Arnold Knott, Tue 13–17)
+>
+> Very relevant for:
+> - Low-noise analog boards (pre-amps, phono stages)
+> - Layout of high-$dV/dt$, high-$dI/dt$ class-D stages
+> - Keeping your amp from radiating like a radio transmitter
+
+> [!success] Key Outcomes
+> - Hands-on PCB layout + EMC design skills — scratches much of the **34374** itch a term early
+> - Pairs with 62755 power electronics for proper switch-mode board design
+
+### 5.2 34871 – Nonlinear Transducers (5 ECTS, January 2027, 3-week intensive)
 
 > [!note] Why It Matters for Audio
 > Deep dive into **nonlinear behaviour of loudspeakers and other transducers**:
@@ -167,8 +196,10 @@ Autumn 5th-term courses (already in plan):
 > - Modelling and simulation of nonlinearities
 > - Compensation and control strategies
 >
-> With 34870 + 34871 you get a **full loudspeaker engineer flavour**:
+> With 34870 (autumn) + 34871 (January) you get a **full loudspeaker engineer flavour**:
 > - From small-signal modelling to **real-world distortion** and limits
+> - 34870 is the recommended prerequisite — the autumn→January ordering lines up perfectly
+> - 3-week intensive, Mon–Fri 8–17 (lecturer Finn T. Agerkvist)
 
 > [!success] Key Outcomes
 > Ability to **model, simulate and interpret nonlinearity** in speakers/mics
@@ -176,6 +207,9 @@ Autumn 5th-term courses (already in plan):
 > Knowledge directly used in:
 > - Hi-fi and studio monitor design
 > - Headphones and hearing-aid transducers
+
+> [!tip] Why not 34374 in January?
+> You wanted **34374 IoT Hardware and PCB Design** in this slot, but it's a **13-week spring course (F4B)** — it can't run in a 3-week January block, and autumn 2026 is already full at 30 ECTS. So January is filled with **34871** (a true 3-week course that finishes your loudspeaker track), and **34374 stays a high-priority MSc/later target** — see "Future MSc hardware courses". Note that **34654 (this autumn) already covers a lot of the PCB-layout + EMC ground** 34374 would.
 
 ---
 
@@ -220,7 +254,10 @@ You need **10 ECTS tilvalg** on top.
 > - Room acoustics
 > - Noise-sensitive audio environments
 
-#### 7.3 34654 – Circuit Technology and EMC (5 ECTS)
+#### 7.3 34654 – Circuit Technology and EMC (5 ECTS) — ✅ now taken in 5th term
+
+> [!warning] Moved up
+> Originally a 7th-term option; **now scheduled in 5th term (autumn 2026)**. If keeping Option B for 7th term, pick a different 5-ECTS partner for 34840 (e.g. acoustics/EMC alternative).
 
 > [!note] Course Content
 > Focus on **PCB layout, manufacturing, EMC/EMI**:
@@ -287,7 +324,10 @@ You need **10 ECTS tilvalg** on top.
 > [!warning] Not Part of Current Diplom Plan
 > These courses are **not** included in the current Diplom study plan (due to timetable and internship constraints), but should be prioritised when starting an MSc in Electrical Engineering / Electronics / Acoustics.
 
-### 34374 – IoT Hardware and PCB Design (5 ECTS, spring, F4B)
+### 34374 – IoT Hardware and PCB Design (5 ECTS, spring, F4B) ⭐ TOP PRIORITY
+
+> [!important] Wanted now, but couldn't fit the Diplom plan
+> Strongly wanted (5th term), but it's a **13-week spring (F4B)** course: autumn 2026 is already full at 30 ECTS and it can't compress into the January 2027 3-week slot. Reserved for **MSc** — or revisit if a 6th-term spring window opens around the internship. In the meantime, **34654 (5th term autumn) covers much of the PCB/EMC overlap**.
 
 > [!note] Course Overview
 > Focus on **embedded hardware and PCB design** for IoT devices.
@@ -316,26 +356,26 @@ You need **10 ECTS tilvalg** on top.
 > - [x] ~~Select 4th term tilvalg courses~~ (Completed 2026-01-04)
 >   - Selected: 34655, 34620, 34315 (replaced 30020 with IoT course)
 >   - Total 4th semester: 30 ECTS (34722, 62711, 62768, 34655, 34620, 34315)
+> - [x] ~~Complete all 4th semester courses + exams~~ (Done June 2026)
+> - [x] ~~Pass DSP 62743 reexam~~ (exam code E2-B, May 2026)
+> - [x] ~~Select 5th term courses~~ (Confirmed June 2026)
+>   - Autumn 2026: 62999 (10), 34870 (10), 62755 (5), 34654 (5) = 30 ECTS
+>   - January 2027: 34871 Nonlinear Transducers (5) — replaces the wanted-but-incompatible 34374
+> - [x] ~~Verify 34871 runs in January 2027~~ (Confirmed — 3-week intensive, 34870 recommended as prereq)
 
-> [!todo] Immediate Actions (4th Term Registration)
-> - [ ] Register for 4th term courses before deadline
-> - [ ] Verify **prerequisites** for selected courses:
->   - [ ] 34655 requires 34636 (should be completed in 3rd semester)
->   - [ ] Check 34315 prerequisites
+> [!todo] Immediate Actions (5th Term Registration)
+> - [ ] Register for 5th term courses when registration opens (planner currently shows "Register/Withdraw not open")
+> - [ ] Verify **prerequisites**:
+>   - [ ] 34871 recommends 34870 — make sure 34870 (autumn) is registered first
+>   - [ ] Check 62755 / 34654 prerequisites against completed 4th-sem courses
 > - [ ] Talk to **study counsellor** to:
->   - [ ] Get approval for tilvalg combination (34655, 34620, 34315)
->   - [ ] Confirm no timetable collisions
-
-> [!important] DSP Reexam — May 20, 2026 (exam code E2-B)
-> - [x] Create study schedule alongside 4th semester courses → [[62743 Digital Signal Processing (Reexam)]]
-> - [ ] Register for re-exam (April 1--15, 2026)
-> - [ ] Phase 1: Foundation refresh (Feb 19 -- Mar 22)
-> - [ ] Phase 2: Filter design deep dive (Mar 23 -- Apr 26)
-> - [ ] Phase 3: Exam drilling (Apr 27 -- May 20)
+>   - [ ] Confirm the autumn 30-ECTS load (62999 + 34870 + 62755 + 34654) is approved
+>   - [ ] Confirm no timetable collisions (E1A / E2 / E4A / More)
+>   - [ ] Ask whether **34374** could ever be slotted into 6th-term spring 2027 around the internship
 
 > [!todo] Future Course Planning
-> - [ ] Verify 34871 runs in January 2027
-> - [ ] Check 34652 / 34840 / 34654 availability for 7th term
+> - [ ] 34374 IoT Hardware and PCB Design — keep as **top-priority MSc** target (spring F4B, doesn't fit Diplom plan)
+> - [ ] Check 34652 / 34840 availability for 7th term (note: 34654 already taken in 5th term)
 > - [ ] Consider 30020 for future semester or self-learn measurement skills
 
 > [!tip] Internship & Project Preparation
