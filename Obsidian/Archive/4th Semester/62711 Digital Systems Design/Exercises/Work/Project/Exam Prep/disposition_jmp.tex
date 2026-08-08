@@ -1,0 +1,193 @@
+% =================================================================
+%   Disposition --- IDC FSM & Datapath: JMP (Unconditional Jump)
+%   62711 Digital Systems Design --- mundtlig eksamen
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titling}
+
+\setlist{itemsep=0.15em,topsep=0.25em,parsep=0pt}
+\setlength{\droptitle}{-4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F4F4F4}
+
+\title{\vspace{-1em}\textcolor{accent}{\Large Disposition --- IDC's FSM \& Datapath: \texttt{JMP}}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% ======================== 1. Framing ============================
+\section*{Hvad vi viser}
+
+Vi sporer en \textbf{\texttt{JMP}} (Unconditional Jump, register-indirect)-instruktion
+fra RAM, gennem Instruction Register, ind i IDC's state machine,
+og videre til Program Counter'en --- denne gang via en helt anden PC-mode end ved BRZ/BRN.
+\texttt{JMP} er valgt fordi den eksercerer:
+
+\begin{itemize}
+  \item \textbf{\texttt{PS=11}} --- den eneste opkode der bruger ``load absolut''-mode.
+  \item \textbf{Datapath'ens \texttt{Address\_Out\_DP}-port} --- R[SA] forlader Datapath via A\_Data
+        og kommer ind i MPC'ens \texttt{Address\_In}-pin.
+  \item PC'ens interne \textbf{MUXP-mux} der vælger mellem \texttt{sumOffset} (PS=10) og \texttt{Address\_In} (PS=11).
+  \item En instruktion uden \textbf{register-write}, uden \textbf{memory access}, og hvor \textbf{ALU's output kasseres}
+        (men ALU kører stadig, og dens flag opdateres).
+  \item ``Halt''-idiomet --- \texttt{JMP A7} hvor R7 indeholder JMP's egen adresse.
+\end{itemize}
+
+% ======================== 2. FSM ================================
+\section*{State machine --- JMP bruger kun \textsc{inf} og \textsc{ex0}}
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={
+    draw=accent, fill=boxbg, circle,
+    minimum size=16mm, align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick}
+]
+  \node[state] (inf) at (0, 0) {INF\\\scriptsize fetch};
+  \node[state] (ex0) at (6, 0) {EX0\\\scriptsize load PC\\\scriptsize fra R[SA]};
+
+  \draw[arr] (inf) to[bend left=22]
+    node[above, font=\scriptsize, fill=white, inner sep=1pt]
+    {altid (IL=1, MM=1)} (ex0);
+
+  \draw[arr] (ex0) to[bend left=22]
+    node[below, font=\scriptsize, align=center, fill=white, inner sep=2pt]
+    {altid (PS=11)\\PC $\leftarrow$ R[SA]} (inf);
+\end{tikzpicture}
+\end{center}
+
+Dispatch sker i EX0's \texttt{case IR(15 downto 9)}. Opcode \texttt{1110000} rammer JMP-grenen.
+IDC's eneste opgave er at sætte \texttt{PS=11} --- resten af kontrolordet er defaults (\texttt{RW=0, MW=0, MD=0, MM=0, IL=0, MB=0, FS=0000}).
+
+% ======================== 3. Signalflow =========================
+\section*{Signalflow gennem CPU'en --- A\_Data ind i PC'en}
+
+\begin{center}
+\begin{tikzpicture}[
+  blk/.style={
+    draw=accent, fill=boxbg, rounded corners=2pt,
+    minimum height=10mm, minimum width=22mm,
+    align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick},
+  lab/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+  \node[blk] (ram) at (0,    0)    {RAM};
+  \node[blk] (ir)  at (3.5,  0)    {IR};
+  \node[blk] (idc) at (7,    0)    {IDC (FSM)};
+  \node[blk] (pc)  at (10.5, 0)    {PC\\\scriptsize MUXP};
+
+  \node[blk] (rf)  at (0,    -2.3) {Reg File\\\scriptsize R[SA]};
+  \node[blk] (addr) at (5.5, -2.3) {Address\_Out\_DP\\\scriptsize ( = A\_Data )};
+
+  \draw[arr] (ram.east) -- node[lab] {Data\_Bus\_Out} (ir.west);
+  \draw[arr] (ir.east)  -- node[lab] {IR(15:9)} (idc.west);
+  \draw[arr] (idc.east) -- node[lab] {PS=11} (pc.west);
+
+  \draw[arr] (rf.east) -- node[lab] {A\_Data} (addr.west);
+  \draw[arr] (addr.east) -- ++(1.5,0) |- node[lab, pos=0.25, right]
+       {Address\_In} (pc.south);
+
+  \draw[arr, dashed, accent!60]
+    (pc.north) -- ++(0, 0.8) -| (ram.north);
+  \node[font=\scriptsize\itshape, accent!70] at (5.25, 1.1) {Address\_Out (næste fetch)};
+\end{tikzpicture}
+\end{center}
+
+A\_Data kører \emph{lige ud} af Datapath'en som \texttt{Address\_Out\_DP} --- det er nøjagtigt samme pin
+som bruges til \texttt{LD}/\texttt{ST}-adressering, men her sender vi den ind i MPC'ens \texttt{Address\_In}
+i stedet for i memory-mux'en.
+
+% ======================== 4. De to cyklusser ====================
+\section*{Cyklusserne}
+
+\begin{itemize}
+  \item \textbf{Cyklus 0 --- \textsc{INF} (fetch):}
+        Som ved alle 2-cyklus-instruktioner. \texttt{IL=1, MM=1, PS=01}.
+        Instruktionsordet (fx \texttt{JMP A7} = \texttt{0xE038}) på \texttt{Data\_Bus\_Out}, IR loader.
+        State $\rightarrow$ \textsc{EX0}.
+
+  \item \textbf{Cyklus 1 --- \textsc{EX0} (the jump):}
+        IDC ser \texttt{IR(15:9) = 1110000} (JMP) og sætter \texttt{PS = 11}.
+        Alt andet i kontrolordet er defaults:
+
+        \begin{itemize}
+          \item \texttt{AX = 0\&IR(5..3)} --- registerfilen læser R[SA] ud på A\_Data.
+          \item \texttt{RW = 0, MW = 0} --- ingen register-write, ingen memory-write.
+          \item \texttt{FS = 0000} --- ALU kører pass-A, men resultatet bruges ikke (MD=0 routes til D\_Data, men RW=0).
+          \item \texttt{MB = 0, MD = 0, MM = 0} --- defaults, irrelevante her.
+          \item \texttt{IL = 0} --- IR opdateres ikke.
+        \end{itemize}
+
+        A\_Data ($= R[SA]$) forlader Datapath'en som \texttt{Address\_Out\_DP} og fortsætter direkte ind
+        i MPC'ens \texttt{Address\_In}-port (se \texttt{Microprocessor.vhd:120}).
+        Inde i PC'en dekoder \texttt{PS=11} til \texttt{Load=1, Count=0}, og MUXP vælger
+        \texttt{Address\_In} (ikke \texttt{sumOffset}).
+
+        \textbf{Næste positive klokflanke:} PC $\leftarrow$ R[SA]. State $\rightarrow$ \textsc{INF}.
+        Cyklus 2 fetcher så fra den nye adresse.
+\end{itemize}
+
+% ======================== 5. Talking points =====================
+\section*{Hovedpointer / opfølgende spørgsmål}
+
+\begin{itemize}
+  \item \textbf{PS=11 er unik for JMP.} Hele instruktionssættet har kun fire PC-modes
+        (\texttt{00}=hold, \texttt{01}=inc, \texttt{10}=branch, \texttt{11}=jump). Branch (BRZ/BRN) bruger \texttt{10},
+        absolut jump bruger \texttt{11} --- forskellen ligger i MUXP-mux'en inde i PC'en:
+        \texttt{PS(1)} er fælles Load-signal, \texttt{PS(0)} vælger kilde (sumOffset vs Address\_In).
+
+  \item \textbf{JMP er en register-indirekt jump, ikke en absolut immediate.}
+        Du kan ikke skrive \texttt{JMP 0x42} --- der findes ingen immediate-jump.
+        Mønsteret er altid \texttt{LDI Rx, addr ; JMP Ax}. Og fordi LDI har 3-bit immediate
+        (\texttt{0..7}), er højere absolutte adresser kun mulige via \texttt{.word}-tricket.
+
+  \item \textbf{Ingen register write, ingen memory access.}
+        \texttt{RW=0, MW=0}. JMP er den eneste 2-cyklus-instruktion der hverken skriver til registerfilen eller til memory.
+        Kun PC ændres.
+
+  \item \textbf{ALU'en kører \emph{stadig} i EX0 --- og dens flag opdateres.}
+        Default \texttt{FS=0000} (pass-A) producerer $F = R[SA]$ og NegZero genererer N, Z derudfra.
+        Disse flag forbliver gyldige indtil næste ALU-op. En direkte \texttt{JMP Ax ; BRZ ...}
+        ville altså teste om R[SA] (fra JMP'en) var nul --- næppe det man vil. Ryd flag eksplicit
+        hvis du har brug for det.
+
+  \item \textbf{A\_Data-pinnen har dobbeltrolle.}
+        Samme port der bruges til LD/ST-adressering (R[SA] $\rightarrow$ memory address) bruges her
+        til at sende et nyt PC-target ind i MPC. På \texttt{architecture.pdf} er det den nederste
+        venstre ledning ud af Datapath-boksen.
+
+  \item \textbf{PC loader \emph{direkte} --- ingen +1.}
+        Modsat \texttt{PS=01} (inc) er der \emph{ingen} implicit +1. R[SA]-værdien går direkte
+        ind som ny PC-værdi.
+
+  \item \textbf{Halt-idiomet.}
+        Hvis R[SA] indeholder \emph{JMP'ens egen adresse}, bliver instruktionen en uendelig løkke ---
+        hver eksekvering re-loader PC til samme adresse. \texttt{dsdasm}-assembleren detekterer
+        dette mønster og lader simulatoren stoppe. Typisk \texttt{halt: jmp A7} hvor R7 = 7
+        og \texttt{halt:} sidder på adresse 7 (LDI's 3-bit immediate begrænser dette til adresser 0..7).
+
+  \item \textbf{JMP vs BRZ-taken --- samme effekt, forskellig kilde.}
+        Begge gør \texttt{Load = PS(1) = 1} ind i PC'ens D-FF'er. Men sumOffset er PC-relativ
+        (range $-32 \ldots +31$ fra PC+1), mens Address\_In er fuld absolut adresse (0..255).
+\end{itemize}
+
+\end{document}

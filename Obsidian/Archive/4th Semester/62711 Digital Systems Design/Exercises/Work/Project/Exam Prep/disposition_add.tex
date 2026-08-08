@@ -1,0 +1,195 @@
+% =================================================================
+%   Disposition --- IDC FSM & Datapath: ADD (register-register)
+%   62711 Digital Systems Design --- mundtlig eksamen
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titling}
+
+\setlist{itemsep=0.15em,topsep=0.25em,parsep=0pt}
+\setlength{\droptitle}{-4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F4F4F4}
+
+\title{\vspace{-1em}\textcolor{accent}{\Large Disposition --- IDC's FSM \& Datapath: \texttt{ADD}}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% ======================== 1. Framing ============================
+\section*{Hvad vi viser}
+
+Vi sporer en \textbf{\texttt{ADD}} (Add, register-register)-instruktion
+fra RAM, gennem Instruction Register, ind i IDC's state machine,
+og videre gennem Datapath til Register File'ens write-port.
+\texttt{ADD} er valgt fordi den eksercerer:
+
+\begin{itemize}
+  \item IDC'ens \textbf{unified ALU when-clause} --- ti opkoder (\texttt{MOVA, INC, ADD, SUB, DEC, OR, AND, XOR, NOT, MOVB})
+        deler én og samme branch i case-statementet.
+  \item \textbf{\texttt{FS = IR(12..9)}-tricket} --- ALU-opkoderne er designet sådan at bits 12-9 \emph{er} FS-koden.
+  \item \textbf{\texttt{Cin = FS(0)}-tricket} --- ALU'ens carry-in er hardwired til FS-bit 0.
+  \item \textbf{Hele datapathen} --- MUX B, ALU, NegZero, MUX F, MUX D, Register File.
+  \item \textbf{Alle fire flag (V, C, N, Z)} --- ADD er den eneste kategori hvor alle fire er meningsfulde.
+\end{itemize}
+
+% ======================== 2. FSM ================================
+\section*{State machine --- ADD bruger kun \textsc{inf} og \textsc{ex0}}
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={
+    draw=accent, fill=boxbg, circle,
+    minimum size=16mm, align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick}
+]
+  \node[state] (inf) at (0, 0) {INF\\\scriptsize fetch};
+  \node[state] (ex0) at (6, 0) {EX0\\\scriptsize ALU op\\\scriptsize + write-back};
+
+  \draw[arr] (inf) to[bend left=22]
+    node[above, font=\scriptsize, fill=white, inner sep=1pt]
+    {altid (IL=1, MM=1)} (ex0);
+
+  \draw[arr] (ex0) to[bend left=22]
+    node[below, font=\scriptsize, align=center, fill=white, inner sep=2pt]
+    {altid (PS=01, RW=1)\\R[DR] $\leftarrow$ R[SA]+R[SB]} (inf);
+\end{tikzpicture}
+\end{center}
+
+Hele dispatch'en sker kombinatorisk i EX0's \texttt{case IR(15 downto 9)}.
+Opcode \texttt{0000010} rammer den unified ALU-gren --- samme gren som SUB, OR, AND, XOR osv.
+Kun \texttt{FS}-værdien afviger fra instruktion til instruktion, fordi den tages direkte fra \texttt{IR(12..9)}.
+
+% ======================== 3. Signalflow =========================
+\section*{Signalflow gennem CPU'en}
+
+\begin{center}
+\begin{tikzpicture}[
+  blk/.style={
+    draw=accent, fill=boxbg, rounded corners=2pt,
+    minimum height=10mm, minimum width=22mm,
+    align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick},
+  lab/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+  % Top: fetch chain
+  \node[blk] (ram) at (0,    0)    {RAM};
+  \node[blk] (ir)  at (3.5,  0)    {IR};
+  \node[blk] (idc) at (7,    0)    {IDC (FSM)};
+  \node[blk] (pc)  at (10.5, 0)    {PC};
+
+  % Datapath row
+  \node[blk] (rf)  at (0,    -2.5) {Reg File\\\scriptsize R[SA], R[SB]};
+  \node[blk] (mb)  at (3.5,  -2.5) {MUX B};
+  \node[blk] (alu) at (7,    -2.5) {ALU\\\scriptsize FS=0010};
+  \node[blk] (nz)  at (10.5, -2.5) {NegZero};
+
+  % Below datapath: muxes back to RF
+  \node[blk] (mf)  at (7,    -4.3) {MUX F};
+  \node[blk] (md)  at (3.5,  -4.3) {MUX D};
+
+  % Top arrows: instruction fetch + control
+  \draw[arr] (ram.east) -- node[lab] {Data\_Bus\_Out} (ir.west);
+  \draw[arr] (ir.east)  -- node[lab] {IR(15:9)} (idc.west);
+  \draw[arr] (idc.east) -- node[lab] {PS=01} (pc.west);
+
+  % Control word into datapath (dashed, abstracted)
+  \draw[arr, dashed, accent!60] (idc.south) -- ++(0, -0.5)
+       node[lab, pos=0.5] {DX,AX,BX,FS,RW};
+
+  % Datapath flow: RF -> MUX B / ALU
+  \draw[arr] (rf.east) -- node[lab] {A\_Data} (mb.west);
+  \draw[arr] (rf.south) |- ++(0.5,-0.6) node[lab, right=1mm] {B\_Data} -| (mb.south);
+  \draw[arr] (mb.east) -- node[lab] {Bus\_B} (alu.west);
+
+  % ALU outputs
+  \draw[arr] (alu.east) -- node[lab] {F} (nz.west);
+  \draw[arr] (alu.south) -- node[lab,right] {F} (mf.north);
+  \draw[arr] (mf.west) -- node[lab] {F\_Out} (md.east);
+  \draw[arr] (md.west) -| node[lab, pos=0.85, left] {D\_Data} (rf.south);
+
+  % Flags up to IDC
+  \draw[arr] (nz.north) -- node[lab] {N, Z} (idc.south east);
+\end{tikzpicture}
+\end{center}
+
+% ======================== 4. De to cyklusser ====================
+\section*{Cyklusserne}
+
+\begin{itemize}
+  \item \textbf{Cyklus 0 --- \textsc{INF} (fetch):}
+        IDC sætter \texttt{IL=1, MM=1, PS=01}.
+        PC driver MUX M's (1)-input, hvis output bliver RAM's adresse.
+        Instruktionsordet (fx \texttt{0x0488} = \texttt{ADD D2, A1, B0}) kommer ned ad
+        \texttt{Data\_Bus\_Out}, IR loades på næste klokflanke. State $\rightarrow$ \textsc{EX0}.
+
+  \item \textbf{Cyklus 1 --- \textsc{EX0} (ALU op + write-back):}
+        IDC ser \texttt{IR(15:9) = 0000010} og rammer den unified ALU-gren:
+
+        \begin{itemize}
+          \item \texttt{DX = 0\&IR(8..6)}, \texttt{AX = 0\&IR(5..3)}, \texttt{BX = 0\&IR(2..0)}
+                --- vælger R[DR], R[SA], R[SB] i registerfilen.
+          \item \texttt{FS = IR(12..9) = 0010} --- ALU laver $F = A + B$. \texttt{Cin = FS(0) = 0}.
+          \item \texttt{MB = 0} (MUX B vælger B\_Data, ikke ZeroFiller).
+          \item \texttt{MD = 0} (MUX D vælger ALU-resultatet, ikke Data\_In).
+          \item \texttt{RW = 1} --- R[DR] skrives på næste positive klokflanke.
+          \item \texttt{PS = 01} --- PC inkrementerer.
+        \end{itemize}
+
+        \emph{Parallelt} producerer NegZero \(N = F_7\) og \(Z = \overline{F_7 + \ldots + F_0}\)
+        kombinatorisk; den 8-bit adder driver V og C ud fra de interne carry-bits.
+        State $\rightarrow$ \textsc{INF}. To cyklusser i alt.
+\end{itemize}
+
+% ======================== 5. Talking points =====================
+\section*{Hovedpointer / opfølgende spørgsmål}
+
+\begin{itemize}
+  \item \textbf{Unified ALU when-clause.} Ti opkoder (\texttt{MOVA, INC, ADD, SUB, DEC, OR, AND, XOR, NOT, MOVB})
+        deler én og samme branch i IDC'ens case. Det er den mest elegante kompression i hele designet.
+
+  \item \textbf{\texttt{FS = IR(12..9)}-tricket.} ALU-opkoderne er designet sådan at bits 12-9 \emph{er} FS-koden.
+        ADD's opcode \texttt{0000010} har bits 12-9 = \texttt{0010} = FS for $F=A+B$. Ingen separat dekoder nødvendig.
+
+  \item \textbf{\texttt{Cin = FS(0)}-tricket.} Datapath'ens \texttt{Cin} er hardwired til \texttt{FS\_sig(0)}
+        (se \texttt{Microprocessor.vhd:102}). For ADD (\texttt{FS=0010}) er \texttt{Cin=0} --- perfekt.
+        For SUB (\texttt{FS=0101}) er \texttt{Cin=1} --- også perfekt, fordi SUB er $A + \overline{B} + 1$.
+        FS-tabellen er bygget så bit 0 \emph{er} det rigtige carry-in for hver aritmetik-op.
+
+  \item \textbf{Alle fire flag opdateres.} V $= C_8 \oplus C_7$ (signed overflow),
+        C $= C_8$ (unsigned overflow/carry), N $= F_7$ (sign-bit), Z $=$ NOR af alle 8 bits.
+        ADD er den eneste kategori hvor V og C er meningsfulde --- ved logiske ops kører adderen stadig,
+        men dens carry-bits er meningsløse.
+
+  \item \textbf{Flag er kombinatoriske, ikke registerede.} N, Z, V, C er rent kombinatoriske outputs af FU.
+        En følgende \texttt{BRZ} kan derfor \emph{ikke} teste ADD's resultat direkte --- BRZ's egen EX0
+        kører ALU'en med default \texttt{FS=0000} på R[SA] og sampler Z fra \emph{det} resultat.
+        Vil man teste ADD's nul-resultat, skal man eksplicit lade BRZ pege på destinationsregisteret.
+
+  \item \textbf{MUX D's rolle.} MD=0 her (vi vil have ALU-output). MD=1 bruges kun af LD (hvor Data\_In
+        skal skrives) og af LRI. For alle ALU-ops er det MUX F's output der vinder gennem MUX D.
+
+  \item \textbf{Den 7-bit opcode er bredere end nødvendigt.} ALU-feltet bruger reelt kun de nederste
+        4 bits (\texttt{IR(12..9)}); top-bits \texttt{IR(15..13)} er \texttt{000} for hele ALU-kategorien.
+        Det er sådan IDC kan se ``dette er en ALU-op'' i én case-arm.
+\end{itemize}
+
+\end{document}

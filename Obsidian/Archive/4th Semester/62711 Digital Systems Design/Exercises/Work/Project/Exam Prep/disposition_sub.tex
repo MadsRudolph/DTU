@@ -1,0 +1,188 @@
+% =================================================================
+%   Disposition --- IDC FSM & Datapath: SUB (register-register)
+%   62711 Digital Systems Design --- mundtlig eksamen
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titling}
+
+\setlist{itemsep=0.15em,topsep=0.25em,parsep=0pt}
+\setlength{\droptitle}{-4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F4F4F4}
+
+\title{\vspace{-1em}\textcolor{accent}{\Large Disposition --- IDC's FSM \& Datapath: \texttt{SUB}}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% ======================== 1. Framing ============================
+\section*{Hvad vi viser}
+
+Vi sporer en \textbf{\texttt{SUB}} (Subtract, register-register)-instruktion
+fra RAM, gennem Instruction Register, ind i IDC's state machine,
+og videre gennem Datapath til Register File'ens write-port.
+\texttt{SUB} er valgt fordi den eksercerer:
+
+\begin{itemize}
+  \item Den samme unified ALU when-clause som ADD --- men afslører \textbf{\texttt{Cin = FS(0)}-tricket} fuldt ud.
+  \item \textbf{To's-komplement subtraktion} udført i den samme 8-bit ripple-carry adder som ADD bruger:
+        $A - B = A + \overline{B} + 1$.
+  \item Carry-flaget med sin uvante betydning under SUB: \emph{C=1 betyder ``ingen borrow''}.
+  \item Overflow-flaget V som signaler signeret overløb --- relevant fordi SUB nemt giver fortegnsskift.
+  \item Hele datapathen: Reg File, MUX B, ALU, NegZero, MUX F, MUX D.
+\end{itemize}
+
+% ======================== 2. FSM ================================
+\section*{State machine --- SUB bruger kun \textsc{inf} og \textsc{ex0}}
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={
+    draw=accent, fill=boxbg, circle,
+    minimum size=16mm, align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick}
+]
+  \node[state] (inf) at (0, 0) {INF\\\scriptsize fetch};
+  \node[state] (ex0) at (6, 0) {EX0\\\scriptsize ALU op\\\scriptsize + write-back};
+
+  \draw[arr] (inf) to[bend left=22]
+    node[above, font=\scriptsize, fill=white, inner sep=1pt]
+    {altid (IL=1, MM=1)} (ex0);
+
+  \draw[arr] (ex0) to[bend left=22]
+    node[below, font=\scriptsize, align=center, fill=white, inner sep=2pt]
+    {altid (PS=01, RW=1)\\R[DR] $\leftarrow$ R[SA]$-$R[SB]} (inf);
+\end{tikzpicture}
+\end{center}
+
+SUB rammer samme unified ALU-gren som ADD; eneste forskel udadtil er \texttt{FS=0101} (ikke \texttt{0010}).
+FS(0)=1 sender automatisk \texttt{Cin=1} ind i adderen.
+
+% ======================== 3. Signalflow =========================
+\section*{Signalflow gennem CPU'en --- bemærk inversionen af B}
+
+\begin{center}
+\begin{tikzpicture}[
+  blk/.style={
+    draw=accent, fill=boxbg, rounded corners=2pt,
+    minimum height=10mm, minimum width=22mm,
+    align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick},
+  lab/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+  \node[blk] (ram) at (0,    0)    {RAM};
+  \node[blk] (ir)  at (3.5,  0)    {IR};
+  \node[blk] (idc) at (7,    0)    {IDC (FSM)};
+  \node[blk] (pc)  at (10.5, 0)    {PC};
+
+  \node[blk] (rf)  at (0,    -2.5) {Reg File\\\scriptsize R[SA], R[SB]};
+  \node[blk] (mb)  at (3.5,  -2.5) {MUX B};
+  \node[blk] (alu) at (7,    -2.5) {ALU\\\scriptsize $A+\overline{B}+1$};
+  \node[blk] (nz)  at (10.5, -2.5) {NegZero};
+
+  \node[blk] (md)  at (3.5,  -4.3) {MUX D};
+
+  \draw[arr] (ram.east) -- node[lab] {Data\_Bus\_Out} (ir.west);
+  \draw[arr] (ir.east)  -- node[lab] {IR(15:9)} (idc.west);
+  \draw[arr] (idc.east) -- node[lab] {PS=01} (pc.west);
+
+  \draw[arr, dashed, accent!60] (idc.south) -- ++(0, -0.5)
+       node[lab, pos=0.5] {FS=0101, Cin=1};
+
+  \draw[arr] (rf.east) -- node[lab] {A\_Data} (mb.west);
+  \draw[arr] (rf.south) |- ++(0.5,-0.6) node[lab, right=1mm] {B\_Data} -| (mb.south);
+  \draw[arr] (mb.east) -- node[lab] {Bus\_B (invert.)} (alu.west);
+
+  \draw[arr] (alu.east) -- node[lab] {F=A$-$B} (nz.west);
+  \draw[arr] (alu.south) |- (md.east);
+  \draw[arr] (md.west) -| node[lab, pos=0.85, left] {D\_Data} (rf.south);
+
+  \draw[arr] (nz.north) -- node[lab] {N, Z} (idc.south east);
+\end{tikzpicture}
+\end{center}
+
+% ======================== 4. De to cyklusser ====================
+\section*{Cyklusserne}
+
+\begin{itemize}
+  \item \textbf{Cyklus 0 --- \textsc{INF} (fetch):}
+        Identisk med alle andre 2-cyklus-instruktioner. \texttt{IL=1, MM=1, PS=01}.
+        Instruktionsordet (fx \texttt{SUB D2, A1, B0}) ankommer på \texttt{Data\_Bus\_Out};
+        IR loader. State $\rightarrow$ \textsc{EX0}.
+
+  \item \textbf{Cyklus 1 --- \textsc{EX0} (subtraktionen):}
+        IDC ser \texttt{IR(15:9) = 0000101} --- unified ALU-gren igen, men nu med FS=\texttt{0101}:
+
+        \begin{itemize}
+          \item \texttt{DX, AX, BX} = R[DR], R[SA], R[SB] som ved ADD.
+          \item \texttt{FS = IR(12..9) = 0101} --- ALU laver $F = A + \overline{B} + \texttt{Cin}$.
+                Cin = FS(0) = 1, så reelt $F = A - B$.
+          \item ALU'en \emph{inverterer} B-input internt baseret på FS3..FS1 (subtraktionssignalet);
+                den 8-bit ripple-carry adder kører som sædvanligt.
+          \item \texttt{MB=0, MD=0, RW=1, PS=01}.
+        \end{itemize}
+
+        Eksempel: R[SA]=\texttt{0x05}, R[SB]=\texttt{0x03}. ALU regner $\texttt{0x05} + \texttt{0xFC} + 1 = \texttt{0x102}$.
+        De nederste 8 bits er \texttt{0x02} ($= 5-3$). $C_8 = 1$ --- altså C=1, hvilket her betyder
+        ``ingen borrow''. NegZero ser F=\texttt{0x02} $\Rightarrow$ N=0, Z=0.
+
+        State $\rightarrow$ \textsc{INF}.
+\end{itemize}
+
+% ======================== 5. Talking points =====================
+\section*{Hovedpointer / opfølgende spørgsmål}
+
+\begin{itemize}
+  \item \textbf{Én adder, to operationer.} Datapath'en har ikke en separat subtraktor.
+        Subtraktion bruger nøjagtigt samme 8-bit ripple-carry adder som ADD --- B-input bliver bare
+        inverteret før adderen, og Cin sættes til 1. Det er to's-komplement-formlen
+        $A - B = A + \overline{B} + 1$ implementeret i hardware.
+
+  \item \textbf{\texttt{Cin = FS(0)}-tricket er hele tricket.} I \texttt{Microprocessor.vhd} er
+        ALU'ens \texttt{Cin} hardwired til \texttt{FS\_sig(0)}. FS-tabellen er designet sådan at
+        FS(0)=1 nøjagtigt for de opkoder der har brug for det:
+        INC (\texttt{0001}, $A+1$), SUB (\texttt{0101}, $A-B$), DEC (\texttt{0110} har FS(0)=0 men subtraherer 1 anderledes).
+        For ADD og MOVA er FS(0)=0. IDC behøver derfor ikke et separat carry-in styresignal.
+
+  \item \textbf{C-flaget under SUB betyder ``ingen borrow''.}
+        Adderen sætter $C = C_8$ uanset operation. Når vi laver $A + \overline{B} + 1$
+        giver det $C_8 = 1$ præcis når $A \geq B$ (ingen borrow), og $C_8 = 0$ når $A < B$ (borrow).
+        Det er omvendt af x86's konvention --- SUB-borrow vises som C=0 her.
+
+  \item \textbf{V-flaget er stadig signed overflow.} $V = C_8 \oplus C_7$.
+        For SUB betyder V=1: signeret resultat overflowede (fx $\texttt{0x80} - \texttt{0x01} = \texttt{0x7F}$,
+        som er $-128 - 1 = +127$, klar signed-overflow).
+
+  \item \textbf{N og Z er identiske med ADD's adfærd.} N $= F_7$, Z $=$ NOR af alle 8 bits.
+        En efterfølgende \texttt{BRZ} (på samme operand R[SA]) sampler \emph{ikke} SUB's resultat ---
+        BRZ kører sin egen ALU-pass i sin EX0.
+
+  \item \textbf{Strukturelt identisk med ADD.} Samme FSM-overgang, samme kontrolord-skabelon,
+        samme datapath-rute. Den eneste forskel er FS-værdien og den interne ALU-inversion ---
+        som er fuldstændigt usynlig for IDC.
+
+  \item \textbf{Hvad MUX B's MB=0 betyder her.} MB=0 vælger registerfilens B\_Data, ikke ZeroFiller's
+        immediate. SUB er en ren register-register-op --- ingen umiddelbar-værdi. (ADI er den nære fætter
+        med MB=1.)
+\end{itemize}
+
+\end{document}

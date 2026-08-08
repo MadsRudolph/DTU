@@ -110,3 +110,11 @@ Obsidian/Courses/*/Images/ex*_*.png
 # ===========================================
 block-diagram-reducer/
 Launch-Desktop-App.bat
+
+# Fiberlaser-guide klon (separat repo, kun reference)
+4. Semester/Electrical Energy Systems/DTU-PCB-prototyping/
+
+# Nested git repos inside archived course folders — separate repos, never staged here
+Obsidian/Archive/4th Semester/62711 Digital Systems Design/PWA Project/Report/
+Obsidian/Archive/4th Semester/62711 Digital Systems Design/Report-PWB/
+Obsidian/Archive/4th Semester/34655 Integrated Analog Electronics 2/Report/

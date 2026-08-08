@@ -157,19 +157,19 @@ Mandatory courses already in the plan:
 
 ---
 
-## 🔊 5th Term — Autumn 2026 + January 2027 (30 + 5 ECTS)
+## 🔊 5th Term — Autumn 2026 + January 2027 (25 + 5 ECTS)
 
-> [!abstract] Confirmed in the DTU planner (year of study 1 Sep 2026 – 31 Aug 2027)
-> **Autumn 2026 (13 weeks) — 30 ECTS:**
-> - 62999 Innovation Pilot (10 ECTS) — *More*
+> [!abstract] Enrolled per the DTU planner (checked 8-Aug-2026; registration window 8.7–5.8.2026)
+> **Autumn 2026 (13 weeks) — 25 ECTS:**
 > - 34870 Electroacoustics (10 ECTS) — *E2*
 > - 62755 Power Electronics (5 ECTS) — *E1A*
+> - 34840 Fundamentals of Acoustics and Noise Control (5 ECTS) — *E3A*
 > - 34654 Circuit Technology and EMC (5 ECTS) — *E4A*
 >
 > **January 2027 (3-week intensive) — 5 ECTS:**
 > - 34871 Nonlinear Transducers (5 ECTS) — fills the previously-empty January slot
 >
-> **Change vs. Jan-2026 plan:** 34654 (autumn) replaced 34871 as a *future* course; 34871 now slots into January 2027 instead. See the 34374 note below for why the wanted IoT/PCB course didn't make it.
+> **Change vs. June-2026 plan:** **62999 Innovation Pilot (10 ECTS) was dropped**; **34840** (originally a 7th-term Option B candidate) moved up instead — autumn is 25 ECTS, not 30. The full acoustics trio (34870 + 34840 + 34871) now lands in one year. See the 34374 note below for why the wanted IoT/PCB course didn't make it.
 
 ### 5.1 34654 – Circuit Technology and EMC (5 ECTS, autumn, E4A)
 
@@ -188,7 +188,21 @@ Mandatory courses already in the plan:
 > - Hands-on PCB layout + EMC design skills — scratches much of the **34374** itch a term early
 > - Pairs with 62755 power electronics for proper switch-mode board design
 
-### 5.2 34871 – Nonlinear Transducers (5 ECTS, January 2027, 3-week intensive)
+### 5.2 34840 – Fundamentals of Acoustics and Noise Control (5 ECTS, autumn, E3A)
+
+> [!note] Why It Matters for Audio
+> Moved up from the 7th-term Option B plan (replacing 62999 Innovation Pilot):
+> - Sound fields, propagation, room interactions
+> - Noise metrics and noise-control basics
+> - Lecturer: Finn Agerkvist (also runs 34871 — same teacher across the acoustics track)
+>
+> Pairs with 34870 in the same autumn: transducers (34870) + the acoustic fields they create (34840).
+
+> [!success] Key Outcomes
+> - Room/environment acoustics understanding to complement electroacoustics
+> - Frees the 7th-term tilvalg slot entirely for power electronics (34652) or other choices
+
+### 5.3 34871 – Nonlinear Transducers (5 ECTS, January 2027, 3-week intensive)
 
 > [!note] Why It Matters for Audio
 > Deep dive into **nonlinear behaviour of loudspeakers and other transducers**:
@@ -243,7 +257,10 @@ You need **10 ECTS tilvalg** on top.
 
 ### Option B — Acoustics + PCB/EMC polish (if you lean more towards acoustics & practical hardware)
 
-#### 7.2 34840 – Fundamentals of Acoustics and Noise (5 ECTS)
+#### 7.2 34840 – Fundamentals of Acoustics and Noise (5 ECTS) — ✅ now taken in 5th term
+
+> [!warning] Moved up
+> **Enrolled in 5th term autumn 2026** (replacing the dropped 62999 Innovation Pilot). Option B for 7th term therefore needs a different partner course for 34840's slot.
 
 > [!note] Course Content
 > Broader **acoustics & noise** foundation:
@@ -363,15 +380,11 @@ You need **10 ECTS tilvalg** on top.
 >   - January 2027: 34871 Nonlinear Transducers (5) — replaces the wanted-but-incompatible 34374
 > - [x] ~~Verify 34871 runs in January 2027~~ (Confirmed — 3-week intensive, 34870 recommended as prereq)
 
-> [!todo] Immediate Actions (5th Term Registration)
-> - [ ] Register for 5th term courses when registration opens (planner currently shows "Register/Withdraw not open")
-> - [ ] Verify **prerequisites**:
->   - [ ] 34871 recommends 34870 — make sure 34870 (autumn) is registered first
->   - [ ] Check 62755 / 34654 prerequisites against completed 4th-sem courses
-> - [ ] Talk to **study counsellor** to:
->   - [ ] Confirm the autumn 30-ECTS load (62999 + 34870 + 62755 + 34654) is approved
->   - [ ] Confirm no timetable collisions (E1A / E2 / E4A / More)
->   - [ ] Ask whether **34374** could ever be slotted into 6th-term spring 2027 around the internship
+> [!todo] Immediate Actions (5th Term)
+> - [x] ~~Register for 5th term courses~~ (Done Aug 2026 — enrolled: 34870, 62755, 34840, 34654 autumn + 34871 January; **62999 dropped**, autumn = 25 ECTS)
+> - [ ] **34722 LCD1 re-exam (August 2026)** — failed the June ordinary exam; re-exam prep is the active project (see [[00 LCD1 — Exam Hub]])
+> - [ ] Work through the 34840 `00 - Prerequisites` material before September (complex numbers + signals refresher, Finn Agerkvist's strong recommendation)
+> - [ ] Ask whether **34374** could ever be slotted into 6th-term spring 2027 around the internship
 
 > [!todo] Future Course Planning
 > - [ ] 34374 IoT Hardware and PCB Design — keep as **top-priority MSc** target (spring F4B, doesn't fit Diplom plan)

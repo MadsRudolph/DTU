@@ -2,9 +2,40 @@
 
 Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up** so a fresh session on any PC continues seamlessly.
 
+> ⚠️ **Path change (8-Aug-2026):** all 4th-semester course folders moved from `Obsidian/Courses/` to `Obsidian/Archive/4th Semester/` (34315, 34620, 34655, 62711, 62768, 62743-Reexam, plus the dropped 62999). Old paths in the archived sections below need that prefix. **34722 LCD1 stayed in `Courses/`** — its re-exam is the active work.
+
 ---
 
-## ACTIVE WORK: 62768 Electrical Energy Systems — project (June 2026, 3-week course)
+## ACTIVE WORK #1: 34722 LCD1 RE-EXAM — August 2026 (failed ordinary 2-June with 3/20)
+
+### ▶️ FIRST ACTION ON A FRESH PC
+1. `git pull` in `C:\Users\Mads2\DTU`; PDFs via `python Obsidian/scripts/drive-sync/download.py`.
+2. Open the plan: `Obsidian/Courses/34722 Linear Control Design 1/Exam Prep/RE-EXAM — August 2026 Study Plan.md` — 12-day drill plan. Hub: `00 LCD1 — Exam Hub.md` in the same folder.
+3. ⚠️ **Confirm the actual re-exam date** on selvbetjening and write it into the plan note (unknown as of 8-Aug).
+
+### 📌 The diagnosis
+3/20 on F26 (only Q1, Q7, Q11 right). **Not a theory gap** — every miss was the trap distractor beside the right answer (reciprocals, dropped `+1`, marginal-gain-vs-inequality, non-physical signs). Full post-mortem with all 20 worked: `Exam Prep/W-F26 — Worked Exam (MCQ).md`; the 5-point trap check is in the plan note. The sat paper PDF: `Exercises/Solutions/Past Exams/F26 MCQ (sat 2-June-2026).pdf` (drive-synced).
+
+### 🔧 The exam-day tool: lcd1-exam-suite (JS/Electron)
+- **Repo:** `C:\Users\Mads2\lcd1-exam-suite` (`github.com/MadsRudolph/lcd1-exam-suite`-style, own git). Launch: `Launch-Desktop-App.bat` (warm) / `Double-Click-To-Run.bat` (cold bootstrap). Tests: `npm test` (453 green as of 8-Aug).
+- ⚠️ `Launch-Desktop-App.bat` does **not** rebuild — after ANY source edit run `npm run build` or the app silently runs old code.
+- 8-Aug session: committed the June post-mortem tools (unified Controller K_P, lead-from-magnitude, disturbance |D|, nested-ess chain + the full F26 paper as regression tests), added Smart-Paste routing for all three, and fixed option-flagging (rounded-TF matching for lead options, dB-vs-linear for |D|).
+- The June F26 solve recipes (click-by-click per question): `Exam Prep/W-F26 — Solve It With The LCD1 Solver.md`.
+- **`C:\Users\Mads2\lcd1-solver` (Python) and `DTU/block-diagram-reducer` are superseded predecessors** — don't develop there; the JS suite ported them at parity and fixed their bugs.
+
+---
+
+## ACTIVE WORK #2: 5th semester (autumn 2026, starts 1-Sep)
+
+**Enrolled (changed vs the June plan):** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · **34840 Fundamentals of Acoustics and Noise Control (5, E3A — replaced the dropped 62999 Innovation Pilot)** · 34654 Circuit Technology and EMC (5, E4A) = 25 ECTS autumn; 34871 Nonlinear Transducers (5) in January 2027.
+
+- **Obsidian:** one folder per course under `Obsidian/Courses/` (course-code names). 34840 already holds the pre-start material in `Literature/` (course text + loudspeaker intro) and `Literature/00 - Prerequisites/` (complex-numbers + signals refreshers — Finn Agerkvist strongly recommends doing these before September; video lectures stay on DTU Learn).
+- **Repo working folders:** `5. Semester/{Electroacoustics, Power Electronics, Acoustics and Noise Control, Circuit Technology and EMC, Nonlinear Transducers}`.
+- Planning truth: `Obsidian/Notes/DTU Study Path.md` + dashboard `Obsidian/Home.md` (both updated 8-Aug).
+
+---
+
+## ARCHIVED: 62768 Electrical Energy Systems — project DONE (June 2026)
 
 ### ▶️ FIRST ACTION ON A FRESH PC
 1. `git pull` in `C:\Users\Mads2\DTU`.
@@ -31,12 +62,7 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ---
 
-## ARCHIVED: 34722 Linear Control Design 1 — DONE (multiple-choice exam Tue 2-June-2026)
-
-### ▶️ FIRST ACTION ON A FRESH PC
-1. `git pull` in `C:\Users\Mads2\DTU`.
-2. PDFs are **not in git** (gitignored, stored in Google Drive) — fetch with `python Obsidian/scripts/drive-sync/download.py`.
-3. Open the formula cheat-sheet: `Obsidian/Courses/34722 Linear Control Design 1/Formulas/Exam Formula Cheat-Sheet.md`.
+## REFERENCE: 34722 Linear Control Design 1 — asset map (⚠️ NOT done — see ACTIVE WORK #1, re-exam August 2026)
 
 ### 📌 Exam format
 **Multiple-choice.** Prep = drill quizzes + old exams. Highest-value assets are the previous-student materials (added 28-May-2026).

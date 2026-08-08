@@ -1,0 +1,180 @@
+% =================================================================
+%   Disposition --- IDC FSM & Datapath: BRN (Branch on Negative)
+%   62711 Digital Systems Design --- mundtlig eksamen
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titling}
+
+\setlist{itemsep=0.15em,topsep=0.25em,parsep=0pt}
+\setlength{\droptitle}{-4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F4F4F4}
+
+\title{\vspace{-1em}\textcolor{accent}{\Large Disposition --- IDC's FSM \& Datapath: \texttt{BRN}}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% ======================== 1. Framing ============================
+\section*{Hvad vi viser}
+
+Vi sporer en \textbf{\texttt{BRN}} (Branch on Negative)-instruktion
+fra RAM, gennem Instruction Register, ind i IDC's state machine,
+og ud til Program Counter'en. \texttt{BRN} er valgt fordi den eksercerer:
+
+\begin{itemize}
+  \item IDC'ens \textbf{Mealy}-natur --- PS afhænger her af N-flag i input.
+  \item N-flagets simple definition --- \textbf{N er bare bit 7 af F}, sign-bittet i to's komplement.
+  \item Samme \texttt{PS}-protokol som BRZ (\texttt{10} = branch taget, \texttt{01} = inc).
+  \item Den \textbf{spredte 6-bit offset} fra IR\{8,7,6,2,1,0\} gennem SignExtender til PC.
+  \item PC's interne adder der beregner \texttt{PC + 1 + se(offset)}.
+\end{itemize}
+
+\textbf{BRN er strukturel tvilling til BRZ.} Forskellen er kun: opcode (\texttt{1100001} vs \texttt{1100000})
+og hvilket flag IDC sampler (N i stedet for Z). FSM, kontrolord-skabelon og SignExt-path er identiske.
+
+% ======================== 2. FSM ================================
+\section*{State machine --- BRN bruger kun \textsc{inf} og \textsc{ex0}}
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={
+    draw=accent, fill=boxbg, circle,
+    minimum size=16mm, align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick}
+]
+  \node[state] (inf) at (0, 0) {INF\\\scriptsize fetch};
+  \node[state] (ex0) at (6, 0) {EX0\\\scriptsize decode\\\scriptsize + branch};
+
+  \draw[arr] (inf) to[bend left=22]
+    node[above, font=\scriptsize, fill=white, inner sep=1pt]
+    {altid (IL=1, MM=1)} (ex0);
+
+  \draw[arr] (ex0) to[bend left=22]
+    node[below, font=\scriptsize, align=center, fill=white, inner sep=2pt]
+    {N=1: PS=10 (branch taget)\\N=0: PS=01 (PC+1)} (inf);
+\end{tikzpicture}
+\end{center}
+
+Dispatch'en sker i EX0's \texttt{case IR(15 downto 9)}.
+Opcode \texttt{1100001} matcher BRN-grenen --- præcis samme branch-skabelon som BRZ,
+men IDC bruger N i stedet for Z når den vælger PS.
+
+% ======================== 3. Signalflow =========================
+\section*{Signalflow gennem CPU'en}
+
+\begin{center}
+\begin{tikzpicture}[
+  blk/.style={
+    draw=accent, fill=boxbg, rounded corners=2pt,
+    minimum height=10mm, minimum width=22mm,
+    align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick},
+  lab/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+  \node[blk] (ram) at (0,    0)    {RAM};
+  \node[blk] (ir)  at (3.5,  0)    {IR};
+  \node[blk] (idc) at (7,    0)    {IDC (FSM)};
+  \node[blk] (pc)  at (10.5, 0)    {PC};
+
+  \node[blk] (se)  at (3.5,  -1.8) {SignExt};
+
+  \node[blk] (alu) at (3.5,  -3.5) {ALU pass-A\\\scriptsize på R[SA]};
+  \node[blk] (nz)  at (7,    -3.5) {NegZero};
+
+  \draw[arr] (ram.east) -- node[lab] {Data\_Bus\_Out} (ir.west);
+  \draw[arr] (ir.east)  -- node[lab] {IR(15:9)} (idc.west);
+  \draw[arr] (idc.east) -- node[lab] {PS} (pc.west);
+
+  \draw[arr] (ir.south) -- node[lab, right=1mm] {IR\{8,7,6,2,1,0\}} (se.north);
+  \draw[arr] (se.east) -| node[lab, pos=0.85, left] {Offset (8b, signeret)} (pc.south);
+
+  \draw[arr] (alu.east) -- node[lab] {F} (nz.west);
+  \draw[arr] (nz.north) -- node[lab] {N (= $F_7$)} (idc.south);
+
+  \draw[arr, dashed, accent!60]
+    (pc.north) -- ++(0, 0.8) -| (ram.north);
+  \node[font=\scriptsize\itshape, accent!70] at (5.25, 1.1) {Address\_Out (næste fetch)};
+\end{tikzpicture}
+\end{center}
+
+% ======================== 4. De to cyklusser ====================
+\section*{Cyklusserne}
+
+\begin{itemize}
+  \item \textbf{Cyklus 0 --- \textsc{INF} (fetch):}
+        Som alle 2-cyklus-instruktioner. \texttt{IL=1, MM=1}.
+        Instruktionsordet på \texttt{Data\_Bus\_Out}, IR loader. State $\rightarrow$ \textsc{EX0}.
+
+  \item \textbf{Cyklus 1 --- \textsc{EX0} (decode + branch):}
+        IDC ser \texttt{IR(15:9) = 1100001} (BRN).
+        \emph{Parallelt} kører Datapath en ALU pass-A på R[SA] (\texttt{FS=0000} default).
+        NegZero udsender N=\(F_7\) kombinatorisk --- N=1 betyder at R[SA]'s sign-bit er sat,
+        altså at R[SA] er negativ i to's komplement (\(-128 \ldots -1\)).
+        IDC sampler N og udsender:
+
+        \begin{itemize}
+          \item[\(N = 1\):] \texttt{PS = 10} $\rightarrow$ PC's adder
+                regner \(PC \leftarrow PC + 1 + \mathrm{se}(\Delta D)\) (branch taget --- R[SA] var negativ).
+          \item[\(N = 0\):] \texttt{PS = 01} $\rightarrow$ counter ticker,
+                \(PC \leftarrow PC + 1\) (næste instruktion). Dækker både R[SA]=0 og R[SA]>0.
+        \end{itemize}
+
+        State $\rightarrow$ \textsc{INF}. To cyklusser samlet, uanset om branch tages.
+\end{itemize}
+
+% ======================== 5. Talking points =====================
+\section*{Hovedpointer / opfølgende spørgsmål}
+
+\begin{itemize}
+  \item \textbf{N er den enkleste flag.} Mens Z kræver en 8-input NOR (\(Z = \overline{F_7 + \ldots + F_0}\)),
+        er N bare en ledning direkte fra adderens MSB ud af FU. Ingen ekstra logik.
+
+  \item \textbf{N=1 $\iff$ R[SA] er negativ i to's komplement.}
+        Da ALU'en kører pass-A i EX0 default, er $F = $ R[SA] uændret.
+        $F_7 = 1$ præcis når R[SA] $\in [-128, -1]$ (i 8-bit signed view) eller $\geq 128$ (i unsigned view).
+        BRN'er fungerer som ``hvis R[SA]'s top-bit er sat, så hop''.
+
+  \item \textbf{N er kombinatorisk, ligesom Z.}
+        Samme gotcha som BRZ: \texttt{BRN} tester ikke ``den forrige instruktion gav negativt'',
+        men ``R[SA] er negativ \emph{lige nu}''. Hvis du vil teste resultatet af en SUB,
+        skal BRN's SA pege på SUB's destinationsregister.
+
+  \item \textbf{Komplementer BRZ for fortegns-sammenligning.}
+        Standardidiom: \texttt{SUB DR, RA, RB ; BRN dst}. SUB beregner $R_A - R_B$ og skriver til DR.
+        Næste cyklus tester BRN om DR er negativ, dvs.\ om $R_A < R_B$ signed.
+        Det fungerer fordi BRN ser DR's bit-7 efter SUB's write har sat det.
+
+  \item \textbf{Offset-konstruktion er identisk med BRZ.}
+        Bits IR\{8,7,6,2,1,0\} (de samme spredte 6 bit) gennem SignExtender giver et 8-bit signeret offset,
+        range $-32 \ldots +31$. PC'ens interne sumOffset-adder lægger det til $PC+1$.
+
+  \item \textbf{PS-protokollen er den samme.} \texttt{10} = branch (sumOffset), \texttt{01} = inc.
+        Forskellen mellem BRZ og BRN ligger udelukkende inde i IDC's combinational process ---
+        hvilket inputbit den læser før den vælger PS.
+
+  \item \textbf{Hvorfor V og C ikke bruges som branch-betingelser her.}
+        Designet eksponerer kun BRZ og BRN. Vil man branche på overflow eller carry, må man
+        kombinere med ALU-ops der får N/Z til at afspejle V eller C indirekte.
+\end{itemize}
+
+\end{document}

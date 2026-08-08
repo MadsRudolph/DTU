@@ -7,8 +7,8 @@ tags: [dashboard, home]
 
 > [!abstract] Autumn 2026 + January 2027
 > **Programme:** Diplomingeniør, Electrical Engineering
-> **Focus:** Innovation project, Electroacoustics, Power electronics, PCB/EMC
-> **Autumn total:** 30 ECTS (62999 + 34870 + 62755 + 34654)
+> **Focus:** Electroacoustics, Acoustics & noise, Power electronics, PCB/EMC
+> **Autumn total:** 25 ECTS (34870 + 62755 + 34840 + 34654)
 > **January:** 34871 Nonlinear Transducers (5 ECTS, 3-week)
 >
 > [[DTU Study Path|Full study plan and career track]]
@@ -16,12 +16,6 @@ tags: [dashboard, home]
 ---
 
 ## Courses
-
-> [!course-62999] 62999 -- Innovation Pilot
-> **Interdisciplinary innovation / entrepreneurship project**
-> `10 ECTS` | Project | Placement: More
->
-> [[62999 Innovation Pilot|Open course page]]
 
 > [!course-34870] 34870 -- Electroacoustics
 > **Loudspeaker & microphone modelling, transducers, radiation**
@@ -34,6 +28,12 @@ tags: [dashboard, home]
 > `5 ECTS` | E1A
 >
 > [[62755 Power Electronics|Open course page]]
+
+> [!course-34840] 34840 -- Fundamentals of Acoustics and Noise Control
+> **Sound fields, propagation, noise metrics & control**
+> `5 ECTS` | E3A
+>
+> [[34840 Fundamentals of Acoustics and Noise Control|Open course page]]
 
 > [!course-34654] 34654 -- Circuit Technology and EMC
 > **PCB layout, grounding/shielding, EMC/EMI, lab project**
@@ -64,7 +64,9 @@ LIMIT 10
 ## Upcoming Deadlines
 
 > [!deadline] Key Dates
-> - [ ] **Register for 5th term courses** -- when registration opens (planner: "Register/Withdraw not open")
+> - [ ] **34722 LCD1 re-exam** -- August 2026 (active prep: [[00 LCD1 — Exam Hub]])
+> - [x] ~~Register for 5th term courses~~ -- done Aug 2026 (62999 dropped, 34840 added)
+> - [ ] **34840 prerequisites self-study** -- before 1 September (complex numbers + signals)
 > - [ ] **Autumn 2026 start** -- 1 September 2026
 > - [ ] **January 2027 (34871)** -- 3-week period, Jan 2027
 

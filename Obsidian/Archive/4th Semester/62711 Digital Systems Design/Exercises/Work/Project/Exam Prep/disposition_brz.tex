@@ -1,0 +1,187 @@
+% =================================================================
+%   Disposition --- IDC FSM & Datapath: BRZ (Branch on Zero)
+%   62711 Digital Systems Design --- mundtlig eksamen
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titling}
+
+\setlist{itemsep=0.15em,topsep=0.25em,parsep=0pt}
+\setlength{\droptitle}{-4em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F4F4F4}
+
+\title{\vspace{-1em}\textcolor{accent}{\Large Disposition --- IDC's FSM \& Datapath: \texttt{BRZ}}}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-3em}
+
+% ======================== 1. Framing ============================
+\section*{Hvad vi viser}
+
+Vi sporer en \textbf{\texttt{BRZ}} (Branch on Zero)-instruktion
+fra RAM, gennem Instruction Register, ind i IDC's state machine,
+og ud til Program Counter'en. \texttt{BRZ} er valgt fordi den eksercerer:
+
+\begin{itemize}
+  \item IDC'ens \textbf{Mealy}-natur --- output afhænger af (state, IR, Z-flag), ikke kun af state.
+  \item \textbf{PS-signalet} --- det 2-bit kontrolfelt som IDC bruger til at fortælle PC hvad den skal:
+        \texttt{01} = inc, \texttt{10} = branch (PC+offset), \texttt{11} = jump (load absolut).
+  \item Z-flagets \textbf{kombinatoriske} kilde --- NOR af denne cyklus's ALU-output på R[SA], ikke et registeret flag.
+  \item \textbf{SignExtender}'en --- 6-bit offset (IR's spredte bits \{8,7,6,2,1,0\}) bliver til 8-bit signeret.
+  \item PC's interne \texttt{sumOffset}-adder som beregner \texttt{PC+1+se(offset)}.
+\end{itemize}
+
+% ======================== 2. FSM ================================
+\section*{State machine --- BRZ bruger kun \textsc{inf} og \textsc{ex0}}
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={
+    draw=accent, fill=boxbg, circle,
+    minimum size=16mm, align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick}
+]
+  \node[state] (inf) at (0, 0) {INF\\\scriptsize fetch};
+  \node[state] (ex0) at (6, 0) {EX0\\\scriptsize decode\\\scriptsize + branch};
+
+  \draw[arr] (inf) to[bend left=22]
+    node[above, font=\scriptsize, fill=white, inner sep=1pt]
+    {altid (IL=1, MM=1)} (ex0);
+
+  \draw[arr] (ex0) to[bend left=22]
+    node[below, font=\scriptsize, align=center, fill=white, inner sep=2pt]
+    {Z=1: PS=10 (branch taget)\\Z=0: PS=01 (PC+1)} (inf);
+\end{tikzpicture}
+\end{center}
+
+Hele dispatch'en sker kombinatorisk i EX0's \texttt{case IR(15 downto 9)}.
+Opcode \texttt{1100000} matcher BRZ-grenen i case-statementet.
+PS-værdien afhænger af Z, der er live på IDC's input når combinational-processen kører.
+
+% ======================== 3. Signalflow =========================
+\section*{Signalflow gennem CPU'en}
+
+\begin{center}
+\begin{tikzpicture}[
+  blk/.style={
+    draw=accent, fill=boxbg, rounded corners=2pt,
+    minimum height=10mm, minimum width=22mm,
+    align=center, font=\small
+  },
+  arr/.style={-{Latex[length=2mm,width=2mm]}, accent, thick},
+  lab/.style={font=\scriptsize, fill=white, inner sep=2pt}
+]
+  \node[blk] (ram) at (0,    0)    {RAM};
+  \node[blk] (ir)  at (3.5,  0)    {IR};
+  \node[blk] (idc) at (7,    0)    {IDC (FSM)};
+  \node[blk] (pc)  at (10.5, 0)    {PC};
+
+  \node[blk] (se)  at (3.5,  -1.8) {SignExt};
+
+  \node[blk] (alu) at (3.5,  -3.5) {ALU pass-A\\\scriptsize på R[SA]};
+  \node[blk] (nz)  at (7,    -3.5) {NegZero};
+
+  \draw[arr] (ram.east) -- node[lab] {Data\_Bus\_Out} (ir.west);
+  \draw[arr] (ir.east)  -- node[lab] {IR(15:9)} (idc.west);
+  \draw[arr] (idc.east) -- node[lab] {PS} (pc.west);
+
+  \draw[arr] (ir.south) -- node[lab, right=1mm] {IR\{8,7,6,2,1,0\}} (se.north);
+  \draw[arr] (se.east) -| node[lab, pos=0.85, left] {Offset (8b, signeret)} (pc.south);
+
+  \draw[arr] (alu.east) -- node[lab] {F} (nz.west);
+  \draw[arr] (nz.north) -- node[lab] {Z (= NOR af F)} (idc.south);
+
+  \draw[arr, dashed, accent!60]
+    (pc.north) -- ++(0, 0.8) -| (ram.north);
+  \node[font=\scriptsize\itshape, accent!70] at (5.25, 1.1) {Address\_Out (næste fetch)};
+\end{tikzpicture}
+\end{center}
+
+% ======================== 4. De to cyklusser ====================
+\section*{Cyklusserne}
+
+\begin{itemize}
+  \item \textbf{Cyklus 0 --- \textsc{INF} (fetch):}
+        IDC sætter \texttt{IL=1, MM=1}.
+        PC driver RAM-adressen, instruktionsordet kommer ned ad
+        \texttt{Data\_Bus\_Out}, IR loades på næste klokflanke.
+        State $\rightarrow$ \textsc{EX0}.
+
+  \item \textbf{Cyklus 1 --- \textsc{EX0} (decode + branch):}
+        IDC ser \texttt{IR(15:9) = 1100000} (BRZ).
+        \emph{Parallelt} i samme cyklus: Datapath kører ALU i pass-A på
+        R[SA] (\texttt{FS=0000} default). NegZero udsender
+        \(Z = \text{NOR af alle 8 bits af } F\) kombinatorisk ---
+        Z=1 betyder at R[SA] er præcis 0.
+        IDC sampler Z og udsender:
+
+        \begin{itemize}
+          \item[\(Z = 1\):] \texttt{PS = 10} $\rightarrow$ PC's adder
+                regner \(PC \leftarrow PC + 1 + \mathrm{se}(\Delta D)\) (branch taget).
+          \item[\(Z = 0\):] \texttt{PS = 01} $\rightarrow$ counter ticker,
+                \(PC \leftarrow PC + 1\) (næste instruktion).
+        \end{itemize}
+
+        State $\rightarrow$ \textsc{INF}. To cyklusser samlet, uanset om branch tages.
+\end{itemize}
+
+% ======================== 5. Talking points =====================
+\section*{Hovedpointer / opfølgende spørgsmål}
+
+\begin{itemize}
+  \item \textbf{Mealy state machine.} IDC's kombinatoriske process er
+        sensitiv på \texttt{(current\_state, IR, V, C, N, Z)} ---
+        samme state, forskellige outputs afhængigt af input.
+        Moore-ækvivalent ville kræve $\sim$25 separate states.
+
+  \item \textbf{PS er IDC's interface til PC.}
+        \texttt{00} = hold, \texttt{01} = inc, \texttt{10} = branch (PC + offset),
+        \texttt{11} = jump (PC $\leftarrow$ Address\_In). Kun de 2 bits flyder
+        mellem IDC og PC --- al beslutning sker inde i IDC.
+
+  \item \textbf{Z er kombinatorisk, ikke registeret.}
+        Den afspejler \emph{denne} cyklus's ALU på R[SA] ---
+        ikke en tidligere instruktion. \texttt{BRZ A1, off}
+        tester altså om \(R_1 = 0\) lige nu, ikke om sidste
+        operation gav nul. Dette er en almindelig eksamen-gotcha.
+
+  \item \textbf{Z dækker hele resultatet.}
+        NegZero implementerer \(Z = \overline{F_7 + F_6 + \ldots + F_0}\)
+        (NOR af alle 8 bits). Dvs.\ Z=1 \emph{kun} hvis hele
+        F er præcis \texttt{0x00}.
+
+  \item \textbf{Offset spredt over IR-bits \{8,7,6,2,1,0\}.}
+        SignExtender bygger et 6-bit signeret tal,
+        range \(-32 \ldots +31\), og sign-extender til 8 bit
+        før det føres til PC's offset-input.
+
+  \item \textbf{BRN er strukturelt identisk.} Samme to-cyklus-flow,
+        samme PS-logik, samme SignExt-path --- forskellen er kun
+        opcode (\texttt{1100000} vs \texttt{1100001}) og hvilket flag
+        IDC sampler (Z vs N).
+
+  \item \textbf{JMP vs BRZ-taken --- forskellig PC-kilde.}
+        BRZ med Z=1 bruger PS=10 og PC's interne \texttt{sumOffset}-adder.
+        JMP bruger PS=11 og loader \texttt{Address\_In} direkte. Begge gør \texttt{Load=PS(1)=1},
+        men MUXP'en inde i PC vælger forskellig kilde baseret på PS(0).
+\end{itemize}
+
+\end{document}

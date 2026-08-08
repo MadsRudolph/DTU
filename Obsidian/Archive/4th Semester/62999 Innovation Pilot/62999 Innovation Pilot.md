@@ -7,6 +7,9 @@ tags: [InnovationPilot, home]
 ---
 # 62999 Innovation Pilot
 
+> [!warning] NOT TAKEN — dropped from the 5th-semester plan (Aug 2026)
+> The actual autumn-2026 enrollment swapped this for **[[34840 Fundamentals of Acoustics and Noise Control]]** (5 ECTS), giving 25 ECTS in autumn. Note kept for reference only.
+
 > [!info] Course Information
 > **Course:** 62999 Innovation Pilot
 > **Semester:** Autumn 2026 (5th semester)
