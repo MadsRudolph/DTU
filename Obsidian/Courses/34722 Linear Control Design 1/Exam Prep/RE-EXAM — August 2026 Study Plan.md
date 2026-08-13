@@ -37,7 +37,11 @@ exam: "ORAL re-exam: Monday 25 August 2026, 15 minutes, questions in the style o
 - **"Show the working"** in the solver: after every hand-solve, run the same numbers and diff your
   derivation line-by-line against the engine's. Your steps must match *before* the reveal.
 - **🎛 Bode Lab**: sketch the Bode by hand FIRST, then place the poles/zeros and compare.
-- **Phone voice memo**: record 2-minute explanations; listen back. Cringe = learning.
+- **🎙 Spoken-answer review loop** (built into the Trainer): hit **● Record** on a card, answer out
+  loud, Reveal auto-saves the audio + prompt to `lcd1-exam-suite/oral-sessions/<date>/`. After the
+  session run `python tools/transcribe-oral.py` (offline whisper, handles Danish/English), then tell
+  Claude **"review my oral session"** — it reads the day's REPORT.md and grades every transcript
+  against the examiner key-points: what was missing, what was wrong, what was well said.
 - **NotebookLM** (`nlm.bat ask "..." --notebook-id lcd1`): fact-check your phrasing against the
   actual lecture slides when unsure how the course defines something.
 
