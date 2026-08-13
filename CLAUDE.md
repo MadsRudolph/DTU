@@ -6,12 +6,17 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ---
 
-## ACTIVE WORK #1: 34722 LCD1 RE-EXAM — August 2026 (failed ordinary 2-June with 3/20)
+## ACTIVE WORK #1: 34722 LCD1 RE-EXAM — ⚠️ ORAL, Mon 25 August 2026, 15 min, NO aids
+
+**Format (learned 13-Aug):** 15-minute oral exam, questions in the style of the written exam, solved
+and explained at the board. The solver CANNOT be used in the exam — it is now the practice/sparring
+tool (its **Oral Trainer** mode + "Show the working" + Bode Lab). Prep = derive/sketch/explain from
+memory; see the plan note for the 12-day oral strategy (blank-sheet derivations, sketch drills,
+explain-aloud, mock orals).
 
 ### ▶️ FIRST ACTION ON A FRESH PC
 1. `git pull` in `C:\Users\Mads2\DTU`; PDFs via `python Obsidian/scripts/drive-sync/download.py`.
-2. Open the plan: `Obsidian/Courses/34722 Linear Control Design 1/Exam Prep/RE-EXAM — August 2026 Study Plan.md` — 12-day drill plan. Hub: `00 LCD1 — Exam Hub.md` in the same folder.
-3. ⚠️ **Confirm the actual re-exam date** on selvbetjening and write it into the plan note (unknown as of 8-Aug).
+2. Open the plan: `Obsidian/Courses/34722 Linear Control Design 1/Exam Prep/RE-EXAM — August 2026 Study Plan.md` — 12-day ORAL plan (13→24 Aug). Hub: `00 LCD1 — Exam Hub.md` in the same folder.
 
 ### 📌 The diagnosis
 3/20 on F26 (only Q1, Q7, Q11 right). **Not a theory gap** — every miss was the trap distractor beside the right answer (reciprocals, dropped `+1`, marginal-gain-vs-inequality, non-physical signs). Full post-mortem with all 20 worked: `Exam Prep/W-F26 — Worked Exam (MCQ).md`; the 5-point trap check is in the plan note. The sat paper PDF: `Exercises/Solutions/Past Exams/F26 MCQ (sat 2-June-2026).pdf` (drive-synced).

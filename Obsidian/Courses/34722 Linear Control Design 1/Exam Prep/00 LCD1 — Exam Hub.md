@@ -6,11 +6,11 @@ exam: Multiple-choice, Tue 2-June-2026
 ---
 # 00 LCD1 — Exam Hub
 
-**Exam:** 34722 Linear Control Design 1 · **multiple-choice** · ⚠️ **RE-EXAM August 2026** (ordinary attempt Tue 2-June-2026 scored 3/20 — see [[W-F26 — Worked Exam (MCQ)]]).
-Prep = drill old exams + know the recurring QUESTION patterns. This hub maps *what the question looks like* → *the note that cracks it fast*.
+**Exam:** 34722 Linear Control Design 1 · ⚠️ **ORAL RE-EXAM: Mon 25 August 2026, 15 minutes, NO aids** — questions in the style of the written exam, solved and explained at the board. (Ordinary MCQ attempt Tue 2-June-2026 scored 3/20 — see [[W-F26 — Worked Exam (MCQ)]].)
+The question PATTERNS below are unchanged — but prep is now derive/sketch/explain from memory, with the solver as sparring partner (its Oral Trainer mode), never as the answer machine.
 
 > [!important] ▶️ Active plan
-> **[[RE-EXAM — August 2026 Study Plan]]** — 12-day drill plan built from the F26 post-mortem. Start there.
+> **[[RE-EXAM — August 2026 Study Plan]]** — 12-day oral-format plan (blank-sheet derivations, sketch drills, explain-aloud sessions, mock orals). Start there.
 
 > [!info] Quick Links
 > - Formula reference (don't duplicate, link): [[Exam Formula Cheat-Sheet]]
