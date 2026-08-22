@@ -20,6 +20,42 @@ exam: "ORAL re-exam: Monday 25 August 2026, 15 minutes, questions in the style o
 > you build the answer, and method points exist.
 
 ---
+## 🚨 EMERGENCY 48-HOUR PLAN (activated Sat 23 Aug — the 12-day plan didn't happen)
+
+> [!warning] Triage rules
+> The target is no longer mastery — it is **"say something structured and correct about any
+> question."** An oral gives method points; a blank stare gives zero. The 38 Trainer prompts are the
+> whole syllabus: **goal = 30 of 38 at Good+ by Sunday night.** Every block below is active — speak,
+> attempt, reveal, repeat. No passive reading, no videos, no note-rewriting.
+
+**DELIBERATELY SKIPPED** (low frequency or unlearnable in 48 h — if asked, state the general idea and
+move on): full PI-Lead numeric designs, prefilter, Routh table mechanics (know the idea), higher-order
+linearization, formal proofs. Knowing what to skip IS the plan.
+
+### Saturday 23 — the backbone (~8 h with breaks)
+| Block | Hours | Content | Method |
+|---|---|---|---|
+| 1. Foundations | 2 | What a TF is; poles ⇒ dynamics & stability (LHP!); DC gain G(0); 1st/2nd-order step shapes | Guide §Exam recipes + Claude teaches; then Trainer **P1** (skip nested-loops item on first pass) |
+| 2. Second order | 1.5 | ζ, ωₙ, Mp↔ζ (0.5→16%, 0.7→5%), t_s = 4/(ζωₙ), ω_d | Trainer **P4** until all ≥ Good |
+| 3. Bode + margins | 2 | Sketch asymptotes; GM/PM defined AT their crossovers; integrator signature (−90° start) | Trainer **P2** + margins prompts; 20 min Bode Lab dragging |
+| 4. ess + type | 1.5 | Derive e_ss = 1/(1+K_p); type table; integrator ⇒ 0; the ÷(1+K_p) finish | Trainer **P5** |
+| 5. First recorded mock | 1 | 5 random prompts, ● Record each | Transcribe → **"review my oral session"** → Claude grades |
+
+### Sunday 24 — design, stability, mocks (~8 h, stop by 21:00)
+| Block | Hours | Content | Method |
+|---|---|---|---|
+| 6. P & Lead design | 1.5 | P-for-PM two-step (phase pins ω_c, gain sets crossover); lead = zero-before-pole, why it adds phase; phase-budget equation stated | Trainer **P6** (core 4 prompts; outline-level on the rest) |
+| 7. Nyquist & stable-K | 1 | Z = N + P in words; stable plant 0<K<GM; RHP plant K>K_crit and why it flips | Trainer **P3** |
+| 8. Sweep-up | 1 | Block-reduction rules (series×, parallel+, feedback G/(1+GH)); IVT/FVT statements | Trainer **P1/P7** leftovers |
+| 9. Mock orals ×2–3 | 2.5 | 15 min each: 3 recorded prompts, standing, no notes → Claude review after each → patch the worst gap immediately | The dress rehearsal |
+| 10. Close | 1 | Blank-sheet formula test ×2; trap card aloud; pack; sleep before 23 | |
+
+### Exam-day survival (Mon 25)
+- Open EVERY answer with the template: **classify → state the relation → derive → sanity-check → conclude.**
+- Blank? Define the terms in the question and state the nearest general relation — method points are real points.
+- Never leave silence: narrate what you're doing ("I'll check the system type first, because...").
+
+---
 ## 🎯 What 15 oral minutes actually tests
 
 1. **Hand-solve fluency** on the same P1–P7 patterns — but showing every step on paper/board.
