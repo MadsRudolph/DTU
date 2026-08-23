@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Loop Pad</title>
+<style>
+:root{--bg:#0D1220;--panel:#151C2E;--line:#2A3450;--ink:#E4E9F1;--sub:#8E9BAE;--amber:#F0A03C;--cyan:#4FC4D4;--ok:#57C79A;--bad:#E87070}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font:15px system-ui,sans-serif;display:flex;flex-direction:column;touch-action:none}
+header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+header b{font-size:16px}header b span{color:var(--amber)}
+#title{flex:1;min-width:120px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 10px;font:15px system-ui}
+button,.tool{background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:9px 13px;font:600 14px system-ui;cursor:pointer}
+button:active{transform:scale(.96)}
+.tool.on{border-color:var(--amber);color:var(--amber)}
+.swatch{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);padding:0}
+.swatch.on{border-color:#fff;transform:scale(1.12)}
+#wrap{flex:1;position:relative;overflow:hidden}
+#board,#overlay{position:absolute;top:0;left:0;transform-origin:0 0}
+#overlay{pointer-events:none}
+#status{position:fixed;bottom:10px;left:12px;font:600 12px monospace;color:var(--sub);background:rgba(13,18,32,.85);padding:4px 10px;border-radius:8px;max-width:75vw}
+#fb{position:fixed;top:64px;right:0;width:min(340px,85vw);max-height:70vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-right:0;border-radius:14px 0 0 14px;padding:12px 14px;transform:translateX(105%);transition:transform .25s}
+#fb.show{transform:none}
+#fb h3{font-size:13px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.fbe{border-top:1px solid var(--line);padding:8px 0;font-size:14px}
+.fbe .v{font-weight:700}
+.fbe .v.correct{color:var(--ok)}.fbe .v.partly{color:var(--amber)}.fbe .v.wrong{color:var(--bad)}
+.fbe ul{padding-left:18px;color:var(--sub)}
+#fbBtn{position:fixed;top:64px;right:10px;z-index:5}
+#fbBtn .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-left:6px;visibility:hidden}
+#fbBtn.new .dot{visibility:visible}
+a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
+</style>
+</head>
+<body>
+<header>
+  <b>Loop<span>Pad</span></b>
+  <input id="title" placeholder="what are you deriving? (e.g. P-for-PM on 1/(s(s+15)))">
+  <button class="swatch on" data-c="#111a28" style="background:#111a28"></button>
+  <button class="swatch" data-c="#C96F14" style="background:#C96F14"></button>
+  <button class="swatch" data-c="#177E8C" style="background:#177E8C"></button>
+  <button class="swatch" data-c="#B23B3B" style="background:#B23B3B"></button>
+  <button id="eraser" class="tool">Eraser</button>
+  <button id="penOnly" class="tool on" title="only the S-Pen draws; fingers are ignored">S-Pen only</button>
+  <button id="undo">↩ Undo</button>
+  <button id="clear">✕ New board</button>
+  <button id="save" style="border-color:var(--amber);color:var(--amber)">💾 Save → Claude</button>
+  <a class="course" href="/course">📘 Course</a>
+</header>
+<div id="wrap">
+  <canvas id="board" width="2000" height="1400"></canvas>
+  <svg id="overlay" viewBox="0 0 2000 1400" width="2000" height="1400" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+<button id="fbBtn">💬 Feedback<span class="dot"></span></button>
+<div id="fb"><h3>Claude's review</h3><div id="fbList">Nothing yet — save a board, then ask Claude to check it.</div></div>
+<div id="status">ready</div>
+
+<script>
+"use strict";
+var W=2000,H=1400;
+var canvas=document.getElementById("board"),ctx=canvas.getContext("2d");
+var overlay=document.getElementById("overlay"),wrap=document.getElementById("wrap");
+var statusEl=document.getElementById("status");
+var color="#111a28",erasing=false,penOnly=true;
+var strokes=[]; // for undo: array of ImageData snapshots (cheap enough at ~30 undo levels)
+var undoStack=[],scale=1;
+
+function paper(){ ctx.fillStyle="#F2F4F0"; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="rgba(24,34,52,0.08)"; ctx.lineWidth=1;
+  for(var x=0;x<=W;x+=50){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(var y=0;y<=H;y+=50){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+}
+function fit(){
+  scale=Math.min(wrap.clientWidth/W,wrap.clientHeight/H);
+  canvas.style.transform="scale("+scale+")";
+  overlay.style.transform="scale("+scale+")";
+}
+window.addEventListener("resize",fit);
+
+function snapshot(){ if(undoStack.length>30)undoStack.shift(); undoStack.push(ctx.getImageData(0,0,W,H)); }
+
+var drawing=false,last=null;
+function pos(e){ var r=canvas.getBoundingClientRect(); return [(e.clientX-r.left)/scale,(e.clientY-r.top)/scale]; }
+canvas.style.touchAction="none";
+canvas.addEventListener("pointerdown",function(e){
+  if(penOnly&&e.pointerType!=="pen")return;
+  e.preventDefault(); drawing=true; last=pos(e); snapshot();
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener("pointermove",function(e){
+  if(!drawing)return;
+  if(penOnly&&e.pointerType!=="pen")return;
+  var evs=(e.getCoalescedEvents&&e.getCoalescedEvents())||[e];
+  evs.forEach(function(ev){
+    var p=pos(ev);
+    var pressure=ev.pressure&&ev.pressure>0?ev.pressure:0.5;
+    ctx.lineCap="round";ctx.lineJoin="round";
+    if(erasing){ ctx.strokeStyle="#F2F4F0"; ctx.lineWidth=44; }
+    else{ ctx.strokeStyle=color; ctx.lineWidth=2.2+pressure*4.5; }
+    ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();
+    last=p;
+  });
+});
+function up(){ drawing=false; last=null; }
+canvas.addEventListener("pointerup",up); canvas.addEventListener("pointercancel",up);
+
+document.querySelectorAll(".swatch").forEach(function(s){
+  s.addEventListener("click",function(){
+    document.querySelectorAll(".swatch").forEach(function(x){x.classList.remove("on")});
+    s.classList.add("on"); color=s.getAttribute("data-c"); erasing=false;
+    document.getElementById("eraser").classList.remove("on");
+  });
+});
+document.getElementById("eraser").addEventListener("click",function(){
+  erasing=!erasing; this.classList.toggle("on",erasing);
+});
+document.getElementById("penOnly").addEventListener("click",function(){
+  penOnly=!penOnly; this.classList.toggle("on",penOnly);
+});
+document.getElementById("undo").addEventListener("click",function(){
+  var im=undoStack.pop(); if(im)ctx.putImageData(im,0,0);
+});
+document.getElementById("clear").addEventListener("click",function(){
+  snapshot(); paper(); overlay.innerHTML=""; document.getElementById("title").value="";
+  statusEl.textContent="new board";
+});
+document.getElementById("save").addEventListener("click",function(){
+  var title=document.getElementById("title").value.trim()||"untitled";
+  statusEl.textContent="saving…";
+  fetch("/api/save",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({title:title,id:Date.now().toString(36),
+      png:canvas.toDataURL("image/png"),strokes:undoStack.length})})
+  .then(function(r){return r.json()})
+  .then(function(j){ statusEl.textContent=j.ok?("✓ saved "+j.file+" — now ask Claude: \"check my board\""):("save failed: "+j.error); lastSaved=j.file||lastSaved; })
+  .catch(function(e){ statusEl.textContent="save failed — server offline? "+e; });
+});
+
+// ---- feedback polling ----
+var lastSaved=null,seen=0;
+var fb=document.getElementById("fb"),fbBtn=document.getElementById("fbBtn");
+fbBtn.addEventListener("click",function(){ fb.classList.toggle("show"); fbBtn.classList.remove("new"); });
+function poll(){
+  fetch("/api/feedback").then(function(r){return r.json()}).then(function(list){
+    if(!Array.isArray(list))return;
+    var el=document.getElementById("fbList");
+    if(list.length){
+      el.innerHTML="";
+      list.slice().reverse().forEach(function(f){
+        var d=document.createElement("div");d.className="fbe";
+        d.innerHTML="<div class='v "+(f.verdict||"")+"'>"+(f.verdict||"note").toUpperCase()+" · "+(f.board||"")+"</div>"+
+          "<ul>"+(f.notes||[]).map(function(n){return "<li>"+n+"</li>"}).join("")+"</ul>";
+        el.appendChild(d);
+      });
+      var newest=list[list.length-1];
+      if(list.length>seen){ if(seen>0)fbBtn.classList.add("new"); seen=list.length;
+        // draw Claude's annotations for the newest feedback onto the overlay
+        overlay.innerHTML=newest.svg||"";
+      }
+    }
+  }).catch(function(){});
+}
+setInterval(poll,5000);
+
+paper(); fit(); poll();
+</script>
+</body>
+</html>
