@@ -43,9 +43,23 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
 #qbanner{display:none;padding:9px 14px;background:rgba(240,160,60,.10);border-bottom:1px solid var(--amber);font-size:14.5px;line-height:1.45}
 #qbanner.show{display:flex;gap:10px;align-items:flex-start}
 #qbanner .qtag{flex-shrink:0;font:700 11px monospace;color:var(--amber);border:1px solid var(--amber);border-radius:6px;padding:2px 7px;margin-top:2px}
-#qbanner .qx{margin-left:auto;flex-shrink:0;background:none;border:none;color:var(--sub);font-size:16px;padding:2px 6px}
-#qpick{display:none;position:fixed;inset:0;z-index:20;background:rgba(13,18,32,.92)}
-#qpick.show{display:flex;align-items:center;justify-content:center}
+#qbanner .qx{flex-shrink:0;background:none;border:none;color:var(--sub);font-size:16px;padding:2px 6px}
+#hint{display:none;position:fixed;inset:0;z-index:21;background:rgba(13,18,32,.92)}
+#hint.show{display:flex;align-items:center;justify-content:center}
+#hint .hbox{width:min(640px,92vw);max-height:82vh;overflow:auto;background:var(--panel);
+  border:1px solid var(--amber);border-radius:16px;padding:18px}
+#hbody{font-size:15px;line-height:1.6}
+#hbody a{color:var(--cyan);text-decoration:none;display:block;padding:7px 0;border-bottom:1px solid var(--line)}
+#hbody ul{padding-left:20px;color:var(--sub);margin-top:8px}
+#hbody li{margin:5px 0}
+#hbody .lead{color:var(--sub);font-size:13.5px;margin-bottom:8px}
+#qpick,#opick{display:none;position:fixed;inset:0;z-index:20;background:rgba(13,18,32,.92)}
+#qpick.show,#opick.show{display:flex;align-items:center;justify-content:center}
+#opick .box{width:min(680px,92vw);max-height:82vh;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+#olist{overflow:auto;display:flex;flex-direction:column;gap:6px}
+#olist button{text-align:left;font-weight:400;font-size:14px;line-height:1.4}
+#olist button b{color:var(--amber);font-size:11px;margin-right:6px}
+#olist button.no{opacity:.45}
 #qpick .box{width:min(680px,92vw);max-height:82vh;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
 #qpick h3{margin-bottom:10px}
 #qpats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
@@ -74,10 +88,19 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <button id="undo">↩ Undo</button>
   <button id="clear">✕ New board</button>
   <button id="save" style="border-color:var(--amber);color:var(--amber)">💾 Save → Claude</button>
+  <button id="openBtn" title="reopen a board you saved earlier">📂 Open</button>
   <button id="qBtn">❓ Question</button>
   <a class="course" href="/course">📘 Course</a>
 </header>
-<div id="qbanner"><span class="qtag" id="qtag"></span><span id="qtext"></span><button class="qx" id="qClear" title="work freely">✕</button></div>
+<div id="qbanner"><span class="qtag" id="qtag"></span><span id="qtext"></span><button class="qx" id="qHint" title="where to look / what the examiner wants" style="color:var(--amber);margin-left:auto">💡 Hint</button><button class="qx" id="qClear" title="work freely" style="margin-left:0">✕</button></div>
+<div id="opick"><div class="box">
+  <h3>Reopen a saved board</h3>
+  <div id="olist"></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+    <span style="font-size:12.5px;color:var(--sub);align-self:center">only boards saved after this update can be reopened</span>
+    <button id="oCancel" style="margin-left:auto">Cancel</button>
+  </div>
+</div></div>
 <div id="qpick"><div class="box">
   <h3>Pick a question to derive</h3>
   <div id="qpats"></div>
@@ -85,6 +108,14 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <div style="display:flex;gap:8px;margin-top:12px">
     <button id="qRandom" style="border-color:var(--amber);color:var(--amber)">🎲 Random from filter</button>
     <button id="qCancel" style="margin-left:auto">Cancel</button>
+  </div>
+</div></div>
+<div id="hint"><div class="hbox">
+  <h3 style="color:var(--amber);margin-bottom:8px">Hint</h3>
+  <div id="hbody"></div>
+  <div style="display:flex;gap:8px;margin-top:12px">
+    <button id="hMore" style="border-color:var(--amber);color:var(--amber)">Show the key steps</button>
+    <button id="hClose" style="margin-left:auto">Close</button>
   </div>
 </div></div>
 <div id="wrap">
@@ -97,7 +128,7 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <button id="zIn">+</button>
 </div>
 <button id="fbBtn">💬 Feedback<span class="dot"></span></button>
-<div id="fb"><h3 style="display:flex;align-items:center">Claude's review<button id="fbClose" style="margin-left:auto;background:none;border:none;color:var(--sub);font-size:18px;padding:2px 8px;cursor:pointer">✕</button></h3><div id="fbList">Nothing yet — save a board, then ask Claude to check it.</div></div>
+<div id="fb"><h3 style="display:flex;align-items:center">Claude's review<button id="fbWipe" title="remove the marks Claude drew on your board" style="margin-left:auto;background:none;border:1px solid var(--line);border-radius:7px;color:var(--sub);font-size:12px;padding:3px 8px;cursor:pointer">🧹 clear marks</button><button id="fbClose" style="margin-left:6px;background:none;border:none;color:var(--sub);font-size:18px;padding:2px 8px;cursor:pointer">✕</button></h3><div id="fbList">Nothing yet — save a board, then ask Claude to check it.</div></div>
 <div id="status">ready</div>
 
 <script>
@@ -121,6 +152,7 @@ if(!THEMES[theme])theme="light";
 var exporting=false;
 function inkColor(s){ return s.color==="#111a28" ? THEMES[exporting?"light":theme].ink : s.color; }
 var STROKES=[]; // {mode:"pen"|"erase", color, pts:[[wx,wy,w],...]}
+var UNDO=[];    // snapshots for actions that remove several strokes at once
 var dirty=true;
 var lastMoveT=0; // hold-to-straighten: when the pen last MOVED (not just wobbled)
 
@@ -311,9 +343,70 @@ cv.addEventListener("pointermove",function(e){
     dirty=true;
   }
 });
+// ---- scribble-to-erase ----
+// A quick back-and-forth zigzag over your own ink wipes it, the way GoodNotes and
+// Samsung Notes behave. Writing must NOT trigger it, so a stroke only counts as a
+// scribble when it reverses direction several times AND is much longer than the
+// box it lives in (letters are compact; a scribble folds back on itself).
+var SCRIB_MIN_REVERSALS = 5, SCRIB_MIN_RATIO = 2.6, SCRIB_MIN_LEN = 55;
+function isScribble(st){
+  if(!st || st.mode!=="pen" || st.straight) return false;
+  var pts=st.pts, n=pts.length;
+  if(n<10) return false;
+  var len=0, rev=0, px=0, py=0;
+  var minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+  for(var i=0;i<n;i++){
+    var x=pts[i][0], y=pts[i][1];
+    if(x<minx)minx=x; if(x>maxx)maxx=x;
+    if(y<miny)miny=y; if(y>maxy)maxy=y;
+    if(i){
+      var dx=x-pts[i-1][0], dy=y-pts[i-1][1], d=Math.hypot(dx,dy);
+      if(d<0.5) continue;                       // ignore jitter between samples
+      len+=d; dx/=d; dy/=d;
+      if(px||py){ if(dx*px+dy*py < -0.35) rev++; }  // turned back on itself (>110 deg)
+      px=dx; py=dy;
+    }
+  }
+  var diag=Math.hypot(maxx-minx,maxy-miny);
+  if(len<SCRIB_MIN_LEN || diag<1) return false;
+  return rev>=SCRIB_MIN_REVERSALS && (len/diag)>=SCRIB_MIN_RATIO;
+}
+// every ink stroke the scribble actually crossed
+function strokesUnder(st){
+  var hits={}, reach=18/view.z;
+  for(var i=1;i<st.pts.length;i++){
+    var a=st.pts[i-1], b=st.pts[i];
+    for(var k=0;k<STROKES.length;k++){
+      var o=STROKES[k];
+      if(o===st || o.mode==="erase" || hits[k]) continue;
+      for(var j=1;j<o.pts.length;j++){
+        if(segDist(o.pts[j-1],a,b)<reach || segDist(o.pts[j],a,b)<reach ||
+           segDist(a,o.pts[j-1],o.pts[j])<reach){ hits[k]=true; break; }
+      }
+    }
+  }
+  return Object.keys(hits).map(Number);
+}
+function tryScribbleErase(st){
+  if(!isScribble(st)) return false;
+  var idx=strokesUnder(st);
+  if(!idx.length) return false;                 // scribbled on blank paper: keep the ink
+  UNDO.push(STROKES.slice());
+  if(UNDO.length>30) UNDO.shift();
+  var wipe={};
+  idx.forEach(function(i){wipe[i]=true});
+  var keep=STROKES.filter(function(x,i){ return x!==st && !wipe[i]; });
+  STROKES=keep; dirty=true;
+  statusEl.textContent="scribble erased "+idx.length+" stroke"+(idx.length>1?"s":"")+" — Undo brings them back";
+  return true;
+}
+
 function lift(e){
   delete pointers[e.pointerId];
-  if(e.pointerId===drawingId){drawingId=null;cur=null;}
+  if(e.pointerId===drawingId){
+    if(cur&&tool==="pen") tryScribbleErase(cur);
+    drawingId=null;cur=null;
+  }
   var touches=Object.keys(pointers).filter(function(k){return !pointers[k].draws});
   if(touches.length<2)pinchStart=null;
   if(touches.length===1){var p=pointers[touches[0]].p;panStart={p:p,vx:view.x,vy:view.y};}
@@ -376,7 +469,11 @@ document.getElementById("eraseStroke").addEventListener("click",function(){ setT
 document.getElementById("penOnly").addEventListener("click",function(){
   penOnly=!penOnly; this.classList.toggle("on",penOnly);
 });
-document.getElementById("undo").addEventListener("click",function(){ STROKES.pop(); dirty=true; });
+document.getElementById("undo").addEventListener("click",function(){
+  if(UNDO.length) STROKES=UNDO.pop();          // restores a scribble-erase wholesale
+  else STROKES.pop();
+  dirty=true;
+});
 document.getElementById("clear").addEventListener("click",function(){
   STROKES=[]; annoMap.innerHTML=""; document.getElementById("title").value="";
   view={x:0,y:0,z:1}; dirty=true; statusEl.textContent="new board";
@@ -470,11 +567,12 @@ document.getElementById("save").addEventListener("click",function(){
   fetch("/api/save",{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({title:title,id:Date.now().toString(36),
       qid:currentQ?currentQ.id:"",prompt:currentQ?currentQ.prompt:"",
-      png:ex.png,strokes:STROKES.length})})
+      png:ex.png,strokes:STROKES.length,vec:STROKES})})
   .then(function(r){return r.json()})
   .then(function(j){
     if(j.ok){
-      exportMaps[j.file]={x:ex.bbox.x,y:ex.bbox.y,s:ex.scale};
+      exportMaps[j.file]={x:ex.bbox.x,y:ex.bbox.y,s:ex.scale,
+                          w:Math.round(ex.bbox.w*ex.scale),h:Math.round(ex.bbox.h*ex.scale)};
       try{localStorage.setItem("lp-export-maps",JSON.stringify(exportMaps))}catch(e){}
       statusEl.textContent="✓ saved "+j.file+" — now ask Claude: \"check my board\"";
     } else statusEl.textContent="save failed: "+j.error;
@@ -503,16 +601,102 @@ function poll(){
       if(list.length>seen){
         if(seen>0)fbBtn.classList.add("new");
         seen=list.length;
-        var m=exportMaps[newest.board];
-        annoMap.innerHTML=newest.svg||"";
-        annoMap.setAttribute("transform", m ?
-          "translate("+m.x+" "+m.y+") scale("+(1/m.s)+")" : "");
-        dirty=true;
+        placeAnno(newest);
       }
     }
   }).catch(function(){});
 }
 setInterval(poll,5000);
+
+// Put the newest annotation on the board. The svg fragment is authored in the
+// pixel space of the exported png; exportMaps carries where that png sits in the
+// world. If the reviewer declares imgW/imgH that disagree with the real export,
+// rescale rather than silently dropping the marks in the wrong place.
+var lastAnno=null;
+function placeAnno(entry){
+  lastAnno=entry;
+  var m=exportMaps[entry.board];
+  annoMap.innerHTML=entry.svg||"";
+  if(!m){ annoMap.setAttribute("transform",""); dirty=true; return; }
+  var k=1/m.s;
+  if(entry.imgW&&m.w&&Math.abs(entry.imgW-m.w)>2) k=(m.w/entry.imgW)/m.s;
+  annoMap.setAttribute("transform","translate("+m.x+" "+m.y+") scale("+k+")");
+  dirty=true;
+}
+document.getElementById("fbWipe").addEventListener("click",function(){
+  annoMap.innerHTML=""; lastAnno=null; dirty=true;
+  statusEl.textContent="marks cleared — your own ink is untouched";
+});
+
+// ---- hints: point at the vault first, only then at the key steps ----
+// Each exam pattern maps onto the method note that covers it, so a hint is
+// "go read this", not "here is the answer".
+var METOD = "/notes/Exam%20Prep/Eksamensguides/Metoder/";
+var HINTS = {
+  P1: [[METOD+"Blokdiagram-reduktion.md","Blokdiagram-reduktion — series/parallel/feedback rules"],
+       [METOD+"Transfer-functions-og-poler.md","Transfer functions og poler"]],
+  P2: [[METOD+"Bode-afl%C3%A6sning.md","Bode-aflæsning — asymptotes and slopes"]],
+  P3: [[METOD+"Stabilitet-Nyquist-margins.md","Stabilitet, Nyquist og margins"]],
+  P4: [[METOD+"Time-response-2nd-order.md","Time response, 2nd order"]],
+  P5: [[METOD+"Steady-state-error-og-disturbance.md","Steady-state error og disturbance"]],
+  P6: [[METOD+"Controller-design-P-PI-Lead.md","Controller design — P, PI, Lead"]],
+  P7: [[METOD+"Steady-state-error-og-disturbance.md","Steady-state error og disturbance"],
+       [METOD+"Bode-afl%C3%A6sning.md","Bode-aflæsning"]]
+};
+var CHEAT = ["/notes/Formulas/Exam%20Formula%20Cheat-Sheet.md","Exam Formula Cheat-Sheet"];
+var hintEl=document.getElementById("hint"), hbody=document.getElementById("hbody");
+var hMore=document.getElementById("hMore");
+document.getElementById("hClose").addEventListener("click",function(){hintEl.classList.remove("show")});
+document.getElementById("qHint").addEventListener("click",function(){
+  if(!currentQ){statusEl.textContent="pick a question first (❓ Question)";return;}
+  var links=(HINTS[currentQ.pattern]||[]).concat([CHEAT]);
+  hbody.innerHTML="<div class=lead>Where this lives in your vault — read it, then come back and derive:</div>"+
+    links.map(function(l){return "<a href='"+l[0]+"' target=_blank>📄 "+l[1]+"</a>"}).join("");
+  hMore.style.display=(currentQ.points&&currentQ.points.length)?"":"none";
+  hMore.disabled=false;
+  hintEl.classList.add("show");
+});
+hMore.addEventListener("click",function(){
+  if(!currentQ||!currentQ.points)return;
+  hbody.innerHTML+="<div class=lead style='margin-top:14px'>What the examiner is listening for:</div><ul>"+
+    currentQ.points.map(function(t){return "<li>"+t+"</li>"}).join("")+"</ul>";
+  hMore.disabled=true;
+});
+
+// ---- reopen a saved board ----
+var opick=document.getElementById("opick"),olist=document.getElementById("olist");
+document.getElementById("oCancel").addEventListener("click",function(){opick.classList.remove("show")});
+document.getElementById("openBtn").addEventListener("click",function(){
+  olist.innerHTML="<div style='color:var(--sub);font-size:14px'>loading…</div>";
+  opick.classList.add("show");
+  fetch("/api/boards").then(function(r){return r.json()}).then(function(list){
+    if(!list.length){olist.innerHTML="<div style='color:var(--sub);font-size:14px'>no saved boards yet</div>";return;}
+    olist.innerHTML="";
+    list.forEach(function(b){
+      var btn=document.createElement("button");
+      if(!b.reopenable)btn.className="no";
+      btn.innerHTML="<b>"+(b.qid||b.day)+"</b>"+(b.title||"untitled")+
+        " <span style='color:var(--sub)'>· "+b.strokes+" strokes"+
+        (b.reopenable?"":" · png only")+"</span>";
+      btn.addEventListener("click",function(){
+        if(!b.reopenable){statusEl.textContent="that board was saved before reopening existed — png only";return;}
+        fetch("/api/board?file="+encodeURIComponent(b.file)).then(function(r){return r.json()}).then(function(meta){
+          STROKES=(meta.vec||[]).slice();
+          annoMap.innerHTML=""; lastAnno=null;
+          if(meta.qid&&QUESTIONS.length){
+            var q=QUESTIONS.filter(function(x){return x.id===meta.qid})[0];
+            if(q)pickQ(q);            // restores the question banner (also sets title)
+          }
+          document.getElementById("title").value=meta.title||"";  // real title wins
+          opick.classList.remove("show");
+          document.getElementById("zFit").click();                // frame the reopened work
+          statusEl.textContent="📂 reopened "+b.file+" — keep working, Save makes a new board";
+        }).catch(function(e){statusEl.textContent="could not reopen: "+e});
+      });
+      olist.appendChild(btn);
+    });
+  }).catch(function(e){olist.innerHTML="<div style='color:var(--bad)'>server offline?</div>"});
+});
 
 // ---- PWA ----
 function pwaDiag(extra){
