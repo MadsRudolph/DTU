@@ -19,6 +19,10 @@ button:active{transform:scale(.96)}
 .tool.on{border-color:var(--amber);color:var(--amber)}
 .swatch{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);padding:0}
 .swatch.on{border-color:#fff;transform:scale(1.12)}
+.thick{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0}
+.thick span{display:block;border-radius:50%;background:var(--ink)}
+.thick.on{border-color:var(--amber)}
+.thick.on span{background:var(--amber)}
 #wrap{flex:1;position:relative;overflow:hidden}
 #cv{position:absolute;inset:0;touch-action:none}
 #overlay{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
@@ -60,6 +64,9 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <button class="swatch" data-c="#C96F14" style="background:#C96F14"></button>
   <button class="swatch" data-c="#177E8C" style="background:#177E8C"></button>
   <button class="swatch" data-c="#B23B3B" style="background:#B23B3B"></button>
+  <button class="thick" data-w="1.3" title="thin"><span style="width:6px;height:6px"></span></button>
+  <button class="thick on" data-w="2.2" title="medium"><span style="width:10px;height:10px"></span></button>
+  <button class="thick" data-w="4.2" title="thick"><span style="width:16px;height:16px"></span></button>
   <button id="eraseArea" class="tool" title="rubs ink out under the tip — the grid stays">◌ Eraser</button>
   <button id="eraseStroke" class="tool" title="tap any stroke to remove the whole stroke">✂ Stroke</button>
   <button id="penOnly" class="tool on" title="pen draws · one finger pans · pinch zooms">S-Pen only</button>
@@ -103,9 +110,10 @@ var annoView=document.getElementById("annoView"),annoMap=document.getElementById
 var statusEl=document.getElementById("status");
 var dpr=window.devicePixelRatio||1;
 var view={x:0,y:0,z:1}; // world -> screen: s = w*z + pan
-var color="#111a28",tool="pen",penOnly=true;
+var color="#111a28",tool="pen",penOnly=true,penSize=2.2;
 var STROKES=[]; // {mode:"pen"|"erase", color, pts:[[wx,wy,w],...]}
 var dirty=true;
+var lastMoveT=0; // hold-to-straighten: when the pen last MOVED (not just wobbled)
 
 function resize(){
   cv.width=wrap.clientWidth*dpr; cv.height=wrap.clientHeight*dpr;
@@ -155,7 +163,32 @@ function inkPass(){
   });
   c.globalCompositeOperation="source-over";
 }
-function tick(){ if(dirty){dirty=false; render();} requestAnimationFrame(tick); }
+// Hold-to-straighten (GoodNotes-style): pen down, held still ≥450 ms after
+// drawing a roughly-line-shaped stroke → snap to a straight segment. Curves
+// and loops are left alone (max deviation from the chord must be small).
+function maybeStraighten(){
+  if(!cur||cur.mode!=="pen"||cur.straight)return;
+  if(performance.now()-lastMoveT<450)return;
+  var n=cur.pts.length; if(n<6||cur.len*view.z<30)return;
+  var a=cur.pts[0],b=cur.pts[n-1];
+  var chord=Math.hypot(b[0]-a[0],b[1]-a[1]);
+  if(chord<1e-6){lastMoveT=performance.now();return;}
+  var maxDev=0;
+  for(var i=1;i<n-1;i++){
+    var p=cur.pts[i];
+    var t=((p[0]-a[0])*(b[0]-a[0])+(p[1]-a[1])*(b[1]-a[1]))/(chord*chord);
+    t=Math.max(0,Math.min(1,t));
+    maxDev=Math.max(maxDev,Math.hypot(p[0]-(a[0]+t*(b[0]-a[0])),p[1]-(a[1]+t*(b[1]-a[1]))));
+  }
+  if(maxDev>Math.max(12,chord*0.18)){lastMoveT=performance.now();return;} // not line-like: leave it
+  var wsum=0; cur.pts.forEach(function(p){wsum+=p[2]});
+  var w=wsum/n;
+  cur.pts=[[a[0],a[1],w],[b[0],b[1],w]];
+  cur.straight=true;
+  statusEl.textContent="📏 straightened — keep holding to adjust the end, lift to finish";
+  dirty=true;
+}
+function tick(){ maybeStraighten(); if(dirty){dirty=false; render();} requestAnimationFrame(tick); }
 
 // ---- input: pen draws, fingers pan/zoom ----
 var pointers={},drawingId=null,cur=null,panStart=null,pinchStart=null;
@@ -183,8 +216,11 @@ cv.addEventListener("pointerdown",function(e){
     var wp=worldOf.apply(null,pt(e));
     if(tool==="strokeErase"){ var i=strokeAt(wp); if(i>=0){STROKES.splice(i,1);dirty=true;} drawingId=e.pointerId; return; }
     drawingId=e.pointerId;
-    cur={mode:tool==="erase"?"erase":"pen",color:color,pts:[[wp[0],wp[1],3/view.z>3?3:3]]};
-    cur.pts[0][2]=3;
+    // S-Pen barrel/eraser button (buttons bit 2 = barrel, bit 32 = eraser end)
+    // makes this stroke an eraser stroke without touching the toolbar.
+    var penBtnErase = e.pointerType==="pen" && (e.buttons & 34);
+    cur={mode:(tool==="erase"||penBtnErase)?"erase":"pen",color:color,pts:[[wp[0],wp[1],penSize*1.3]],len:0,straight:false};
+    lastMoveT=performance.now();
     STROKES.push(cur);
   } else if(!draws){
     var touches=ids.filter(function(k){return !pointers[k].draws});
@@ -208,8 +244,18 @@ cv.addEventListener("pointermove",function(e){
     if(!evs.length)evs=[e]; // coalesced list can be EMPTY — [] is truthy, so || alone won't fall back
     evs.forEach(function(ev){
       var wp=worldOf.apply(null,pt(ev));
+      var prev=cur.pts[cur.pts.length-1];
+      var dScreen=Math.hypot(wp[0]-prev[0],wp[1]-prev[1])*view.z;
+      if(cur.straight){
+        // already snapped: keep holding and move to rubber-band the endpoint
+        cur.pts[1]=[wp[0],wp[1],cur.pts[1][2]];
+        if(dScreen>2.5)lastMoveT=performance.now();
+        return;
+      }
+      if(dScreen>2.5)lastMoveT=performance.now(); // real movement, not pen wobble
       var pressure=ev.pressure&&ev.pressure>0?ev.pressure:0.5;
-      cur.pts.push([wp[0],wp[1],2.2+pressure*4.5]);
+      cur.len+=Math.hypot(wp[0]-prev[0],wp[1]-prev[1]);
+      cur.pts.push([wp[0],wp[1],penSize*(0.85+pressure*1.7)]);
     });
     dirty=true;
     return;
@@ -281,6 +327,12 @@ document.querySelectorAll(".swatch").forEach(function(s){
   s.addEventListener("click",function(){
     document.querySelectorAll(".swatch").forEach(function(x){x.classList.remove("on")});
     s.classList.add("on"); color=s.getAttribute("data-c"); setTool("pen");
+  });
+});
+document.querySelectorAll(".thick").forEach(function(t){
+  t.addEventListener("click",function(){
+    document.querySelectorAll(".thick").forEach(function(x){x.classList.remove("on")});
+    t.classList.add("on"); penSize=parseFloat(t.getAttribute("data-w")); setTool("pen");
   });
 });
 document.getElementById("eraseArea").addEventListener("click",function(){ setTool(tool==="erase"?"pen":"erase"); });
