@@ -32,7 +32,7 @@ button:active{transform:scale(.96)}
 .fbe .v{font-weight:700}
 .fbe .v.correct{color:var(--ok)}.fbe .v.partly{color:var(--amber)}.fbe .v.wrong{color:var(--bad)}
 .fbe ul{padding-left:18px;color:var(--sub)}
-#fbBtn{position:fixed;top:64px;right:10px;z-index:5}
+#fbBtn{position:fixed;top:64px;right:10px;z-index:7}
 #fbBtn .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bad);margin-left:6px;visibility:hidden}
 #fbBtn.new .dot{visibility:visible}
 a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
@@ -89,7 +89,7 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <button id="zIn">+</button>
 </div>
 <button id="fbBtn">💬 Feedback<span class="dot"></span></button>
-<div id="fb"><h3>Claude's review</h3><div id="fbList">Nothing yet — save a board, then ask Claude to check it.</div></div>
+<div id="fb"><h3 style="display:flex;align-items:center">Claude's review<button id="fbClose" style="margin-left:auto;background:none;border:none;color:var(--sub);font-size:18px;padding:2px 8px;cursor:pointer">✕</button></h3><div id="fbList">Nothing yet — save a board, then ask Claude to check it.</div></div>
 <div id="status">ready</div>
 
 <script>
@@ -395,6 +395,7 @@ document.getElementById("save").addEventListener("click",function(){
 var seen=0;
 var fb=document.getElementById("fb"),fbBtn=document.getElementById("fbBtn");
 fbBtn.addEventListener("click",function(){ fb.classList.toggle("show"); fbBtn.classList.remove("new"); });
+document.getElementById("fbClose").addEventListener("click",function(){ fb.classList.remove("show"); });
 function poll(){
   fetch("/api/feedback").then(function(r){return r.json()}).then(function(list){
     if(!Array.isArray(list))return;
