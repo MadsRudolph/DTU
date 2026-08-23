@@ -293,20 +293,33 @@ function poll(){
 setInterval(poll,5000);
 
 paper(); redrawInk(); fit(); poll();
-if("serviceWorker" in navigator){ navigator.serviceWorker.register("/sw.js").catch(function(){}); }
-// Real install (needs a secure context — see the setup note): capture the
-// prompt and surface a one-tap Install button in the header.
+// ---- PWA install diagnostics: the status line SAYS why install is/isn't offered ----
+function pwaDiag(extra){
+  if(window.matchMedia("(display-mode: standalone)").matches){ statusEl.textContent="📱 running as installed app"; return; }
+  if(!window.isSecureContext){ statusEl.textContent="⚠ PWA blocked: not a secure context — set the chrome://flags origin and RELAUNCH Chrome"; return; }
+  statusEl.textContent="secure ✓ · "+(extra||"sw registering…");
+}
 var deferredPrompt=null;
 window.addEventListener("beforeinstallprompt",function(e){
   e.preventDefault(); deferredPrompt=e;
+  pwaDiag("installable ✓ — tap ⬇ Install");
   var b=document.createElement("button");
-  b.textContent="⬇ Install"; b.style.borderColor="var(--ok)"; b.style.color="var(--ok)";
+  b.id="installBtn"; b.textContent="⬇ Install"; b.style.borderColor="var(--ok)"; b.style.color="var(--ok)";
   b.addEventListener("click",function(){ if(deferredPrompt){deferredPrompt.prompt(); deferredPrompt=null; b.remove();} });
   document.querySelector("header").appendChild(b);
 });
-if(!window.isSecureContext){
-  statusEl.textContent="⚠ not a secure context — PWA install disabled. See the chrome://flags fix.";
-}
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("/sw.js").then(function(){
+    return navigator.serviceWorker.ready;
+  }).then(function(){
+    if(!navigator.serviceWorker.controller){
+      pwaDiag("sw ready — RELOAD this page once, then Install appears");
+    } else if(!deferredPrompt){
+      pwaDiag("sw active — waiting for Chrome's install offer (⋮ menu → Install app)");
+    }
+  }).catch(function(e){ pwaDiag("sw failed: "+e); });
+} else { pwaDiag("no serviceWorker API"); }
+pwaDiag();
 </script>
 </body>
 </html>

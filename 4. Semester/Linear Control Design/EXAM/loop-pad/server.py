@@ -96,6 +96,7 @@ class H(BaseHTTPRequestHandler):
             }).encode("utf-8"), "application/manifest+json")
         elif self.path.startswith("/sw.js"):
             self._send(200, b"self.addEventListener('install',e=>self.skipWaiting());"
+                            b"self.addEventListener('activate',e=>e.waitUntil(clients.claim()));"
                             b"self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>new Response('offline - the pad needs the PC server',{status:503})))});",
                        "text/javascript")
         elif self.path.startswith("/icon-"):
