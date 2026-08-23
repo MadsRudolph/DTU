@@ -1,0 +1,571 @@
+[
+ {
+  "id": "p1-parallel-feedback",
+  "pattern": "P1",
+  "kind": "derive",
+  "prompt": "A forward path A·B has two feedback taps from the output, C and D, summed at one junction and fed back negatively around B. Reduce the diagram to one transfer function.",
+  "points": [
+   "summed taps ⇒ ADD (parallel), never multiply",
+   "feedback rule G/(1+GH) applied around B only",
+   "A stays outside the loop (series)"
+  ],
+  "answer": [
+   "Signals summed at a junction are a PARALLEL connection, so the two taps combine as (C + D) — not the product.",
+   "The inner loop around B becomes B/(1 + B(C+D)); A in series in front gives H = AB/(1 + B(C+D))."
+  ]
+ },
+ {
+  "id": "p1-nested-two-kp",
+  "pattern": "P1",
+  "kind": "derive",
+  "prompt": "Two nested unity-feedback loops both use the same gain K_P, with plant G in the inner loop (G(0)=0.75). The static error to a unit step is 0.25. Find K_P at the board.",
+  "points": [
+   "reduce inner loop FIRST, then outer",
+   "e_ss = 1 − T(0) for unity feedback",
+   "solve the quadratic and discard the negative root out loud"
+  ],
+  "answer": [
+   "Inner loop: T_i = K_P·G/(1 + K_P·G). Outer loop forward path K_P·T_i with unity feedback: T = K_P²G/(1 + K_P G + K_P²G).",
+   "e_ss = 1 − T(0) = (1 + K_P G(0))/(1 + K_P G(0) + K_P² G(0)). With G(0)=0.75 and e_ss=0.25: K_P² − 3K_P − 4 = 0 ⇒ K_P = 4 (the −1 root is discarded — K_P > 0)."
+  ]
+ },
+ {
+  "id": "p1-linearization",
+  "pattern": "P1",
+  "kind": "explain",
+  "prompt": "What does it mean to linearize a nonlinear model, and when is the linear model valid?",
+  "points": [
+   "operating/equilibrium point first",
+   "Jacobian partial derivatives",
+   "small-signal validity, model depends on the point"
+  ],
+  "answer": [
+   "Around an operating point (x₀,u₀) with f(x₀,u₀)=0, replace f by its tangent: ẋ ≈ A·Δx + B·Δu with A = ∂f/∂x and B = ∂f/∂u evaluated at the point. The small-signal transfer function is ΔX/ΔU = B/(s − A).",
+   "It is valid for SMALL deviations around that point — the further the state strays, the worse the approximation, and a different operating point gives a different linear model."
+  ]
+ },
+ {
+  "id": "p1-ode-normalise",
+  "pattern": "P1",
+  "kind": "derive",
+  "prompt": "The system ÿ + ẏ = 4u − y − ẏ. Classify its damping.",
+  "points": [
+   "collect terms BEFORE reading coefficients (the June trap)",
+   "ζ from 2ζωₙ",
+   "ζ = 1 ⇒ ω_d = 0, no overshoot"
+  ],
+  "answer": [
+   "First NORMALISE: move everything with y left: ÿ + 2ẏ + y = 4u. Characteristic polynomial s² + 2s + 1 = (s+1)².",
+   "ωₙ = 1 and 2ζωₙ = 2 ⇒ ζ = 1: CRITICALLY damped, double pole at −1, ω_d = ωₙ√(1−ζ²) = 0 — no oscillation at all."
+  ]
+ },
+ {
+  "id": "p1-ivt-fvt",
+  "pattern": "P1",
+  "kind": "explain",
+  "prompt": "State the initial and final value theorems. When is the final value theorem NOT allowed?",
+  "points": [
+   "both limit statements correct (s→∞ vs s→0)",
+   "FVT validity condition stated",
+   "strictly proper ⇒ y(0⁺)=0 is a useful shortcut"
+  ],
+  "answer": [
+   "IVT: y(0⁺) = lim_{s→∞} s·Y(s). FVT: y(∞) = lim_{s→0} s·Y(s).",
+   "FVT requires all poles of s·Y(s) in the open left half-plane — no RHP poles and no imaginary-axis poles except a single one at the origin. For an unstable or oscillating signal the limit formula produces a number, but it is meaningless."
+  ]
+ },
+ {
+  "id": "p2-sketch-type1",
+  "pattern": "P2",
+  "kind": "sketch",
+  "prompt": "Sketch the Bode plot (magnitude and phase asymptotes) of G(s) = 100/(s(s+10)). Label slopes and corners.",
+  "points": [
+   "normalise to time-constant form first",
+   "integrator: −20 dB/dec initial slope, −90° start",
+   "corner adds −20 dB/dec and −45° AT the corner, ±1 decade ramp"
+  ],
+  "answer": [
+   "Rewrite: G = 10/(s(s/10+1)). Low-frequency asymptote: 10/ω — slope −20 dB/dec through |G|=20 dB at ω=1. Corner at ω=10: slope steepens to −40 dB/dec.",
+   "Phase starts at −90° (the integrator), falls through −135° AT the corner ω=10, and approaches −180°. Crossover: 0 dB near ω ≈ 8–10, so a modest phase margin."
+  ]
+ },
+ {
+  "id": "p2-origin-pole-signature",
+  "pattern": "P2",
+  "kind": "explain",
+  "prompt": "Given only a Bode plot, how do you tell whether the system has a pole at the origin?",
+  "points": [
+   "phase −90° at low ω",
+   "no flat DC asymptote, ramp instead",
+   "type = number of integrators = initial slope/−20"
+  ],
+  "answer": [
+   "Two signatures: the low-frequency PHASE sits at −90° (each integrator contributes −90° everywhere), and the low-frequency magnitude is a −20 dB/dec ramp with no flat DC level — the 'DC gain' is infinite.",
+   "A supporting clue on exam plots: a very low gain-crossover with a large phase margin usually betrays a 1/s — a type-0 plant can't put those markers where the figure shows them."
+  ]
+ },
+ {
+  "id": "p2-rhp-zero",
+  "pattern": "P2",
+  "kind": "explain",
+  "prompt": "How does a right-half-plane zero show up on a Bode plot, and how is it different from a normal zero?",
+  "points": [
+   "magnitude up +20 dB/dec",
+   "phase DOWN −90°",
+   "name it: non-minimum phase; bandwidth limit ω_c ≲ z/2"
+  ],
+  "answer": [
+   "Magnitude: exactly like a LHP zero — the slope RISES +20 dB/dec after the corner. But phase: instead of adding +90°, it SUBTRACTS 90°, like a pole.",
+   "That mismatch — magnitude of a zero, phase of a pole — is the non-minimum-phase signature, and it's why the RHP zero eats phase margin and caps the usable bandwidth."
+  ]
+ },
+ {
+  "id": "p2-read-off",
+  "pattern": "P2",
+  "kind": "derive",
+  "prompt": "A Bode magnitude plot is flat at 20 dB, breaks downward at ω = 5 to −20 dB/dec. Write G(s).",
+  "points": [
+   "dB → linear: 10^(20/20)=10",
+   "corner frequency = pole location",
+   "write both time-constant and pole-zero forms"
+  ],
+  "answer": [
+   "Flat 20 dB at DC ⇒ G(0) = 10. One downward break at 5 ⇒ a single pole there.",
+   "G(s) = 10/(s/5 + 1) = 50/(s+5). Check: at ω ≫ 5 magnitude falls −20 dB/dec — matches."
+  ]
+ },
+ {
+  "id": "p2-asymptote-rules",
+  "pattern": "P2",
+  "kind": "explain",
+  "prompt": "Why do straight-line Bode asymptotes work, and how large is the worst-case error?",
+  "points": [
+   "log axes make power laws straight lines",
+   "−3 dB at the corner (single pole)",
+   "−45° at the corner, ±1 decade phase ramp"
+  ],
+  "answer": [
+   "For a real pole, |1/(jω/p+1)| is ≈1 well below the corner and ≈p/ω well above — two straight lines in log-log axes meeting at ω=p. The true curve deviates most AT the corner: −3 dB for a single pole.",
+   "Phase runs from 0° to −90° with the −45° point exactly at the corner, approximated by a ramp over one decade either side."
+  ]
+ },
+ {
+  "id": "p3-nyquist-criterion",
+  "pattern": "P3",
+  "kind": "explain",
+  "prompt": "State the Nyquist stability criterion in words and explain each symbol in Z = N + P.",
+  "points": [
+   "all three symbols defined",
+   "stable plant: no encirclement",
+   "unstable plant NEEDS CCW encirclements — that's the inverted case"
+  ],
+  "answer": [
+   "Z = N + P: Z is the number of CLOSED-loop poles in the right half-plane — stability needs Z = 0. P is the number of OPEN-loop RHP poles. N is the number of clockwise encirclements of the point −1 by the Nyquist plot of the open loop.",
+   "So a stable open loop (P=0) must NOT encircle −1 at all; an open loop with P RHP poles must encircle −1 COUNTER-clockwise exactly P times (N = −P) to cancel them."
+  ]
+ },
+ {
+  "id": "p3-stable-k-stable-plant",
+  "pattern": "P3",
+  "kind": "derive",
+  "prompt": "For a stable open-loop plant whose Nyquist plot crosses the negative real axis at −0.125, for which gains K is the closed loop stable? Why does gain 'scale' the plot?",
+  "points": [
+   "gain = radial scaling",
+   "crossing must stay right of −1",
+   "GM = 1/|crossing| = the critical gain"
+  ],
+  "answer": [
+   "K multiplies G(jω) at every frequency, so the whole Nyquist plot scales radially by K. The crossing sits at −0.125K.",
+   "With P = 0 we must not encircle −1: −0.125K > −1 ⇒ K < 8. Stable for 0 < K < 8 — and GM = 1/0.125 = 8 is exactly the same number."
+  ]
+ },
+ {
+  "id": "p3-stable-k-rhp-plant",
+  "pattern": "P3",
+  "kind": "derive",
+  "prompt": "Same question, but the plant has ONE open-loop RHP pole and the crossing is at −0.6356. For which K is the closed loop stable?",
+  "points": [
+   "state P=1 ⇒ need CCW encirclement",
+   "inequality direction flips: K ABOVE the critical gain",
+   "say aloud that the critical value itself is marginal, not stable"
+  ],
+  "answer": [
+   "P = 1, so stability needs one COUNTER-clockwise encirclement of −1 (N = −1). The −1 point is only wrapped once the crossing moves PAST it: 0.6356·K > 1.",
+   "Stable for K > 1/0.6356 ≈ 1.57 — the interval is INVERTED versus the stable-plant case. K = 1.57 itself is only marginal; a value like 2.5 is stable, 1.57 is the trap."
+  ]
+ },
+ {
+  "id": "p3-margins-meaning",
+  "pattern": "P3",
+  "kind": "explain",
+  "prompt": "Define gain margin and phase margin, and explain what they mean physically.",
+  "points": [
+   "both defined AT their crossover frequencies",
+   "GM = distance to −1 in gain, PM in phase",
+   "physical reading: tolerance to gain increase / added delay"
+  ],
+  "answer": [
+   "GM: at the phase-crossover ω_π (where ∠G = −180°), GM = 1/|G(jω_π)| — the factor by which the loop gain could grow before the plot passes through −1. Quoted in dB.",
+   "PM: at the gain-crossover ω_c (where |G| = 1), γ_M = 180° + ∠G(jω_c) — the extra phase lag the loop can absorb before instability. Physically: robustness reserves against gain errors and delays; a delay of τ eats ω_c·τ radians of PM."
+  ]
+ },
+ {
+  "id": "p3-routh-quick",
+  "pattern": "P3",
+  "kind": "derive",
+  "prompt": "Using a Routh argument, for which K is s³ + s² + 10s + K stable?",
+  "points": [
+   "build the array correctly",
+   "positivity of the first column",
+   "interpret K = 10 as the marginal/oscillation boundary"
+  ],
+  "answer": [
+   "Routh rows: s³: 1, 10 · s²: 1, K · s¹: (10·1 − K)/1 = 10 − K · s⁰: K.",
+   "All first-column entries positive ⇒ 10 − K > 0 and K > 0: stable for 0 < K < 10. At K = 10 the s¹ row vanishes — a pure imaginary pole pair, marginal oscillation."
+  ]
+ },
+ {
+  "id": "p3-relative-degree",
+  "pattern": "P3",
+  "kind": "explain",
+  "prompt": "Why does a plant with relative degree ≥ 3 always go unstable for large enough proportional gain?",
+  "points": [
+   "root-locus asymptote angles",
+   "poles follow asymptotes as K grows",
+   "equivalent −270° phase argument"
+  ],
+  "answer": [
+   "With n − m ≥ 3, the root locus has at least three asymptotes, at angles that necessarily point into the right half-plane (±60° and 180° for exactly three).",
+   "As K → ∞ the closed-loop poles follow those asymptotes, so some pair must cross into the RHP at a finite K. Frequency-domain reading: three or more net poles give −270° of high-frequency phase — the plot must cross −180° with growing gain eventually pushing that crossing past −1."
+  ]
+ },
+ {
+  "id": "p4-mp-zeta",
+  "pattern": "P4",
+  "kind": "derive",
+  "prompt": "Write the relation between overshoot and damping ratio, and give the landmark pairs you know by heart.",
+  "points": [
+   "formula both directions",
+   "Mp measured against the final value, not 1",
+   "landmark pairs from memory"
+  ],
+  "answer": [
+   "Mp = exp(−ζπ/√(1−ζ²)) — inverted: ζ = −ln Mp/√(π² + ln²Mp). Overshoot is measured relative to the FINAL value.",
+   "Landmarks: ζ = 0.5 → 16%, ζ = 0.7 → 5%, ζ = √2/2 → 4.3%, ζ = 1 → 0%."
+  ]
+ },
+ {
+  "id": "p4-omega-d",
+  "pattern": "P4",
+  "kind": "derive",
+  "prompt": "A closed loop has 10% overshoot and ωₙ = 5 rad/s. What is the damped frequency, and why can it never equal ωₙ?",
+  "points": [
+   "Mp → ζ first",
+   "ω_d formula",
+   "physical elimination of ω_d = ωₙ said out loud"
+  ],
+  "answer": [
+   "Mp = 0.10 ⇒ ζ ≈ 0.59. ω_d = ωₙ√(1−ζ²) = 5·0.807 ≈ 4.0 rad/s.",
+   "ω_d = ωₙ would require ζ = 0 — zero damping, 100% overshoot — contradicting the stated 10%. Any finite overshoot means ω_d strictly below ωₙ."
+  ]
+ },
+ {
+  "id": "p4-settling",
+  "pattern": "P4",
+  "kind": "explain",
+  "prompt": "Where does t_s = 4/(ζωₙ) come from?",
+  "points": [
+   "envelope = e^(−ζωₙt), pole real part",
+   "solve envelope = 2%",
+   "know both the 4/ and 3/ variants"
+  ],
+  "answer": [
+   "The 2nd-order step response is bounded by the envelope e^(−ζωₙt) — ζωₙ is the real part of the poles, the decay rate.",
+   "The 2% band is reached when the envelope hits 0.02: e^(−ζωₙt) = 0.02 ⇒ t = ln(50)/(ζωₙ) ≈ 3.9/(ζωₙ) ≈ 4/(ζωₙ). The 5% variant gives 3/(ζωₙ)."
+  ]
+ },
+ {
+  "id": "p4-sketch-steps",
+  "pattern": "P4",
+  "kind": "sketch",
+  "prompt": "Sketch and compare step responses for ζ = 0.2, ζ = 0.7, ζ = 1, and a system with a RHP zero.",
+  "points": [
+   "ringing frequency is ω_d",
+   "ζ≈0.7 as the speed/overshoot sweet spot",
+   "RHP zero ⇒ initial undershoot"
+  ],
+  "answer": [
+   "ζ=0.2: fast rise, large overshoot (~50%), long ringing at ω_d ≈ ωₙ. ζ=0.7: slight overshoot (~5%), settles quickest for given ωₙ — the classic design target. ζ=1: no overshoot, slower monotone rise.",
+   "RHP zero: the response starts in the WRONG direction (undershoot below zero) before rising — the non-minimum-phase giveaway."
+  ]
+ },
+ {
+  "id": "p4-from-specs",
+  "pattern": "P4",
+  "kind": "derive",
+  "prompt": "A step response shows 1.23% overshoot and settles (2%) in 1 s. Find ζ and ωₙ, and dismiss the impossible option 'ζ = −0.8'.",
+  "points": [
+   "Mp→ζ then t_s→ωₙ chain",
+   "negative ζ killed on physical grounds, aloud"
+  ],
+  "answer": [
+   "Mp = 0.0123 ⇒ ζ ≈ 0.81. t_s = 4/(ζωₙ) = 1 ⇒ ωₙ = 4/0.81 ≈ 4.9 rad/s.",
+   "A negative ζ is an UNSTABLE system — growing oscillation, no settling, no defined overshoot. Anything that settled cannot have ζ < 0; discard before computing."
+  ]
+ },
+ {
+  "id": "p5-type-table",
+  "pattern": "P5",
+  "kind": "derive",
+  "prompt": "Derive (don't recite) the steady-state error to a unit step for a type-0 and a type-1 unity-feedback loop.",
+  "points": [
+   "start from E = R/(1+L) + FVT",
+   "the 1+K_p (not K_p!) divisor derived",
+   "integrator ⇒ zero step error, stated with the limit"
+  ],
+  "answer": [
+   "E = R/(1+L). Unit step R = 1/s; FVT: e_ss = lim_{s→0} s·(1/s)/(1+L) = 1/(1 + L(0)).",
+   "Type 0: L(0) = K_p finite ⇒ e_ss = 1/(1+K_p) — finite, never zero. Type 1: L(0) = ∞ (the integrator) ⇒ e_ss = 0. Same route with R = 1/s² gives the ramp column: ∞ for type 0, 1/K_v for type 1."
+  ]
+ },
+ {
+  "id": "p5-scaled-step",
+  "pattern": "P5",
+  "kind": "derive",
+  "prompt": "C(0)·G(0) = 0.03 in a unity type-0 loop and the reference is a step of size 30. Steady-state error?",
+  "points": [
+   "scale by the input amplitude",
+   "the ÷(1+K_pos) finish",
+   "29, not 30 — name the trap"
+  ],
+  "answer": [
+   "e_ss = 30 · 1/(1 + K_pos) = 30/1.03 ≈ 29.1 ≈ 29.",
+   "Say the trap out loud: the answer is NOT 30 — dropping the (1 + K_pos) divide is the classic slip. Every ess scales linearly with the input size."
+  ]
+ },
+ {
+  "id": "p5-disturbance-ess",
+  "pattern": "P5",
+  "kind": "explain",
+  "prompt": "A step disturbance enters at the plant input. When does the loop reject it completely, and when only attenuate it?",
+  "points": [
+   "write the limit expression",
+   "WHERE the integrator sits decides rejection",
+   "controller integrator ⇒ zero; plant integrator ⇒ no"
+  ],
+  "answer": [
+   "The output shift is y_ss = lim_{s→0} G_d/(1+L) — the disturbance travels through the path G_d from its entry to the output, fought by the whole loop.",
+   "If an integrator sits BETWEEN the error signal and the injection point (i.e. in the controller), 1+L → ∞ while G_d stays finite: complete rejection. If the loop's only integrator is inside the plant (behind the injection), it appears in G_d too and cancels — the disturbance is only attenuated by 1 + L(0), or not even that."
+  ]
+ },
+ {
+  "id": "p5-sensitivities",
+  "pattern": "P5",
+  "kind": "explain",
+  "prompt": "Define the sensitivity S and complementary sensitivity T. What does S + T = 1 imply for design?",
+  "points": [
+   "both definitions with their meaning",
+   "the identity holds pointwise in frequency",
+   "low-freq vs high-freq design split"
+  ],
+  "answer": [
+   "S = 1/(1+L) maps the reference to the ERROR (and output disturbances to the output); T = L/(1+L) maps the reference to the OUTPUT. S(0) is the static error fraction.",
+   "S + T = 1 at EVERY frequency: you cannot make both small at once. Design pushes |S| down at low frequency (tracking, disturbance rejection — large loop gain) and |T| down at high frequency (noise, robustness — small loop gain), with the crossover region paying the bill."
+  ]
+ },
+ {
+  "id": "p5-kp-from-ess",
+  "pattern": "P5",
+  "kind": "derive",
+  "prompt": "The plant's DC gain reads −8 dB on the Bode plot. What P-gain gives a steady-state step error of 0.2 in a single unity loop?",
+  "points": [
+   "10^(dB/20) conversion first",
+   "solve 1/(1+K_P G0) cleanly",
+   "single-loop caveat mentioned"
+  ],
+  "answer": [
+   "Convert FIRST: G(0) = 10^(−8/20) ≈ 0.4. Then e_ss = 1/(1 + K_P·G(0)) = 0.2 ⇒ 1 + 0.4·K_P = 5 ⇒ K_P = 10.",
+   "Two spoken checks: dB→linear before any algebra, and this is the SINGLE-loop formula — if the figure shows nested junctions, the algebra changes."
+  ]
+ },
+ {
+  "id": "p6-phase-budget",
+  "pattern": "P6",
+  "kind": "derive",
+  "prompt": "Write down the phase-budget equation for a PI-Lead design and explain what each term pays.",
+  "points": [
+   "equation from memory",
+   "lead pays in, PI pays out",
+   "φ_max(α) and the PI cost formulas"
+  ],
+  "answer": [
+   "At the chosen crossover: −180° + γ_M = ∠G(jω_c) + φ_Lead + φ_PI. The left side is the phase the loop must have at ω_c for margin γ_M.",
+   "∠G is what the plant already gives (read off the Bode); the Lead ADDS up to φ_max = arcsin((1−α)/(1+α)) at its center; the PI part COSTS phase, φ_PI = arctan(N_i) − 90°, the price of killing the steady-state error. Solve for whichever of α, N_i, K_P is unknown."
+  ]
+ },
+ {
+  "id": "p6-p-for-pm",
+  "pattern": "P6",
+  "kind": "derive",
+  "prompt": "Design a pure P-controller for a 45° phase margin on G = 1/(s(s+15)). Explain the two-step logic before computing.",
+  "points": [
+   "say 'gain moves no phase' first",
+   "solve the phase condition for ω_c",
+   "K_P = 1/|G| at that frequency"
+  ],
+  "answer": [
+   "Step 1 — phase pins the crossover: K moves NO phase, so ω_c must sit where ∠G = −180° + 45° = −135°. Here −90° − arctan(ω/15) = −135° ⇒ arctan(ω/15) = 45° ⇒ ω_c = 15.",
+   "Step 2 — gain sets the crossover: K_P = 1/|G(jω_c)| = 15·|j15+15| = 15·15√2 ≈ 318, so the loop crosses 0 dB exactly at ω_c."
+  ]
+ },
+ {
+  "id": "p6-lead-from-db",
+  "pattern": "P6",
+  "kind": "derive",
+  "prompt": "A lead section must add +20 dB of magnitude at the crossover ω_c = 45 rad/s. Construct C_D(s) and explain which way the zero and pole go.",
+  "points": [
+   "α from 10^(−dB/10)",
+   "geometric-mean centering",
+   "zero-before-pole = lead; reciprocal = the lag trap, said aloud"
+  ],
+  "answer": [
+   "|lead(ω_c)| = 1/√α ⇒ 20 dB means 1/√α = 10 ⇒ α = 0.01. Centering the lead at ω_c: τ_d = 1/(ω_c√α) = 1/4.5 ≈ 0.22.",
+   "C_D = (0.22s + 1)/(0.0022s + 1): the ZERO (larger time constant) is on top and comes FIRST in frequency — that is what makes phase positive. The reciprocal is a lag: −20 dB and negative phase. On the board, place zero at 4.5, pole at 450, ω_c at their geometric mean."
+  ]
+ },
+ {
+  "id": "p6-why-lead-phase",
+  "pattern": "P6",
+  "kind": "explain",
+  "prompt": "Why does a lead compensator add phase, and where is the maximum?",
+  "points": [
+   "zero acts before the pole",
+   "peak at the geometric mean",
+   "α trade-off: phase vs noise gain"
+  ],
+  "answer": [
+   "Between its corner frequencies the zero has already turned the phase up (+ up to 90°) while the pole hasn't yet pulled it back down — the net is a positive phase bump.",
+   "The bump peaks exactly at the GEOMETRIC MEAN of zero and pole, ω_max = 1/(τ_d√α), with φ_max = arcsin((1−α)/(1+α)) — smaller α means the corners are further apart: more phase, but also more high-frequency gain (1/α at the top, 1/√α at the center), which amplifies noise. That's the design trade-off."
+  ]
+ },
+ {
+  "id": "p6-pi-part",
+  "pattern": "P6",
+  "kind": "explain",
+  "prompt": "In a PI-Lead controller, what is the PI part for, what does it cost, and how do you place its zero?",
+  "points": [
+   "integral action ⇒ zero step ess",
+   "phase cost formula and where it bites",
+   "zero at ω_c/N_i, the N_i trade-off"
+  ],
+  "answer": [
+   "The (τ_i s + 1)/(τ_i s) factor is an integrator with a zero: infinite DC gain ⇒ zero steady-state step error, without changing the high-frequency behaviour.",
+   "Its price is phase LAG near and below its zero: at ω_c the cost is arctan(N_i) − 90°, where the zero sits at ω_c/N_i. Larger N_i (zero pushed further below crossover) means less phase cost but slower error convergence — N_i in the 3–10 range is the usual compromise."
+  ]
+ },
+ {
+  "id": "p6-full-budget-numbers",
+  "pattern": "P6",
+  "kind": "derive",
+  "prompt": "Read-offs: ω_c = 25.49, |G| = −40.96 dB, ∠G = −167.41°. Design goal γ_M = 70° with lead α = 0.02, PI N_i = 3, lag β = 10. Walk the K_P computation.",
+  "points": [
+   "verify the phase budget closes before gain",
+   "every |·| factor named",
+   "dB→linear conversion spoken"
+  ],
+  "answer": [
+   "Budget check: need −110°; plant gives −167.4°, the lead adds arcsin(0.98/1.02) ≈ 73.9°, the lag part costs arctan(3) − arctan(30) ≈ −16.5° — sums to ≈ −110°. The budget closes, so the lead sits at max phase.",
+   "Magnitude: K_P·|lead|·|lag|·|G| = 1 with |lead| = 1/√0.02 ≈ 7.07, |lag| ≈ 1.05, |G| = 10^(−40.96/20) ≈ 0.0089 ⇒ K_P ≈ 15."
+  ]
+ },
+ {
+  "id": "p6-feedforward-rhp",
+  "pattern": "P6",
+  "kind": "explain",
+  "prompt": "When is the ideal feed-forward F(s) = 1/G(s) not usable, and what do you use instead?",
+  "points": [
+   "improperness AND the RHP-zero obstruction",
+   "1/G(0) keeps the DC exactness",
+   "proper-fast form only for minimum phase"
+  ],
+  "answer": [
+   "Two obstructions: if G is strictly proper, 1/G is improper (needs pure differentiators); and if G has a RIGHT-half-plane ZERO, 1/G has an unstable POLE — internally unstable, forbidden regardless of properness.",
+   "Fallbacks: the STATIC inverse F = 1/G(0) — exact at DC, so it still removes the steady-state error; or a 'proper-fast' approximation 1/G(s) · 1/(τ_f s+1)^k with fast filter poles, only when G is minimum-phase."
+  ]
+ },
+ {
+  "id": "p7-dc-unity",
+  "pattern": "P7",
+  "kind": "explain",
+  "prompt": "The closed-loop |T(jω)| is 0 dB at low frequency. What does that say about the steady-state error — and does lower bandwidth mean a faster system?",
+  "points": [
+   "T(0)=1 ⇔ zero step error",
+   "bandwidth ∝ speed with the t_r ≈ 1.8/ω rule",
+   "trap direction named"
+  ],
+  "answer": [
+   "|T| → 1 at ω → 0 means T(0) = 1: a step reference is reproduced exactly at DC — zero steady-state error. (Equivalently S(0) = 0.)",
+   "No: bandwidth and speed go TOGETHER. The closed-loop bandwidth is roughly the crossover frequency, and rise time scales like 1.8/ω_bw — LOWER bandwidth is a SLOWER response. The distractor claims the opposite."
+  ]
+ },
+ {
+  "id": "p7-lead-placement",
+  "pattern": "P7",
+  "kind": "explain",
+  "prompt": "Does it matter whether the lead compensator sits in the forward path or the feedback path?",
+  "points": [
+   "L unchanged ⇒ same stability/margins",
+   "the two closed-loop formulas",
+   "difference lives in the transmission zeros / reference shaping"
+  ],
+  "answer": [
+   "For loop STABILITY: no — the loop gain L = C·G is the same product either way, so poles, margins and the Nyquist plot are identical.",
+   "For the reference RESPONSE: yes — forward-path C gives T = CG/(1+CG); feedback-path C gives T = G/(1+CG). The zeros of C appear in the closed loop in one case and not the other, changing overshoot and the response to r even though stability is unchanged."
+  ]
+ },
+ {
+  "id": "p7-nonlinear-vs-static",
+  "pattern": "P7",
+  "kind": "explain",
+  "prompt": "Why is a rate limiter a nonlinearity, and why does a static feed-forward not move the closed-loop poles?",
+  "points": [
+   "superposition test for linearity",
+   "feed-forward is outside the loop",
+   "characteristic equation unchanged"
+  ],
+  "answer": [
+   "A rate limiter violates superposition: doubling the input does not double the output once the slope saturates — no transfer function exists for it. Linear analysis only applies below the limit.",
+   "A static feed-forward adds F(0)·r OUTSIDE the loop: it changes the input injected, not the return path. The characteristic equation 1 + L = 0 is untouched, so the poles — and stability — stay exactly where they were. Feed-forward shapes the response; feedback shapes the dynamics."
+  ]
+ },
+ {
+  "id": "p7-cascade-dc",
+  "pattern": "P7",
+  "kind": "derive",
+  "prompt": "N identical first-order blocks each with DC gain ½ are cascaded inside a unity loop with gain K_P. What is the loop's DC gain and how does ess depend on N?",
+  "points": [
+   "DC gains multiply through a cascade",
+   "ess formula with (1/2)^N inside",
+   "monotone trade-off N vs error"
+  ],
+  "answer": [
+   "Cascade DC gains MULTIPLY: the chain contributes (½)^N, so L(0) = K_P·(½)^N — it dies exponentially with N.",
+   "e_ss = 1/(1 + K_P(½)^N) grows toward 1 as N grows: every extra block halves the loop gain and pushes the error up. Given a target ess you can solve for the largest usable N — that's the exam's 'find N' variant."
+  ]
+ },
+ {
+  "id": "p7-controller-id",
+  "pattern": "P7",
+  "kind": "explain",
+  "prompt": "You are shown C(s) = 4(0.5s+1)/(0.05s+1). Identify the controller type from its structure and justify it.",
+  "points": [
+   "check for origin poles first (integral action)",
+   "zero-below-pole ⇒ lead, opposite ⇒ lag",
+   "read α and the gain from the form"
+  ],
+  "answer": [
+   "No pole at the origin ⇒ no integral action. One zero at 2 rad/s and one pole at 20 rad/s — the zero comes FIRST in frequency, so between 2 and 20 the phase is positive: a LEAD (P-Lead) with α = 0.1 and DC gain 4.",
+   "If the zero and pole were swapped (pole first) it would be a lag — used for low-frequency gain, not phase. A pole AT the origin plus one zero would be PI."
+  ]
+ }
+]

@@ -41,6 +41,24 @@ def lan_ip():
 def slug(t):
     return re.sub(r"[^a-z0-9-]+", "-", (t or "board").lower()).strip("-")[:40] or "board"
 
+_icons = {}
+def make_icon(size):
+    """Amber loop glyph on the app's dark ground — drawn with Pillow, cached."""
+    if size in _icons:
+        return _icons[size]
+    import io
+    from PIL import Image, ImageDraw
+    img = Image.new("RGB", (size, size), "#0D1220")
+    d = ImageDraw.Draw(img)
+    m = size // 8
+    d.ellipse([m, m, size - m, size - m], outline="#F0A03C", width=size // 10)
+    d.ellipse([size // 2 + size // 8, size // 2 - size // 16,
+               size // 2 + size // 4, size // 2 + size // 16], fill="#4FC4D4")
+    buf = io.BytesIO()
+    img.save(buf, "PNG")
+    _icons[size] = buf.getvalue()
+    return _icons[size]
+
 class H(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass  # keep the console clean
@@ -66,6 +84,23 @@ class H(BaseHTTPRequestHandler):
                       'box-shadow:0 4px 18px rgba(0,0,0,.35)">✍ Loop Pad</a>')
             html = html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
+        elif self.path.startswith("/api/questions"):
+            self._send(200, (HERE / "questions.json").read_bytes())
+        elif self.path.startswith("/manifest.json"):
+            self._send(200, json.dumps({
+                "name": "Loop Pad", "short_name": "LoopPad", "start_url": "/",
+                "display": "standalone", "orientation": "landscape",
+                "background_color": "#0D1220", "theme_color": "#0D1220",
+                "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"},
+                          {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}],
+            }).encode("utf-8"), "application/manifest+json")
+        elif self.path.startswith("/sw.js"):
+            self._send(200, b"self.addEventListener('install',e=>self.skipWaiting());"
+                            b"self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>new Response('offline - the pad needs the PC server',{status:503})))});",
+                       "text/javascript")
+        elif self.path.startswith("/icon-"):
+            size = 512 if "512" in self.path else 192
+            self._send(200, make_icon(size), "image/png")
         elif self.path.startswith("/api/feedback"):
             fb = json.loads(FEEDBACK.read_text(encoding="utf-8")) if FEEDBACK.exists() else []
             self._send(200, fb)
@@ -97,7 +132,8 @@ class H(BaseHTTPRequestHandler):
             (d / (base + ".png")).write_bytes(base64.b64decode(png_b64))
             meta = {"title": payload.get("title", ""), "id": payload.get("id", ""),
                     "saved": datetime.now().isoformat(timespec="seconds"),
-                    "strokes": payload.get("strokes", 0)}
+                    "strokes": payload.get("strokes", 0),
+                    "qid": payload.get("qid", ""), "prompt": payload.get("prompt", "")}
             (d / (base + ".json")).write_text(json.dumps(meta, indent=1), encoding="utf-8")
             print(f"  saved board: {day}/{base}.png  ('{meta['title']}')")
             self._send(200, {"ok": True, "file": base + ".png"})
