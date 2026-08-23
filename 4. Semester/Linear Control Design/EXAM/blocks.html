@@ -53,6 +53,28 @@ sub.msub{font-size:.72em}
 .skwrap{position:relative;background:#F2F4F0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .skwrap canvas{display:block;width:100%;height:300px;touch-action:none}
 .skbtn{margin-top:12px}
+#rulesBtn{background:var(--bg);border:1px solid var(--amber);color:var(--amber);
+  border-radius:9px;padding:8px 12px;font:600 13px system-ui;cursor:pointer}
+#rules{position:fixed;top:0;right:0;bottom:0;width:min(430px,92vw);z-index:30;overflow:auto;
+  background:var(--panel);border-left:1px solid var(--line);padding:16px 18px 60px;
+  transform:translateX(102%);transition:transform .22s}
+#rules.show{transform:none;box-shadow:-8px 0 30px rgba(0,0,0,.45)}
+#rules h2{font-size:15px;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;
+  margin:18px 0 8px}
+#rules h2:first-of-type{margin-top:6px}
+#rules .rhead{display:flex;align-items:center;gap:10px;position:sticky;top:-16px;
+  background:var(--panel);padding:8px 0 10px;border-bottom:1px solid var(--line);margin:-16px 0 6px}
+#rules .rhead b{font-size:16px}
+#rules .x{margin-left:auto;background:none;border:none;color:var(--sub);font-size:20px;
+  cursor:pointer;padding:2px 6px}
+.rule{border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:9px;
+  background:var(--bg)}
+.rule .rn{font-weight:700;font-size:14.5px;margin-bottom:5px}
+.rule .rf{font-size:15px;color:var(--amber);margin:5px 0}
+.rule .rw{font-size:13px;color:var(--sub);line-height:1.5}
+.rule svg{display:block;margin:6px 0}
+.rule.warn{border-color:var(--bad)}
+.rule.warn .rn{color:var(--bad)}
 .done{text-align:center;padding:26px;color:var(--sub)}
 button.again{background:var(--bg);border:1px solid var(--amber);color:var(--amber);
              border-radius:10px;padding:10px 16px;font:600 14px system-ui;cursor:pointer}
@@ -61,7 +83,12 @@ button.again{background:var(--bg);border:1px solid var(--amber);color:var(--ambe
 <body>
 <div class="top">
   <a href="/">&#9997; Pad</a><a href="/course">&#128216; Course</a><a href="/notes">&#128218; Notes</a>
+  <button id="rulesBtn">&#128218; Rules</button>
   <span class="sp" id="score">0 / 0</span>
+</div>
+<div id="rules">
+  <div class="rhead"><b>Reduction rules</b><button class="x" id="rulesX">&times;</button></div>
+  <div id="rulesBody"></div>
 </div>
 <main>
   <h1>Block diagram &rarr; transfer function</h1>
@@ -176,12 +203,14 @@ function render(spec){
         g.push(txt(bx+BW/2,yy,pair[1],{size:17,w:700}));
         g.push(path("M"+(bx+BW)+","+yy+" L"+(cx-R)+","+yy+" L"+(cx-R)+","+CY,{arrow:true}));
       });
+      var psg=it.signs||["+","+"];
       g.push(el("circle",{cx:cx,cy:CY,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
-      g.push(txt(cx-3,CY-R-11,"+",{fill:"#57C79A",size:15}));
-      g.push(txt(cx-3,CY+R+12,"+",{fill:"#57C79A",size:15}));
+      g.push(txt(cx-3,CY-R-11,psg[0],{fill:psg[0]==="-"?"#E87070":"#57C79A",size:16}));
+      g.push(txt(cx-3,CY+R+12,psg[1],{fill:psg[1]==="-"?"#E87070":"#57C79A",size:16}));
       if(it.id) at[it.id]={x:cx,y:CY};
     } else if(it.k==="tap"){
       g.push(el("circle",{cx:it._x,cy:CY,r:4.5,fill:"#8E9BAE"}));
+      if(it.label) g.push(txt(it._x,CY-26,it.label,{fill:"#F0A03C",size:15,w:700}));
     }
   });
 
@@ -197,7 +226,9 @@ function render(spec){
     var src=at[a.from], dst=at[a.to];
     if(!src||!dst) return;
     var ln=a.lane||1;
-    var y=a.above ? CY-BH/2-ln*LANE+18 : CY+BH/2+ln*LANE-18;
+    // stacked parallel branches already occupy PAR either side of the centre,
+    // so the lanes have to start beyond them
+    var y=a.above ? CY-BH/2-PAR-ln*LANE+18 : CY+BH/2+PAR+ln*LANE-18;
     if(a.blks&&!a.above) y+=48;            // its branches sit +/-34 either side
     var enterY=a.above ? CY-R : CY+R;
     if(a.blks){
@@ -215,9 +246,22 @@ function render(spec){
         g.push(path("M"+boxX+","+by+" L"+joinX+","+by+" L"+joinX+","+(y+(n?-1:1)*R),{arrow:true}));
       });
       g.push(el("circle",{cx:joinX,cy:y,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
-      g.push(txt(joinX+R+11,y-9,"+",{fill:"#57C79A",size:15}));
-      g.push(txt(joinX+R+11,y+11,"+",{fill:"#57C79A",size:15}));
+      var bsg=a.signs||["+","+"];
+      g.push(txt(joinX+R+11,y-9,bsg[0],{fill:bsg[0]==="-"?"#E87070":"#57C79A",size:16}));
+      g.push(txt(joinX+R+11,y+11,bsg[1],{fill:bsg[1]==="-"?"#E87070":"#57C79A",size:16}));
       g.push(path("M"+(joinX-R)+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
+    } else if(a.blkSeries){
+      // signal runs right-to-left through the lane, so the first block it meets
+      // is drawn nearest the takeoff
+      var mid=(src.x+dst.x)/2, b1=mid+14, b2=mid-BW-14;
+      g.push(path("M"+src.x+","+enterY+" L"+src.x+","+y+" L"+(b1+BW)+","+y,{arrow:true}));
+      [[b1,a.blkSeries[0]],[b2,a.blkSeries[1]]].forEach(function(pr){
+        g.push(el("rect",{x:pr[0],y:y-BH/2,width:BW,height:BH,rx:7,
+          fill:"#151C2E",stroke:"#F0A03C","stroke-width":2}));
+        g.push(txt(pr[0]+BW/2,y,pr[1],{size:17,w:700}));
+      });
+      g.push(path("M"+b1+","+y+" L"+(b2+BW)+","+y,{arrow:true}));
+      g.push(path("M"+b2+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
     } else {
       var bx2=(src.x+dst.x)/2-BW/2;
       g.push(path("M"+src.x+","+enterY+" L"+src.x+","+y+" L"+(bx2+BW)+","+y,{}));
@@ -340,6 +384,210 @@ var P=[
       "That is the whole disturbance-rejection story: same denominator, smaller numerator. High loop gain shrinks Y/D.",
       "Picking G₁G₂ on top means you injected at the reference instead — read where the arrow enters."]}
 ];
+
+
+// ---- a much longer ladder: same primitives, harder reading ----
+P = P.concat([
+{lvl:"warm-up", ask:"Three blocks in cascade. What is Y/R?",
+ spec:{chain:[{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"blk",label:"G₃"}]},
+ opts:["G₁G₂G₃","G₁+G₂+G₃","G₁G₂G₃/(1+G₁G₂G₃)","G₁G₃/G₂"], ok:0,
+ why:["<b>Series multiply</b>, however many blocks there are.",
+      "No wire leaves the path and comes back, so nothing lands in a denominator."]},
+
+{lvl:"warm-up", ask:"The two branches meet at a junction that SUBTRACTS the lower one. What is Y/R?",
+ spec:{chain:[{k:"par",blocks:["G₁","G₂"],signs:["+","-"]}]},
+ opts:["G₁-G₂","G₁+G₂","G₁G₂","G₂-G₁"], ok:0,
+ why:["<b>Read the signs at the junction</b> — parallel still means add, but with the sign each branch carries.",
+      "Upper branch enters with +, lower with −, so the pair collapses to G₁ − G₂.",
+      "Getting the order backwards (G₂ − G₁) flips the sign of the whole transfer function — a sign error is a wrong answer, not a detail."]},
+
+{lvl:"core", ask:"Unity feedback around a cascade. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]},
+ opts:["G₁G₂/(1+G₁G₂)","G₁G₂/(1+G₁+G₂)","G₁G₂/(1+G₂)","G₁G₂/(1+G₁G₂)²"], ok:0,
+ why:["<b>Collapse the forward path first, then apply the rule once.</b> Forward = G₁G₂.",
+      "Unity feedback, so the loop gain equals the forward path.",
+      "<code>1+G₁+G₂</code> is the parallel rule leaking into a cascade."]},
+
+{lvl:"core", ask:"Sensor H in the feedback path around a cascade. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["G₁G₂/(1+G₁G₂H)","G₁G₂H/(1+G₁G₂)","G₁G₂/(1+H)","G₁G₂/(G₁G₂+H)"], ok:0,
+ why:["Forward = G₁G₂, loop gain = G₁G₂H — everything you pass going once around.",
+      "<b>H belongs in the denominator only</b>; it is not in the forward path from R to Y.",
+      "The last option drops the 1, which is exactly the kind of slip that changes a stable answer into nonsense."]},
+
+{lvl:"core", ask:"Two separate loops, one after the other. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"tap",id:"m"},
+              {k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"m",to:"s1",blk:"H₁",lane:1},{from:"y",to:"s2",blk:"H₂",lane:1}]},
+ opts:["G₁G₂/((1+G₁H₁)(1+G₂H₂))","G₁G₂/(1+G₁H₁+G₂H₂)",
+       "G₁G₂/(1+G₁G₂H₁H₂)","(G₁+G₂)/((1+G₁H₁)(1+G₂H₂))"], ok:0,
+ why:["<b>These loops are independent</b> — neither one's wire passes through the other's blocks.",
+      "So close each separately and multiply: <code>G₁/(1+G₁H₁)</code> times <code>G₂/(1+G₂H₂)</code>.",
+      "Denominators multiply here precisely because the loops do NOT share a block — contrast that with the nested case, where they do and the denominators add out."]},
+
+{lvl:"core", ask:"A feedforward path F bypasses G₁ and rejoins before G₂. What is Y/R?",
+ spec:{chain:[{k:"tap",id:"t0"},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["+"],fbAbove:true},
+              {k:"blk",label:"G₂"}],
+       arcs:[{from:"t0",to:"s1",blk:"F",above:true,lane:1}]},
+ opts:["(G₁+F)G₂","G₁FG₂","(G₁+F)/G₂","G₁G₂+F"], ok:0,
+ why:["<b>Feedforward is just a parallel branch</b> — it rejoins at a summing junction, so it adds.",
+      "The two paths from R to the junction are G₁ and F, giving (G₁+F). G₂ then multiplies everything downstream.",
+      "<code>G₁G₂+F</code> forgets that F also passes through G₂ before reaching Y."]},
+
+{lvl:"core", ask:"The feedback path contains two blocks in series. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blkSeries:["H₁","H₂"],lane:1}]},
+ opts:["G/(1+GH₁H₂)","G/(1+G(H₁+H₂))","G/(1+GH₁+GH₂)","GH₁H₂/(1+G)"], ok:0,
+ why:["<b>In series, so they multiply</b> — even though they sit in the feedback path.",
+      "Loop gain = everything met going once around = G·H₁·H₂.",
+      "Adding them is the mirror image of the June mistake: here one block feeds the next, so multiply. Only <i>summed at a junction</i> means add."]},
+
+{lvl:"nested", ask:"Inner loop is POSITIVE, outer is negative. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["+"]},
+              {k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s2",blk:"H₂",lane:1},{from:"y",to:"s1",blk:"H₁",lane:2}]},
+ opts:["G₁G₂/(1-G₂H₂+G₁G₂H₁)","G₁G₂/(1+G₂H₂+G₁G₂H₁)",
+       "G₁G₂/(1-G₂H₂-G₁G₂H₁)","G₁G₂/((1-G₂H₂)(1+G₁H₁))"], ok:0,
+ why:["<b>Each junction keeps its own sign.</b> Inner is positive: <code>G₂/(1−G₂H₂)</code>.",
+      "Outer is negative, so the outer step still adds its loop gain: denominator <code>(1−G₂H₂) + G₁G₂H₁</code>.",
+      "Mixing the two signs up is the whole point of this one — say each junction's sign out loud as you reduce."]},
+
+{lvl:"nested", ask:"Three nested loops. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["-"]},
+              {k:"blk",label:"G₂"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₃"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s3",lane:1},{from:"y",to:"s2",blk:"H₂",lane:2},
+             {from:"y",to:"s1",blk:"H₁",lane:3}]},
+ opts:["G₁G₂G₃/(1+G₃+G₂G₃H₂+G₁G₂G₃H₁)","G₁G₂G₃/(1+G₃+G₂H₂+G₁H₁)",
+       "G₁G₂G₃/((1+G₃)(1+G₂H₂)(1+G₁H₁))","G₁G₂G₃/(1+G₁G₂G₃H₁H₂)"], ok:0,
+ why:["<b>Peel from the inside.</b> Innermost (unity around G₃): <code>G₃/(1+G₃)</code>.",
+      "Next out, forward is <code>G₂G₃/(1+G₃)</code> with H₂ around it: denominator <code>1+G₃+G₂G₃H₂</code>.",
+      "Outermost adds <code>G₁G₂G₃H₁</code> to that same denominator. Each loop gain carries every block its wire actually passes through.",
+      "The factored option assumes independence — but all three loops share G₃."]},
+
+{lvl:"placement", ask:"G₁ sits in front; the loop encircles G₂ only. What is Y/R?",
+ spec:{chain:[{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["G₁G₂/(1+G₂H)","G₁G₂/(1+G₁G₂H)","G₂/(1+G₂H)","G₁G₂/(1+G₁H)"], ok:0,
+ why:["<b>Only what the loop wire encircles enters the loop gain.</b> The wire returns to a junction <i>after</i> G₁, so G₁ is outside.",
+      "Inner loop: <code>G₂/(1+G₂H)</code>. G₁ multiplies in front.",
+      "<code>1+G₁G₂H</code> is the reflex answer that assumes the feedback goes all the way back to the input — check where the arrow lands."]},
+
+{lvl:"placement", ask:"Same blocks, but now the feedback returns all the way to the input. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["G₁G₂/(1+G₁G₂H)","G₁G₂/(1+G₂H)","G₁G₂/(1+G₁H)","G₁G₂H/(1+G₁G₂)"], ok:0,
+ why:["<b>Compare this with the previous problem</b> — identical blocks, one wire moved, different answer.",
+      "Now the loop encircles both G₁ and G₂, so the loop gain is G₁G₂H.",
+      "This pair is the whole skill: the algebra is easy, reading which blocks the loop contains is the exam."]},
+
+{lvl:"signals", ask:"Unity feedback. What is the transfer from R to the error e (marked at the junction output)?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"tap",id:"e",label:"e"},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]},
+ opts:["1/(1+G)","G/(1+G)","1/(1-G)","1+G"], ok:0,
+ why:["<b>Same denominator, different numerator</b> — the numerator is only what lies between R and the point you are asking about.",
+      "Nothing sits between the input and e except the junction itself, so the numerator is 1.",
+      "This is the sensitivity function S = 1/(1+L), and it is what sets steady-state error: <code>eₛₛ = lim s·S(s)·R(s)</code>."]},
+
+{lvl:"disturbance", ask:"A disturbance enters at the OUTPUT, after the plant. With R = 0, what is Y/D?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},
+              {k:"sum",sIn:"+",sFb:["+"],fbAbove:true},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}], dInto:"s2", dLabel:"D"},
+ opts:["1/(1+GH)","G/(1+GH)","GH/(1+GH)","1/(1+G)"], ok:0,
+ why:["<b>Nothing sits between the injection point and Y</b>, so the numerator is 1.",
+      "The denominator is the same <code>1 + GH</code> as always — the loop is unchanged by where you inject.",
+      "Compare with a disturbance entering before the plant, where G ends up on top. Where it enters sets the numerator; the loop sets the denominator."]},
+
+{lvl:"disturbance", ask:"The disturbance enters ahead of the controller. With R = 0, what is Y/D?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"sum",sIn:"+",sFb:["+"],fbAbove:true},
+              {k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}], dInto:"s2", dLabel:"D"},
+ opts:["G₁G₂/(1+G₁G₂H)","G₂/(1+G₁G₂H)","1/(1+G₁G₂H)","G₁G₂/(1+G₂H)"], ok:0,
+ why:["<b>Everything downstream of the entry point goes on top</b> — here both G₁ and G₂.",
+      "The denominator stays <code>1 + G₁G₂H</code>.",
+      "A disturbance entering this early is the hardest to reject: it gets the full forward gain, exactly like the reference does."]},
+
+{lvl:"nested", ask:"A parallel pair inside the loop, with a sensor H. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"par",blocks:["G₁","G₂"]},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["(G₁+G₂)/(1+(G₁+G₂)H)","(G₁+G₂)/(1+G₁G₂H)",
+       "G₁G₂/(1+G₁G₂H)","(G₁+G₂)/(1+H)"], ok:0,
+ why:["<b>Collapse the parallel pair, then close the loop</b> — two steps, in that order.",
+      "Forward = G₁+G₂, so loop gain = (G₁+G₂)H.",
+      "Whatever the forward path collapses to is what the feedback multiplies. Never mix the two steps."]},
+
+{lvl:"the June trap", ask:"Two taps summed, but this time nothing sits in front of the loop. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blks:["H₁","H₂"],lane:1}]},
+ opts:["G/(1+G(H₁+H₂))","G/(1+GH₁H₂)","G/(1+GH₁+H₂)","G/((1+GH₁)(1+GH₂))"], ok:0,
+ why:["<b>Two taps summed at a junction = one equivalent block H₁+H₂.</b>",
+      "Then it is the ordinary rule: <code>G/(1+G(H₁+H₂))</code>.",
+      "Drill this shape until it is automatic — it is the exact structure that cost the point in June, stripped of the extra block in front."]},
+
+{lvl:"positive", ask:"Positive unity feedback around a cascade. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["+"]},{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]},
+ opts:["G₁G₂/(1-G₁G₂)","G₁G₂/(1+G₁G₂)","G₁G₂/(G₁G₂-1)","-G₁G₂/(1-G₁G₂)"], ok:0,
+ why:["<b>Positive feedback puts a minus in the denominator.</b>",
+      "Worth a sentence in the oral: as G₁G₂ approaches 1 the denominator vanishes and the system blows up — which is why positive feedback is used deliberately, not casually.",
+      "Option 3 is the same expression with the sign of the whole fraction flipped — check the sign of the constant term, it must be +1."]},
+
+{lvl:"mixed", ask:"Feedforward F and feedback H on the same diagram. What is Y/R?",
+ spec:{chain:[{k:"tap",id:"t0"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},
+              {k:"sum",sIn:"+",sFb:["+"],fbAbove:true},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"t0",to:"s2",blk:"F",above:true,lane:1},
+             {from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["(G₁+F)G₂/(1+G₁G₂H)","(G₁+F)G₂/(1+(G₁+F)G₂H)",
+       "G₁G₂/(1+G₁G₂H)+F","(G₁F)G₂/(1+G₁G₂H)"], ok:0,
+ why:["<b>Feedforward changes the numerator; only the loop changes the denominator.</b>",
+      "F enters from a tap on R, so it is <i>outside</i> the loop — trace the loop: junction → G₁ → junction → G₂ → tap → H → back. F is never on it.",
+      "Numerator: both paths from R to Y, so (G₁+F)G₂. Denominator: the loop gain G₁G₂H.",
+      "Option 2 wrongly drags F into the loop gain — a good test of whether you traced the loop or guessed it."]},
+
+{lvl:"placement", ask:"The takeoff sits between G₂ and G₃, and the feedback returns to the input. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"blk",label:"G₂"},
+              {k:"tap",id:"m"},{k:"blk",label:"G₃"}],
+       arcs:[{from:"m",to:"s1",blk:"H",lane:1}]},
+ opts:["G₁G₂G₃/(1+G₁G₂H)","G₁G₂G₃/(1+G₁G₂G₃H)","G₁G₂G₃/(1+G₃H)","G₁G₂/(1+G₁G₂H)"], ok:0,
+ why:["<b>G₃ is downstream of the takeoff, so it is outside the loop.</b>",
+      "Close the loop on G₁G₂: <code>G₁G₂/(1+G₁G₂H)</code>, then multiply by G₃ in series.",
+      "G₃ appears in the numerator but never in the denominator. Where the wire <i>leaves</i> matters as much as where it returns."]},
+
+{lvl:"concept", ask:"For this diagram, what is the LOOP GAIN L(s)? (not the closed-loop transfer function)",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"C"},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]},
+ opts:["CGH","CG/(1+CGH)","CG","1+CGH"], ok:0,
+ why:["<b>The loop gain is the product of everything you meet going once around the loop</b>, with the loop opened — no denominator involved.",
+      "It is what you actually plot on a Bode or Nyquist diagram, and what phase margin is read from.",
+      "<code>CG</code> alone is the forward path; <code>1+CGH</code> is the characteristic polynomial. Three different objects — name them precisely in the oral."]},
+
+{lvl:"concept", ask:"Unity feedback with loop gain L = CG. What is the closed-loop T, and what does S + T equal?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"C"},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]},
+ opts:["T = CG/(1+CG) and S + T = 1","T = CG/(1+CG) and S + T = 0",
+       "T = 1/(1+CG) and S + T = 1","T = CG and S + T = 1+CG"], ok:0,
+ why:["<b>T = L/(1+L)</b> is the complementary sensitivity — reference to output.",
+      "<b>S = 1/(1+L)</b> is sensitivity — reference to error. Add them: <code>(1+L)/(1+L) = 1</code>, always and exactly.",
+      "That identity is the whole design tension: you cannot make both small at the same frequency. Good, quotable oral material."]},
+
+{lvl:"nested", ask:"Inner minor loop with rate feedback, outer unity loop. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"K"},{k:"sum",sIn:"+",sFb:["-"]},
+              {k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s2",blk:"K_d",lane:1},{from:"y",to:"s1",lane:2}]},
+ opts:["KG/(1+GK_d+KG)","KG/(1+GK_d)","KG/(1+KG)","KG/((1+GK_d)(1+KG))"], ok:0,
+ why:["Inner first: <code>G/(1+GK_d)</code>.",
+      "Outer forward path is <code>KG/(1+GK_d)</code> with unity feedback, so the denominator becomes <code>(1+GK_d) + KG</code>.",
+      "This is the classic rate-feedback structure: K_d adds damping through the inner loop while K sets the outer speed."]},
+
+{lvl:"the June trap", ask:"A in front, loop around B, and the two taps are summed with the LOWER one subtracted. What is Y/R?",
+ spec:{chain:[{k:"blk",label:"A"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"B"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blks:["C","D"],lane:1,signs:["+","-"]}]},
+ opts:["AB/(1+B(C-D))","AB/(1+B(C+D))","AB/(1-B(C-D))","AB/(1+BCD)"], ok:0,
+ why:["<b>The junction in the feedback path carries its own signs</b> — here the pair collapses to (C − D).",
+      "That equivalent block then goes through the ordinary loop rule with the junction at the forward path still negative: <code>1 + B(C−D)</code>.",
+      "Two sign decisions in one diagram, made at two different junctions. Point at each one as you say it in the oral."]}
+]);
 
 // give the summing junctions ids in order (s1, s2, ...) so arcs can target them
 P.forEach(function(p){
@@ -477,16 +725,22 @@ P.forEach(function(p,i){
 
   var opts=document.createElement("div"); opts.className="opts";
   var why=document.createElement("div"); why.className="why";
-  p.opts.forEach(function(o,k){
+  // the right answer is authored first; shuffle so position carries no information
+  var order=p.opts.map(function(_,k){return k});
+  for(var a=order.length-1;a>0;a--){
+    var b2=Math.floor(Math.random()*(a+1)), t=order[a]; order[a]=order[b2]; order[b2]=t;
+  }
+  var shownOk=order.indexOf(p.ok);
+  order.map(function(oi){return p.opts[oi]}).forEach(function(o,k){
     var b=document.createElement("button"); b.className="opt"; b.textContent=o;
     b.addEventListener("click",function(){
       if(card.dataset.done) return;
       card.dataset.done="1"; answered++;
-      var right=(k===p.ok);
+      var right=(k===shownOk);
       if(right) correct++;
       [].forEach.call(opts.children,function(c,ci){
         c.disabled=true;
-        if(ci===p.ok) c.className="opt right";
+        if(ci===shownOk) c.className="opt right";
         else if(ci===k) c.className="opt wrong";
       });
       why.innerHTML="<div class='res "+(right?"ok":"no")+"'>"+
@@ -502,6 +756,112 @@ P.forEach(function(p,i){
   attachSketch(card,"lp-blocks-sketch-"+i);
   list.appendChild(card);
 });
+
+
+// ---------------------------------------------------------------------------
+// The cheat drawer: every rule needed to reduce anything in this drill, with a
+// drawn miniature beside it. Kept open while solving on purpose - in the oral
+// you get no sheet, so read it now and stop needing it later.
+// ---------------------------------------------------------------------------
+function mini(spec){ var sv=render(spec); sv.setAttribute("width","100%");
+  sv.removeAttribute("height"); return sv; }
+
+var RULES=[
+ {n:"1 · Series (cascade)", f:"G₁ · G₂",
+  w:"One block feeds the next, so the gains multiply. No junction is involved, so nothing appears in a denominator.",
+  d:{chain:[{k:"blk",label:"G₁"},{k:"blk",label:"G₂"}]}},
+
+ {n:"2 · Parallel (summed at a junction)", f:"G₁ + G₂",
+  w:"Both branches are fed by the SAME signal and their outputs meet at a junction. They add — with whatever sign each carries into the junction.",
+  d:{chain:[{k:"par",blocks:["G₁","G₂"]}]}},
+
+ {n:"3 · Negative feedback", f:"G / (1 + GH)",
+  w:"Forward path over 1 plus the loop gain. The loop gain is everything you meet going once around the loop.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blk:"H",lane:1}]}},
+
+ {n:"4 · Positive feedback", f:"G / (1 − GH)",
+  w:"Same rule, opposite sign in the denominator. As GH approaches 1 the denominator vanishes — that is the instability.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["+"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blk:"H",lane:1}]}},
+
+ {n:"5 · Unity feedback", f:"G / (1 + G)",
+  w:"H = 1. The loop gain is just the forward path.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",lane:1}]}},
+
+ {n:"6 · Blocks in front of the loop stay outside", f:"A · B/(1 + BH)",
+  w:"If the feedback wire returns to a junction AFTER a block, that block is not in the loop. It multiplies the closed loop instead of entering the denominator.",
+  d:{chain:[{k:"blk",label:"A"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"B"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blk:"H",lane:1}]}},
+
+ {n:"7 · Blocks after the takeoff stay outside", f:"G₁/(1 + G₁H) · G₂",
+  w:"If the feedback wire leaves BEFORE a block, that block is not in the loop either. Where the wire leaves matters as much as where it returns.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"tap",id:"m"},{k:"blk",label:"G₂"}],
+     arcs:[{from:"m",to:"s1",blk:"H",lane:1}]}},
+
+ {n:"8 · Nested loops — inside out", f:"G₁G₂ / (1 + G₂H₂ + G₁G₂H₁)",
+  w:"Close the innermost loop first, then treat the result as one block. Multiply the denominators out: loops that SHARE a block never factor.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["-"]},
+            {k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s2",blk:"H₂",lane:1},{from:"y",to:"s1",blk:"H₁",lane:2}]}},
+
+ {n:"9 · Independent loops in series", f:"G₁/(1+G₁H₁) · G₂/(1+G₂H₂)",
+  w:"When no block is shared between the loops, close each on its own and multiply. Here the denominators DO factor.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"tap",id:"m"},
+            {k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+     arcs:[{from:"m",to:"s1",blk:"H₁",lane:1},{from:"y",to:"s2",blk:"H₂",lane:1}]}},
+
+ {n:"10 · Two taps summed in the feedback", f:"B / (1 + B(C+D))",
+  w:"Two wires leaving the same signal and meeting at a junction are PARALLEL: they add. This is the June Q6 shape.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"B"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blks:["C","D"],lane:1}]}},
+
+ {n:"11 · Two blocks in series in the feedback", f:"G / (1 + GH₁H₂)",
+  w:"In the feedback path the same rules apply: one feeding the next means multiply.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blkSeries:["H₁","H₂"],lane:1}]}},
+
+ {n:"12 · Feedforward", f:"(G₁ + F) · G₂",
+  w:"A branch that leaves the input and rejoins downstream is parallel, not feedback. It changes the numerator and never the denominator.",
+  d:{chain:[{k:"tap",id:"t0"},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["+"],fbAbove:true},
+            {k:"blk",label:"G₂"}],
+     arcs:[{from:"t0",to:"s1",blk:"F",above:true,lane:1}]}},
+
+ {n:"13 · Disturbance — numerator only", f:"Y/D = G₂ / (1 + G₁G₂H)",
+  w:"The denominator is the same loop no matter what you inject. The numerator is only what lies BETWEEN the entry point and the output.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},
+            {k:"sum",sIn:"+",sFb:["+"],fbAbove:true},{k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",blk:"H",lane:1}], dInto:"s2", dLabel:"D"}},
+
+ {n:"14 · Sensitivity and complementary sensitivity", f:"S = 1/(1+L),  T = L/(1+L),  S + T = 1",
+  w:"With loop gain L: S maps reference to ERROR, T maps reference to OUTPUT. They always sum to exactly 1 — you cannot make both small at the same frequency.",
+  d:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"tap",id:"e",label:"e"},{k:"blk",label:"L"},{k:"tap",id:"y"}],
+     arcs:[{from:"y",to:"s1",lane:1}]}},
+
+ {n:"Traps that cost real points", f:"", warn:true,
+  w:"<b>Summed ≠ cascaded.</b> Two taps at a junction add (C+D); only one-feeds-the-next multiplies (CD).<br>"+
+    "<b>Never drop the 1.</b> The denominator is 1 + L, not L.<br>"+
+    "<b>Trace the loop before writing it.</b> Blocks in front of the junction, or after the takeoff, are outside it.<br>"+
+    "<b>Read every junction sign.</b> Negative gives 1+L, positive gives 1−L, and a feedback junction can subtract one of its own branches.<br>"+
+    "<b>Nested ≠ independent.</b> Denominators only factor when the loops share no block."}
+];
+
+(function(){
+  var body=document.getElementById("rulesBody");
+  RULES.forEach(function(r){
+    var d=document.createElement("div"); d.className="rule"+(r.warn?" warn":"");
+    var h=document.createElement("div"); h.className="rn"; h.textContent=r.n; d.appendChild(h);
+    if(r.f){ var f=document.createElement("div"); f.className="rf"; f.textContent=r.f; d.appendChild(f); }
+    if(r.d){ try{ d.appendChild(mini(r.d)) }catch(e){} }
+    var w=document.createElement("div"); w.className="rw"; w.innerHTML=r.w; d.appendChild(w);
+    body.appendChild(d);
+  });
+  var panel=document.getElementById("rules");
+  document.getElementById("rulesBtn").addEventListener("click",function(){panel.classList.toggle("show")});
+  document.getElementById("rulesX").addEventListener("click",function(){panel.classList.remove("show")});
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") panel.classList.remove("show"); });
+})();
 
 // ---- stacked fractions in the option text, same as the course page ----
 (function(){
