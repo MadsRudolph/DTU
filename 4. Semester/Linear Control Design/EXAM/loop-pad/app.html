@@ -294,6 +294,19 @@ setInterval(poll,5000);
 
 paper(); redrawInk(); fit(); poll();
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("/sw.js").catch(function(){}); }
+// Real install (needs a secure context — see the setup note): capture the
+// prompt and surface a one-tap Install button in the header.
+var deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",function(e){
+  e.preventDefault(); deferredPrompt=e;
+  var b=document.createElement("button");
+  b.textContent="⬇ Install"; b.style.borderColor="var(--ok)"; b.style.color="var(--ok)";
+  b.addEventListener("click",function(){ if(deferredPrompt){deferredPrompt.prompt(); deferredPrompt=null; b.remove();} });
+  document.querySelector("header").appendChild(b);
+});
+if(!window.isSecureContext){
+  statusEl.textContent="⚠ not a secure context — PWA install disabled. See the chrome://flags fix.";
+}
 </script>
 </body>
 </html>

@@ -88,7 +88,7 @@ class H(BaseHTTPRequestHandler):
             self._send(200, (HERE / "questions.json").read_bytes())
         elif self.path.startswith("/manifest.json"):
             self._send(200, json.dumps({
-                "name": "Loop Pad", "short_name": "LoopPad", "start_url": "/",
+                "name": "Loop Pad", "short_name": "LoopPad", "id": "/", "scope": "/", "start_url": "/",
                 "display": "standalone", "orientation": "landscape",
                 "background_color": "#0D1220", "theme_color": "#0D1220",
                 "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"},
