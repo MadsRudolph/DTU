@@ -35,6 +35,7 @@ HERE = Path(__file__).resolve().parent
 BOARDS = HERE / "boards"
 FEEDBACK = HERE / "feedback.json"
 COURSE = HERE.parent / "Closed-Loop.html"
+BLOCKS = HERE.parent / "blocks.html"
 # the vault: /opt/vault on the container, the real folder when run from the repo
 def _find_vault():
     if Path("/opt/vault").is_dir():
@@ -112,13 +113,23 @@ function run(){
   var w=document.createTreeWalker(document.querySelector("main")||document.body,NodeFilter.SHOW_TEXT,{
     acceptNode:function(n){var p=n.parentNode;if(!p)return NodeFilter.FILTER_REJECT;
       var t=p.nodeName;if(t==="SCRIPT"||t==="STYLE"||t==="CODE"||t==="PRE")return NodeFilter.FILTER_REJECT;
+      if(n.nodeValue.indexOf("$")>=0)return NodeFilter.FILTER_REJECT;
+      if(p.closest&&p.closest(".katex,details.tex"))return NodeFilter.FILTER_REJECT;
       if(p.closest&&p.closest(".frac"))return NodeFilter.FILTER_REJECT;
       return (n.nodeValue.indexOf("/(")>=0&&MATHY.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;}});
   var nodes=[],n;while((n=w.nextNode()))nodes.push(n);
   nodes.forEach(function(tn){try{var f=transform(tn.nodeValue);if(f)tn.parentNode.replaceChild(f,tn);}catch(e){}});}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();
+window.addEventListener("load",function(){setTimeout(run,60)});
 })();
 </script>"""
+
+KATEX = ("<link rel=stylesheet "
+         "href='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css'>"
+         "<script defer src='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js'></script>"
+         "<script defer src='https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js' "
+         "onload=\"renderMathInElement(document.body,{delimiters:["
+         "{left:'$$',right:'$$',display:true},"
+         "{left:'$',right:'$',display:false}],throwOnError:false})\"></script>")
 
 NOTE_CSS = """
 :root{--bg:#0D1220;--panel:#151C2E;--line:#2A3450;--ink:#E4E9F1;--sub:#8E9BAE;--amber:#F0A03C;--cyan:#4FC4D4}
@@ -148,6 +159,16 @@ ul.idx li.fold{color:var(--sub);font-size:12.5px;padding:14px 4px 4px;border:0}
 .frac>.fden{border-top:1px solid currentColor;padding:0 .25em}
 .frac>.fnum{padding:0 .25em}
 sub.msub{font-size:.72em}
+blockquote.cal{border-left:3px solid var(--cyan);background:rgba(79,196,212,.07);
+  border-radius:0 10px 10px 0;padding:10px 14px;color:var(--ink)}
+blockquote.cal .calh{font-weight:700;color:var(--cyan);text-transform:uppercase;
+  letter-spacing:.6px;font-size:12.5px;margin-bottom:4px}
+blockquote.cal-warning{border-color:var(--amber);background:rgba(240,160,60,.07)}
+blockquote.cal-warning .calh{color:var(--amber)}
+details.tex{margin:12px 0;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+details.tex summary{cursor:pointer;color:var(--sub);font-size:13.5px}
+details.tex pre{margin-top:8px}
+.katex{font-size:1.03em}
 """
 
 
@@ -159,8 +180,9 @@ def html_escape(t):
 def note_page(title, body):
     return ("<!DOCTYPE html><html lang=en><head><meta charset=UTF-8>"
             "<meta name=viewport content='width=device-width,initial-scale=1'>"
-            "<title>" + html_escape(title) + "</title><style>" + NOTE_CSS + "</style></head><body>"
+            "<title>" + html_escape(title) + "</title>" + KATEX + "<style>" + NOTE_CSS + "</style></head><body>"
             "<div class=top><a href='/'>&#9997; Pad</a><a href='/course'>&#128216; Course</a>"
+            "<a href='/blocks'>&#129513; Blocks</a>"
             "<a href='/notes'>&#128218; Notes</a>"
             "<input id=q placeholder='filter notes'></div>"
             "<main>" + body + "</main>"
@@ -170,6 +192,27 @@ def note_page(title, body):
             "li.style.display=li.textContent.toLowerCase().indexOf(v)<0?'none':''})})}"
             "else{q.style.display='none'}</script>" + FRAC_JS + "</body></html>")
 
+
+
+CALLOUT_RE = re.compile(r"<blockquote>\s*<p>\[!(\w+)\][ ]*([^\n<]*)")
+TEX_RE = re.compile(
+    r"<pre><code class=\"language-(tikz|latex|tex)\">(.*?)</code></pre>", re.S)
+
+def polish(html):
+    """Make vault-flavoured markdown readable: Obsidian callouts become real
+    callout boxes, and TikZ/LaTeX source (which we cannot draw) folds away
+    instead of burying the note in backslashes."""
+    def cal(m):
+        kind = m.group(1).lower()
+        cls = "cal cal-warning" if kind in ("warning", "danger", "caution", "attention") else "cal"
+        head = m.group(2).strip() or kind
+        return ('<blockquote class="' + cls + '"><p class="calh">' + head + "</p><p>")
+    html = CALLOUT_RE.sub(cal, html)
+    html = TEX_RE.sub(
+        lambda m: ('<details class="tex"><summary>LaTeX source (' + m.group(1)
+                   + ") - not drawn here</summary><pre><code>" + m.group(2)
+                   + "</code></pre></details>"), html)
+    return html
 
 def vault_notes():
     if not VAULT.is_dir():
@@ -223,6 +266,8 @@ class H(BaseHTTPRequestHandler):
                       'box-shadow:0 4px 18px rgba(0,0,0,.35)">✍ Loop Pad</a>')
             html = html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
+        elif self.path.startswith("/blocks"):
+            self._send(200, BLOCKS.read_bytes(), "text/html; charset=utf-8")
         elif self.path.startswith("/notes"):
             self.serve_notes()
         elif self.path.startswith("/api/questions"):
@@ -310,8 +355,8 @@ class H(BaseHTTPRequestHandler):
                 raw = raw[end + 4:]
         try:
             import markdown as _md
-            body = _md.markdown(wikilinks(raw, notes),
-                                extensions=["tables", "fenced_code", "sane_lists"])
+            body = polish(_md.markdown(wikilinks(raw, notes),
+                                       extensions=["tables", "fenced_code", "sane_lists"]))
         except ImportError:
             body = "<pre>" + html_escape(raw) + "</pre>"
         page = "<h1>" + html_escape(target.stem) + "</h1>" + body

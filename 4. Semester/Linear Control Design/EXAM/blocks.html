@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Diagram Drill</title>
+<style>
+:root{--bg:#0D1220;--panel:#151C2E;--line:#2A3450;--ink:#E4E9F1;--sub:#8E9BAE;
+      --amber:#F0A03C;--cyan:#4FC4D4;--ok:#57C79A;--bad:#E87070}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,sans-serif}
+.top{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;
+     padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.top a{color:var(--cyan);text-decoration:none;font-weight:700;white-space:nowrap}
+.top .sp{margin-left:auto;color:var(--sub);font:600 13px monospace}
+main{max-width:860px;margin:0 auto;padding:20px 16px 90px}
+h1{font-size:25px;margin-bottom:6px}
+.lede{color:var(--sub);font-size:14.5px;margin-bottom:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+.lvl{font:700 11px monospace;color:var(--amber);border:1px solid var(--amber);border-radius:6px;padding:2px 7px}
+.ask{font-size:15px;color:var(--sub);margin:10px 0 14px}
+.dia{background:#0a0f1a;border:1px solid var(--line);border-radius:12px;padding:10px;overflow-x:auto}
+.dia svg{display:block;margin:0 auto;min-width:420px}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.opt{background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);
+     padding:11px 14px;font:15px system-ui;cursor:pointer;text-align:left;transition:border-color .15s}
+.opt:hover{border-color:var(--sub)}
+.opt.right{border-color:var(--ok);color:var(--ok)}
+.opt.wrong{border-color:var(--bad);color:var(--bad)}
+.opt:disabled{cursor:default}
+.why{display:none;margin-top:12px;border-left:3px solid var(--amber);padding:2px 0 2px 13px;
+     color:var(--sub);font-size:14.5px}
+.why.show{display:block}
+.why b{color:var(--ink)}
+.why ol{margin:8px 0 0 18px}
+.why li{margin:5px 0}
+.res{font-weight:700;font-size:15px}
+.res.ok{color:var(--ok)}.res.no{color:var(--bad)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:-.35em;
+      margin:0 .18em;line-height:1.15;font-size:.95em;text-align:center}
+.frac>.fden{border-top:1px solid currentColor;padding:0 .25em}
+.frac>.fnum{padding:0 .25em}
+sub.msub{font-size:.72em}
+.sk{display:none;margin-top:12px}
+.sk.show{display:block}
+.sktools{display:flex;gap:7px;align-items:center;margin-bottom:7px;flex-wrap:wrap}
+.sktools button{background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);
+  padding:7px 11px;font:600 13px system-ui;cursor:pointer}
+.sktools .sw{width:26px;height:26px;border-radius:50%;padding:0;border:2px solid var(--line)}
+.sktools .sw.on{border-color:#fff;transform:scale(1.12)}
+.sktools .hint{color:var(--sub);font-size:12.5px;margin-left:auto}
+.skwrap{position:relative;background:#F2F4F0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.skwrap canvas{display:block;width:100%;height:300px;touch-action:none}
+.skbtn{margin-top:12px}
+.done{text-align:center;padding:26px;color:var(--sub)}
+button.again{background:var(--bg);border:1px solid var(--amber);color:var(--amber);
+             border-radius:10px;padding:10px 16px;font:600 14px system-ui;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="top">
+  <a href="/">&#9997; Pad</a><a href="/course">&#128216; Course</a><a href="/notes">&#128218; Notes</a>
+  <span class="sp" id="score">0 / 0</span>
+</div>
+<main>
+  <h1>Block diagram &rarr; transfer function</h1>
+  <p class="lede">Real diagrams, exam-style distractors. Read the picture, reduce it in your head
+  (or on the pad), then pick. Every answer explains the reduction step by step &mdash; and names the
+  trap the wrong options are built from. Pattern P1 is where June went wrong, so drill it until the
+  topology reads itself.</p>
+  <div id="list"></div>
+  <div class="done" id="done" style="display:none">
+    <p style="margin-bottom:12px">That's the ladder. Run it again with fresh eyes, or go derive on the pad.</p>
+    <button class="again" onclick="location.reload()">Start over</button>
+  </div>
+</main>
+<script>
+"use strict";
+// ---------------------------------------------------------------------------
+// Diagram renderer. A problem describes a left-to-right main path plus arcs
+// that leave a takeoff point and re-enter a summing junction. Everything is
+// laid out from that spec, so the pictures stay consistent across problems.
+// ---------------------------------------------------------------------------
+var BW=78, BH=46, R=17, GAP=52, LANE=60, PAD=26;
+
+function el(n,a,kids){
+  var e=document.createElementNS("http://www.w3.org/2000/svg",n);
+  for(var k in a) e.setAttribute(k,a[k]);
+  (kids||[]).forEach(function(c){e.appendChild(c)});
+  return e;
+}
+function txt(x,y,s,o){
+  o=o||{};
+  return el("text",{x:x,y:y,fill:o.fill||"#E4E9F1","font-size":o.size||15,
+    "font-family":"system-ui,sans-serif","font-weight":o.w||600,
+    "text-anchor":o.anchor||"middle","dominant-baseline":o.base||"middle"},
+    [document.createTextNode(s)]);
+}
+function line(x1,y1,x2,y2,o){
+  o=o||{};
+  return el("line",{x1:x1,y1:y1,x2:x2,y2:y2,stroke:o.stroke||"#8E9BAE",
+    "stroke-width":o.w||2,"marker-end":o.arrow?"url(#ah)":""});
+}
+function path(d,o){
+  o=o||{};
+  return el("path",{d:d,fill:"none",stroke:o.stroke||"#8E9BAE","stroke-width":o.w||2,
+    "marker-end":o.arrow?"url(#ah)":""});
+}
+
+function render(spec){
+  // ---- pass 1: place the main path, remember where named points sit ----
+  var items=spec.chain, at={}, x=PAD+34, lanes=spec.arcs||[];
+  var below=0, above=0;
+  lanes.forEach(function(a){
+    if(a.above) above=Math.max(above,a.lane||1); else below=Math.max(below,a.lane||1);
+  });
+  var hasD=!!spec.dInto;
+  var twoBranch=lanes.some(function(a){return a.blks&&!a.above});
+  var hasPar=items.some(function(it){return it.k==="par"});
+  var PAR=hasPar?46:0;                       // the stacked branches sit +/-44 off centre
+  var CY=PAD+above*LANE+PAR+(hasD?58:0)+BH/2;
+  items.forEach(function(it){
+    it._x=x;
+    if(it.k==="sum"){ it._w=2*R; }
+    else if(it.k==="blk"){ it._w=BW; }
+    else if(it.k==="par"){ it._w=BW+2*R+GAP; }   // split, two boxes, join
+    else { it._w=0; }
+    if(it.id) at[it.id]={x:x+it._w/2,y:CY};
+    x+=it._w+GAP;
+  });
+  var W=x-GAP+PAD+40, H=CY+BH/2+PAR+below*LANE+(twoBranch?116:0)+PAD;
+
+  var g=[], defs=el("defs",{},[
+    el("marker",{id:"ah",viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",
+      markerHeight:"7",orient:"auto-start-reverse"},
+      [el("path",{d:"M0,0 L10,5 L0,10 z",fill:"#8E9BAE"})])
+  ]);
+
+  // ---- pass 2: draw the wires between consecutive items ----
+  function leftEdge(it){ return it._x; }
+  function rightEdge(it){ return it._x+it._w; }
+  g.push(line(PAD-6,CY,leftEdge(items[0]),CY,{arrow:true}));
+  g.push(txt(PAD-14,CY-14,spec.inLabel||"R",{fill:"#4FC4D4",size:14}));
+  for(var i=0;i<items.length-1;i++){
+    g.push(line(rightEdge(items[i]),CY,leftEdge(items[i+1]),CY,
+                {arrow:items[i+1].k!=="tap"}));
+  }
+  var last=items[items.length-1];
+  g.push(line(rightEdge(last),CY,W-PAD-14,CY,{arrow:true}));
+  g.push(txt(W-PAD-4,CY-14,spec.outLabel||"Y",{fill:"#4FC4D4",size:14}));
+
+  // ---- pass 3: the items themselves ----
+  items.forEach(function(it){
+    if(it.k==="sum"){
+      var cx=it._x+R, cy=CY;
+      g.push(el("circle",{cx:cx,cy:cy,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
+      g.push(txt(cx-R-9,cy-11,it.sIn||"+",{fill:"#57C79A",size:15}));
+      (it.sFb||[]).forEach(function(sg,n){
+        var pos=it.fbAbove?[cx-2,cy-R-11]:[cx-2+(n?16:0),cy+R+12];
+        g.push(txt(pos[0],pos[1],sg,{fill:sg==="-"?"#E87070":"#57C79A",size:17}));
+      });
+    } else if(it.k==="blk"){
+      g.push(el("rect",{x:it._x,y:CY-BH/2,width:BW,height:BH,rx:7,
+        fill:"#151C2E",stroke:"#4FC4D4","stroke-width":2}));
+      g.push(txt(it._x+BW/2,CY,it.label,{size:17,w:700}));
+    } else if(it.k==="par"){
+      // split dot -> two stacked blocks -> summing circle
+      var sx=it._x, cx=it._x+it._w-R, off=44;
+      g.push(el("circle",{cx:sx,cy:CY,r:4,fill:"#8E9BAE"}));
+      [[-1,it.blocks[0]],[1,it.blocks[1]]].forEach(function(pair){
+        var yy=CY+pair[0]*off, bx=sx+GAP*0.7;
+        g.push(path("M"+sx+","+CY+" L"+sx+","+yy+" L"+bx+","+yy,{}));
+        g.push(el("rect",{x:bx,y:yy-BH/2,width:BW,height:BH,rx:7,
+          fill:"#151C2E",stroke:"#4FC4D4","stroke-width":2}));
+        g.push(txt(bx+BW/2,yy,pair[1],{size:17,w:700}));
+        g.push(path("M"+(bx+BW)+","+yy+" L"+(cx-R)+","+yy+" L"+(cx-R)+","+CY,{arrow:true}));
+      });
+      g.push(el("circle",{cx:cx,cy:CY,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
+      g.push(txt(cx-3,CY-R-11,"+",{fill:"#57C79A",size:15}));
+      g.push(txt(cx-3,CY+R+12,"+",{fill:"#57C79A",size:15}));
+      if(it.id) at[it.id]={x:cx,y:CY};
+    } else if(it.k==="tap"){
+      g.push(el("circle",{cx:it._x,cy:CY,r:4.5,fill:"#8E9BAE"}));
+    }
+  });
+
+  // an injected signal (a disturbance) entering a junction from above
+  if(spec.dInto && at[spec.dInto]){
+    var dp=at[spec.dInto];
+    g.push(line(dp.x,CY-R-46,dp.x,CY-R,{arrow:true}));
+    g.push(txt(dp.x+13,CY-R-52,spec.dLabel||"D",{fill:"#F0A03C",size:15}));
+  }
+
+  // ---- pass 4: the arcs (feedback below, feedforward above) ----
+  lanes.forEach(function(a){
+    var src=at[a.from], dst=at[a.to];
+    if(!src||!dst) return;
+    var ln=a.lane||1;
+    var y=a.above ? CY-BH/2-ln*LANE+18 : CY+BH/2+ln*LANE-18;
+    if(a.blks&&!a.above) y+=48;            // its branches sit +/-34 either side
+    var enterY=a.above ? CY-R : CY+R;
+    if(a.blks){
+      // the June Q6 shape: one takeoff feeding two blocks whose outputs are
+      // summed before they re-enter the junction. Signal flows right to left.
+      var dropX=src.x, boxX=(src.x+dst.x)/2-BW/2, joinX=dst.x+38;
+      var subY=[y-34,y+34];
+      g.push(path("M"+dropX+","+enterY+" L"+dropX+","+subY[1],{}));
+      a.blks.forEach(function(lb,n){
+        var by=subY[n];
+        g.push(path("M"+dropX+","+by+" L"+(boxX+BW)+","+by,{arrow:true}));
+        g.push(el("rect",{x:boxX,y:by-BH/2,width:BW,height:BH,rx:7,
+          fill:"#151C2E",stroke:"#F0A03C","stroke-width":2}));
+        g.push(txt(boxX+BW/2,by,lb,{size:17,w:700}));
+        g.push(path("M"+boxX+","+by+" L"+joinX+","+by+" L"+joinX+","+(y+(n?-1:1)*R),{arrow:true}));
+      });
+      g.push(el("circle",{cx:joinX,cy:y,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
+      g.push(txt(joinX+R+11,y-9,"+",{fill:"#57C79A",size:15}));
+      g.push(txt(joinX+R+11,y+11,"+",{fill:"#57C79A",size:15}));
+      g.push(path("M"+(joinX-R)+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
+    } else {
+      var bx2=(src.x+dst.x)/2-BW/2;
+      g.push(path("M"+src.x+","+enterY+" L"+src.x+","+y+" L"+(bx2+BW)+","+y,{}));
+      if(a.blk){
+        g.push(el("rect",{x:bx2,y:y-BH/2,width:BW,height:BH,rx:7,
+          fill:"#151C2E",stroke:"#F0A03C","stroke-width":2}));
+        g.push(txt(bx2+BW/2,y,a.blk,{size:17,w:700}));
+        g.push(path("M"+bx2+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
+      } else {
+        g.push(path("M"+src.x+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
+      }
+    }
+  });
+
+  var svg=el("svg",{viewBox:"0 0 "+Math.round(W)+" "+Math.round(H),
+    width:Math.round(W),height:Math.round(H)},[defs].concat(g));
+  return svg;
+}
+
+// ---------------------------------------------------------------------------
+// The ladder. Distractors are the real June-style traps: product instead of
+// sum, a dropped +1, a flipped sign, the reciprocal, the wrong loop closed.
+// ---------------------------------------------------------------------------
+var P=[
+{lvl:"warm-up", ask:"Two blocks in cascade. What is Y/R?",
+ spec:{chain:[{k:"blk",label:"G₁"},{k:"blk",label:"G₂"}]},
+ opts:["G₁G₂","G₁+G₂","G₁G₂/(1+G₁G₂)","G₁/G₂"], ok:0,
+ why:["<b>Series multiply.</b> Nothing feeds back, so there is no <code>1 +</code> anything in the denominator.",
+      "The signal passes through G₁, then that output passes through G₂ — multiply.",
+      "Option 2 is the parallel rule applied to a cascade; option 3 invents a loop that isn't drawn."]},
+
+{lvl:"warm-up", ask:"The signal splits, passes through two blocks, and the two results are summed. What is Y/R?",
+ spec:{chain:[{k:"par",blocks:["C","D"]}]},
+ opts:["C+D","CD","(C+D)/2","CD/(1+CD)"], ok:0,
+ why:["<b>Summed at a junction = parallel = add.</b> This is the single most expensive habit to get wrong.",
+      "Both branches see the same input; their outputs meet at a <code>+ +</code> junction, so the branch gains add.",
+      "<b>CD</b> is the cascade answer — that would need D fed <i>by</i> C, not by R. Averaging never appears in block algebra."]},
+
+{lvl:"core", ask:"Single negative feedback loop. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]}, fixSum:"s1",
+ opts:["G/(1+GH)","GH/(1+G)","G/(1-GH)","(1+GH)/G"], ok:0,
+ why:["<b>The rule: forward / (1 + loop gain)</b>, with <code>+</code> for negative feedback.",
+      "Forward path = G. Loop gain = everything once around = GH.",
+      "<code>G/(1−GH)</code> is the <i>positive</i>-feedback answer — read the sign at the junction. The last option is the reciprocal, a classic June trap."]},
+
+{lvl:"core", ask:"Positive feedback this time — look at the sign. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["+"]},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}]}, fixSum:"s1",
+ opts:["G/(1-GH)","G/(1+GH)","G(1+H)","-G/(1+GH)"], ok:0,
+ why:["<b>The denominator is 1 − (loop gain) when the feedback enters with a +.</b>",
+      "Same reduction as before; only the junction sign changed, and it lands in the denominator.",
+      "Worth saying aloud in the oral: positive feedback can make the denominator vanish — that is the instability at GH = 1."]},
+
+{lvl:"core", ask:"K in series ahead of a unity-feedback loop around G. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"K"},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]}, fixSum:"s1",
+ opts:["KG/(1+KG)","KG/(1+G)","K+G/(1+G)","KG/(1+KGH)"], ok:0,
+ why:["<b>Unity feedback means H = 1</b>, so the loop gain is just the whole forward path.",
+      "K sits <i>inside</i> the loop here — the wire from the takeoff returns to the junction ahead of K, so K is part of the loop gain.",
+      "<code>KG/(1+G)</code> is what you get if you forget K is inside the loop. There is no H in this picture at all."]},
+
+{lvl:"the June trap", ask:"A in series, then a loop around B whose feedback comes from two taps C and D summed at one junction. What is Y/R?",
+ spec:{chain:[{k:"blk",label:"A"},{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"B"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blks:["C","D"],lane:1}]}, fixSum:"s1",
+ opts:["AB/(1+B(C+D))","AB/(1+BCD)","AB/(1+B(C+D))/2","A+B/(1+B(C+D))"], ok:0,
+ why:["<b>This is June Q6 — the one that cost a point.</b> Two taps summed at a junction are parallel, so they add: (C+D).",
+      "Reduce inside-out. Inner loop around B: <code>B/(1+B(C+D))</code>. A is in series <i>in front</i>, outside the loop, so it multiplies the whole thing.",
+      "<b>AB/(1+BCD)</b> treats C and D as a cascade. Multiply only when one block feeds the next; here both are fed by the same output.",
+      "Say the position of A out loud in the oral: it is outside the loop, so it never enters the denominator."]},
+
+{lvl:"core", ask:"The feedback is tapped between G₁ and G₂, not from the output. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"tap",id:"m"},{k:"blk",label:"G₂"}],
+       arcs:[{from:"m",to:"s1",blk:"H",lane:1}]}, fixSum:"s1",
+ opts:["G₁G₂/(1+G₁H)","G₁G₂/(1+G₁G₂H)","G₁G₂/(1+G₂H)","G₁/(1+G₁H)+G₂"], ok:0,
+ why:["<b>The loop gain is what you meet going once around the loop</b> — and G₂ is not in it.",
+      "Close the inner loop first: <code>G₁/(1+G₁H)</code>. Then G₂ is in series after it, so multiply.",
+      "<b>G₁G₂H in the denominator</b> is the reflex answer — it assumes the tap is at the output. Always trace where the wire actually leaves."]},
+
+{lvl:"nested", ask:"An inner loop (G₂ with H₂) sits inside an outer loop (H₁ from the output). What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["-"]},
+              {k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s2",blk:"H₂",lane:1},{from:"y",to:"s1",blk:"H₁",lane:2}]},
+ twoSums:true,
+ opts:["G₁G₂/(1+G₂H₂+G₁G₂H₁)","G₁G₂/(1+G₂H₂)(1+G₁H₁)",
+       "G₁G₂/(1+G₁G₂H₁H₂)","G₁G₂/(1+G₂H₂+G₁H₁)"], ok:0,
+ why:["<b>Innermost loop first, always.</b> Inner: <code>G₂/(1+G₂H₂)</code>.",
+      "Now the forward path is <code>G₁G₂/(1+G₂H₂)</code> with H₁ around it. Apply the rule again and multiply the denominator out: <code>1 + G₂H₂ + G₁G₂H₁</code>.",
+      "The factored option is the trap — the two loops are <i>not</i> independent, they share G₂, so the denominators do not multiply.",
+      "The last option drops G₂ from the outer loop gain; the outer loop passes through both blocks."]},
+
+{lvl:"nested", ask:"Two nested unity-feedback loops, both with the same gain K, plant G in the inner loop. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"K"},{k:"sum",sIn:"+",sFb:["-"]},
+              {k:"blk",label:"K"},{k:"blk",label:"G"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s2",lane:1},{from:"y",to:"s1",lane:2}]},
+ twoSums:true,
+ opts:["K²G/(1+KG+K²G)","K²G/(1+KG)","K²G/(1+K²G)","KG/(1+KG+K²G)"], ok:0,
+ why:["<b>This is the nested-Kₚ shape</b> that shows up with a steady-state-error question attached.",
+      "Inner loop: <code>KG/(1+KG)</code>. Outer forward path: <code>K·KG/(1+KG) = K²G/(1+KG)</code>, unity feedback around it.",
+      "Apply the rule: numerator K²G, denominator <code>(1+KG) + K²G</code>.",
+      "If the question then asks for eₛₛ to a step, use <code>eₛₛ = 1 − T(0)</code> — and expect a quadratic in K with one root to discard."]},
+
+{lvl:"nested", ask:"Two parallel forward blocks inside a unity-feedback loop. What is Y/R?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"par",blocks:["G₁","G₂"]},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",lane:1}]}, fixSum:"s1",
+ opts:["(G₁+G₂)/(1+G₁+G₂)","G₁G₂/(1+G₁G₂)","(G₁+G₂)/(1+G₁G₂)","1+(G₁+G₂)"], ok:0,
+ why:["<b>Collapse the parallel pair first, then close the loop.</b>",
+      "Forward path = G₁+G₂. Unity feedback, so loop gain is the same thing.",
+      "Both traps here come from multiplying the parallel branches instead of adding them — the same reflex that cost June Q6."]},
+
+{lvl:"disturbance", ask:"A disturbance D enters between the controller and the plant. With R = 0, what is Y/D?",
+ spec:{chain:[{k:"sum",sIn:"+",sFb:["-"]},{k:"blk",label:"G₁"},{k:"sum",sIn:"+",sFb:["+"],fbAbove:true},
+              {k:"blk",label:"G₂"},{k:"tap",id:"y"}],
+       arcs:[{from:"y",to:"s1",blk:"H",lane:1}],
+       inLabel:"R", dInto:"s2", dLabel:"D"},
+ twoSums:true, dNote:"D enters at the second junction (the + from above).",
+ opts:["G₂/(1+G₁G₂H)","G₁G₂/(1+G₁G₂H)","G₂/(1+G₂H)","1/(1+G₁G₂H)"], ok:0,
+ why:["<b>The numerator is only what sits between the entry point and the output</b> — here just G₂.",
+      "The denominator never changes: it is <code>1 + loop gain</code>, and the loop is the same loop no matter where you inject.",
+      "That is the whole disturbance-rejection story: same denominator, smaller numerator. High loop gain shrinks Y/D.",
+      "Picking G₁G₂ on top means you injected at the reference instead — read where the arrow enters."]}
+];
+
+// give the summing junctions ids in order (s1, s2, ...) so arcs can target them
+P.forEach(function(p){
+  var n=0;
+  p.spec.chain.forEach(function(it){ if(it.k==="sum"){ n++; it.id="s"+n; } });
+});
+
+
+// ---------------------------------------------------------------------------
+// Scratch pad under each diagram: reduce the picture by hand, right here.
+// Pen or finger both draw; work is kept in localStorage so a reload or an
+// accidental back-swipe doesn't lose the derivation.
+// ---------------------------------------------------------------------------
+function attachSketch(card, key){
+  var btn=document.createElement("button");
+  btn.className="opt skbtn"; btn.style.borderColor="var(--amber)";
+  btn.style.color="var(--amber)"; btn.textContent="✏ Sketch the reduction";
+  var box=document.createElement("div"); box.className="sk";
+  box.innerHTML=
+    "<div class=sktools>"+
+      "<button class='sw on' data-c='#111a28' style='background:#111a28'></button>"+
+      "<button class='sw' data-c='#B23B3B' style='background:#B23B3B'></button>"+
+      "<button class='sw' data-c='#177E8C' style='background:#177E8C'></button>"+
+      "<button data-a=undo>↩ Undo</button>"+
+      "<button data-a=erase>◌ Eraser</button>"+
+      "<button data-a=clear>✕ Clear</button>"+
+      "<span class=hint>pen or finger &middot; saved automatically</span>"+
+    "</div><div class=skwrap><canvas></canvas></div>";
+  card.appendChild(btn); card.appendChild(box);
+
+  var cv=box.querySelector("canvas"), ctx=cv.getContext("2d");
+  var strokes=[], cur=null, color="#111a28", erasing=false, dpr=window.devicePixelRatio||1;
+  try{ strokes=JSON.parse(localStorage.getItem(key))||[] }catch(e){ strokes=[] }
+
+  // Layout can report 0 on the first frame (freshly unhidden panel, standalone
+  // window still settling). Keep asking until it is real, or the ink lands on a
+  // canvas whose backing store does not match what is on screen.
+  function size(tries){
+    var w=cv.clientWidth, h=cv.clientHeight;
+    if(!w||!h){
+      if((tries||0)<30) requestAnimationFrame(function(){ size((tries||0)+1) });
+      return false;
+    }
+    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){
+      cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+      paint();
+    }
+    return true;
+  }
+  function paint(){
+    if(!cv.width) return;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.globalCompositeOperation="source-over";
+    ctx.fillStyle="#F2F4F0"; ctx.fillRect(0,0,cv.width/dpr,cv.height/dpr);
+    ctx.strokeStyle="rgba(24,34,52,0.07)"; ctx.lineWidth=1;
+    for(var gx=0;gx<cv.width/dpr;gx+=34){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,cv.height/dpr);ctx.stroke();}
+    for(var gy=0;gy<cv.height/dpr;gy+=34){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(cv.width/dpr,gy);ctx.stroke();}
+    ctx.lineCap="round"; ctx.lineJoin="round";
+    strokes.forEach(function(st){
+      ctx.globalCompositeOperation = st.e ? "destination-out" : "source-over";
+      ctx.strokeStyle=st.c; ctx.lineWidth=st.e?26:2.4;
+      ctx.beginPath();
+      st.p.forEach(function(pt,i){ i?ctx.lineTo(pt[0],pt[1]):ctx.moveTo(pt[0],pt[1]); });
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation="source-over";
+  }
+  function save(){ try{ localStorage.setItem(key,JSON.stringify(strokes)) }catch(e){} }
+  function at(e){ var r=cv.getBoundingClientRect(); return [e.clientX-r.left,e.clientY-r.top]; }
+
+  cv.addEventListener("pointerdown",function(e){
+    e.preventDefault();
+    try{ cv.setPointerCapture(e.pointerId) }catch(err){}
+    cur={c:color,e:erasing,p:[at(e)]}; strokes.push(cur); paint();
+  });
+  cv.addEventListener("pointermove",function(e){
+    if(!cur) return;
+    e.preventDefault();
+    var evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+    if(!evs.length) evs=[e];
+    evs.forEach(function(ev){ cur.p.push(at(ev)) });
+    paint();
+  });
+  function up(){ if(cur){ cur=null; save(); } }
+  cv.addEventListener("pointerup",up); cv.addEventListener("pointercancel",up);
+
+  box.querySelectorAll(".sw").forEach(function(b){
+    b.addEventListener("click",function(){
+      box.querySelectorAll(".sw").forEach(function(o){o.classList.remove("on")});
+      b.classList.add("on"); color=b.dataset.c; erasing=false;
+      box.querySelector("[data-a=erase]").style.borderColor="var(--line)";
+    });
+  });
+  box.querySelector("[data-a=undo]").addEventListener("click",function(){
+    strokes.pop(); paint(); save();
+  });
+  box.querySelector("[data-a=erase]").addEventListener("click",function(){
+    erasing=!erasing;
+    this.style.borderColor=erasing?"var(--amber)":"var(--line)";
+  });
+  box.querySelector("[data-a=clear]").addEventListener("click",function(){
+    strokes=[]; paint(); save();
+  });
+
+  btn.addEventListener("click",function(){
+    var open=box.classList.toggle("show");
+    btn.textContent=open?"✖ Hide sketch":"✏ Sketch the reduction";
+    if(open){ requestAnimationFrame(function(){ size(); paint(); }); }
+  });
+  // a sketch that already exists should be visible on load
+  if(strokes.length){
+    box.classList.add("show"); btn.textContent="✖ Hide sketch";
+    requestAnimationFrame(function(){ size(); paint(); });
+  }
+  window.addEventListener("resize",function(){ if(box.classList.contains("show")){ size(); paint(); } });
+}
+
+// ---------------------------------------------------------------------------
+// Page build
+// ---------------------------------------------------------------------------
+var answered=0, correct=0;
+var list=document.getElementById("list"), scoreEl=document.getElementById("score");
+
+P.forEach(function(p,i){
+  var card=document.createElement("div"); card.className="card";
+  var head=document.createElement("div"); head.className="qhead";
+  head.innerHTML="<span class='lvl'>"+(i+1)+" · "+p.lvl+"</span>";
+  card.appendChild(head);
+  var ask=document.createElement("div"); ask.className="ask";
+  ask.textContent=p.ask+(p.dNote?"  ("+p.dNote+")":"");
+  card.appendChild(ask);
+  var dia=document.createElement("div"); dia.className="dia";
+  dia.appendChild(render(p.spec));
+  card.appendChild(dia);
+
+  var opts=document.createElement("div"); opts.className="opts";
+  var why=document.createElement("div"); why.className="why";
+  p.opts.forEach(function(o,k){
+    var b=document.createElement("button"); b.className="opt"; b.textContent=o;
+    b.addEventListener("click",function(){
+      if(card.dataset.done) return;
+      card.dataset.done="1"; answered++;
+      var right=(k===p.ok);
+      if(right) correct++;
+      [].forEach.call(opts.children,function(c,ci){
+        c.disabled=true;
+        if(ci===p.ok) c.className="opt right";
+        else if(ci===k) c.className="opt wrong";
+      });
+      why.innerHTML="<div class='res "+(right?"ok":"no")+"'>"+
+        (right?"Correct.":"Not this one — here is the reduction:")+"</div><ol>"+
+        p.why.map(function(t){return "<li>"+t+"</li>"}).join("")+"</ol>";
+      why.classList.add("show");
+      scoreEl.textContent=correct+" / "+answered;
+      if(answered===P.length) document.getElementById("done").style.display="";
+    });
+    opts.appendChild(b);
+  });
+  card.appendChild(opts); card.appendChild(why);
+  attachSketch(card,"lp-blocks-sketch-"+i);
+  list.appendChild(card);
+});
+
+// ---- stacked fractions in the option text, same as the course page ----
+(function(){
+  var MATHY=/[0-9∂ωζθτγπφΩαβ²³√]/;
+  var TOKEN_END=/[\w·√ζωθτγπφΩαβ₀-₉²³.'*)]+$/;
+  function bF(s,i){var d=0;for(var k=i;k<s.length;k++){if(s[k]==="(")d++;else if(s[k]===")"){d--;if(!d)return k;}}return -1;}
+  function bB(s,i){var d=0;for(var k=i;k>=0;k--){if(s[k]===")")d++;else if(s[k]==="("){d--;if(!d)return k;}}return -1;}
+  function subify(frag,text){
+    var re=/([A-Za-z0-9ωζθτγπφΩ])_([A-Za-z0-9]{1,3})(?![\w])/g,last=0,m;
+    while((m=re.exec(text))){frag.appendChild(document.createTextNode(text.slice(last,m.index)+m[1]));
+      var sb=document.createElement("sub");sb.className="msub";sb.textContent=m[2];frag.appendChild(sb);last=re.lastIndex;}
+    frag.appendChild(document.createTextNode(text.slice(last)));}
+  function transform(text){
+    var i=text.indexOf("/(");if(i<0)return null;
+    var close=bF(text,i+1);if(close<0)return null;
+    var den=text.slice(i+2,close),numStart,num;
+    if(text[i-1]===")"){var open=bB(text,i-1);if(open<0)return null;numStart=open;num=text.slice(open+1,i-1);}
+    else{var mm=TOKEN_END.exec(text.slice(0,i));if(!mm||!mm[0])return null;numStart=i-mm[0].length;num=mm[0];}
+    if(!num.trim()||!den.trim())return null;
+    var frag=document.createDocumentFragment(),before=text.slice(0,numStart);
+    var r1=transform(before);if(r1)frag.appendChild(r1);else subify(frag,before);
+    var f=document.createElement("span");f.className="frac";
+    var n=document.createElement("span");n.className="fnum";
+    var d=document.createElement("span");d.className="fden";
+    subify(n,num);subify(d,den);f.appendChild(n);f.appendChild(d);frag.appendChild(f);
+    var after=text.slice(close+1),r2=transform(after);
+    if(r2)frag.appendChild(r2);else subify(frag,after);
+    return frag;}
+  var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+    acceptNode:function(n){var p=n.parentNode;if(!p)return NodeFilter.FILTER_REJECT;
+      var t=p.nodeName;
+      if(t==="SCRIPT"||t==="STYLE"||t==="CODE"||t==="text")return NodeFilter.FILTER_REJECT;
+      if(p.closest&&p.closest(".frac"))return NodeFilter.FILTER_REJECT;
+      return (n.nodeValue.indexOf("/(")>=0&&MATHY.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP;}});
+  var nodes=[],n;while((n=w.nextNode()))nodes.push(n);
+  nodes.forEach(function(tn){try{var f=transform(tn.nodeValue);if(f)tn.parentNode.replaceChild(f,tn);}catch(e){}});
+})();
+</script>
+</body>
+</html>
