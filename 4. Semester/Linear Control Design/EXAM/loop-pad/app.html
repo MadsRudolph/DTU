@@ -67,6 +67,7 @@ a.course{color:var(--cyan);text-decoration:none;font-weight:700;padding:9px 6px}
   <button class="thick" data-w="1.3" title="thin"><span style="width:6px;height:6px"></span></button>
   <button class="thick on" data-w="2.2" title="medium"><span style="width:10px;height:10px"></span></button>
   <button class="thick" data-w="4.2" title="thick"><span style="width:16px;height:16px"></span></button>
+  <button id="themeBtn" class="tool" title="light / dark paper">🌙</button>
   <button id="eraseArea" class="tool" title="rubs ink out under the tip — the grid stays">◌ Eraser</button>
   <button id="eraseStroke" class="tool" title="tap any stroke to remove the whole stroke">✂ Stroke</button>
   <button id="penOnly" class="tool on" title="pen draws · one finger pans · pinch zooms">S-Pen only</button>
@@ -111,6 +112,14 @@ var statusEl=document.getElementById("status");
 var dpr=window.devicePixelRatio||1;
 var view={x:0,y:0,z:1}; // world -> screen: s = w*z + pan
 var color="#111a28",tool="pen",penOnly=true,penSize=2.2;
+// paper themes — the default navy swatch is "auto ink": it follows the paper.
+// Exports are ALWAYS rendered on light paper so review annotations stay consistent.
+var THEMES={light:{paper:"#F2F4F0",grid:"rgba(24,34,52,0.08)",ink:"#111a28"},
+            dark:{paper:"#10141E",grid:"rgba(228,233,241,0.09)",ink:"#E8ECF4"}};
+var theme="light";try{theme=localStorage.getItem("lp-theme")||"light"}catch(e){}
+if(!THEMES[theme])theme="light";
+var exporting=false;
+function inkColor(s){ return s.color==="#111a28" ? THEMES[exporting?"light":theme].ink : s.color; }
 var STROKES=[]; // {mode:"pen"|"erase", color, pts:[[wx,wy,w],...]}
 var dirty=true;
 var lastMoveT=0; // hold-to-straighten: when the pen last MOVED (not just wobbled)
@@ -123,10 +132,25 @@ function resize(){
 }
 window.addEventListener("resize",resize);
 
+// ---- paper theme toggle (dark paper = light auto-ink) ----
+var themeBtn=document.getElementById("themeBtn");
+var autoSwatch=document.querySelector('.swatch[data-c="#111a28"]');
+function applyTheme(){
+  themeBtn.textContent = theme==="dark" ? "☀" : "🌙";
+  if(autoSwatch) autoSwatch.style.background = THEMES[theme].ink;
+  dirty=true;
+}
+themeBtn.addEventListener("click",function(){
+  theme = theme==="dark" ? "light" : "dark";
+  try{localStorage.setItem("lp-theme",theme)}catch(e){}
+  applyTheme();
+});
+applyTheme();
+
 function worldOf(cx,cy){ return [(cx-view.x)/view.z,(cy-view.y)/view.z]; }
 function drawSeg(c,s,a,b,zoomScale){
   c.globalCompositeOperation = s.mode==="erase" ? "destination-out" : "source-over";
-  c.strokeStyle = s.mode==="erase" ? "rgba(0,0,0,1)" : s.color;
+  c.strokeStyle = s.mode==="erase" ? "rgba(0,0,0,1)" : inkColor(s);
   c.lineCap="round"; c.lineJoin="round";
   c.lineWidth = (s.mode==="erase" ? 48 : b[2]);
   c.beginPath(); c.moveTo(a[0],a[1]); c.lineTo(b[0],b[1]); c.stroke();
@@ -135,10 +159,10 @@ function render(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.globalCompositeOperation="source-over";
   // paper + grid (infinite: draw only visible lines, in world space)
-  ctx.fillStyle="#F2F4F0"; ctx.fillRect(0,0,cv.width/dpr,cv.height/dpr);
+  ctx.fillStyle=THEMES[theme].paper; ctx.fillRect(0,0,cv.width/dpr,cv.height/dpr);
   ctx.setTransform(dpr*view.z,0,0,dpr*view.z,dpr*view.x,dpr*view.y);
   var w0=worldOf(0,0),w1=worldOf(wrap.clientWidth,wrap.clientHeight);
-  ctx.strokeStyle="rgba(24,34,52,0.08)"; ctx.lineWidth=1/view.z;
+  ctx.strokeStyle=THEMES[theme].grid; ctx.lineWidth=1/view.z;
   var g=50;
   for(var x=Math.floor(w0[0]/g)*g;x<=w1[0];x+=g){ctx.beginPath();ctx.moveTo(x,w0[1]);ctx.lineTo(x,w1[1]);ctx.stroke();}
   for(var y=Math.floor(w0[1]/g)*g;y<=w1[1];y+=g){ctx.beginPath();ctx.moveTo(w0[0],y);ctx.lineTo(w1[0],y);ctx.stroke();}
@@ -411,6 +435,7 @@ document.getElementById("qClear").addEventListener("click",function(){
 // ---- save: export the WHOLE drawing (auto-cropped), map feedback back ----
 var exportMaps={};try{exportMaps=JSON.parse(localStorage.getItem("lp-export-maps"))||{}}catch(e){}
 function exportPNG(){
+  exporting=true; // auto-ink strokes render dark-on-light regardless of the screen theme
   var b=contentBBox();
   if(!b){ b={x:-wrap.clientWidth/2,y:-wrap.clientHeight/2,w:wrap.clientWidth,h:wrap.clientHeight}; }
   var maxDim=Math.max(b.w,b.h);
@@ -432,7 +457,9 @@ function exportPNG(){
   c.setTransform(1,0,0,1,0,0);
   c.globalCompositeOperation="source-over";
   c.drawImage(il,0,0);
-  return {png:t.toDataURL("image/png"),bbox:b,scale:s};
+  var out={png:t.toDataURL("image/png"),bbox:b,scale:s};
+  exporting=false;
+  return out;
 }
 document.getElementById("save").addEventListener("click",function(){
   var title=document.getElementById("title").value.trim()||"untitled";
