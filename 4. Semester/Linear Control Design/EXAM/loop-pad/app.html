@@ -244,6 +244,17 @@ cv.addEventListener("pointermove",function(e){
     if(!evs.length)evs=[e]; // coalesced list can be EMPTY — [] is truthy, so || alone won't fall back
     evs.forEach(function(ev){
       var wp=worldOf.apply(null,pt(ev));
+      // The S-Pen button is often only visible in MOVE events (buttons bit 2 or
+      // 32) — pressing/releasing it mid-stroke splits into a new stroke of the
+      // other mode, so the button works whenever it's held.
+      var wantErase = tool==="erase" || (e.pointerType==="pen" && (ev.buttons & 34));
+      if(e.pointerType==="pen" && ev.buttons>1) statusEl.textContent="pen buttons="+ev.buttons+(wantErase?" → erasing":"");
+      if((cur.mode==="erase") !== !!wantErase && tool!=="strokeErase"){
+        cur={mode:wantErase?"erase":"pen",color:color,pts:[[wp[0],wp[1],penSize*1.3]],len:0,straight:false};
+        lastMoveT=performance.now();
+        STROKES.push(cur);
+        return;
+      }
       var prev=cur.pts[cur.pts.length-1];
       var dScreen=Math.hypot(wp[0]-prev[0],wp[1]-prev[1])*view.z;
       if(cur.straight){
@@ -286,6 +297,8 @@ function lift(e){
   else panStart=null;
 }
 cv.addEventListener("pointerup",lift); cv.addEventListener("pointercancel",lift);
+// The pen button can fire a context menu, which swallows the stroke — never allow it.
+cv.addEventListener("contextmenu",function(e){e.preventDefault();});
 cv.addEventListener("wheel",function(e){
   e.preventDefault();
   var f=e.deltaY<0?1.15:1/1.15;
