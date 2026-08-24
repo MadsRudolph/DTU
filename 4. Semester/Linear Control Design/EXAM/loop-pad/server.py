@@ -36,6 +36,7 @@ BOARDS = HERE / "boards"
 FEEDBACK = HERE / "feedback.json"
 COURSE = HERE.parent / "Closed-Loop.html"
 BLOCKS = HERE.parent / "blocks.html"
+SHEET = HERE.parent / "exam-sheet.html"
 # the vault: /opt/vault on the container, the real folder when run from the repo
 def _find_vault():
     if Path("/opt/vault").is_dir():
@@ -183,6 +184,7 @@ def note_page(title, body):
             "<title>" + html_escape(title) + "</title>" + KATEX + "<style>" + NOTE_CSS + "</style></head><body>"
             "<div class=top><a href='/'>&#9997; Pad</a><a href='/course'>&#128216; Course</a>"
             "<a href='/blocks'>&#129513; Blocks</a>"
+            "<a href='/sheet'>&#128203; Sheet</a>"
             "<a href='/notes'>&#128218; Notes</a>"
             "<input id=q placeholder='filter notes'></div>"
             "<main>" + body + "</main>"
@@ -266,6 +268,8 @@ class H(BaseHTTPRequestHandler):
                       'box-shadow:0 4px 18px rgba(0,0,0,.35)">✍ Loop Pad</a>')
             html = html.replace("</body>", inject + "</body>") if "</body>" in html else html + inject
             self._send(200, html.encode("utf-8"), "text/html; charset=utf-8")
+        elif self.path.startswith("/sheet"):
+            self._send(200, SHEET.read_bytes(), "text/html; charset=utf-8")
         elif self.path.startswith("/blocks"):
             self._send(200, BLOCKS.read_bytes(), "text/html; charset=utf-8")
         elif self.path.startswith("/notes"):

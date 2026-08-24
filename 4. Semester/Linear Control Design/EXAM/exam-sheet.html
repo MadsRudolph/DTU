@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>34722 Oral Exam Sheet</title>
+<style>
+@page{size:A4;margin:9mm}
+*{box-sizing:border-box;margin:0}
+body{font:9.4pt/1.34 "Segoe UI",system-ui,sans-serif;color:#000;background:#fff}
+.hint{background:#eef3fb;border:1px solid #b9cbe6;padding:8px 12px;margin-bottom:8px;font-size:9pt}
+.page{width:192mm;margin:0 auto 10mm;padding:0}
+.page+.page{page-break-before:always}
+h1{font-size:13pt;font-weight:700;margin-bottom:1mm}
+h1 span{font-weight:400;font-size:9pt;color:#444}
+.cols{column-count:2;column-gap:7mm}
+sec,.sec{display:block;break-inside:avoid;border:1px solid #999;border-radius:3px;padding:4px 6px 5px;margin-bottom:3px}
+h2{font-size:9.2pt;font-weight:700;background:#000;color:#fff;padding:1.5px 5px;margin:-4px -6px 4px;border-radius:2px 2px 0 0}
+h3{font-size:9pt;font-weight:700;margin:4px 0 1px}
+p{margin:2px 0}
+ul{margin:2px 0 2px 13px;padding:0}
+li{margin:1px 0}
+.f{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:10pt;text-align:center;margin:3px 0;line-height:1.5}
+.fl{font-family:"Cambria Math",Cambria,Georgia,serif}
+table{border-collapse:collapse;width:100%;margin:3px 0;font-size:8.6pt}
+th,td{border:1px solid #999;padding:1.5px 4px;text-align:center}
+th{background:#e8e8e8;font-weight:700}
+td.l,th.l{text-align:left}
+.key{background:#fff3d6;border-left:3px solid #d09000;padding:2.5px 6px;margin:2.5px 0;font-size:8.85pt}
+.trap{background:#fdeaea;border-left:3px solid #c33;padding:2.5px 6px;margin:2.5px 0;font-size:8.85pt}
+.say{background:#eaf5ee;border-left:3px solid #2a7d4f;padding:2px 6px;margin:2px 0;font-size:8.8pt;font-style:italic}
+.rule{display:flex;gap:5px;align-items:center;border-bottom:1px solid #ddd;padding:1.5px 0;break-inside:avoid}
+.rule:last-child{border-bottom:0}
+.rule .d{flex:0 0 96px}
+.rule .x{flex:1;font-size:8.5pt;line-height:1.3}
+.rule .x b{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:9.3pt}
+svg{display:block;width:100%;height:auto}
+.chk{font-size:8.7pt;margin:0.5px 0 0.5px 13px;line-height:1.28}
+.mini{font-size:8.4pt;color:#333}
+@media print{.hint{display:none}body{font-size:9.2pt}.page{margin-bottom:0}}
+</style>
+</head>
+<body>
+
+<div class="hint"><b>Print:</b> Ctrl/Cmd-P &rarr; A4, portrait, margins <i>default</i>, scale 100%, and tick <b>Background graphics</b> so the black section headers and the coloured boxes survive. Two sheets &mdash; print double-sided, front and back.</div>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+<path d="M1 1 L9 5 L1 9" fill="none" stroke="#000" stroke-width="1.6"/></marker>
+</defs></svg>
+
+<!-- ============================ PAGE 1 ============================ -->
+<div class="page">
+<h1>34722 Linear Control Design 1 &mdash; oral exam sheet <span>&nbsp;front: the numbers</span></h1>
+<div class="cols">
+
+<div class="sec">
+<h2>1 &middot; Second-order system &mdash; everything starts here</h2>
+<div class="f">G(s) = &omega;<sub>n</sub>&sup2; / (s&sup2; + 2&zeta;&omega;<sub>n</sub>s + &omega;<sub>n</sub>&sup2;)</div>
+<div class="f">poles s = &minus;&zeta;&omega;<sub>n</sub> &plusmn; j&omega;<sub>d</sub>,&nbsp;&nbsp; &omega;<sub>d</sub> = &omega;<sub>n</sub>&radic;(1&minus;&zeta;&sup2;)</div>
+<p><b>Read the pole picture:</b> &omega;<sub>n</sub> = distance from origin (speed). &theta; from the negative real axis = shape, with <span class="fl">cos&theta; = &zeta;</span>. Real part <span class="fl">&minus;&zeta;&omega;<sub>n</sub></span> kills the wobble; imaginary part <span class="fl">&omega;<sub>d</sub></span> <i>is</i> the wobble.</p>
+<div class="key"><b>&omega;<sub>n</sub> only rescales the time axis. &zeta; alone sets the shape.</b> Move the poles round the circle and overshoot changes; move them along the radius and only the clock changes.</div>
+</div>
+
+<div class="sec">
+<h2>2 &middot; Overshoot &harr; damping</h2>
+<div class="f">M<sub>p</sub> = e<sup>&minus;&zeta;&pi;/&radic;(1&minus;&zeta;&sup2;)</sup>&nbsp;&nbsp;&nbsp; &zeta; = |ln M<sub>p</sub>| / &radic;(&pi;&sup2; + ln&sup2;M<sub>p</sub>)</div>
+<table>
+<tr><th>&zeta;</th><td>0.3</td><td>0.4</td><td><b>0.5</b></td><td><b>0.6</b></td><td><b>0.7</b></td><td>0.8</td><td>1.0</td></tr>
+<tr><th>M<sub>p</sub></th><td>37%</td><td>25%</td><td><b>16%</b></td><td><b>9.5%</b></td><td><b>4.6%</b></td><td>1.5%</td><td>0</td></tr>
+</table>
+<p class="mini">Own the three bold pairs and interpolate the rest out loud. &zeta;&nbsp;=&nbsp;1 is critically damped: double real pole, &omega;<sub>d</sub>&nbsp;=&nbsp;0, no overshoot at all.</p>
+<div class="key"><b>Why &omega;<sub>n</sub> vanishes:</b> the first peak is at t<sub>p</sub> = &pi;/&omega;<sub>d</sub>; substitute into e<sup>&minus;&zeta;&omega;<sub>n</sub>t</sup> and &omega;<sub>n</sub> cancels top and bottom.</div>
+</div>
+
+<div class="sec">
+<h2>3 &middot; Time-domain landmarks</h2>
+<div class="f">t<sub>p</sub> = &pi;/&omega;<sub>d</sub> &nbsp;&nbsp; t<sub>s</sub> &asymp; 4/(&zeta;&omega;<sub>n</sub>) [2%] &nbsp;&nbsp; 3/(&zeta;&omega;<sub>n</sub>) [5%] &nbsp;&nbsp; t<sub>r</sub> &asymp; 1.8/&omega;<sub>n</sub></div>
+<p class="mini">The 4 is just ln 50 &mdash; the envelope e<sup>&minus;&zeta;&omega;<sub>n</sub>t</sup> has decayed to 2%. For 5% it is ln 20 &asymp; 3.</p>
+<div class="trap"><b>t<sub>s</sub> has &zeta;&omega;<sub>n</sub> underneath, not &omega;<sub>n</sub>.</b> The dropped &zeta; is the classic marked-wrong.</div>
+<p><b>Two-knob design:</b> overshoot spec &rarr; &zeta;. Then speed spec (t<sub>s</sub> or t<sub>p</sub>) &rarr; &omega;<sub>n</sub>. Never both at once.</p>
+</div>
+
+<div class="sec">
+<h2>4 &middot; Frequency landmarks</h2>
+<ul>
+<li>Gain crossover: <span class="fl">&omega;<sub>c</sub> = &omega;<sub>n</sub>&radic;(&radic;(1+4&zeta;<sup>4</sup>) &minus; 2&zeta;&sup2;)</span></li>
+<li>Bandwidth: <span class="fl">&omega;<sub>BW</sub> = &omega;<sub>n</sub>&radic;((1&minus;2&zeta;&sup2;) + &radic;(4&zeta;<sup>4</sup>&minus;4&zeta;&sup2;+2))</span></li>
+<li>Resonance (only &zeta; &lt; 0.707): <span class="fl">&omega;<sub>r</sub> = &omega;<sub>n</sub>&radic;(1&minus;2&zeta;&sup2;)</span>, <span class="fl">M<sub>r</sub> = 1/(2&zeta;&radic;(1&minus;&zeta;&sup2;))</span></li>
+<li><span class="fl">&omega;<sub>c</sub> &lt; &omega;<sub>BW</sub> &asymp; (1.0&ndash;1.5)&omega;<sub>n</sub></span></li>
+</ul>
+<div class="trap"><b>&zeta;<sup>4</sup>, not &zeta; or &zeta;&sup2;.</b> Two of the inherited MATLAB helpers have this typo &mdash; these forms are the corrected ones.</div>
+</div>
+
+<div class="sec">
+<h2>5 &middot; Phase margin &harr; damping</h2>
+<div class="f">&gamma;<sub>M</sub> = arctan( 2&zeta; / &radic;(&radic;(1+4&zeta;<sup>4</sup>) &minus; 2&zeta;&sup2;) )</div>
+<div class="key"><b>Rule of thumb: &gamma;<sub>M</sub>[&deg;] &asymp; 100&zeta;</b> for &zeta; &lesssim; 0.6. So PM 45&deg; &rarr; &zeta; &asymp; 0.45 &rarr; M<sub>p</sub> &asymp; 20%. This single line links the frequency domain to the step response &mdash; say it aloud.</div>
+</div>
+
+<div class="sec">
+<h2>6 &middot; Steady-state error (unity feedback)</h2>
+<div class="f">E = R/(1+L)&nbsp;&nbsp;&rArr;&nbsp;&nbsp; e<sub>ss</sub> = lim<sub>s&rarr;0</sub> s&middot;R(s)/(1+L(s))</div>
+<table>
+<tr><th class="l">Type</th><th>step</th><th>ramp</th><th>parabola</th></tr>
+<tr><td class="l">0</td><td>1/(1+K<sub>p</sub>)</td><td>&infin;</td><td>&infin;</td></tr>
+<tr><td class="l">1</td><td>0</td><td>1/K<sub>v</sub></td><td>&infin;</td></tr>
+<tr><td class="l">2</td><td>0</td><td>0</td><td>1/K<sub>a</sub></td></tr>
+</table>
+<p><span class="fl">K<sub>p</sub> = lim<sub>s&rarr;0</sub> L</span>, <span class="fl">K<sub>v</sub> = lim<sub>s&rarr;0</sub> sL</span>, <span class="fl">K<sub>a</sub> = lim<sub>s&rarr;0</sub> s&sup2;L</span>. Type = number of integrators in L.</p>
+<div class="key"><b>Derive it, don't recite it.</b> Unit step R = 1/s, so e<sub>ss</sub> = 1/(1+L(0)). Type 0 &rarr; L(0) finite &rarr; error finite and never zero. Type 1 &rarr; L(0) = &infin; &rarr; error zero.</div>
+<p class="mini">Scaled step of size A: multiply the whole result by A. A 30-unit step with L(0) = 0.03 gives 30/(1.03) &asymp; 29.1 &mdash; not 0.97.</p>
+</div>
+
+<div class="sec">
+<h2>7 &middot; Sensitivity S and T</h2>
+<div class="f">S = 1/(1+L) = e/r &nbsp;&nbsp;&nbsp; T = L/(1+L) = y/r &nbsp;&nbsp;&nbsp; <b>S + T = 1</b></div>
+<div class="key"><b>Why it must be 1:</b> with unity feedback the junction <i>defines</i> e = r &minus; y. Divide by r: e/r = 1 &minus; y/r, i.e. S = 1 &minus; T. Got-it and missing-it are the only two options.</div>
+<p><b>Design meaning:</b> small S = accurate tracking &amp; disturbance rejection. Small T = noise rejected &amp; robust. They sum to 1, so you cannot win both at one frequency &mdash; buy S at low &omega; (high |L|) and T at high &omega; (low |L|). That is loop shaping.</p>
+<div class="trap">Needs <b>unity</b> feedback. With a sensor H the junction gives e = r &minus; Hy, and S + T = 1 no longer holds.</div>
+</div>
+
+<div class="sec">
+<h2>8 &middot; Disturbances</h2>
+<div class="key"><b>Denominator never changes &mdash; only the numerator does.</b> The numerator is whatever sits <i>between the injection point and the output</i>.</div>
+<table>
+<tr><th class="l">D enters</th><th>Y/D</th></tr>
+<tr><td class="l">at the output</td><td>1/(1+L)</td></tr>
+<tr><td class="l">at the plant input</td><td>G<sub>2</sub>/(1+L)</td></tr>
+<tr><td class="l">before the controller</td><td>G<sub>1</sub>G<sub>2</sub>/(1+L)</td></tr>
+</table>
+<p class="mini">Entering early is worst &mdash; it gets the full forward gain, exactly like the reference. Rejection is complete only where |L| &rarr; &infin;, i.e. an integrator upstream of the entry point.</p>
+</div>
+
+<div class="sec">
+<h2>9 &middot; Transform theorems</h2>
+<ul>
+<li>Final value: <span class="fl">y(&infin;) = lim<sub>s&rarr;0</sub> sY(s)</span> &mdash; <b>only if</b> all poles of sY(s) are in the open LHP (one pole at the origin allowed).</li>
+<li>Initial value: <span class="fl">y(0<sup>+</sup>) = lim<sub>s&rarr;&infin;</sub> sY(s)</span>.</li>
+</ul>
+<div class="key"><b>Shortcut:</b> Y strictly proper (den degree &gt; num degree) &rArr; y(0<sup>+</sup>) = 0.</div>
+<div class="trap">On an unstable or purely oscillating signal the FVT still returns a number. It is meaningless. Always say the validity condition aloud before using it.</div>
+</div>
+
+</div>
+</div>
+
+<!-- ============================ PAGE 2 ============================ -->
+<div class="page">
+<h1>34722 &mdash; oral exam sheet <span>&nbsp;back: the reasoning</span></h1>
+<div class="cols">
+
+<div class="sec">
+<h2>10 &middot; Block reduction &mdash; the whole toolkit</h2>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 34"><line x1="2" y1="17" x2="18" y2="17" stroke="#000" marker-end="url(#ar)"/><rect x="20" y="5" width="40" height="24" fill="none" stroke="#000"/><text x="40" y="21" font-size="11" text-anchor="middle">G&#8321;</text><line x1="60" y1="17" x2="80" y2="17" stroke="#000" marker-end="url(#ar)"/><rect x="82" y="5" width="40" height="24" fill="none" stroke="#000"/><text x="102" y="21" font-size="11" text-anchor="middle">G&#8322;</text><line x1="122" y1="17" x2="148" y2="17" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>Series &rarr; G&#8321;G&#8322;</b><br>One feeds the next: multiply. Nothing enters a denominator.</div></div>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 60"><line x1="2" y1="30" x2="16" y2="30" stroke="#000" marker-end="url(#ar)"/><circle cx="18" cy="30" r="2.5" fill="#000"/><path d="M18 30 L18 10 L34 10" fill="none" stroke="#000"/><path d="M18 30 L18 50 L34 50" fill="none" stroke="#000"/><rect x="36" y="1" width="36" height="18" fill="none" stroke="#000"/><text x="54" y="14" font-size="10" text-anchor="middle">G&#8321;</text><rect x="36" y="41" width="36" height="18" fill="none" stroke="#000"/><text x="54" y="54" font-size="10" text-anchor="middle">G&#8322;</text><path d="M72 10 L104 10 L104 22" fill="none" stroke="#000" marker-end="url(#ar)"/><path d="M72 50 L104 50 L104 38" fill="none" stroke="#000" marker-end="url(#ar)"/><circle cx="104" cy="30" r="8" fill="none" stroke="#000"/><text x="92" y="20" font-size="10">+</text><text x="92" y="48" font-size="10">+</text><line x1="112" y1="30" x2="148" y2="30" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>Parallel &rarr; G&#8321; + G&#8322;</b><br>Same input, outputs meet at a junction: <b>add</b>, with each branch's sign. A subtracting junction gives G&#8321; &minus; G&#8322;.</div></div>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 62"><line x1="2" y1="18" x2="14" y2="18" stroke="#000" marker-end="url(#ar)"/><circle cx="22" cy="18" r="8" fill="none" stroke="#000"/><text x="8" y="12" font-size="10">+</text><text x="33" y="30" font-size="11">&minus;</text><line x1="30" y1="18" x2="46" y2="18" stroke="#000" marker-end="url(#ar)"/><rect x="48" y="6" width="38" height="24" fill="none" stroke="#000"/><text x="67" y="22" font-size="11" text-anchor="middle">G</text><line x1="86" y1="18" x2="112" y2="18" stroke="#000"/><circle cx="112" cy="18" r="2.5" fill="#000"/><line x1="112" y1="18" x2="148" y2="18" stroke="#000" marker-end="url(#ar)"/><path d="M112 18 L112 50 L96 50" fill="none" stroke="#000"/><rect x="58" y="40" width="36" height="19" fill="none" stroke="#000"/><text x="76" y="53" font-size="10" text-anchor="middle">H</text><path d="M58 50 L22 50 L22 26" fill="none" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>Feedback &rarr; G/(1 &plusmn; GH)</b><br><b>+</b> for a negative junction, <b>&minus;</b> for a positive one. Loop gain = everything met going once around.</div></div>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 62"><line x1="2" y1="18" x2="10" y2="18" stroke="#000" marker-end="url(#ar)"/><rect x="12" y="6" width="30" height="24" fill="none" stroke="#000"/><text x="27" y="22" font-size="11" text-anchor="middle">A</text><line x1="42" y1="18" x2="52" y2="18" stroke="#000" marker-end="url(#ar)"/><circle cx="60" cy="18" r="8" fill="none" stroke="#000"/><text x="71" y="30" font-size="11">&minus;</text><line x1="68" y1="18" x2="80" y2="18" stroke="#000" marker-end="url(#ar)"/><rect x="82" y="6" width="30" height="24" fill="none" stroke="#000"/><text x="97" y="22" font-size="11" text-anchor="middle">B</text><line x1="112" y1="18" x2="126" y2="18" stroke="#000"/><circle cx="126" cy="18" r="2.5" fill="#000"/><line x1="126" y1="18" x2="148" y2="18" stroke="#000" marker-end="url(#ar)"/><path d="M126 18 L126 50 L112 50" fill="none" stroke="#000"/><rect x="76" y="41" width="34" height="18" fill="none" stroke="#000"/><text x="93" y="54" font-size="10" text-anchor="middle">H</text><path d="M76 50 L60 50 L60 26" fill="none" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>In front of the loop &rarr; outside it</b><br><b>AB/(1+BH)</b>. The wire returns <i>after</i> A, so A never enters the denominator.</div></div>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 62"><line x1="2" y1="18" x2="10" y2="18" stroke="#000" marker-end="url(#ar)"/><circle cx="18" cy="18" r="8" fill="none" stroke="#000"/><text x="29" y="30" font-size="11">&minus;</text><line x1="26" y1="18" x2="36" y2="18" stroke="#000" marker-end="url(#ar)"/><rect x="38" y="6" width="32" height="24" fill="none" stroke="#000"/><text x="54" y="22" font-size="10" text-anchor="middle">G&#8321;</text><line x1="70" y1="18" x2="86" y2="18" stroke="#000"/><circle cx="86" cy="18" r="2.5" fill="#000"/><line x1="86" y1="18" x2="100" y2="18" stroke="#000" marker-end="url(#ar)"/><rect x="102" y="6" width="32" height="24" fill="none" stroke="#000"/><text x="118" y="22" font-size="10" text-anchor="middle">G&#8322;</text><line x1="134" y1="18" x2="148" y2="18" stroke="#000" marker-end="url(#ar)"/><path d="M86 18 L86 50 L70 50" fill="none" stroke="#000"/><rect x="36" y="41" width="32" height="18" fill="none" stroke="#000"/><text x="52" y="54" font-size="10" text-anchor="middle">H</text><path d="M36 50 L18 50 L18 26" fill="none" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>After the takeoff &rarr; outside it</b><br><b>G&#8321;G&#8322;/(1+G&#8321;H)</b>. G&#8322; is downstream of where the wire leaves, so it is in the numerator only.</div></div>
+
+<div class="rule"><div class="d">
+<svg viewBox="0 0 150 76"><line x1="2" y1="16" x2="10" y2="16" stroke="#000" marker-end="url(#ar)"/><circle cx="18" cy="16" r="8" fill="none" stroke="#000"/><text x="29" y="28" font-size="11">&minus;</text><line x1="26" y1="16" x2="44" y2="16" stroke="#000" marker-end="url(#ar)"/><rect x="46" y="4" width="34" height="24" fill="none" stroke="#000"/><text x="63" y="20" font-size="11" text-anchor="middle">B</text><line x1="80" y1="16" x2="122" y2="16" stroke="#000"/><circle cx="122" cy="16" r="2.5" fill="#000"/><line x1="122" y1="16" x2="148" y2="16" stroke="#000" marker-end="url(#ar)"/><path d="M122 16 L122 40 L104 40" fill="none" stroke="#000"/><path d="M122 40 L122 64 L104 64" fill="none" stroke="#000"/><rect x="68" y="31" width="34" height="17" fill="none" stroke="#000"/><text x="85" y="43" font-size="10" text-anchor="middle">C</text><rect x="68" y="55" width="34" height="17" fill="none" stroke="#000"/><text x="85" y="67" font-size="10" text-anchor="middle">D</text><path d="M68 40 L52 40 L52 52" fill="none" stroke="#000"/><path d="M68 64 L52 64 L52 60" fill="none" stroke="#000"/><circle cx="44" cy="52" r="7" fill="none" stroke="#000"/><text x="54" y="46" font-size="9">+</text><text x="54" y="70" font-size="9">+</text><path d="M37 52 L18 52 L18 24" fill="none" stroke="#000" marker-end="url(#ar)"/></svg>
+</div><div class="x"><b>Two taps summed &rarr; B/(1 + B(C+D))</b><br>The June Q6 shape. Both are fed by the same output and meet at a junction, so they <b>add</b>. <b>Never BCD.</b></div></div>
+
+<h3>The rest, in words</h3>
+<ul>
+<li><b>Nested loops:</b> innermost first, then treat it as one block. Multiply the compound fraction out: <span class="fl">G&#8321;G&#8322;/(1 + G&#8322;H&#8322; + G&#8321;G&#8322;H&#8321;)</span>.</li>
+<li><b>Independent loops</b> (sharing no block): close each, multiply. Denominators factor <i>only</i> here.</li>
+<li><b>Series in the feedback path:</b> H&#8321;H&#8322; multiply, same as anywhere else.</li>
+<li><b>Feedforward:</b> a branch leaving the input and rejoining downstream is parallel &mdash; it changes the numerator, never the denominator.</li>
+</ul>
+<div class="key"><b>Clearing a compound fraction:</b> multiply top and bottom by the inner denominator. The standalone <b>1</b> picks it up too. <b>Do not cancel</b> &mdash; cancelling needs the factor under <i>every</i> term.</div>
+</div>
+
+<div class="sec">
+<h2>11 &middot; Nyquist &amp; margins</h2>
+<div class="f">Z = N + P</div>
+<p><b>Z</b> = closed-loop RHP poles (need <b>0</b>). <b>N</b> = clockwise encirclements of &minus;1. <b>P</b> = open-loop RHP poles. <b>Stable &hArr; N = &minus;P.</b></p>
+<ul>
+<li><b>Stable plant (P = 0):</b> need no encirclement. Crossing at &minus;x &rArr; stable for <span class="fl">K &lt; 1/x</span>.</li>
+<li><b>One RHP pole (P = 1):</b> need one <i>counter-clockwise</i> encirclement, which only happens once the crossing passes &minus;1 &rArr; stable for <span class="fl">K &gt; 1/x</span>.</li>
+</ul>
+<div class="trap"><b>The interval inverts for an unstable plant.</b> And the boundary value itself is only <i>marginal</i> &mdash; pick a value strictly inside, never K = 1/x.</div>
+<p><b>Margins:</b> <span class="fl">GM = 1/|G(j&omega;<sub>pc</sub>)|</span> where &ang;G = &minus;180&deg;; <span class="fl">&gamma;<sub>M</sub> = 180&deg; + &ang;G(j&omega;<sub>gc</sub>)</span> where |G| = 1. Physically: how much extra gain, or extra lag, before the loop starts oscillating.</p>
+<p class="mini"><b>Relative degree &ge; 3</b> &rArr; phase runs past &minus;180&deg; while the magnitude is still falling, so a large enough P-gain always destabilises it.</p>
+</div>
+
+<div class="sec">
+<h2>12 &middot; PI-Lead design</h2>
+<div class="f">&minus;180&deg; + &gamma;<sub>M</sub> = &ang;G(j&omega;<sub>c</sub>) + &phi;<sub>Lead</sub> + &phi;<sub>PI</sub></div>
+<p>&ang;G is what the plant already gives (read it off). <b>The lead pays in, the PI costs.</b></p>
+<ul>
+<li><b>Lead</b> <span class="fl">C<sub>D</sub> = (&tau;<sub>d</sub>s + 1)/(&alpha;&tau;<sub>d</sub>s + 1)</span>, <b>&alpha; &lt; 1</b>. Zero first, then pole &mdash; that is what makes the phase positive.</li>
+<li><span class="fl">&phi;<sub>max</sub> = arcsin((1&minus;&alpha;)/(1+&alpha;))</span> at <span class="fl">&omega; = 1/(&tau;<sub>d</sub>&radic;&alpha;)</span>, where <span class="fl">|C<sub>D</sub>| = 1/&radic;&alpha;</span>.</li>
+<li>Need +20 dB from the lead &rArr; 1/&radic;&alpha; = 10 &rArr; &alpha; = 0.01. Place zero at &omega;<sub>c</sub>&radic;&alpha;, pole at &omega;<sub>c</sub>/&radic;&alpha;, crossover at their geometric mean.</li>
+<li><b>PI</b> costs phase: <span class="fl">&phi;<sub>PI</sub> = arctan(N<sub>i</sub>) &minus; 90&deg;</span>. That is the price of killing steady-state error.</li>
+<li><b>Gain last:</b> <span class="fl">K<sub>P</sub>&middot;|C<sub>D</sub>|&middot;|C<sub>PI</sub>|&middot;|G| = 1</span> at &omega;<sub>c</sub>.</li>
+</ul>
+<div class="key"><b>Pure P for a target PM &mdash; two steps.</b> (1) <b>Phase pins the crossover:</b> K moves no phase, so &omega;<sub>c</sub> must sit where &ang;G = &minus;180&deg; + &gamma;<sub>M</sub>. (2) <b>Gain sets it:</b> K<sub>P</sub> = 1/|G(j&omega;<sub>c</sub>)|.</div>
+<p class="mini">Reversed (pole first) it is a <b>lag</b>: &minus;20 dB and negative phase. Lag/PI buys accuracy, lead buys margin and speed.</p>
+</div>
+
+<div class="sec">
+<h2>13 &middot; Trap checklist &mdash; read before answering</h2>
+<div class="chk">&#9633; <b>Summed &ne; cascaded.</b> Taps meeting at a junction add (C+D); one feeding the next multiplies (CD).</div>
+<div class="chk">&#9633; <b>Never drop the 1.</b> The denominator is 1 + L, not L.</div>
+<div class="chk">&#9633; <b>Trace the loop before writing it.</b> Blocks ahead of the junction or after the takeoff are outside.</div>
+<div class="chk">&#9633; <b>Read every junction sign</b> &mdash; each loop keeps its own.</div>
+<div class="chk">&#9633; <b>Multiply through, never cancel</b> when clearing a compound fraction.</div>
+<div class="chk">&#9633; <b>t<sub>s</sub> = 4/(&zeta;&omega;<sub>n</sub>)</b>, and &zeta;<sup>4</sup> in the &omega;<sub>c</sub>/&omega;<sub>BW</sub> formulas.</div>
+<div class="chk">&#9633; <b>RHP plant inverts the Nyquist K-interval</b>; a marginal value is not a stable one.</div>
+<div class="chk">&#9633; <b>Reciprocals:</b> GM = 1/|G|, &zeta; from M<sub>p</sub> not M<sub>p</sub> from &zeta; &mdash; check which way round they asked.</div>
+<div class="chk">&#9633; <b>dB vs linear:</b> convert first (&minus;8 dB &rarr; 0.4), then do the algebra.</div>
+<div class="chk">&#9633; <b>Scaled step:</b> multiply e<sub>ss</sub> by the step size.</div>
+<div class="chk">&#9633; <b>Non-physical signs</b> &mdash; a settling time or &zeta; cannot be negative. If it is, you took a wrong root.</div>
+</div>
+
+<div class="sec">
+<h2>14 &middot; Say these out loud</h2>
+<div class="say">&ldquo;&omega;<sub>n</sub> scales the time axis, &zeta; sets the shape &mdash; that is why &omega;<sub>n</sub> cancels out of M<sub>p</sub>.&rdquo;</div>
+<div class="say">&ldquo;The denominator is 1 plus the loop gain, and the loop gain is everything I meet going once around the loop.&rdquo;</div>
+<div class="say">&ldquo;Innermost loop first, then I treat it as a single block.&rdquo;</div>
+<div class="say">&ldquo;S + T = 1 because the junction defines the error as reference minus output.&rdquo;</div>
+<div class="say">&ldquo;Let me sanity-check: set H = 0 and the expression should collapse to the plain loop &mdash; it does.&rdquo;</div>
+<div class="say">&ldquo;The FVT is only valid because sY(s) has all its poles in the left half-plane.&rdquo;</div>
+<p class="mini"><b>If you get stuck:</b> say what you <i>do</i> know &mdash; name the structure, name the rule, write the general form, then substitute. Examiners mark the reasoning, and a narrated method scores where a silent wrong number does not.</p>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
