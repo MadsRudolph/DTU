@@ -109,7 +109,7 @@ button.again{background:var(--bg);border:1px solid var(--amber);color:var(--ambe
 // that leave a takeoff point and re-enter a summing junction. Everything is
 // laid out from that spec, so the pictures stay consistent across problems.
 // ---------------------------------------------------------------------------
-var BW=78, BH=46, R=17, GAP=52, LANE=60, PAD=26;
+var BW=78, BH=46, R=17, GAP=58, LANE=64, PAD=32;
 
 function el(n,a,kids){
   var e=document.createElementNS("http://www.w3.org/2000/svg",n);
@@ -158,11 +158,17 @@ function render(spec){
   });
   var W=x-GAP+PAD+40, H=CY+BH/2+PAR+below*LANE+(twoBranch?116:0)+PAD;
 
-  var g=[], defs=el("defs",{},[
+  var g=[], SIGNS=[], defs=el("defs",{},[
     el("marker",{id:"ah",viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",
       markerHeight:"7",orient:"auto-start-reverse"},
       [el("path",{d:"M0,0 L10,5 L0,10 z",fill:"#8E9BAE"})])
   ]);
+
+  // a junction sign, masked onto its own disc and always drawn on top
+  function sgn(x,y,ch){
+    SIGNS.push(el("circle",{cx:x,cy:y,r:11,fill:"#0a0f1a"}));
+    SIGNS.push(txt(x,y,ch,{fill:ch==="-"?"#E87070":"#57C79A",size:20,w:700}));
+  }
 
   // ---- pass 2: draw the wires between consecutive items ----
   function leftEdge(it){ return it._x; }
@@ -182,10 +188,11 @@ function render(spec){
     if(it.k==="sum"){
       var cx=it._x+R, cy=CY;
       g.push(el("circle",{cx:cx,cy:cy,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
-      g.push(txt(cx-R-9,cy-11,it.sIn||"+",{fill:"#57C79A",size:15}));
+      sgn(cx-R-15,cy-16,it.sIn||"+");
       (it.sFb||[]).forEach(function(sg,n){
-        var pos=it.fbAbove?[cx-2,cy-R-11]:[cx-2+(n?16:0),cy+R+12];
-        g.push(txt(pos[0],pos[1],sg,{fill:sg==="-"?"#E87070":"#57C79A",size:17}));
+        // sit beside the entering wire, never on it
+        if(it.fbAbove) sgn(cx+R+15,cy-R-6,sg);
+        else sgn(cx+R+15+(n?22:0),cy+R+6,sg);
       });
     } else if(it.k==="blk"){
       g.push(el("rect",{x:it._x,y:CY-BH/2,width:BW,height:BH,rx:7,
@@ -205,8 +212,8 @@ function render(spec){
       });
       var psg=it.signs||["+","+"];
       g.push(el("circle",{cx:cx,cy:CY,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
-      g.push(txt(cx-3,CY-R-11,psg[0],{fill:psg[0]==="-"?"#E87070":"#57C79A",size:16}));
-      g.push(txt(cx-3,CY+R+12,psg[1],{fill:psg[1]==="-"?"#E87070":"#57C79A",size:16}));
+      sgn(cx-R-14,CY-20,psg[0]);
+      sgn(cx-R-14,CY+20,psg[1]);
       if(it.id) at[it.id]={x:cx,y:CY};
     } else if(it.k==="tap"){
       g.push(el("circle",{cx:it._x,cy:CY,r:4.5,fill:"#8E9BAE"}));
@@ -247,8 +254,8 @@ function render(spec){
       });
       g.push(el("circle",{cx:joinX,cy:y,r:R,fill:"#0a0f1a",stroke:"#8E9BAE","stroke-width":2}));
       var bsg=a.signs||["+","+"];
-      g.push(txt(joinX+R+11,y-9,bsg[0],{fill:bsg[0]==="-"?"#E87070":"#57C79A",size:16}));
-      g.push(txt(joinX+R+11,y+11,bsg[1],{fill:bsg[1]==="-"?"#E87070":"#57C79A",size:16}));
+      sgn(joinX+R+15,y-20,bsg[0]);
+      sgn(joinX+R+15,y+20,bsg[1]);
       g.push(path("M"+(joinX-R)+","+y+" L"+dst.x+","+y+" L"+dst.x+","+enterY,{arrow:true}));
     } else if(a.blkSeries){
       // signal runs right-to-left through the lane, so the first block it meets
@@ -277,7 +284,7 @@ function render(spec){
   });
 
   var svg=el("svg",{viewBox:"0 0 "+Math.round(W)+" "+Math.round(H),
-    width:Math.round(W),height:Math.round(H)},[defs].concat(g));
+    width:Math.round(W),height:Math.round(H)},[defs].concat(g).concat(SIGNS));
   return svg;
 }
 
