@@ -6,7 +6,7 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ---
 
-## ACTIVE WORK #1: 34722 LCD1 RE-EXAM — ⚠️ ORAL, Mon 25 August 2026, 15 min, NO aids
+## ✅ DONE: 34722 LCD1 RE-EXAM — PASSED (oral, 25 August 2026)
 
 **Format (learned 13-Aug):** 15-minute oral exam, questions in the style of the written exam, solved
 and explained at the board. The solver CANNOT be used in the exam — it is now the practice/sparring
@@ -30,7 +30,7 @@ explain-aloud, mock orals).
 
 ---
 
-## ACTIVE WORK #2: 5th semester (autumn 2026, starts 1-Sep)
+## ACTIVE WORK: 5th semester (autumn 2026, starts 1-Sep)
 
 **Enrolled (changed vs the June plan):** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · **34840 Fundamentals of Acoustics and Noise Control (5, E3A — replaced the dropped 62999 Innovation Pilot)** · 34654 Circuit Technology and EMC (5, E4A) = 25 ECTS autumn; 34871 Nonlinear Transducers (5) in January 2027.
 
