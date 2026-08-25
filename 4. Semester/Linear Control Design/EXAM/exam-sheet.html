@@ -3,198 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>34722 Oral Exam Sheet</title>
+<title>34722 Formula Sheet</title>
 <style>
-@page{size:A4;margin:9mm}
+@page{size:A4;margin:11mm}
 *{box-sizing:border-box;margin:0}
-body{font:9.3pt/1.32 "Segoe UI",system-ui,sans-serif;color:#000;background:#fff}
-.hint{background:#eef3fb;border:1px solid #b9cbe6;padding:8px 12px;margin-bottom:8px;font-size:9pt}
-.page{width:192mm;margin:0 auto 10mm}
+body{font:11pt/1.42 "Segoe UI",system-ui,sans-serif;color:#000;background:#fff}
+.hint{background:#eef3fb;border:1px solid #b9cbe6;padding:8px 12px;margin-bottom:10px;font-size:9.5pt}
+.page{width:188mm;margin:0 auto 12mm}
 .page+.page{page-break-before:always}
-h1{font-size:12.5pt;font-weight:700;margin-bottom:1.5mm}
-h1 span{font-weight:400;font-size:8.8pt;color:#444}
-.cols{column-count:2;column-gap:7mm}
-.sec{display:block;break-inside:avoid;border:1px solid #999;border-radius:3px;padding:4px 6px 5px;margin-bottom:3px}
-h2{font-size:9.2pt;font-weight:700;background:#000;color:#fff;padding:1.5px 5px;margin:-4px -6px 4px;border-radius:2px 2px 0 0}
-p{margin:2px 0}
-ul{margin:2px 0 2px 13px;padding:0}
-li{margin:1.5px 0}
-.f{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:9.8pt;text-align:center;margin:3px 0;line-height:1.45}
-.fl{font-family:"Cambria Math",Cambria,Georgia,serif}
-table{border-collapse:collapse;width:100%;margin:3px 0;font-size:8.5pt}
-th,td{border:1px solid #999;padding:1.5px 4px;text-align:center}
-th{background:#e8e8e8;font-weight:700}
-td.l,th.l{text-align:left}
-.say{background:#eaf5ee;border-left:3px solid #2a7d4f;padding:3px 7px;margin:3px 0;font-size:9pt}
-.say b{color:#1d5c3a}
-.why{background:#eef3fb;border-left:3px solid #3a6ea8;padding:2.5px 7px;margin:2.5px 0;font-size:8.8pt}
-.trap{background:#fdeaea;border-left:3px solid #c33;padding:2.5px 7px;margin:2.5px 0;font-size:8.8pt}
-.chk{font-size:8.8pt;margin:1px 0 1px 12px;line-height:1.3}
-.mini{font-size:8.3pt;color:#333}
+h1{font-size:12pt;font-weight:700;margin-bottom:3mm;padding-bottom:1.5mm;border-bottom:2px solid #000}
+.cols{column-count:2;column-gap:9mm}
+.sec{break-inside:avoid;margin-bottom:5.5mm}
+h2{font-size:10pt;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+   border-bottom:1px solid #000;padding-bottom:1px;margin-bottom:2.5mm}
+.f{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:12.5pt;margin:2.2mm 0;line-height:1.5}
+.lbl{display:inline-block;min-width:33mm;font-size:9.5pt;font-family:"Segoe UI",system-ui,sans-serif;color:#333}
+table{border-collapse:collapse;width:100%;margin:2.5mm 0;font-size:10.5pt;
+      font-family:"Cambria Math",Cambria,Georgia,serif}
+th,td{border:1px solid #888;padding:1.6mm 1mm;text-align:center}
+th{background:#e9e9e9;font-weight:700;font-family:"Segoe UI",system-ui,sans-serif;font-size:9.5pt}
+td.l,th.l{text-align:left;padding-left:2mm}
+.note{font-size:9.5pt;color:#333;margin:1.5mm 0}
+.tr{font-size:10pt;margin:1.4mm 0;padding-left:5mm;text-indent:-5mm}
+.tr b{color:#b00}
 @media print{.hint{display:none}.page{margin-bottom:0}}
 </style>
 </head>
 <body>
 
-<div class="hint"><b>Print:</b> Ctrl/Cmd-P &rarr; A4, portrait, scale 100%, tick <b>Background graphics</b>. Two sheets, print double-sided.</div>
+<div class="hint"><b>Print:</b> Ctrl/Cmd-P &rarr; A4, portrait, 100%, tick <b>Background graphics</b>. Two sheets, double-sided.</div>
 
-<!-- ===================== PAGE 1 ===================== -->
+<!-- ======================= PAGE 1 ======================= -->
 <div class="page">
-<h1>34722 Linear Control Design 1 &mdash; oral exam sheet <span>&nbsp;green = say it out loud &middot; red = the trap</span></h1>
+<h1>34722 Linear Control Design 1 &mdash; formula sheet</h1>
 <div class="cols">
 
 <div class="sec">
-<h2>1 &middot; Block diagram reduction</h2>
-<div class="say"><b>SAY:</b> &ldquo;Forward path over one plus the loop gain &mdash; and the loop gain is everything I meet going once around the loop.&rdquo;</div>
-<ul>
-<li><b>Series</b> &rarr; multiply. <b>Parallel</b> (summed at a junction) &rarr; <b>add</b>.</li>
-<li>Negative feedback <span class="fl">G/(1+GH)</span> &middot; positive <span class="fl">G/(1&minus;GH)</span>.</li>
-<li><b>Nested &rarr; innermost first</b>, then treat the result as one block.</li>
-<li>Blocks <b>in front of the junction</b> or <b>after the takeoff</b> are OUTSIDE the loop &rarr; numerator only.</li>
-<li>Two taps summed &rarr; <b>(C+D)</b>, never CD.</li>
-<li><b>Disturbance:</b> denominator never changes; numerator = what sits between the entry point and the output.</li>
-</ul>
-<div class="trap">Never drop the <b>1</b>. Clearing a compound fraction: <b>multiply through, don't cancel</b> &mdash; the standalone 1 gets multiplied too. A summing junction between two blocks does <b>not</b> stop G&#8321;&middot;G&#8322; for the R&rarr;Y path.</div>
-<div class="why"><b>Check:</b> set H = 0 and the expression must collapse to the plain loop. Say this aloud &mdash; it catches sign slips.</div>
+<h2>Block reduction</h2>
+<div class="f"><span class="lbl">series</span>G&#8321;G&#8322;</div>
+<div class="f"><span class="lbl">parallel (summed)</span>G&#8321; + G&#8322;</div>
+<div class="f"><span class="lbl">neg. feedback</span>G / (1 + GH)</div>
+<div class="f"><span class="lbl">pos. feedback</span>G / (1 &minus; GH)</div>
+<div class="f"><span class="lbl">unity feedback</span>G / (1 + G)</div>
+<div class="f"><span class="lbl">A before loop</span>AB / (1 + BH)</div>
+<div class="f"><span class="lbl">tap before G&#8322;</span>G&#8321;G&#8322; / (1 + G&#8321;H)</div>
+<div class="f"><span class="lbl">two taps summed</span>B / (1 + B(C+D))</div>
+<div class="f"><span class="lbl">nested</span>G&#8321;G&#8322; / (1 + G&#8322;H&#8322; + G&#8321;G&#8322;H&#8321;)</div>
+<div class="f"><span class="lbl">independent loops</span>&nbsp;&nbsp;G&#8321;G&#8322; / (1+G&#8321;H&#8321;)(1+G&#8322;H&#8322;)</div>
+<div class="note">Innermost loop first. Denominator = 1 + loop gain.</div>
 </div>
 
 <div class="sec">
-<h2>2 &middot; Second-order response</h2>
-<div class="say"><b>SAY:</b> &ldquo;Zeta is the shock absorbers, omega-n is the spring stiffness. Zeta sets the shape; omega-n only sets how fast it happens.&rdquo;</div>
-<div class="f">G = &omega;<sub>n</sub>&sup2;/(s&sup2; + 2&zeta;&omega;<sub>n</sub>s + &omega;<sub>n</sub>&sup2;)&nbsp;&nbsp; poles &minus;&zeta;&omega;<sub>n</sub> &plusmn; j&omega;<sub>d</sub></div>
-<div class="f">&omega;<sub>d</sub> = &omega;<sub>n</sub>&radic;(1&minus;&zeta;&sup2;)&nbsp;&nbsp; M<sub>p</sub> = e<sup>&minus;&zeta;&pi;/&radic;(1&minus;&zeta;&sup2;)</sup></div>
+<h2>Disturbance &nbsp;Y/D</h2>
+<div class="f"><span class="lbl">at output</span>1 / (1 + L)</div>
+<div class="f"><span class="lbl">at plant input</span>G&#8322; / (1 + L)</div>
+<div class="f"><span class="lbl">before controller</span>G&#8321;G&#8322; / (1 + L)</div>
+<div class="note">Denominator unchanged. Numerator = blocks after entry.</div>
+</div>
+
+<div class="sec">
+<h2>Second order</h2>
+<div class="f">G = &omega;<sub>n</sub>&sup2; / (s&sup2; + 2&zeta;&omega;<sub>n</sub>s + &omega;<sub>n</sub>&sup2;)</div>
+<div class="f">poles = &minus;&zeta;&omega;<sub>n</sub> &plusmn; j&omega;<sub>d</sub></div>
+<div class="f">&omega;<sub>d</sub> = &omega;<sub>n</sub>&radic;(1 &minus; &zeta;&sup2;)&nbsp;&nbsp;&nbsp; cos&theta; = &zeta;</div>
+<div class="f">M<sub>p</sub> = e<sup>&minus;&zeta;&pi;/&radic;(1&minus;&zeta;&sup2;)</sup></div>
+<div class="f">&zeta; = |ln M<sub>p</sub>| / &radic;(&pi;&sup2; + ln&sup2;M<sub>p</sub>)</div>
 <table>
-<tr><th>&zeta;</th><td>0.3</td><td>0.4</td><td><b>0.5</b></td><td><b>0.6</b></td><td><b>0.7</b></td><td>0.8</td><td>1.0</td></tr>
+<tr><th>&zeta;</th><td>.3</td><td>.4</td><td><b>.5</b></td><td><b>.6</b></td><td><b>.7</b></td><td>.8</td><td>1</td></tr>
 <tr><th>M<sub>p</sub></th><td>37%</td><td>25%</td><td><b>16%</b></td><td><b>9.5%</b></td><td><b>4.6%</b></td><td>1.5%</td><td>0</td></tr>
 </table>
-<div class="f">t<sub>s</sub> &asymp; 4/(&zeta;&omega;<sub>n</sub>) &nbsp; t<sub>p</sub> = &pi;/&omega;<sub>d</sub> &nbsp; t<sub>r</sub> &asymp; 1.8/&omega;<sub>n</sub> &nbsp; &gamma;<sub>M</sub> &asymp; 100&zeta;</div>
-<div class="why"><b>Why &omega;<sub>n</sub> cancels:</b> the peak is at t<sub>p</sub> = &pi;/&omega;<sub>d</sub>; substitute that into e<sup>&minus;&zeta;&omega;<sub>n</sub>t</sup> and &omega;<sub>n</sub> cancels top and bottom. So overshoot is the pole <i>angle</i> alone.</div>
-<div class="trap"><b>t<sub>s</sub> = 4/(&zeta;&omega;<sub>n</sub>)</b> &mdash; the &zeta; is in there. And &zeta;<sup>4</sup> (not &zeta;&sup2;) in the &omega;<sub>c</sub>/&omega;<sub>BW</sub> formulas.</div>
-<p class="mini"><b>Two knobs:</b> overshoot spec &rarr; &zeta;, then speed spec &rarr; &omega;<sub>n</sub>. Never both at once.<br>
-&omega;<sub>c</sub> = &omega;<sub>n</sub>&radic;(&radic;(1+4&zeta;<sup>4</sup>)&minus;2&zeta;&sup2;) &middot; &omega;<sub>BW</sub> = &omega;<sub>n</sub>&radic;((1&minus;2&zeta;&sup2;)+&radic;(4&zeta;<sup>4</sup>&minus;4&zeta;&sup2;+2))</p>
 </div>
 
 <div class="sec">
-<h2>3 &middot; Steady-state error</h2>
-<div class="say"><b>SAY:</b> &ldquo;I start from E = R over one plus L, apply the final value theorem, then count integrators.&rdquo;</div>
-<div class="f">e<sub>ss</sub> = lim<sub>s&rarr;0</sub> s&middot;R(s)/(1+L(s))&nbsp;&nbsp;&rarr;&nbsp; step: 1/(1+L(0))</div>
+<h2>Time domain</h2>
+<div class="f"><span class="lbl">settling 2%</span>t<sub>s</sub> = 4 / (&zeta;&omega;<sub>n</sub>)</div>
+<div class="f"><span class="lbl">settling 5%</span>t<sub>s</sub> = 3 / (&zeta;&omega;<sub>n</sub>)</div>
+<div class="f"><span class="lbl">peak</span>t<sub>p</sub> = &pi; / &omega;<sub>d</sub></div>
+<div class="f"><span class="lbl">rise 10&ndash;90%</span>t<sub>r</sub> &asymp; 1.8 / &omega;<sub>n</sub></div>
+</div>
+
+<div class="sec">
+<h2>Frequency domain</h2>
+<div class="f">&omega;<sub>c</sub> = &omega;<sub>n</sub>&radic;( &radic;(1+4&zeta;<sup>4</sup>) &minus; 2&zeta;&sup2; )</div>
+<div class="f">&omega;<sub>BW</sub> = &omega;<sub>n</sub>&radic;( 1&minus;2&zeta;&sup2; + &radic;(4&zeta;<sup>4</sup>&minus;4&zeta;&sup2;+2) )</div>
+<div class="f">&omega;<sub>r</sub> = &omega;<sub>n</sub>&radic;(1 &minus; 2&zeta;&sup2;)&nbsp;&nbsp;<span class="note">&zeta; &lt; 0.707</span></div>
+<div class="f">M<sub>r</sub> = 1 / (2&zeta;&radic;(1&minus;&zeta;&sup2;))</div>
+<div class="f">&gamma;<sub>M</sub> = arctan( 2&zeta; / &radic;(&radic;(1+4&zeta;<sup>4</sup>)&minus;2&zeta;&sup2;) )</div>
+<div class="f"><b>&gamma;<sub>M</sub>[&deg;] &asymp; 100&zeta;</b></div>
+</div>
+
+<div class="sec">
+<h2>Steady-state error</h2>
+<div class="f">e<sub>ss</sub> = lim<sub>s&rarr;0</sub> s&middot;R(s) / (1 + L(s))</div>
+<div class="f"><span class="lbl">step</span>1 / (1 + K<sub>p</sub>)</div>
+<div class="f"><span class="lbl">ramp</span>1 / K<sub>v</sub></div>
+<div class="f"><span class="lbl">parabola</span>1 / K<sub>a</sub></div>
+<div class="f">K<sub>p</sub> = lim L&nbsp;&nbsp; K<sub>v</sub> = lim sL&nbsp;&nbsp; K<sub>a</sub> = lim s&sup2;L</div>
 <table>
-<tr><th class="l">Type</th><th>step</th><th>ramp</th><th>parabola</th></tr>
+<tr><th class="l">Type</th><th>step</th><th>ramp</th><th>parab</th></tr>
 <tr><td class="l">0</td><td>1/(1+K<sub>p</sub>)</td><td>&infin;</td><td>&infin;</td></tr>
 <tr><td class="l">1</td><td>0</td><td>1/K<sub>v</sub></td><td>&infin;</td></tr>
 <tr><td class="l">2</td><td>0</td><td>0</td><td>1/K<sub>a</sub></td></tr>
 </table>
-<p><span class="fl">K<sub>p</sub> = lim L</span>, <span class="fl">K<sub>v</sub> = lim sL</span>, <span class="fl">K<sub>a</sub> = lim s&sup2;L</span> as s&rarr;0. Type = integrators in L.</p>
-<div class="why"><b>Thermostat story:</b> a proportional heater needs a gap to keep working, so a gap always remains. An integrator keeps accumulating and <b>cannot stop until the error is exactly zero</b> &mdash; it has no other resting point.</div>
-<div class="trap">Multiply by the <b>step size</b> if it isn't 1. Convert <b>dB &rarr; linear first</b> (&minus;8 dB &rarr; 0.4), then do algebra.</div>
-</div>
-
-<div class="sec">
-<h2>4 &middot; Stability &amp; margins</h2>
-<div class="say"><b>SAY:</b> &ldquo;Both margins ask the same question &mdash; how far is the loop from the minus-one point &mdash; one measured in gain, one in phase.&rdquo;</div>
-<ul>
-<li><b>PM</b> = 180&deg; + &ang;G, measured where |G| = 1</li>
-<li><b>GM</b> = 1/|G|, measured where &ang;G = &minus;180&deg;</li>
-</ul>
-<div class="why"><b>Shower story:</b> long pipe = delay. You turn it up, nothing happens, you turn it up more, it scalds, you overcorrect &mdash; oscillation. Phase margin = how much more delay before that starts.</div>
-<div class="why"><b>Why &minus;180&deg; is fatal:</b> negative feedback already flips the sign; another 180&deg; of lag makes the returning signal <b>reinforce instead of cancel</b>. If the gain is 1 or more there, it grows without bound.</div>
-<p><b>At exactly 0 dB and &minus;180&deg;</b> &rarr; marginal: constant-amplitude oscillation, the tipping point. Never design there.</p>
-</div>
-
-<div class="sec">
-<h2>5 &middot; Nyquist</h2>
-<div class="f"><b>Z = N + P</b>&nbsp;&nbsp;&rarr;&nbsp; stable &hArr; <b>N = &minus;P</b></div>
-<p><b>Z</b> = closed-loop RHP poles (need <b>0</b>). <b>N</b> = clockwise encirclements of &minus;1. <b>P</b> = open-loop RHP poles.</p>
-<ul>
-<li><b>Stable plant</b> (P = 0): no encirclement &rarr; crossing at &minus;x gives <span class="fl">K &lt; 1/x</span></li>
-<li><b>One RHP pole</b> (P = 1): need one counter-clockwise &rarr; <span class="fl">K &gt; 1/x</span></li>
-</ul>
-<div class="trap"><b>The interval INVERTS for an unstable plant</b>, and the boundary value itself is only marginal &mdash; pick strictly inside, never K = 1/x.</div>
-<div class="why"><b>Broom story:</b> balancing a broom on your palm. React gently and it falls. Unstable plants need <i>aggressive</i> control &mdash; that's why the inequality flips.</div>
-<p class="mini"><b>Relative degree &ge; 3</b> &rarr; phase runs past &minus;180&deg; while the gain is still above 1, so a large enough P-gain always destabilises it.</p>
+<div class="note">Type = integrators in L. &nbsp; e<sub>ss</sub> = 1 &minus; T(0).</div>
 </div>
 
 </div>
 </div>
 
-<!-- ===================== PAGE 2 ===================== -->
+<!-- ======================= PAGE 2 ======================= -->
 <div class="page">
-<h1>34722 &mdash; oral exam sheet <span>&nbsp;page 2</span></h1>
+<h1>34722 &mdash; formula sheet, page 2</h1>
 <div class="cols">
 
 <div class="sec">
-<h2>6 &middot; Bode plots</h2>
-<div class="say"><b>SAY:</b> &ldquo;It's just how the system responds to slow wiggles versus fast ones &mdash; magnitude is how much it moves, phase is how far behind it lags.&rdquo;</div>
+<h2>Margins</h2>
+<div class="f">&gamma;<sub>M</sub> = 180&deg; + &ang;G&nbsp;&nbsp;<span class="note">at |G| = 1</span></div>
+<div class="f">GM = 1 / |G|&nbsp;&nbsp;<span class="note">at &ang;G = &minus;180&deg;</span></div>
+<div class="f">GM<sub>dB</sub> = &minus;20 log|G|</div>
+<div class="note">Stable: GM &gt; 0 dB and &gamma;<sub>M</sub> &gt; 0.</div>
+</div>
+
+<div class="sec">
+<h2>Nyquist</h2>
+<div class="f"><b>Z = N + P</b>&nbsp;&nbsp;&rarr;&nbsp; stable if N = &minus;P</div>
+<div class="note">Z = CL RHP poles (=0) &middot; N = CW encirclements of &minus;1 &middot; P = OL RHP poles</div>
+<div class="f"><span class="lbl">P = 0, crossing &minus;x</span>K &lt; 1/x</div>
+<div class="f"><span class="lbl">P = 1, crossing &minus;x</span>K &gt; 1/x</div>
+</div>
+
+<div class="sec">
+<h2>Bode</h2>
 <table>
-<tr><th class="l">Factor</th><th>magnitude</th><th>phase</th></tr>
-<tr><td class="l">pole at a</td><td>&minus;20 dB/dec after a</td><td>&rarr; &minus;90&deg;</td></tr>
-<tr><td class="l">zero at a</td><td>+20 dB/dec after a</td><td>&rarr; +90&deg;</td></tr>
-<tr><td class="l">integrator</td><td>&minus;20 dB/dec everywhere</td><td>flat &minus;90&deg;</td></tr>
+<tr><th class="l">factor</th><th>slope</th><th>phase</th></tr>
+<tr><td class="l">pole</td><td>&minus;20 dB/dec</td><td>&minus;90&deg;</td></tr>
+<tr><td class="l">zero</td><td>+20 dB/dec</td><td>+90&deg;</td></tr>
+<tr><td class="l">RHP zero</td><td>+20 dB/dec</td><td><b>&minus;90&deg;</b></td></tr>
+<tr><td class="l">1/s</td><td>&minus;20 all &omega;</td><td>&minus;90&deg; flat</td></tr>
 </table>
-<p><b>System type from the plot:</b> low-frequency <b>phase start</b> &mdash; 0&deg; = type 0, &minus;90&deg; = type 1, &minus;180&deg; = type 2. (Or low-frequency slope &divide; &minus;20.)</p>
-<p><b>Integrator signature:</b> the magnitude <b>never flattens out</b> at low frequency.</p>
-<div class="trap"><b>RHP zero:</b> magnitude rises like a normal zero but <b>phase falls like a pole</b>. That mismatch is the non-minimum-phase fingerprint.</div>
-<div class="why"><b>Bike story:</b> to turn right you first steer left. The system moves the <i>wrong way</i> first, so naive aggressive control fights it and goes unstable.</div>
-<p class="mini"><b>Reading one backwards:</b> flat at 20 dB &rarr; DC gain 10, no integrator; breaks down at &omega; = 5 &rarr; one pole at 5. So G = 10/(s/5 + 1).</p>
+<div class="note"><b>Type from low-&omega; phase:</b> 0&deg;&rarr;0 &nbsp; &minus;90&deg;&rarr;1 &nbsp; &minus;180&deg;&rarr;2</div>
+<div class="f">|G|<sub>dB</sub> = 20 log|G|&nbsp;&nbsp; |G| = 10<sup>dB/20</sup></div>
+<div class="note">&minus;40 dB = 0.01 &middot; &minus;20 = 0.1 &middot; &minus;6 = 0.5 &middot; &minus;8 = 0.4</div>
 </div>
 
 <div class="sec">
-<h2>7 &middot; PI-Lead design</h2>
-<div class="say"><b>SAY:</b> &ldquo;It's a phase budget. The plant gives me what it gives me, the lead pays in, and the PI costs.&rdquo;</div>
+<h2>Lead / PI design</h2>
 <div class="f">&minus;180&deg; + &gamma;<sub>M</sub> = &ang;G(j&omega;<sub>c</sub>) + &phi;<sub>Lead</sub> + &phi;<sub>PI</sub></div>
-<ul>
-<li><b>Lead</b> <span class="fl">(&tau;s+1)/(&alpha;&tau;s+1)</span>, <b>&alpha; &lt; 1</b>, <b>zero first then pole</b> &mdash; that ordering is what makes the phase positive.</li>
-<li><span class="fl">&phi;<sub>max</sub> = arcsin((1&minus;&alpha;)/(1+&alpha;))</span> at <span class="fl">&omega; = 1/(&tau;&radic;&alpha;)</span>, where <span class="fl">|C<sub>D</sub>| = 1/&radic;&alpha;</span>.</li>
-<li>Need +20 dB &rarr; 1/&radic;&alpha; = 10 &rarr; &alpha; = 0.01. Zero at &omega;<sub>c</sub>&radic;&alpha;, pole at &omega;<sub>c</sub>/&radic;&alpha;, crossover at their geometric mean.</li>
-<li><b>PI costs phase:</b> <span class="fl">&phi;<sub>PI</sub> = arctan(N<sub>i</sub>) &minus; 90&deg;</span> &mdash; the price of killing steady-state error.</li>
-<li><b>Gain last:</b> <span class="fl">K<sub>P</sub>&middot;|C<sub>D</sub>|&middot;|C<sub>PI</sub>|&middot;|G| = 1</span> at &omega;<sub>c</sub>.</li>
-</ul>
-<div class="say"><b>P-only, two steps:</b> (1) <b>phase pins the crossover</b> &mdash; find &omega; where &ang;G = &minus;180&deg; + &gamma;<sub>M</sub>. (2) <b>gain sets it</b> &mdash; K<sub>P</sub> = 1/|G(j&omega;<sub>c</sub>)|.</div>
-<div class="why"><b>Lead = anticipation.</b> A driver who eases off early because they see they're closing on a red light, instead of braking on arrival. Anticipation is the opposite of delay, so it buys back the margin delay stole.</div>
-<p class="mini">Reversed (pole first) it's a <b>lag</b>: &minus;20 dB and negative phase. Lag/PI buys accuracy; lead buys margin and speed.</p>
+<div class="f">C<sub>D</sub> = (&tau;s + 1) / (&alpha;&tau;s + 1),&nbsp; &alpha; &lt; 1</div>
+<div class="f">&phi;<sub>max</sub> = arcsin( (1&minus;&alpha;)/(1+&alpha;) )</div>
+<div class="f">&alpha; = (1 &minus; sin&phi;) / (1 + sin&phi;)</div>
+<div class="f">|C<sub>D</sub>| = 1/&radic;&alpha;&nbsp;&nbsp; at &nbsp;&omega; = 1/(&tau;&radic;&alpha;)</div>
+<div class="f">zero = &omega;<sub>c</sub>&radic;&alpha;&nbsp;&nbsp; pole = &omega;<sub>c</sub>/&radic;&alpha;</div>
+<div class="f">&phi;<sub>PI</sub> = arctan(N<sub>i</sub>) &minus; 90&deg;</div>
+<div class="f">K<sub>P</sub>&middot;|C<sub>D</sub>|&middot;|C<sub>PI</sub>|&middot;|G| = 1&nbsp;&nbsp;<span class="note">at &omega;<sub>c</sub></span></div>
+<div class="note"><b>P-only:</b> &ang;G = &minus;180&deg;+&gamma;<sub>M</sub> &rarr; &omega;<sub>c</sub>; then K<sub>P</sub> = 1/|G(j&omega;<sub>c</sub>)|</div>
 </div>
 
 <div class="sec">
-<h2>8 &middot; Sensitivity S and T</h2>
-<div class="say"><b>SAY:</b> &ldquo;With unity feedback the junction <i>defines</i> e = r &minus; y. Divide through by r and you get S = 1 &minus; T.&rdquo;</div>
-<div class="f">S = 1/(1+L) = e/r &nbsp;&nbsp; T = L/(1+L) = y/r &nbsp;&nbsp; <b>S + T = 1</b></div>
-<div class="why"><b>Pie story:</b> you asked for 100, got 97, missing 3. Got-it and missing-it are the only two options, so they add to the whole.</div>
-<p><b>Design consequence:</b> small S = accurate tracking and disturbance rejection; small T = noise rejected and robust. They sum to 1, so <b>you cannot win both at one frequency</b> &mdash; buy S at low &omega;, T at high &omega;. That is loop shaping.</p>
-<div class="trap">Only true for <b>unity</b> feedback. With a sensor H the junction gives e = r &minus; Hy and the identity breaks.</div>
-<p class="mini">e<sub>ss</sub> = 1 &minus; T(0) for a step is this same identity, unnamed.</p>
+<h2>Sensitivity</h2>
+<div class="f">S = 1/(1+L) = e/r</div>
+<div class="f">T = L/(1+L) = y/r</div>
+<div class="f"><b>S + T = 1</b>&nbsp;&nbsp;<span class="note">unity feedback only</span></div>
 </div>
 
 <div class="sec">
-<h2>9 &middot; Transform theorems</h2>
-<ul>
-<li><b>FVT:</b> <span class="fl">y(&infin;) = lim<sub>s&rarr;0</sub> sY(s)</span> &mdash; valid <b>only if</b> all poles of sY(s) are in the open LHP (one at the origin allowed).</li>
-<li><b>IVT:</b> <span class="fl">y(0<sup>+</sup>) = lim<sub>s&rarr;&infin;</sub> sY(s)</span>.</li>
-<li><b>Shortcut:</b> Y strictly proper &rArr; y(0<sup>+</sup>) = 0.</li>
-</ul>
-<div class="say"><b>SAY:</b> &ldquo;The final value theorem is valid here because all poles of sY(s) are in the left half-plane.&rdquo; Saying the condition earns the mark.</div>
+<h2>Theorems</h2>
+<div class="f">FVT&nbsp; y(&infin;) = lim<sub>s&rarr;0</sub> sY(s)</div>
+<div class="f">IVT&nbsp; y(0<sup>+</sup>) = lim<sub>s&rarr;&infin;</sub> sY(s)</div>
+<div class="note">FVT needs all poles of sY(s) in LHP. Strictly proper &rarr; y(0<sup>+</sup>) = 0.</div>
 </div>
 
 <div class="sec">
-<h2>10 &middot; Before you commit to any answer</h2>
-<div class="chk">&#9633; Did I <b>add</b> the summed taps, not multiply them?</div>
-<div class="chk">&#9633; Is the <b>1</b> still in the denominator?</div>
-<div class="chk">&#9633; Did I trace which blocks the loop actually <b>encircles</b>?</div>
-<div class="chk">&#9633; Did I read <b>every junction sign</b>?</div>
-<div class="chk">&#9633; Did I <b>multiply through</b> rather than cancel?</div>
-<div class="chk">&#9633; Is <b>&zeta;</b> under the settling time?</div>
-<div class="chk">&#9633; Unstable plant &rarr; did the <b>K-interval flip</b>?</div>
-<div class="chk">&#9633; <b>dB converted</b> to linear before algebra?</div>
-<div class="chk">&#9633; <b>Reciprocal check</b> &mdash; which way round did they ask?</div>
-<div class="chk">&#9633; Any <b>non-physical sign</b>? &zeta; and t<sub>s</sub> cannot be negative.</div>
-</div>
-
-<div class="sec">
-<h2>11 &middot; If you get stuck</h2>
-<div class="say"><b>Name the structure &rarr; name the rule &rarr; write the general form &rarr; then substitute.</b> Examiners mark the reasoning, and a narrated method scores where a silent wrong number does not.</div>
-<p><b>Two lines that always buy credit:</b></p>
-<div class="say">&ldquo;Let me sanity-check &mdash; if I set H to zero this should collapse to the plain loop, and it does.&rdquo;</div>
-<div class="say">&ldquo;Before I use the final value theorem, let me confirm the poles are all in the left half-plane.&rdquo;</div>
-<p class="mini"><b>The five stories:</b> suspension = damping &middot; thermostat = steady-state error &middot; shower with a long pipe = phase margin &middot; broom on your palm = unstable plant needs aggressive control &middot; countersteering a bike = RHP zero.</p>
+<h2>Check before answering</h2>
+<div class="tr"><b>&bull;</b> Summed taps <b>add</b> &mdash; not CD</div>
+<div class="tr"><b>&bull;</b> The <b>1</b> is still in the denominator</div>
+<div class="tr"><b>&bull;</b> Which blocks does the loop encircle?</div>
+<div class="tr"><b>&bull;</b> Every junction sign read</div>
+<div class="tr"><b>&bull;</b> Multiply through &mdash; never cancel</div>
+<div class="tr"><b>&bull;</b> t<sub>s</sub> has <b>&zeta;</b>&omega;<sub>n</sub> &mdash; &zeta;<sup>4</sup> in &omega;<sub>c</sub>, &omega;<sub>BW</sub></div>
+<div class="tr"><b>&bull;</b> Unstable plant &rarr; K-interval <b>flips</b></div>
+<div class="tr"><b>&bull;</b> dB &rarr; linear <b>before</b> algebra</div>
+<div class="tr"><b>&bull;</b> Reciprocal &mdash; which way did they ask?</div>
+<div class="tr"><b>&bull;</b> &zeta;, t<sub>s</sub> never negative</div>
+<div class="tr"><b>&bull;</b> Step size &times; e<sub>ss</sub></div>
 </div>
 
 </div>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>34722 Warm-up</title>
+<style>
+@page{size:A4;margin:12mm}
+*{box-sizing:border-box;margin:0}
+body{font:9.3pt/1.31 "Segoe UI",system-ui,sans-serif;color:#000;background:#fff}
+.hint{background:#eef3fb;border:1px solid #b9cbe6;padding:8px 12px;margin-bottom:10px;font-size:9.5pt}
+.page{width:186mm;margin:0 auto}
+h1{font-size:11.5pt;font-weight:700;margin-bottom:1mm}
+h1 span{font-weight:400;font-size:9.5pt;color:#555}
+.rule{border-bottom:2px solid #000;margin-bottom:2.5mm;padding-bottom:1mm}
+.cols{column-count:2;column-gap:9mm}
+.sec{break-inside:avoid;margin-bottom:3.2mm}
+h2{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.3px;
+   border-bottom:1px solid #000;padding-bottom:1px;margin-bottom:1.4mm}
+p{margin:1.2mm 0}
+.story{margin:1.4mm 0;padding-left:5mm;text-indent:-5mm}
+.story b{color:#1d5c3a}
+.open{background:#eaf5ee;border-left:3px solid #2a7d4f;padding:1.3mm 2.5mm;margin:1.3mm 0;font-size:9.2pt}
+.open b{display:block;font-size:8.2pt;text-transform:uppercase;letter-spacing:.3px;color:#1d5c3a;margin-bottom:.5mm}
+.fl{font-family:"Cambria Math",Cambria,Georgia,serif}
+.big{background:#fff8e6;border:1.5px solid #d09000;border-radius:4px;padding:2.2mm 3.5mm;margin:2.5mm 0 0}
+.big p{margin:1mm 0;font-size:9.4pt}
+ol{margin:1mm 0 1mm 5mm;padding:0}
+ol li{margin:0.5mm 0}
+@media print{.hint{display:none}}
+</style>
+</head>
+<body>
+
+<div class="hint"><b>Print:</b> Ctrl/Cmd-P &rarr; A4, 100%, tick <b>Background graphics</b>. One page. Read this in the corridor, not in the room.</div>
+
+<div class="page">
+<h1 class="rule">Read this before you walk in <span>&nbsp;&mdash; five minutes, then put it away</span></h1>
+<div class="cols">
+
+<div class="sec">
+<h2>What all of it is</h2>
+<p>Every control system is one loop: <b>measure what you got, compare it to what you wanted, correct the difference.</b> The whole course asks one thing about that loop &mdash; does it settle, oscillate, or run away?</p>
+</div>
+
+<div class="sec">
+<h2>The five stories</h2>
+<div class="story"><b>Suspension &rarr; damping.</b> Worn shocks bounce and overshoot; good shocks settle in one bounce. &zeta; is the shocks, &omega;<sub>n</sub> the spring stiffness &mdash; a stiffer spring makes the same bounce happen faster, not smaller.</div>
+<div class="story"><b>Thermostat &rarr; steady-state error.</b> A proportional heater needs a gap to keep working, so a gap always remains. An integrator keeps accumulating and can't stop until the error is exactly zero.</div>
+<div class="story"><b>Shower with a long pipe &rarr; phase margin.</b> Turn it up, nothing, turn it up more, scalding, overcorrect, freezing. Delay causes the oscillation. Phase margin is how much more delay you can take.</div>
+<div class="story"><b>Broom on your palm &rarr; unstable plant.</b> React gently and it falls. Unstable plants need aggressive control &mdash; which is why the stable gain interval flips.</div>
+<div class="story"><b>Countersteering a bike &rarr; RHP zero.</b> To go right you first steer left. The system moves the wrong way first.</div>
+</div>
+
+<div class="sec">
+<h2>How to open, whatever they ask</h2>
+<div class="open"><b>Block diagram</b>&ldquo;Forward path over one plus the loop gain &mdash; and the loop gain is everything I meet going once around the loop.&rdquo;</div>
+<div class="open"><b>Steady-state error</b>&ldquo;I start from E = R over one plus L, apply the final value theorem, then count integrators.&rdquo;</div>
+<div class="open"><b>Margins</b>&ldquo;Both margins ask the same question &mdash; how far is the loop from the minus-one point &mdash; one in gain, one in phase.&rdquo;</div>
+<div class="open"><b>Second order</b>&ldquo;Zeta sets the shape, omega-n only sets how fast it happens.&rdquo;</div>
+<div class="open"><b>Controller design</b>&ldquo;It's a phase budget. The plant gives what it gives, the lead pays in, the PI costs.&rdquo;</div>
+<div class="open"><b>S and T</b>&ldquo;The junction defines e = r minus y. Divide by r and S = 1 minus T.&rdquo;</div>
+</div>
+
+<div class="sec">
+<h2>When you get stuck</h2>
+<ol>
+<li>Name the <b>structure</b> you see.</li>
+<li>Name the <b>rule</b> that applies.</li>
+<li>Write the <b>general form</b>.</li>
+<li><b>Then</b> substitute numbers.</li>
+</ol>
+<p>Narrate it. Examiners mark reasoning &mdash; a spoken method scores where a silent wrong number does not. <b>Silence is the only real mistake.</b></p>
+<div class="open"><b>Free credit, any time</b>&ldquo;Let me sanity-check &mdash; if I set H to zero this should collapse to the plain loop, and it does.&rdquo;</div>
+</div>
+
+<div class="sec">
+<h2>Run these once, now</h2>
+<p><b>Summed taps add</b> &mdash; (C+D), never CD. &nbsp;<b>The 1 stays</b> in the denominator. &nbsp;<b>Trace the loop</b> before writing it: blocks in front of the junction or after the takeoff are outside. &nbsp;<b>Read every junction sign.</b> &nbsp;<b>Multiply through, never cancel.</b> &nbsp;<b>t<sub>s</sub> = 4/(&zeta;&omega;<sub>n</sub>)</b> &mdash; the zeta is there. &nbsp;<b>Unstable plant flips the K-interval.</b> &nbsp;<b>dB to linear first.</b></p>
+</div>
+
+</div>
+
+<div class="big">
+<p><b>June was lost to trap distractors, not theory &mdash; and there are no distractors in an oral.</b> You talk, and if you drift an examiner nudges you back. The format that beat you is gone.</p>
+<p>1. You need <b>02</b>. Not 12. Explaining roughly what's going on is enough &mdash; and you can do that.</p>
+<p>2. You have every aid on the table. This is a conversation, not a memory test.</p>
+<p>3. Point at the diagram and say what you see. Start talking, and the rest follows. <b>You know more than you think you do.</b></p>
+</div>
+
+</div>
+</body>
+</html>
