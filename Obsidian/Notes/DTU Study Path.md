@@ -239,7 +239,7 @@ Mandatory courses already in the plan:
 
 > [!success] Key Outcomes
 > - Five compulsory labs (A–E) + a **loudspeaker system design project**, all in groups of 3
-> - LTspice as the everyday modelling tool
+> - LTspice is the course's tool of choice; KiCad/ngspice is the current everyday one
 > - Oral exam **9–10 December**; lab and project quizzes are 30 % of the grade
 > - Formal prerequisite for [[34871 Nonlinear Transducers|34871]] in January
 
@@ -422,7 +422,7 @@ You need **10 ECTS tilvalg** on top.
 > - [x] ~~Register for 5th term courses~~ (Done Aug 2026 — enrolled: 34870, 62755, 34840, 34654 autumn + 34871 January; **62999 dropped**, autumn = 25 ECTS)
 > - [x] ~~**34722 LCD1 re-exam**~~ — **passed** at the oral re-exam, 25 August 2026. Course materials archived to `Archive/4th Semester/34722 Linear Control Design 1/`.
 > - [ ] Work through the 34840 `00 - Prerequisites` material before **Tue 1 September** (complex numbers + signals refresher, Finn Agerkvist's strong recommendation)
-> - [ ] **Install LTspice before Mon 31 August** — needed from 34870 lecture 1
+> - [ ] Decide the 34870 simulator split — LTspice for Lab A and the in-lecture examples (that is what the staff teach), KiCad/ngspice for own modelling and the project
 > - [ ] Sort out the **Monday Ballerup→Lyngby** commute (62755 8–12 Ballerup, 34870 13–17 Lyngby)
 > - [ ] Confirm the **62755 exam placement** (course page says E1A, Lecture 1 slide says E2B — E2B would clash with the 34870 oral on 9–10 Dec)
 > - [ ] Form groups in week 1: **groups of 3** for 34870 labs + project, and a 34654 project group

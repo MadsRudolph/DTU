@@ -72,7 +72,7 @@ tags: [dashboard, home]
 
 > [!deadline] Semester start
 > - [ ] **Before Tue 1 Sep** — 34654 **opening quiz** on DTU Learn + join the course **Discord**
-> - [ ] **Mon 31 Aug, 13:00** — 34870 first lecture, b.352 room 019 · *install LTspice first*
+> - [ ] **Mon 31 Aug, 13:00** — 34870 first lecture, b.352 room 019 · *LTspice is what the staff demo; KiCad/ngspice for own work*
 > - [ ] **Mon 31 Aug, 08:00** — 62755 first lecture, Ballerup *(time assumed from E1A — confirm)*
 > - [ ] **Tue 1 Sep, 08:00** — 34840 first lecture, b.358 room 063
 > - [ ] **Tue 1 Sep, 13:00** — 34654 first lecture, b.341 room 023 *(opens with ~15 min optional meditation)*
@@ -80,7 +80,7 @@ tags: [dashboard, home]
 > - [ ] **Week 1** — find a **group of 3** for the 34870 labs + loudspeaker project
 
 > [!deadline] Autumn deadlines
-> - [ ] **20 Sep** — 34870 Lab A quiz (LTspice analogy circuits)
+> - [ ] **20 Sep** — 34870 Lab A quiz (analogy circuits — the brief says LTspice)
 > - [ ] **28 Sep** — 34840 problem set released
 > - [ ] **5 Oct** — 34870 Labs B/C quiz (mic measurement + calibration)
 > - [ ] **9 Oct** — 34840 problem set due *(individual hand-in)*

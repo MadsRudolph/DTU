@@ -31,7 +31,7 @@ Wed/Fri free — that is where 34654 group work and the 34870 labs/project have 
 - **Monday is two campuses:** 62755 Ballerup 8–12 → 34870 Lyngby 13–17.
 - **34840 is a formal prerequisite for 34870** but they run in parallel; the 34870 staff hand out an acoustics background note to bridge it.
 - **34654 group deadline:** sign up in DTU Learn (groups of 5) before **Tue 8-Sep 14:00** or you get auto-assigned. Also: opening quiz + Discord before the first lecture.
-- **34870 needs LTspice installed before the first lecture** (Mon 31-Aug); groups of 3 for labs + project.
+- **34870 simulator:** LTspice already installed and known; current default for own work is **KiCad/ngspice** (QSPICE is the personal preference). Lab A and the in-lecture examples are LTspice-specific, so keep both. Groups of 3 for labs + project.
 - **62755 slides for weeks 9 and 12** (multilevel inverters, AC voltage controllers) not handed out yet.
 - **34654 learning reflections go into a DTU form** — write equations in plain text, not LaTeX.
 

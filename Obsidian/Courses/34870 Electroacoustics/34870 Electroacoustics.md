@@ -27,11 +27,21 @@ tags: [Electroacoustics, Audio, home]
 > | **TA** | Teguh Aditanoyo *(teaching assistant)* | — | `tegad@dtu.dk` |
 
 > [!todo] Before the first lecture (Mon 31 Aug)
-> - [ ] **Install LTspice** — used from lecture 1, required for exercises and labs → [Analog Devices download](https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html)
-> - [ ] Browse `Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf`
+> - [x] ~~Install LTspice~~ — already installed and well used
+> - [ ] Decide the sim tool per task — see the callout below
 > - [ ] Refresh circuit analysis: Kirchhoff laws, R/L/C impedances, current & voltage sources, **dual circuits**, Norton & Thévenin equivalents
 > - [ ] Review **chapter 1** of `Literature/00 - Basic Material/Fundamentals_of_acoustics.pdf`
 > - [ ] Find a **group of 3** — simulations, labs and the project are all done in threes
+
+> [!tip] Simulator: KiCad/ngspice for your own work, LTspice for following the course
+> Current default is **KiCad's built-in ngspice** (everything has run through KiCad for the last few weeks); LTspice is installed and familiar, QSPICE is the personal preference.
+>
+> For 34870 that split matters in one place: **Lab A is literally "Analogy circuits in LTspice"**, the staff teach LTspice during the lectures, and the quiz behind it is part of the 30 %. The physics is tool-agnostic — an electromechanoacoustical analogy is just an RLC network, and ngspice will produce the same AC sweep — but the worked examples, the hand-outs and any help you ask for will be in LTspice.
+>
+> Sensible split:
+> - **Lab A + in-lecture examples** → LTspice, so you are on the same screen as the staff
+> - **Your own modelling, the loudspeaker project, anything that wants a schematic you keep** → KiCad/ngspice
+> - Keep `Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf` around only as a translation reference — you do not need it as a tutorial
 
 > [!warning] 34840 is a formal prerequisite — and you are taking it *in parallel*
 > DTU lists [[34840 Fundamentals of Acoustics and Noise Control|34840]] as a prerequisite, but both run this autumn (34840 is E3A, Tue mornings). For the first weeks 34870 runs ahead of your acoustics foundation — which is exactly why the staff hand out the *Fundamentals of Acoustics* note as background reading.
@@ -39,7 +49,7 @@ tags: [Electroacoustics, Audio, home]
 > [!tip] Quick Links
 > - [DTU Course Page](https://kurser.dtu.dk/course/34870)
 > - [[DTU Study Path#🔊 5th Term — Autumn 2026 + January 2027 (25 + 5 ECTS)|Study path context]]
-> - Working folder: `5. Semester/Electroacoustics/` (LTspice, Matlab, Labs, Project)
+> - Working folder: `5. Semester/Electroacoustics/` (KiCad, LTspice, Matlab, Labs, Project)
 
 ---
 
