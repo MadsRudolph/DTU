@@ -82,10 +82,11 @@ updated: 2026-06-28
 ## 🧱 4th Term — Spring 2026 (Tilvalg 15 ECTS) ✅ DONE
 
 > [!success] Completed June 2026
-> All six courses finished (34722, 62711, 62768, 34655, 34620, 34315 = 30 ECTS). DSP 62743 reexam passed (May 2026). Section kept for reference.
+> All six courses finished (34722, 62711, 62768, 34655, 34620, 34315 = 30 ECTS). DSP 62743 reexam passed (May 2026).
+> **34722 LCD1 re-exam passed 25 August 2026** (oral) — the last open item from 4th term is closed. Section kept for reference.
 
 Mandatory courses already in the plan:
-- 34722 Linear Control Design 1 (5 ECTS)  
+- 34722 Linear Control Design 1 (5 ECTS) — ✅ passed at the August 2026 oral re-exam
 - 62711 Digital Systems, Design Of (5 ECTS)  
 - 62768 Electrical Energy Systems Project (5 ECTS, June)
 
@@ -224,6 +225,43 @@ Mandatory courses already in the plan:
 
 > [!tip] Why not 34374 in January?
 > You wanted **34374 IoT Hardware and PCB Design** in this slot, but it's a **13-week spring course (F4B)** — it can't run in a 3-week January block, and autumn 2026 is already full at 30 ECTS. So January is filled with **34871** (a true 3-week course that finishes your loudspeaker track), and **34374 stays a high-priority MSc/later target** — see "Future MSc hardware courses". Note that **34654 (this autumn) already covers a lot of the PCB-layout + EMC ground** 34374 would.
+
+
+### 5.4 34870 – Electroacoustics (10 ECTS, autumn, E2)
+
+> [!note] Why It Matters for Audio
+> The anchor course of the whole audio track, and the largest single course of the degree so far:
+> - Electrical–mechanical–acoustical **analogies** and equivalent networks
+> - Microphones and loudspeakers: frequency response, directivity, radiation
+> - **Enclosure** design (sealed vs. bass-reflex) and crossover design
+> - Acoustic **metrology**, calibration and uncertainty
+> - Lecturers: Vicente Cutanda Henríquez, Frieder Lucklum, Finn Agerkvist (b. 352)
+
+> [!success] Key Outcomes
+> - Five compulsory labs (A–E) + a **loudspeaker system design project**, all in groups of 3
+> - LTspice as the everyday modelling tool
+> - Oral exam **9–10 December**; lab and project quizzes are 30 % of the grade
+> - Formal prerequisite for [[34871 Nonlinear Transducers|34871]] in January
+
+> [!warning] 34840 is listed as its prerequisite
+> DTU lists 34840 as a prerequisite for 34870, but both are taken this autumn. In practice the staff hand out an acoustics background note to cover the gap.
+
+### 5.5 62755 – Power Electronics (5 ECTS, autumn, E1A)
+
+> [!note] Why It Matters for Audio
+> The direct continuation of [[34620 Basic Power Electronics|34620]] and the 62768 converter work:
+> - Power semiconductors: diodes, BJTs, MOSFETs, IGBTs, thyristors, TRIACs
+> - DC–DC, rectifiers, inverters, AC–AC — steady-state, transient and **small-signal models**
+> - Implementation on a **TI C2000** microcontroller from Matlab/Simulink
+> - Lecturer: Ashraf Khalil — the same lecturer as 62768 last semester
+
+> [!success] Key Outcomes
+> - Five labs ending in **feedback control of buck and boost converters**
+> - Direct groundwork for **class-D output stages** and SMPS rails
+> - DTU lists **34722** as one of the valid prerequisite routes — the LCD1 control theory is reused here
+
+> [!warning] Ballerup campus
+> The only Ballerup course this term (Mon 8–12), while 34870 runs Lyngby Mon 13–17. Monday needs a campus transfer.
 
 ---
 
@@ -382,8 +420,12 @@ You need **10 ECTS tilvalg** on top.
 
 > [!todo] Immediate Actions (5th Term)
 > - [x] ~~Register for 5th term courses~~ (Done Aug 2026 — enrolled: 34870, 62755, 34840, 34654 autumn + 34871 January; **62999 dropped**, autumn = 25 ECTS)
-> - [ ] **34722 LCD1 re-exam (August 2026)** — failed the June ordinary exam; re-exam prep is the active project (see [[00 LCD1 — Exam Hub]])
-> - [ ] Work through the 34840 `00 - Prerequisites` material before September (complex numbers + signals refresher, Finn Agerkvist's strong recommendation)
+> - [x] ~~**34722 LCD1 re-exam**~~ — **passed** at the oral re-exam, 25 August 2026. Course materials archived to `Archive/4th Semester/34722 Linear Control Design 1/`.
+> - [ ] Work through the 34840 `00 - Prerequisites` material before **Tue 1 September** (complex numbers + signals refresher, Finn Agerkvist's strong recommendation)
+> - [ ] **Install LTspice before Mon 31 August** — needed from 34870 lecture 1
+> - [ ] Sort out the **Monday Ballerup→Lyngby** commute (62755 8–12 Ballerup, 34870 13–17 Lyngby)
+> - [ ] Confirm the **62755 exam placement** (course page says E1A, Lecture 1 slide says E2B — E2B would clash with the 34870 oral on 9–10 Dec)
+> - [ ] Form groups in week 1: **groups of 3** for 34870 labs + project, and a 34654 project group
 > - [ ] Ask whether **34374** could ever be slotted into 6th-term spring 2027 around the internship
 
 > [!todo] Future Course Planning

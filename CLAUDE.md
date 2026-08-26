@@ -2,41 +2,87 @@
 
 Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up** so a fresh session on any PC continues seamlessly.
 
-> ⚠️ **Path change (8-Aug-2026):** all 4th-semester course folders moved from `Obsidian/Courses/` to `Obsidian/Archive/4th Semester/` (34315, 34620, 34655, 62711, 62768, 62743-Reexam, plus the dropped 62999). Old paths in the archived sections below need that prefix. **34722 LCD1 stayed in `Courses/`** — its re-exam is the active work.
+> ⚠️ **Path change:** all 4th-semester course folders live in `Obsidian/Archive/4th Semester/` (34315, 34620, 34655, 62711, 62768, 62743-Reexam, the dropped 62999 — and since **26-Aug-2026 also 34722 LCD1**, whose re-exam is passed). Old paths in the archived sections below need that prefix.
 
 ---
 
-## ✅ DONE: 34722 LCD1 RE-EXAM — PASSED (oral, 25 August 2026)
+## ACTIVE WORK: 5th semester — autumn 2026, starts Mon 31-Aug
 
-**Format (learned 13-Aug):** 15-minute oral exam, questions in the style of the written exam, solved
-and explained at the board. The solver CANNOT be used in the exam — it is now the practice/sparring
-tool (its **Oral Trainer** mode + "Show the working" + Bode Lab). Prep = derive/sketch/explain from
-memory; see the plan note for the 12-day oral strategy (blank-sheet derivations, sketch drills,
-explain-aloud, mock orals).
+**Enrolled:** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · 34840 Fundamentals of Acoustics and Noise Control (5, E3A) · 34654 Circuit Technology and EMC (5, E4A) = **25 ECTS autumn**; 34871 Nonlinear Transducers (5) in **January 2027**.
 
 ### ▶️ FIRST ACTION ON A FRESH PC
-1. `git pull` in `C:\Users\Mads2\DTU`; PDFs via `python Obsidian/scripts/drive-sync/download.py`.
-2. Open the plan: `Obsidian/Courses/34722 Linear Control Design 1/Exam Prep/RE-EXAM — August 2026 Study Plan.md` — 12-day ORAL plan (13→24 Aug). Hub: `00 LCD1 — Exam Hub.md` in the same folder.
+1. `git pull` in `C:\Users\Mads2\DTU`, then `python Obsidian/scripts/drive-sync/download.py` for the PDFs (all course material is gitignored + drive-synced).
+2. Open the dashboard: `Obsidian/Home.md` — weekly timetable, every deadline, every exam date.
+3. Per course: `Obsidian/Courses/<code> <name>/<code> <name>.md` — each index note carries the real DTU course data (staff, rooms, exam form, full lecture plan, assignment briefs).
 
-### 📌 The diagnosis
-3/20 on F26 (only Q1, Q7, Q11 right). **Not a theory gap** — every miss was the trap distractor beside the right answer (reciprocals, dropped `+1`, marginal-gain-vs-inequality, non-physical signs). Full post-mortem with all 20 worked: `Exam Prep/W-F26 — Worked Exam (MCQ).md`; the 5-point trap check is in the plan note. The sat paper PDF: `Exercises/Solutions/Past Exams/F26 MCQ (sat 2-June-2026).pdf` (drive-synced).
+### 📅 The term at a glance
 
-### 🔧 The exam-day tool: lcd1-exam-suite (JS/Electron)
-- **Repo:** `C:\Users\Mads2\lcd1-exam-suite` (`github.com/MadsRudolph/lcd1-exam-suite`-style, own git). Launch: `Launch-Desktop-App.bat` (warm) / `Double-Click-To-Run.bat` (cold bootstrap). Tests: `npm test` (453 green as of 8-Aug).
-- ⚠️ `Launch-Desktop-App.bat` does **not** rebuild — after ANY source edit run `npm run build` or the app silently runs old code.
-- 8-Aug session: committed the June post-mortem tools (unified Controller K_P, lead-from-magnitude, disturbance |D|, nested-ess chain + the full F26 paper as regression tests), added Smart-Paste routing for all three, and fixed option-flagging (rounded-TF matching for lead options, dB-vs-linear for |D|).
-- The June F26 solve recipes (click-by-click per question): `Exam Prep/W-F26 — Solve It With The LCD1 Solver.md`.
-- **`C:\Users\Mads2\lcd1-solver` (Python) and `DTU/block-diagram-reducer` are superseded predecessors** — don't develop there; the JS suite ported them at parity and fixed their bugs.
+| | Mon | Tue | Thu |
+|---|---|---|---|
+| **Morning** | 62755 · 8–12 · **Ballerup** | 34840 · 8–12 · Lyngby b.358 r.063 | 34870 · 8:30–12 · Lyngby |
+| **Afternoon** | 34870 · 13–17 · Lyngby b.352 r.019 | 34654 · 13–17 · Lyngby b.341 r.023 | — |
+
+Wed/Fri free — that is where 34654 group work and the 34870 labs/project have to go.
+
+**Exams:** 34870 oral **9–10 Dec** · 34840 written **11 Dec** · 62755 written 4 h (**placement unconfirmed**) · 34654 **no exam** (4 reports, pass/fail, 3 of 4 must pass) · 34871 oral in January, **no aids**.
+
+### 🚩 Open questions / gotchas
+- **62755 exam placement conflict:** the DTU course page says **E1A**, slide 8 of `Lecture 1 Introduction.pdf` says **E2B**. E2B would collide with the 34870 oral on 9–10 Dec. Confirm with Ashraf in week 1 and fix `62755 Power Electronics.md`.
+- **Monday is two campuses:** 62755 Ballerup 8–12 → 34870 Lyngby 13–17.
+- **34840 is a formal prerequisite for 34870** but they run in parallel; the 34870 staff hand out an acoustics background note to bridge it.
+- **34654 group deadline:** sign up in DTU Learn (groups of 5) before **Tue 8-Sep 14:00** or you get auto-assigned. Also: opening quiz + Discord before the first lecture.
+- **34870 needs LTspice installed before the first lecture** (Mon 31-Aug); groups of 3 for labs + project.
+- **62755 slides for weeks 9 and 12** (multilevel inverters, AC voltage controllers) not handed out yet.
+- **34654 learning reflections go into a DTU form** — write equations in plain text, not LaTeX.
+
+### 📂 Where the 5th-semester material lives
+- **Obsidian** `Obsidian/Courses/<code> …/` — each has `Lecture Notes/ Slides/ Exercises/ Formulas/ Literature/ Images/` plus per-course extras (`Labs/`, `Project/`, `Projects/`).
+  - **34870:** `Literature/00 - Basic Material/` (course plan, acoustics note, LTspice quick guide) + `Literature/Metrology - BIPM/` (SI Brochure 9th ed + concise + FAQs + appendix 3, pulled from bipm.org — required for the 17-Sep metrology lecture). Books (Leach, Beranek, Lenk, Peters) are **behind the DTU library login — not in the vault**; links are in the index note.
+  - **34840:** `Literature/` (main text, loudspeaker intro, lecture plan) + `Literature/00 - Prerequisites/` (complex numbers + signals refreshers; video lectures stay on DTU Learn).
+  - **62755:** `Slides/` — Lectures 1–7 as handed out.
+  - **34654:** `Projects/` — the 4 assignment briefs (Passives, PCB, EMC, Environmental) + `Literature/Reference Designs/` (the two PCB schematic options and the TI TPS40200EVM-001 user guide).
+- **Repo working folders:** `5. Semester/{Electroacoustics, Power Electronics, Acoustics and Noise Control, Circuit Technology and EMC, Nonlinear Transducers}` — tool-oriented subfolders (LTspice, Matlab, Simulink, PSCAD, C2000, KiCad, Labs, per-assignment folders).
+- Planning truth: `Obsidian/Notes/DTU Study Path.md` (§5.1–5.5) + dashboard `Obsidian/Home.md`.
 
 ---
 
-## ACTIVE WORK: 5th semester (autumn 2026, starts 1-Sep)
+## REPO CONVENTIONS (apply everywhere)
 
-**Enrolled (changed vs the June plan):** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · **34840 Fundamentals of Acoustics and Noise Control (5, E3A — replaced the dropped 62999 Innovation Pilot)** · 34654 Circuit Technology and EMC (5, E4A) = 25 ECTS autumn; 34871 Nonlinear Transducers (5) in January 2027.
+### Drive-sync — large binaries are NOT in git
+PDFs, pptx, zip and video are gitignored and mirrored to Google Drive via `rclone` (remote `gdrive:`), keyed by repo-relative path in `Obsidian/scripts/drive-sync/manifest.json`.
+- **Fetch:** `python Obsidian/scripts/drive-sync/download.py`
+- **Push new files:** `python Obsidian/scripts/drive-sync/upload.py --sync` — uploads anything new and rebuilds the manifest; commit the manifest alongside.
+- ⚠️ A plain `git push` does **not** carry the binaries. Use the `drive-sync-push` skill before pushing.
+- ⚠️ `download.py` tries rclone first and falls back to `gdown` by driveId — but **gdown is not installed on this PC**, so rclone is effectively the only path. If a folder is moved locally, the Drive-side folder must move too or the manifest path must stay in sync.
 
-- **Obsidian:** one folder per course under `Obsidian/Courses/` (course-code names). 34840 already holds the pre-start material in `Literature/` (course text + loudspeaker intro) and `Literature/00 - Prerequisites/` (complex-numbers + signals refreshers — Finn Agerkvist strongly recommends doing these before September; video lectures stay on DTU Learn).
-- **Repo working folders:** `5. Semester/{Electroacoustics, Power Electronics, Acoustics and Noise Control, Circuit Technology and EMC, Nonlinear Transducers}`.
-- Planning truth: `Obsidian/Notes/DTU Study Path.md` + dashboard `Obsidian/Home.md` (both updated 8-Aug).
+### Writing conventions
+- **Mermaid > ASCII art** in Obsidian notes.
+- **Conversational English** in study notes; **Danish** in LaTeX dispositions and team `.asm`/report comments when the group's output is Danish.
+- **Plain-text equations** (no LaTeX `$...$`) when the text goes into a Microsoft Form / DTU learning-reflection form.
+- **Hints-first** when Mads is studying: "let's go through X" → small hint, then stop and wait. Full walkthrough only on an explicit "walk me through it".
+
+### Commits
+- **NEVER** add `Co-Authored-By: Claude` or any mention of Claude/AI. Commit messages read like a developer wrote them.
+
+### Nested repos
+`git add -A` works repo-wide as of 26-Aug-2026 (the old broken submodule under the LCD1 `regbot/Report` path is gone). Three nested repos remain but are gitignored: `34655 …/Report/`, `62711 …/PWA Project/Report/`, `62711 …/Report-PWB/`. The 62711 and 62768 **team repos** are separate git repos with their own remotes — `cd` into them to work.
+
+### NotebookLM
+`C:\Users\Mads2\.claude\skills\notebooklm\scripts\nlm.bat ask "..." --notebook-id <id>` — shortnames `lcd1`, `dsp`; 62711 = `eb1f49b9-61a5-4494-8a3e-9821f8514324`, DSP = `5bd40a62-b09c-406d-b854-2ed2be6d894c`. Re-`login` if `auth-status` says NOT AUTHENTICATED; intermittent read-timeouts, retry.
+
+---
+
+## ARCHIVED: 34722 Linear Control Design 1 — RE-EXAM PASSED (oral, 25 August 2026) ✅
+
+Course folder moved to `Obsidian/Archive/4th Semester/34722 Linear Control Design 1/` on 26-Aug-2026.
+
+- **The story:** 3/20 on the June F26 written exam — not a theory gap, every miss was the trap distractor (reciprocals, dropped `+1`, marginal-gain-vs-inequality, non-physical signs). The re-exam was a **15-minute oral** at the board; prep was blank-sheet derivations, sketch drills and explain-aloud rather than solver drilling. Passed.
+- **Assets** (all under the archived folder): `Exam Prep/` — `00 LCD1 — Exam Hub.md`, `RE-EXAM — August 2026 Study Plan.md`, `P1`–`P7` topic notes, `W-F26 — Worked Exam (MCQ).md` (all 20 worked), `Walkthroughs/`. Plus `Formulas/Exam Formula Cheat-Sheet.md` and `LCD1_Bible.md`.
+- **🚩 Gotcha:** the previous-student helper scripts `4. Semester/Linear Control Design/EXAM/Helpers/bandwidth_second_order.m` and `crossover_frequency2bandwidth.m` use `4*zeta`/`4*zeta^2` where it must be `4*zeta^4`. The corrected formula is in the cheat-sheet §4.
+- **Still live for 62755:** DTU lists 34722 as a prerequisite route into Power Electronics — the Bode / phase-margin / PI-lead material comes straight back for converter control loops.
+- **The tool: lcd1-exam-suite (JS/Electron)** — `C:\Users\Mads2\lcd1-exam-suite`, own git. Launch `Launch-Desktop-App.bat` (warm) / `Double-Click-To-Run.bat` (cold). Tests `npm test` (453 green as of 8-Aug). ⚠️ `Launch-Desktop-App.bat` does **not** rebuild — after ANY source edit run `npm run build` or it silently runs old code. `C:\Users\Mads2\lcd1-solver` (Python) and `DTU/block-diagram-reducer` are **superseded predecessors** — don't develop there.
+- MATLAB material: `4. Semester/Linear Control Design/EXAM/` → `Scripts/`, `Maple solutions/`, `Helpers/`, `Regbot/`. Past exams + quiz solutions: `Exercises/Solutions/Past Exams/` and `Exercises/Work/Quiz/Solutions/` under the archived folder.
+- NotebookLM: `nlm.bat ask "..." --notebook-id lcd1`.
 
 ---
 
@@ -64,28 +110,6 @@ explain-aloud, mock orals).
 ### Where the 62768 course materials live (personal, in umbrella repo)
 - **Obsidian** `Obsidian/Courses/62768 Electrical Energy Systems/` — `Slides/` (6 lectures + intro), `Labs/`, `Literature/` (spec + `Datasheets/`), empty `Lecture Notes/Formulas/Images/` for own notes.
 - **Code** `4. Semester/Electrical Energy Systems/` — `Three Phase Transformer/` + `DC-DC Converters/` Simulink models (the personal copies; team repo has copies too).
-
----
-
-## REFERENCE: 34722 Linear Control Design 1 — asset map (⚠️ NOT done — see ACTIVE WORK #1, re-exam August 2026)
-
-### 📌 Exam format
-**Multiple-choice.** Prep = drill quizzes + old exams. Highest-value assets are the previous-student materials (added 28-May-2026).
-
-### Where the LCD materials live
-- **Obsidian** `…/34722 …/Exercises/Solutions/Past Exams/` — 8 old exam PDFs (S20, S21, F22 sol, REExam F21, 2022 no-answers, Final Test, Theoretical Exercises, 2-block) + 4 screenshots.
-- **Obsidian** `…/Exercises/Work/Quiz/Solutions/` — 11 quiz solution PDFs + Midterm + combined quiz PDF.
-- **MATLAB** `4. Semester/Linear Control Design/EXAM/` → `Scripts/` (.mlx/.m/.slx exam scripts), `Maple solutions/` (6 .mw), `Helpers/` (formula .m), `Regbot/` (Simulink models).
-- PDFs → Google Drive via drive-sync; `.m/.mlx/.slx/.mw` are in git. Source backup still at `OneDrive\Skrivebord\Regulerings_eksamen_tildigere_studerende`.
-
-### 🚩 Gotcha — previous-student helper scripts have typos
-`EXAM/Helpers/bandwidth_second_order.m` and `crossover_frequency2bandwidth.m` use `4*zeta`/`4*zeta^2` where it must be `4*zeta^4`. The **corrected** bandwidth formula is in the cheat-sheet §4. The overshoot/damping/phase-margin helpers are correct.
-
-### NotebookLM
-`nlm.bat ask "..." --notebook-id lcd1` — the 34722 notebook (slides 1-12: Laplace, Bode, Nyquist, PI/LEAD, stability, sensitivity + MATLAB exercises).
-
-### Drive-sync (PDFs)
-`python Obsidian/scripts/drive-sync/upload.py --sync` pushes all new large files (≥ extensions in `config.py`) to Google Drive + rebuilds the manifest. Needs `rclone` with the `gdrive` remote (both present on this PC).
 
 ---
 
@@ -179,7 +203,7 @@ If you want these on the other PC: `cd` into the team repo and `git add` them ex
 
 ### Known repo issue
 
-Broken nested git repo at `Obsidian/Courses/34722 Linear Control Design 1/Exercises/Work/regbot/Report` makes repo-wide `git add -A` abort. **Stage 62711 work by explicit path** (typically the whole `Obsidian/Courses/62711 .../Exam Prep/` folder + `CLAUDE.md`). Do not fix the broken submodule without explicit go-ahead.
+~~Broken nested git repo under the LCD1 `regbot/Report` path made repo-wide `git add -A` abort.~~ **Resolved 26-Aug-2026** — that folder no longer exists and `git add -A` works repo-wide. See REPO CONVENTIONS above.
 
 ---
 

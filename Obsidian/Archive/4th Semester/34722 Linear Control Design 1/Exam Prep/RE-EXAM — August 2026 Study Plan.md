@@ -42,13 +42,13 @@ linearization, formal proofs. Knowing what to skip IS the plan.
 | 5. First recorded mock | 1 | 5 random prompts, ● Record each | Transcribe → **"review my oral session"** → Claude grades |
 
 ### Sunday 24 — design, stability, mocks (~8 h, stop by 21:00)
-| Block | Hours | Content | Method |
-|---|---|---|---|
-| 6. P & Lead design | 1.5 | P-for-PM two-step (phase pins ω_c, gain sets crossover); lead = zero-before-pole, why it adds phase; phase-budget equation stated | Trainer **P6** (core 4 prompts; outline-level on the rest) |
-| 7. Nyquist & stable-K | 1 | Z = N + P in words; stable plant 0<K<GM; RHP plant K>K_crit and why it flips | Trainer **P3** |
-| 8. Sweep-up | 1 | Block-reduction rules (series×, parallel+, feedback G/(1+GH)); IVT/FVT statements | Trainer **P1/P7** leftovers |
-| 9. Mock orals ×2–3 | 2.5 | 15 min each: 3 recorded prompts, standing, no notes → Claude review after each → patch the worst gap immediately | The dress rehearsal |
-| 10. Close | 1 | Blank-sheet formula test ×2; trap card aloud; pack; sleep before 23 | |
+| Block                 | Hours | Content                                                                                                                           | Method                                                     |
+| --------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 6. P & Lead design    | 1.5   | P-for-PM two-step (phase pins ω_c, gain sets crossover); lead = zero-before-pole, why it adds phase; phase-budget equation stated | Trainer **P6** (core 4 prompts; outline-level on the rest) |
+| 7. Nyquist & stable-K | 1     | Z = N + P in words; stable plant 0<K<GM; RHP plant K>K_crit and why it flips                                                      | Trainer **P3**                                             |
+| 8. Sweep-up           | 1     | Block-reduction rules (series×, parallel+, feedback G/(1+GH)); IVT/FVT statements                                                 | Trainer **P1/P7** leftovers                                |
+| 9. Mock orals ×2–3    | 2.5   | 15 min each: 3 recorded prompts, standing, no notes → Claude review after each → patch the worst gap immediately                  | The dress rehearsal                                        |
+| 10. Close             | 1     | Blank-sheet formula test ×2; trap card aloud; pack; sleep before 23                                                               |                                                            |
 
 ### Exam-day survival (Mon 25)
 - Open EVERY answer with the template: **classify → state the relation → derive → sanity-check → conclude.**
