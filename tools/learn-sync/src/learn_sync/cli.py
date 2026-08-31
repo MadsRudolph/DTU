@@ -27,9 +27,11 @@ from .notes import (
     render_index,
     write_note,
 )
+from .models import RunReport
 from .notify import DiscordNotifier
 from .session import Session
 from .state import State
+from .status import STATUS_DIR, render_status, write_status
 from .sync import Sync
 
 log = logging.getLogger("learn_sync")
@@ -55,6 +57,9 @@ class Config:
         self.username = os.environ.get("LEARN_USER", "")
         self.password = os.environ.get("LEARN_PASS", "")
         self.webhook = os.environ.get("DISCORD_WEBHOOK_URL", "")
+        self.status_path = Path(
+            os.environ.get("LEARN_STATUS", STATUS_DIR / "status.json")
+        )
 
 
 def _drive_sync(repo_root: Path, state):
@@ -126,6 +131,11 @@ def cmd_sync(args) -> int:
                 "Run `learn-sync auth` to sign in again.",
             )
             log.error("authentication failed: %s", failure)
+            write_status(
+                config.status_path,
+                render_status(RunReport(), state, ok=False, courses=0,
+                              when=datetime.now(), needs_reauth=True),
+            )
             return 2
 
         session = Session(context)
@@ -232,6 +242,11 @@ def cmd_sync(args) -> int:
         return 3
 
     log.info("committed=%s files=%d", committed, len(syncer.report.files_added))
+    write_status(
+        config.status_path,
+        render_status(syncer.report, state, ok=True, courses=len(courses),
+                      when=datetime.now()),
+    )
     notifier.report(syncer.report)
     return 0
 

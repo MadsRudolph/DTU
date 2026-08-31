@@ -6,11 +6,14 @@ services:
     environment:
       LEARN_REPO: /repo
       LEARN_STORAGE_STATE: /session/storageState.json
+      LEARN_STATUS: /status/status.json
     volumes:
       # The clone of github.com/MadsRudolph/DTU that this service publishes into.
       - /srv/learn-sync/repo:/repo
       # Browser session, kept outside the image so a rebuild does not sign you out.
       - /srv/learn-sync/session:/session
+      # Status JSON for the Glance dashboard, served by nginx on :8099.
+      - /srv/learn-sync/status:/status
       # The deploy key is only ever read.
       - /srv/learn-sync/ssh:/root/.ssh:ro
       # NOT read-only: Google Drive access tokens expire hourly and rclone writes
