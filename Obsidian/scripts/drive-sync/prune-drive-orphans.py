@@ -71,7 +71,11 @@ def main() -> int:
         print(f"  {path}...", end=" ", flush=True)
         result = subprocess.run(
             [RCLONE, "deletefile", f"gdrive:{path}",
-             "--drive-root-folder-id", DRIVE_FOLDER_ID],
+             "--drive-root-folder-id", DRIVE_FOLDER_ID,
+             # Explicit, not relying on the backend default: these go to the
+             # Google Drive trash and stay recoverable for 30 days. This tool
+             # must never hard-delete.
+             "--drive-use-trash=true"],
             capture_output=True,
             text=True,
             encoding="utf-8",
