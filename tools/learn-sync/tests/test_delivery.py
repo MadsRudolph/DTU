@@ -219,3 +219,18 @@ def test_drive_sync_runs_when_files_were_only_adopted(repo):
     delivery.publish(r, ["note.md"])
 
     assert calls == [1]
+
+
+def test_drive_sync_runs_even_when_no_tracked_file_changed(repo):
+    """The early "nothing pending" return must not skip the upload.
+
+    A run where notes and state are all unchanged is exactly the run that has to
+    push a previously stranded binary, so the upload comes before that check.
+    """
+    calls = []
+    delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
+
+    committed = delivery.publish(report(), ["seed.md"])
+
+    assert calls == [1]
+    assert committed is False

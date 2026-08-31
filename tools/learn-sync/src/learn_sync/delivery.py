@@ -89,16 +89,14 @@ class Delivery:
         file, the manifest. Binaries are gitignored and travel via Drive, and
         nothing outside `paths` is ever staged.
         """
-        paths = [str(p) for p in paths]
-        if not self._pending(paths):
-            return False
-
-        # Always, not just when this run downloaded something. State can record a
-        # topic as synced while Drive never received it -- an aborted run leaves
-        # exactly that -- and gating on this run's own work made the gap permanent.
-        # upload.py --sync is idempotent: with nothing new it just lists and exits.
+        # The upload comes first, before any "did anything change" check. State can
+        # record a topic as synced while Drive never received it -- an aborted run
+        # leaves exactly that -- and the run that has to repair it is precisely the
+        # one where nothing else changed. upload.py --sync is idempotent: with
+        # nothing new it lists Drive and exits.
+        paths = [str(p) for p in paths] + [MANIFEST]
         self._drive_sync()
-        paths = paths + [MANIFEST]
+
         if not self._pending(paths):
             return False
 
