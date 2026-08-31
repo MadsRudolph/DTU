@@ -162,3 +162,29 @@ def test_empty_deadlines_render_a_placeholder_not_an_empty_table():
 
     assert result.strip() != ""
     assert "|" not in result
+
+
+def test_index_items_are_a_tight_list():
+    """Blank lines between items make Obsidian render a loose, sparse list."""
+    entries = [
+        (("Week 1",), "A", "Obsidian/a.pdf"),
+        (("Week 1",), "B", "Obsidian/b.pdf"),
+    ]
+
+    body = render_index("X", entries)
+    lines = body.splitlines()
+    first = lines.index("- [[a.pdf|A]]")
+
+    assert lines[first + 1] == "- [[b.pdf|B]]"
+
+
+def test_index_puts_a_blank_line_before_each_module_heading():
+    entries = [
+        (("Week 1",), "A", "Obsidian/a.pdf"),
+        (("Week 2",), "B", "Obsidian/b.pdf"),
+    ]
+
+    lines = render_index("X", entries).splitlines()
+    heading = lines.index("## Week 2")
+
+    assert lines[heading - 1] == ""

@@ -67,10 +67,13 @@ def render_index(course_name: str, entries) -> str:
             prefix = module_path[:depth]
             if prefix not in seen:
                 seen.append(prefix)
+                # A blank line before the heading, none between items: Obsidian
+                # renders a list with blank lines between entries as a loose list.
+                if lines and lines[-1] != "":
+                    lines.append("")
                 lines.append(f"{'#' * (depth + 1)} {prefix[-1]}")
                 lines.append("")
         lines.append(f"- {_wiki_link(vault_path, title)}")
-        lines.append("")
 
     return "\n".join(lines).rstrip() + "\n"
 

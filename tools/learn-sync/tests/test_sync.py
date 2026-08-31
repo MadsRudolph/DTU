@@ -33,18 +33,24 @@ def topic(topic_id="1", filename="Lecture 1.pdf", revision="a", module=("Week 1"
 
 
 class Downloader:
-    """Records what was fetched and serves canned bytes."""
+    """Stands in for Session.download, which takes a URL -- not a Topic.
+
+    Matching the real signature here is the point: an earlier fake accepted a
+    Topic, so every unit test passed while the live wiring raised AttributeError
+    on the first download.
+    """
 
     def __init__(self, content=b"pdf-bytes", fail_for=()):
         self.content = content
         self.fail_for = set(fail_for)
         self.fetched = []
 
-    def __call__(self, t: Topic) -> bytes:
-        self.fetched.append(t.topic_id)
-        if t.topic_id in self.fail_for:
+    def __call__(self, url: str) -> bytes:
+        assert isinstance(url, str), f"download takes a URL, got {type(url).__name__}"
+        self.fetched.append(url)
+        if url in self.fail_for:
             raise ConnectionError("download failed")
-        return self.content if isinstance(self.content, bytes) else self.content[t.topic_id]
+        return self.content
 
 
 @pytest.fixture
@@ -92,7 +98,7 @@ def test_reupload_of_identical_bytes_is_downloaded_but_not_rewritten(tmp_path):
 
     s.process(COURSE, [topic(revision="b")])
 
-    assert downloader.fetched == ["1"]
+    assert downloader.fetched == ["https://example/1"]
     assert s.report.files_added == []
 
 
@@ -115,7 +121,7 @@ def test_unknown_course_is_filed_under_learn_and_warned_about(tmp_path, sync):
 
 
 def test_failed_download_is_skipped_and_warned_without_poisoning_state(tmp_path):
-    downloader = Downloader(fail_for=["1"])
+    downloader = Downloader(fail_for=["https://example/1"])
     state = State.empty()
     s = Sync(rules=RULES, state=state, repo_root=tmp_path, download=downloader)
 
@@ -139,6 +145,13 @@ def test_parent_directories_are_created(tmp_path, sync):
     sync.process(COURSE, [topic(module=("Deep", "Nested"), filename="x.txt")])
 
     assert (tmp_path / "Obsidian/Courses/34870 Electroacoustics/_Learn/Deep/Nested/x.txt").exists()
+
+
+def test_download_is_called_with_the_topic_url(sync):
+    """The seam between Sync and Session: a URL string, never the Topic itself."""
+    sync.process(COURSE, [topic()])
+
+    assert sync._download.fetched == ["https://example/1"]
 
 
 def test_dry_run_downloads_nothing_and_writes_nothing(tmp_path):

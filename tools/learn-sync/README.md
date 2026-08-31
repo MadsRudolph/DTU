@@ -91,10 +91,29 @@ python -m pytest
 No network and no browser in the suite — collectors are parsers over fixtures,
 and delivery runs against a real throwaway git repo with a bare origin.
 
-## What is not pinned down yet
+## Status
 
-The collectors parse payload shapes that `learn-sync discover` confirms against
-the live instance. `content` (table of contents), `courses` (dashboard links) and
-`calendar` (RFC 5545, standard) are implemented and tested; the **announcements
-collector is not written yet** — the renderer for it is tested in `notes.py`, but
-the scraper needs a real news page from the discovery dump first.
+Verified end to end against the live instance on 2026-08-31, using a scratch
+clone with a local bare origin:
+
+- cold run — 30 files downloaded and filed, notes written, one commit, pushed
+- second run — no-op, no commit, clean tree
+- zero binaries tracked in git; all 30 on disk and correctly gitignored
+- `Home.md` injection checked against the real 135-line dashboard: every
+  original line preserved, idempotent
+
+**Not yet exercised:** the rclone leg. The scratch repo had no
+`Obsidian/scripts/drive-sync/upload.py`, so the run took the documented
+"script missing, skipping upload" path. That step runs for the first time on
+the container.
+
+Filing decisions worth knowing about:
+
+- 34654's Learn content area is empty (0 modules), so it syncs nothing. That is
+  correct, not a failure — its assignment briefs came from elsewhere.
+- 62755 datasheets (`IRF540N.pdf`, `IR2110.pdf`, …) land in `Labs/` next to
+  `Lab1.pdf`, because they live in the Lab module. Move them to a
+  `Literature/Datasheets/` rule if you would rather separate them.
+- Only events matching `due|hand-in|deadline|aflever` reach `Home.md`. Right
+  now every calendar entry is timetable ("Lecture", "Group work"), so the
+  deadlines block stays empty until real hand-ins are posted.

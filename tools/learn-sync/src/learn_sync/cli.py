@@ -183,7 +183,10 @@ def cmd_sync(args) -> int:
                 ) or {},
                 course,
             )
-            syncer.report.events.extend(events)
+            # Only deadlines are surfaced: the weekly timetable is already in
+            # Home.md by hand, and the report must describe exactly what gets
+            # written or the commit message starts claiming things it did not do.
+            syncer.report.events.extend(e for e in events if e.kind == "assignment")
 
         browser.close()
 
@@ -195,17 +198,16 @@ def cmd_sync(args) -> int:
         print(
             f"\n{len(syncer.report.files_added)} file(s), "
             f"{len(syncer.report.announcements)} announcement(s), "
-            f"{len(syncer.report.events)} event(s) — nothing written"
+            f"{len(syncer.report.events)} deadline(s) — nothing written"
         )
         return 0
 
-    deadlines = [e for e in syncer.report.events if e.kind == "assignment"]
     home = config.repo_root / "Obsidian/Home.md"
-    if deadlines and home.exists():
+    if syncer.report.events and home.exists():
         _write_note(
             home,
             inject_block(home.read_text(encoding="utf-8"), DEADLINE_MARKER,
-                         render_deadlines(deadlines)),
+                         render_deadlines(syncer.report.events)),
             touched,
             config.repo_root,
         )

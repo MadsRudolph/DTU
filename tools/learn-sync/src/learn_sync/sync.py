@@ -59,7 +59,7 @@ class Sync:
             return
 
         try:
-            payload = self._download(topic)
+            payload = self._download(topic.download_url)
         except Exception as exc:
             self.report.warnings.append(
                 f"could not download {topic.filename} for {course.code}: {exc}"
