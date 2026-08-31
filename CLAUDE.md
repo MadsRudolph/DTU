@@ -59,6 +59,16 @@ and posts to Discord. **Don't download course PDFs by hand — check that it ran
   `app/` = deployed copy + `.env`; `repo/` = its own clone of this repo (the delivery target).
 - **Commands:** `docker compose run --rm learn-sync sync [--dry-run] | auth | discover`
   from `/srv/learn-sync/app`. Logs: `journalctl -u learn-sync`.
+- **Getting code changes onto the container** — a `git push` alone does nothing; the
+  service runs what is baked into its image. SSH in (`ssh root@192.168.50.182`) and:
+  ```
+  cd /srv/learn-sync/repo && git pull --rebase
+  cp -r tools/learn-sync/src /srv/learn-sync/app/
+  cd /srv/learn-sync/app && docker compose build
+  ```
+  Editing `rules.yaml` needs only the `git pull` — rules are read from
+  `/repo/tools/learn-sync/rules.yaml` at run time, not from the image.
+- **Changing the Discord webhook:** `nano /srv/learn-sync/app/.env`, no restart needed.
 - **Schedule:** `learn-sync.timer`, every 3 h ±10 min jitter.
 - **Which courses:** `tools/learn-sync/rules.yaml` → `semesters: [e26]`. **Update this
   each semester** — every DTU enrolment reports `IsActive: true` forever (even 2024
