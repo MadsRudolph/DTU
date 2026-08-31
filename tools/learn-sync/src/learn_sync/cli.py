@@ -134,7 +134,7 @@ def cmd_sync(args) -> int:
             write_status(
                 config.status_path,
                 render_status(RunReport(), state, ok=False, courses=0,
-                              when=datetime.now(), needs_reauth=True),
+                              when=datetime.now().astimezone(), needs_reauth=True),
             )
             return 2
 
@@ -245,7 +245,7 @@ def cmd_sync(args) -> int:
     write_status(
         config.status_path,
         render_status(syncer.report, state, ok=True, courses=len(courses),
-                      when=datetime.now()),
+                      when=datetime.now().astimezone()),
     )
     notifier.report(syncer.report)
     return 0

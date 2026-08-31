@@ -83,3 +83,14 @@ def test_writing_status_creates_its_directory(tmp_path):
     write_status(path, {"ok": True})
 
     assert path.exists()
+
+
+def test_an_aware_timestamp_keeps_its_offset():
+    """Glance's parseTime "rfc3339" needs the offset to render a relative time."""
+    from datetime import timezone, timedelta
+
+    tz = timezone(timedelta(hours=2))
+    s = render_status(RunReport(), State.empty(), ok=True, courses=4,
+                      when=datetime(2026, 9, 1, 8, 0, tzinfo=tz))
+
+    assert s["last_run"] == "2026-09-01T08:00:00+02:00"
