@@ -53,6 +53,11 @@ def commit_message(report) -> str:
         if item.course_code not in codes:
             codes.append(item.course_code)
 
+    # A run can change nothing but the state file; it still commits, and
+    # "Update  for " is not a commit message.
+    if not subjects or not codes:
+        return "Update sync state"
+
     verb = "Add" if (report.files_added or report.announcements) else "Update"
     return f"{verb} {_join(subjects)} for {_join(codes)}"
 
@@ -88,7 +93,10 @@ class Delivery:
         if not self._pending(paths):
             return False
 
-        if report.files_added:
+        # Adopted files are on disk but may never have reached Drive -- a
+        # container that downloaded them in an aborted earlier run would
+        # otherwise strand them outside the manifest forever.
+        if report.files_added or report.files_adopted:
             self._drive_sync()
             paths = paths + [MANIFEST]
             if not self._pending(paths):

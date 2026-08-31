@@ -84,6 +84,7 @@ class Sync:
         if destination.exists() and hashlib.sha256(destination.read_bytes()).hexdigest() == digest:
             self._claimed.add(resolved)
             self.state.record(topic, sha256=digest, vault_path=str(resolved))
+            self.report.files_adopted.append((course.code, str(resolved)))
             return
 
         if resolved != target:
