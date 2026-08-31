@@ -64,30 +64,43 @@ def main() -> int:
         print("\n(report only -- pass --apply to move these to the Drive trash)")
         return 0
 
+    # One rclone invocation for the whole batch, not one per file. Per-file calls
+    # each pay a fresh OAuth handshake and Google throttles the burst -- a single
+    # delete was taking well over a minute under backoff.
+    listing = Path(__file__).resolve().parent / ".prune-list.txt"
+    listing.write_text(
+        "\n".join(e["original_path"] for e in orphans.values()) + "\n",
+        encoding="utf-8",
+    )
+
     print("\nMoving to Drive trash...")
-    failed = 0
-    for entry in orphans.values():
-        path = entry["original_path"]
-        print(f"  {path}...", end=" ", flush=True)
+    try:
         result = subprocess.run(
-            [RCLONE, "deletefile", f"gdrive:{path}",
+            [RCLONE, "delete", "gdrive:",
+             "--files-from", str(listing),
              "--drive-root-folder-id", DRIVE_FOLDER_ID,
              # Explicit, not relying on the backend default: these go to the
              # Google Drive trash and stay recoverable for 30 days. This tool
              # must never hard-delete.
-             "--drive-use-trash=true"],
-            capture_output=True,
+             "--drive-use-trash=true",
+             # Stay under Drive's per-second quota instead of being throttled.
+             "--tpslimit", "8",
+             "--checkers", "4",
+             "--stats", "10s",
+             "--stats-one-line",
+             "-v"],
             text=True,
             encoding="utf-8",
         )
-        if result.returncode == 0:
-            print("OK")
-        else:
-            print(f"FAILED ({result.stderr.strip().splitlines()[-1:]})")
-            failed += 1
+    finally:
+        listing.unlink(missing_ok=True)
 
-    print(f"\nDone. {len(orphans) - failed} trashed, {failed} failed.")
-    return 1 if failed else 0
+    if result.returncode != 0:
+        print(f"\nrclone exited {result.returncode} -- re-run to retry what is left.")
+        return 1
+
+    print(f"\nDone. {len(orphans)} file(s) moved to the Drive trash.")
+    return 0
 
 
 if __name__ == "__main__":
