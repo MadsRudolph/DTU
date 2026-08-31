@@ -283,6 +283,24 @@ def cmd_discover(args) -> int:
     return 0
 
 
+def cmd_test_notify(args) -> int:
+    """Prove the configured Discord webhook actually delivers.
+
+    A normal run is silent when nothing is new, so it cannot tell you whether a
+    freshly rotated webhook works. This posts one alert unconditionally.
+    """
+    config = Config()
+    if not config.webhook:
+        print("DISCORD_WEBHOOK_URL is not set in .env — nothing to test.")
+        return 1
+
+    DiscordNotifier(config.webhook).alert(
+        "learn-sync", "Webhook test — notifications are working."
+    )
+    print("Alert sent. Check the Discord channel the webhook belongs to.")
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="learn-sync")
     parser.add_argument("-v", "--verbose", action="store_true")
@@ -299,6 +317,9 @@ def main(argv=None) -> int:
     sub.add_parser("discover", help="probe the instance and dump payloads").set_defaults(
         func=cmd_discover
     )
+    sub.add_parser(
+        "test-notify", help="post one Discord alert to prove the webhook works"
+    ).set_defaults(func=cmd_test_notify)
 
     args = parser.parse_args(argv)
     logging.basicConfig(
