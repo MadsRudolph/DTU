@@ -11,7 +11,11 @@ services:
       - /srv/learn-sync/repo:/repo
       # Browser session, kept outside the image so a rebuild does not sign you out.
       - /srv/learn-sync/session:/session
-      # Read-only credentials for pushing and for the Drive upload.
+      # The deploy key is only ever read.
       - /srv/learn-sync/ssh:/root/.ssh:ro
-      - /srv/learn-sync/rclone:/root/.config/rclone:ro
+      # NOT read-only: Google Drive access tokens expire hourly and rclone writes
+      # the refreshed token back into rclone.conf. Mounted :ro, every transfer
+      # fails with "Failed to save config ... read-only file system" -- and
+      # upload.py reports success anyway, so the failure is silent.
+      - /srv/learn-sync/rclone:/root/.config/rclone
     working_dir: /repo
