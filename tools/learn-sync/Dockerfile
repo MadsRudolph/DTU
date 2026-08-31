@@ -1,6 +1,10 @@
 # Chromium and its system libraries come baked in, so nothing browser-related
 # has to be installed into the LXC itself.
-FROM mcr.microsoft.com/playwright/python:v1.47.0-jammy
+#
+# This tag and the playwright pin in requirements.txt MUST match exactly: the
+# image ships browser binaries for one specific Playwright version, and a pip
+# resolver that picks a newer one fails at launch with "Executable doesn't exist".
+FROM mcr.microsoft.com/playwright/python:v1.62.0-jammy
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git openssh-client rclone \
