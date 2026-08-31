@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync new DTU Learn material into the Obsidian vault
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/learn-sync/app
+ExecStart=/usr/bin/docker compose run --rm learn-sync sync
+StandardOutput=journal
+StandardError=journal

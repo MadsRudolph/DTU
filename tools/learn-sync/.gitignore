@@ -1,0 +1,5 @@
+storageState.json
+.env
+fixtures/discovery/
+__pycache__/
+.pytest_cache/

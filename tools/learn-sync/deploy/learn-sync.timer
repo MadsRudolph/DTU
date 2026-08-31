@@ -1,0 +1,10 @@
+[Unit]
+Description=Check DTU Learn for new material every three hours
+
+[Timer]
+OnCalendar=*-*-* 00/3:00:00
+RandomizedDelaySec=10m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

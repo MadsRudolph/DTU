@@ -1,0 +1,59 @@
+# Where each course's material lands in the vault.
+#
+# Rules are ordered and the FIRST match wins. `module` matches the slash-joined
+# Brightspace module path, `file` matches the filename; both are regexes, and a
+# rule listing both requires both. Anything unmatched goes to `default`.
+#
+# Every file lands in exactly one place -- there is no mirror-plus-copy. The
+# full Brightspace tree is reproduced as _Learn/INDEX.md, which links to
+# wherever each file actually went.
+#
+# A course with no entry here still syncs: it gets the standard folder skeleton,
+# everything goes under _Learn/, and Discord asks you to add rules.
+
+courses:
+  "34870":
+    vault: "34870 Electroacoustics"
+    rules:
+      - {module: "(?i)^lab",                        to: "Labs/"}
+      - {module: "(?i)project",                     to: "Project/"}
+      - {module: "(?i)literature|reading|book",     to: "Literature/"}
+      - {file:   "(?i)(lecture|slides?|forelæs)",   to: "Slides/"}
+      - {file:   "(?i)(exercise|problem|opgave|øvelse)", to: "Exercises/"}
+    default: "_Learn/{module}/"
+
+  "34840":
+    vault: "34840 Fundamentals of Acoustics and Noise Control"
+    rules:
+      - {module: "(?i)literature|prerequisite|reading", to: "Literature/"}
+      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
+    default: "_Learn/{module}/"
+
+  "62755":
+    vault: "62755 Power Electronics"
+    rules:
+      - {module: "(?i)^lab",                        to: "Labs/"}
+      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
+      - {module: "(?i)literature|reading",          to: "Literature/"}
+    default: "_Learn/{module}/"
+
+  "34654":
+    vault: "34654 Circuit Technology and EMC"
+    rules:
+      # Four assignments (Passives, PCB, EMC, Environmental) drive this course.
+      - {module: "(?i)assignment|project|report",   to: "Projects/"}
+      - {module: "(?i)literature|reference|datasheet", to: "Literature/"}
+      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
+    default: "_Learn/{module}/"
+
+  "34871":
+    vault: "34871 Nonlinear Transducers"
+    rules:
+      - {module: "(?i)^lab",                        to: "Labs/"}
+      - {module: "(?i)literature|reading",          to: "Literature/"}
+      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
+    default: "_Learn/{module}/"

@@ -1,0 +1,17 @@
+services:
+  learn-sync:
+    build: .
+    image: learn-sync:latest
+    env_file: .env
+    environment:
+      LEARN_REPO: /repo
+      LEARN_STORAGE_STATE: /session/storageState.json
+    volumes:
+      # The clone of github.com/MadsRudolph/DTU that this service publishes into.
+      - /srv/learn-sync/repo:/repo
+      # Browser session, kept outside the image so a rebuild does not sign you out.
+      - /srv/learn-sync/session:/session
+      # Read-only credentials for pushing and for the Drive upload.
+      - /srv/learn-sync/ssh:/root/.ssh:ro
+      - /srv/learn-sync/rclone:/root/.config/rclone:ro
+    working_dir: /repo
