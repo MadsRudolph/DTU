@@ -234,3 +234,25 @@ def test_drive_sync_runs_even_when_no_tracked_file_changed(repo):
 
     assert calls == [1]
     assert committed is False
+
+
+def test_pull_survives_a_dirty_tree_left_by_an_aborted_run(repo, tmp_path):
+    """A run that dies after writing notes but before committing leaves the tree
+    dirty. Without autostash the next pull aborts, and every run after it too."""
+    other = tmp_path / "other2"
+    subprocess.run(["git", "clone", str(tmp_path / "origin.git"), str(other)],
+                   check=True, capture_output=True)
+    git(other, "config", "user.email", "other@example.com")
+    git(other, "config", "user.name", "Other")
+    (other / "remote.md").write_text("remote work\n", encoding="utf-8")
+    git(other, "add", "remote.md")
+    git(other, "commit", "-m", "remote work")
+    git(other, "push")
+
+    # Our tree still has an uncommitted change to a tracked file.
+    (repo / "seed.md").write_text("half-finished work\n", encoding="utf-8")
+
+    Delivery(repo, drive_sync=lambda: None).pull()
+
+    assert (repo / "remote.md").exists(), "remote commit was not pulled"
+    assert (repo / "seed.md").read_text(encoding="utf-8") == "half-finished work\n"

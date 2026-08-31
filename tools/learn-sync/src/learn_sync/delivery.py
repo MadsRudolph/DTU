@@ -79,8 +79,13 @@ class Delivery:
         return result.stdout.strip()
 
     def pull(self) -> None:
-        """Start the run from remote HEAD."""
-        self._git("pull", "--rebase")
+        """Start the run from remote HEAD.
+
+        --autostash because a run that died after writing notes but before
+        committing leaves the tree dirty, and a plain rebase refuses to start on
+        a dirty tree -- which would wedge every subsequent run, not just that one.
+        """
+        self._git("pull", "--rebase", "--autostash")
 
     def publish(self, report, paths) -> bool:
         """Upload binaries, commit the given paths, push. Returns whether it committed.
