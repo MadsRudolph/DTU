@@ -233,3 +233,15 @@ def test_write_note_uses_forward_slashes_for_git(tmp_path):
 
     assert "/" in write_note(tmp_path / "a/b/c.md", "x", tmp_path)
     assert "\\" not in write_note(tmp_path / "a/b/c.md", "x", tmp_path)
+
+
+def test_rendering_with_no_new_announcements_returns_the_file_unchanged():
+    """Lets the caller re-render every run so the note gets staged even when
+    there is nothing new -- otherwise a file from an aborted run stays untracked."""
+    existing = "# Announcements\n\n## 2026-09-01 — Old\n\nOld body\n"
+
+    assert render_announcements(existing, []) == existing
+
+
+def test_rendering_no_announcements_into_nothing_is_still_valid():
+    assert render_announcements("", []).strip() == "# Announcements"

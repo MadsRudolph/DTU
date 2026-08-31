@@ -167,14 +167,19 @@ def cmd_sync(args) -> int:
                 course,
                 since=state.newest_announcement(course.code),
             )
-            if news:
-                syncer.report.announcements.extend(news)
-                if not args.dry_run:
-                    folder = rules.vault_folder(course)
-                    path = config.repo_root / COURSES_ROOT / folder / "_Learn/Announcements.md"
+            syncer.report.announcements.extend(news)
+
+            if not args.dry_run:
+                folder = rules.vault_folder(course)
+                path = config.repo_root / COURSES_ROOT / folder / "_Learn/Announcements.md"
+                # Re-render whenever the file exists, not only when there is news.
+                # An existing note is unchanged by an empty render, but naming it
+                # is what gets a file left behind by an aborted run into the commit.
+                if news or path.exists():
                     existing = path.read_text(encoding="utf-8") if path.exists() else ""
                     _write_note(path, render_announcements(existing, news), touched,
                                 config.repo_root)
+                if news:
                     state.set_newest_announcement(
                         course.code, max(n.announcement_id for n in news)
                     )
