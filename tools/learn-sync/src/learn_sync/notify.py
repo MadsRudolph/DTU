@@ -30,6 +30,16 @@ def _clip(text: str) -> str:
 
 class DiscordNotifier:
     def __init__(self, webhook_url: str, post=_post_via_requests) -> None:
+        # A placeholder or typo'd URL would otherwise look like working
+        # notifications right up until the end of a run, when the post fails.
+        if webhook_url and not webhook_url.startswith(("http://", "https://")):
+            log.warning(
+                "DISCORD_WEBHOOK_URL does not look like a URL (%r) — "
+                "notifications are disabled for this run",
+                webhook_url[:32],
+            )
+            webhook_url = ""
+
         self._url = webhook_url
         self._post = post
 

@@ -108,3 +108,26 @@ def test_transport_failure_never_breaks_the_run():
 
     notifier.report(RunReport(files_added=[("34870", "a.pdf")]))
     notifier.alert("title", "detail")
+
+
+def test_a_webhook_without_a_scheme_is_treated_as_unconfigured(caplog):
+    """A typo'd or placeholder URL must not look like working notifications."""
+    recorder = Recorder()
+
+    DiscordNotifier("PASTE_NEW_WEBHOOK", post=recorder).report(
+        RunReport(files_added=[("34870", "a.pdf")])
+    )
+
+    assert recorder.posts == []
+    assert "does not look like a URL" in caplog.text
+
+
+def test_a_valid_webhook_logs_no_warning(caplog):
+    recorder = Recorder()
+
+    DiscordNotifier(WEBHOOK, post=recorder).report(
+        RunReport(files_added=[("34870", "a.pdf")])
+    )
+
+    assert len(recorder.posts) == 1
+    assert "does not look like a URL" not in caplog.text
