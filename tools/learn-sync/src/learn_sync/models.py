@@ -64,6 +64,9 @@ class RunReport:
     """What one sync run did, used to build the commit message and the Discord post."""
 
     files_added: list[tuple[str, str]] = field(default_factory=list)
+    # Files already present in the vault that this run claimed. They are not news
+    # to the reader, but Drive may never have seen them, so delivery still cares.
+    files_adopted: list[tuple[str, str]] = field(default_factory=list)
     announcements: list[Announcement] = field(default_factory=list)
     events: list[Event] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)

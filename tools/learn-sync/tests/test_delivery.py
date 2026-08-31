@@ -191,3 +191,25 @@ def test_publish_does_not_stage_unrelated_dirty_files(repo):
 
     assert "unrelated.md" in git(repo, "status", "--porcelain")
     assert "unrelated.md" not in git(repo, "show", "--name-only", "--pretty=", "HEAD")
+
+
+def test_commit_message_for_an_empty_report_is_still_readable():
+    """State-only runs still commit; the message must not read 'Update  for'."""
+    msg = commit_message(report())
+
+    assert msg == "Update sync state"
+    assert "  " not in msg
+    assert not msg.endswith("for")
+
+
+def test_drive_sync_runs_when_files_were_only_adopted(repo):
+    """Adopted files are on disk but may never have reached Drive."""
+    calls = []
+    delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
+    (repo / "note.md").write_text("hello\n", encoding="utf-8")
+    r = report()
+    r.files_adopted = [("34870", "a.pdf")]
+
+    delivery.publish(r, ["note.md"])
+
+    assert calls == [1]
