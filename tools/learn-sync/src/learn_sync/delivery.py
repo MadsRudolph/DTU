@@ -93,14 +93,14 @@ class Delivery:
         if not self._pending(paths):
             return False
 
-        # Adopted files are on disk but may never have reached Drive -- a
-        # container that downloaded them in an aborted earlier run would
-        # otherwise strand them outside the manifest forever.
-        if report.files_added or report.files_adopted:
-            self._drive_sync()
-            paths = paths + [MANIFEST]
-            if not self._pending(paths):
-                return False
+        # Always, not just when this run downloaded something. State can record a
+        # topic as synced while Drive never received it -- an aborted run leaves
+        # exactly that -- and gating on this run's own work made the gap permanent.
+        # upload.py --sync is idempotent: with nothing new it just lists and exits.
+        self._drive_sync()
+        paths = paths + [MANIFEST]
+        if not self._pending(paths):
+            return False
 
         # git add aborts on a pathspec that matches nothing, and the manifest may
         # legitimately be absent on a first run, so stage only what is really there.
