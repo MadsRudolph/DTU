@@ -46,7 +46,44 @@ Wed/Fri free — that is where 34654 group work and the 34870 labs/project have 
 
 ---
 
-## REPO CONVENTIONS (apply everywhere)
+## AUTOMATION: learn-sync — DTU Learn → vault, unattended (since 31-Aug-2026)
+
+Course material now arrives on its own. A Proxmox container polls DTU Learn every
+3 hours, files new material into the vault, pushes it through git + drive-sync,
+and posts to Discord. **Don't download course PDFs by hand — check that it ran.**
+
+- **Where:** Proxmox `192.168.50.200` → LXC **114 `learn-sync`** at `192.168.50.182`
+  (Debian 13, unprivileged, `nesting`+`keyctl`, `onboot=1`). Docker + Compose inside.
+- **Code:** `tools/learn-sync/` in this repo. 140 tests, `python -m pytest` (no network).
+- **Live paths on the container:** `/srv/learn-sync/{app,repo,session,ssh,rclone}`.
+  `app/` = deployed copy + `.env`; `repo/` = its own clone of this repo (the delivery target).
+- **Commands:** `docker compose run --rm learn-sync sync [--dry-run] | auth | discover`
+  from `/srv/learn-sync/app`. Logs: `journalctl -u learn-sync`.
+- **Schedule:** `learn-sync.timer`, every 3 h ±10 min jitter.
+- **Which courses:** `tools/learn-sync/rules.yaml` → `semesters: [e26]`. **Update this
+  each semester** — every DTU enrolment reports `IsActive: true` forever (even 2024
+  courses), so the semester token in the Brightspace code (`DTU_e26_34870`) is the
+  only thing scoping the sync.
+- **Where files land:** per-course ordered rules in `rules.yaml`, first match wins;
+  anything unmatched goes to `_Learn/{module}/`. Each course gets a generated
+  `_Learn/INDEX.md` (the Learn module tree, linking to where each file actually went)
+  and `_Learn/Announcements.md`. Deadlines go into `Home.md` between
+  `<!-- learn-sync:deadlines -->` markers — nothing outside those markers is touched.
+
+### 🚩 learn-sync gotchas
+- **Auth is a saved browser session**, not a password. `storageState.json` lives in
+  `/srv/learn-sync/session/`. When it expires, Discord says "re-auth needed": run
+  `learn-sync auth` (headed browser, sign in by hand) and copy the file over.
+  `LEARN_USER`/`LEARN_PASS` in `.env` are optional and currently empty.
+- **DTU Learn is Brightspace and its Valence APIs work with just the session cookie** —
+  no institution app key. Endpoints in `tools/learn-sync/src/learn_sync/collectors/`.
+  If a collector returns nothing, run `learn-sync discover` to dump live payloads.
+- **`Link` topics carry a `Url` exactly like `File` topics** — filter on
+  `TypeIdentifier`, or you download Panopto links as if they were PDFs.
+- **The Playwright pin in `requirements.txt` must equal the Dockerfile base image tag.**
+  The image ships browsers for exactly one version; a floating `>=` breaks at launch.
+- **34654's Learn content area is empty** (0 modules). That is correct, not a failure.
+- Deploy key `learn-sync (Proxmox LXC 114)` on this repo has **write** access.
 
 ### Drive-sync — large binaries are NOT in git
 PDFs, pptx, zip and video are gitignored and mirrored to Google Drive via `rclone` (remote `gdrive:`), keyed by repo-relative path in `Obsidian/scripts/drive-sync/manifest.json`.
@@ -54,6 +91,19 @@ PDFs, pptx, zip and video are gitignored and mirrored to Google Drive via `rclon
 - **Push new files:** `python Obsidian/scripts/drive-sync/upload.py --sync` — uploads anything new and rebuilds the manifest; commit the manifest alongside.
 - ⚠️ A plain `git push` does **not** carry the binaries. Use the `drive-sync-push` skill before pushing.
 - ⚠️ `download.py` tries rclone first and falls back to `gdown` by driveId — but **gdown is not installed on this PC**, so rclone is effectively the only path. If a folder is moved locally, the Drive-side folder must move too or the manifest path must stay in sync.
+- ⚠️ **`upload.py --sync` rebuilds the manifest from files present on local disk.**
+  Safe on a full checkout (it prunes deleted files); **destructive on a partial one** —
+  it would drop every entry whose file isn't there. Never run it from the learn-sync
+  container; that is why learn-sync has its own append-only uploader
+  (`tools/learn-sync/src/learn_sync/drive.py`).
+- ⚠️ **Every rclone call must pass `encoding="utf-8"` to `subprocess`.** Without it
+  Windows decodes rclone's UTF-8 output with cp1252, mangling every `ø/æ/å` path so it
+  never matches the manifest — which silently re-uploaded the same twelve Danish-named
+  files on every run and left ~284 duplicates on Drive. Fixed 31-Aug-2026; don't
+  reintroduce a bare `text=True`.
+- ⚠️ Mount `rclone.conf` **writable** in any container. Drive access tokens expire
+  hourly and rclone rewrites the config to store the refreshed one; mounted `:ro`,
+  every transfer fails — and `upload.py` still exits 0, so the failure is silent.
 
 ### Writing conventions
 - **Mermaid > ASCII art** in Obsidian notes.
