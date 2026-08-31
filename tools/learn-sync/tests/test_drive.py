@@ -33,14 +33,17 @@ class FakeRclone:
     def __init__(self, fail_for=()):
         self.uploaded = []
         self.fail_for = set(fail_for)
+        self.id_calls = 0
 
     def copy(self, local, remote_dir):
         if local.name in self.fail_for:
             raise DriveSyncFailed(f"rclone failed for {local.name}")
         self.uploaded.append(local.name)
 
-    def file_id(self, rel_path):
-        return f"new-id-{rel_path.rsplit('/', 1)[-1]}"
+    def file_ids(self, rel_paths):
+        """One lookup for the whole batch -- see test_ids_are_fetched_in_one_call."""
+        self.id_calls += 1
+        return {p: f"new-id-{p.rsplit('/', 1)[-1]}" for p in rel_paths}
 
 
 @pytest.fixture
@@ -185,3 +188,17 @@ def test_upload_covers_everything_state_knows_that_drive_does_not(repo):
     )
 
     assert rclone.uploaded == ["stranded.pdf"]
+
+
+def test_ids_are_fetched_in_one_call_not_one_per_file(repo):
+    """Each rclone invocation pays full auth cost; 30 files took 9 minutes."""
+    for n in ("a", "b", "c"):
+        make(repo, f"Obsidian/Courses/X/{n}.pdf")
+    rclone = FakeRclone()
+
+    DriveUploader(repo, rclone).upload(
+        [f"Obsidian/Courses/X/{n}.pdf" for n in ("a", "b", "c")]
+    )
+
+    assert len(rclone.uploaded) == 3
+    assert rclone.id_calls == 1

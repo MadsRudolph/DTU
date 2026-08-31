@@ -74,15 +74,31 @@ class Rclone:
     def copy(self, local: Path, remote_dir: str) -> None:
         self._run("copy", str(local), f"{REMOTE}{remote_dir}")
 
-    def file_id(self, rel_path: str) -> str:
-        out = self._run("lsjson", f"{REMOTE}{rel_path}")
+    def file_ids(self, rel_paths) -> dict[str, str]:
+        """Drive ids for a batch, in a single listing.
+
+        One lsjson per file meant 30 uploads took nine minutes: every rclone
+        invocation pays the full auth and connection cost. One recursive listing
+        covers the whole batch.
+        """
+        rel_paths = list(rel_paths)
+        if not rel_paths:
+            return {}
+
+        out = self._run("lsjson", "-R", "--files-only", REMOTE)
         try:
             entries = json.loads(out)
         except json.JSONDecodeError as exc:
-            raise DriveSyncFailed(f"could not read Drive id for {rel_path}: {exc}")
-        if not entries:
-            raise DriveSyncFailed(f"uploaded {rel_path} but Drive did not list it")
-        return entries[0]["ID"]
+            raise DriveSyncFailed(f"could not list Drive: {exc}")
+
+        by_key = {_canon(e["Path"]): e["ID"] for e in entries}
+        ids = {}
+        for rel in rel_paths:
+            drive_id = by_key.get(_canon(rel))
+            if drive_id is None:
+                raise DriveSyncFailed(f"uploaded {rel} but Drive did not list it")
+            ids[rel] = drive_id
+        return ids
 
 
 class DriveUploader:
@@ -115,17 +131,16 @@ class DriveUploader:
         if not pending:
             return []
 
-        added = []
         for rel, local in pending:
             remote_dir = rel.rsplit("/", 1)[0] if "/" in rel else ""
             self._rclone.copy(local, remote_dir)
-            added.append(
-                {
-                    "path": rel,
-                    "driveId": self._rclone.file_id(rel),
-                    "size": local.stat().st_size,
-                }
-            )
+
+        # One listing for the whole batch, after every transfer has landed.
+        ids = self._rclone.file_ids([rel for rel, _ in pending])
+        added = [
+            {"path": rel, "driveId": ids[rel], "size": local.stat().st_size}
+            for rel, local in pending
+        ]
 
         # Only now, once every transfer succeeded, is the manifest rewritten.
         manifest["files"] = sorted(
