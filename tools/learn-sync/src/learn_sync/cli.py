@@ -9,8 +9,6 @@ from __future__ import annotations
 import argparse
 import logging
 import os
-import subprocess
-import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -20,6 +18,7 @@ from .collectors.courses import ENROLMENTS_PATH, parse_enrollments
 from .collectors.events import EVENTS_PATH, parse_events
 from .collectors.news import NEWS_PATH, parse_news
 from .delivery import Delivery, DriveSyncFailed
+from .drive import DriveUploader, Rclone, folder_id_from_manifest
 from .filing import load_rules
 from .notes import inject_block, render_announcements, render_deadlines, render_index
 from .notify import DiscordNotifier
@@ -31,7 +30,6 @@ log = logging.getLogger("learn_sync")
 
 HERE = Path(__file__).resolve().parent.parent.parent
 DEADLINE_MARKER = "learn-sync:deadlines"
-UPLOAD_SCRIPT = "Obsidian/scripts/drive-sync/upload.py"
 COURSES_ROOT = "Obsidian/Courses"
 
 # The calendar API answers 400 without an explicit range.
@@ -53,20 +51,25 @@ class Config:
         self.webhook = os.environ.get("DISCORD_WEBHOOK_URL", "")
 
 
-def _drive_sync(repo_root: Path):
+def _drive_sync(repo_root: Path, state):
+    """Push to Drive everything state believes is synced but the manifest lacks.
+
+    Uses our own additive uploader rather than drive-sync's `upload.py --sync`.
+    That script rebuilds the manifest from files present on local disk, which is
+    right on a full checkout and destructive here: the container holds only the
+    binaries learn-sync downloaded, so a rebuild would drop every other entry.
+
+    Driving it from state rather than from this run's downloads makes it
+    self-healing -- a file left behind by an aborted run is picked up next time.
+    """
+
     def run() -> None:
-        script = repo_root / UPLOAD_SCRIPT
-        if not script.exists():
-            log.warning("drive-sync script missing at %s, skipping upload", script)
-            return
-        result = subprocess.run(
-            [sys.executable, str(script), "--sync"],
-            cwd=repo_root,
-            capture_output=True,
-            text=True,
+        uploader = DriveUploader(
+            repo_root, Rclone(folder_id_from_manifest(repo_root))
         )
-        if result.returncode != 0:
-            raise DriveSyncFailed(result.stderr.strip() or "upload.py failed")
+        uploaded = uploader.upload(sorted(state.known_vault_paths()))
+        if uploaded:
+            log.info("uploaded %d file(s) to Drive", len(uploaded))
 
     return run
 
@@ -105,7 +108,7 @@ def cmd_sync(args) -> int:
     notifier = DiscordNotifier(config.webhook)
     rules = load_rules(config.rules_path.read_text(encoding="utf-8"))
     state = State.load(config.state_path)
-    delivery = Delivery(config.repo_root, drive_sync=_drive_sync(config.repo_root))
+    delivery = Delivery(config.repo_root, drive_sync=_drive_sync(config.repo_root, state))
 
     if not args.dry_run:
         delivery.pull()
