@@ -152,3 +152,39 @@ def test_dry_run_downloads_nothing_and_writes_nothing(tmp_path):
     assert not (tmp_path / "Obsidian").exists()
     # It still reports what it would have done.
     assert len(s.report.files_added) == 1
+
+
+def test_existing_identical_file_is_adopted_rather_than_rewritten(tmp_path, sync):
+    """First run must not clobber material already downloaded by hand."""
+    target = tmp_path / "Obsidian/Courses/34870 Electroacoustics/Slides/Lecture 1.pdf"
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"pdf-bytes")
+    before = target.stat().st_mtime_ns
+
+    sync.process(COURSE, [topic()])
+
+    assert target.stat().st_mtime_ns == before, "file was rewritten"
+    assert sync.report.files_added == [], "adopted file should not report as new"
+    assert sync.state.needs_download(topic(revision="a")) is False
+
+
+def test_existing_different_file_is_replaced_as_a_genuine_update(tmp_path, sync):
+    target = tmp_path / "Obsidian/Courses/34870 Electroacoustics/Slides/Lecture 1.pdf"
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"an older version")
+
+    sync.process(COURSE, [topic()])
+
+    assert target.read_bytes() == b"pdf-bytes"
+    assert len(sync.report.files_added) == 1
+
+
+def test_adopting_still_claims_the_path_so_a_second_topic_does_not_overwrite_it(tmp_path, sync):
+    target = tmp_path / "Obsidian/Courses/34870 Electroacoustics/Slides/Lecture 1.pdf"
+    target.parent.mkdir(parents=True)
+    target.write_bytes(b"pdf-bytes")
+
+    sync.process(COURSE, [topic("1"), topic("2")])
+
+    assert (target.parent / "Lecture 1 (2).pdf").exists()
+    assert target.read_bytes() == b"pdf-bytes"

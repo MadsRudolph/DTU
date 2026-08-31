@@ -1,8 +1,16 @@
-"""Which courses are we enrolled in this semester.
+"""Which courses are we enrolled in, from the Valence LP enrolments API.
 
-Read off the dashboard rather than the Valence API, which needs an institution-
-issued app key a student cannot self-register. Course links are matched by
-their /d2l/home/<orgUnitId> shape, which is stable across Brightspace themes.
+`/d2l/api/lp/1.47/enrollments/myenrollments/?orgUnitTypeId=3` answers with a
+plain session cookie -- no institution app key needed -- so this is a documented
+JSON API rather than scraped markup.
+
+Two traps the live payload revealed:
+
+* Every enrolment reports `IsActive: true`, including courses from 2024. Activity
+  cannot be used to find the current semester; the `Code` field's semester token
+  (`DTU_e26_34870` -> autumn 2026) is the only reliable signal.
+* DTU mixes non-course org units (DesignBuildLab, "How to DTU", the DTU root)
+  into the same list. They have no `DTU_<sem>_<code>` code and are dropped.
 """
 
 from __future__ import annotations
@@ -11,36 +19,41 @@ import re
 
 from ..models import Course
 
-_COURSE_LINK = re.compile(
-    r'href="/d2l/home/(?P<ou>\d+)"[^>]*>(?P<label>[^<]+)<', re.IGNORECASE
+ENROLMENTS_PATH = "/d2l/api/lp/1.47/enrollments/myenrollments/?orgUnitTypeId=3"
+
+# "DTU_e26_34870" -> semester e26, course 34870
+_CODE = re.compile(r"^DTU_(?P<semester>[a-z]\d{2})_(?P<course>\d{5})$", re.IGNORECASE)
+# "34870 Electroacoustics, Fall 2026" -> "Electroacoustics"
+_NAME = re.compile(
+    r"^\s*\d{5}\s+(?P<name>.+?)(?:,\s*(?:Fall|Spring|Summer|June|January)\s+\d{4})?\s*$"
 )
-# "34870 Electroacoustics E26" -> code 34870, name Electroacoustics
-_LABEL = re.compile(r"^\s*(?P<code>\d{5})\s+(?P<name>.+?)\s*$")
-_SEMESTER_SUFFIX = re.compile(r"\s+[EF]\d{2}$")
 
 
-def parse_courses(html: str) -> list[Course]:
-    """Extract enrolled courses, ignoring admin org units and duplicate links."""
+def parse_enrollments(payload: dict, semesters=None) -> list[Course]:
+    """Return the real courses, optionally narrowed to given semester tokens.
+
+    `semesters` is a list like ["e26"]; None means every course ever enrolled in.
+    """
     courses: list[Course] = []
-    seen: set[str] = set()
 
-    for match in _COURSE_LINK.finditer(html):
-        label = match.group("label").strip()
-        parsed = _LABEL.match(label)
-        if not parsed:
-            # No 5-digit course code: an administrative org unit, not a course.
+    for item in payload.get("Items") or []:
+        org_unit = item.get("OrgUnit") or {}
+        matched = _CODE.match(str(org_unit.get("Code") or ""))
+        if not matched:
             continue
 
-        org_unit_id = match.group("ou")
-        if org_unit_id in seen:
+        if semesters is not None and matched.group("semester").lower() not in {
+            s.lower() for s in semesters
+        }:
             continue
-        seen.add(org_unit_id)
 
+        raw_name = str(org_unit.get("Name") or "")
+        name = _NAME.match(raw_name)
         courses.append(
             Course(
-                org_unit_id=org_unit_id,
-                code=parsed.group("code"),
-                name=_SEMESTER_SUFFIX.sub("", parsed.group("name")).strip(),
+                org_unit_id=str(org_unit.get("Id")),
+                code=matched.group("course"),
+                name=name.group("name").strip() if name else raw_name.strip(),
             )
         )
 

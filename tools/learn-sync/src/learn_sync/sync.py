@@ -76,13 +76,22 @@ class Sync:
             return
 
         resolved = resolve_collision(target, self._claimed)
+        destination = self.repo_root / resolved
+
+        # The vault may already hold this file from a manual download. Adopting it
+        # keeps the first run from rewriting material that is already correct, and
+        # from reporting thirty "new" files that were there all along.
+        if destination.exists() and hashlib.sha256(destination.read_bytes()).hexdigest() == digest:
+            self._claimed.add(resolved)
+            self.state.record(topic, sha256=digest, vault_path=str(resolved))
+            return
+
         if resolved != target:
             self.report.warnings.append(
                 f"filename collision for {course.code}: {topic.filename} "
                 f"saved as {resolved.name}"
             )
 
-        destination = self.repo_root / resolved
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(payload)
 

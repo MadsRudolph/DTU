@@ -126,3 +126,15 @@ def test_resolve_collision_suffixes_until_free(taken, expected):
     result = resolve_collision(PurePosixPath("dir/a.pdf"), {PurePosixPath(p) for p in taken})
 
     assert result == PurePosixPath(expected)
+
+
+def test_semesters_are_read_from_the_rules_file():
+    rules = load_rules('semesters: [e26, f27]\ncourses: {}\n')
+
+    assert rules.semesters == ["e26", "f27"]
+
+
+def test_missing_semesters_key_means_no_filter():
+    rules = load_rules("courses: {}\n")
+
+    assert rules.semesters is None

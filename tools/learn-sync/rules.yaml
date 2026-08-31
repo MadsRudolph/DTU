@@ -1,4 +1,4 @@
-# Where each course's material lands in the vault.
+# Which semesters to sync, and where each course's material lands.
 #
 # Rules are ordered and the FIRST match wins. `module` matches the slash-joined
 # Brightspace module path, `file` matches the filename; both are regexes, and a
@@ -9,34 +9,53 @@
 # wherever each file actually went.
 #
 # A course with no entry here still syncs: it gets the standard folder skeleton,
-# everything goes under _Learn/, and Discord asks you to add rules.
+# everything goes under _Learn/, and Discord asks you to add rules for it.
+
+# DTU semester tokens from the Brightspace course code (DTU_e26_34870 -> e26).
+# e = efterår, f = forår, s = summer. Update this at the start of each semester;
+# every enrolment reports IsActive=true forever, so this is the only thing
+# stopping a sync of every course since 2024.
+semesters: [e26]
 
 courses:
   "34870":
     vault: "34870 Electroacoustics"
+    # Real modules seen on Learn: "Basic Material", "Lecture N - <topic>".
     rules:
+      - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
+      - {file:   "(?i)(lecture|slides?|forelæs)",   to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}
       - {module: "(?i)project",                     to: "Project/"}
+      # Course plan, acoustics background note and the LTspice guide live here,
+      # matching the Literature/00 - Basic Material/ folder already in the vault.
+      - {module: "(?i)^basic material",             to: "Literature/00 - Basic Material/"}
       - {module: "(?i)literature|reading|book",     to: "Literature/"}
-      - {file:   "(?i)(lecture|slides?|forelæs)",   to: "Slides/"}
       - {file:   "(?i)(exercise|problem|opgave|øvelse)", to: "Exercises/"}
     default: "_Learn/{module}/"
 
   "34840":
     vault: "34840 Fundamentals of Acoustics and Noise Control"
+    # Real modules: "0 - Course info and material", "Prerequisites", "Lecture N".
     rules:
-      - {module: "(?i)literature|prerequisite|reading", to: "Literature/"}
+      # First, so the prerequisite exercises and their solutions stay together
+      # in the folder that already exists in the vault.
+      - {module: "(?i)prerequisite",                to: "Literature/00 - Prerequisites/"}
+      - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
+      # "34840 lecture plan 2026" is course info, not a lecture slide deck.
+      - {file:   "(?i)(lecture|course) plan",       to: "Literature/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {module: "(?i)course info|course material|literature|reading", to: "Literature/"}
       - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
     default: "_Learn/{module}/"
 
   "62755":
     vault: "62755 Power Electronics"
     rules:
-      - {module: "(?i)^lab",                        to: "Labs/"}
+      - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
-      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
+      - {module: "(?i)^lab",                        to: "Labs/"}
       - {module: "(?i)literature|reading",          to: "Literature/"}
+      - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
     default: "_Learn/{module}/"
 
   "34654":
@@ -44,16 +63,18 @@ courses:
     rules:
       # Four assignments (Passives, PCB, EMC, Environmental) drive this course.
       - {module: "(?i)assignment|project|report",   to: "Projects/"}
-      - {module: "(?i)literature|reference|datasheet", to: "Literature/"}
+      - {module: "(?i)reference design|datasheet",  to: "Literature/Reference Designs/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
+      - {module: "(?i)literature|reading",          to: "Literature/"}
       - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
     default: "_Learn/{module}/"
 
   "34871":
     vault: "34871 Nonlinear Transducers"
     rules:
+      - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
+      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}
       - {module: "(?i)literature|reading",          to: "Literature/"}
-      - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
       - {file:   "(?i)(exercise|problem|opgave)",   to: "Exercises/"}
     default: "_Learn/{module}/"

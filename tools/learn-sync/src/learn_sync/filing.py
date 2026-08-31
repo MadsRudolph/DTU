@@ -67,8 +67,10 @@ class CourseRules:
 class Rules:
     """All per-course filing rules, keyed by DTU course code."""
 
-    def __init__(self, courses: dict[str, CourseRules]) -> None:
+    def __init__(self, courses: dict[str, CourseRules], semesters=None) -> None:
         self._courses = courses
+        # Which DTU semester tokens ("e26") to sync. None means every course.
+        self.semesters = semesters
 
     def is_known(self, course_code: str) -> bool:
         return course_code in self._courses
@@ -113,7 +115,7 @@ def load_rules(text: str) -> Rules:
             default=spec.get("default", DEFAULT_TARGET),
         )
 
-    return Rules(courses)
+    return Rules(courses, semesters=raw.get("semesters"))
 
 
 def resolve_collision(path: PurePosixPath, taken: set[PurePosixPath]) -> PurePosixPath:

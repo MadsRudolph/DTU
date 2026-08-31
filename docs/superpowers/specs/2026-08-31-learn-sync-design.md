@@ -95,22 +95,39 @@ is fully functional with only a seeded `storageState.json`.
 
 ### 4.2 Collectors
 
-All three receive an authenticated Playwright context and return plain data
-structures. No filesystem or network side effects beyond fetching.
+**Confirmed against the live instance on 2026-08-31.** The Valence APIs answer
+with nothing but a session cookie — no institution-issued app key — so all three
+collectors read documented JSON rather than scraped markup.
 
-| Collector | Produces |
-|---|---|
-| `content` | `[Topic]` — per course, the module tree flattened to topics with `topic_id`, `module_path`, `title`, `filename`, `download_url`, `revision` |
-| `news` | `[Announcement]` — `course`, `posted_at`, `title`, `body_markdown` |
-| `calendar` | `[Event]` — `course`, `title`, `starts_at`, `due`, `kind` (assignment / lecture / other) |
+| Collector | Endpoint | Produces |
+|---|---|---|
+| `courses` | `/d2l/api/lp/1.47/enrollments/myenrollments/?orgUnitTypeId=3` | `[Course]` |
+| `content` | `/d2l/api/le/1.67/{ou}/content/toc` | `[Topic]` |
+| `news` | `/d2l/api/le/1.67/{ou}/news/` | `[Announcement]` |
+| `events` | `/d2l/api/le/1.67/{ou}/calendar/events/myEvents/?startDateTime=…&endDateTime=…` | `[Event]` |
 
-Course discovery reads the enrolment list from the dashboard and parses the DTU
-course code (5 digits) out of each course name, yielding `org_unit_id → code`.
+Four things the live payloads settled, each of which a plausible guess got wrong:
 
-**Politeness:** requests are sequential with a 1–2 s delay between them; the real
-browser user agent is used; a run touches on the order of tens of requests. This is
-one student account fetching its own material — it should be indistinguishable
-from a person clicking through the site, and must never look like a crawler.
+- **`IsActive` is useless for finding the current semester.** Every enrolment
+  reports `IsActive: true`, including courses from 2024. The semester token in
+  the `Code` field (`DTU_e26_34870` → autumn 2026) is the only reliable signal,
+  so `rules.yaml` carries a `semesters:` list that must be updated each term.
+- **`Link` topics carry a `Url` exactly like `File` topics.** Filtering on "has a
+  URL" would download Panopto links as though they were files;
+  `TypeIdentifier == "File"` is the real discriminator. Hidden and broken topics
+  are skipped too.
+- **The calendar is JSON, not an iCal feed**, and returns 400 without an explicit
+  date range. The sync asks for 30 days back to 210 days ahead.
+- **DTU mixes non-course org units into the enrolment list** (DesignBuildLab,
+  "How to DTU", the DTU root). They have no `DTU_<sem>_<code>` code and are dropped.
+
+Announcements use `LastModifiedDate`, not `CreatedDate`: lecturers routinely edit
+an old welcome post to carry the current year's information, and that edit is the
+news.
+
+**Politeness:** requests are sequential with a 1.5 s delay, using the real browser
+user agent. A run is on the order of twenty requests — indistinguishable from a
+person clicking through the site, and never a crawler.
 
 ### 4.3 State (`state.json`)
 
@@ -132,6 +149,12 @@ from a person clicking through the site, and must never look like a crawler.
 A topic is downloaded when its id is absent, or its revision differs. The sha256
 guards against a lecturer re-uploading a file under the same revision — after
 download, if the hash matches what is on record, the write is skipped.
+
+**Adoption.** On the first run the state file is empty but the vault is not: it
+already holds material downloaded by hand. If a target path exists and its bytes
+hash to the same value as the download, the file is adopted into state and left
+untouched — not rewritten, and not reported as new. Without this the first run
+would rewrite thirty files that were already correct and announce them all.
 
 State is committed to git alongside the vault so any machine can see what the sync
 believes it has done, and so a rebuilt container resumes rather than re-downloading
@@ -295,15 +318,14 @@ complete, consistent commit or it produces nothing.
 
 TDD throughout: test first, watch it fail, then implement.
 
-## 9. Known unknown — discovery run
+## 9. Endpoint discovery
 
-The exact Brightspace endpoint paths and payload shapes cannot be pinned down
-without an authenticated session. **The first implementation task is a discovery
-run**: log in once, dump the content TOC, announcements, and calendar responses to
-disk, and build the collectors and their fixtures against the real shapes.
+`learn-sync discover` logs in and dumps the raw payload of every endpoint the
+sync depends on. It was used to pin down the shapes in §4.2, and stays in the
+tool as the first thing to run when a collector starts returning nothing — a
+shape change on DTU's side is then a diff rather than a guess.
 
-Everything downstream of the collectors — filing, notes, state, delivery,
-notification — is independent of those shapes and can be built in parallel.
+Discovery downloads, files, commits and pushes nothing.
 
 ## 10. Security
 
