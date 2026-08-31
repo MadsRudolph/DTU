@@ -20,7 +20,13 @@ from .collectors.news import NEWS_PATH, parse_news
 from .delivery import Delivery, DriveSyncFailed
 from .drive import DriveUploader, Rclone, folder_id_from_manifest
 from .filing import load_rules
-from .notes import inject_block, render_announcements, render_deadlines, render_index
+from .notes import (
+    inject_block,
+    render_announcements,
+    render_deadlines,
+    render_index,
+    write_note,
+)
 from .notify import DiscordNotifier
 from .session import Session
 from .state import State
@@ -75,12 +81,7 @@ def _drive_sync(repo_root: Path, state):
 
 
 def _write_note(path: Path, content: str, touched: list[str], repo_root: Path) -> None:
-    """Write a note only when it changed, so an idle run produces no commit."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.exists() and path.read_text(encoding="utf-8") == content:
-        return
-    path.write_text(content, encoding="utf-8")
-    touched.append(str(path.relative_to(repo_root)).replace("\\", "/"))
+    touched.append(write_note(path, content, repo_root))
 
 
 def _date_range():

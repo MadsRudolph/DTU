@@ -8,8 +8,25 @@ ever touches the region between its own markers.
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 VAULT_PREFIX = "Obsidian/"
+
+
+def write_note(path, content: str, repo_root) -> str:
+    """Write `content` to `path` if it changed, and return the repo-relative path.
+
+    The path is returned whether or not anything was written. "Unchanged on disk"
+    is not the same as "committed": a note left behind by a run that later aborted
+    is byte-identical on the next pass, and skipping it here kept it untracked in
+    git forever. Returning it always lets git decide -- an unchanged tracked file
+    contributes nothing to the commit, while an untracked one finally gets staged.
+    """
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not (path.exists() and path.read_text(encoding="utf-8") == content):
+        path.write_text(content, encoding="utf-8")
+    return str(path.relative_to(Path(repo_root))).replace("\\", "/")
 
 
 def _wiki_link(vault_path: str, title: str) -> str:

@@ -188,3 +188,48 @@ def test_index_puts_a_blank_line_before_each_module_heading():
     heading = lines.index("## Week 2")
 
     assert lines[heading - 1] == ""
+
+
+# --- writing notes ------------------------------------------------------------
+
+
+def test_write_note_creates_the_file_and_reports_its_path(tmp_path):
+    from learn_sync.notes import write_note
+
+    rel = write_note(tmp_path / "a/b/note.md", "hello\n", tmp_path)
+
+    assert rel == "a/b/note.md"
+    assert (tmp_path / "a/b/note.md").read_text(encoding="utf-8") == "hello\n"
+
+
+def test_write_note_does_not_rewrite_identical_content(tmp_path):
+    from learn_sync.notes import write_note
+
+    path = tmp_path / "note.md"
+    write_note(path, "same\n", tmp_path)
+    before = path.stat().st_mtime_ns
+
+    write_note(path, "same\n", tmp_path)
+
+    assert path.stat().st_mtime_ns == before
+
+
+def test_write_note_still_reports_a_path_it_did_not_rewrite(tmp_path):
+    """Unchanged on disk does not mean committed.
+
+    A note written by a run that later aborted is byte-identical next time, so
+    skipping it here left it untracked in git forever.
+    """
+    from learn_sync.notes import write_note
+
+    path = tmp_path / "note.md"
+    write_note(path, "same\n", tmp_path)
+
+    assert write_note(path, "same\n", tmp_path) == "note.md"
+
+
+def test_write_note_uses_forward_slashes_for_git(tmp_path):
+    from learn_sync.notes import write_note
+
+    assert "/" in write_note(tmp_path / "a/b/c.md", "x", tmp_path)
+    assert "\\" not in write_note(tmp_path / "a/b/c.md", "x", tmp_path)
