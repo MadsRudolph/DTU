@@ -1,0 +1,191 @@
+{
+  "announcements": {
+    "34654": "185889",
+    "34840": "185782",
+    "34870": "184779",
+    "62755": "186667"
+  },
+  "schema": 1,
+  "topics": {
+    "1221732": {
+      "revision": "2026-07-08T12:34:18.113Z",
+      "sha256": "2d13c1fbbab2da4985ef39a34075c98e49f35846e1c5eb8d041544e4614b7db6",
+      "synced_at": "2026-08-31T19:39:51+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/00 - Prerequisites/1-Basics on complex numbers.pdf"
+    },
+    "1221733": {
+      "revision": "2026-07-08T12:34:18.780Z",
+      "sha256": "7ab4ed4a158acb254fb0feb3d6f91e1de72886b824401f817cf6307a52a080b7",
+      "synced_at": "2026-08-31T19:39:53+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/00 - Prerequisites/2-Exercises on complex numbers.pdf"
+    },
+    "1221734": {
+      "revision": "2026-07-08T12:34:19.330Z",
+      "sha256": "732a4023fb48fcb474911e4352a7212e55f7acef09e082fba65c97dfcbaf6fc7",
+      "synced_at": "2026-08-31T19:39:54+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/00 - Prerequisites/3-Solutions to Exercises on complex numbers.pdf"
+    },
+    "1221735": {
+      "revision": "2026-07-08T12:34:49.120Z",
+      "sha256": "88e89ec278dc8d77c26d8cbeb118f136aec48c8d51236929193090294f5ecdc1",
+      "synced_at": "2026-08-31T19:40:23+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/00 - Prerequisites/11-Signals and systems 101_ContTime.pptx"
+    },
+    "1221736": {
+      "revision": "2026-07-08T12:34:49.703Z",
+      "sha256": "04b0fe442cd3650615718592aa456f025f25a713dff10da5662a0dec46c9a24c",
+      "synced_at": "2026-08-31T19:40:23+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/00 - Prerequisites/12-Signals and systems 101_DiscreteTime.pptx"
+    },
+    "1221742": {
+      "revision": "2026-07-08T12:37:17.830Z",
+      "sha256": "8bd0646bf873f62ec21301f9b897441ce3da5e98f3fd28c7b15cf62d7a34fb5f",
+      "synced_at": "2026-08-31T19:39:47+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/Fundamentals_of_acoustics_2022.pdf"
+    },
+    "1221743": {
+      "revision": "2026-07-08T12:37:31.057Z",
+      "sha256": "af4d1737e187cffaecc571fba06433ab06f62687c1e109919d35beb8617e4312",
+      "synced_at": "2026-08-31T19:39:48+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/Introduction to Loudspeakers -2021.pdf"
+    },
+    "1241925": {
+      "revision": "2026-08-17T12:59:58.343Z",
+      "sha256": "752de2fbb7367604168e9202b6ffc525c4afb57997c662b06cb7df6321155923",
+      "synced_at": "2026-08-31T19:41:16+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/Fundamentals_of_acoustics.pdf"
+    },
+    "1241927": {
+      "revision": "2026-08-17T13:28:04.603Z",
+      "sha256": "cbcab999f8dbd27b05f928617c7493ae5f2bd80edf1db0c6129ae8a805576580",
+      "synced_at": "2026-08-31T19:41:17+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf"
+    },
+    "1242087": {
+      "revision": "2026-08-31T09:45:13.130Z",
+      "sha256": "c213471c9312330524ac0a1f484a63a635366551df8b081c4181dcb231162e87",
+      "synced_at": "2026-08-31T19:41:18+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
+    },
+    "1248761": {
+      "revision": "2026-08-20T12:46:46.053Z",
+      "sha256": "516732972a358391e3ea731dfae84307b6293cdacd33ce263f472ec93e8bb331",
+      "synced_at": "2026-08-31T19:41:14+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
+    },
+    "1253835": {
+      "revision": "2026-08-24T08:23:08.317Z",
+      "sha256": "361018f8eacf36683ba34499093da943c9215c8f6f1d652de5331f1187986cf9",
+      "synced_at": "2026-08-31T19:39:19+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 2 Power diodes.pdf"
+    },
+    "1254152": {
+      "revision": "2026-08-24T08:56:50.623Z",
+      "sha256": "da6ca0e34a9f44a120b8fa4a7b825ea722cd62429d8a3bfec84e2bac1800c08d",
+      "synced_at": "2026-08-31T19:39:20+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 3 Diode Rectifier.pdf"
+    },
+    "1254164": {
+      "revision": "2026-08-24T08:59:29.907Z",
+      "sha256": "750198013e704e27d0120ed15358ea2da7da46fe0fdd5b4201a5ac5cebc9a7ca",
+      "synced_at": "2026-08-31T19:39:22+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 4 Power Transistors.pdf"
+    },
+    "1254362": {
+      "revision": "2026-08-24T09:06:15.293Z",
+      "sha256": "cf6a5fecb81da2056e2227adbab1169b58dcb7defee1c461efb64fe8db04fb28",
+      "synced_at": "2026-08-31T19:39:23+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 5 DC-DC Converters.pdf"
+    },
+    "1254376": {
+      "revision": "2026-08-24T09:07:25.407Z",
+      "sha256": "3d149f8aee918f07fdb81268cee66a65384f696830e953b3675719e19ddcfdd2",
+      "synced_at": "2026-08-31T19:39:25+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 6 Inverters.pdf"
+    },
+    "1254385": {
+      "revision": "2026-08-24T09:09:03.290Z",
+      "sha256": "f8501e2fc77930b97ab791cb9d96c5f45dabd09113d98bc2d768cd5708d3b593",
+      "synced_at": "2026-08-31T19:39:27+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 7 Thyristors andThyristorized Converters.pdf"
+    },
+    "1256099": {
+      "revision": "2026-08-25T08:01:56.637Z",
+      "sha256": "099f7184bf43ea3fbb6239df9e4eb9400fff8173164986b21fef3d3b2fa571eb",
+      "synced_at": "2026-08-31T19:39:50+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/34840 lecture plan 2026_v1.pdf"
+    },
+    "1264139": {
+      "revision": "2026-08-28T11:09:54.710Z",
+      "sha256": "dfbdf2ec80720dc1a3c491c50ea6d27dc63132553f33d646f6361b6b268dc124",
+      "synced_at": "2026-08-31T19:41:21+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions1.pdf"
+    },
+    "1264159": {
+      "revision": "2026-08-28T11:30:49.957Z",
+      "sha256": "78ee58fd421f6f197391e1eebf0298b12eeb837a904804b52190128657c68776",
+      "synced_at": "2026-08-31T19:41:20+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture1_31082026.pdf"
+    },
+    "1265168": {
+      "revision": "2026-08-29T14:43:22.700Z",
+      "sha256": "7dde35f9219fcc2d20685b665989340df8a8caf78dec00a929b4fc42946d7a75",
+      "synced_at": "2026-08-31T19:39:18+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 1 62755.pdf"
+    },
+    "1265174": {
+      "revision": "2026-08-29T15:44:10.693Z",
+      "sha256": "15ed93116669819c34e97b4b026c2f248c4fb6a1300976752e94c00706bedbb9",
+      "synced_at": "2026-08-31T19:39:28+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Lab1.pdf"
+    },
+    "1265175": {
+      "revision": "2026-08-29T15:44:33.663Z",
+      "sha256": "a1892f68245959befac11b157eaa0783f74c3a2e222da2e9bd0fd39ee0158fc6",
+      "synced_at": "2026-08-31T19:39:29+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/IL300 note (1).pdf"
+    },
+    "1265176": {
+      "revision": "2026-08-29T15:44:34.207Z",
+      "sha256": "bd8b64186a1924f81382c8d1fb2e8b709495db3697ac111173047f43e3a7be46",
+      "synced_at": "2026-08-31T19:39:30+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/MCP601.pdf"
+    },
+    "1265177": {
+      "revision": "2026-08-29T15:44:34.737Z",
+      "sha256": "73d8a31a0583f26d88f3973a51033c12044a9cbf0128889427250361f72e6ce6",
+      "synced_at": "2026-08-31T19:39:32+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/IRF540N.pdf"
+    },
+    "1265178": {
+      "revision": "2026-08-29T15:44:35.323Z",
+      "sha256": "3de3f1ff4244dc9ffb5542cd5ad52bd970f4c0fc1cc45e67aa8962b52166786c",
+      "synced_at": "2026-08-31T19:39:33+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/IR2110.pdf"
+    },
+    "1265179": {
+      "revision": "2026-08-29T15:44:35.860Z",
+      "sha256": "8f134928356040bd9065ea0b87f98c4dc7558c7ae990a84a834a56a1d901c91d",
+      "synced_at": "2026-08-31T19:39:35+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/ILD74.pdf"
+    },
+    "1265180": {
+      "revision": "2026-08-29T15:44:37.173Z",
+      "sha256": "f16d77d2affa771327c9851bc223df3df9745bc2d20d2b176161c21aabfcca40",
+      "synced_at": "2026-08-31T19:39:36+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/IL300.pdf"
+    },
+    "1266618": {
+      "revision": "2026-08-31T14:31:23.267Z",
+      "sha256": "28bb2a04489bf6619d6dac4db685c48b28f728e56ee56544add588fb201ad103",
+      "synced_at": "2026-08-31T19:41:08+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v1.pptx"
+    },
+    "1266621": {
+      "revision": "2026-08-31T14:32:39.443Z",
+      "sha256": "57f95b4cfb519a83a38e3c75a7b49cee32324a63e3d8ee4ebc6f769b668d7337",
+      "synced_at": "2026-08-31T19:41:09+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840-Problems 1.pdf"
+    }
+  }
+}
