@@ -149,7 +149,7 @@ def upload_file_to_drive(repo_root: Path, rel_path: str) -> bool:
         "--drive-root-folder-id", DRIVE_FOLDER_ID,
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
     if result.returncode != 0:
         return False
 
@@ -159,7 +159,7 @@ def upload_file_to_drive(repo_root: Path, rel_path: str) -> bool:
         f"gdrive:{rel_path}",
         "--drive-root-folder-id", DRIVE_FOLDER_ID,
     ]
-    subprocess.run(link_cmd, capture_output=True, text=True)
+    subprocess.run(link_cmd, capture_output=True, text=True, encoding="utf-8")
 
     return True
 
@@ -182,7 +182,7 @@ def get_drive_file_ids(repo_root: Path) -> dict:
         "-R"
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
     if result.returncode != 0:
         return {}
 

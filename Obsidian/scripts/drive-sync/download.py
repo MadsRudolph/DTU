@@ -95,7 +95,7 @@ def download_rclone(rel_path: str, dest_path: Path) -> bool:
         "--drive-root-folder-id", DRIVE_FOLDER_ID,
     ]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
     return result.returncode == 0 and dest_path.exists()
 
 

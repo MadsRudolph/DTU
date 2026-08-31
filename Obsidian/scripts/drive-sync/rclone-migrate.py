@@ -38,7 +38,7 @@ def run_rclone(args: list, capture=True) -> tuple:
     """Run rclone command."""
     cmd = [RCLONE] + args
     try:
-        result = subprocess.run(cmd, capture_output=capture, text=True)
+        result = subprocess.run(cmd, capture_output=capture, text=True, encoding="utf-8")
         return result.returncode == 0, result.stdout, result.stderr
     except Exception as e:
         return False, "", str(e)
