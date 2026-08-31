@@ -135,14 +135,20 @@ def test_drive_sync_runs_before_the_commit(repo):
     assert "note.md" in calls[0]
 
 
-def test_drive_sync_is_skipped_when_no_files_were_downloaded(repo):
+def test_drive_sync_runs_even_when_this_run_downloaded_nothing(repo):
+    """Self-healing: state can say "synced" while Drive never got the file.
+
+    Gating the upload on what this run touched made such a gap permanent --
+    thirty PDFs once sat on disk, recorded in state, absent from Drive, and no
+    future run could notice. upload.py --sync is idempotent, so just run it.
+    """
     calls = []
     delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
     (repo / "note.md").write_text("hello\n", encoding="utf-8")
 
     delivery.publish(report(announcements=[announcement()]), ["note.md"])
 
-    assert calls == []
+    assert calls == [1]
 
 
 def test_drive_sync_failure_aborts_before_committing(repo):
