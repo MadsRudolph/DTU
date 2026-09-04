@@ -22,15 +22,25 @@ LEARN_HOST = "learn.inside.dtu.dk"
 ADFS_HOST = "sts.ait.dtu.dk"
 LEARN_HOME = f"https://{LEARN_HOST}/d2l/home"
 
+# DTU serves ADFS in Danish, so every pattern needs both languages. English-only
+# matching classified "Forkert bruger-id eller adgangskode" as a plain expired
+# session, which sent the wrong instruction to Discord.
 _MFA = re.compile(
     r"authenticator|two-factor|2-factor|verification code|approve the sign-in"
-    r"|additional information|multi-factor",
+    r"|additional information|multi-factor"
+    r"|godkendelsesapp|godkend anmodningen|tofaktor|to-faktor|bekræftelseskode",
     re.IGNORECASE,
 )
 _BAD_CREDENTIALS = re.compile(
-    r"incorrect user id or password|invalid username or password", re.IGNORECASE
+    r"incorrect user id or password|invalid username or password"
+    r"|forkert bruger-?id|forkert adgangskode|ugyldigt brugernavn",
+    re.IGNORECASE,
 )
-_EXPIRED = re.compile(r"password has expired|must change your password", re.IGNORECASE)
+_EXPIRED = re.compile(
+    r"password has expired|must change your password"
+    r"|adgangskode er udløbet|skal ændre adgangskoden",
+    re.IGNORECASE,
+)
 
 
 class Landing(enum.Enum):

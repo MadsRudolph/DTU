@@ -123,3 +123,36 @@ def test_a_broken_login_form_becomes_authfailed_not_a_raw_error():
         assert exc.landing is Landing.UNEXPECTED
     else:
         raise AssertionError("expected AuthFailed")
+
+
+# --- DTU serves ADFS in Danish ------------------------------------------------
+
+DANISH_BAD_CREDS = (
+    "Forkert bruger-id eller adgangskode. Skriv det korrekte bruger-id og "
+    "den rigtige adgangskode, og prøv igen."
+)
+
+
+def test_danish_bad_credentials_are_recognised():
+    """DTU's ADFS renders in Danish; English-only patterns misreported a wrong
+    password as an expired session, so the alert told you the wrong thing."""
+    assert classify_landing(ADFS, DANISH_BAD_CREDS) is Landing.BAD_CREDENTIALS
+
+
+def test_danish_password_expiry_is_recognised():
+    assert classify_landing(
+        ADFS, "Din adgangskode er udløbet. Du skal ændre adgangskoden."
+    ) is Landing.PASSWORD_EXPIRED
+
+
+def test_danish_mfa_prompt_is_recognised():
+    assert classify_landing(
+        ADFS, "Godkend anmodningen om logon i din godkendelsesapp"
+    ) is Landing.MFA
+
+
+def test_a_plain_danish_login_page_is_still_just_needs_login():
+    """The ordinary sign-in page must not be mistaken for a credential failure."""
+    assert classify_landing(
+        ADFS, "Log på\nDTU Users: username@dtu.dk\nNeed Help?"
+    ) is Landing.NEEDS_LOGIN
