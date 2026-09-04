@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 
 from learn_sync.auth import Landing, classify_landing
@@ -156,3 +157,22 @@ def test_a_plain_danish_login_page_is_still_just_needs_login():
     assert classify_landing(
         ADFS, "Log på\nDTU Users: username@dtu.dk\nNeed Help?"
     ) is Landing.NEEDS_LOGIN
+
+
+def test_a_saved_session_is_not_world_readable(tmp_path, monkeypatch):
+    """Playwright writes storage_state with the default umask (644). The file is
+    a live DTU session -- credential-equivalent -- so it must be owner-only."""
+    from learn_sync.auth import save_session
+
+    calls = []
+    monkeypatch.setattr("os.chmod", lambda p, m: calls.append((str(p), m)))
+
+    class FakeContext:
+        def storage_state(self, path):
+            Path(path).write_text("{}", encoding="utf-8")
+
+    target = tmp_path / "storageState.json"
+    save_session(FakeContext(), target)
+
+    assert target.exists()
+    assert calls and calls[-1][1] == 0o600

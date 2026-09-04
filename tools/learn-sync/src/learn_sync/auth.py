@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import enum
 import logging
+import os
 import re
 from pathlib import Path
 
@@ -94,6 +95,19 @@ def open_session(playwright, storage_state: Path, headless: bool = True):
     return browser, context
 
 
+def save_session(context, storage_state: Path) -> None:
+    """Persist the browser session, owner-readable only.
+
+    Playwright writes storage_state with the default umask, which leaves a live
+    DTU session world-readable. It is credential-equivalent, so tighten it.
+    """
+    context.storage_state(path=str(storage_state))
+    try:
+        os.chmod(storage_state, 0o600)
+    except OSError:  # non-POSIX filesystems
+        log.debug("could not chmod %s", storage_state)
+
+
 def ensure_authenticated(context, storage_state: Path, username: str = "",
                          password: str = "") -> None:
     """Make `context` an authenticated Learn session, or raise AuthFailed.
@@ -122,7 +136,7 @@ def ensure_authenticated(context, storage_state: Path, username: str = "",
         if landing is not Landing.OK:
             raise AuthFailed(landing, page.url, page.title())
 
-        context.storage_state(path=str(storage_state))
+        save_session(context, storage_state)
         log.info("refreshed session via ADFS")
     finally:
         page.close()
