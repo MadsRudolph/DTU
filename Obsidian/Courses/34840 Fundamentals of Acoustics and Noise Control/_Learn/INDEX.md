@@ -8,6 +8,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/Fundamentals_of_acoustics_2022.pdf|Fundamentals_of_acoustics_2022]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/Introduction to Loudspeakers -2021.pdf|Introduction to Loudspeakers -2021]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Literature/34840 lecture plan 2026_v1.pdf|34840 lecture plan 2026_v1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_waveequation_26.pptx|34840_Lecture1_waveequation_26]]
 
 ## 00 - Prerequisites
 
@@ -21,3 +22,4 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v1.pptx|34840_Lecture1_2026_v1]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840-Problems 1.pdf|34840-Problems 1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions1.pdf|34840_Solutions1]]

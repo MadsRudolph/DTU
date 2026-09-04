@@ -1,8 +1,8 @@
 {
   "announcements": {
     "34654": "185889",
-    "34840": "185782",
-    "34870": "184779",
+    "34840": "187022",
+    "34870": "187059",
     "62755": "186667"
   },
   "schema": 1,
@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-08-20T12:46:46.053Z",
-      "sha256": "516732972a358391e3ea731dfae84307b6293cdacd33ce263f472ec93e8bb331",
-      "synced_at": "2026-08-31T19:41:14+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
+      "revision": "2026-09-03T15:39:14.117Z",
+      "sha256": "c2e700bfac7e01adeaca73cda1214df489586c946f1e3ccf73d199847ca5e8b3",
+      "synced_at": "2026-09-04T05:31:14+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
@@ -186,6 +186,36 @@
       "sha256": "57f95b4cfb519a83a38e3c75a7b49cee32324a63e3d8ee4ebc6f769b668d7337",
       "synced_at": "2026-08-31T19:41:09+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840-Problems 1.pdf"
+    },
+    "1267221": {
+      "revision": "2026-09-01T08:38:52.407Z",
+      "sha256": "0859621773f4a0caab2513de9ccb5ee31f891671f1ff3821e84e0a2b6460d3a8",
+      "synced_at": "2026-09-04T05:31:07+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_waveequation_26.pptx"
+    },
+    "1269339": {
+      "revision": "2026-09-02T11:54:41.717Z",
+      "sha256": "dafe9aeab3f0c1d5c9deedb4f6f84c760e29b640c7db9b8ee7268419ef5361b1",
+      "synced_at": "2026-09-04T05:31:17+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions2.pdf"
+    },
+    "1269340": {
+      "revision": "2026-09-02T11:54:03.567Z",
+      "sha256": "2697a1a0347eb8925d91ad138157edfd8d1653ffe3bf35437ffa8ec747853816",
+      "synced_at": "2026-09-04T05:31:18+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_BonusProblems_mechanical.pdf"
+    },
+    "1269501": {
+      "revision": "2026-09-02T13:28:16.520Z",
+      "sha256": "c3df9e3ac1e2cf604c23ce2b3034641bffe9324079ea8927cf8238618c3f050f",
+      "synced_at": "2026-09-04T05:31:15+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture2_03092026.pdf"
+    },
+    "1269793": {
+      "revision": "2026-09-03T07:59:04.077Z",
+      "sha256": "5fc544055061002979f8591a7ef8e7495abea685e03c537cc197698317b3acdd",
+      "synced_at": "2026-09-04T05:31:08+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions1.pdf"
     }
   }
 }

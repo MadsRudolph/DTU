@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-09-03 — Workaround to watch lecture recordings
+
+Dear all,
+DTU has just acknowledged the issue with recorded lecture videos not being accessible by students in the course. They reported it to the supplier and expect them to fix it.This issue ONLY applies to video recordings embedded in the "Content" section. If you go to the "Video & Streaming" section in DTU Learn, you can access the videos directly. Doing this at least once should also automatically grant you access rights, so after that all embedded videos in "Content" should play normally as well.Let me know if anyone cannot get the video recordings to play in this way.
+Frieder
+
 ## 2026-08-23 — Welcome to the course - What you need to know and prepare
 
 Dear all,

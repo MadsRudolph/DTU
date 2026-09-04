@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-03 — Solutions 1 available
+
+Dear all
+
+Solution to this weeks problems is now available
+
+Finn
+
 ## 2026-08-25 — Lecture plan
 
 Dear all 

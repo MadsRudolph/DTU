@@ -5,7 +5,7 @@ links to where the file actually lives in the vault.*
 
 ## Basic Material
 
-- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf|34870 Course plan Fall 2026]]
+- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf|34870 Course plan Fall 2026]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/Fundamentals_of_acoustics.pdf|Fundamentals of Acoustics]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf|LTspice circuit simulator - Quick Guide]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf|34870 Lecture 0 E26 - Introduction to the course]]
@@ -14,3 +14,9 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture1_31082026.pdf|34870_Lecture1_31082026]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions1.pdf|34870_Solutions1]]
+
+## Lecture 2 - Analogies: Mechanical Systems
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture2_03092026.pdf|34870_Lecture2_03092026]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions2.pdf|34870_Solutions2]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_BonusProblems_mechanical.pdf|34870_BonusProblems_mechanical]]
