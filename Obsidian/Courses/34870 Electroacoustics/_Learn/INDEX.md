@@ -20,3 +20,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture2_03092026.pdf|34870_Lecture2_03092026]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions2.pdf|34870_Solutions2]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_BonusProblems_mechanical.pdf|34870_BonusProblems_mechanical]]
+
+## Lecture 3 - Analogies: Acoustic Systems
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture3_07092026.pdf|34870_Lecture3_07092026]]
