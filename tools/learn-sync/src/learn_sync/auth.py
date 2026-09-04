@@ -106,7 +106,7 @@ def ensure_authenticated(context, storage_state: Path, username: str = "",
         if not (username and password):
             raise AuthFailed(Landing.NEEDS_LOGIN, page.url, page.title())
 
-        _submit_adfs_form(page, username, password)
+        submit_adfs_form(page, username, password)
 
         landing = classify_landing(page.url, page.inner_text("body"))
         if landing is not Landing.OK:
@@ -118,9 +118,33 @@ def ensure_authenticated(context, storage_state: Path, username: str = "",
         page.close()
 
 
-def _submit_adfs_form(page, username: str, password: str) -> None:
-    """Fill the ADFS form and wait for the SAML round-trip to settle on Learn."""
-    page.fill("input[type=email], input[name='UserName']", username)
-    page.fill("input[type=password]", password)
-    page.click("input[type=submit], button[type=submit]")
-    page.wait_for_load_state("networkidle")
+# Selectors verified against the live sts.ait.dtu.dk form. The submit control is
+# a <span id="submitButton" role="button" onclick="Login.submitLoginRequest()">,
+# NOT an input or button element -- selecting input[type=submit] simply timed out
+# after 30s and killed the run.
+USERNAME_FIELD = "#userNameInput, input[name='UserName']"
+PASSWORD_FIELD = "#passwordInput, input[name='Password']"
+SUBMIT_BUTTON = "#submitButton, span[role=button].submit"
+
+
+def submit_adfs_form(page, username: str, password: str) -> None:
+    """Fill the ADFS form and wait for the SAML round-trip to settle on Learn.
+
+    Every failure becomes AuthFailed. Letting a raw Playwright TimeoutError
+    escape meant the caller never sent the Discord alert nor wrote the status
+    file -- the sync just died silently, which is the one outcome the design is
+    supposed to make impossible.
+    """
+    try:
+        page.fill(USERNAME_FIELD, username)
+        page.fill(PASSWORD_FIELD, password)
+        page.click(SUBMIT_BUTTON)
+        page.wait_for_load_state("networkidle")
+    except AuthFailed:
+        raise
+    except Exception as exc:
+        raise AuthFailed(
+            Landing.UNEXPECTED,
+            getattr(page, "url", "unknown"),
+            f"ADFS login form did not behave as expected: {exc}",
+        ) from exc
