@@ -40,3 +40,24 @@ links to where the file actually lives in the vault.*
 - [[Courses/62755 Power Electronics/Labs/IR2110.pdf|IR2110]]
 - [[Courses/62755 Power Electronics/Labs/ILD74.pdf|ILD74]]
 - [[Courses/62755 Power Electronics/Labs/IL300.pdf|IL300]]
+
+## LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit
+
+- [[Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/photo_6044139650269955386_y.jpg|photo_6044139650269955386_y]]
+- [[Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/tms320f28027.pdf|tms320f28027]]
+- [[Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/Texas_Instruments-LAUNCHXL-F28027-datasheet.pdf|Texas_Instruments-LAUNCHXL-F28027-datasheet]]
+- [[Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/sprz376.pdf|sprz376]]
+- [[Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/1362132.pdf|1362132]]
+
+## Code Generation using MATLAB/Simulink
+
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/PWMAnadcm.slx|PWMAnadcm]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen4.slx|CodeGen4]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen3.slx|CodeGen3]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen2.slx|CodeGen2]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen1.slx|CodeGen1]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/5.Codegeneration (1).pptx|5.Codegeneration (1)]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/4.CodeGeneration (1).pptx|4.CodeGeneration (1)]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/3.CodeGeneration (1).pptx|3.CodeGeneration (1)]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/2.Codegeneration.pdf|2.Codegeneration]]
+- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/photo_6044139650269955386_y - Copy.jpg|photo_6044139650269955386_y]]

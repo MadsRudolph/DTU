@@ -3,7 +3,7 @@
     "34654": "185889",
     "34840": "187022",
     "34870": "187059",
-    "62755": "186667"
+    "62755": "187174"
   },
   "schema": 1,
   "topics": {
@@ -222,6 +222,96 @@
       "sha256": "dc7d88fbd875eac984412722aff6cd3fc7ae7e115e07d60d2e97bad403eaa9a0",
       "synced_at": "2026-09-04T16:07:32+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture3_07092026.pdf"
+    },
+    "1271214": {
+      "revision": "2026-09-06T08:29:55.070Z",
+      "sha256": "7df1403c3e32ea367dc9e122cd2fb819097334de6f2d32ce72bd26b6af433938",
+      "synced_at": "2026-09-06T10:01:32+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/photo_6044139650269955386_y.jpg"
+    },
+    "1271215": {
+      "revision": "2026-09-06T08:29:56.030Z",
+      "sha256": "7e2fafcef870072c1fc8d04770a79f8fce5a8b24a994ebca51ac86c436fbdcad",
+      "synced_at": "2026-09-06T10:01:35+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/tms320f28027.pdf"
+    },
+    "1271216": {
+      "revision": "2026-09-06T08:29:56.627Z",
+      "sha256": "f22462ffa3451845722603daa6f05f29ec0501960d19a2b0a8468ac3e65bc5ab",
+      "synced_at": "2026-09-06T10:01:35+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/Texas_Instruments-LAUNCHXL-F28027-datasheet.pdf"
+    },
+    "1271217": {
+      "revision": "2026-09-06T08:29:57.590Z",
+      "sha256": "39dd7a80c02fdd674d04152aee5841f6083100f4f9062917cda6ad7199eccc02",
+      "synced_at": "2026-09-06T10:01:38+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/sprz376.pdf"
+    },
+    "1271218": {
+      "revision": "2026-09-06T08:29:58.263Z",
+      "sha256": "d4b2d6e7e9347cacbc2a3ebcc8caeb6258669e1c26af45edd2d876d1227c65c7",
+      "synced_at": "2026-09-06T10:01:38+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/LAUNCHXL-F28027 C2000 Piccolo LaunchPad Experimenter Kit/1362132.pdf"
+    },
+    "1271224": {
+      "revision": "2026-09-06T08:43:41.683Z",
+      "sha256": "d79362b8f54233ef67179ca97ce6e14d1e74d80f06170a3f6083a2597468bd0f",
+      "synced_at": "2026-09-06T10:01:40+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/PWMAnadcm.slx"
+    },
+    "1271226": {
+      "revision": "2026-09-06T08:43:47.927Z",
+      "sha256": "ef6cfa03749f5310c5efbba07b5d64f8350dec456dc76ba70bd792b8a0b01cb0",
+      "synced_at": "2026-09-06T10:01:41+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen4.slx"
+    },
+    "1271227": {
+      "revision": "2026-09-06T08:43:48.170Z",
+      "sha256": "11f5f74d99565e27510bb7db2cc1299b587fe308f08301f169f70223504f0f62",
+      "synced_at": "2026-09-06T10:01:43+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen3.slx"
+    },
+    "1271228": {
+      "revision": "2026-09-06T08:43:48.407Z",
+      "sha256": "e64c5c2fa933b6743df3b15b67e38ebb9814f851a1f32f147fb2acc8b0c0955d",
+      "synced_at": "2026-09-06T10:01:44+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen2.slx"
+    },
+    "1271229": {
+      "revision": "2026-09-06T08:43:48.727Z",
+      "sha256": "6c1f245e192533f97cf4066f4440287cc5d911c12a0b852492bf90a617f1c2fb",
+      "synced_at": "2026-09-06T10:01:46+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen1.slx"
+    },
+    "1271230": {
+      "revision": "2026-09-06T08:43:49.010Z",
+      "sha256": "96d3c7b3652b3e097d8fede60d1cc0d6456b735c973d1ba1e61dc382810dd6c9",
+      "synced_at": "2026-09-06T10:01:47+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/5.Codegeneration (1).pptx"
+    },
+    "1271231": {
+      "revision": "2026-09-06T08:43:49.283Z",
+      "sha256": "4dc374c5c59b11d9ca32d65e1f571df777d65dea90373f762f2b5720b347b443",
+      "synced_at": "2026-09-06T10:01:49+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/4.CodeGeneration (1).pptx"
+    },
+    "1271232": {
+      "revision": "2026-09-06T08:43:49.673Z",
+      "sha256": "859c8f8b676e594e2ff43f1424eae742fcaf3ae5bebc48cfe1eee9326e7839d1",
+      "synced_at": "2026-09-06T10:01:50+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/3.CodeGeneration (1).pptx"
+    },
+    "1271233": {
+      "revision": "2026-09-06T08:43:50.290Z",
+      "sha256": "93f242dbb44e0551627d5ace24d278054515a7bcd228b691fd4c31183f6d48da",
+      "synced_at": "2026-09-06T10:01:52+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/2.Codegeneration.pdf"
+    },
+    "1271234": {
+      "revision": "2026-09-06T08:43:50.600Z",
+      "sha256": "7df1403c3e32ea367dc9e122cd2fb819097334de6f2d32ce72bd26b6af433938",
+      "synced_at": "2026-09-06T10:01:53+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/photo_6044139650269955386_y - Copy.jpg"
     }
   }
 }

@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-06 — Lecture will start at 8.30 AM
+
+Dear All,
+Hi, I have attached the notes and the Simulink files for code generation using Matlab.
+See you tomorrow at 8.30 AM.
+Best Regards
+Ashraf
+
 ## 2026-08-31 — Availability this afternoon
 
 Dear All,
