@@ -51,11 +51,11 @@ links to where the file actually lives in the vault.*
 
 ## Code Generation using MATLAB/Simulink
 
-- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/PWMAnadcm.slx|PWMAnadcm]]
-- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen4.slx|CodeGen4]]
-- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen3.slx|CodeGen3]]
-- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen2.slx|CodeGen2]]
-- [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/CodeGen1.slx|CodeGen1]]
+- [[5. Semester/Power Electronics/Simulink/PWMAnadcm.slx|PWMAnadcm]]
+- [[5. Semester/Power Electronics/Simulink/CodeGen4.slx|CodeGen4]]
+- [[5. Semester/Power Electronics/Simulink/CodeGen3.slx|CodeGen3]]
+- [[5. Semester/Power Electronics/Simulink/CodeGen2.slx|CodeGen2]]
+- [[5. Semester/Power Electronics/Simulink/CodeGen1.slx|CodeGen1]]
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/5.Codegeneration (1).pptx|5.Codegeneration (1)]]
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/4.CodeGeneration (1).pptx|4.CodeGeneration (1)]]
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/3.CodeGeneration (1).pptx|3.CodeGeneration (1)]]
