@@ -123,12 +123,19 @@ def cmd_sync(args) -> int:
 
     config = Config()
     notifier = DiscordNotifier(config.webhook)
+
+    # Pull before anything is read from disk. rules.yaml and state.json are
+    # loaded once below and never touched again until this run writes state
+    # back out at the end -- pulling after that load would fetch newer
+    # content only for it to be silently overwritten by the stale in-memory
+    # state a few seconds later (this bit a manual state.json edit made
+    # between runs: the very next run's own commit reverted it).
+    if not args.dry_run:
+        Delivery(config.repo_root, drive_sync=None).pull()
+
     rules = load_rules(config.rules_path.read_text(encoding="utf-8"))
     state = State.load(config.state_path)
     delivery = Delivery(config.repo_root, drive_sync=_drive_sync(config.repo_root, state))
-
-    if not args.dry_run:
-        delivery.pull()
 
     touched: list[str] = []
 
