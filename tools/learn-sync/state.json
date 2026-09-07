@@ -318,6 +318,18 @@
       "sha256": "0c298b1111559cf0d189970d937f56c738c2e58471c1f16b1c4a5f3e3778037b",
       "synced_at": "2026-09-07T07:09:18+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/Slides/Lecture 1.pdf"
+    },
+    "1271879": {
+      "revision": "2026-09-07T12:23:04.747Z",
+      "sha256": "2e1d2457dfd4aba8acb947b64355d3129f4efa3a071be2be2879a507a8e98614",
+      "synced_at": "2026-09-07T13:07:02+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026.pptx"
+    },
+    "1271885": {
+      "revision": "2026-09-07T12:24:00.217Z",
+      "sha256": "34e8e058b54e4008229771b9b4e3ec006befd8a4523f9782f6aebb5af4b7dac7",
+      "synced_at": "2026-09-07T13:07:02+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems2.pdf"
     }
   }
 }

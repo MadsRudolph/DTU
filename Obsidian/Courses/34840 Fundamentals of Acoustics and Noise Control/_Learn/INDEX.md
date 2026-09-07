@@ -23,3 +23,8 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v1.pptx|34840_Lecture1_2026_v1]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840-Problems 1.pdf|34840-Problems 1]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions1.pdf|34840_Solutions1]]
+
+## 2 - Reflection and interference; spherical waves
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026.pptx|34840_Lecture2_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems2.pdf|34840_Problems2]]
