@@ -15,7 +15,13 @@ function distance(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],d=dx*dx+dy*dy;const t=d
 function turn(p,c,degrees){const t=degrees*Math.PI/180,co=Math.cos(t),si=Math.sin(t),x=p[0]-c[0],y=p[1]-c[1];return [c[0]+x*co-y*si,c[1]+x*si+y*co];}
 function textCorners(s){const a=s.points[0];return [[a[0]-2,a[1]-28],[a[0]+s.text.length*18+2,a[1]-28],[a[0]+s.text.length*18+2,a[1]+8],[a[0]-2,a[1]+8]].map(p=>turn(p,a,s.rotation||0));}
 function hit(s,p,r=12){if(s.text){const a=s.points[0],q=turn(p,a,-(s.rotation||0));return q[0]>=a[0]-r&&q[0]<=a[0]+s.text.length*18+r&&q[1]>=a[1]-28-r&&q[1]<=a[1]+8+r;}return paths(s).some(line=>line.some((a,i)=>distance(p,a,line[Math.min(i+1,line.length-1)])<r+s.width/2));}
-function transformPoints(s,fn){const seen=new Set();for(const line of paths(s))for(const p of line){if(seen.has(p))continue;seen.add(p);const q=fn(p);p[0]=q[0];p[1]=q[1];}}
+function transformPoints(s,fn){
+ // Build from original coordinates without mutating shared endpoints. Keep the
+ // legacy points field synchronized with paths after imports and transforms.
+ const transformed=paths(s).map(line=>line.map(p=>fn(p)));
+ if(s.paths)s.paths=transformed;
+ s.points=transformed[0];
+}
 function shift(s,dx,dy){transformPoints(s,p=>[p[0]+dx,p[1]+dy]);}
 function rotate(s,degrees){if(!Number.isFinite(degrees))throw Error('Invalid rotation');const b=bounds([s]),c=[b.x+b.width/2,b.y+b.height/2];transformPoints(s,p=>turn(p,c,degrees));if(s.text)s.rotation=((s.rotation||0)+degrees)%360;}
 function shape(kind,a,b){const [x,y]=a,[u,v]=b,dx=u-x,dy=v-y;

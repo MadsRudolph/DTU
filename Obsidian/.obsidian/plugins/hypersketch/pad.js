@@ -312,7 +312,7 @@ function getPWAHtml(port) {
       let activePointerId = null;
       let sending = false;
       let history = [],redoHistory=[];
-      let pattern='solid',selected=-1,startPoint=null,dragPoint=null,holdTimer=null,holdEnabled=true,holdAnchor=null;
+      let pattern='solid',selected=-1,startPoint=null,dragPoint=null,dragOriginal=null,holdTimer=null,holdEnabled=true,holdAnchor=null;
       function checkpoint(){history.push(JSON.stringify(strokes));if(history.length>40)history.shift();redoHistory=[];sendId=null;}
       function stopHold(){clearTimeout(holdTimer);holdTimer=null;}
       function armHold(p){
@@ -384,7 +384,7 @@ function getPWAHtml(port) {
         e.preventDefault(); activePointerId=e.pointerId; isDrawing=true;
         canvas.setPointerCapture(activePointerId);
         stopHold();holdAnchor=null;checkpoint();startPoint=point(e);dragPoint=startPoint;
-        if(activeTool==='select'){selected=strokes.findLastIndex(s=>G.hit(s,startPoint));currentStroke=null;redrawAll();return;}
+        if(activeTool==='select'){selected=strokes.findLastIndex(s=>G.hit(s,startPoint));dragOriginal=selected>=0?structuredClone(strokes[selected]):null;currentStroke=null;redrawAll();return;}
         selected=-1;
         if(activeTool==='text'){
           const text=prompt('Label (for example: Vout, R = 10 kΩ, ω₀):','');
@@ -410,7 +410,7 @@ function getPWAHtml(port) {
         }
         if(e.pointerId!==activePointerId)return;
         e.preventDefault();
-        if(activeTool==='select'){if(selected>=0){const p=point(e);G.shift(strokes[selected],p[0]-dragPoint[0],p[1]-dragPoint[1]);dragPoint=p;redrawAll();}return;}
+        if(activeTool==='select'){if(selected>=0){const p=point(e);strokes[selected]=structuredClone(dragOriginal);G.shift(strokes[selected],p[0]-startPoint[0],p[1]-startPoint[1]);redrawAll();}return;}
         if(currentStroke&&['line','arrow','rectangle','ellipse'].includes(activeTool)){currentStroke.paths=G.shape(activeTool,startPoint,point(e));currentStroke.points=currentStroke.paths[0];redrawAll();return;}
         if(currentStroke){
           const samples=e.getCoalescedEvents?.();
@@ -423,7 +423,7 @@ function getPWAHtml(port) {
         if(e.pointerId!==activePointerId)return;
         stopHold();holdAnchor=null;
         if(currentStroke)strokes.push(currentStroke);
-        currentStroke=null;activePointerId=null;isDrawing=false;
+        currentStroke=null;activePointerId=null;isDrawing=false;dragOriginal=null;
         saveDraft();redrawAll();
       }
       canvas.addEventListener('pointerup',endStroke);

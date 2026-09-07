@@ -26,6 +26,17 @@ test('plugin HTTP serves PWA and requires paired model submissions',async t=>{co
 });
 test('rotation preserves component center, closed paths and exported labels',()=>{
  const paths=G.symbol('resistor',[100,100]),s={...stroke,points:paths[0],paths};const a=G.bounds([s]);G.rotate(s,90);const b=G.bounds([s]);assert(Math.abs(a.width-b.height)<1e-8);assert(Math.abs(a.x+a.width/2-b.x-b.width/2)<1e-8);assert(G.hit(s,s.paths[0][2]));
- const rect=G.shape('rectangle',[0,0],[100,50]);const r={...stroke,points:rect[0],paths:rect};G.shift(r,20,30);assert.deepEqual(rect[0][0],[20,30]);G.rotate(r,90);assert.deepEqual(rect[0][0],rect[0].at(-1));G.rotate(r,-90);assert(Math.abs(rect[0][0][0]-20)<1e-8);
+ const rect=G.shape('rectangle',[0,0],[100,50]);const r={...stroke,points:rect[0],paths:rect};G.shift(r,20,30);assert.deepEqual(r.paths[0][0],[20,30]);G.rotate(r,90);assert.deepEqual(r.paths[0][0],r.paths[0].at(-1));G.rotate(r,-90);assert(Math.abs(r.paths[0][0][0]-20)<1e-8);
  const label={...stroke,points:[[100,100]],text:'R1'};G.rotate(label,90);assert.equal(label.rotation,90);assert.match(G.svg([label]).svg,/transform="rotate\(90 /);assert(G.hit(label,label.points[0]));assert.throws(()=>G.validate([{...label,rotation:NaN}]));
+});
+test('moving every figure preserves all segments and imported point metadata',()=>{
+ const examples=['arrow','rectangle','ellipse'].map(k=>G.shape(k,[10,20],[130,95])).concat(['resistor','capacitor','ground','opamp'].map(k=>G.symbol(k,[80,90])));
+ for(const lines of examples)for(const imported of [false,true]){
+  let s={...stroke,paths:lines,points:lines[0]};if(imported)s=JSON.parse(JSON.stringify(s));
+  const before=JSON.parse(JSON.stringify(s.paths));
+  for(let i=0;i<30;i++)G.shift(s,2,-3);
+  s.paths.forEach((line,i)=>line.forEach((p,j)=>{assert(Math.abs(p[0]-before[i][j][0]-60)<1e-8);assert(Math.abs(p[1]-before[i][j][1]+90)<1e-8);}));
+  assert.deepEqual(s.points,s.paths[0]);assert.deepEqual(lines,before,'source/shared geometry must not mutate');
+  G.validate(s?[s]:[]);assert.match(G.svg([s]).svg,/<path/);
+ }
 });
