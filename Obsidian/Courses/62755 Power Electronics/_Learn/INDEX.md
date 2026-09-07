@@ -5,7 +5,7 @@ links to where the file actually lives in the vault.*
 
 ## Introduction
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 1 62755.pdf|Lecture 1 62755]]
+- [[Courses/62755 Power Electronics/Slides/Lecture 1.pdf|Lecture 1]]
 
 ## Lecture 2 Power Diodes
 
