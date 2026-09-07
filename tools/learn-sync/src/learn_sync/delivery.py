@@ -90,9 +90,10 @@ class Delivery:
     def publish(self, report, paths) -> bool:
         """Upload binaries, commit the given paths, push. Returns whether it committed.
 
-        `paths` are the tracked text files this run touched -- notes, the state
-        file, the manifest. Binaries are gitignored and travel via Drive, and
-        nothing outside `paths` is ever staged.
+        `paths` are the tracked files this run touched -- notes, the state
+        file, the manifest, plus any tool files a rule routed outside the
+        vault (see cmd_sync). Vault binaries are gitignored and travel via
+        Drive instead; nothing outside `paths` is ever staged.
         """
         # The upload comes first, before any "did anything change" check. State can
         # record a topic as synced while Drive never received it -- an aborted run

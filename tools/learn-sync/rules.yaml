@@ -8,6 +8,12 @@
 # full Brightspace tree is reproduced as _Learn/INDEX.md, which links to
 # wherever each file actually went.
 #
+# A `to:` starting with "/" is repo-root-relative and escapes the Obsidian
+# vault entirely -- used for tool files (MATLAB, Simulink, KiCad, LTspice, ...)
+# that belong in that course's "5. Semester/<course>/" working folder instead
+# of Obsidian/Courses/. These rules are listed first per course so a tool file
+# posted under e.g. a "Lab" module is routed by extension, not by module.
+#
 # A course with no entry here still syncs: it gets the standard folder skeleton,
 # everything goes under _Learn/, and Discord asks you to add rules for it.
 
@@ -22,6 +28,9 @@ courses:
     vault: "34870 Electroacoustics"
     # Real modules seen on Learn: "Basic Material", "Lecture N - <topic>".
     rules:
+      - {file:   "(?i)\\.(m|mat|mlx|fig|slx|mdl)$", to: "/5. Semester/Electroacoustics/Matlab/"}
+      - {file:   "(?i)\\.(asc|net|plt|raw)$",       to: "/5. Semester/Electroacoustics/LTspice/"}
+      - {file:   "(?i)\\.kicad_[a-z]+$",            to: "/5. Semester/Electroacoustics/KiCad/"}
       - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
       - {file:   "(?i)(lecture|slides?|forelæs)",   to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}
@@ -37,6 +46,7 @@ courses:
     vault: "34840 Fundamentals of Acoustics and Noise Control"
     # Real modules: "0 - Course info and material", "Prerequisites", "Lecture N".
     rules:
+      - {file:   "(?i)\\.(m|mat|mlx|fig|slx|mdl)$", to: "/5. Semester/Acoustics and Noise Control/Matlab/"}
       # First, so the prerequisite exercises and their solutions stay together
       # in the folder that already exists in the vault.
       - {module: "(?i)prerequisite",                to: "Literature/00 - Prerequisites/"}
@@ -51,6 +61,9 @@ courses:
   "62755":
     vault: "62755 Power Electronics"
     rules:
+      - {file:   "(?i)\\.(m|mat|mlx|fig)$",         to: "/5. Semester/Power Electronics/Matlab/"}
+      - {file:   "(?i)\\.(slx|mdl)$",               to: "/5. Semester/Power Electronics/Simulink/"}
+      - {file:   "(?i)\\.(pscx?|psc)$",             to: "/5. Semester/Power Electronics/PSCAD/"}
       - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}
@@ -61,6 +74,8 @@ courses:
   "34654":
     vault: "34654 Circuit Technology and EMC"
     rules:
+      - {file:   "(?i)\\.kicad_[a-z]+$",            to: "/5. Semester/Circuit Technology and EMC/KiCad/"}
+      - {file:   "(?i)\\.(asc|net|plt|raw)$",       to: "/5. Semester/Circuit Technology and EMC/LTspice/"}
       # Four assignments (Passives, PCB, EMC, Environmental) drive this course.
       - {module: "(?i)assignment|project|report",   to: "Projects/"}
       - {module: "(?i)reference design|datasheet",  to: "Literature/Reference Designs/"}
@@ -72,6 +87,9 @@ courses:
   "34871":
     vault: "34871 Nonlinear Transducers"
     rules:
+      - {file:   "(?i)\\.(m|mat|mlx|fig)$",         to: "/5. Semester/Nonlinear Transducers/Matlab/"}
+      - {file:   "(?i)\\.(slx|mdl)$",               to: "/5. Semester/Nonlinear Transducers/Simulations/"}
+      - {file:   "(?i)\\.kicad_[a-z]+$",            to: "/5. Semester/Nonlinear Transducers/KiCad/"}
       - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}

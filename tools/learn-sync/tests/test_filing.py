@@ -98,6 +98,48 @@ def test_is_known_reports_missing_course():
     assert rules.is_known("62755") is False
 
 
+OUTSIDE_VAULT_YAML = """
+courses:
+  "62755":
+    vault: "62755 Power Electronics"
+    rules:
+      - {file: "(?i)\\\\.slx$", to: "/5. Semester/Power Electronics/Simulink/"}
+      - {module: "^Lab", to: "Labs/"}
+    default: "_Learn/{module}/"
+"""
+
+POWER_ELECTRONICS = Course(org_unit_id="300", code="62755", name="Power Electronics")
+
+
+def test_leading_slash_escapes_the_vault():
+    rules = load_rules(OUTSIDE_VAULT_YAML)
+    t = topic(course_code="62755", module_path=("Week 3",), filename="CodeGen1.slx")
+
+    assert rules.path_for(t, POWER_ELECTRONICS) == PurePosixPath(
+        "5. Semester/Power Electronics/Simulink/CodeGen1.slx"
+    )
+
+
+def test_escaped_rule_wins_over_a_later_module_rule():
+    rules = load_rules(OUTSIDE_VAULT_YAML)
+    # Would also match "^Lab" if rule order were reversed; the extension rule
+    # is listed first and must win.
+    t = topic(course_code="62755", module_path=("Lab 3",), filename="model.slx")
+
+    assert rules.path_for(t, POWER_ELECTRONICS) == PurePosixPath(
+        "5. Semester/Power Electronics/Simulink/model.slx"
+    )
+
+
+def test_non_escaped_rules_still_land_in_the_vault():
+    rules = load_rules(OUTSIDE_VAULT_YAML)
+    t = topic(course_code="62755", module_path=("Lab 3",), filename="guide.pdf")
+
+    assert rules.path_for(t, POWER_ELECTRONICS) == PurePosixPath(
+        "Obsidian/Courses/62755 Power Electronics/Labs/guide.pdf"
+    )
+
+
 def test_module_path_is_sanitised_for_the_filesystem():
     rules = load_rules(RULES_YAML)
     t = topic(module_path=('Week 3: "intro" / basics',), filename="a.txt")

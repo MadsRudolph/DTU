@@ -87,11 +87,20 @@ class Rules:
             else DEFAULT_TARGET
         )
         module_dirs = "/".join(sanitise(part) for part in topic.module_path)
-        target = target.format(module=module_dirs).strip("/")
+        target = target.format(module=module_dirs)
 
-        path = COURSES_ROOT / self.vault_folder(course)
-        if target:
-            path = path / target
+        # A `to:` starting with "/" is repo-root-relative and escapes the vault
+        # entirely -- for tool files (MATLAB, Simulink, KiCad, ...) that belong
+        # next to the rest of that course's working files, not in Obsidian.
+        outside_vault = target.startswith("/")
+        target = target.strip("/")
+
+        if outside_vault:
+            path = PurePosixPath(target) if target else PurePosixPath(".")
+        else:
+            path = COURSES_ROOT / self.vault_folder(course)
+            if target:
+                path = path / target
         return path / sanitise(topic.filename)
 
 

@@ -72,13 +72,24 @@ def _drive_sync(repo_root: Path, state):
 
     Driving it from state rather than from this run's downloads makes it
     self-healing -- a file left behind by an aborted run is picked up next time.
+
+    Only files still inside Obsidian/Courses/ go to Drive. A rule can route a
+    topic outside the vault (a `to:` starting with "/", e.g. tool files into
+    "5. Semester/..."); those are small, git-native project files, not the
+    large binaries this pipeline exists to keep out of git, so they are meant
+    to be committed directly instead -- see the `touched` filtering in
+    cmd_sync.
     """
 
     def run() -> None:
         uploader = DriveUploader(
             repo_root, Rclone(folder_id_from_manifest(repo_root))
         )
-        uploaded = uploader.upload(sorted(state.known_vault_paths()))
+        vault_paths = [
+            p for p in state.known_vault_paths()
+            if p == COURSES_ROOT or p.startswith(COURSES_ROOT + "/")
+        ]
+        uploaded = uploader.upload(sorted(vault_paths))
         if uploaded:
             log.info("uploaded %d file(s) to Drive", len(uploaded))
 
@@ -230,6 +241,13 @@ def cmd_sync(args) -> int:
             touched,
             config.repo_root,
         )
+
+    # Files routed outside the vault (tool files under "5. Semester/...") are
+    # small, git-native project files, not gitignored binaries bound for Drive
+    # -- commit them directly rather than leaving them untracked forever.
+    for _code, path in syncer.report.files_added + syncer.report.files_adopted:
+        if not (path == COURSES_ROOT or path.startswith(COURSES_ROOT + "/")):
+            touched.append(path)
 
     state.save(config.state_path)
     touched.append(str(config.state_path.relative_to(config.repo_root)).replace("\\", "/"))
