@@ -4,6 +4,7 @@ const stroke={color:'#f3f4f6',isAdaptive:true,width:3,dash:'dashed',points:[[0,0
 test('shapes, symbols, dashes and labels export validated portable SVG',()=>{
  for(const kind of ['line','rectangle','ellipse','arrow']){const paths=G.shape(kind,[0,0],[100,60]);const s={...stroke,points:paths[0],paths};assert.match(G.svg([s]).svg,/stroke-dasharray="15 9"/);G.shift(s,10,20);assert(G.bounds([s]).x>=8.5);}
  for(const kind of ['resistor','capacitor','ground','opamp']){const paths=G.symbol(kind,[100,100]);assert.match(G.svg([{...stroke,points:paths[0],paths}]).svg,/<path/);}
+ assert(!G.svg([stroke]).svg.includes('<rect'), 'SVG export must have no background rectangle');
  assert.match(G.svg([{...stroke,text:'<R & L>'}]).svg,/&lt;R &amp; L&gt;/);
  assert.throws(()=>G.svg([{...stroke,color:'red" onload="evil'}]));assert.throws(()=>G.svg([{...stroke,points:[[Infinity,0]]}]));
 });

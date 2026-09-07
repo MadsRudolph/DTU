@@ -89,7 +89,7 @@ var require_geometry = __commonJS({
         validate(model);
         if (!model.length) throw Error("Draw something first");
         const b = bounds(model), x = b.x - 16, y = b.y - 16, w = b.width + 32, h = b.height + 32;
-        let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${w} ${h}" width="${w}" height="${h}"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white"/>`;
+        let out = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${w} ${h}" width="${w}" height="${h}">`;
         for (const s of model) {
           const color = s.isAdaptive ? "#172033" : s.color;
           if (s.text) {
@@ -1232,7 +1232,7 @@ function symbol(kind,p){const [x,y]=p;let lines;
 function dash(s){return s.dash==='dashed'?[s.width*5,s.width*3]:s.dash==='dotted'?[.01,s.width*3]:[];}
 function bounds(model){let x=Infinity,y=Infinity,u=-Infinity,v=-Infinity;for(const s of model){for(const line of paths(s))for(const p of line){x=Math.min(x,p[0]-s.width/2);y=Math.min(y,p[1]-s.width/2);u=Math.max(u,p[0]+s.width/2);v=Math.max(v,p[1]+s.width/2);}if(s.text){const p=s.points[0];y=Math.min(y,p[1]-28);u=Math.max(u,p[0]+s.text.length*18);v=Math.max(v,p[1]+8);}}return {x,y,width:u-x,height:v-y};}
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
-function svg(model){validate(model);if(!model.length)throw Error('Draw something first');const b=bounds(model),x=b.x-16,y=b.y-16,w=b.width+32,h=b.height+32;let out=\`<svg xmlns="http://www.w3.org/2000/svg" viewBox="\${x} \${y} \${w} \${h}" width="\${w}" height="\${h}"><rect x="\${x}" y="\${y}" width="\${w}" height="\${h}" fill="white"/>\`;
+function svg(model){validate(model);if(!model.length)throw Error('Draw something first');const b=bounds(model),x=b.x-16,y=b.y-16,w=b.width+32,h=b.height+32;let out=\`<svg xmlns="http://www.w3.org/2000/svg" viewBox="\${x} \${y} \${w} \${h}" width="\${w}" height="\${h}">\`;
  for(const s of model){const color=s.isAdaptive?'#172033':s.color;if(s.text){out+=\`<text x="\${s.points[0][0]}" y="\${s.points[0][1]}" fill="\${color}" font-size="28" font-family="monospace">\${escape(s.text)}</text>\`;continue;}
  for(const line of paths(s)){if(line.length===1)out+=\`<circle cx="\${line[0][0]}" cy="\${line[0][1]}" r="\${s.width/2}" fill="\${color}"/>\`;else out+=\`<path d="M\${line.map(p=>p.join(',')).join(' L')}" fill="none" stroke="\${color}" stroke-width="\${s.width}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="\${dash(s).join(' ')}"/>\`;}}
  return {svg:out+'</svg>',width:w,height:h};}
