@@ -24,3 +24,4 @@ links to where the file actually lives in the vault.*
 ## Lecture 3 - Analogies: Acoustic Systems
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture3_07092026.pdf|34870_Lecture3_07092026]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions3.pdf|34870_Solutions3]]
