@@ -1514,7 +1514,7 @@ var require_pad = __commonJS({
       <div class="divider"></div>
 
       <select id="shape-tool" aria-label="Drawing tool" class="engineering-select">
-        <option value="pen">Freehand</option><option value="line">Line</option><option value="arrow">Arrow</option><option value="rectangle">Rectangle</option><option value="ellipse">Ellipse</option><option value="select">Select / move</option><option value="text">Text label</option>
+        <option value="" disabled>Drawing tools\u2026</option><option value="pen" selected>Freehand</option><option value="line">Line</option><option value="arrow">Arrow</option><option value="rectangle">Rectangle</option><option value="ellipse">Ellipse</option><option value="select">Select / move</option><option value="text">Text label</option>
       </select>
       <select id="dash-tool" aria-label="Line pattern" class="engineering-select"><option value="solid">Solid</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option></select>
       <select id="symbol-tool" aria-label="Insert engineering symbol" class="engineering-select"><option value="">Symbols\u2026</option><option value="resistor">Resistor</option><option value="capacitor">Capacitor</option><option value="ground">Ground</option><option value="opamp">Op-amp</option></select>
@@ -1728,14 +1728,22 @@ var require_pad = __commonJS({
 
 
       // Tools
+      function setTool(tool) {
+        activeTool=tool;
+        document.getElementById('shape-tool').value=tool==='eraser'||tool.startsWith('symbol:')?'':tool;
+        document.getElementById('symbol-tool').value=tool.startsWith('symbol:')?tool.slice(7):'';
+        penBtn.classList.toggle('active',tool==='pen');
+        eraserBtn.classList.toggle('active',tool==='eraser');
+        selected=-1;stopHold();redrawAll();
+      }
       penBtn.addEventListener('click', () => {
-        activeTool = 'pen';document.getElementById('shape-tool').value='pen';
+        setTool('pen');
         penBtn.classList.add('active');
         eraserBtn.classList.remove('active');
       });
 
       eraserBtn.addEventListener('click', () => {
-        activeTool = 'eraser';
+        setTool('eraser');
         eraserBtn.classList.add('active');
         penBtn.classList.remove('active');
       });
@@ -1770,7 +1778,7 @@ var require_pad = __commonJS({
             selectedColor = col;
             isAdaptive = false;
           }
-          activeTool = 'pen';document.getElementById('shape-tool').value='pen';
+          setTool('pen');
           penBtn.classList.add('active');
           eraserBtn.classList.remove('active');
         });
@@ -1815,9 +1823,9 @@ var require_pad = __commonJS({
         }
       });
 
-      document.getElementById('shape-tool').onchange=e=>{activeTool=e.target.value;document.getElementById('symbol-tool').value='';selected=-1;stopHold();redrawAll();};
+      document.getElementById('shape-tool').onchange=e=>{setTool(e.target.value);};
       document.getElementById('dash-tool').onchange=e=>{pattern=e.target.value;};
-      document.getElementById('symbol-tool').onchange=e=>{if(e.target.value)activeTool='symbol:'+e.target.value;};
+      document.getElementById('symbol-tool').onchange=e=>{setTool(e.target.value?'symbol:'+e.target.value:'pen');};
       document.getElementById('hold-btn').onclick=e=>{holdEnabled=!holdEnabled;e.currentTarget.textContent='Hold: '+(holdEnabled?'ON':'OFF');stopHold();};
       document.getElementById('redo-btn').onclick=()=>{if(isDrawing||sending||!redoHistory.length)return;history.push(JSON.stringify(strokes));strokes=JSON.parse(redoHistory.pop());selected=-1;sendId=null;saveDraft();redrawAll();};
       function rotateSelected(direction){

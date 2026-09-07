@@ -53,6 +53,13 @@ document.getElementById('delete-btn').click();check(model().length===0,'delete s
 document.getElementById('undo-btn').click();check(model().length===1,'undo deletion');
 document.getElementById('redo-btn').click();check(model().length===0,'redo deletion');
 const symbols=document.getElementById('symbol-tool');symbols.value='resistor';symbols.dispatchEvent(new Event('change'));fire('pointerdown',100,100);fire('pointerup',100,100);check(model()[0].paths[0].length>5,'engineering symbol insert');
+check(mode.value==='','symbol clears stale Select / move selection');
+choose('select');check(symbols.value==='','Select / move clears symbol selection');
+const resistorBefore=JSON.stringify(model()[0]);
+fire('pointerdown',100,100);fire('pointermove',130,120);fire('pointerup',130,120);
+check(model().length===1&&JSON.stringify(model()[0])!==resistorBefore,'switching from resistor to Select moves instead of placing');
+symbols.value='resistor';symbols.dispatchEvent(new Event('change'));
+document.getElementById('pen-btn').click();check(symbols.value===''&&mode.value==='pen','pen synchronizes both tool menus');
 document.getElementById('clear-btn').click();choose('pen');
 fire('pointerdown',50,50);fire('pointermove',90,53);fire('pointermove',150,52);await new Promise(r=>setTimeout(r,650));fire('pointerup',150,52);check(model()[0].points.length===2,'hold straightens freehand line');
 const out=document.createElement('pre');out.id='test-results';out.textContent='PASS: '+results.join('; ');document.body.append(out);
