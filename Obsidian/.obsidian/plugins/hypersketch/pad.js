@@ -227,7 +227,7 @@ function getPWAHtml(port) {
     <div class="toolbar">
       <button id="install-btn" class="tool-btn" style="width:auto;padding:0 10px;font-size:.8rem" hidden>Install app</button>
       <!-- Colors -->
-      <div class="color-dot active" data-color="adaptive" style="background: #ffffff;" title="Adaptive White/Black"></div>
+      <div class="color-dot active" data-color="adaptive" style="background: #ffffff;" title="White ink"></div>
       <div class="color-dot" data-color="#ff5555" style="background: #ff5555;" title="VCC/Signal Red"></div>
       <div class="color-dot" data-color="#50b5ff" style="background: #50b5ff;" title="GND/Wire Blue"></div>
       <div class="color-dot" data-color="#50fa7b" style="background: #50fa7b;" title="Logic Green"></div>
