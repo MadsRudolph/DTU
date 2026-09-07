@@ -36,6 +36,14 @@ tags: [Acoustics, Noise, Audio, home]
 
 ---
 
+> [!todo] Ready for Tuesday 8 September — Lecture 2
+> - [[Lecture 2 - Plane Waves Reflection and Spherical Waves|Lecture notes — reflection, standing waves and spherical waves]]
+> - [[34840_Lecture2_2026.pdf|Slides as PDF]] · [[34840_Lecture2_2026.pptx|Open PowerPoint]]
+> - [[Week 2 - Reflection and Spherical Waves|Week 2 problems + MATLAB starter]] · [[34840_Problems2.pdf|Original problems]]
+> - Read printed pp. 8–15 of [[Fundamentals_of_acoustics_2022.pdf|the course text]].
+
+---
+
 ## Lecture Plan — Autumn 2026
 
 > [!note] Source
@@ -132,6 +140,9 @@ tags: [Acoustics, Noise, Audio, home]
 ---
 
 ## Lecture Notes
+
+- [[Lecture 1 - Introduction and Plane Waves|Lecture 1 — introduction and plane waves]] · [[Week 1 - Fundamental Concepts and Plane Waves|Week 1 problems + MATLAB]]
+- [[Lecture 2 - Plane Waves Reflection and Spherical Waves|Lecture 2 — reflection and spherical waves]] · [[Week 2 - Reflection and Spherical Waves|Week 2 problems + MATLAB]]
 
 ```dataview
 TABLE date AS "Date", week AS "Week"
