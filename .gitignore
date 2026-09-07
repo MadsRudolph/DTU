@@ -50,6 +50,12 @@ desktop.ini
 *.swo
 *~
 
+# VS Code "Local History" extension — its own nested .git repo, never ours
+.history/
+
+# KiCad lock files (created while a project is open in the GUI)
+~*.lck
+
 # Python
 __pycache__/
 *.pyc
