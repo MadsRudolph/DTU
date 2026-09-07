@@ -22,6 +22,7 @@ var require_geometry = __commonJS({
             if (!Array.isArray(line) || !line.length) throw Error("Empty path");
             for (const p of line) if (++count > 15e4 || !Array.isArray(p) || p.length !== 2 || !p.every((n) => Number.isFinite(n) && Math.abs(n) < 1e5)) throw Error("Invalid coordinates");
           }
+          if (s.rotation !== void 0 && (!Number.isFinite(s.rotation) || Math.abs(s.rotation) > 360)) throw Error("Invalid rotation");
           if (s.text !== void 0 && (typeof s.text !== "string" || s.text.length > 300)) throw Error("Invalid label");
         }
         return model;
@@ -31,18 +32,39 @@ var require_geometry = __commonJS({
         const t = d ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / d)) : 0;
         return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
       }
+      function turn(p, c, degrees) {
+        const t = degrees * Math.PI / 180, co = Math.cos(t), si = Math.sin(t), x = p[0] - c[0], y = p[1] - c[1];
+        return [c[0] + x * co - y * si, c[1] + x * si + y * co];
+      }
+      function textCorners(s) {
+        const a = s.points[0];
+        return [[a[0] - 2, a[1] - 28], [a[0] + s.text.length * 18 + 2, a[1] - 28], [a[0] + s.text.length * 18 + 2, a[1] + 8], [a[0] - 2, a[1] + 8]].map((p) => turn(p, a, s.rotation || 0));
+      }
       function hit(s, p, r = 12) {
         if (s.text) {
-          const a = s.points[0];
-          return p[0] >= a[0] - r && p[0] <= a[0] + s.text.length * 18 + r && Math.abs(p[1] - a[1]) < 30 + r;
+          const a = s.points[0], q = turn(p, a, -(s.rotation || 0));
+          return q[0] >= a[0] - r && q[0] <= a[0] + s.text.length * 18 + r && q[1] >= a[1] - 28 - r && q[1] <= a[1] + 8 + r;
         }
         return paths(s).some((line) => line.some((a, i) => distance(p, a, line[Math.min(i + 1, line.length - 1)]) < r + s.width / 2));
       }
-      function shift(s, dx, dy) {
+      function transformPoints(s, fn) {
+        const seen = /* @__PURE__ */ new Set();
         for (const line of paths(s)) for (const p of line) {
-          p[0] += dx;
-          p[1] += dy;
+          if (seen.has(p)) continue;
+          seen.add(p);
+          const q = fn(p);
+          p[0] = q[0];
+          p[1] = q[1];
         }
+      }
+      function shift(s, dx, dy) {
+        transformPoints(s, (p) => [p[0] + dx, p[1] + dy]);
+      }
+      function rotate(s, degrees) {
+        if (!Number.isFinite(degrees)) throw Error("Invalid rotation");
+        const b = bounds([s]), c = [b.x + b.width / 2, b.y + b.height / 2];
+        transformPoints(s, (p) => turn(p, c, degrees));
+        if (s.text) s.rotation = ((s.rotation || 0) + degrees) % 360;
       }
       function shape(kind, a, b) {
         const [x, y] = a, [u, v] = b, dx = u - x, dy = v - y;
@@ -69,17 +91,13 @@ var require_geometry = __commonJS({
       function bounds(model) {
         let x = Infinity, y = Infinity, u = -Infinity, v = -Infinity;
         for (const s of model) {
-          for (const line of paths(s)) for (const p of line) {
-            x = Math.min(x, p[0] - s.width / 2);
-            y = Math.min(y, p[1] - s.width / 2);
-            u = Math.max(u, p[0] + s.width / 2);
-            v = Math.max(v, p[1] + s.width / 2);
-          }
-          if (s.text) {
-            const p = s.points[0];
-            y = Math.min(y, p[1] - 28);
-            u = Math.max(u, p[0] + s.text.length * 18);
-            v = Math.max(v, p[1] + 8);
+          const lines = s.text ? [textCorners(s)] : paths(s);
+          const margin = s.text ? 0 : s.width / 2;
+          for (const line of lines) for (const p of line) {
+            x = Math.min(x, p[0] - margin);
+            y = Math.min(y, p[1] - margin);
+            u = Math.max(u, p[0] + margin);
+            v = Math.max(v, p[1] + margin);
           }
         }
         return { x, y, width: u - x, height: v - y };
@@ -93,7 +111,7 @@ var require_geometry = __commonJS({
         for (const s of model) {
           const color = s.color;
           if (s.text) {
-            out += `<text x="${s.points[0][0]}" y="${s.points[0][1]}" fill="${color}" font-size="28" font-family="monospace">${escape(s.text)}</text>`;
+            out += `<text x="${s.points[0][0]}" y="${s.points[0][1]}" fill="${color}" transform="rotate(${s.rotation || 0} ${s.points[0][0]} ${s.points[0][1]})" font-size="28" font-family="monospace">${escape(s.text)}</text>`;
             continue;
           }
           for (const line of paths(s)) {
@@ -103,7 +121,7 @@ var require_geometry = __commonJS({
         }
         return { svg: out + "</svg>", width: w, height: h };
       }
-      const api = { paths, validate, distance, hit, shift, shape, symbol, dash, bounds, svg };
+      const api = { paths, validate, distance, hit, shift, rotate, shape, symbol, dash, bounds, svg };
       if (typeof module2 !== "undefined" && module2.exports) module2.exports = api;
       else root.HyperSketchGeometry = api;
     })(typeof window !== "undefined" ? window : globalThis);
@@ -1210,12 +1228,17 @@ function validate(model){
  for(const s of model){if(!s||!colors.includes(s.color)||!Number.isFinite(s.width)||s.width<1||s.width>30||!['solid','dashed','dotted',undefined].includes(s.dash))throw Error('Invalid brush');
  const lines=paths(s);if(!Array.isArray(lines)||lines.length>100)throw Error('Invalid paths');
  for(const line of lines){if(!Array.isArray(line)||!line.length)throw Error('Empty path');for(const p of line)if(++count>150000||!Array.isArray(p)||p.length!==2||!p.every(n=>Number.isFinite(n)&&Math.abs(n)<100000))throw Error('Invalid coordinates');}
+ if(s.rotation!==undefined&&(!Number.isFinite(s.rotation)||Math.abs(s.rotation)>360))throw Error('Invalid rotation');
  if(s.text!==undefined&&(typeof s.text!=='string'||s.text.length>300))throw Error('Invalid label');
  }return model;
 }
 function distance(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],d=dx*dx+dy*dy;const t=d?Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/d)):0;return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy);}
-function hit(s,p,r=12){if(s.text){const a=s.points[0];return p[0]>=a[0]-r&&p[0]<=a[0]+s.text.length*18+r&&Math.abs(p[1]-a[1])<30+r;}return paths(s).some(line=>line.some((a,i)=>distance(p,a,line[Math.min(i+1,line.length-1)])<r+s.width/2));}
-function shift(s,dx,dy){for(const line of paths(s))for(const p of line){p[0]+=dx;p[1]+=dy;}}
+function turn(p,c,degrees){const t=degrees*Math.PI/180,co=Math.cos(t),si=Math.sin(t),x=p[0]-c[0],y=p[1]-c[1];return [c[0]+x*co-y*si,c[1]+x*si+y*co];}
+function textCorners(s){const a=s.points[0];return [[a[0]-2,a[1]-28],[a[0]+s.text.length*18+2,a[1]-28],[a[0]+s.text.length*18+2,a[1]+8],[a[0]-2,a[1]+8]].map(p=>turn(p,a,s.rotation||0));}
+function hit(s,p,r=12){if(s.text){const a=s.points[0],q=turn(p,a,-(s.rotation||0));return q[0]>=a[0]-r&&q[0]<=a[0]+s.text.length*18+r&&q[1]>=a[1]-28-r&&q[1]<=a[1]+8+r;}return paths(s).some(line=>line.some((a,i)=>distance(p,a,line[Math.min(i+1,line.length-1)])<r+s.width/2));}
+function transformPoints(s,fn){const seen=new Set();for(const line of paths(s))for(const p of line){if(seen.has(p))continue;seen.add(p);const q=fn(p);p[0]=q[0];p[1]=q[1];}}
+function shift(s,dx,dy){transformPoints(s,p=>[p[0]+dx,p[1]+dy]);}
+function rotate(s,degrees){if(!Number.isFinite(degrees))throw Error('Invalid rotation');const b=bounds([s]),c=[b.x+b.width/2,b.y+b.height/2];transformPoints(s,p=>turn(p,c,degrees));if(s.text)s.rotation=((s.rotation||0)+degrees)%360;}
 function shape(kind,a,b){const [x,y]=a,[u,v]=b,dx=u-x,dy=v-y;
  if(kind==='rectangle')return [[a,[u,y],b,[x,v],a]];
  if(kind==='ellipse')return [Array.from({length:65},(_,i)=>[x+dx/2+Math.cos(i*Math.PI/32)*dx/2,y+dy/2+Math.sin(i*Math.PI/32)*dy/2])];
@@ -1230,13 +1253,13 @@ function symbol(kind,p){const [x,y]=p;let lines;
  return lines.map(line=>line.map(([u,v])=>[u+x,v+y]));
 }
 function dash(s){return s.dash==='dashed'?[s.width*5,s.width*3]:s.dash==='dotted'?[.01,s.width*3]:[];}
-function bounds(model){let x=Infinity,y=Infinity,u=-Infinity,v=-Infinity;for(const s of model){for(const line of paths(s))for(const p of line){x=Math.min(x,p[0]-s.width/2);y=Math.min(y,p[1]-s.width/2);u=Math.max(u,p[0]+s.width/2);v=Math.max(v,p[1]+s.width/2);}if(s.text){const p=s.points[0];y=Math.min(y,p[1]-28);u=Math.max(u,p[0]+s.text.length*18);v=Math.max(v,p[1]+8);}}return {x,y,width:u-x,height:v-y};}
+function bounds(model){let x=Infinity,y=Infinity,u=-Infinity,v=-Infinity;for(const s of model){const lines=s.text?[textCorners(s)]:paths(s);const margin=s.text?0:s.width/2;for(const line of lines)for(const p of line){x=Math.min(x,p[0]-margin);y=Math.min(y,p[1]-margin);u=Math.max(u,p[0]+margin);v=Math.max(v,p[1]+margin);}}return {x,y,width:u-x,height:v-y};}
 const escape=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
 function svg(model){validate(model);if(!model.length)throw Error('Draw something first');const b=bounds(model),x=b.x-16,y=b.y-16,w=b.width+32,h=b.height+32;let out=\`<svg xmlns="http://www.w3.org/2000/svg" viewBox="\${x} \${y} \${w} \${h}" width="\${w}" height="\${h}">\`;
- for(const s of model){const color=s.color;if(s.text){out+=\`<text x="\${s.points[0][0]}" y="\${s.points[0][1]}" fill="\${color}" font-size="28" font-family="monospace">\${escape(s.text)}</text>\`;continue;}
+ for(const s of model){const color=s.color;if(s.text){out+=\`<text x="\${s.points[0][0]}" y="\${s.points[0][1]}" fill="\${color}" transform="rotate(\${s.rotation||0} \${s.points[0][0]} \${s.points[0][1]})" font-size="28" font-family="monospace">\${escape(s.text)}</text>\`;continue;}
  for(const line of paths(s)){if(line.length===1)out+=\`<circle cx="\${line[0][0]}" cy="\${line[0][1]}" r="\${s.width/2}" fill="\${color}"/>\`;else out+=\`<path d="M\${line.map(p=>p.join(',')).join(' L')}" fill="none" stroke="\${color}" stroke-width="\${s.width}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="\${dash(s).join(' ')}"/>\`;}}
  return {svg:out+'</svg>',width:w,height:h};}
-const api={paths,validate,distance,hit,shift,shape,symbol,dash,bounds,svg};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.HyperSketchGeometry=api;
+const api={paths,validate,distance,hit,shift,rotate,shape,symbol,dash,bounds,svg};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.HyperSketchGeometry=api;
 })(typeof window!=='undefined'?window:globalThis);
 `;
   }
@@ -1496,6 +1519,9 @@ var require_pad = __commonJS({
       <select id="symbol-tool" aria-label="Insert engineering symbol" class="engineering-select"><option value="">Symbols\u2026</option><option value="resistor">Resistor</option><option value="capacitor">Capacitor</option><option value="ground">Ground</option><option value="opamp">Op-amp</option></select>
       <button id="hold-btn" class="tool-btn active" style="width:auto;font-size:.75rem" title="Hold pen still to straighten">Hold: ON</button>
       <button id="redo-btn" class="tool-btn" title="Redo">\u21AA</button>
+      <button id="rotate-left-btn" class="tool-btn" title="Rotate selected figure counterclockwise" aria-label="Rotate left">\u27F2</button>
+      <select id="rotation-step" class="engineering-select" aria-label="Rotation step"><option value="15">15\xB0</option><option value="45">45\xB0</option><option value="90" selected>90\xB0</option></select>
+      <button id="rotate-right-btn" class="tool-btn" title="Rotate selected figure clockwise" aria-label="Rotate right">\u27F3</button>
       <button id="delete-btn" class="tool-btn" title="Delete selected figure">\u2715</button>
       <button id="save-btn" class="tool-btn" title="Download editable drawing">\u{1F4BE}</button>
       <button id="load-btn" class="tool-btn" title="Open editable drawing">\u{1F4C2}</button>
@@ -1579,7 +1605,7 @@ var require_pad = __commonJS({
       function drawStroke(s) {
         ctx.strokeStyle=s.color;ctx.fillStyle=s.color;ctx.lineWidth=s.width;
         ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash(G.dash(s));
-        if(s.text){ctx.font='28px monospace';ctx.fillText(s.text,...s.points[0]);return;}
+        if(s.text){ctx.save();ctx.translate(...s.points[0]);ctx.rotate((s.rotation||0)*Math.PI/180);ctx.font='28px monospace';ctx.fillText(s.text,0,0);ctx.restore();return;}
         for(const line of G.paths(s)){ctx.beginPath();if(line.length===1){ctx.arc(...line[0],s.width/2,0,Math.PI*2);ctx.fill();}else{line.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();}}
         ctx.setLineDash([]);
       }
@@ -1793,6 +1819,13 @@ var require_pad = __commonJS({
       document.getElementById('symbol-tool').onchange=e=>{if(e.target.value)activeTool='symbol:'+e.target.value;};
       document.getElementById('hold-btn').onclick=e=>{holdEnabled=!holdEnabled;e.currentTarget.textContent='Hold: '+(holdEnabled?'ON':'OFF');stopHold();};
       document.getElementById('redo-btn').onclick=()=>{if(isDrawing||sending||!redoHistory.length)return;history.push(JSON.stringify(strokes));strokes=JSON.parse(redoHistory.pop());selected=-1;sendId=null;saveDraft();redrawAll();};
+      function rotateSelected(direction){
+        if(isDrawing||sending)return;
+        if(selected<0||!strokes[selected]){showToast('Choose Select / move and tap a figure first');return;}
+        checkpoint();G.rotate(strokes[selected],direction*Number(document.getElementById('rotation-step').value));saveDraft();redrawAll();
+      }
+      document.getElementById('rotate-left-btn').onclick=()=>rotateSelected(-1);
+      document.getElementById('rotate-right-btn').onclick=()=>rotateSelected(1);
       document.getElementById('delete-btn').onclick=()=>{if(isDrawing||sending||selected<0)return;checkpoint();strokes.splice(selected,1);selected=-1;saveDraft();redrawAll();};
       document.getElementById('save-btn').onclick=()=>{
         const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,strokes})],{type:'application/json'}));

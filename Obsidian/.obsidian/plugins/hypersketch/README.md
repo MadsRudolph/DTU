@@ -30,6 +30,7 @@ An installed PWA can reopen its cached interface offline and retains completed s
 - Symbols: resistor, capacitor, ground, op-amp. Choose one, then tap to place. Each symbol remains one movable figure.
 - Text labels: choose Text label and tap to enter a label.
 - Select / move: tap near a stroke or symbol, then drag it. The selection outline is not exported. Use ✕ to delete it.
+- **Rotate:** choose Select / move, tap a figure, then use ⟲ / ⟳ with 15°, 45°, or 90° steps. Components, shapes, strokes, and text rotate around their center. Rotation is saved, exported, and undoable.
 - Undo / redo support drawing, erasing, moving, deleting and clearing.
 - 💾 downloads an editable `.hypersketch` drawing. 📂 opens that format or the `.hypersketch.json` source saved in your vault. SVG previews remain usable without the plugin.
 - Dots, square grid, or blank background. Grid is excluded from export. The paper fits below the controls and keeps its proportions.

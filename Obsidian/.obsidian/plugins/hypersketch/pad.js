@@ -249,6 +249,9 @@ function getPWAHtml(port) {
       <select id="symbol-tool" aria-label="Insert engineering symbol" class="engineering-select"><option value="">Symbols…</option><option value="resistor">Resistor</option><option value="capacitor">Capacitor</option><option value="ground">Ground</option><option value="opamp">Op-amp</option></select>
       <button id="hold-btn" class="tool-btn active" style="width:auto;font-size:.75rem" title="Hold pen still to straighten">Hold: ON</button>
       <button id="redo-btn" class="tool-btn" title="Redo">↪</button>
+      <button id="rotate-left-btn" class="tool-btn" title="Rotate selected figure counterclockwise" aria-label="Rotate left">⟲</button>
+      <select id="rotation-step" class="engineering-select" aria-label="Rotation step"><option value="15">15°</option><option value="45">45°</option><option value="90" selected>90°</option></select>
+      <button id="rotate-right-btn" class="tool-btn" title="Rotate selected figure clockwise" aria-label="Rotate right">⟳</button>
       <button id="delete-btn" class="tool-btn" title="Delete selected figure">✕</button>
       <button id="save-btn" class="tool-btn" title="Download editable drawing">💾</button>
       <button id="load-btn" class="tool-btn" title="Open editable drawing">📂</button>
@@ -332,7 +335,7 @@ function getPWAHtml(port) {
       function drawStroke(s) {
         ctx.strokeStyle=s.color;ctx.fillStyle=s.color;ctx.lineWidth=s.width;
         ctx.lineCap='round';ctx.lineJoin='round';ctx.setLineDash(G.dash(s));
-        if(s.text){ctx.font='28px monospace';ctx.fillText(s.text,...s.points[0]);return;}
+        if(s.text){ctx.save();ctx.translate(...s.points[0]);ctx.rotate((s.rotation||0)*Math.PI/180);ctx.font='28px monospace';ctx.fillText(s.text,0,0);ctx.restore();return;}
         for(const line of G.paths(s)){ctx.beginPath();if(line.length===1){ctx.arc(...line[0],s.width/2,0,Math.PI*2);ctx.fill();}else{line.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.stroke();}}
         ctx.setLineDash([]);
       }
@@ -546,6 +549,13 @@ function getPWAHtml(port) {
       document.getElementById('symbol-tool').onchange=e=>{if(e.target.value)activeTool='symbol:'+e.target.value;};
       document.getElementById('hold-btn').onclick=e=>{holdEnabled=!holdEnabled;e.currentTarget.textContent='Hold: '+(holdEnabled?'ON':'OFF');stopHold();};
       document.getElementById('redo-btn').onclick=()=>{if(isDrawing||sending||!redoHistory.length)return;history.push(JSON.stringify(strokes));strokes=JSON.parse(redoHistory.pop());selected=-1;sendId=null;saveDraft();redrawAll();};
+      function rotateSelected(direction){
+        if(isDrawing||sending)return;
+        if(selected<0||!strokes[selected]){showToast('Choose Select / move and tap a figure first');return;}
+        checkpoint();G.rotate(strokes[selected],direction*Number(document.getElementById('rotation-step').value));saveDraft();redrawAll();
+      }
+      document.getElementById('rotate-left-btn').onclick=()=>rotateSelected(-1);
+      document.getElementById('rotate-right-btn').onclick=()=>rotateSelected(1);
       document.getElementById('delete-btn').onclick=()=>{if(isDrawing||sending||selected<0)return;checkpoint();strokes.splice(selected,1);selected=-1;saveDraft();redrawAll();};
       document.getElementById('save-btn').onclick=()=>{
         const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,strokes})],{type:'application/json'}));

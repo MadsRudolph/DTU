@@ -47,6 +47,8 @@ choose('rectangle');fire('pointerdown',50,50);fire('pointermove',180,130);fire('
 check(model()[0].paths[0].length===5,'rectangle tool');
 choose('select');fire('pointerdown',50,50);fire('pointermove',80,80);fire('pointerup',80,80);
 check(model()[0].paths[0][0][0]>50,'selection moves shape');
+const beforeRotation=JSON.stringify(model()[0]);document.getElementById('rotate-right-btn').click();check(JSON.stringify(model()[0])!==beforeRotation,'selected shape rotates');document.getElementById('undo-btn').click();check(JSON.stringify(model()[0])===beforeRotation,'rotation undo');
+choose('select');fire('pointerdown',80,80);fire('pointerup',80,80);
 document.getElementById('delete-btn').click();check(model().length===0,'delete selected figure');
 document.getElementById('undo-btn').click();check(model().length===1,'undo deletion');
 document.getElementById('redo-btn').click();check(model().length===0,'redo deletion');

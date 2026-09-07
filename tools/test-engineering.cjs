@@ -24,3 +24,8 @@ test('plugin HTTP serves PWA and requires paired model submissions',async t=>{co
  const headers={Authorization:'Bearer test-secret','Content-Type':'application/json'};const res=await fetch(base+'/api/inject',{method:'POST',headers,body:JSON.stringify({sketchId:'http1234567890000',notePath:'A.md',strokes:[stroke]})});assert.equal(res.status,200);assert.match(views[0].content,/!\[\[/);
  assert.equal((await fetch(base+'/api/inject',{method:'POST',headers,body:JSON.stringify({svgData:'<svg/>'})})).status,400);
 });
+test('rotation preserves component center, closed paths and exported labels',()=>{
+ const paths=G.symbol('resistor',[100,100]),s={...stroke,points:paths[0],paths};const a=G.bounds([s]);G.rotate(s,90);const b=G.bounds([s]);assert(Math.abs(a.width-b.height)<1e-8);assert(Math.abs(a.x+a.width/2-b.x-b.width/2)<1e-8);assert(G.hit(s,s.paths[0][2]));
+ const rect=G.shape('rectangle',[0,0],[100,50]);const r={...stroke,points:rect[0],paths:rect};G.shift(r,20,30);assert.deepEqual(rect[0][0],[20,30]);G.rotate(r,90);assert.deepEqual(rect[0][0],rect[0].at(-1));G.rotate(r,-90);assert(Math.abs(rect[0][0][0]-20)<1e-8);
+ const label={...stroke,points:[[100,100]],text:'R1'};G.rotate(label,90);assert.equal(label.rotation,90);assert.match(G.svg([label]).svg,/transform="rotate\(90 /);assert(G.hit(label,label.points[0]));assert.throws(()=>G.validate([{...label,rotation:NaN}]));
+});
