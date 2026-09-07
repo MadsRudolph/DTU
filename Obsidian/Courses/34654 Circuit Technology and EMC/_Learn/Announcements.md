@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-07 — Hands-on & simulation tomorrow
+
+Hello everyone,🗺️ We'll meet tomorrow in building 329A, room 020.
+🧘‍♂️ So far the voting in DTU Learn is a pretty clear yes, so I'd be happy to offer a guided meditation also tomorrow during the first 15 minutes. If that's not your thing, feel free to come a bit later and I'll invite you in, when we're done.🧑‍🤝‍🧑 Please try to find your group members tomorrow, if you haven't yet.🔬 We'll have time tomorrow for hands-on on the passives: both the simulation and the measurements. Not everyone needs to do everything, so try to distribute the exercise in your group and/or choose the parts you are interested in.
+I'm looking forward to seeing y'all tomorrow.
+All good
+Arnold
+
 ## 2026-08-25 — Welcome to Circuit Technology & Electromagnetic Comaptibility - 34654
 
 Hello everyone,
