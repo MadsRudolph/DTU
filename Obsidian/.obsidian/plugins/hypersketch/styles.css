@@ -1,0 +1,114 @@
+/* HyperSketch Companion Plugin Styles */
+.hypersketch-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hypersketch-status-bar.active {
+  color: var(--text-accent);
+}
+
+.hypersketch-status-bar.flash {
+  animation: hypersketch-pulse 0.6s ease-in-out;
+}
+
+@keyframes hypersketch-pulse {
+  0% { transform: scale(1); color: var(--color-green); }
+  50% { transform: scale(1.15); color: var(--color-green); }
+  100% { transform: scale(1); }
+}
+
+.hypersketch-modal {
+  padding: 8px 12px;
+}
+
+.hypersketch-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 10px;
+}
+
+.hypersketch-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.hypersketch-badge {
+  background: var(--color-green);
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.hypersketch-conn-card {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.hypersketch-conn-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  color: var(--text-normal);
+}
+
+.hypersketch-conn-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.hypersketch-conn-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-family: var(--font-monospace);
+  font-size: 0.85rem;
+}
+
+.hypersketch-code-box {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: var(--font-monospace);
+  font-size: 0.82rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  color: var(--text-accent);
+}
+
+.hypersketch-copy-btn {
+  cursor: pointer;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  transition: opacity 0.2s;
+}
+
+.hypersketch-copy-btn:hover {
+  opacity: 0.85;
+}
