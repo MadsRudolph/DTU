@@ -1523,7 +1523,7 @@ var require_pad = __commonJS({
       const authKey='hypersketch-token';
       if(location.hash.length>1)localStorage.setItem(authKey,location.hash.slice(1));
       const token=localStorage.getItem(authKey)||'';
-      let targetPath=null,sendId=null;
+      let targetPath=null,sendId=localStorage.getItem('hypersketch-send-id')||null;
       const newId=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');
       const canvas = document.getElementById('pad');
       // Direct local 2D context with hardware desynchronization hint
@@ -1608,7 +1608,7 @@ var require_pad = __commonJS({
         redrawAll();
       }
       function saveDraft() {
-        try {localStorage.setItem('hypersketch-original-draft-v1',JSON.stringify(strokes));}catch(_){}
+        try {localStorage.setItem('hypersketch-original-draft-v1',JSON.stringify(strokes));if(sendId)localStorage.setItem('hypersketch-send-id',sendId);else localStorage.removeItem('hypersketch-send-id');}catch(_){}
       }
       try {const saved=JSON.parse(localStorage.getItem('hypersketch-original-draft-v1')||'[]');
         if(Array.isArray(saved)) strokes=G.validate(saved);
@@ -1814,6 +1814,7 @@ var require_pad = __commonJS({
           return;
         }
 
+        sendId ||= newId();saveDraft();
         sending = true;
         insertBtn.classList.add('sending');
         insertBtn.innerHTML = '<span>Sending...</span>';
