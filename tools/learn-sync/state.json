@@ -336,6 +336,12 @@
       "sha256": "34e8e058b54e4008229771b9b4e3ec006befd8a4523f9782f6aebb5af4b7dac7",
       "synced_at": "2026-09-07T13:07:02+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems2.pdf"
+    },
+    "1272506": {
+      "revision": "2026-09-08T09:02:29.630Z",
+      "sha256": "19908a204a59321af83a22f0aa347da86cf29b1ef4576179c09bcab21c1c9804",
+      "synced_at": "2026-09-08T10:10:51+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf"
     }
   }
 }

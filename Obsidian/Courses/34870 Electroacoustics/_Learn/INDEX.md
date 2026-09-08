@@ -25,3 +25,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture3_07092026.pdf|34870_Lecture3_07092026]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions3.pdf|34870_Solutions3]]
+
+## Lab A - Analogies
+
+- [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
