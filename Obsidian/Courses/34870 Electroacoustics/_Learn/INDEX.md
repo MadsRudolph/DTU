@@ -26,6 +26,12 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture3_07092026.pdf|34870_Lecture3_07092026]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions3.pdf|34870_Solutions3]]
 
+## Lecture 4 - Transducers & Dynamic microphone
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture4A_10092026.pdf|34870_Lecture4A_10092026]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_4B_E26.pdf|Lecture 4B - Dynamic microphones]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Problems4_2026.pdf|Problems 4B]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
