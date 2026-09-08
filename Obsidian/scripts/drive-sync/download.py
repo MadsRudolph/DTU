@@ -28,10 +28,20 @@ import argparse
 import json
 import shutil
 import subprocess
+import tempfile
 import unicodedata
 from pathlib import Path
 
 from config import DRIVE_FOLDER_ID
+
+# Number of concurrent rclone transfers/checkers for the batched download.
+# rclone resolves the whole nested Drive path once per process, so a single
+# batched `rclone copy --files-from` call is drastically faster than shelling
+# out to a fresh rclone process per file (which re-resolves the path each time
+# and ends up effectively serial: minutes per file on a large manifest).
+RCLONE_TRANSFERS = 8
+RCLONE_CHECKERS = 16
+
 
 # Try to find rclone
 def find_rclone() -> str | None:
@@ -84,19 +94,45 @@ def load_manifest(repo_root: Path) -> dict:
         return json.load(f)
 
 
-def download_rclone(rel_path: str, dest_path: Path) -> bool:
-    """Download a file using rclone (authenticated)."""
-    dest_path.parent.mkdir(parents=True, exist_ok=True)
+def resolve_dest_path(repo_root: Path, rel_path: str) -> Path:
+    """Resolve the local destination path, preferring an already-existing
+    NFC/NFD variant (handles ø, æ, å differences across platforms/filesystems)."""
+    dest_path_nfc = repo_root / unicodedata.normalize("NFC", rel_path)
+    dest_path_nfd = repo_root / unicodedata.normalize("NFD", rel_path)
 
-    cmd = [
-        RCLONE, "copyto",
-        f"gdrive:{rel_path}",
-        str(dest_path),
-        "--drive-root-folder-id", DRIVE_FOLDER_ID,
-    ]
+    if dest_path_nfc.exists():
+        return dest_path_nfc
+    if dest_path_nfd.exists():
+        return dest_path_nfd
+    return dest_path_nfc  # Default for download
 
-    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
-    return result.returncode == 0 and dest_path.exists()
+
+def download_batch_rclone(entries: list[dict], repo_root: Path) -> None:
+    """Download many files in one rclone invocation via --files-from.
+
+    A single process resolves the shared Drive folder tree once and transfers
+    files with real concurrency, instead of one rclone process per file.
+    """
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".txt", delete=False, encoding="utf-8"
+    ) as f:
+        for entry in entries:
+            f.write(entry["path"] + "\n")
+        file_list_path = f.name
+
+    try:
+        cmd = [
+            RCLONE, "copy",
+            "gdrive:", str(repo_root),
+            "--drive-root-folder-id", DRIVE_FOLDER_ID,
+            "--files-from", file_list_path,
+            "--transfers", str(RCLONE_TRANSFERS),
+            "--checkers", str(RCLONE_CHECKERS),
+            "--stats", "15s", "--stats-one-line", "-v",
+        ]
+        subprocess.run(cmd, encoding="utf-8")
+    finally:
+        os.unlink(file_list_path)
 
 
 def download_gdown(drive_id: str, dest_path: Path) -> bool:
@@ -106,37 +142,6 @@ def download_gdown(drive_id: str, dest_path: Path) -> bool:
     url = f"https://drive.google.com/uc?id={drive_id}"
     output = gdown.download(url, str(dest_path), quiet=True)
     return output is not None
-
-
-def download_file(rel_path: str, drive_id: str, dest_path: Path, expected_size: int = None) -> bool:
-    """Download a file, trying rclone first, then gdown."""
-    try:
-        print(f"  Downloading: {dest_path.name}...", end=" ", flush=True)
-
-        ok = False
-        if RCLONE:
-            ok = download_rclone(rel_path, dest_path)
-
-        if not ok and HAS_GDOWN:
-            ok = download_gdown(drive_id, dest_path)
-
-        if not ok:
-            print("FAILED")
-            return False
-
-        # Verify size if provided
-        if expected_size and dest_path.exists():
-            actual_size = dest_path.stat().st_size
-            if actual_size != expected_size:
-                print(f"WARNING (size mismatch: expected {expected_size}, got {actual_size})")
-                return True
-
-        print("OK")
-        return True
-
-    except Exception as e:
-        print(f"FAILED ({e})")
-        return False
 
 
 def main():
@@ -165,38 +170,26 @@ def main():
     print(f"Repository root: {repo_root}")
     print()
 
-    downloaded = 0
+    to_download = []
     skipped = 0
     failed = 0
 
     for entry in files:
-        rel_path = entry["path"]
         drive_id = entry["driveId"]
-        expected_size = entry.get("size")
 
         # Skip files pending upload (null driveId)
         if drive_id is None:
             skipped += 1
             continue
 
-        # Try both Unicode normalization forms (handles ø, æ, å etc. across platforms)
-        dest_path_nfc = repo_root / unicodedata.normalize("NFC", rel_path)
-        dest_path_nfd = repo_root / unicodedata.normalize("NFD", rel_path)
+        dest_path = resolve_dest_path(repo_root, entry["path"])
 
-        # Use whichever path exists, prefer NFC
-        if dest_path_nfc.exists():
-            dest_path = dest_path_nfc
-        elif dest_path_nfd.exists():
-            dest_path = dest_path_nfd
-        else:
-            dest_path = dest_path_nfc  # Default for download
-
-        # Check if file already exists
         if dest_path.exists() and not args.force:
+            expected_size = entry.get("size")
             if args.verify and expected_size:
                 actual_size = dest_path.stat().st_size
                 if actual_size != expected_size:
-                    print(f"  Size mismatch: {rel_path} (expected {expected_size}, got {actual_size})")
+                    print(f"  Size mismatch: {entry['path']} (expected {expected_size}, got {actual_size})")
                     failed += 1
                 else:
                     skipped += 1
@@ -204,14 +197,70 @@ def main():
                 skipped += 1
             continue
 
-        if args.dry_run:
-            print(f"  Would download: {rel_path}")
-            continue
+        to_download.append(entry)
 
-        if download_file(rel_path, drive_id, dest_path, expected_size):
+    if args.dry_run:
+        for entry in to_download:
+            print(f"  Would download: {entry['path']}")
+        print()
+        print(f"Summary: {len(to_download)} would download, {skipped} skipped, {failed} failed")
+        return
+
+    if not to_download:
+        print("Nothing to download.")
+        print()
+        print(f"Summary: 0 downloaded, {skipped} skipped, {failed} failed")
+        if failed > 0:
+            sys.exit(1)
+        return
+
+    print(f"Downloading {len(to_download)} file(s)...")
+    print()
+
+    downloaded = 0
+
+    if RCLONE:
+        download_batch_rclone(to_download, repo_root)
+        print()
+
+        for entry in to_download:
+            dest_path = resolve_dest_path(repo_root, entry["path"])
+            expected_size = entry.get("size")
+            if not dest_path.exists():
+                print(f"  FAILED: {entry['path']}")
+                failed += 1
+                continue
+            if expected_size:
+                actual_size = dest_path.stat().st_size
+                if actual_size != expected_size:
+                    print(f"  WARNING (size mismatch): {entry['path']} (expected {expected_size}, got {actual_size})")
             downloaded += 1
-        else:
-            failed += 1
+    else:
+        # gdown fallback: one request per file (no batch API available).
+        for entry in to_download:
+            rel_path = entry["path"]
+            drive_id = entry["driveId"]
+            expected_size = entry.get("size")
+            dest_path = resolve_dest_path(repo_root, rel_path)
+            print(f"  Downloading: {dest_path.name}...", end=" ", flush=True)
+            try:
+                ok = download_gdown(drive_id, dest_path)
+            except Exception as e:
+                print(f"FAILED ({e})")
+                failed += 1
+                continue
+            if not ok:
+                print("FAILED")
+                failed += 1
+                continue
+            if expected_size and dest_path.exists():
+                actual_size = dest_path.stat().st_size
+                if actual_size != expected_size:
+                    print(f"WARNING (size mismatch: expected {expected_size}, got {actual_size})")
+                    downloaded += 1
+                    continue
+            print("OK")
+            downloaded += 1
 
     print()
     print(f"Summary: {downloaded} downloaded, {skipped} skipped, {failed} failed")
