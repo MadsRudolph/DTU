@@ -16,7 +16,7 @@ tags: [Electroacoustics, lecture-note, analogies, acoustic-systems]
 > **Slides:** `Slides/34870_Lecture3_07092026.pdf` (34 pages)
 > **Refs:** Beranek §2.4 · Leach §3.3, 3.7, 2.9–2.10 · Jacobsen §1.6.1–1.6.2, 9.2
 > **Also today:** Intro to **Lab A** (analogy circuits in LTspice)
-> **Previous:** [[Lecture 2 - Analogies - Mechanical Systems|Lecture 2 — mechanical systems]] · **Next:** Lecture 4 — transducers + microphone intro (Th 10/9)
+> **Previous:** [[Lecture 2 - Analogies - Mechanical Systems|Lecture 2 — mechanical systems]] · **Next:** [[Lecture 4 - Analogies - Transducers & Dynamic Microphones|Lecture 4 — transducers + dynamic microphones]] (Th 10/9)
 
 > [!abstract] Where this lecture sits
 > Lecture 1–2 built the electrical ⇔ mechanical analogy. Today does the same for **acoustics**, then goes one level deeper than before: instead of just stating $R_A$, $C_A$, $M_A$, we **derive them from the plane-wave tube** — so you know *why* a tube looks like a mass and a closed box looks like a spring, and more importantly, **when that stops being true**.
@@ -456,4 +456,4 @@ An open tube is a mass $M_A = \rho l^*/S$ (from §3a) — but real openings add 
 > - ⬜
 
 > [!tip] Looking ahead
-> Thursday 10/9: analogies for **transducers** + microphone intro (VCH) — this is where $R_A$/$C_A$/$M_A$ start turning into real diaphragms and magnets. The closed-volume compliance formula $C_A = V/\rho c^2$ will resurface directly when enclosures are covered (1 Oct).
+> Thursday 10/9: [[Lecture 4 - Analogies - Transducers & Dynamic Microphones|analogies for **transducers** + dynamic microphones]] (FL + VCH) — this is where $R_A$/$C_A$/$M_A$ start turning into real diaphragms and magnets. The closed-volume compliance formula $C_A = V/\rho c^2$ will resurface directly when enclosures are covered (1 Oct).

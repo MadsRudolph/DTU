@@ -101,7 +101,7 @@ tags: [Electroacoustics, Audio, home]
 
 | | Exercise | Period | Quiz deadline |
 |---|---|---|---|
-| **A** | Analogy circuits in **LTspice** | 8/9 – 20/9 | ⏰ **20/9** |
+| **A** | Analogy circuits in **LTspice** — [[Lab A - Runthrough|full runthrough + KiCad/ngspice sims]] | 8/9 – 20/9 | ⏰ **20/9** |
 | **B** | Scaled microphone measurement | 21/9 – 29/9 | ⏰ **5/10** |
 | **C** | Microphone calibration | 21/9 – 29/9 | ⏰ **5/10** |
 | **D** | Loudspeaker enclosures | 5/10 – 20/10 | ⏰ **26/10** |
