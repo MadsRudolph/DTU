@@ -1,5 +1,15 @@
 # Announcements
 
+## 2026-09-09 — Reference Book
+
+Dear All,
+Hi, here is the reference book for further reading.
+Power electronics Devices, circuits, and Applications, Fourth Edition, Muhammad H. Rashid
+Power Electronics Handbook | ScienceDirect
+
+Best Regards
+Ashraf
+
 ## 2026-09-06 — Lecture will start at 8.30 AM
 
 Dear All,

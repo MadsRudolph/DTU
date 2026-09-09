@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-09 — Lab A and group signup
+
+Dear all,
+The instructions for Lab A - Analogies are available and you should start working on the different tasks. The corresponding quiz Lab A: Analogy circuits in LTspice will become available tomorrow and we will preview it during the morning class. Deadline for the quiz is 20-Sep before midnight. Submitting on time (and passing) all lab and project quizzes is mandatory, you cannot take the exam without that, and they contribute 30% to your grade.
+You can work on the Lab A exercises as a group or individually, but it is highly recommended that everyone attempts each problem. Quizzes are answered individually. On that note, do not forget to sign up to one of the open 34870 Lab Groups if you are not yet in a group.
+If there are any technical issues with group sign-up or the quizzes, let us know immediately.Best regards
+Frieder
+
 ## 2026-09-03 — Workaround to watch lecture recordings
 
 Dear all,
