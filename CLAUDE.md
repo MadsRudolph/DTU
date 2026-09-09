@@ -113,6 +113,7 @@ PDFs, pptx, zip and video are gitignored and mirrored to Google Drive via `rclon
   it would drop every entry whose file isn't there. Never run it from the learn-sync
   container; that is why learn-sync has its own append-only uploader
   (`tools/learn-sync/src/learn_sync/drive.py`).
+- ⚠️ **`upload.py --sync` also silently drops manifest entries** for files inside a nested git repo (it skips `.git` trees, e.g. `4. Semester/Internet of Things/Arduino/Ex13/`) and for extensions outside `LARGE_FILE_EXTENSIONS` (the `.jpg` photos learn-sync uploads). Seen 10-Sep-2026: 857 → 855 after adding 2 files. **Compare the manifest file count before and after every `--sync`** and restore dropped entries from `git show HEAD:…manifest.json`.
 - ⚠️ **Every rclone call must pass `encoding="utf-8"` to `subprocess`.** Without it
   Windows decodes rclone's UTF-8 output with cp1252, mangling every `ø/æ/å` path so it
   never matches the manifest — which silently re-uploaded the same twelve Danish-named
