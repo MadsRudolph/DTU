@@ -4,6 +4,8 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 > ⚠️ **Path change:** all 4th-semester course folders live in `Obsidian/Archive/4th Semester/` (34315, 34620, 34655, 62711, 62768, 62743-Reexam, the dropped 62999 — and since **26-Aug-2026 also 34722 LCD1**, whose re-exam is passed). Old paths in the archived sections below need that prefix.
 
+> 🖥️ **Machines (since Sep-2026):** both PCs run **Omarchy** (Arch + Hyprland). The repo is `~/DTU`; there is no Windows box any more, so `C:\...` paths and `.bat` wrappers in the archived sections are historical. Use `python3`, forward slashes, and the `.py` scripts directly.
+
 ---
 
 ## ACTIVE WORK: 5th semester — autumn 2026, starts Mon 31-Aug
@@ -11,7 +13,7 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 **Enrolled:** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · 34840 Fundamentals of Acoustics and Noise Control (5, E3A) · 34654 Circuit Technology and EMC (5, E4A) = **25 ECTS autumn**; 34871 Nonlinear Transducers (5) in **January 2027**.
 
 ### ▶️ FIRST ACTION ON A FRESH PC
-1. **Once per clone:** `git config core.hooksPath .githooks` — after that every `git pull` that changes the drive-sync manifest downloads the new PDFs by itself (`.githooks/post-merge`, plus `post-rewrite` for the rebase path). Then `git pull` in `C:\Users\Mads2\DTU`. If the hook was never enabled, run `python Obsidian/scripts/drive-sync/download.py` by hand (all course material is gitignored + drive-synced).
+1. **Once per clone:** `git config core.hooksPath .githooks` — after that every `git pull` that changes the drive-sync manifest downloads the new PDFs by itself (`.githooks/post-merge`, plus `post-rewrite` for the rebase path). Then `git pull` in `~/DTU`. If the hook was never enabled, run `python Obsidian/scripts/drive-sync/download.py` by hand (all course material is gitignored + drive-synced).
 2. Open the dashboard: `Obsidian/Home.md` — weekly timetable, every deadline, every exam date.
 3. Per course: `Obsidian/Courses/<code> <name>/<code> <name>.md` — each index note carries the real DTU course data (staff, rooms, exam form, full lecture plan, assignment briefs).
 
@@ -128,7 +130,7 @@ PDFs, pptx, zip and video are gitignored and mirrored to Google Drive via `rclon
 `git add -A` works repo-wide as of 26-Aug-2026 (the old broken submodule under the LCD1 `regbot/Report` path is gone). Three nested repos remain but are gitignored: `34655 …/Report/`, `62711 …/PWA Project/Report/`, `62711 …/Report-PWB/`. The 62711 and 62768 **team repos** are separate git repos with their own remotes — `cd` into them to work.
 
 ### NotebookLM
-`C:\Users\Mads2\.claude\skills\notebooklm\scripts\nlm.bat ask "..." --notebook-id <id>` — shortnames `lcd1`, `dsp`; 62711 = `eb1f49b9-61a5-4494-8a3e-9821f8514324`, DSP = `5bd40a62-b09c-406d-b854-2ed2be6d894c`. Re-`login` if `auth-status` says NOT AUTHENTICATED; intermittent read-timeouts, retry.
+`python ~/.claude/skills/notebooklm/scripts/nlm.py ask "..." --notebook-id <id>` (`nlm.bat` is the old Windows wrapper) — shortnames `lcd1`, `dsp`; 62711 = `eb1f49b9-61a5-4494-8a3e-9821f8514324`, DSP = `5bd40a62-b09c-406d-b854-2ed2be6d894c`. Re-`login` if `auth-status` says NOT AUTHENTICATED; intermittent read-timeouts, retry.
 
 ---
 
@@ -140,16 +142,16 @@ Course folder moved to `Obsidian/Archive/4th Semester/34722 Linear Control Desig
 - **Assets** (all under the archived folder): `Exam Prep/` — `00 LCD1 — Exam Hub.md`, `RE-EXAM — August 2026 Study Plan.md`, `P1`–`P7` topic notes, `W-F26 — Worked Exam (MCQ).md` (all 20 worked), `Walkthroughs/`. Plus `Formulas/Exam Formula Cheat-Sheet.md` and `LCD1_Bible.md`.
 - **🚩 Gotcha:** the previous-student helper scripts `4. Semester/Linear Control Design/EXAM/Helpers/bandwidth_second_order.m` and `crossover_frequency2bandwidth.m` use `4*zeta`/`4*zeta^2` where it must be `4*zeta^4`. The corrected formula is in the cheat-sheet §4.
 - **Still live for 62755:** DTU lists 34722 as a prerequisite route into Power Electronics — the Bode / phase-margin / PI-lead material comes straight back for converter control loops.
-- **The tool: lcd1-exam-suite (JS/Electron)** — `C:\Users\Mads2\lcd1-exam-suite`, own git. Launch `Launch-Desktop-App.bat` (warm) / `Double-Click-To-Run.bat` (cold). Tests `npm test` (453 green as of 8-Aug). ⚠️ `Launch-Desktop-App.bat` does **not** rebuild — after ANY source edit run `npm run build` or it silently runs old code. `C:\Users\Mads2\lcd1-solver` (Python) and `DTU/block-diagram-reducer` are **superseded predecessors** — don't develop there.
+- **The tool: lcd1-exam-suite (JS/Electron)** — was `C:\Users\Mads2\lcd1-exam-suite` on the retired Windows PC, own git; **not checked out on the Omarchy machines** (re-clone from its remote if needed). Launch `Launch-Desktop-App.bat` (warm) / `Double-Click-To-Run.bat` (cold). Tests `npm test` (453 green as of 8-Aug). ⚠️ `Launch-Desktop-App.bat` does **not** rebuild — after ANY source edit run `npm run build` or it silently runs old code. `lcd1-solver` (Python, same old PC) and `DTU/block-diagram-reducer` are **superseded predecessors** — don't develop there.
 - MATLAB material: `4. Semester/Linear Control Design/EXAM/` → `Scripts/`, `Maple solutions/`, `Helpers/`, `Regbot/`. Past exams + quiz solutions: `Exercises/Solutions/Past Exams/` and `Exercises/Work/Quiz/Solutions/` under the archived folder.
-- NotebookLM: `nlm.bat ask "..." --notebook-id lcd1`.
+- NotebookLM: `nlm.py ask "..." --notebook-id lcd1`.
 
 ---
 
 ## ARCHIVED: 62768 Electrical Energy Systems — project DONE (June 2026)
 
 ### ▶️ FIRST ACTION ON A FRESH PC
-1. `git pull` in `C:\Users\Mads2\DTU`.
+1. `git pull` in `~/DTU`.
 2. PDFs in the **Obsidian course folder** are gitignored (drive-sync) — fetch with `python Obsidian/scripts/drive-sync/download.py`. (The **team repo** below carries its own binaries directly in git — see note.)
 3. Open the course index: `Obsidian/Courses/62768 Electrical Energy Systems/62768 Electrical Energy Systems.md` (system block diagram + 18-requirement table + asset links).
 4. **Clone the team repo if not present** (see below).
@@ -177,7 +179,7 @@ Course folder moved to `Obsidian/Archive/4th Semester/34722 Linear Control Desig
 
 ### ▶️ FIRST ACTION ON A FRESH PC (do this, in order)
 
-1. `git pull` in `C:\Users\Mads2\DTU` (you just did — that's how you got this).
+1. `git pull` in `~/DTU` (you just did — that's how you got this).
 2. **Open the master exam hub:** `Obsidian/Courses/62711 Digital Systems Design/Exercises/Work/Project/Exam Prep/00 PWF System — Exam Hub.md`. ~9 mermaid diagrams + full per-instruction walkthroughs + discrepancies section. Single entry point.
 3. **Open the LaTeX disposition for the oral presentation:** same folder, `disposition_idc_regfile.tex`. Currently focused on **BRZ** (Branch on Zero) — traces RAM → IR → IDC FSM → PC for one BRZ instruction. Compile: `pdflatex disposition_idc_regfile.tex` (twice for cross-refs).
 4. **The simple intuition note:** same folder, `STUDY — 01 PWA.md`. The "explain it like I'm new to this" version of the Datapath — three things in a loop, MUX B = immediate gate, MUX D = memory gate.
@@ -244,13 +246,13 @@ Same commit enforced a "be explicit per state" discipline: changed default `next
 - **Hints-first.** "let's go through X" → small hint, STOP, wait. Full walkthrough only on explicit "walk me through it / do it for me".
 - **Mermaid > ASCII** in Obsidian notes (per `feedback_use_mermaid` memory).
 - **Conversational English** in Obsidian study notes. **Danish** in the LaTeX disposition and team .asm comments (matches the team's report and oral exam target).
-- **NotebookLM:** `C:\Users\Mads2\.claude\skills\notebooklm\scripts\nlm.bat ask "..." --notebook-id eb1f49b9-61a5-4494-8a3e-9821f8514324` for fact-checking against ingested 62711 course material. Re-`login` if `auth-status` says NOT AUTHENTICATED; intermittent read-timeouts — retry.
-- **VHDL truth source:** `C:\Users\Mads2\DTU\4. Semester\Digital Systems Design\team\` — separate git repo (see "Team repo" below). For VHDL questions, this is the canonical source; the spec and lecture slides come second.
+- **NotebookLM:** `python ~/.claude/skills/notebooklm/scripts/nlm.py ask "..." --notebook-id eb1f49b9-61a5-4494-8a3e-9821f8514324` for fact-checking against ingested 62711 course material. Re-`login` if `auth-status` says NOT AUTHENTICATED; intermittent read-timeouts — retry.
+- **VHDL truth source:** `~/DTU/4. Semester/Digital Systems Design/team/` — separate git repo (see "Team repo" below). For VHDL questions, this is the canonical source; the spec and lecture slides come second.
 - **Commits:** NEVER add `Co-Authored-By: Claude` or any AI mention. Commit messages read like a developer wrote them.
 
 ### Team repo (separate git repo, not part of DTU umbrella)
 
-`C:\Users\Mads2\DTU\4. Semester\Digital Systems Design\team\` is the team's VHDL repo (`gigurd/Design-of-digital-systems-62711` on GitHub). Separate from this DTU umbrella repo.
+`~/DTU/4. Semester/Digital Systems Design/team/` is the team's VHDL repo (`gigurd/Design-of-digital-systems-62711` on GitHub). Separate from this DTU umbrella repo.
 
 Branch state (as of 27-May-2026): on `feature/tb-asm-examples`, fully merged into `origin/main` (PR #36). Local `main` fast-forwarded to match.
 
@@ -275,10 +277,10 @@ Still relevant as workflow reference. Assets live in:
 - Reference solutions: `3.semester/DSP/EXAMS/{E25_new,F24,F25_new,F23,F20,E19,E20,E22,F21}.m`
 - Q1 cookbook: `Obsidian/.../Notes/Reference/Q1 via MATLAB cookbook.md`
 - Helpers: `3.semester/DSP/Helpers/` (FIR_fourier, FIR_window, MK_values, …)
-- Publisher: `3.semester/DSP/pretty.bat` (+ `publish_pretty.py`)
+- Publisher: `3.semester/DSP/publish_pretty.py` (`pretty.bat` was the Windows wrapper)
 
 DSP-specific conventions still in force if returning to DSP material:
 - MATLAB comments in Danish with real `øæå`. Answers as bare `%%` then `% *Svar N-M:* …`.
 - DTU notation: `Ω`=analog rad/s, `ω`=digital rad/sample, `f`=normalized `F/Fs`. `freqs`→rad/s; `bilinear`/`freqz`→Hz.
-- NotebookLM for DSP: same `nlm.bat` script, `--notebook-id 5bd40a62-b09c-406d-b854-2ed2be6d894c` (or shortname `dsp`).
+- NotebookLM for DSP: same `nlm.py` script, `--notebook-id 5bd40a62-b09c-406d-b854-2ed2be6d894c` (or shortname `dsp`).
 - Official `*student solutions*.pdf` = absolute truth (supersedes NotebookLM).
