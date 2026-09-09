@@ -1,0 +1,5 @@
+#!/bin/sh
+# post-rewrite: fires when `git pull --rebase` actually rebases local commits
+# (that path never calls post-merge). Body is shared.
+[ "$1" = "rebase" ] && exec "$(dirname "$0")/drive-sync-download.sh"
+exit 0

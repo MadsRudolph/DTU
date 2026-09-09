@@ -11,7 +11,7 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 **Enrolled:** 34870 Electroacoustics (10, E2) · 62755 Power Electronics (5, E1A) · 34840 Fundamentals of Acoustics and Noise Control (5, E3A) · 34654 Circuit Technology and EMC (5, E4A) = **25 ECTS autumn**; 34871 Nonlinear Transducers (5) in **January 2027**.
 
 ### ▶️ FIRST ACTION ON A FRESH PC
-1. `git pull` in `C:\Users\Mads2\DTU`, then `python Obsidian/scripts/drive-sync/download.py` for the PDFs (all course material is gitignored + drive-synced).
+1. **Once per clone:** `git config core.hooksPath .githooks` — after that every `git pull` that changes the drive-sync manifest downloads the new PDFs by itself (`.githooks/post-merge`, plus `post-rewrite` for the rebase path). Then `git pull` in `C:\Users\Mads2\DTU`. If the hook was never enabled, run `python Obsidian/scripts/drive-sync/download.py` by hand (all course material is gitignored + drive-synced).
 2. Open the dashboard: `Obsidian/Home.md` — weekly timetable, every deadline, every exam date.
 3. Per course: `Obsidian/Courses/<code> <name>/<code> <name>.md` — each index note carries the real DTU course data (staff, rooms, exam form, full lecture plan, assignment briefs).
 
