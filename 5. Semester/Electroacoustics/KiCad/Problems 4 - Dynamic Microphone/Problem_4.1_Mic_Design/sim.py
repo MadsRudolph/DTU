@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Run the dynamic microphone (Problems 4, 2a) in ngspice and plot the sensitivity."""
+"""Run the designed microphone (Problems 4, 1b+1c values) and check f0, M and the band against 1c/1d."""
 import sys
 from pathlib import Path
 import numpy as np
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent))
+sys.path.insert(0, str(HERE.parent.parent))
 from ngspice_ac import run_ac
 
-f, v = run_ac(HERE / "Problem_4B_Dynamic_Microphone.kicad_sch", ["v(/out)", "v(/u)", "v(/pf)", "v(/pb)"])
+f, v = run_ac(HERE / "Problem_4.1_Mic_Design.kicad_sch", ["v(/out)", "v(/u)", "v(/pf)", "v(/pb)"])
 e = v["v(/out)"]
 dB = 20*np.log10(abs(e))
 # analytic (Leach 5.27-style) check
 rho, c = 1.18, 344.0
 MMD, RMS, CMS = 0.2e-3, 1.0, 0.21e-3
-a = 0.0254/2; SD = np.pi*a**2; Bl, RE, RL = 20.0, 200.0, 47e3; V, RAF = 5e-6, 2e7
+a = 0.0254/2; SD = np.pi*a**2; Bl, RE, RL = 20.0, 200.0, 47e3; V, RAF = 10.8e-6, 3.56e7
 MA1 = 8*rho/(3*np.pi**2*a); CAB = V/(rho*c**2)
 MMT = MMD + SD**2*MA1; RMT = RMS + SD**2*RAF + Bl**2/(RE+RL); CMT = 1/(1/CMS + SD**2/CAB)
 w = 2*np.pi*f
@@ -35,10 +35,10 @@ ax[0].semilogx(f, dB, label="ngspice V(out)/p_i")
 ax[0].semilogx(f, 20*np.log10(abs(H)), "--", label="analytic band-pass (M_MT, R_MT, C_MT)")
 ax[0].axhline(20*np.log10(M), color="gray", ls=":", label=f"M = {M*1e3:.2f} mV/Pa = {20*np.log10(M):.1f} dB")
 ax[0].set_ylabel("Sensitivity [dB re 1 V/Pa]"); ax[0].legend(); ax[0].grid(True, which="both", alpha=.3)
-ax[0].set_title("Problems 4 / 2a — dynamic microphone, V = 5 cm³, R_AF = 2e7 Ns/m⁵")
+ax[0].set_title("Problems 4 / 1 — designed mic: V = 10.8 cm³ (1b), R_AF = 3.56e7 (1c)")
 ax[1].semilogx(f, np.degrees(np.angle(e))); ax[1].set_ylabel("Phase [deg]"); ax[1].set_xlabel("Frequency [Hz]")
 ax[1].grid(True, which="both", alpha=.3)
 fig.tight_layout()
 for outdir in (HERE, Path("/home/mads/DTU/Obsidian/Courses/34870 Electroacoustics/Images/Lecture4")):
-    fig.savefig(outdir / "Problem_4B_DynamicMic_sensitivity.png", dpi=150)
+    fig.savefig(outdir / "Problem_4.1_MicDesign_sensitivity.png", dpi=150)
 print("saved")

@@ -101,7 +101,7 @@ set_sim(out, {
 })
 
 # project file: clone the structure of the Problem 2.3 project
-src = HERE.parent / "Problem_2.3_Two_Tube_Network" / "Problem_2.3_Two_Tube_Network.kicad_pro"
+src = HERE.parent.parent / "Lecture 3" / "Problem_2.3_Two_Tube_Network" / "Problem_2.3_Two_Tube_Network.kicad_pro"
 pro = json.loads(src.read_text(encoding="utf-8"))
 pro["meta"]["filename"] = f"{NAME}.kicad_pro"
 (HERE / f"{NAME}.kicad_pro").write_text(json.dumps(pro, indent=2) + "\n", encoding="utf-8")

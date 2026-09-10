@@ -2,892 +2,693 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "4e705c14-9f5a-4892-8cd8-be8fe159cb36")
+	(uuid "130f25cd-2d52-4f74-8ca7-a3351128cfe1")
 	(paper "A4")
 	(title_block
-		(title "Problems 4 (2a) - Dynamic pressure microphone, three domains")
+		(title "Problem 4.1 - bass reflex box, Z_A and far field")
 	)
 	(lib_symbols
 		(symbol "Simulation_SPICE:VDC" (pin_numbers (hide yes)) (pin_names (offset 0.0254)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "V" (at 2.54 2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Value" "1" (at 2.54 0 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Voltage source, DC" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Pins" "1=+ 2=-" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Type" "DC" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Device" "V" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)) (justify left))) (property "ki_keywords" "simulation" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "VDC_0_0" (polyline (pts (xy -1.27 0.254) (xy 1.27 0.254)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy -0.762 -0.254) (xy -1.27 -0.254)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 0.254 -0.254) (xy -0.254 -0.254)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 1.27 -0.254) (xy 0.762 -0.254)) (stroke (width 0) (type default)) (fill (type none))) (text "+" (at 0 1.905 0) (effects (font (size 1.27 1.27))))) (symbol "VDC_0_1" (circle (center 0 0) (radius 2.54) (stroke (width 0.254) (type default)) (fill (type background)))) (symbol "VDC_1_1" (pin passive line (at 0 5.08 270) (length 2.54) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -5.08 90) (length 2.54) (name "" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
-		(symbol "Device:L" (pin_numbers (hide yes)) (pin_names (offset 1.016) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "L" (at -1.27 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Value" "L" (at 1.905 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Inductor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "inductor choke coil reactor magnetic" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "L_0_1" (arc (start 0 2.54) (mid 0.6323 1.905) (end 0 1.27) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 1.27) (mid 0.6323 0.635) (end 0 0) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 0) (mid 0.6323 -0.635) (end 0 -1.27) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 -1.27) (mid 0.6323 -1.905) (end 0 -2.54) (stroke (width 0) (type default)) (fill (type none)))) (symbol "L_1_1" (pin passive line (at 0 3.81 270) (length 1.27) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -3.81 90) (length 1.27) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
 		(symbol "Simulation_SPICE:GSOURCE" (pin_numbers (hide yes)) (pin_names (offset 1.016) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "G" (at 2.54 2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Value" "GSOURCE" (at 2.54 0 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Gxxxx__Linear_Voltage_Controlled" (at 0 19.05 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Voltage-controlled current source symbol for simulation only" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Device" "SPICE" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Params" "type=\"G\" model=\"1\"" (at 2.54 -2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "ki_keywords" "simulation vccs dependent" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "GSOURCE_0_1" (polyline (pts (xy 0 2.032) (xy 0 1.016)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 0.254 1.524) (xy 0 1.016) (xy -0.254 1.524)) (stroke (width 0) (type default)) (fill (type none)))) (symbol "GSOURCE_1_1" (circle (center -5.08 0) (radius 2.54) (stroke (width 0.254) (type default)) (fill (type background))) (polyline (pts (xy -4.826 3.81) (xy -4.318 3.81)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy -4.826 -3.81) (xy -4.318 -3.81)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy -4.572 4.064) (xy -4.572 3.556)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 0 2.54) (xy -2.54 0) (xy 0 -2.54) (xy 2.54 0) (xy 0 2.54)) (stroke (width 0.254) (type default)) (fill (type background))) (text "V" (at -5.08 0 0) (effects (font (size 1.27 1.27)))) (pin passive line (at 0 5.08 270) (length 2.54) (name "N+" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -5.08 90) (length 2.54) (name "N-" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27))))) (pin input line (at -5.08 5.08 270) (length 2.54) (name "C+" (effects (font (size 1.27 1.27)))) (number "3" (effects (font (size 1.27 1.27))))) (pin input line (at -5.08 -5.08 90) (length 2.54) (name "C-" (effects (font (size 1.27 1.27)))) (number "4" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
+		(symbol "power:GND" (power global) (pin_numbers (hide yes)) (pin_names (offset 0) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "#PWR" (at 0 -6.35 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Value" "GND" (at 0 -3.81 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Power symbol creates a global label with name \"GND\" , ground" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "global power" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "GND_0_1" (polyline (pts (xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)) (stroke (width 0) (type default)) (fill (type none)))) (symbol "GND_1_1" (pin power_in line (at 0 0 270) (length 0) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
+		(symbol "Device:L" (pin_numbers (hide yes)) (pin_names (offset 1.016) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "L" (at -1.27 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Value" "L" (at 1.905 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Inductor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "inductor choke coil reactor magnetic" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "L_0_1" (arc (start 0 2.54) (mid 0.6323 1.905) (end 0 1.27) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 1.27) (mid 0.6323 0.635) (end 0 0) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 0) (mid 0.6323 -0.635) (end 0 -1.27) (stroke (width 0) (type default)) (fill (type none))) (arc (start 0 -1.27) (mid 0.6323 -1.905) (end 0 -2.54) (stroke (width 0) (type default)) (fill (type none)))) (symbol "L_1_1" (pin passive line (at 0 3.81 270) (length 1.27) (name "1" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -3.81 90) (length 1.27) (name "2" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
 		(symbol "Device:R" (pin_numbers (hide yes)) (pin_names (offset 0)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "R" (at 2.032 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Value" "R" (at 0 0 90) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at -1.778 0 90) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Resistor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "R res resistor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_fp_filters" "R_*" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "R_0_1" (rectangle (start -1.016 -2.54) (end 1.016 2.54) (stroke (width 0.254) (type default)) (fill (type none)))) (symbol "R_1_1" (pin passive line (at 0 3.81 270) (length 1.27) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -3.81 90) (length 1.27) (name "" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
 		(symbol "Device:C" (pin_numbers (hide yes)) (pin_names (offset 0.254)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "C" (at 0.635 2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Value" "C" (at 0.635 -2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Footprint" "" (at 0.9652 -3.81 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Unpolarized capacitor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "cap capacitor" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_fp_filters" "C_*" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "C_0_1" (polyline (pts (xy -2.032 0.762) (xy 2.032 0.762)) (stroke (width 0.508) (type default)) (fill (type none))) (polyline (pts (xy -2.032 -0.762) (xy 2.032 -0.762)) (stroke (width 0.508) (type default)) (fill (type none)))) (symbol "C_1_1" (pin passive line (at 0 3.81 270) (length 2.794) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -3.81 90) (length 2.794) (name "" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
-		(symbol "power:GND" (power global) (pin_numbers (hide yes)) (pin_names (offset 0) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "#PWR" (at 0 -6.35 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Value" "GND" (at 0 -3.81 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Power symbol creates a global label with name \"GND\" , ground" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "global power" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "GND_0_1" (polyline (pts (xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)) (stroke (width 0) (type default)) (fill (type none)))) (symbol "GND_1_1" (pin power_in line (at 0 0 270) (length 0) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
-		(symbol "Simulation_SPICE:ESOURCE" (pin_numbers (hide yes)) (pin_names (offset 1.016) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "E" (at 2.54 2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Value" "ESOURCE" (at 2.54 0 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#subsec_Exxxx__Linear_Voltage_Controlled" (at 0 16.51 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Voltage-controlled voltage source symbol for simulation only" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Device" "SPICE" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Sim.Params" "type=\"E\" model=\"1\"" (at 2.54 -2.54 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)) (justify left))) (property "ki_keywords" "simulation vcvs dependent" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "ESOURCE_0_1" (polyline (pts (xy 0 2.032) (xy 0 1.016)) (stroke (width 0) (type default)) (fill (type none)))) (symbol "ESOURCE_1_1" (circle (center -5.08 0) (radius 2.54) (stroke (width 0.254) (type default)) (fill (type background))) (polyline (pts (xy -4.826 3.81) (xy -4.318 3.81)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy -4.826 -3.81) (xy -4.318 -3.81)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy -4.572 4.064) (xy -4.572 3.556)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 0 2.54) (xy -2.54 0) (xy 0 -2.54) (xy 2.54 0) (xy 0 2.54)) (stroke (width 0.254) (type default)) (fill (type background))) (polyline (pts (xy 0.508 1.524) (xy -0.508 1.524)) (stroke (width 0) (type default)) (fill (type none))) (polyline (pts (xy 0.508 -1.524) (xy -0.508 -1.524)) (stroke (width 0) (type default)) (fill (type none))) (text "V" (at -5.08 0 0) (effects (font (size 1.27 1.27)))) (pin passive line (at 0 5.08 270) (length 2.54) (name "N+" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27))))) (pin passive line (at 0 -5.08 90) (length 2.54) (name "N-" (effects (font (size 1.27 1.27)))) (number "2" (effects (font (size 1.27 1.27))))) (pin input line (at -5.08 5.08 270) (length 2.54) (name "C+" (effects (font (size 1.27 1.27)))) (number "3" (effects (font (size 1.27 1.27))))) (pin input line (at -5.08 -5.08 90) (length 2.54) (name "C-" (effects (font (size 1.27 1.27)))) (number "4" (effects (font (size 1.27 1.27)))))) (embedded_fonts no))
 		(symbol "power:PWR_FLAG" (power global) (pin_numbers (hide yes)) (pin_names (offset 0) (hide yes)) (exclude_from_sim no) (in_bom yes) (on_board yes) (in_pos_files yes) (duplicate_pin_numbers_are_jumpers no) (property "Reference" "#FLG" (at 0 1.905 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Value" "PWR_FLAG" (at 0 3.81 0) (show_name no) (do_not_autoplace no) (effects (font (size 1.27 1.27)))) (property "Footprint" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Datasheet" "" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "Description" "Special symbol for telling ERC where power comes from" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (property "ki_keywords" "flag power" (at 0 0 0) (show_name no) (do_not_autoplace no) (hide yes) (effects (font (size 1.27 1.27)))) (symbol "PWR_FLAG_0_0" (pin power_out line (at 0 0 90) (length 0) (name "" (effects (font (size 1.27 1.27)))) (number "1" (effects (font (size 1.27 1.27)))))) (symbol "PWR_FLAG_0_1" (polyline (pts (xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)) (stroke (width 0) (type default)) (fill (type none)))) (embedded_fonts no))
 	)
 	(wire
 		(pts
-			(xy 20.32 45.72) (xy 20.32 35.56)
+			(xy 15.24 57.15) (xy 15.24 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "48fe9fa7-8d53-413d-9bb3-615261a64fa7")
+		(uuid "55251fd2-3ca5-40f2-a9df-d97e164d553f")
 	)
 	(wire
 		(pts
-			(xy 20.32 35.56) (xy 31.75 35.56)
+			(xy 15.24 67.31) (xy 15.24 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6a25de95-d0a9-4e54-ac25-8bfa72e44c4c")
+		(uuid "fd4fbc67-1495-43f5-9507-3da6ee1a6e9f")
 	)
 	(wire
 		(pts
-			(xy 39.37 35.56) (xy 55.88 35.56)
+			(xy 33.02 57.15) (xy 33.02 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3cdb8bb9-fcf5-4b34-a542-9b082b413cb6")
+		(uuid "693dce63-cad8-4f3e-841d-58fb0cf845d8")
 	)
 	(wire
 		(pts
-			(xy 55.88 35.56) (xy 55.88 45.72)
+			(xy 33.02 67.31) (xy 33.02 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c81363b4-a93c-4177-a193-d92388e672b2")
+		(uuid "6175c6a9-3286-4ab6-953f-b2052921a00d")
 	)
 	(wire
 		(pts
-			(xy 55.88 55.88) (xy 55.88 66.04)
+			(xy 15.24 50.8) (xy 33.02 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "94ab459d-2f8f-46d8-b09d-9c41c35cfc23")
+		(uuid "e662a03a-8448-49ce-9bd6-dfb87e2a5569")
 	)
 	(wire
 		(pts
-			(xy 55.88 66.04) (xy 69.85 66.04)
+			(xy 27.94 57.15) (xy 27.94 54.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6f833d92-f7b2-46c2-96af-774dee3fd719")
+		(uuid "ecb7da7a-a9c8-4fd7-b039-488ec46775ed")
 	)
 	(wire
 		(pts
-			(xy 77.47 66.04) (xy 86.36 66.04)
+			(xy 27.94 67.31) (xy 27.94 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "708921e0-3bf7-4f35-b74c-3aa82fac71b7")
+		(uuid "ea6967a2-0a31-4d3d-8412-867f63a70dfd")
 	)
 	(wire
 		(pts
-			(xy 86.36 66.04) (xy 86.36 72.39)
+			(xy 55.88 35.56) (xy 55.88 31.75)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "04258661-d8f8-4ba0-a7cc-7de7aec44446")
+		(uuid "4694b3a1-fb75-4fbf-9984-392426d64a5d")
 	)
 	(wire
 		(pts
-			(xy 86.36 66.04) (xy 96.52 66.04)
+			(xy 55.88 45.72) (xy 55.88 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "28bd7a0f-115c-4552-855d-166cafa6a7f2")
+		(uuid "56edef69-4045-4015-8d48-b119a7ba51e2")
 	)
 	(wire
 		(pts
-			(xy 96.52 66.04) (xy 96.52 72.39)
+			(xy 50.8 35.56) (xy 50.8 31.75)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e0827ca5-99b9-47d0-a878-bcf40e4b3af8")
+		(uuid "57cabc82-8d44-4baf-b8ac-e23d79f1a8e2")
 	)
 	(wire
 		(pts
-			(xy 20.32 55.88) (xy 20.32 83.82)
+			(xy 50.8 45.72) (xy 50.8 49.53)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "879734bb-71e5-43fe-afed-672e18095c44")
+		(uuid "a278c373-621b-4ae0-92cd-6bb35073dc6a")
 	)
 	(wire
 		(pts
-			(xy 86.36 80.01) (xy 86.36 83.82)
+			(xy 71.12 58.42) (xy 71.12 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b96dffef-ecab-4027-92af-d19eb306123e")
+		(uuid "9b95df96-3299-44da-877b-e933db6260e2")
 	)
 	(wire
 		(pts
-			(xy 96.52 80.01) (xy 96.52 83.82)
+			(xy 71.12 66.04) (xy 71.12 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3a65e588-27b6-48c8-b13e-d1cdeb0efd1c")
+		(uuid "71b8b76f-5747-4c69-a4cd-d5055619a8ee")
 	)
 	(wire
 		(pts
-			(xy 20.32 83.82) (xy 27.94 83.82)
+			(xy 91.44 53.34) (xy 91.44 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "13c6201b-cbc9-4538-8023-3901b88050cf")
+		(uuid "13af9419-26c9-4f50-ab8f-97378ad9d4c1")
 	)
 	(wire
 		(pts
-			(xy 27.94 83.82) (xy 38.1 83.82)
+			(xy 91.44 60.96) (xy 91.44 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cbd36843-cb07-4966-8ed4-9c05daac339b")
+		(uuid "0b47b213-dc60-4823-b7cf-7151f637bb6c")
 	)
 	(wire
 		(pts
-			(xy 38.1 83.82) (xy 50.8 83.82)
+			(xy 86.36 72.39) (xy 86.36 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f45e28bb-d71d-46b7-8697-c5df1fa136d4")
+		(uuid "f91ef228-7611-4f5e-af65-59dc835e443a")
 	)
 	(wire
 		(pts
-			(xy 50.8 83.82) (xy 86.36 83.82)
+			(xy 96.52 72.39) (xy 96.52 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "52f463f3-c724-4b3a-89c8-6093a4ea6cb4")
+		(uuid "57779c36-0de3-44fb-8916-dbc074514828")
 	)
 	(wire
 		(pts
-			(xy 86.36 83.82) (xy 96.52 83.82)
+			(xy 86.36 64.77) (xy 91.44 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1f7ea14c-2ebb-4a7d-9ce1-2e121b4800ce")
+		(uuid "9765ec9a-4a69-41ea-8677-0618c867c254")
 	)
 	(wire
 		(pts
-			(xy 38.1 83.82) (xy 38.1 88.9)
+			(xy 91.44 64.77) (xy 96.52 64.77)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d69070b4-d061-43d1-aed3-ffcf98113688")
+		(uuid "cc3b8c4b-e8a0-4760-9d24-10a46bbc2de5")
 	)
 	(wire
 		(pts
-			(xy 50.8 45.72) (xy 50.8 40.64)
+			(xy 55.88 50.8) (xy 71.12 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5bd232cf-3252-414d-a3c0-12cc6d299bdd")
+		(uuid "ecf67e15-137e-4f4c-a077-222b91d1eb8d")
 	)
 	(wire
 		(pts
-			(xy 50.8 55.88) (xy 50.8 83.82)
+			(xy 71.12 50.8) (xy 91.44 50.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1322e7b4-7dd4-4bdd-9ac9-323f6ba0a9ab")
+		(uuid "58609e24-cafb-434d-a55c-3e64836b9c38")
 	)
 	(wire
 		(pts
-			(xy 121.92 45.72) (xy 121.92 35.56)
+			(xy 71.12 73.66) (xy 86.36 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "69174f61-6191-4539-8e7b-e37ed235a5b0")
+		(uuid "b3ba4e27-a6de-483a-aad2-6b918093b790")
 	)
 	(wire
 		(pts
-			(xy 121.92 35.56) (xy 142.24 35.56)
+			(xy 86.36 73.66) (xy 96.52 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0581313f-0f57-456b-9f02-7bca20a8b7ac")
+		(uuid "ecc590bb-aaf3-4b7e-9b34-440c0d4ade71")
 	)
 	(wire
 		(pts
-			(xy 142.24 35.56) (xy 154.94 35.56)
+			(xy 106.68 80.01) (xy 106.68 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fc45ded9-c028-4d86-b5ae-ec3e09b3bad5")
+		(uuid "1604d67d-d26f-44fb-bf21-c8a7673c1b29")
 	)
 	(wire
 		(pts
-			(xy 154.94 35.56) (xy 167.64 35.56)
+			(xy 106.68 87.63) (xy 106.68 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8504e133-3f5d-4027-87c4-080798095817")
+		(uuid "33ba667e-b629-4230-9ecd-7b4f3694c5ff")
 	)
 	(wire
 		(pts
-			(xy 167.64 35.56) (xy 187.96 35.56)
+			(xy 96.52 73.66) (xy 106.68 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "04aa6762-ab9d-4298-81af-f6df4594e4d2")
+		(uuid "c518860d-6193-48a4-8ba2-cb9b5ebfc5af")
 	)
 	(wire
 		(pts
-			(xy 187.96 35.56) (xy 187.96 45.72)
+			(xy 106.68 73.66) (xy 114.3 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2621a4e4-7c14-4523-bd62-4650e56e9de5")
+		(uuid "920efb53-c44e-4166-a9a5-c6e69b9ca387")
 	)
 	(wire
 		(pts
-			(xy 142.24 46.99) (xy 142.24 35.56)
+			(xy 129.54 80.01) (xy 129.54 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "410edcb8-b174-49f3-93e2-15539bb72a71")
+		(uuid "b1133c40-1cec-48ce-9962-cdd839268002")
 	)
 	(wire
 		(pts
-			(xy 142.24 54.61) (xy 142.24 66.04)
+			(xy 129.54 87.63) (xy 129.54 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2d07c587-33dc-499e-94cf-e52e1545a4ed")
+		(uuid "9c193f2d-bd18-4937-a773-63ae942596b9")
 	)
 	(wire
 		(pts
-			(xy 154.94 46.99) (xy 154.94 35.56)
+			(xy 142.24 81.28) (xy 142.24 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1316aa36-6f4f-49c9-92a5-16ea1d4c4c21")
+		(uuid "38c94625-62db-4774-8ca2-523726db375f")
 	)
 	(wire
 		(pts
-			(xy 154.94 54.61) (xy 154.94 66.04)
+			(xy 137.16 85.09) (xy 137.16 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9309e6b7-ca7e-4132-aece-15addabdb2b7")
+		(uuid "f54f5b3b-64cb-4ea8-8385-e317a7ad3bcd")
 	)
 	(wire
 		(pts
-			(xy 167.64 46.99) (xy 167.64 35.56)
+			(xy 137.16 92.71) (xy 137.16 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4a373e5d-baef-4c0b-bac6-02e592a799fb")
+		(uuid "57a5d537-fab4-4865-a44c-087c98427f72")
 	)
 	(wire
 		(pts
-			(xy 167.64 54.61) (xy 167.64 66.04)
+			(xy 147.32 85.09) (xy 147.32 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e043d84e-160f-4407-b6f7-b07b730081a0")
+		(uuid "a7c17b1b-4abb-4e40-b53f-031b3085a7a8")
 	)
 	(wire
 		(pts
-			(xy 121.92 55.88) (xy 121.92 66.04)
+			(xy 147.32 92.71) (xy 147.32 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "20916aa3-b3f0-464f-bd19-955b51ba51fb")
+		(uuid "a4b7c6cf-af6e-484c-bcd7-86ac6ee4400b")
 	)
 	(wire
 		(pts
-			(xy 187.96 55.88) (xy 187.96 66.04)
+			(xy 137.16 82.55) (xy 142.24 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "23387c27-caa9-4adb-acc1-7b41b7e36e2a")
+		(uuid "afae37a4-5e53-4f14-8d9f-98f09596e0d6")
 	)
 	(wire
 		(pts
-			(xy 121.92 66.04) (xy 142.24 66.04)
+			(xy 142.24 82.55) (xy 147.32 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0d3c71c7-c3fb-4864-85da-d18ffa9769f1")
+		(uuid "8424af4b-828a-422d-b4a2-7b2fd7498d01")
 	)
 	(wire
 		(pts
-			(xy 142.24 66.04) (xy 148.59 66.04)
+			(xy 121.92 73.66) (xy 129.54 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "95a2900c-cc0b-4402-8ab2-c0d6dc20cd8d")
+		(uuid "87971728-f7ca-4942-8859-5ef0cc4c3dee")
 	)
 	(wire
 		(pts
-			(xy 148.59 66.04) (xy 154.94 66.04)
+			(xy 129.54 73.66) (xy 142.24 73.66)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e486f751-eb99-4ccc-9960-ac537196e949")
+		(uuid "bcae4d2c-b0c8-4f0f-bbb9-62ef29b13568")
 	)
 	(wire
 		(pts
-			(xy 154.94 66.04) (xy 161.29 66.04)
+			(xy 15.24 93.98) (xy 25.4 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ab8b0e0a-8ab8-4b0b-a990-6ac28d0ba7e0")
+		(uuid "37b768e6-5ee0-4e0a-bb53-203489235489")
 	)
 	(wire
 		(pts
-			(xy 161.29 66.04) (xy 167.64 66.04)
+			(xy 25.4 93.98) (xy 27.94 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "adbb7eec-687a-4a9d-8c0b-569581763d09")
+		(uuid "0494ed2b-bb29-4de1-a3dc-cf9a18de09bd")
 	)
 	(wire
 		(pts
-			(xy 167.64 66.04) (xy 182.88 66.04)
+			(xy 27.94 93.98) (xy 33.02 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "767e87a7-4409-4d33-a816-3ab3e2ae9ba4")
+		(uuid "564bbe6e-c3b1-4426-9db3-aaa5d7c2daf8")
 	)
 	(wire
 		(pts
-			(xy 182.88 66.04) (xy 187.96 66.04)
+			(xy 33.02 93.98) (xy 43.18 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7e10d437-29ed-46aa-88a4-2a21b9c0d8ad")
+		(uuid "d266be6c-0d6d-43e7-99e5-056ef645fd06")
 	)
 	(wire
 		(pts
-			(xy 148.59 66.04) (xy 148.59 71.12)
+			(xy 43.18 93.98) (xy 106.68 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "22853e0f-47b1-4a63-9927-11edf2d97c5f")
+		(uuid "3513ec80-6fb4-440c-bee0-bf93d93c698d")
 	)
 	(wire
 		(pts
-			(xy 127 55.88) (xy 127 60.96)
+			(xy 106.68 93.98) (xy 129.54 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d2111e9f-d915-4e95-bbb0-06c724822256")
+		(uuid "a2cf6a46-fa36-42a4-bf47-5c1ef4f9af4e")
 	)
 	(wire
 		(pts
-			(xy 127 45.72) (xy 127 40.64)
+			(xy 129.54 93.98) (xy 137.16 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0354cb2a-15c0-412f-b583-4978fb8e9a58")
+		(uuid "fc4d09c4-dc31-4309-9349-150ed2c557d3")
 	)
 	(wire
 		(pts
-			(xy 182.88 45.72) (xy 182.88 40.64)
+			(xy 137.16 93.98) (xy 147.32 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "de3f7dc5-490c-4684-b321-0ce2b2706bf9")
+		(uuid "d5e3d8e8-18bc-4913-aa80-c4c4a4d247ca")
 	)
 	(wire
 		(pts
-			(xy 182.88 55.88) (xy 182.88 66.04)
+			(xy 43.18 93.98) (xy 43.18 99.06)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bf53eb5a-dd67-4f63-aa6e-f0e0fecd2472")
+		(uuid "a946fd7d-0dc4-485b-b0df-597bfe1031fb")
 	)
 	(wire
 		(pts
-			(xy 218.44 45.72) (xy 218.44 35.56)
+			(xy 25.4 93.98) (xy 25.4 99.06)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4a35cd64-7c77-4df0-a6d6-c69500225517")
-	)
-	(wire
-		(pts
-			(xy 218.44 35.56) (xy 232.41 35.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "01e3b7b5-f562-40eb-b174-db2abff02f3a")
-	)
-	(wire
-		(pts
-			(xy 240.03 35.56) (xy 251.46 35.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b8987980-74a3-457b-9385-422aa95f6513")
-	)
-	(wire
-		(pts
-			(xy 251.46 35.56) (xy 251.46 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "35b98c46-a32f-49b4-81e4-8eaa7c1d57bd")
-	)
-	(wire
-		(pts
-			(xy 218.44 55.88) (xy 218.44 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b9d83436-0bb9-4375-8560-98d3a151c10e")
-	)
-	(wire
-		(pts
-			(xy 251.46 54.61) (xy 251.46 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5e2e3e0b-b9a4-4c79-8977-d4509250171f")
-	)
-	(wire
-		(pts
-			(xy 213.36 66.04) (xy 218.44 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db9c3c73-aaf9-4280-bc4e-9d8ba350c982")
-	)
-	(wire
-		(pts
-			(xy 218.44 66.04) (xy 234.95 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a58bda9a-b067-4b7c-854e-c44285bbcd46")
-	)
-	(wire
-		(pts
-			(xy 234.95 66.04) (xy 243.84 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3fcd2b8e-6434-45db-81fa-d1e1aeca05c5")
-	)
-	(wire
-		(pts
-			(xy 243.84 66.04) (xy 251.46 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7aaac0d3-e4f8-4047-a170-2ed6ea6ec6fc")
-	)
-	(wire
-		(pts
-			(xy 234.95 66.04) (xy 234.95 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "230562e9-698b-4f5e-a66b-3dc1e94e30e8")
-	)
-	(wire
-		(pts
-			(xy 213.36 45.72) (xy 213.36 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8ad04fd3-5723-4d28-88ad-12f5951df20d")
-	)
-	(wire
-		(pts
-			(xy 213.36 55.88) (xy 213.36 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a84ed889-8bf4-49f2-b8b3-fbf52aceac4d")
-	)
-	(wire
-		(pts
-			(xy 27.94 83.82) (xy 27.94 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4db5ff24-417e-4e61-8d0c-4ceb4445245a")
-	)
-	(wire
-		(pts
-			(xy 161.29 66.04) (xy 161.29 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1dc95dc3-28c5-4560-adfd-d40aefce9d2c")
-	)
-	(wire
-		(pts
-			(xy 243.84 66.04) (xy 243.84 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d1bbaec7-2a5d-466f-81a8-e41883973a98")
+		(uuid "4d61bdf2-f0b3-419e-91bb-398d7fd74868")
 	)
 	(junction
-		(at 27.94 83.82)
+		(at 25.4 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "48b4a921-0fe4-4eef-b9ce-99cec111675f")
+		(uuid "2191e6c0-cf5e-4750-99fc-3872955ed666")
 	)
 	(junction
-		(at 38.1 83.82)
+		(at 27.94 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bbeb1fb9-2781-4142-bcf7-9896fb2bdbc1")
+		(uuid "7de8cb32-f244-46d7-b0c2-bf06bb4912f5")
 	)
 	(junction
-		(at 50.8 83.82)
+		(at 33.02 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "6e1a947b-9b29-420a-b14a-f60326e7c549")
+		(uuid "aadac127-2a82-46f9-8c6d-83295a98211f")
 	)
 	(junction
-		(at 86.36 66.04)
+		(at 43.18 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "257dd854-0c94-4f93-8a34-b85a20b309b3")
+		(uuid "960163fb-2b56-47af-9b98-d66909e94e49")
 	)
 	(junction
-		(at 86.36 83.82)
+		(at 71.12 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "d0daedde-efaa-46cc-8fdc-22f97c8a26d3")
+		(uuid "c2194dbe-a6d7-48cc-a8f3-652283b987d2")
 	)
 	(junction
-		(at 142.24 35.56)
+		(at 86.36 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "e7ccc877-0c0b-4e26-9519-c8f208509d33")
+		(uuid "22438b8e-3d8a-40ae-9555-7361d43cd0f8")
 	)
 	(junction
-		(at 142.24 66.04)
+		(at 91.44 64.77)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "552aebb7-2299-44ac-af52-95ffb95b298e")
+		(uuid "479ef8cf-faee-4e2a-b80b-4c29cb30afc5")
 	)
 	(junction
-		(at 148.59 66.04)
+		(at 96.52 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "ec346c50-b45c-4ed0-b35c-830cf0e92ca2")
+		(uuid "816d51e6-185b-4033-836f-3ebfcecf90d1")
 	)
 	(junction
-		(at 154.94 35.56)
+		(at 106.68 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "c6f6cb81-d8c7-4fa4-a6d0-c984a7cf309b")
+		(uuid "c13338d8-b3af-4333-9b83-cb76a884dfe4")
 	)
 	(junction
-		(at 154.94 66.04)
+		(at 106.68 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "82478574-ef95-457f-8ea5-60e3c4273688")
+		(uuid "cea1dde0-6455-4ecc-9835-20dcd4d7df5b")
 	)
 	(junction
-		(at 161.29 66.04)
+		(at 129.54 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "368b93d3-f435-4bbf-8af3-73b8290bb80c")
+		(uuid "ff92f055-2bc8-4660-b0e1-48ca138d97b3")
 	)
 	(junction
-		(at 167.64 35.56)
+		(at 129.54 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "12ac5ad9-fc1c-4710-acf0-dc3ce3b48df8")
+		(uuid "7281542f-7342-4d13-8b86-360ff37fbe2c")
 	)
 	(junction
-		(at 167.64 66.04)
+		(at 137.16 93.98)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "6705cd23-7220-4415-bccf-a9529bc0ce79")
+		(uuid "aeb4dac0-639f-450d-a36f-3c9185af482a")
 	)
 	(junction
-		(at 182.88 66.04)
+		(at 142.24 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "f8df8fee-63fb-420f-b422-b57d9f57bea0")
-	)
-	(junction
-		(at 218.44 66.04)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e47cf2a9-02a9-445c-b824-28a35af48221")
-	)
-	(junction
-		(at 234.95 66.04)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a35a9147-42f9-4da8-b276-3a7151e28bec")
-	)
-	(junction
-		(at 243.84 66.04)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "d53c75ad-8881-4bc2-940b-75be09ec9aa5")
-	)
-	(label "pf"
-		(at 45.72 35.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "59a296fa-09e3-41b0-9756-15d09d0750a8")
-	)
-	(label "pb"
-		(at 63.5 66.04 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a073c121-25c4-45c8-a9af-bcd6569c5450")
+		(uuid "0e45e331-eb83-4ff6-a902-0d4262677582")
 	)
 	(label "u"
-		(at 50.8 40.64 0)
+		(at 22.86 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "619a79d8-4931-416b-a37f-66dee21ee23b")
+		(uuid "d3cdf3ca-b440-43cc-84fd-37661d2e6f91")
+	)
+	(label "p"
+		(at 27.94 54.61 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a16e8787-4588-4497-8312-159468975208")
 	)
 	(label "u"
-		(at 132.08 35.56 0)
+		(at 50.8 31.75 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "43a8739f-4aea-4946-ad48-31cc3dd8ffda")
+		(uuid "e2392b35-8ba2-42dd-8154-c4b4e6fb4c00")
 	)
-	(label "pf"
-		(at 127 60.96 0)
+	(label "p"
+		(at 63.5 50.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "00d0a9c5-aba1-401a-b1b8-81ee7416d8c4")
+		(uuid "79306d30-a9d9-4256-a34d-bc621a1cf056")
 	)
-	(label "pb"
-		(at 127 40.64 0)
+	(label "pbox"
+		(at 101.6 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "a8c777ab-598f-4cf4-a1cf-06441a04caaf")
+		(uuid "4fdecd0d-17e6-4bcc-a364-d25cd7c18dbc")
 	)
-	(label "out"
-		(at 182.88 40.64 0)
+	(label "pv"
+		(at 124.46 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "bffc9124-2e43-48be-9ac7-05eff109b3b3")
+		(uuid "1182e354-c9f3-4e9d-bcf4-9a3782bbe258")
 	)
-	(label "out"
-		(at 246.38 35.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c4f77283-5e37-4afa-913b-89e2e528c91a")
-	)
-	(label "u"
-		(at 213.36 40.64 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "993297d0-7012-4c71-b74b-700932db6d3e")
-	)
-	(text "Problems 4 / 2a - dynamic pressure microphone (Leach fig. 5.x), 1 Pa in -> V(out) = sensitivity"
-		(at 17.78 7.62 0)
+	(text "Problem 4.1 - bass reflex box: vent l = 12 cm, D 10 cm, V = 23 l; massless piston driver, same D, velocity u"
+		(at 15.24 7.62 0)
 		(effects
 			(font
 				(size 1.6 1.6)
 			)
 			(justify left bottom)
 		)
-		(uuid "d9b5fb7c-240b-444c-b7fc-1963e8dde995")
+		(uuid "a39347f7-9551-4c42-b304-3a16583e0a68")
 	)
-	(text "Acoustic (p = V, U = I): V1 = p_i = 1 Pa, L1 = M_A1 = 25.1 kg/m^4 (baffled piston, a = 12.7 mm), R1 = R_AF = 2e+07, C1 = C_AB = 3.58e-11 (V = 5 cm^3), R3 = 1 TOhm DC leak (>> 1/wC_AB even at 10 Hz)"
-		(at 17.78 12.7 0)
+	(text "Mechanical (mobility): V1 = u = 1 m/s, G2 = reaction f = S_D*p, S_D = S_v = 0.007854 m^2"
+		(at 15.24 12.7 0)
 		(effects
 			(font
 				(size 1.2 1.2)
 			)
 			(justify left bottom)
 		)
-		(uuid "662c33a8-0500-452a-95b4-09dce88fdeeb")
+		(uuid "7550e14e-be02-4096-a7d0-e4b43bb4a859")
 	)
-	(text "G1 = diaphragm: U = S_D*u through pf->pb, gain S_D = 0.000507 m^2"
-		(at 17.78 16.51 0)
+	(text "Front + back carry the same U (series): Z_Af (baffled, a = 5 cm): M_A1 = 6.38, R_A2 = 5.17e+04, R_A1 = 2.28e+04, C_A1 = 5.32e-09"
+		(at 15.24 16.51 0)
 		(effects
 			(font
 				(size 1.2 1.2)
 			)
 			(justify left bottom)
 		)
-		(uuid "256d10cd-6c99-40ed-8f93-f102913d480a")
+		(uuid "7a57edb0-37e4-41f4-8172-63b4ac4a426b")
 	)
-	(text "Mechanical (mobility, u = V, f = I): G2 = f = S_D*(pf-pb); C2 = M_MD = 0.0002 kg, L2 = C_MS = 0.00021 m/N, R4 = 1/R_MS = 1; G3 = -Bl*i (gain Bl/R_L = 0.000426)"
-		(at 17.78 20.32 0)
+	(text "Box: C_A = 1.65e-07 m^5/N; vent: M_Av = rho*l/S = 18 kg/m^4 + same radiation network at pv (DC path is all-inductor)"
+		(at 15.24 20.32 0)
 		(effects
 			(font
 				(size 1.2 1.2)
 			)
 			(justify left bottom)
 		)
-		(uuid "effeaef6-8c15-461e-8f7b-9f8e0633ebc9")
+		(uuid "1848747d-a71e-4004-8ac6-6eeabb34bae3")
 	)
-	(text "Electrical: E1 = Bl*u (Bl = 20 Tm), R5 = R_E = 200, R6 = R_L = 47000. Expect band-pass, f0 ~ 1.2 kHz, M ~ -56 dB re 1 V/Pa"
-		(at 17.78 24.13 0)
+	(text "Z_A seen by piston = V(p)/U. Box-port resonance with vent radiation mass: fB = 79 Hz (92 Hz without M_A1). U_vent = I(L2)"
+		(at 15.24 24.13 0)
 		(effects
 			(font
 				(size 1.2 1.2)
 			)
 			(justify left bottom)
 		)
-		(uuid "864e9233-064a-40f3-a1fc-8f07b6ff71fb")
+		(uuid "6235ccba-8704-400d-9f2b-f757409bab68")
 	)
 	(text "SPICE directive (read automatically):"
 		(at 190.5 12.7 0)
@@ -897,9 +698,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a3402429-acf6-4a05-a60d-f495f76246a8")
+		(uuid "3c3109b6-4125-43b3-ba4d-056a59f68406")
 	)
-	(text ".ac dec 200 10 100k"
+	(text ".ac dec 200 10 10k"
 		(at 190.5 17.78 0)
 		(effects
 			(font
@@ -907,11 +708,11 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "73b58d5e-4104-46ea-a8ed-aeff37c8c7b7")
+		(uuid "7f00d467-1fbd-4a1c-bdfa-a95c3c5b62a1")
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:VDC")
-		(at 20.32 50.8 0)
+		(at 15.24 62.23 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -919,9 +720,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "d12e682d-2f0e-4811-a29a-54885b1bd091")
+		(uuid "d0757865-028d-4078-8e66-bed750976722")
 		(property "Reference" "V1"
-			(at 24.638 49.53 0)
+			(at 19.558 60.96 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -931,7 +732,7 @@
 			)
 		)
 		(property "Value" "1"
-			(at 24.638 52.07 0)
+			(at 19.558 63.5 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -941,7 +742,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 20.32 50.8 0)
+			(at 15.24 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -952,7 +753,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 20.32 50.8 0)
+			(at 15.24 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1007,8 +808,8 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "V1")
 					(unit 1)
 				)
@@ -1016,70 +817,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:L")
-		(at 35.56 35.56 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "0e47b763-3634-41fb-a182-fe160c0fe3be")
-		(property "Reference" "L1"
-			(at 35.56 33.782 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "25.1"
-			(at 35.56 37.338 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 35.56 35.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 35.56 35.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "L1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Simulation_SPICE:GSOURCE")
-		(at 55.88 50.8 0)
+		(at 33.02 62.23 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1087,9 +826,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9d7ef7e0-78b8-44c3-80dc-3a04213ac19a")
-		(property "Reference" "G1"
-			(at 60.198 49.53 0)
+		(uuid "ff59decc-e2f5-4fca-acdf-c34c90f91a22")
+		(property "Reference" "G2"
+			(at 37.338 60.96 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1099,7 +838,7 @@
 			)
 		)
 		(property "Value" "GSOURCE"
-			(at 60.198 52.07 0)
+			(at 37.338 63.5 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1109,7 +848,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 55.88 50.8 0)
+			(at 33.02 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1120,7 +859,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 55.88 50.8 0)
+			(at 33.02 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1141,7 +880,7 @@
 				)
 			)
 		)
-		(property "Sim.Params" "type=\"G\" model=\"0.000506707\""
+		(property "Sim.Params" "type=\"G\" model=\"0.00785398\""
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)
@@ -1153,8 +892,92 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "G2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Simulation_SPICE:GSOURCE")
+		(at 55.88 40.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "17040192-45d8-4fd1-a64d-5486ef1d2d42")
+		(property "Reference" "G1"
+			(at 60.198 39.37 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GSOURCE"
+			(at 60.198 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 55.88 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 55.88 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "SPICE"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Params" "type=\"G\" model=\"0.00785398\""
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "G1")
 					(unit 1)
 				)
@@ -1162,194 +985,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 73.66 66.04 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9c4d5cc2-8c0b-4c11-aa54-5f9db168f7c6")
-		(property "Reference" "R1"
-			(at 73.66 63.246 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "2e+07"
-			(at 73.66 68.834 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 73.66 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 73.66 66.04 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "R1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 86.36 76.2 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "e721c3f9-e499-49e0-aafb-b1cda02e52b0")
-		(property "Reference" "C1"
-			(at 90.17 74.93 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "3.58e-11"
-			(at 90.17 77.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 86.36 76.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 86.36 76.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "C1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 96.52 76.2 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "0a7b282e-0dd9-4e1c-b88b-65bf762ab87a")
-		(property "Reference" "R3"
-			(at 99.314 74.93 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "1T"
-			(at 99.314 77.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 96.52 76.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 96.52 76.2 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "R3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 38.1 88.9 0)
+		(at 55.88 31.75 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1357,9 +994,9 @@
 		(on_board no)
 		(in_pos_files no)
 		(dnp no)
-		(uuid "24966071-31b6-4dd9-91df-05e70ac9af77")
+		(uuid "27c51153-129a-4c69-835e-205b8d7f1471")
 		(property "Reference" "#PWR001"
-			(at 41.148 87.63 0)
+			(at 55.88 27.432 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1370,7 +1007,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 41.148 90.17 0)
+			(at 55.88 33.528 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1380,7 +1017,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 38.1 88.9 0)
+			(at 55.88 31.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1391,7 +1028,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 38.1 88.9 0)
+			(at 55.88 31.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1402,8 +1039,8 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "#PWR001")
 					(unit 1)
 				)
@@ -1411,18 +1048,19 @@
 		)
 	)
 	(symbol
-		(lib_id "Simulation_SPICE:GSOURCE")
-		(at 121.92 50.8 180)
+		(lib_id "power:GND")
+		(at 50.8 49.53 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
+		(in_bom no)
+		(on_board no)
+		(in_pos_files no)
 		(dnp no)
-		(uuid "e2d6a295-ce98-411d-9cd6-a71004e1087e")
-		(property "Reference" "G2"
-			(at 131.318 49.53 0)
+		(uuid "d45a90da-e7bf-42c5-a090-abc62051953e")
+		(property "Reference" "#PWR002"
+			(at 50.8 47.752 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1431,8 +1069,8 @@
 				)
 			)
 		)
-		(property "Value" "GSOURCE"
-			(at 131.318 52.07 0)
+		(property "Value" "GND"
+			(at 50.8 53.848 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1442,7 +1080,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 121.92 50.8 0)
+			(at 50.8 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1453,29 +1091,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 121.92 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "SPICE"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Params" "type=\"G\" model=\"0.000506707\""
-			(at 0 0 0)
+			(at 50.8 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1486,9 +1102,195 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "G2")
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "#PWR002")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 71.12 62.23 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1cb37bd8-759d-4cfc-8edb-e339e5105a17")
+		(property "Reference" "L1"
+			(at 72.898 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "6.37648"
+			(at 72.898 63.5 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 71.12 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 71.12 62.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "L1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 91.44 57.15 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d0cf95a3-ac78-48d1-8966-49b169e6d963")
+		(property "Reference" "R1"
+			(at 94.234 55.88 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "51683.3"
+			(at 94.234 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 86.36 68.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4df10a0d-fba7-44ae-83d1-988deb76d323")
+		(property "Reference" "R2"
+			(at 89.154 67.31 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "22792.4"
+			(at 89.154 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 86.36 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -1496,7 +1298,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 142.24 50.8 0)
+		(at 96.52 68.58 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1504,9 +1306,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e1105bca-cebe-4769-b2ab-320e9879fccb")
-		(property "Reference" "C2"
-			(at 146.05 49.53 0)
+		(uuid "1b655f22-6b29-4dab-bf65-6b8d7883eb19")
+		(property "Reference" "C1"
+			(at 100.33 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1515,8 +1317,8 @@
 				)
 			)
 		)
-		(property "Value" "0.0002"
-			(at 146.05 52.07 0)
+		(property "Value" "5.31738e-09"
+			(at 100.33 69.85 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1526,7 +1328,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 142.24 50.8 0)
+			(at 96.52 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1537,7 +1339,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 142.24 50.8 0)
+			(at 96.52 68.58 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1548,8 +1350,70 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 106.68 83.82 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7edaaa92-dcd3-4796-a461-a2a79dd05686")
+		(property "Reference" "C2"
+			(at 110.49 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1.64713e-07"
+			(at 110.49 85.09 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 106.68 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "C2")
 					(unit 1)
 				)
@@ -1558,7 +1422,7 @@
 	)
 	(symbol
 		(lib_id "Device:L")
-		(at 154.94 50.8 0)
+		(at 118.11 73.66 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1566,9 +1430,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "104210e1-1d1e-4d45-a001-8cfdecde74d1")
+		(uuid "103a5535-ca33-420c-b761-5d06d691ef28")
 		(property "Reference" "L2"
-			(at 156.718 49.53 0)
+			(at 118.11 71.882 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1577,8 +1441,8 @@
 				)
 			)
 		)
-		(property "Value" "0.00021"
-			(at 156.718 52.07 0)
+		(property "Value" "18.0291"
+			(at 118.11 75.438 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1588,7 +1452,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 154.94 50.8 0)
+			(at 118.11 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1599,7 +1463,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 154.94 50.8 0)
+			(at 118.11 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1610,8 +1474,8 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "L2")
 					(unit 1)
 				)
@@ -1619,8 +1483,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 167.64 50.8 0)
+		(lib_id "Device:L")
+		(at 129.54 83.82 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1628,9 +1492,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "0fecac3a-2624-4e17-9b89-d709ecda46e0")
-		(property "Reference" "R4"
-			(at 170.434 49.53 0)
+		(uuid "0776e119-b2b1-468d-822f-4a129abf8e51")
+		(property "Reference" "L5"
+			(at 131.318 82.55 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1639,8 +1503,8 @@
 				)
 			)
 		)
-		(property "Value" "1"
-			(at 170.434 52.07 0)
+		(property "Value" "6.37648"
+			(at 131.318 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1650,7 +1514,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 167.64 50.8 0)
+			(at 129.54 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1661,7 +1525,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 167.64 50.8 0)
+			(at 129.54 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1672,8 +1536,70 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "L5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 142.24 77.47 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "5021258b-689e-41a0-85d0-b38b0079f47c")
+		(property "Reference" "R4"
+			(at 145.034 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "51683.3"
+			(at 145.034 78.74 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.24 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.24 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "R4")
 					(unit 1)
 				)
@@ -1681,239 +1607,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Simulation_SPICE:GSOURCE")
-		(at 187.96 50.8 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "503e5ad5-621d-4c87-82a3-1f6b4394d813")
-		(property "Reference" "G3"
-			(at 192.278 49.53 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GSOURCE"
-			(at 192.278 52.07 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 187.96 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 187.96 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "SPICE"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Params" "type=\"G\" model=\"0.000425532\""
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "G3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 148.59 71.12 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
-		(in_pos_files no)
-		(dnp no)
-		(uuid "f48019f6-0308-47f8-9def-885dbc45c1a9")
-		(property "Reference" "#PWR002"
-			(at 148.59 69.342 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 148.59 75.438 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 148.59 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 148.59 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "#PWR002")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Simulation_SPICE:ESOURCE")
-		(at 218.44 50.8 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b45698ee-f821-46fe-921d-72529b8d6b42")
-		(property "Reference" "E1"
-			(at 222.758 49.53 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "ESOURCE"
-			(at 222.758 52.07 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 218.44 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 218.44 50.8 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Device" "SPICE"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Params" "type=\"E\" model=\"20\""
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "E1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R")
-		(at 236.22 35.56 90)
+		(at 137.16 88.9 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1921,9 +1616,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "41027c13-4d02-4de3-92bf-1d9832fa27ad")
+		(uuid "cc1143b7-829e-464c-98f9-c1fdffdf5cd2")
 		(property "Reference" "R5"
-			(at 236.22 32.766 0)
+			(at 139.954 87.63 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1932,8 +1627,8 @@
 				)
 			)
 		)
-		(property "Value" "200"
-			(at 236.22 38.354 0)
+		(property "Value" "22792.4"
+			(at 139.954 90.17 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1943,7 +1638,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 236.22 35.56 0)
+			(at 137.16 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1954,7 +1649,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 236.22 35.56 0)
+			(at 137.16 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1965,8 +1660,8 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "R5")
 					(unit 1)
 				)
@@ -1974,8 +1669,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 251.46 50.8 0)
+		(lib_id "Device:C")
+		(at 147.32 88.9 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1983,9 +1678,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "bf105a6d-76e0-4cb6-b8a3-a675bfd3aa98")
-		(property "Reference" "R6"
-			(at 254.254 49.53 0)
+		(uuid "1924b01b-3bde-4040-b32f-b41cb487835d")
+		(property "Reference" "C3"
+			(at 151.13 87.63 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1994,8 +1689,8 @@
 				)
 			)
 		)
-		(property "Value" "47000"
-			(at 254.254 52.07 0)
+		(property "Value" "5.31738e-09"
+			(at 151.13 90.17 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2005,7 +1700,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 251.46 50.8 0)
+			(at 147.32 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2016,7 +1711,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 251.46 50.8 0)
+			(at 147.32 88.9 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2027,9 +1722,9 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "R6")
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
+					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -2037,7 +1732,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 234.95 71.12 0)
+		(at 43.18 99.06 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2045,9 +1740,9 @@
 		(on_board no)
 		(in_pos_files no)
 		(dnp no)
-		(uuid "ee3a2f5c-8268-4cd0-86a4-fc0dd2f573cb")
+		(uuid "31f53b5b-8812-484e-9afc-bca9c64fcecd")
 		(property "Reference" "#PWR003"
-			(at 234.95 69.342 0)
+			(at 46.228 97.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2058,7 +1753,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 234.95 75.438 0)
+			(at 46.228 100.33 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2068,7 +1763,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 234.95 71.12 0)
+			(at 43.18 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2079,7 +1774,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 234.95 71.12 0)
+			(at 43.18 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2090,8 +1785,8 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "#PWR003")
 					(unit 1)
 				)
@@ -2100,7 +1795,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 27.94 88.9 0)
+		(at 25.4 99.06 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2108,9 +1803,9 @@
 		(on_board no)
 		(in_pos_files no)
 		(dnp no)
-		(uuid "7e3c725c-7490-4fb2-8c04-b2105d97ea75")
+		(uuid "4121fce9-245c-405c-9e31-76defd6a4632")
 		(property "Reference" "#PWR004"
-			(at 30.734 87.63 0)
+			(at 28.194 97.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2121,7 +1816,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 30.734 90.17 0)
+			(at 28.194 100.33 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2131,7 +1826,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 27.94 88.9 0)
+			(at 25.4 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2142,7 +1837,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 27.94 88.9 0)
+			(at 25.4 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2153,135 +1848,9 @@
 			)
 		)
 		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
+			(project "Problem_4.1_BassReflex_Box"
+				(path "/130f25cd-2d52-4f74-8ca7-a3351128cfe1"
 					(reference "#PWR004")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 161.29 71.12 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
-		(in_pos_files no)
-		(dnp no)
-		(uuid "008bb2e3-9fe9-44f5-8461-dc61585326af")
-		(property "Reference" "#PWR005"
-			(at 164.084 69.85 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 164.084 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 161.29 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 161.29 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "#PWR005")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 243.84 71.12 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
-		(in_pos_files no)
-		(dnp no)
-		(uuid "e2a86d77-a48a-4276-895a-2f2a8dd5b48a")
-		(property "Reference" "#PWR006"
-			(at 246.634 69.85 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 246.634 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 243.84 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 243.84 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "Problem_4B_Dynamic_Microphone"
-				(path "/4e705c14-9f5a-4892-8cd8-be8fe159cb36"
-					(reference "#PWR006")
 					(unit 1)
 				)
 			)

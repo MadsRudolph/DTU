@@ -1,0 +1,39 @@
+{
+  "custom_cursors": 2,
+  "last_sch_text_sim_command": ".ac dec 200 10 100k",
+  "tabs": [
+    {
+      "analysis": "AC",
+      "commands": [
+        ".ac dec 200 10 100k",
+        ".kicad adjustpaths",
+        ".save all",
+        ".probe alli",
+        ".probe allp"
+      ],
+      "dottedSecondary": false,
+      "margins": {
+        "bottom": 45,
+        "left": 70,
+        "right": 70,
+        "top": 30
+      },
+      "measurements": [],
+      "showGrid": true,
+      "traces": [
+        {
+          "color": "rgb(228, 26, 28)",
+          "signal": "V(/out) (gain)",
+          "trace_type": 521
+        },
+        {
+          "color": "rgb(159, 228, 85)",
+          "signal": "V(/out) (phase)",
+          "trace_type": 517
+        }
+      ]
+    }
+  ],
+  "user_defined_signals": [],
+  "version": 7
+}

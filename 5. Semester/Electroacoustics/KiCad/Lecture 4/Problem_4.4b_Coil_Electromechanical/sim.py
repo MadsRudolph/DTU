@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent))
+sys.path.insert(0, str(HERE.parent.parent))
 from ngspice_ac import run_ac
 
 f, v = run_ac(HERE / "Problem_4.4b_Coil_Electromechanical.kicad_sch", ["v(/vin)", "i(v1)", "v(/u)"])

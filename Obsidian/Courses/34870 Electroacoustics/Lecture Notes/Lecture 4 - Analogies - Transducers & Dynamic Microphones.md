@@ -28,6 +28,57 @@ tags: [Electroacoustics, lecture-note, analogies, transducers, microphones, dyna
 
 ## 1. Repetition — pop quiz, answered
 
+### The dead-simple version (read this first)
+
+The whole point of lectures 1–3: **circuits are the one thing we can solve easily** (Kirchhoff, impedances, LTspice). Springs, masses and air cavities happen to obey *exactly the same equations* as R, L and C — so we translate them into a circuit, solve the circuit, and translate back.
+
+**Q1a — mechanical networks.** A mechanical system only has two quantities worth tracking: **force $f$** (how hard something is pushed) and **velocity $u$** (how fast it moves). And it only has three building blocks:
+
+- **Mass $M_M$** — hates changing speed (a loaded shopping cart). Its velocity is always measured *against the fixed world*, so in the circuit one of its terminals is **always ground**.
+- **Compliance $C_M$** — a spring's *softness* ($C_M = 1/k$). Stores energy when squeezed or stretched.
+- **Damper $R_M$** — friction. Eats energy, turns it into heat (dragging your hand through water).
+
+Two translation dictionaries exist:
+
+| | force $f$ | velocity $u$ | mass | compliance | damper |
+|---|---|---|---|---|---|
+| **Impedance analogy** | voltage | current | inductor | capacitor | resistor $R_M$ |
+| **Mobility analogy** (course default for mechanics) | current | voltage | capacitor **to ground** | inductor | resistor $1/R_M$ |
+
+They contain the same information — every mesh in one becomes a node in the other (duals, [[Lecture 2 - Analogies - Mechanical Systems|Lecture 2]]).
+
+**Q1b — acoustic networks.** Same game, new pair of variables: **pressure $p$** (like voltage) and **volume velocity $U$** (m³/s of air flowing — like current). The building blocks come from simple geometries:
+
+- **Short open tube** → the plug of air inside sloshes back and forth as one lump → an **acoustic mass** $M_A = \rho l^*/S$ → inductor.
+- **Closed box of volume $V$** → the trapped air acts as a spring when compressed → **compliance** $C_A = V/\rho c^2$ → capacitor, **always to ground** (the box "pushes back" against still air, i.e. against zero pressure).
+- **Narrow slits, mesh, cloth** → viscous losses → $R_A$ → resistor.
+
+(Think of a bottle: neck = acoustic mass, body = acoustic compliance. That LC pair is why blowing over it gives one tone — a Helmholtz resonator.)
+
+**Q2a — which variables are coupled?** A transducer sits *between* two domains and ties one variable on each side to a variable on the other side, **in both directions**:
+
+```mermaid
+flowchart LR
+    E["Electrical<br/>v, i"] <-- "f = Bl·i<br/>v = Bl·u" --> M["Mechanical<br/>f, u"]
+    M <-- "f = S·p<br/>U = S·u" --> A["Acoustical<br/>p, U"]
+```
+
+- Voice coil (electrical ↔ mechanical): current through the coil creates force ($f = Bl\,i$), and moving the coil generates voltage ($v = Bl\,u$). Same wire, both effects, always simultaneously.
+- Diaphragm of area $S$ (mechanical ↔ acoustical): pressure on the area is a force ($f = S\,p$), and moving the piston pumps air ($U = S\,u$).
+
+**Q2b — what defines the coupling?** A **physical law**, and each law boils down to a single **constant number** — the transduction factor:
+
+| Transducer | Law | Factor |
+|---|---|---|
+| diaphragm / piston | pressure on an area | $S$ |
+| voice coil | Lorentz force + Faraday induction | $Bl$ |
+| condenser mic | electrostatics | $v_0/x_0$ |
+| piezo | piezoelectricity | $1/d$ |
+
+Because the coupling works in both directions at once, the circuit model always needs **two** controlled sources (or one transformer/gyrator two-port) — one per direction. That is exactly what today's lecture (4A) builds.
+
+---
+
 > [!question]+ Pop quiz
 > **Q1 — Equivalent systems: describe lumped mechanical networks/circuits.**
 > Variables: velocity $u$ and force $f$. Elements: mass $M_M$ (needs a reference velocity = ground), compliance $C_M$, damper $R_M$. Equilibrium (sum of forces) and continuity (sum of velocities) written per node/mesh. Two analogies: **impedance** ($f\leftrightarrow v$, $u\leftrightarrow i$, mass = inductor) and **mobility** ($u\leftrightarrow v$, $f\leftrightarrow i$, mass = capacitor to ground) — graphically converted by turning every mesh into a node, adding one node outside (ground), and replacing each element by its dual ([[Lecture 2 - Analogies - Mechanical Systems|Lecture 2]]).
@@ -78,7 +129,7 @@ tags: [Electroacoustics, lecture-note, analogies, transducers, microphones, dyna
 > [!note] Two-port view
 > Forward: through-current-through with factor $x$; backward: across-voltage-across with factor $1/x$ — i.e. a transformer $\begin{pmatrix} x & 0 \\ 0 & 1/x\end{pmatrix}$ when both couplings are across↔across / through↔through, and a **gyrator** when they cross over (the electrodynamic case in §2c).
 
-### 2b. Mechanical ↔ acoustical: a vibrating surface $S$
+### 2b. Mechanical ↔ acoustical: a vibrating surface $S$ — slides 8–9
 
 $$f = S\,p \qquad U = S\,u$$
 
@@ -138,8 +189,12 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > - **Above:** mass-like ($S^2\,\omega M_{A1}$, +90°) until $ka \approx 1$ ($f = c/2\pi a \approx 550$ Hz), where the radiation impedance turns resistive and flattens towards $S^2 R_{A2} \approx 12.8$ Ns/m.
 >
 > Both drawings (mobility with two G's, impedance with E + F) must give this same curve.
+>
+> **KiCad/ngspice companion sim:** `5. Semester/Electroacoustics/KiCad/Lecture 4/Problem_4A_Massless_Piston/` — `layout.py` generates the mobility-form schematic (V1 = $u$ = 1 m/s, G2 draws $f = Sp$, G1 injects $U = Su$, $Z_{Af}$ network in series with $C_{Ab}$ + 1 TΩ leak), `sim.py` runs the AC sweep. Since $u = 1$: $Z_M = S\,V(p)$, and the front/back split falls out of the same run as $S(V(p)-V(pm))$ and $S\,V(pm)$. Sim vs analytic network agree to 0.2 %; dip at 324 Hz with $|Z_M| = 2.4$ Ns/m, plateau 12.74 Ns/m — matching the slide. The black dash-dot curve is the *exact* Bessel/Struve radiation impedance: the lumped network is a near-perfect stand-in below $ka \approx 2$.
+>
+> ![[Problem_4A_MasslessPiston_Zm.png]]
 
-### 2c. Electrical ↔ mechanical: electrodynamic (moving coil)
+### 2c. Electrical ↔ mechanical: electrodynamic (moving coil) — slide 14
 
 > [!important] Lorentz force + Faraday induction
 > $$f = i\,lB \qquad v = u\,lB$$
@@ -165,7 +220,7 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > [!tip] Transformer or gyrator? It depends on the analogy
 > In the **mobility** analogy $i \to f$ is through→through (an F) and $u \to v$ is across→across (an E): the coupling is a **transformer** with ratio $Bl$. In the **impedance** analogy the same two laws become $i \to f$ = through→across and $u \to v$ = through→across (two H's): a **gyrator**. Physics unchanged — but a gyrator *inverts* impedances, which is why the electrical side sees $(Bl)^2/Z_M$ (§2e).
 
-### 2d. Electrostatic and piezoelectric transduction (linearised)
+### 2d. Electrostatic and piezoelectric transduction (linearised) — slide 15
 
 > [!note] Electrostatic (capacitive): gap $x_0$, bias voltage $v_0$
 > $$v = \frac{1}{j\omega C_E}\,i + \frac{v_0}{j\omega x_0}\,u \qquad f = -\frac{v_0}{j\omega x_0}\,i - \frac{1}{j\omega C_M}\,u$$
@@ -175,7 +230,7 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > $$v = -\frac{1}{j\omega d}\,u + \frac{1}{j\omega C_E}\,i \qquad f = \frac{1}{j\omega d}\,i - \frac{1}{j\omega C_M}\,u$$
 > Also nonlinear in general. Same trick: frequency-independent sources $C_E u/d$ and $C_M i/d$ (mobility: G2 + H; impedance: two F's). These come back in [[34871 Nonlinear Transducers]] and in the condenser-microphone lectures (14/9, 17/9).
 
-### 2e. Impedance conversion — what one domain sees of the next
+### 2e. Impedance conversion — what one domain sees of the next (slide 16)
 
 > [!important] The two conversion rules
 > **Acoustic → mechanical** (vibrating surface $S$):
@@ -185,6 +240,23 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > **Mechanical → electrical** (electrodynamic): an **inversion**!
 > $$Z_{E,M} = \frac{(Bl)^2}{Z_M} = (Bl)^2\,Y_M$$
 > (for capacitive transducers: $Z_{E,M} = (v_0/j\omega x_0)^2 / Z_M$.) A mechanical *series* resonance (impedance minimum) becomes an electrical *parallel* resonance (impedance **maximum**) — the famous impedance peak of every loudspeaker at $f_s$.
+
+> [!tip]+ Why the inversion matters (and where it comes from)
+> **Where it comes from:** the diaphragm's laws pair like-with-like ($f = S\,p$: voltage↔voltage; $U = S\,u$: current↔current) — a **transformer**, so impedances just scale by $S^2$. The voice coil's laws *cross* the variable types ($f = Bl\,i$: voltage↔**current**; $v = Bl\,u$: voltage↔**current** the other way) — a **gyrator**, and a gyrator maps impedance to *admittance*: $Z_{E,M} = (Bl)^2/Z_M$. Not a convention — the physics of Lorentz + Faraday does it.
+>
+> **Every element turns into its dual** (series chain → parallel bank):
+>
+> | mechanical | electrical (motional) |
+> |---|---|
+> | mass $M_M$ (series L) | $C_{mot} = M_M/(Bl)^2$ (parallel C) |
+> | compliance $C_M$ (series C) | $L_{mot} = (Bl)^2 C_M$ (parallel L) |
+> | damper $R_M$ (series R) | $R_{mot} = (Bl)^2/R_M$ (parallel R) |
+>
+> **Why you should care:**
+> 1. **The mechanics is measurable from the terminals.** At $f_s$, $Z_M$ is minimal → $u$ maximal → back-EMF $Bl\,u$ maximal → current minimal → $|Z_E|$ **peaks** at $R_e + (Bl)^2/R_M$. From one impedance sweep (no microphone, no anechoic room) you read $f_s$, the Q's, and with a known added mass all the Thiele–Small parameters. Problem 4.4b is literally this: 5 Ω coil peaking at 7.2 Ω at 50.3 Hz.
+> 2. **Damping flows backwards through the gyrator.** A *low* impedance across the terminals short-circuits the motional parallel-RLC → maximal electrical braking $(Bl)^2/(R_e + R_{load})$. That is why a voltage amplifier ("high damping factor") controls a woofer at resonance, why shorting a speaker's terminals makes the cone stiff to push, and why $R_L$ appeared inside $R_{MT}$ in the microphone's bandwidth (§4c). Current drive removes that damping entirely.
+> 3. **Blocked vs. motional.** Clamp the diaphragm ($Z_M \to \infty$) and the motional term vanishes: you measure the *blocked* impedance $R_e + j\omega L_e$ alone. The difference free-minus-blocked is purely the motion — that separation is how $Bl$ is measured.
+> 4. **It explains the drawing rules of §2c.** Gyrator + mechanical *impedance* circuit ≡ transformer + mechanical *mobility* circuit. That is exactly why the mobility form is so convenient on the mechanical side of a voice coil: the parallel RLC hangs directly off the electrical loop (the E+F circuits of slides 17–20) with no redrawing.
 
 > [!example]+ Exercise — microphone diaphragm with suspension and coil (slides 17–20)
 > Mechanical: $f = u\,(j\omega M_M + 1/j\omega C_M + R_M)$. Coupling: $f = i\,lB$, $v = u\,lB$. Electrical: $Z_E = v/i$.
@@ -198,7 +270,7 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 
 ---
 
-## 3. Problem solving (in-class) — Problems 4.1–4.4, worked
+## 3. Problem solving (in-class, slides 10–12 & 21–23) — Problems 4.1–4.4, worked
 
 > [!example]+ Problem 4.1 — Loudspeaker box with bass reflex (builds on [[Lecture 3 - Analogies - Acoustic Systems#9. Problem solving (in-class, part 2) — worked|Problem 2.3]])
 > Vented box: vent $l^* = 12$ cm, Ø 10 cm, $V = 23$ L → $M_{Av} = \rho l^*/S_v = 18.0$ kg/m⁴, $C_A = V/\rho c^2 = 1.65\times10^{-7}$ m⁵/N, box–port resonance $f_B = 1/(2\pi\sqrt{M_{Av}C_A}) = 92.4$ Hz. Driver: baffled, **massless** piston, same diameter as the vent ($S_D = 7.85\times10^{-3}$ m²), vibrating with velocity $u$.
@@ -212,6 +284,33 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > Lossless shape: $\to 0$ at DC (all flow escapes through the vent), a **parallel resonance = impedance peak** at $f_B \approx 92$ Hz, then $\to 1/(j\omega C_A)$ (the vent mass blocks, the box is just a sealed compliance). Total $Z_A = Z_{Af} + Z_{A,back}$; mechanically $Z_M = S_D^2 Z_A$.
 >
 > **d) Far field, box as a point source.** Total volume velocity $U_{tot} = U_D + U_v$ (in phase above $f_B$, opposing below — that is why a reflex box falls off at 24 dB/octave below tuning). For a point source in free space $p(r) = j\omega\rho\,U_{tot}\,e^{-jkr}/(4\pi r)$ (half-space/baffle: $2\pi r$), so $|p| \propto 1/r$ — plotting pressure over distance is a straight −6 dB per doubling line, valid while $kr \gg 1$ and the box is small compared to $\lambda$.
+>
+> **KiCad + ngspice project (a–d implemented):** `5. Semester/Electroacoustics/KiCad/Lecture 4/Problem_4.1_BassReflex_Box/` — the circuit below with the baffled-piston radiation network on *both* openings (`layout.py` regenerates it, `sim.py` runs it headless; ngspice vs the analytic lumped model agree to 10⁻⁴). **Results:** the back-impedance peak (box–port antiresonance) lands at **79.4 Hz** — not 92.4 Hz, because the vent's radiation mass $M_{A1} = 6.4$ kg/m⁴ adds to $M_{Av} = 18.0$ (that is the end correction the sheet warns about, seen live); above the dip $Z_A$ settles on the front radiation plateau $\rho c/S_D$. The far field shows the vent boost at $f_B$ and the piston+vent cancellation rolling off steeply below it; pressure over distance is the $1/r$ straight line at any fixed frequency.
+>
+> ![[Problem_4.1_BassReflex.png]]
+
+The circuit for 4.1a (mobility on the mechanical side, impedance on the acoustic side — for a) take $Z_{Af} = Z_{Av,rad} = 0$, for b) they are the baffled-piston networks):
+
+```tikz
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}[american, scale=0.85, font=\small]
+\draw (0,0) node[ground]{} to[vsource, l=$u$] (0,3) -- (1.8,3)
+      to[cisource, l=$f{=}S_D\,p$] (1.8,0) node[ground]{};
+\node[above] at (0.9,3.1) {node $u$};
+\draw (4.6,0) node[ground]{} to[cisource, l_=$U{=}S_D u$] (4.6,3) -- (6.4,3) coordinate(p)
+      to[generic, l=$Z_{Af}$] (8.8,3) coordinate(pbox)
+      to[C, l=$C_A$] (8.8,0) node[ground]{};
+\draw (pbox) -- (10.6,3) to[L, l=$M_{Av}$] (10.6,1.6)
+      to[generic, l=$Z_{Av,rad}$] (10.6,0) node[ground]{};
+\node[above] at (6.4,3.1) {$p$};
+\node[above] at (9.5,3.35) {$p_{box}$};
+\node at (5.6,-1.2) {\small piston front and back carry the same $U$: $Z_{Af}$ in series, then the box node with $C_A$ to ground and the vent to the outside};
+\end{circuitikz}
+\end{document}
+```
+
+Reading it: the prescribed velocity $u$ is a voltage source on the mechanical side (the reaction source $f = S_D p$ exists but changes nothing when $u$ is imposed — it matters the moment the driver gets mass or compliance). $U = S_D u$ is pumped into the acoustic chain: out through the front radiation, into the box node where it splits between compressing the box air ($C_A$) and pushing the vent air plug ($M_{Av}$) out through the vent's own radiation load. The vent flow and the piston flow add in the far field — in phase above $f_B$, cancelling below it.
 
 > [!example]+ Problem 4.2 — Coupling between mechanical and acoustic systems, worked
 > Force $f$ on an ideal (zero-thickness) piston of mass $M_{mp}$, area $S$, mounted in an infinite baffle; radiation impedance seen from one side $Z_{ar}$.
@@ -227,6 +326,8 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 > **d) Enclosure of volume $V$ on the back.** The back opening no longer radiates: replace the back $Z_{ar}$ by the box compliance $C_{AB} = V/\rho c^2$ **to ground** (a closed volume is always grounded). Back branch: $j\omega M_{Ad} + 1/(j\omega C_{AB})$. Net effect on the piston: an added *stiffness* $S^2/C_{AB}$ that raises the resonance — the sealed-box effect that the enclosure lecture (1/10) builds on.
 >
 > **e) Radiation network.** Replace the front $Z_{ar}$ by $M_{A1}\,\|\,[R_{A2} + (R_{A1}\|C_{A1})]$ with $M_{A1} = 8\rho/(3\pi^2 a)$, $R_{A1} = 0.441\rho c/\pi a^2$, $R_{A2} = \rho c/\pi a^2$, $C_{A1} = 5.94a^3/\rho c^2$, $a = \sqrt{S/\pi}$.
+>
+> *Implemented and ngspice-verified with the 4.4a values — both analogies on one sheet, agreeing to $10^{-4}$: see the KiCad project and plot in the Problem 4.4 callout below.*
 
 ```tikz
 \usepackage{circuitikz}
@@ -260,10 +361,14 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 
 > [!example]+ Problem 4.4 — LTspice / KiCad implementation, expected numbers
 > **a)** Problem 4.2 with $S = 100$ cm², $M_{mp} = 20$ g, $V = 40$ L, $d = 2$ cm, both analogies must agree. Hand numbers: $a = 5.64$ cm, $M_{A1} = 5.65$ kg/m⁴ → air load $S^2 M_{A1} = 0.57$ g per side; tube $M_{Ad} = \rho d/S = 2.36$ kg/m⁴ → $0.24$ g; box $C_{AB} = 2.86\times10^{-7}$ m⁵/N → mechanical compliance $C_{AB}/S^2 = 2.86$ mm/N. With the box on the back (4.2d): total mass ≈ 21.4 g on 2.86 mm/N → **$f_0 \approx 20$ Hz** (piston-on-box resonance), damped only by the front radiation resistance.
+>
+> **KiCad + ngspice project (4.4a done):** `5. Semester/Electroacoustics/KiCad/Lecture 4/Problem_4.2-4.4a_Piston_Box/` — **both analogies on one sheet**: a mobility block (`I1` = $f$ = 1 N into node `u`, masses as capacitors) and an impedance block (a series loop whose *current* is $u$: `V2` = $f$ → 1 µΩ current-sense resistor → `L4` = $M_{mp}$ → `E1` = $-S\,p_i$, the reaction force as a series voltage; the F-source trick senses $u$ across the 1 µΩ). **Simulated: the two blocks agree to $10^{-4}$ over the whole sweep**, both match the closed form $Z_{M,tot} = j\omega M_{mp} + S^2(Z_{Af} + j\omega M_{Ad} + 1/j\omega C_{AB})$; resonance at **20.7 Hz, |u| = 111 m/s per newton** — only radiation damping ($\text{Re}\,Z_{rad} \propto (ka)^2$ is tiny at 20 Hz), hence the enormous Q. *Measurement gotcha:* reconstructing the loop current as $(V_{fa}-V_{fb})/R_{sense}$ from exported data fails — the ~10 nV difference drowns in `wrdata`'s print precision; measure `i(v2)` directly.
+>
+> ![[Problem_4.2_PistonBox.png]]
 > **b)** Problem 4.3 with $l = 3$ m, $B = 0.7$ T ($Bl = 2.1$ Tm), $M_{mc} = 10$ g, $C_{ms} = 1$ mm/N, $R_{ms} = 2$ Ns/m, $R_e = 5$ Ω, $L_e = 0.3$ mH: $f_0 = 1/(2\pi\sqrt{M_{mc}C_{ms}}) = 50.3$ Hz, mechanical $Q_m = \sqrt{M_{mc}/C_{ms}}/R_{ms} = 1.58$, motional resistance $(Bl)^2/R_{ms} = 2.2$ Ω → **$|Z_E|$ peaks at $R_e + 2.2 = 7.2$ Ω at 50.3 Hz**, then rises as $\omega L_e$ above $R_e/(2\pi L_e) = 2.65$ kHz. Driven by a voltage source the electrical damping $(Bl)^2/R_e = 0.88$ Ns/m adds to $R_{ms}$.
 > **c)** Coil rigidly attached to the piston of a): mass $10 + 21.4 = 31.4$ g, suspension $C_{ms}$ in series (springs in parallel, compliances combine as $1/(1/C_{ms} + S^2/C_{AB}) = 0.74$ mm/N) → **$f_0 \approx 33$ Hz**; the electrical impedance now shows *that* peak, heavier and broader (radiation damping added), instead of the 50 Hz one.
 >
-> **KiCad + ngspice project ready to open (4.4b):** `5. Semester/Electroacoustics/KiCad/Problem_4.4b_Coil_Electromechanical/Problem_4.4b_Coil_Electromechanical.kicad_sch` — mobility analogy: `V1` (1 V AC) → `R1 = R_e` → `L1 = L_e` → `E1` (back-EMF $Bl\,u$, sensing node `u`); `G1` injects $f = Bl\,i$ into node `u` (KiCad has no F symbol, so the current is sensed as the voltage across `R1`, gain $Bl/R_e = 0.42$); `C1 = M_{mc}`, `L2 = C_{ms}`, `R2 = 1/R_{ms}` to ground. `.ac dec 200 1 10k` is on the sheet, the `.wbk` pre-loads `V(/u)` and `I(V1)`; `sim.py` exports the netlist with `kicad-cli`, runs ngspice and plots $Z_E = V(\text{vin})/I(V1)$ against the closed form.
+> **KiCad + ngspice project ready to open (4.4b):** `5. Semester/Electroacoustics/KiCad/Lecture 4/Problem_4.4b_Coil_Electromechanical/Problem_4.4b_Coil_Electromechanical.kicad_sch` — mobility analogy: `V1` (1 V AC) → `R1 = R_e` → `L1 = L_e` → `E1` (back-EMF $Bl\,u$, sensing node `u`); `G1` injects $f = Bl\,i$ into node `u` (KiCad has no F symbol, so the current is sensed as the voltage across `R1`, gain $Bl/R_e = 0.42$); `C1 = M_{mc}`, `L2 = C_{ms}`, `R2 = 1/R_{ms}` to ground. `.ac dec 200 1 10k` is on the sheet, the `.wbk` pre-loads `V(/u)` and `I(V1)`; `sim.py` exports the netlist with `kicad-cli`, runs ngspice and plots $Z_E = V(\text{vin})/I(V1)$ against the closed form.
 > **Simulated:** motional peak **7.206 Ω at 50.1 Hz** (theory 7.205 Ω at 50.3 Hz, sweep granularity), $|Z_E| = 5.000$ Ω at 1 Hz, 19.5 Ω at 10 kHz, ngspice vs. the formula in b) agree to $10^{-9}$ relative; coil velocity peaks at **146 mm/s per volt** at 50.7 Hz.
 >
 > ![[Problem_4.4b_Ze.png]]
@@ -272,7 +377,10 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 
 ## 4. Lecture 4B — Dynamic microphones (VCH)
 
-### 4a. Construction and the simple equivalent circuit (Leach ch. 5)
+> [!info] Where this section comes from
+> The handed-out `Slides/34870_Lecture_4B_E26.pdf` is only **7 slides**: title, construction (slide 3), the simple equivalent circuit + element glossary (slide 4), and the transfer function in three steps (slides 5–7, ending at the band-pass/damping-control plot). **§4a–4b below follow those slides 1:1.** §4c–4d are *not* on any slide you have — they are the Leach §5.4 material (sensitivity, −3 dB band, bandwidth extension) that the Problems 4 sheet (1c, 1d, 2c, 2d) drills, plus the felt-damping plot which is actually **4A slide 20** (FL's capsule example). Expect VCH to expand on this on Monday (Lecture 5, dynamic & condenser mics).
+
+### 4a. Construction and the simple equivalent circuit — 4B slides 3–4 (Leach ch. 5)
 
 > [!abstract] Dynamic pressure microphone
 > - The **moving coil** sits in a magnetic field (Lorentz/Faraday transducer, §2c)
@@ -318,7 +426,7 @@ $$Z_A = \frac{p}{U} = \frac{p_f - p_b}{U} = Z_{Af} + Z_{Ab}$$
 ```
 *(Leach draws the couplings as transformers/gyrators; here they are written out as the controlled sources of §2 so the loop equations below can be read straight off the drawing.)*
 
-### 4b. Transfer function
+### 4b. Transfer function — 4B slides 5–7
 
 > [!important] The three loop equations
 > **Acoustical:** $\;p_D = p_i - S_D u_D\,(j\omega M_{A1} + R_{AF} + 1/j\omega C_{AB}) = p_i - S_D u_D\,Z_A$
@@ -345,7 +453,7 @@ $$\frac{e}{p_i} = \frac{R_L}{R_E+R_L}\cdot\frac{-Bl\,S_D}{R_{MT}}\cdot\frac{(1/Q
 > [!tip] Band-pass filter → **damping control**
 > A second-order band-pass: +6 dB/oct below $f_0$ (spring-controlled), −6 dB/oct above (mass-controlled), flat only in the middle where $R_{MT}$ rules. A dynamic microphone therefore works in its **damping-controlled** region, and the designer's main knob is the felt resistance $R_{AF}$ (via $S_D^2 R_{AF}$ in $R_{MT}$). Compare the condenser microphone (next lectures), which is stiffness-controlled, and the loudspeaker, which is mass-controlled.
 
-### 4c. Sensitivity and bandwidth
+### 4c. Sensitivity and bandwidth — Leach §5.4 (not in the 7-slide deck; this is Problems 4, 1c–1d)
 
 > [!note] Sensitivity $M$
 > The value of the transfer function at mid frequencies (usually quoted at one normalised frequency, e.g. 1 kHz):
@@ -355,17 +463,17 @@ $$\frac{e}{p_i} = \frac{R_L}{R_E+R_L}\cdot\frac{-Bl\,S_D}{R_{MT}}\cdot\frac{(1/Q
 > [!note] Bandwidth — the −3 dB points
 > $$f_a f_b = f_0^2, \qquad f_b - f_a = \frac{f_0}{Q} \;(= BW) \qquad\Rightarrow\qquad f_{a,b} = f_0\left(\sqrt{1 + \frac{1}{4Q^2}} \mp \frac{1}{2Q}\right)$$
 > Sensitivity as a function of $Q$: $M = \dfrac{Bl\,S_D}{R_{MT}} = Q\,Bl\,S_D\sqrt{\dfrac{C_{MT}}{M_{MT}}}$.
-> **The trade-off:** high $Q$ → narrow bandwidth, high sensitivity; low $Q$ → wide bandwidth, low sensitivity. Slide 9 shows the two-curve plot (V(v1)/V(v2): output in dB re 1 V/Pa and phase for two dampings).
+> **The trade-off:** high $Q$ → narrow bandwidth, high sensitivity; low $Q$ → wide bandwidth, low sensitivity. The two-curve plot (V(v1)/V(v2): output in dB re 1 V/Pa and phase for low vs. high felt damping) is **4A slide 20** — FL's capsule example, same physics.
 
-### 4d. Extending the bandwidth
+### 4d. Extending the bandwidth — Leach §5.4 / the Problems 4 sheet's figure (2c–2d)
 
-> [!example] Increasing the *upper* bandwidth — split the back volume (slide 11)
+> [!example] Increasing the *upper* bandwidth — split the back volume (Problems 4, 2c — the figure on the sheet)
 > Back volume divided into $V_1$ (small, right behind the diaphragm) and $V_2$ (large), connected by a tube (+ damping). The tube's air mass **blocks $V_2$ at high frequencies**, so the diaphragm then only sees the small, stiff $V_1$ — a **new, higher resonance** determined by $V_1$ and the moving mass, which props up the response (the plot shows the roll-off pushed from ≈ 3 kHz towards 10 kHz+). Circuit: $C_{A1}$ ($V_1$) to ground, then $M_{A,tube} + R_A$ to a second node with $C_{A2}$ ($V_2$) to ground — [[Lecture 3 - Analogies - Acoustic Systems#9. Problem solving (in-class, part 2) — worked|Problem 2.4]] from Lecture 3, now with the mass included.
 
-> [!example] Increasing the *lower* bandwidth — a tube into the large cavity (slide 12)
+> [!example] Increasing the *lower* bandwidth — a tube into the large cavity (Problems 4, 2d)
 > Add a tube from the outside into $V_2$. Tube mass + $V_2$ compliance form a **Helmholtz resonator** that boosts the response around its resonance (the plot shows the low end lifted around 100 Hz), at the price of a **steeper attenuation below** the resonance (the vent short-circuits the pressure at DC — same physics as the bass-reflex box in Problem 4.1).
 
-> [!note] LTspice model (slide 13) — controlled sources
+> [!note] LTspice controlled sources (recap of §2a — E/F/G/H)
 > | Symbol | input | output = gain × input |
 > |---|---|---|
 > | E | voltage | voltage |
@@ -386,7 +494,29 @@ $$\frac{e}{p_i} = \frac{R_L}{R_E+R_L}\cdot\frac{-Bl\,S_D}{R_{MT}}\cdot\frac{(1/Q
 > $$M_{MT} = 0.200 + 0.0064 = \boxed{0.206\ \text{g}}\ (\approx 0.205\ \text{g})$$
 > Back volume: $C_{AB} = V/\rho c^2 = 30\times10^{-6}/(1.18\cdot344^2) = 2.15\times10^{-10}$ m⁵/N → $S_D^2/C_{AB} = 1195$ N/m; $1/C_{MS} = 4762$ N/m:
 > $$C_{MT} = \frac{1}{4762 + 1195} = 1.68\times10^{-4}\ \text{m/N} = \boxed{0.168\ \text{mm/N}}\ ✓$$
->
+
+The circuit behind 1a (and all of problem 1): everything referred to the **mechanical side, impedance analogy** ($f$ ↔ voltage, $u$ ↔ current) — acoustic elements come across the $S_D$ transformer multiplied by $S_D^2$, and the electrical side comes back through $Bl$ as the damping term $(Bl)^2/(R_E+R_L)$. One series RLC loop:
+
+```tikz
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}[american, scale=0.9, font=\small]
+\draw (0,0) to[vsource, l=$f{=}S_D\,p_i$] (0,3)
+      to[L, l=$M_{MD}$, i=$u$] (2.7,3)
+      to[L, l=$S_D^2 M_{A1}$] (5.4,3)
+      to[C, l=$C_{MS}$] (8.1,3)
+      to[C, l=$C_{AB}/S_D^2$] (10.8,3) -- (10.8,0)
+      to[R, l_=$\frac{(Bl)^2}{R_E+R_L}$] (8.1,0)
+      to[R, l_=$S_D^2 R_{AF}$] (5.4,0)
+      to[R, l_=$R_{MS}$] (2.7,0) -- (0,0);
+\node at (5.4,-1.6) {\small $M_{MT} = M_{MD} + S_D^2 M_{A1}$ \qquad $C_{MT} = \left(\frac{1}{C_{MS}} + \frac{S_D^2}{C_{AB}}\right)^{-1}$ \qquad $R_{MT} = R_{MS} + S_D^2 R_{AF} + \frac{(Bl)^2}{R_E+R_L}$};
+\end{circuitikz}
+\end{document}
+```
+
+Reading it: the two inductors (masses) add in series → $M_{MT}$, that's the first half of 1a. The two capacitors (compliances) in series → $C_{MT}$ (series capacitors: the *stiffnesses* $1/C$ add — a spring behind a spring is stiffer), the second half of 1a. The three resistors add → $R_{MT}$, which is what 1c adjusts. And $f_0 = 1/(2\pi\sqrt{M_{MT}C_{MT}})$ of this loop is what 1b tunes. Note where each element physically lives: $M_{MD}$/​$C_{MS}$/​$R_{MS}$ are the diaphragm and suspension, $S_D^2 M_{A1}$ is the air in front, $C_{AB}$ and $R_{AF}$ are the volume and felt *behind*, and the $(Bl)^2$ term is the voice coil braking against the load resistor.
+
+> [!example]+ Problem 1 (cont.) — b, c, d
 > **b) Back volume for $f_0 = 1$ kHz.** $C_{MT} = 1/(\omega_0^2 M_{MT}) = 1/((2\pi\cdot1000)^2\cdot2.06\times10^{-4}) = 1.23\times10^{-4}$ m/N → $S_D^2/C_{AB} = 1/C_{MT} - 1/C_{MS} = 8150 - 4762 = 3390$ N/m → $C_{AB} = 2.567\times10^{-7}/3390 = 7.58\times10^{-11}$ m⁵/N → $V = C_{AB}\rho c^2 = \boxed{10.6\ \text{cm}^3}$. The sheet says 10.8 cm³: that is what you get if you carry the *rounded* 0.205 g through ($C_{MT} = 1.236\times10^{-4}$ → 3330 N/m → 10.8 cm³) — a 2 % rounding sensitivity, because $C_{AB}$ comes out of a *difference* of two stiffnesses. Same physics, keep more digits.
 >
 > **c) $R_{AF}$ for $M = 1$ mV/Pa, and the bandwidth.** $R_{MT} = \dfrac{R_L}{R_E+R_L}\cdot\dfrac{Bl\,S_D}{M} = 0.9958\cdot\dfrac{20\cdot5.067\times10^{-4}}{10^{-3}} = 10.09$ Ns/m. Electrical damping $(Bl)^2/(R_E+R_L) = 400/47200 = 0.0085$ Ns/m (negligible with a 47 kΩ load):
@@ -396,19 +526,65 @@ $$\frac{e}{p_i} = \frac{R_L}{R_E+R_L}\cdot\frac{-Bl\,S_D}{R_{MT}}\cdot\frac{(1/Q
 > **d) −3 dB frequencies.** $1/(2Q) = 3.89$, $\sqrt{1 + 1/4Q^2} = 4.02$:
 > $$f_a = 1000\,(4.02 - 3.89) = \boxed{126\ \text{Hz}}, \qquad f_b = 1000\,(4.02 + 3.89) = \boxed{7.9\ \text{kHz}}$$
 > (sheet: 125 Hz and 8.01 kHz; check $f_a f_b = 10^6$ ✓ and $f_b - f_a = BW$ ✓).
+>
+> **KiCad/ngspice check of the whole design:** `5. Semester/Electroacoustics/KiCad/Problems 4 - Dynamic Microphone/Problem_4.1_Mic_Design/` — the Problem_4B three-domain circuit with the values *designed here* (1b: $V_{AB} = 10.8$ cm³, 1c: $R_{AF} = 3.56\times10^7$). Simulated: peak **0.994 mV/Pa (−60.05 dB re 1 V/Pa) at exactly 1000 Hz**, −3 dB band **126 Hz – 7.9 kHz** — the whole a→d design chain confirmed in one run (the last per-mille vs the sheet's 8.01 kHz is the 10.8-cm³ rounding again).
+>
+> ![[Problem_4.1_MicDesign_sensitivity.png]]
 
 > [!example]+ Problem 2 — Dynamic microphone in LTspice / KiCad
 > **a) Model with $V = 5$ cm³ and $R_{AF} = 2\times10^7$ Ns/m⁵** (the mic's influence on the field at high frequency ignored, i.e. no $T(s)$). Hand prediction: $C_{AB} = 3.58\times10^{-11}$, $C_{MT} = 8.38\times10^{-5}$ m/N, $R_{MT} = 1 + 5.13 + 0.01 = 6.14$ Ns/m → $f_0 = 1.21$ kHz, $Q = 0.26$, $M = 1.64$ mV/Pa = **−55.7 dB re 1 V/Pa**, band 291 Hz – 5.0 kHz.
->
-> **KiCad + ngspice project ready to open:** `5. Semester/Electroacoustics/KiCad/Problem_4B_Dynamic_Microphone/Problem_4B_Dynamic_Microphone.kicad_sch`. Three blocks left to right — acoustic (impedance analogy: `V1` = $p_i$ = 1 Pa, `L1` = $M_{A1}$, `G1` = the diaphragm carrying $U = S_D u$ from node `pf` to node `pb`, `R1` = $R_{AF}$, `C1` = $C_{AB}$ to ground with a 1 TΩ DC leak), mechanical (mobility: `G2` injects $f = S_D(p_f - p_b)$ into node `u`; `C2` = $M_{MD}$, `L2` = $C_{MS}$, `R4` = $1/R_{MS}$; `G3` draws the electromagnetic reaction $Bl\,i$ with $i = V(\text{out})/R_L$), electrical (`E1` = $Bl\,u$ → `R5` = $R_E$ → node `out` → `R6` = $R_L$). `.ac dec 200 10 100k` on the sheet; the `.wbk` pre-loads gain and phase of `V(/out)`; `sim.py` runs it headless and overlays the closed-form band-pass.
+
+The circuit for question a), all three domains (this is exactly what the LTspice/KiCad model implements — the two coupling pairs from §2a/2c as controlled sources):
+
+```tikz
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}[american, scale=0.8, font=\small]
+\draw (0,0) node[ground]{} to[vsource, l=$p_i$] (0,3)
+      to[L, l=$M_{A1}$, i=$U$] (3,3) coordinate(pf)
+      to[cisource, l=$U{=}S_D u$] (6,3) coordinate(pb)
+      to[R, l=$R_{AF}$] (8.5,3)
+      to[C, l=$C_{AB}$] (8.5,0) node[ground]{};
+\node[above] at (3,3.1) {$p_f$};
+\node[above] at (6,3.1) {$p_b$};
+\node at (4.2,-1) {\small acoustic --- impedance analogy};
+\draw (11,0) node[ground]{} to[cisource, l_=$f{=}S_D(p_f{-}p_b)$] (11,3) -- (16.5,3);
+\draw (12.5,3) to[C, l=$M_{MD}$] (12.5,0) node[ground]{};
+\draw (14,3) to[L, l=$C_{MS}$] (14,0) node[ground]{};
+\draw (15.5,3) to[R, l=$1/R_{MS}$] (15.5,0) node[ground]{};
+\draw (16.5,3) to[cisource, l=$Bl\,i$] (16.5,0) node[ground]{};
+\node[above] at (13.5,3.1) {node $u$};
+\node at (13.8,-1) {\small mechanical --- mobility analogy};
+\draw (19,0) node[ground]{} to[cvsource, l=$Bl\,u$] (19,3)
+      to[R, l=$R_E$, i=$i$] (21.5,3) coordinate(out)
+      to[R, l=$R_L$, v=$V_{out}$] (21.5,0) node[ground]{};
+\node[above] at (21.5,3.1) {out};
+\node at (20.3,-1) {\small electrical};
+\end{circuitikz}
+\end{document}
+```
+
+Reading it left to right: the sound pressure $p_i$ pushes volume velocity $U$ through the front air mass into the diaphragm; the diaphragm is *two* controlled sources (one per direction, §2a): it carries $U = S_D u$ in the acoustic loop and injects $f = S_D(p_f - p_b)$ into the mechanical node $u$; the voice coil is the second pair, $Bl\,u \to$ voltage and $Bl\,i \to$ reaction force. $V_\text{out}$ over $R_L$ is the sensitivity.
+
+> [!example]+ Problem 2a — simulated (KiCad + ngspice)
+> **KiCad + ngspice project ready to open:** `5. Semester/Electroacoustics/KiCad/Problems 4 - Dynamic Microphone/Problem_4B_Dynamic_Microphone/Problem_4B_Dynamic_Microphone.kicad_sch`. Three blocks left to right — acoustic (impedance analogy: `V1` = $p_i$ = 1 Pa, `L1` = $M_{A1}$, `G1` = the diaphragm carrying $U = S_D u$ from node `pf` to node `pb`, `R1` = $R_{AF}$, `C1` = $C_{AB}$ to ground with a 1 TΩ DC leak), mechanical (mobility: `G2` injects $f = S_D(p_f - p_b)$ into node `u`; `C2` = $M_{MD}$, `L2` = $C_{MS}$, `R4` = $1/R_{MS}$; `G3` draws the electromagnetic reaction $Bl\,i$ with $i = V(\text{out})/R_L$), electrical (`E1` = $Bl\,u$ → `R5` = $R_E$ → node `out` → `R6` = $R_L$). `.ac dec 200 10 100k` on the sheet; the `.wbk` pre-loads gain and phase of `V(/out)`; `sim.py` runs it headless and overlays the closed-form band-pass.
 > **Simulated:** peak **−55.69 dB re 1 V/Pa = 1.643 mV/Pa at 1216 Hz**, −3 dB band **295 Hz – 5.0 kHz**; ngspice and the $M_{MT}/R_{MT}/C_{MT}$ formula agree to 0.001 dB over the whole sweep (the whole three-domain circuit really does collapse to one band-pass).
 >
 > ![[Problem_4B_DynamicMic_sensitivity.png]]
 >
-> **b) 0.3 mV/Pa and 3 mV/Pa:** $M \propto 1/R_{MT}$ and $R_{MT}$ is dominated by $S_D^2 R_{AF}$ → raise $R_{AF}$ to ≈ $1.3\times10^{8}$ for 0.3 mV/Pa (Q drops to ≈ 0.05, band spreads to ≈ 60 Hz – 25 kHz), lower it to ≈ $9\times10^{6}$ for 3 mV/Pa (Q ≈ 0.47, the band narrows to ≈ 0.5–2.9 kHz). Alternatively change $Bl$ — the sensitivity goes up linearly but $(Bl)^2/(R_E+R_L)$ stays negligible with 47 kΩ.
-> **c) Two back cavities + tube + damping (slide 11):** split `C1` into $C_{A1}$ (small, right behind the diaphragm, to ground) and $C_{A2}$ (large, to ground) joined by $M_{A,tube} + R_{A,tube}$; play with the tube (mass) and $V_1$ to place the second resonance above the original roll-off.
-> **d) Tube in the large cavity (slide 12):** add $M_{A,vent}$ from the $C_{A2}$ node to ground (outside) → Helmholtz boost at $1/(2\pi\sqrt{M_{A,vent} C_{A2}})$ and a steeper fall below it.
-> *(Both variants are a two-minute edit of `layout.py`: add the extra `L`/`R`/`C` in the acoustic block and re-run `sim.py`.)*
+> [!example]+ Problem 2 (cont.) — b, c, d: experimenting with the back network — done
+> All of it lives in `5. Semester/Electroacoustics/KiCad/Problems 4 - Dynamic Microphone/Problem_4.2bcd_Mic_Extensions/` — `experiments.py` (analytic model of the same equations the circuit solves, used for the parameter sweeps) plus a full KiCad/ngspice project of the final 2c+2d design (`layout.py` → `.kicad_sch`, `sim.py` runs it; ngspice matches the analytic model to 0.001 dB).
+>
+> **b) 0.3 mV/Pa and 3 mV/Pa** — $M \propto 1/R_{MT}$, and $R_{MT}$ is dominated by $S_D^2 R_{AF}$. Sim-confirmed: $R_{AF} = 1.27\times10^{8}$ → **0.300 mV/Pa**, band spreads to 57 Hz – 25.8 kHz; $R_{AF} = 9.2\times10^{6}$ → **2.99 mV/Pa**, band shrinks to 480 Hz – 3.1 kHz. Sensitivity and bandwidth trade off one-for-one: the damping-controlled mid-band is flat *because* $R_{MT}$ dominates, and the same $R_{MT}$ sets $M$.
+>
+> **c) Two back cavities + damped tube (the sheet's figure)** — keep the felt $R_{AF} = 2\times10^7$ right behind the diaphragm, then split: $C_{A1}$ ($V_1 = 0.1$ cm³, directly behind) in parallel with [$R_{At} + M_{At}$ tube → $C_{A2}$ ($V_2 = 4.9$ cm³)]. At LF the tube conducts and both cavities count → $f_0$ unchanged. At HF the tube mass blocks and the diaphragm sees only the *stiff* small cavity, whose resonance with $M_{MT}$ (≈ 7 kHz) lifts the sagging top end. **The trap found while experimenting:** with too little tube damping the same network has a deep parallel-resonance *notch* at 7.5 kHz — the damping must sit in the tube. Chosen: $M_{At} = 300$ kg/m⁴, $R_{At} = 3\times10^{7}$ Ns/m⁵.
+>
+> **d) Vent tube in the large cavity** — $M_{Av} + R_{Av}$ from the $C_{A2}$ node to ground. Below the Helmholtz frequency $f_H = 1/(2\pi\sqrt{M_{Av} C_{A2}}) \approx 270$ Hz the vent shorts out the big cavity's stiffness → LF boost (and it conveniently gives ngspice its DC path). Same trap as c): too little $R_{Av}$ → notch at $f_H$. Chosen: $M_{Av} = 10^4$ kg/m⁴, $R_{Av} = 1.5\times10^{7}$ Ns/m⁵.
+>
+> **Result (ngspice-verified):** midband 0.67 mV/Pa (−63.5 dB re 1 V/Pa), **flat ±2 dB from 100 Hz to 10 kHz** — versus the 2a baseline's 292 Hz – 5.0 kHz hump. Sensitivity is traded for bandwidth and flatness; this is exactly how real broadband dynamic mics are designed (Leach/Beranek's multi-cavity back networks).
+>
+> ![[Problem_4.2bcd_experiments.png]]
+> ![[Problem_4.2cd_extended_response.png]]
 
 ---
 

@@ -1,0 +1,17 @@
+.title KiCad schematic
+.ac dec 200 10 100k
+G1 /pf /pb /u GND 0.000506707
+R1 /pb Net-_C1-Pad1_ 35.6Meg
+C1 Net-_C1-Pad1_ GND 77.3p
+R3 Net-_C1-Pad1_ GND 1T
+G3 /u GND /out GND 0.000425532
+R6 /out GND 47000
+R5 Net-_E1-N+_ /out 200
+E1 Net-_E1-N+_ GND /u GND 20
+R4 /u GND 1
+L1 Net-_L1-Pad1_ /pf 25.1
+V1 Net-_L1-Pad1_ GND DC 1 AC 1  
+C2 /u GND 0.0002
+L2 /u GND 0.00021
+G2 GND /u /pf /pb 0.000506707
+.end
