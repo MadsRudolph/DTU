@@ -31,4 +31,5 @@ head = re.sub(r"<meta (charset|name=\"viewport\")[^>]*>", "", inner.group(1))
 for name in ("style.css", "app.js", "benches.js", "diagrams.js", "quiz.js"):
     shutil.copy(SRC / name, DIST / name)
 shutil.copy(KATEX / "katex.min.js", DIST / "katex.min.js")
+(DIST / ".assetsignore").write_text("artifact.html\n")  # Cloudflare upload skips the artifact flavour
 print("built", DIST, "index.html", (DIST / "index.html").stat().st_size // 1024, "KB")

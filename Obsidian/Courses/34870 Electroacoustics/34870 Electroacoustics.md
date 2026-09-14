@@ -48,8 +48,9 @@ tags: [Electroacoustics, Audio, home]
 
 > [!success] The Analogy Bench — lectures 0–5 as an interactive site
 > Visual walkthrough of everything so far: live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
+> - **Public:** https://study.madsrudolph.dev
 > - **Home server (LAN):** http://192.168.50.220 (Proxmox CT 116 `study`)
-> - **Anywhere (phone, other PC):** https://claude.ai/code/artifact/a2ca9f90-949a-40ad-bea6-2fe4bf114277
+> - **Claude artifact (same build):** https://claude.ai/code/artifact/a2ca9f90-949a-40ad-bea6-2fe4bf114277
 > - **Source + deploy:** `5. Semester/Electroacoustics/Analogy Bench/` (`./deploy.sh`)
 
 > [!tip] Quick Links

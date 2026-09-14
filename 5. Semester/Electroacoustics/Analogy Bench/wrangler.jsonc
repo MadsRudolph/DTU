@@ -1,0 +1,10 @@
+{
+  // The Analogy Bench as a static-assets Worker on the madsrudolph.dev zone.
+  // No Worker code: Cloudflare serves dist/ directly. Deploy with `npm run deploy:cf`
+  // (build.py first — dist/.assetsignore keeps artifact.html out of the upload).
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "analogy-bench",
+  "compatibility_date": "2026-09-01",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" },
+  "routes": [{ "pattern": "study.madsrudolph.dev", "custom_domain": true }]
+}
