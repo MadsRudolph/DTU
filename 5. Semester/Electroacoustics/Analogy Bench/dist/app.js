@@ -320,7 +320,7 @@ function saveProgress(p) { try { localStorage.setItem(PROGRESS_KEY, JSON.stringi
 function buildQuiz(root, lecture, questions) {
   const prog = loadProgress();
   const box = h("div", { class: "quiz" });
-  box.append(h("div", { class: "eyebrow" }, `Check yourself · lecture ${lecture}`));
+  box.append(h("div", { class: "eyebrow" }, `Check yourself · ${/^\d+$/.test(lecture) ? "lecture" : "lab"} ${lecture}`));
   questions.forEach((q, qi) => {
     const key = `${lecture}.${qi}`;
     const why = h("div", { class: "why", hidden: "" });

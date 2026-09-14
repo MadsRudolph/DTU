@@ -9,7 +9,9 @@ The site lives in `5. Semester/Electroacoustics/Analogy Bench/` (repo-relative).
 Public at **https://study.madsrudolph.dev**, LAN mirror at http://192.168.50.220
 (CT 116 `study`, self-syncs from the public site every 30 min), and a Claude
 artifact (URL in the README). One section per lecture, one interactive bench per
-idea, one quiz per lecture. Every number shown must reproduce the worked answers
+idea, one quiz per lecture. Labs get the same treatment: one section per lab
+(`#labA` is the template, benches in `src/labs.js`, quiz key `"A"`), with a bench per
+lab part that solves the lab's circuit live and reproduces the runthrough's numbers. Every number shown must reproduce the worked answers
 in the notes.
 
 **Rule:** a 34870 lecture note without a matching site section is unfinished
@@ -37,10 +39,11 @@ instead once the `CLOUDFLARE_API_TOKEN` repo secret exists.
   `readouts(ctl, keys)`, `class Plot` (log-x SVG chart with hover), `polarSVG`,
   circuit helpers (`RES IND CAP VSRC ISRC ZBOX DEPV DEPI CK.wire CK.gnd CK.label svgWrap`),
   complex maths (`cx cadd cmul cdiv par ZL ZC ZR dB`), `sci()`, `hz()`, constants `RHO C0`.
-- `src/quiz.js` — `QUIZZES["N"] = [{q, a:[...], c: index, why}]`.
+- `src/quiz.js` — `QUIZZES["N"] = [{q, a:[...], c: index, why}]` (labs use the letter, e.g. `"A"`).
+- `src/labs.js` — lab benches; `csolve(A, b)` is a small complex linear solver for nodal/loop equations of any lab circuit.
 - `src/diagrams.js` — static circuits; `diagMap()` draws the hero timeline (add the new lecture node there).
 
-## 2. Add the lecture
+## 2. Add the lecture (or lab)
 
 1. **Section** in `src/index.html`, after the previous lecture and before `#cheat`:
    `lec-head` (eyebrow: lecture number, date, lecturer; h2; meta: book refs, problem sheet)

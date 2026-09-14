@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–5, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–5 and Lab A, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -17,7 +17,7 @@
 <aside class="rail">
   <div class="brand">
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–5</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–5 · Lab A</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -26,6 +26,7 @@
     <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Acoustic systems<span class="sub">tube = mass, box = spring</span></span></a></li>
     <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Transducers &amp; dynamic mics<span class="sub">Bl and S join the worlds</span></span></a></li>
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Directional &amp; condenser mics<span class="sub">polar patterns, low-pass</span></span></a></li>
+    <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -376,6 +377,83 @@
   <div id="quiz-5"></div>
 </section>
 
+<!-- ============================== Lab A ============================== -->
+<section class="lecture" id="labA">
+  <div class="lec-head">
+    <div class="eyebrow">Lab A · 8–20 Sep · analogy circuits in LTspice · quiz due Sun 20 Sep, individual, part of the 30 %</div>
+    <h2>Lab A: four circuits, every lecture so far in one lab</h2>
+    <div class="meta">brief: Labs/34870 Lab A_2026.pdf · vault runthrough: Lab A - Runthrough.md · KiCad/ngspice projects + LaTeX report in 5. Semester/Electroacoustics/Labs/Lab A/</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Pick an analogy, map every element to R, L or C, join the domains with controlled sources, run an AC sweep, and read velocities and pressures off node voltages, forces and volume velocities off branch currents. Four times, in four systems. Every bench below solves the lab's circuit live, so you can check your LTspice plots against it.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The recipe</span>Which analogy where</h3>
+    <div class="table-wrap"><table>
+      <tr><th>domain</th><th>analogy</th><th>node voltage</th><th>branch current</th><th>mass</th><th>compliance</th><th>damping</th></tr>
+      <tr><td class="me">mechanical</td><td><b>mobility</b></td><td>velocity u</td><td>force f</td><td>C = M<sub>M</sub> to ground</td><td>L = C<sub>M</sub></td><td>R = 1/R<sub>M</sub></td></tr>
+      <tr><td class="ac">acoustical</td><td><b>impedance</b></td><td>pressure p</td><td>volume velocity U</td><td>L = M<sub>A</sub></td><td>C = C<sub>A</sub> to ground</td><td>R = R<sub>A</sub></td></tr>
+    </table></div>
+    <p>Couplings from lecture 4: a vibrating area S is two G sources (<span class="m">U = S\,u</span> into the acoustic node, <span class="m">f = S\,p</span> drawn from the velocity node), a coil is an E source (<span class="m">v = Bl\,u</span>) plus a G or F source (<span class="m">f = Bl\,i</span>). Air: <span class="mono">ρ = 1.18, c = 344</span>. In LTspice a 1 A current source is a 1 N force, so every node voltage reads directly as m/s per newton.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Parts 1 and 3</span>The dual-diaphragm loudspeaker</h3>
+    <p>Two moving masses. The coil, former and inner cone (<span class="mono">M_mvc = 6 g</span>) are driven by the force and hang on the spider (<span class="mono">C_msp = 1.3 mm/N, R_msp = 0.5 Ns/m</span>). The outer cone (<span class="mono">M_md = 5 g</span>) hangs on the surround (<span class="mono">C_msr = 2.7 mm/N, R_msr = 0.22</span>) and is joined to the coil by a link that is either a rod (<span class="mono">C_md = 10⁻¹⁰ m/N</span>) or deliberately soft (<span class="mono">3 µm/N, R_md = 5</span>). Two velocity nodes, mobility analogy. Part 3 adds the baffled-piston radiation network of lecture 3 to <em>both</em> faces of each cone (every impedance ×2), coupled with two G sources of gain S per cone: inner <span class="mono">60 cm²</span>, outer <span class="mono">210 cm²</span>.</p>
+  </div>
+  <div id="bench-lab1"></div>
+  <div class="callout trap"><span class="eyebrow">The sign check the brief hints at</span><p>A radiation load must <em>load</em> the diaphragm. Evidence the polarity is right: with air the resonance moves <b>down</b> (51.3 → 43.7 Hz), the peak velocity <b>drops</b> (1.389 → 1.314 m/s per N) and the real part of Z<sub>M</sub> at 10 kHz rises from 0.7 to 22.8 Ns/m (= 0.72 + 4.9 + 17.0). If the peak rises or the sweep explodes, a G source is the wrong way round. In KiCad the G current flows from N+ through the source to N−: inject into a node with N− on it, draw from a node with N+ on it.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part 2</span>The car silencer</h3>
+    <p>Seven elements in a row: narrow pipes 1, 3, 5, 7 (radius 2 mm, <span class="mono">M_A = ρl/S</span> in series with the given <span class="mono">R_A = 25·10³ Pa·s/m³</span>) and expansion chambers 2, 4, 6 (<span class="mono">C_A = V/ρc²</span>, each <b>to ground</b>). A ladder low-pass with nodes p<sub>in</sub>, p<sub>2</sub>, p<sub>4</sub>, p<sub>6</sub>, p<sub>out</sub>. A 0 V source in every pipe gives the pipe flows as I(Vs1)…I(Vs7).</p>
+    <div class="table-wrap"><table>
+      <tr><th>element</th><th>r</th><th>l</th><th>S or V</th><th>SPICE value</th></tr>
+      <tr><td>pipe 1</td><td>2 mm</td><td>25 mm</td><td>1.257×10⁻⁵ m²</td><td>L 2348 H + R 25 kΩ</td></tr>
+      <tr><td>chamber 2</td><td>10 mm</td><td>50 mm</td><td>15.7 cm³</td><td>C 1.125×10⁻¹⁰ F</td></tr>
+      <tr><td>pipe 3</td><td>2 mm</td><td>80 mm</td><td>—</td><td>L 7512 H + R 25 kΩ</td></tr>
+      <tr><td>chamber 4</td><td>20 mm</td><td>80 mm</td><td>100.5 cm³</td><td>C 7.199×10⁻¹⁰ F</td></tr>
+      <tr><td>pipe 5</td><td>2 mm</td><td>100 mm</td><td>—</td><td>L 9390 H + R 25 kΩ</td></tr>
+      <tr><td>chamber 6</td><td>15 mm</td><td>60 mm</td><td>42.4 cm³</td><td>C 3.037×10⁻¹⁰ F</td></tr>
+      <tr><td>pipe 7</td><td>2 mm</td><td>40 mm (38.77 with radiation)</td><td>—</td><td>L 3756 H + R 25 kΩ</td></tr>
+      <tr><td>tube-end radiation</td><td colspan="3">M<sub>A1</sub> = 0.6133ρ/πa = 115 kg/m⁴ ∥ [R<sub>A2</sub> = ρc/πa² + (R<sub>A1</sub> = 0.5045ρc/πa² ∥ C<sub>A1</sub> = 0.55π²a³/ρc²)]</td><td>115.2 H, 3.23×10⁷, 1.63×10⁷ Ω, 3.11×10⁻¹³ F</td></tr>
+    </table></div>
+  </div>
+  <div id="bench-lab2"></div>
+  <div class="callout real"><span class="eyebrow">Hand estimates that land on the simulation</span><p>Each chamber with the two pipes beside it in parallel: C<sub>A2</sub> with M<sub>A1</sub>∥M<sub>A3</sub> → 355 Hz, C<sub>A4</sub> with M<sub>A3</sub>∥M<sub>A5</sub> → 92 Hz, C<sub>A6</sub> with M<sub>A5</sub>∥M<sub>A7</sub> → 176 Hz. The 176 Hz (U-source) and 355 Hz (p-source) guesses are exact. Far field at 10 m as a point source: <span class="m">|p| = \rho f |U_{out}| / (2r)</span>, so the SPL is the transfer tilted by +6 dB/oct; the silencer helps only above ~230 Hz and <em>hurts</em> by up to 18 dB at its two resonances when driven by an ideal flow source.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part 4</span>A coil driving two masses</h3>
+    <p>Voice coil (<span class="mono">R_c = 0.5 Ω, L_e = 10 µH, Bl = 1.5 T·m, M_mc = 5 g</span>) driven by 1 V. The coil is joined to a 100 g mass by a stiff spring (<span class="mono">C_ms = 0.01 mm/N ∥ R_ms = 1 Ns/m</span>), and the mass sits on a soft suspension (<span class="mono">C_ms2 = 10 mm/N ∥ R_ms2 = 0.1</span>). Electrical loop: V1 → R<sub>c</sub> → L<sub>e</sub> → E1 (back-EMF <span class="mono">Bl·u_c</span>). Mechanical nodes u<sub>c</sub>, u<sub>1</sub> in the mobility analogy, driven by G1 = <span class="mono">Bl·i</span> (gain Bl/R<sub>c</sub> = 3 when it senses the voltage across R<sub>c</sub>).</p>
+  </div>
+  <div id="bench-lab4"></div>
+  <div class="block">
+    <h3><span class="eyebrow">Part 4d</span>Every feature, explained</h3>
+    <div class="table-wrap"><table>
+      <tr><th>f</th><th>u<sub>c</sub></th><th>u<sub>1</sub></th><th>Z<sub>M</sub></th><th>Z<sub>E</sub></th><th>origin</th></tr>
+      <tr><td>4.9 Hz</td><td>peak 0.65</td><td>peak 0.65</td><td>min 0.10 ≈ R<sub>ms2</sub></td><td>peak 22.6 Ω</td><td>both masses (105 g) on the soft C<sub>ms2</sub>; damped mostly by (Bl)²/R<sub>c</sub></td></tr>
+      <tr><td>158.5 Hz</td><td><b>dip 4×10⁻⁴</b></td><td>still moving</td><td><b>max 6.9×10³</b></td><td>≈ R<sub>c</sub></td><td>M<sub>m1</sub> resonating on C<sub>ms</sub> absorbs the force: anti-resonance, tuned-mass-damper</td></tr>
+      <tr><td>436 Hz</td><td>—</td><td>shallow dip</td><td>—</td><td>—</td><td>a zero of the u<sub>1</sub> transfer, not a mode</td></tr>
+      <tr><td>733 Hz</td><td>peak 0.54</td><td>hump 0.027</td><td>min 1.13 ≈ R<sub>ms</sub></td><td>peak 2.5 Ω</td><td>5 g coil bouncing on C<sub>ms</sub> against the stationary mass (reduced mass 4.76 g)</td></tr>
+      <tr><td>8 kHz</td><td>roll-off steepens</td><td>—</td><td>—</td><td>inductive rise</td><td>electrical corner R<sub>c</sub>/2πL<sub>e</sub>; no mechanical origin</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Before you submit</span>What the quiz wants to see</h3>
+    <ul>
+      <li>Every plot: distinguishable curves, labelled axes with units, the relevant frequency range and dynamic range (part 2a needs −260…−90 dB, 2b 0…−120 dB).</li>
+      <li>Every circuit screenshot: readable element names, values as text, controlled-source gains stated (S in m², Bl, Bl/R<sub>c</sub>).</li>
+      <li>Part 1: u<sub>vc</sub> and u<sub>d</sub> for stiff and soft on one plot with 51 / 1288 / 1799 Hz called out; |Z<sub>M</sub>| as <span class="mono">1/V(u_vc)</span> with the compliance line, the 0.72 Ns/m floor, the 11 g and 6 g mass lines and the 334 Ns/m wall.</li>
+      <li>Part 2: U<sub>out</sub> for both sources with the short-circuit vs open-circuit argument; I(Vs1…Vs7); p<sub>out</sub> ≈ jωM<sub>A1</sub>U<sub>out</sub>; SPL at 10 m plus the λ/10 limit (344 Hz for the 100 mm pipe).</li>
+      <li>Part 3: part 1 vs part 3 overlaid; 51.3 → 43.7 Hz, added masses 0.5 / 3.4 g, radiation resistances 4.9 / 17 Ns/m; front pressures and the far-field sum; one paragraph on the mechanical crossover.</li>
+      <li>Part 4: u<sub>c</sub>, u<sub>1</sub>, Z<sub>M</sub>, Z<sub>E</sub> from 1 Hz to 10 kHz, the table above, and the back-EMF sign check.</li>
+    </ul>
+    <p class="small">The vault note has LTspice tips per part (<span class="mono">.step param</span> for stiff/soft in one sweep, waveform arithmetic for Z, the G-source pin order). Labs B–E will get their own sections here as they are done.</p>
+  </div>
+
+  <div id="quiz-A"></div>
+</section>
+
 <!-- ============================== summary ============================== -->
 <section class="lecture" id="cheat">
   <div class="lec-head">
@@ -434,5 +512,6 @@
 <script src="quiz.js"></script>
 <script src="diagrams.js"></script>
 <script src="benches.js"></script>
+<script src="labs.js"></script>
 </body>
 </html>

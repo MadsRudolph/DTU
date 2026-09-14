@@ -46,8 +46,8 @@ tags: [Electroacoustics, Audio, home]
 > [!warning] 34840 is a formal prerequisite — and you are taking it *in parallel*
 > DTU lists [[34840 Fundamentals of Acoustics and Noise Control|34840]] as a prerequisite, but both run this autumn (34840 is E3A, Tue mornings). For the first weeks 34870 runs ahead of your acoustics foundation — which is exactly why the staff hand out the *Fundamentals of Acoustics* note as background reading.
 
-> [!success] The Analogy Bench — lectures 0–5 as an interactive site
-> Visual walkthrough of everything so far: live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
+> [!success] The Analogy Bench — lectures 0–5 and Lab A as an interactive site
+> Visual walkthrough of everything so far, plus Lab A solved live (dual-diaphragm speaker, silencer ladder, coil + two masses, with the sign checks): live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
 > - **Public:** https://study.madsrudolph.dev
 > - **Home server (LAN):** http://192.168.50.220 (Proxmox CT 116 `study`)
 > - **Claude artifact (same build):** https://claude.ai/code/artifact/a2ca9f90-949a-40ad-bea6-2fe4bf114277

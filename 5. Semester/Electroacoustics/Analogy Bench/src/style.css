@@ -196,13 +196,13 @@ section.lecture { padding-top: 48px; scroll-margin-top: 20px; }
 
 /* the bench: an interactive playground that breaks wider than the text column */
 .bench { border: 1px solid var(--rule); background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); margin: 18px 0 26px; overflow: hidden; }
-.bench-head { display: flex; align-items: baseline; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--rule); background: var(--surface-2); }
+.bench-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; padding: 12px 18px; border-bottom: 1px solid var(--rule); background: var(--surface-2); }
 .bench-head h4 { margin: 0; }
 .bench-head .eyebrow { margin-left: auto; }
 .bench-body { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 0; }
 .bench-body.one { grid-template-columns: minmax(0, 1fr); }
 .bench-plot { padding: 14px 8px 8px 14px; min-width: 0; overflow: hidden; }
-.bench-ctl { border-left: 1px solid var(--rule); padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; background: color-mix(in srgb, var(--surface-2) 55%, var(--surface)); }
+.bench-ctl { min-width: 0; border-left: 1px solid var(--rule); padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; background: color-mix(in srgb, var(--surface-2) 55%, var(--surface)); }
 .bench-note { grid-column: 1 / -1; border-top: 1px solid var(--rule); padding: 10px 18px 12px; font-size: 13.5px; color: var(--ink-2); }
 .bench-note p { margin: 0 0 6px; max-width: none; }
 .bench svg { width: 100%; height: auto; display: block; }
@@ -231,7 +231,7 @@ input[type="range"] { width: 100%; margin: 2px 0; accent-color: var(--ink); }
 .btn { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; }
 .btn:hover { opacity: 0.9; }
 .btn.ghost { background: transparent; color: var(--ink); }
-.seg { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 4px; overflow: hidden; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--rule-2); border-radius: 4px; overflow: hidden; max-width: 100%; }
 .seg button { font: inherit; font-size: 12.5px; padding: 5px 10px; border: 0; background: var(--surface); color: var(--ink-2); cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--rule-2); }
 .seg button.on { background: var(--ink); color: var(--bg); }
