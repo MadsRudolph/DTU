@@ -17,7 +17,7 @@ tags: [Electroacoustics, lecture-note, analogies, transducers, microphones, dyna
 > **Problems:** `Exercises/34870_Problems4_2026.pdf` (dynamic microphones, with answers in brackets)
 > **Refs:** Beranek §3.5–3.7, ch. 5 · Leach §4.4–4.7, §5.1–5.4
 > **Also today:** the **Lab A quiz opens** (Frieder's announcement of 9 Sep) and is previewed during the morning class — **deadline 20 Sep**, individual, mandatory for the exam, part of the 30 %. Sign up to a Lab Group in DTU Learn if not done.
-> **Previous:** [[Lecture 3 - Analogies - Acoustic Systems|Lecture 3 — acoustic systems]] · **Next:** Lecture 5 — microphones: dynamic & condenser (1) *(VCH, Mo 14/9)*
+> **Previous:** [[Lecture 3 - Analogies - Acoustic Systems|Lecture 3 — acoustic systems]] · **Next:** [[Lecture 5 - Microphone Directionality & Condenser Microphones|Lecture 5 — microphone directionality & condenser microphones]] *(VCH, Mo 14/9)*
 
 > [!abstract] Where this lecture sits
 > Lectures 1–3 gave us three separate toolboxes: electrical, mechanical and acoustic lumped networks, each living in its own domain. Today the domains get **wired together**. A transducer is nothing more than a pair of **controlled sources** (or a transformer/gyrator two-port) whose gain is a physical constant — $S$ for a diaphragm, $Bl$ for a voice coil, $v_0/x_0$ for a condenser. Once you can draw that pair correctly (and with the right *signs*), you can model a complete microphone or loudspeaker as one circuit and simulate it. VCH's half then does exactly that for the **dynamic microphone**, ending in the band-pass formula whose three total elements $M_{MT}, R_{MT}, C_{MT}$ are the whole design story.
@@ -439,6 +439,7 @@ Reading it: the prescribed velocity $u$ is a voltage source on the mechanical si
 
 > [!success] Collecting terms: one band-pass, three totals
 > $$\frac{e}{p_i} = \frac{R_L}{R_E + R_L}\cdot\frac{-Bl\,S_D}{j\omega M_{MT} + R_{MT} + \dfrac{1}{j\omega C_{MT}}}$$
+>
 > | | | |
 > |---|---|---|
 > | Total mass | $M_{MT} = M_{MD} + S_D^2 M_{A1}$ | diaphragm + air load |

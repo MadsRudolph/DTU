@@ -122,6 +122,7 @@ tags: [Electroacoustics, lecture-note, analogies, acoustic-systems]
 >
 > **c) Impedance of the network, and why it looks like that:**
 > $$Z(0) = j\omega M_A + \frac{1}{j\omega C_A} = j\left(\omega M_A - \frac{1}{\omega C_A}\right)$$
+>
 > | Frequency regime | $|Z|$ behaviour | Phase |
 > |---|---|---|
 > | $f \to 0$ | $\to\infty$ (compliance dominates, $1/\omega C_A$ blows up) | $-90°$ (capacitive) |
