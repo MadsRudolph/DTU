@@ -1,6 +1,6 @@
 {
   "announcements": {
-    "34654": "187276",
+    "34654": "187743",
     "34840": "187503",
     "34870": "187422",
     "62755": "187640"
@@ -396,6 +396,18 @@
       "sha256": "45fb9e4ed39433637dfd0ee8b905bfaf6ab6630aec98dad511370d495256a63f",
       "synced_at": "2026-09-14T13:52:13+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems5_2026.pdf"
+    },
+    "1274957": {
+      "revision": "2026-09-14T08:06:17.860Z",
+      "sha256": "b6d7e8d70b647cc708dbffd25f349d14ab1f20ddf0392496c363714d5a980dec",
+      "synced_at": "2026-09-14T16:10:29+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026.pdf"
+    },
+    "1274958": {
+      "revision": "2026-09-14T10:47:05.260Z",
+      "sha256": "e5fcf65507ac802ed0e72e9d24fd5d13c46ac1f97b8a4fe67d4bc1f266ea9ba8",
+      "synced_at": "2026-09-14T16:11:10+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_5_E26.mp4"
     },
     "1275759": {
       "revision": "2026-09-14T12:35:06.113Z",

@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-14 — Starting with Electromagnetic Compatibility tomorrow
+
+Hello everyone,
+🗺️ Tomorrow we meet again in building 329A, room 020 at 13.00.
+🧘‍♂️ We'll start again with a guided meditation for about 15 minutes. If that's not your thing, feel free to come a bit later and wait outside. I'll invite you in when we are done. And if anyone of you hears the calling to guide a meditation/grounding/body-scan in one of the following lectures feel free to let me know. There's definitely space for you.
+📡 Tomorrow we also start on the Electromagnetic Compatibility (EMC) part of the course. Please note, it's a "flipped classroom", so I invite you to watch the videos upfront and answer the quizzes. I'll be going through the quiz results and bring up selected topics about EMC definitions and test setups.🔬 I'll also offer an introduction to the next hands-on exercise and a tour to the EMC chamber, where you can measure EMC as part of that exercise. The intention is to work on this for the next four weeks.
+📺 Some of you asked me, if you can continue on the passives measurements. I'd be happy to give you access to the gray boxes and the components again. So feel free to choose wether you eant to stay with the passives a bit more or move on to the EMC part.See you tomorrowAll goodArnold
+
 ## 2026-09-07 — Hands-on & simulation tomorrow
 
 Hello everyone,🗺️ We'll meet tomorrow in building 329A, room 020.
