@@ -3,19 +3,6 @@
    quiz wants (51.3 Hz, 1288 Hz, 47/176 Hz, 43.7 Hz, 4.90/158.5/733 Hz) fall out. */
 "use strict";
 
-/* small complex linear solver (Gaussian elimination, partial pivoting) */
-function csolve(A, b) {
-  const n = b.length, M = A.map((r, i) => r.map(v => ({ ...v })).concat([{ ...b[i] }]));
-  for (let c = 0; c < n; c++) {
-    let p = c; for (let r = c + 1; r < n; r++) if (cabs(M[r][c]) > cabs(M[p][c])) p = r;
-    [M[c], M[p]] = [M[p], M[c]];
-    const piv = M[c][c];
-    for (let r = c + 1; r < n; r++) { const f = cdiv(M[r][c], piv); for (let k = c; k <= n; k++) M[r][k] = csub(M[r][k], cmul(f, M[c][k])); }
-  }
-  const x = Array(n);
-  for (let r = n - 1; r >= 0; r--) { let s = M[r][n]; for (let k = r + 1; k < n; k++) s = csub(s, cmul(M[r][k], x[k])); x[r] = cdiv(s, M[r][r]); }
-  return x;
-}
 /* radiation network of a baffled piston, BOTH faces in series (Lab A part 3) */
 function pistonBothSides(f, a) { return cscale(pistonZlumped(f, a), 2); }
 /* piston in a long tube (unflanged end), Lab A part 2d */

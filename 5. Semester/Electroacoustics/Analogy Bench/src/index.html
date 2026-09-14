@@ -17,7 +17,7 @@
 <aside class="rail">
   <div class="brand">
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–5 · Lab A</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–5 · problems · Lab A</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -67,7 +67,7 @@
 
   <div class="block">
     <h3>How to use this page</h3>
-    <p>Each lecture below has the same shape: <b>the one idea</b> in a sentence, <b>the picture</b>, a <b>bench</b> you can play with, the <b>formulas</b> you actually need, the <b>trap</b> everyone falls into, and a short <b>check yourself</b>. The checks are remembered in this browser; the nav dot turns green when a lecture's checks are all passed.</p>
+    <p>Each lecture below has the same shape: <b>the one idea</b> in a sentence, <b>the picture</b>, a <b>bench</b> you can play with, the <b>formulas</b> you actually need, the <b>trap</b> everyone falls into, the lecture's <b>problems with hints and the official solutions</b>, and a short <b>check yourself</b>. The checks are remembered in this browser; the nav dot turns green when a lecture's checks are all passed.</p>
     <p>Colour is meaning throughout: <span class="el"><b>copper is electrical</b></span>, <span class="me"><b>steel blue is mechanical</b></span>, <span class="ac"><b>teal is acoustical</b></span>. When a diagram changes colour, you have crossed a transducer.</p>
   </div>
 
@@ -123,6 +123,8 @@
 
   <div class="callout real"><span class="eyebrow">When the analogy breaks</span><p>A lumped element assumes the whole thing moves as one: it must be <b>much smaller than the wavelength</b> (rule of thumb: below λ/10), homogeneous, and idealised (rigid, lossless or massless as appropriate). Past that you need distributed models (transmission lines, lecture 3 §4) or FEM/BEM. Lecture 3's tube bench shows exactly where it fails.</p></div>
 
+  <div id="problems-1"></div>
+
   <div id="quiz-1"></div>
 </section>
 
@@ -175,6 +177,10 @@
   </div>
 
   <div class="callout trap"><span class="eyebrow">The trap</span><p>Problem 2.2 asks for <span class="mono">k = 1000 N/m</span> — but the circuit wants <b>compliance</b>, <span class="m">C_M = 1/k = 1\ \text{mm/N}</span>. Stiffnesses add when springs act in parallel (a spring behind a spring is stiffer); compliances add when they are in series. The same inversion bites again for acoustic boxes in lecture 4.</p></div>
+
+  <div id="bench-twomass"></div>
+
+  <div id="problems-2"></div>
 
   <div id="quiz-2"></div>
 </section>
@@ -251,6 +257,8 @@
     <p>Diaphragm → small volume V<sub>1</sub> → canal with felt → large volume V<sub>2</sub>. Read straight off: <span class="m">C_{A1}</span> to ground, <span class="m">R_A</span> in series, <span class="m">C_{A2}</span> to ground. A compliance–resistance–compliance <b>low-pass</b>: at high frequency the first cavity shunts the flow before it reaches the second. That is exactly why a dynamic mic's top end rolls off, and lecture 4 builds the whole microphone around it.</p>
   </div>
 
+  <div id="problems-3"></div>
+
   <div id="quiz-3"></div>
 </section>
 
@@ -317,6 +325,8 @@
 
   <div class="callout trap"><span class="eyebrow">The trap</span><p><b>Signs.</b> The reaction force <span class="m">f = S\,p</span> must <em>oppose</em> the motion, and the back-EMF must oppose the current. Get one backwards and the acoustic load becomes a negative damper: the simulation blows up instead of settling. Sanity-check every coupled circuit by drawing it in both analogies (Problem 4.4) — they must give the same curve.</p></div>
 
+  <div id="problems-4"></div>
+
   <div id="quiz-4"></div>
 </section>
 
@@ -373,6 +383,8 @@
   </ul></div>
 
   <div id="bench-shapes"></div>
+
+  <div id="problems-5"></div>
 
   <div id="quiz-5"></div>
 </section>
@@ -513,5 +525,6 @@
 <script src="diagrams.js"></script>
 <script src="benches.js"></script>
 <script src="labs.js"></script>
+<script src="problems.js"></script>
 </body>
 </html>

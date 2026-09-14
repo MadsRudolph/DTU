@@ -266,7 +266,7 @@ Three sub-circuits matching §4i one-for-one: **Electrical** — `Vd2` (polariza
 >
 > **a) Resonance frequency:**
 > $$f_0=\frac1{2\pi\sqrt{M_{MT}C_{MT}}}=\frac1{2\pi\sqrt{5.877\times10^{-5}\times3.860\times10^{-6}}}\approx\boxed{10.57\ \text{kHz}}$$
-> (sheet: **10.6 kHz** ✓ — matches once $M_{A1}$ is included; leaving it out gives 10.8 kHz, a smaller but still-plausible-looking number that's actually wrong for exactly this reason).
+> (sheet: **10.6 kHz** ✓ — matches once $M_{A1}$ is included; leaving it out gives 10.8 kHz.) **Official MATLAB solution (`Exercises/34870_Solutions5_2026.pdf`, delivered 14-Sep):** it takes $M_{A1} = 0.6133\rho/(\pi r) = 25.6$ kg/m⁴ ("piston in a tube, free field"), giving $M_{MT} = 5.813\times10^{-5}$ kg, $f_0 = 10\,624$ Hz and $Q = 2\pi M_{MT} f_0/R_{MT} = 2.355$ — same answers to the sheet's precision, but that is the convention the course uses for the front air mass of a microphone (same as in the Problems 4 solutions).
 >
 > **b) Quality factor:**
 > $$Q=\frac1{R_{MT}}\sqrt{\frac{M_{MT}}{C_{MT}}} = \frac1{1.648}\sqrt{\frac{5.877\times10^{-5}}{3.860\times10^{-6}}}\approx\boxed{2.37}$$

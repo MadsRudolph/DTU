@@ -274,7 +274,8 @@ function benchSpeakerZ() {
 /* ===== L4 · Dynamic microphone designer ===== */
 function dynMic(p) {
   // returns totals and transfer function for the Leach/VCH dynamic pressure mic
-  const a = p.a, SD = Math.PI * a * a, MA1 = 8 * RHO / (3 * Math.PI * Math.PI * a);
+  const a = p.a, SD = Math.PI * a * a;
+  const MA1 = p.front === "baffle" ? 8 * RHO / (3 * Math.PI * Math.PI * a) : 0.6133 * RHO / (Math.PI * a); // official sheets: piston in a tube
   const CAB = p.V / (RHO * C0 * C0);
   const MMT = p.MMD + SD * SD * MA1;
   const RMT = p.RMS + SD * SD * p.RAF + p.Bl * p.Bl / (p.RE + p.RL);
@@ -289,15 +290,18 @@ function dynMic(p) {
 function benchDynMic() {
   const b = bench("bench-dynmic", "Design a dynamic microphone: felt, back volume, magnet", "lecture 4B · problems 4.1–4.2");
   if (!b) return;
-  const st = { RAF: 3.54e7, V: 10.6, Bl: 20, RL: 47000 };
-  slider(b.ctl, { label: "felt resistance <b>R<sub>AF</sub></b>", min: 1e6, max: 1e9, log: true, value: 3.54e7, unit: "Ns/m⁵", dom: "ac", onchange: v => { st.RAF = v; upd(); } });
-  slider(b.ctl, { label: "back volume <b>V<sub>AB</sub></b>", min: 0.5, max: 60, step: 0.1, value: 10.6, unit: "cm³", dom: "ac", onchange: v => { st.V = v; upd(); } });
+  const st = { RAF: 3.56e7, V: 10.8, Bl: 20, RL: 47000, front: "tube" };
+  const segF = h("div", { class: "seg" });
+  for (const [k, l] of [["tube", "front air mass: piston in a tube (sheet)"], ["baffle", "baffled piston"]]) segF.append(h("button", { type: "button", class: k === st.front ? "on" : "", onclick: (e) => { st.front = k; $$("button", segF).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(segF);
+  slider(b.ctl, { label: "felt resistance <b>R<sub>AF</sub></b>", min: 1e6, max: 1e9, log: true, value: 3.56e7, unit: "Ns/m⁵", dom: "ac", onchange: v => { st.RAF = v; upd(); } });
+  slider(b.ctl, { label: "back volume <b>V<sub>AB</sub></b>", min: 0.5, max: 60, step: 0.1, value: 10.8, unit: "cm³", dom: "ac", onchange: v => { st.V = v; upd(); } });
   slider(b.ctl, { label: "force factor <b>Bl</b>", min: 1, max: 40, step: 0.5, value: 20, unit: "T·m", dom: "el", onchange: v => { st.Bl = v; upd(); } });
   slider(b.ctl, { label: "load <b>R<sub>L</sub></b>", min: 100, max: 1e6, log: true, value: 47000, unit: "Ω", dom: "el", fmt: v => sci(v, 2), onchange: v => { st.RL = v; upd(); } });
   const ro = readouts(b.ctl, [{ id: "f0", label: "f₀", dom: "me" }, { id: "Q", label: "Q" }, { id: "M", label: "sensitivity M", dom: "el" }, { id: "MdB", label: "M in dB re 1 V/Pa", dom: "el" }, { id: "band", label: "−3 dB band" }, { id: "MMT", label: "M_MT", dom: "me" }, { id: "RMT", label: "R_MT", dom: "me" }, { id: "CMT", label: "C_MT", dom: "me" }]);
   const plot = new Plot(b.plot, { h: 300, ymin: -100, ymax: -40, ylabel: "|e/p|  (dB re 1 V/Pa)", yfmt: v => v.toFixed(1), yunit: " dB" });
   function upd() {
-    const r = dynMic({ a: 0.0127, MMD: 0.2e-3, RMS: 1, CMS: 0.21e-3, RE: 200, RL: st.RL, Bl: st.Bl, V: st.V * 1e-6, RAF: st.RAF });
+    const r = dynMic({ a: 0.0127, MMD: 0.2e-3, RMS: 1, CMS: 0.21e-3, RE: 200, RL: st.RL, Bl: st.Bl, V: st.V * 1e-6, RAF: st.RAF, front: st.front });
     const pts = FREQ.map(f => [f, dB(cabs(r.H(f)))]);
     plot.set({ series: [{ name: "sensitivity", color: DOMC.el, pts }],
       markers: [{ x: r.f0, y: dB(cabs(r.H(r.f0))), label: `f₀ ${hz(r.f0)}`, color: DOMC.me }, { x: r.fa, y: dB(cabs(r.H(r.fa))), label: hz(r.fa), color: DOMC.ink2, dx: -6, anchor: "end" }, { x: r.fb, y: dB(cabs(r.H(r.fb))), label: hz(r.fb), color: DOMC.ink2 }],
@@ -305,7 +309,7 @@ function benchDynMic() {
     ro({ f0: hz(r.f0), Q: r.Q.toFixed(3), M: `${sci(r.M * 1000)} mV/Pa`, MdB: `${dB(r.M).toFixed(1)} dB`, band: `${hz(r.fa)} – ${hz(r.fb)}`, MMT: `${sci(r.MMT * 1000)} g`, RMT: `${sci(r.RMT)} Ns/m`, CMT: `${sci(r.CMT * 1000)} mm/N` });
   }
   upd();
-  b.note.innerHTML = `<p>Starting values are the Problems 4 design: 1-inch diaphragm, <span class="mono">M_MD = 0.2 g</span>, <span class="mono">C_MS = 0.21 mm/N</span>, <span class="mono">R_MS = 1 Ns/m</span>, <span class="mono">R_E = 200 Ω</span>. The whole three-domain circuit collapses to one series loop: <span class="mono">e/p = −Bl·S_D / (jωM_MT + R_MT + 1/jωC_MT)</span>.</p><p><b>Try:</b> lower the felt resistance — sensitivity goes up, bandwidth shrinks, a hump appears. Shrink the back volume — the air spring stiffens and f₀ climbs. A dynamic mic lives in its <b>damping-controlled</b> middle, so the felt is the designer's main knob.</p>`;
+  b.note.innerHTML = `<p>Starting values are the Problems 4 design: 1-inch diaphragm, <span class="mono">M_MD = 0.2 g</span>, <span class="mono">C_MS = 0.21 mm/N</span>, <span class="mono">R_MS = 1 Ns/m</span>, <span class="mono">R_E = 200 Ω</span>. The whole three-domain circuit collapses to one series loop: <span class="mono">e/p = −Bl·S_D / (jωM_MT + R_MT + 1/jωC_MT)</span>. The front air mass follows the official solution (piston in a tube, <span class="mono">M_A1 = 0.6133ρ/πa = 18.1</span>); the baffled value (25.1) gives 10.6 cm³ instead of 10.8 for the same f₀.</p><p><b>Try:</b> lower the felt resistance — sensitivity goes up, bandwidth shrinks, a hump appears. Shrink the back volume — the air spring stiffens and f₀ climbs. A dynamic mic lives in its <b>damping-controlled</b> middle, so the felt is the designer's main knob.</p>`;
 }
 
 /* ===== L5 · Polar patterns ===== */
@@ -357,7 +361,8 @@ function benchProximity() {
 
 /* ===== L5 · Condenser microphone ===== */
 function condMic(p) {
-  const SD = Math.PI * p.a * p.a, MA1 = 8 * RHO / (3 * Math.PI * Math.PI * p.a);
+  const SD = Math.PI * p.a * p.a;
+  const MA1 = p.front === "baffle" ? 8 * RHO / (3 * Math.PI * Math.PI * p.a) : 0.6133 * RHO / (Math.PI * p.a); // official sheets: piston in a tube
   const CAB2 = p.V / (RHO * C0 * C0);
   const MMT = p.MMD + SD * SD * (MA1 + p.MAS);
   const RMT = p.RMD + SD * SD * p.RAS;
@@ -377,7 +382,10 @@ function condMic(p) {
 function benchCondenser() {
   const b = bench("bench-condenser", "Design a condenser microphone: bias, gap, back volume", "lecture 5 · problem 5.1");
   if (!b) return;
-  const st = { E: 200, x0: 20, V: 1, RAS: 1e7, RL: 5e8 };
+  const st = { E: 200, x0: 20, V: 1, RAS: 1e7, RL: 5e8, front: "tube" };
+  const segF = h("div", { class: "seg" });
+  for (const [k, l] of [["tube", "front air mass: piston in a tube (sheet)"], ["baffle", "baffled piston"]]) segF.append(h("button", { type: "button", class: k === st.front ? "on" : "", onclick: (e) => { st.front = k; $$("button", segF).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(segF);
   slider(b.ctl, { label: "polarization <b>E</b>", min: 20, max: 300, step: 5, value: 200, unit: "V", dom: "el", onchange: v => { st.E = v; upd(); } });
   slider(b.ctl, { label: "gap <b>x₀</b>", min: 5, max: 60, step: 1, value: 20, unit: "µm", dom: "me", onchange: v => { st.x0 = v; upd(); } });
   slider(b.ctl, { label: "back volume <b>V<sub>AB2</sub></b>", min: 0.1, max: 6, step: 0.05, value: 1, unit: "cm³", dom: "ac", onchange: v => { st.V = v; upd(); } });
@@ -386,7 +394,7 @@ function benchCondenser() {
   const ro = readouts(b.ctl, [{ id: "f0", label: "f₀", dom: "me" }, { id: "Q", label: "Q" }, { id: "M", label: "sensitivity", dom: "el" }, { id: "MdB", label: "dB re 1 V/Pa", dom: "el" }, { id: "CE0", label: "capsule C_E0", dom: "el" }, { id: "fl", label: "LF droop corner", dom: "el" }]);
   const plot = new Plot(b.plot, { h: 300, ymin: -70, ymax: -20, ylabel: "|e_oc/p|  (dB re 1 V/Pa)", yfmt: v => v.toFixed(1), yunit: " dB" });
   function upd() {
-    const r = condMic({ a: 0.009, MMD: 5e-5, CMD: 4e-6, RMD: 1, MAS: 100, RAS: st.RAS, V: st.V * 1e-6, E: st.E, x0: st.x0 * 1e-6, RL: st.RL });
+    const r = condMic({ a: 0.009, MMD: 5e-5, CMD: 4e-6, RMD: 1, MAS: 100, RAS: st.RAS, V: st.V * 1e-6, E: st.E, x0: st.x0 * 1e-6, RL: st.RL, front: st.front });
     const pts = FREQ.map(f => [f, dB(cabs(r.H(f)))]);
     const fpk = r.Q > 0.7071 ? r.f0 * Math.sqrt(1 - 1 / (2 * r.Q * r.Q)) : null;
     plot.set({ series: [{ name: "open-circuit sensitivity", color: DOMC.el, pts }],
@@ -455,12 +463,51 @@ function benchPistonBox() {
   upd();
 }
 
+/* ===== L2 · Problem 2.4: two masses and the five limits ===== */
+function twoMass(f, p) {
+  const Yl = cadd(ZC(f, p.C1), ZR(p.R1));
+  return csolve([[cadd(ZL(f, p.M1), Yl), cscale(Yl, -1)], [cscale(Yl, -1), cadd(ZL(f, p.M2), Yl)]], [cx(1, 0), cx(0, 0)]);
+}
+function benchTwoMass() {
+  const b = bench("bench-twomass", "Problem 2.4 · two masses, one link, five limits", "lecture 2 · problem 2.4");
+  if (!b) return;
+  const REF = { M1: 1e-3, M2: 2e-3, C1: 10e-3, R1: 0.3 };
+  const CASES = { ref: ["reference", {}], m1: ["M₁ → ∞", { M1: 1e3 }], m2: ["M₂ → ∞", { M2: 1e3 }], c1: ["C₁ → 0", { C1: 1e-12 }], r1: ["R₁ → ∞", { R1: 1e9 }], none: ["R₁ → 0 & C₁ → ∞", { R1: 1e-9, C1: 1e9 }] };
+  let cur = "ref";
+  const chips = h("div", { class: "chips" });
+  for (const [k, [l]] of Object.entries(CASES)) chips.append(h("button", { type: "button", class: "chip" + (k === cur ? " on" : ""), onclick: (e) => { cur = k; $$(".chip", chips).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "lo", label: "u₁ at 10 Hz", dom: "me" }, { id: "lo2", label: "u₂ at 10 Hz", dom: "me" }, { id: "hi", label: "u₂ / u₁ at 10 kHz" }]);
+  const plot = new Plot(b.plot, { h: 300, xmin: 1, xmax: 10000, ymin: -80, ymax: 40, ylabel: "velocity (dB re 1 m/s per N)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const fs = logspace(1, 10000, 400);
+  const ref = fs.map(f => twoMass(f, REF));
+  function upd() {
+    const p = Object.assign({}, REF, CASES[cur][1]);
+    const rows = fs.map(f => twoMass(f, p));
+    plot.set({ series: [
+      { name: "u₁ (driven mass)", color: DOMC.me, pts: fs.map((f, i) => [f, dB(cabs(rows[i][0]))]) },
+      { name: "u₂ (free mass)", color: DOMC.ac, pts: fs.map((f, i) => [f, dB(cabs(rows[i][1]))]) },
+      { name: "reference u₁", color: DOMC.ink3, thin: true, pts: fs.map((f, i) => [f, dB(cabs(ref[i][0]))]) }] });
+    const i10 = 133, iend = fs.length - 1;
+    ro({ lo: `${sci(cabs(rows[i10][0]))} m/s`, lo2: `${sci(cabs(rows[i10][1]))} m/s`, hi: sci(cabs(rows[iend][1]) / cabs(rows[iend][0]), 2) });
+    b.note.innerHTML = `<p><b>${CASES[cur][0]}.</b> ` + {
+      ref: "Below the link resonance (≈ 62 Hz: reduced mass 0.67 g on 10 mm/N) the two masses move together as 3 g. At it they swing against each other. Above it the link cannot transmit force and u₂ falls away 12 dB/oct faster than u₁.",
+      m1: "The driven mass is a wall. Nothing moves: both curves drop to the floor.",
+      m2: "M₂ is a wall, so M₁ now sits on C₁ against it: a plain mass-spring with resonance at 1/(2π√(1 g · 10 mm/N)) ≈ 50 Hz. Below it u₁ is <i>smaller</i> than the reference (spring-controlled instead of free), u₂ = 0.",
+      c1: "A rigid rod: one 3 g body, u₁ = u₂ everywhere (the dashed reference is only equal at low frequency).",
+      r1: "An infinitely stiff damper is also a rod: u₁ = u₂ everywhere.",
+      none: "No link at all: M₁ alone is lighter than the 3 g pair, so u₁ is at or above the reference; M₂ never moves.",
+    }[cur] + "</p>";
+  }
+  upd();
+}
+
 /* ===== boot ===== */
 document.addEventListener("DOMContentLoaded", () => {
   renderMath();
   benchPhasor(); benchResonator(); benchDual(); benchHelmholtz(); benchTube(); benchRadiation();
   benchCoupling(); benchSpeakerZ(); benchPistonBox(); benchDynMic();
-  benchPolar(); benchProximity(); benchCondenser(); benchShapes();
+  benchPolar(); benchProximity(); benchCondenser(); benchShapes(); benchTwoMass();
   if (window.QUIZZES) { for (const [lec, qs] of Object.entries(QUIZZES)) { const root = document.getElementById(`quiz-${lec}`); if (root) { buildQuiz(root, lec, qs); TOTAL_Q += qs.length; const a = $(`.wire a[data-quiz="${lec}"]`); if (a) a.dataset.n = qs.length; } } }
   updateProgress();
   setupNav(); setupTheme();

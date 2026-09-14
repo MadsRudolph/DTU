@@ -12,7 +12,8 @@ artifact (URL in the README). One section per lecture, one interactive bench per
 idea, one quiz per lecture. Labs get the same treatment: one section per lab
 (`#labA` is the template, benches in `src/labs.js`, quiz key `"A"`), with a bench per
 lab part that solves the lab's circuit live and reproduces the runthrough's numbers. Every number shown must reproduce the worked answers
-in the notes.
+in the notes. Convention that bit us once: the official sheets take a microphone's front air mass
+as a **piston in a tube** (0.6133ρ/πa), not the baffled piston (8ρ/3π²a); `dynMic`/`condMic` take `front`.
 
 **Rule:** a 34870 lecture note without a matching site section is unfinished
 work. Do the note first, then the site, then deploy, in the same task.
@@ -40,6 +41,10 @@ instead once the `CLOUDFLARE_API_TOKEN` repo secret exists.
   circuit helpers (`RES IND CAP VSRC ISRC ZBOX DEPV DEPI CK.wire CK.gnd CK.label svgWrap`),
   complex maths (`cx cadd cmul cdiv par ZL ZC ZR dB`), `sci()`, `hz()`, constants `RHO C0`.
 - `src/quiz.js` — `QUIZZES["N"] = [{q, a:[...], c: index, why}]` (labs use the letter, e.g. `"A"`).
+- `src/problems.js` — `window.PROBLEMS["N"] = [{id, title, tag, given, hint, sol, bench, benchLabel}]`, rendered
+  into `<div id="problems-N">` as collapsible cards (statement → hint → official solution → bench link).
+  Every lecture gets its problem set here: statements from the slides/sheet, solutions from the
+  official `Exercises/34870_SolutionsN*.pdf` (pdftotext; scanned ones via pdftoppm + Read) and the vault's worked notes.
 - `src/labs.js` — lab benches; `csolve(A, b)` is a small complex linear solver for nodal/loop equations of any lab circuit.
 - `src/diagrams.js` — static circuits; `diagMap()` draws the hero timeline (add the new lecture node there).
 
@@ -56,10 +61,12 @@ instead once the `CLOUDFLARE_API_TOKEN` repo secret exists.
 3. **Bench(es)** in `src/benches.js` + call them in the boot block at the bottom.
    Physics in a pure function (`dynMic(p)` style) so it can be unit-checked.
    Start values = the problem sheet's numbers; readouts must show the sheet's answers.
-4. **Quiz**: 4–5 questions in `src/quiz.js`, each `why` teaches something.
-5. **Hero map**: add a node in `diagMap()` (`src/diagrams.js`); the summary section
+4. **Problems**: every problem of the lecture/sheet in `src/problems.js` with the official answers in `tag`,
+   a hint, the full solution, and a link to the bench that reproduces it; add `<div id="problems-N">` before the quiz.
+5. **Quiz**: 4–5 questions in `src/quiz.js`, each `why` teaches something.
+6. **Hero map**: add a node in `diagMap()` (`src/diagrams.js`); the summary section
    `#cheat` gets a row/line if the lecture adds an element, coupling or response shape.
-6. KaTeX: inline `<span class="m">…</span>`, display `<div class="M">…</div>`; escape `<` as `&lt;`.
+7. KaTeX: inline `<span class="m">…</span>`, display `<div class="M">…</div>`; escape `<` as `&lt;`.
 
 ## 3. Verify (do not skip)
 
