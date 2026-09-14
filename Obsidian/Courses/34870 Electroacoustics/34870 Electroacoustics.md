@@ -46,6 +46,12 @@ tags: [Electroacoustics, Audio, home]
 > [!warning] 34840 is a formal prerequisite — and you are taking it *in parallel*
 > DTU lists [[34840 Fundamentals of Acoustics and Noise Control|34840]] as a prerequisite, but both run this autumn (34840 is E3A, Tue mornings). For the first weeks 34870 runs ahead of your acoustics foundation — which is exactly why the staff hand out the *Fundamentals of Acoustics* note as background reading.
 
+> [!success] The Analogy Bench — lectures 0–5 as an interactive site
+> Visual walkthrough of everything so far: live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
+> - **Home server (LAN):** http://192.168.50.220 (Proxmox CT 116 `study`)
+> - **Anywhere (phone, other PC):** https://claude.ai/code/artifact/a2ca9f90-949a-40ad-bea6-2fe4bf114277
+> - **Source + deploy:** `5. Semester/Electroacoustics/Analogy Bench/` (`./deploy.sh`)
+
 > [!tip] Quick Links
 > - [DTU Course Page](https://kurser.dtu.dk/course/34870)
 > - [[DTU Study Path#🔊 5th Term — Autumn 2026 + January 2027 (25 + 5 ECTS)|Study path context]]

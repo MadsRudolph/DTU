@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "analogy-bench",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8642", "--bind", "127.0.0.1", "--directory", "5. Semester/Electroacoustics/Analogy Bench/dist"],
+      "port": 8642
+    }
+  ]
+}

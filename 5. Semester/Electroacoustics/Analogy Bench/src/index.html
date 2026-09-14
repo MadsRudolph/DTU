@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Analogy Bench</title>
+<meta name="description" content="34870 Electroacoustics, lectures 0–5, explained visually: play with the circuits instead of reading about them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<!-- KATEX_CSS -->
+<script src="katex.min.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="rail">
+  <div class="brand">
+    <div class="brand-name">The Analogy Bench</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–5</div>
+  </div>
+  <ul class="wire">
+    <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
+    <li><a href="#l1" data-quiz="1"><span class="n">L1</span><span>Analogies<span class="sub">R, L, C in three worlds</span></span></a></li>
+    <li><a href="#l2" data-quiz="2"><span class="n">L2</span><span>Mechanical systems<span class="sub">mass, spring, damper</span></span></a></li>
+    <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Acoustic systems<span class="sub">tube = mass, box = spring</span></span></a></li>
+    <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Transducers &amp; dynamic mics<span class="sub">Bl and S join the worlds</span></span></a></li>
+    <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Directional &amp; condenser mics<span class="sub">polar patterns, low-pass</span></span></a></li>
+    <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
+  </ul>
+  <div class="rail-foot">
+    <div class="progress"><span class="progress-lbl">0 / 0 checks passed</span><div class="progress-bar"><i></i></div></div>
+    <button class="theme-btn" type="button">Theme: system</button>
+    <div>Built from the lecture notes, slides and problem sets in the vault. Hover any plot to read values.</div>
+  </div>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">DTU 34870 · Electroacoustic transducers and systems · autumn 2026</div>
+  <h1>Every microphone and loudspeaker in this course is one circuit, seen from three sides.</h1>
+  <p class="lead">Springs, masses and air cavities obey the same equations as capacitors, inductors and resistors. So the course translates everything into a circuit, solves the circuit, and translates back. This page lets you <em>play</em> with those circuits instead of reading about them. Every plot is live: drag a slider, watch the physics move.</p>
+  <div class="legend-strip"><span class="el">electrical — voltage v, current i</span><span class="me">mechanical — force f, velocity u</span><span class="ac">acoustical — pressure p, volume velocity U</span></div>
+  <div class="map" id="diag-map"></div>
+</header>
+
+<!-- ============================== L0 ============================== -->
+<section class="lecture" id="l0">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 0 · Mon 31 Aug · course introduction</div>
+    <h2>The rules of the game</h2>
+    <div class="meta">10 ECTS · oral exam 9–10 Dec · lab quizzes count 30 % · groups of 3</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Everything downstream — microphones, loudspeakers, enclosures, metrology — is built on the analogy framework of lectures 1–3. Learn to draw the circuit and the rest of the course is circuit analysis.</div>
+
+  <div class="block">
+    <h3>What you are being asked to be able to do</h3>
+    <ul>
+      <li><b>Draw</b> the equivalent circuit of a simple mechanical or acoustic system, in either analogy.</li>
+      <li><b>Predict</b> the frequency response of a dynamic, condenser or MEMS microphone, and say which component moves what.</li>
+      <li><b>Predict</b> the response and impedance of a moving-coil loudspeaker, alone and in a sealed or vented box.</li>
+      <li><b>Simulate</b> those circuits in LTspice (Lab A) and measure real ones (Labs B–E).</li>
+      <li><b>Explain</b> it all out loud — the exam is a 30-minute conversation, not a calculation.</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How to use this page</h3>
+    <p>Each lecture below has the same shape: <b>the one idea</b> in a sentence, <b>the picture</b>, a <b>bench</b> you can play with, the <b>formulas</b> you actually need, the <b>trap</b> everyone falls into, and a short <b>check yourself</b>. The checks are remembered in this browser; the nav dot turns green when a lecture's checks are all passed.</p>
+    <p>Colour is meaning throughout: <span class="el"><b>copper is electrical</b></span>, <span class="me"><b>steel blue is mechanical</b></span>, <span class="ac"><b>teal is acoustical</b></span>. When a diagram changes colour, you have crossed a transducer.</p>
+  </div>
+
+  <div class="callout why"><span class="eyebrow">Why the course is hard — and why it isn't</span><p>It feels hard because three vocabularies are thrown at you at once, and because there are <em>two</em> ways to draw every circuit. It isn't, because there are only three kinds of element (real, differentiating, integrating), two kinds of source, and two coupling constants (Bl and S). Everything else is bookkeeping.</p></div>
+</section>
+
+<!-- ============================== L1 ============================== -->
+<section class="lecture" id="l1">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 1 · Mon 31 Aug · FL</div>
+    <h2>Analogies: why a spring is a capacitor</h2>
+    <div class="meta">Beranek 3.2–3.4 · Leach ch. 3/4 · slides 34870_Lecture1</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Two physical systems are analogous when they obey the same equations. A mass obeys <span class="m">f = M\,\frac{du}{dt}</span>; an inductor obeys <span class="m">v = L\,\frac{di}{dt}</span>. Same shape — so we can borrow every circuit tool ever invented.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Three kinds of element, and only three</h3>
+    <p>Pick the variables first. In each domain there is an <b>across</b> variable (measured <em>between</em> two points) and a <b>through</b> variable (measured <em>through</em> a point), and their product is power. Then every passive element is one of three things, depending on how across relates to through:</p>
+    <div class="table-wrap"><table>
+      <tr><th>element</th><th>relation</th><th class="el">electrical</th><th class="me">mechanical</th><th class="ac">acoustical</th><th>what it does</th></tr>
+      <tr><td>real</td><td><span class="m">\text{across} = K\cdot\text{through}</span></td><td class="el">resistor R</td><td class="me">damper R<sub>M</sub></td><td class="ac">porous material R<sub>A</sub></td><td>burns energy</td></tr>
+      <tr><td>differentiating</td><td><span class="m">\text{across} = j\omega K\cdot\text{through}</span></td><td class="el">inductor L</td><td class="me">mass M<sub>M</sub></td><td class="ac">open tube M<sub>A</sub></td><td>stores kinetic energy</td></tr>
+      <tr><td>integrating</td><td><span class="m">\text{across} = \frac{1}{j\omega K}\cdot\text{through}</span></td><td class="el">capacitor C</td><td class="me">spring C<sub>M</sub> = 1/k</td><td class="ac">closed box C<sub>A</sub></td><td>stores potential energy</td></tr>
+    </table></div>
+    <p class="small">This is the <b>impedance analogy</b>: voltage ↔ force ↔ pressure, current ↔ velocity ↔ volume velocity. There is a second convention (below) that flips the mechanical column.</p>
+  </div>
+
+  <div id="bench-phasor"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The trick that makes it algebra</span>The jω method</h3>
+    <p>For a sine wave <span class="m">x(t) = A\cos(\omega t + \varphi)</span> write the phasor <span class="m">\underline{x} = A e^{j\varphi}</span>. Then differentiating in time is just multiplying by <span class="m">j\omega</span>, and integrating is dividing by it. A differential equation turns into a line of complex algebra, and “impedance” is simply across divided by through at one frequency.</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">derivative</span><div class="M">\frac{d}{dt} \;\to\; j\omega \qquad (+90^\circ,\; +6\ \text{dB/oct})</div></div>
+      <div class="fcard"><span class="eyebrow">integral</span><div class="M">\int dt \;\to\; \frac{1}{j\omega} \qquad (-90^\circ,\; -6\ \text{dB/oct})</div></div>
+      <div class="fcard"><span class="eyebrow">impedance, three worlds</span><div class="M">Z = \frac{v}{i}\ [\Omega] \qquad Z_M = \frac{f}{u}\ [\text{Ns/m}] \qquad Z_A = \frac{p}{U}\ [\text{Pa·s/m}^3]</div></div>
+      <div class="fcard"><span class="eyebrow">decibels</span><div class="M">20\log_{10}\frac{A}{A_{ref}}\ \text{(amplitudes)} \qquad 10\log_{10}\frac{P}{P_{ref}}\ \text{(powers)}</div><p>Always name the reference: “dB re 1 V/Pa”, “dB re 20 µPa”.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The two conventions</span>Impedance analogy vs. mobility analogy</h3>
+    <p>You can map the <em>variables</em> two ways. Map force to voltage and you get the <b>impedance analogy</b>: a mass is an inductor, elements that share a velocity go in series. Map <em>velocity</em> to voltage instead and you get the <b>mobility (through/across) analogy</b>: a mass is now a capacitor to ground, and elements that share a velocity go in parallel. Both are correct. They are duals of each other: every mesh in one is a node in the other.</p>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>force f</th><th>velocity u</th><th>mass M<sub>M</sub></th><th>compliance C<sub>M</sub></th><th>damper R<sub>M</sub></th><th>elements sharing a velocity</th></tr>
+      <tr><td><b>impedance analogy</b></td><td>voltage</td><td>current</td><td>inductor</td><td>capacitor</td><td>resistor R<sub>M</sub></td><td>in series (one loop current)</td></tr>
+      <tr><td><b>mobility analogy</b> (course default for mechanics)</td><td>current</td><td>voltage</td><td>capacitor to ground</td><td>inductor</td><td>resistor 1/R<sub>M</sub></td><td>in parallel (one node voltage)</td></tr>
+    </table></div>
+    <p>The acoustic side is almost always drawn in the impedance analogy (pressure = voltage), because a closed volume naturally becomes a capacitor to ground. The lectures therefore mix: <span class="me">mobility for mechanics</span>, <span class="ac">impedance for acoustics</span>, joined by controlled sources (lecture 4).</p>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>Mass and compliance swap electrical elements between the two analogies.</b> Before you read any value off a circuit, find out which analogy it is drawn in. If a mass is a capacitor hanging to ground, it is mobility. If the masses are inductors in a loop, it is impedance. In LTspice the units change too — a mobility circuit's capacitor value is a mass in kg.</p></div>
+
+  <div class="callout real"><span class="eyebrow">When the analogy breaks</span><p>A lumped element assumes the whole thing moves as one: it must be <b>much smaller than the wavelength</b> (rule of thumb: below λ/10), homogeneous, and idealised (rigid, lossless or massless as appropriate). Past that you need distributed models (transmission lines, lecture 3 §4) or FEM/BEM. Lecture 3's tube bench shows exactly where it fails.</p></div>
+
+  <div id="quiz-1"></div>
+</section>
+
+<!-- ============================== L2 ============================== -->
+<section class="lecture" id="l2">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 2 · Thu 3 Sep · FL</div>
+    <h2>Mechanical systems: mass, spring, damper</h2>
+    <div class="meta">Beranek 3.2–3.4 · Leach ch. 3/4 · slides 34870_Lecture2 · problems 2.1–2.4</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A mechanical system has two quantities worth tracking — force and velocity — and three building blocks. Sum the forces on each mass (Newton) and you have written a circuit equation.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The elements</span>What each one is, physically</h3>
+    <div class="tri">
+      <div class="dom me"><h4>Mass M<sub>M</sub> <span class="u">kg</span></h4><div class="eq"><span class="m">f = j\omega M_M\,u</span></div><p>Hates changing speed. Its velocity is always measured against the fixed world, so one terminal is <b>always ground</b>. Rigid body: <span class="m">M_M = \rho V</span>.</p></div>
+      <div class="dom me"><h4>Compliance C<sub>M</sub> <span class="u">m/N</span></h4><div class="eq"><span class="m">f = \dfrac{u}{j\omega C_M}</span></div><p>A spring's <em>softness</em>, <span class="m">C_M = 1/k</span>. Stores energy when squeezed. Elastic rod: <span class="m">C_M = L/(ES)</span>. Responds to the <em>relative</em> motion of its two ends.</p></div>
+      <div class="dom me"><h4>Damper R<sub>M</sub> <span class="u">Ns/m</span></h4><div class="eq"><span class="m">f = R_M\,u</span></div><p>Friction. Turns motion into heat. Viscous cylinder: <span class="m">R_M \approx 2\pi\mu r L/g</span>. In the mobility analogy it is drawn as a resistor of value <span class="m">1/R_M</span>.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>One resonator, drawn both ways</h3>
+    <p>Mass on a spring, with a damper, driven by a force. Newton: <span class="m">f = f_M + f_C + f_R = \left(j\omega M_M + \frac{1}{j\omega C_M} + R_M\right)u = Z_M\,u</span>. All three elements share the same velocity u — so in the impedance analogy they are in <b>series</b>, and in the mobility analogy they hang in <b>parallel</b> off the single node u.</p>
+    <div id="bench-dual"></div>
+    <p class="small">Notice the ground symbol in the mechanical sketch: the zero-velocity reference. Always draw it. The same discipline returns as “always ground the compliance” for acoustic volumes.</p>
+  </div>
+
+  <div id="bench-resonator"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Sources</span>Force sources, velocity sources, and real ones</h3>
+    <p>An ideal <b>force source</b> pushes with a set force whatever the velocity (a Lorentz force on a coil, a Coulomb force). An ideal <b>velocity source</b> imposes a motion whatever it costs (a shaker table, a rotating cam). Real sources are an ideal one plus an output impedance <span class="m">Z_0</span>, and Thévenin ↔ Norton works exactly as in electronics:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">impedance analogy</span><div class="M">f_{Th} = Z_0\,u_{No}</div><p>force source in series with Z<sub>0</sub> ⇔ velocity source in parallel with Z<sub>0</sub></p></div>
+      <div class="fcard"><span class="eyebrow">mobility analogy</span><div class="M">u_{Th} = Y_0\,f_{No}</div><p>the same statement with the roles of across and through swapped</p></div>
+      <div class="fcard"><span class="eyebrow">resonance &amp; Q of a series resonator</span><div class="M">f_0 = \frac{1}{2\pi\sqrt{M_M C_M}} \qquad Q = \frac{1}{R_M}\sqrt{\frac{M_M}{C_M}}</div><p>Q is how many times the stored energy exceeds the energy lost per radian; bandwidth is f<sub>0</sub>/Q.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Worked in class</span>The shaker: two masses, three features</h3>
+    <p>A shaker (an electrodynamic actuator, really a loudspeaker) drives a device under test through a stiff rod, the “stinger”. Resonator <span class="mono">R = 40 Ns/m, M = 100 g, C = 10⁻⁵ m/N</span>, stinger <span class="mono">C = 10⁻⁸ m/N</span>, DUT <span class="mono">250 g</span>. The impedance plot shows three features, and reading such a plot is a skill you will use all term:</p>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>type</th><th>frequency</th><th>Q</th><th>how to recognise it</th></tr>
+      <tr><td>1st</td><td>impedance <b>minimum</b> = resonance</td><td>85 Hz</td><td>4.7</td><td>a dip in |Z|: mass and spring cancel, the source sees only damping</td></tr>
+      <tr><td>2nd</td><td>impedance <b>maximum</b> = anti-resonance</td><td>3.18 kHz</td><td>→ ∞ (no loss in that branch)</td><td>a peak in |Z|: a parallel branch blocks the flow</td></tr>
+      <tr><td>3rd</td><td>impedance minimum = resonance</td><td>5.96 kHz</td><td>132</td><td>the stinger–DUT pair resonates</td></tr>
+    </table></div>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>Problem 2.2 asks for <span class="mono">k = 1000 N/m</span> — but the circuit wants <b>compliance</b>, <span class="m">C_M = 1/k = 1\ \text{mm/N}</span>. Stiffnesses add when springs act in parallel (a spring behind a spring is stiffer); compliances add when they are in series. The same inversion bites again for acoustic boxes in lecture 4.</p></div>
+
+  <div id="quiz-2"></div>
+</section>
+
+<!-- ============================== L3 ============================== -->
+<section class="lecture" id="l3">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 3 · Mon 7 Sep · FL · + intro to Lab A</div>
+    <h2>Acoustic systems: a tube is a mass, a box is a spring</h2>
+    <div class="meta">Beranek 2.4 · Leach 3.3, 3.7, 2.9–2.10 · Jacobsen 1.6, 9.2 · problems 2.1–2.4</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Air in a short open tube sloshes back and forth as one lump — inertia, so a mass. Air in a closed box compresses and pushes back — a spring. Derive both from the plane-wave tube, and you also learn exactly when they stop being true.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The elements</span>Pressure and volume velocity</h3>
+    <div class="tri">
+      <div class="dom ac"><h4>Acoustic mass M<sub>A</sub> <span class="u">kg/m⁴</span></h4><div class="eq"><span class="m">M_A = \dfrac{\rho\, l^*}{S}</span></div><p>An open tube of effective length l* and area S. Long and narrow → heavy. The effective length includes end corrections (below).</p></div>
+      <div class="dom ac"><h4>Acoustic compliance C<sub>A</sub> <span class="u">m⁵/N</span></h4><div class="eq"><span class="m">C_A = \dfrac{V}{\rho c^2}</span></div><p>A closed volume V of any shape. Bigger box → softer spring. <b>Always drawn to ground</b> — it pushes against still air.</p></div>
+      <div class="dom ac"><h4>Acoustic resistance R<sub>A</sub> <span class="u">Pa·s/m³</span></h4><div class="eq"><span class="m">p = R_A\,U</span></div><p>Felt, mineral wool, cloth, narrow slits: viscous and thermal losses. No clean formula — measured and fitted. Pressure and flow in phase.</p></div>
+    </div>
+    <p>Constants used everywhere in this course: <span class="mono">ρ = 1.18 kg/m³</span>, <span class="mono">c = 344 m/s</span>, so <span class="mono">ρc² = 1.40×10⁵ Pa</span>.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The recipe</span>How every acoustic element is derived (memorise this)</h3>
+    <ol>
+      <li>Write pressure and volume velocity for the geometry (start from the plane wave in a tube).</li>
+      <li>Find the impedance <span class="m">Z(\omega) = p/U</span> at the input.</li>
+      <li>Split it into a <b>real</b> part, a <b>jω</b> part and a <b>1/jω</b> part.</li>
+      <li>Assign R<sub>A</sub>, M<sub>A</sub>, C<sub>A</sub> to those parts — <em>and note the frequency range where the split is valid</em>.</li>
+    </ol>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">open tube (pressure release at the end)</span><div class="M">Z(0) = j\frac{\rho c}{S}\tan(kl^*) \;\approx\; j\omega\frac{\rho l^*}{S} \quad (kl \ll 1)</div><p>so a short open tube is a pure mass</p></div>
+      <div class="fcard"><span class="eyebrow">closed tube (rigid wall at the end)</span><div class="M">Z(0) = -j\frac{\rho c}{S}\cot(kl) \;\approx\; \frac{\rho c^2}{j\omega S l} + \frac{j\omega\rho l}{3S}</div><p>a compliance plus a small series mass — the mass correction is usually dropped</p></div>
+      <div class="fcard"><span class="eyebrow">infinite tube (no reflection)</span><div class="M">Z(0) = \frac{\rho c}{S}</div><p>purely resistive: the characteristic impedance; nothing stores energy if the wave never returns</p></div>
+    </div>
+  </div>
+
+  <div id="bench-tube"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>The Helmholtz resonator</h3>
+    <p>Neck = mass, cavity = spring, in series, driven by a volume velocity from outside. That is why a bottle gives one tone when you blow across it, why a bass-reflex port has a tuning frequency, and why a dynamic microphone can be given a low-frequency boost with a tube (lecture 4).</p>
+  </div>
+  <div id="bench-helmholtz"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Worked in class</span>Problem 2.3 — a box with two tubes</h3>
+    <p>A 23 L box with a wide tube (Ø 10 cm, l* = 12 cm) gives <span class="m">M_{A1} = 18.0</span> kg/m⁴, <span class="m">C_A = 1.65\times10^{-7}</span> m⁵/N and a Helmholtz frequency of <b>92.4 Hz</b>. Add a narrow tube (Ø 1 cm, same length): its mass is 100× larger, <span class="m">M_{A2} = 1803</span>, because <span class="m">S \propto a^2</span>.</p>
+    <div id="diag-two-tubes"></div>
+    <ul>
+      <li>Driven from the <b>wide</b> tube: the pressure in the box peaks at a low <b>anti-resonance</b> around <b>9.2 Hz</b> (narrow tube + box), and the input impedance dips at the main <b>resonance</b> of <b>92.8 Hz</b> — barely moved, because the heavy narrow tube hardly loads the light wide one.</li>
+      <li>Driven from the <b>narrow</b> tube: the anti-resonance now comes from the wide tube + box pair, at 92.4 Hz, right on top of the 92.8 Hz resonance. Which opening you drive decides the shape — a preview of driver vs. port in a vented loudspeaker.</li>
+    </ul>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>Always ground the compliance.</b> A capacitor that represents an enclosed volume must have one terminal on the reference pressure. Draw it floating between two tubes and the topology is simply wrong. Called out explicitly on the slides; the easiest way to lose Lab A points.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Real openings</span>End corrections and radiation impedance</h3>
+    <p>An open end does not stop at the rim: the air just outside moves too. That extra “added mass” is captured by lengthening the tube to an <b>effective length</b> l*:</p>
+    <div class="table-wrap"><table>
+      <tr><th>end type</th><th>added mass</th><th>added length</th></tr>
+      <tr><td>flanged / baffled (opens into a wall)</td><td><span class="m">\frac{8}{3\pi^2}\frac{\rho}{a}</span></td><td><span class="m">0.85\,a</span></td></tr>
+      <tr><td>unflanged / free (opens into space)</td><td><span class="m">0.6133\frac{\rho}{\pi a}</span></td><td><span class="m">0.61\,a</span></td></tr>
+      <tr><td>tube flanged on one end, free on the other</td><td colspan="2"><span class="m">l^* = l + 1.46\,a</span></td></tr>
+    </table></div>
+    <p>The same physics, seen from a vibrating piston instead of a tube mouth, is the <b>radiation impedance</b>: the load the air puts on every loudspeaker cone and microphone diaphragm.</p>
+  </div>
+  <div id="bench-radiation"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Preview</span>Problem 2.4 — the inside of a dynamic microphone</h3>
+    <p>Diaphragm → small volume V<sub>1</sub> → canal with felt → large volume V<sub>2</sub>. Read straight off: <span class="m">C_{A1}</span> to ground, <span class="m">R_A</span> in series, <span class="m">C_{A2}</span> to ground. A compliance–resistance–compliance <b>low-pass</b>: at high frequency the first cavity shunts the flow before it reaches the second. That is exactly why a dynamic mic's top end rolls off, and lecture 4 builds the whole microphone around it.</p>
+  </div>
+
+  <div id="quiz-3"></div>
+</section>
+
+<!-- ============================== L4 ============================== -->
+<section class="lecture" id="l4">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 4 · Thu 10 Sep · FL (4A transducers) + VCH (4B dynamic microphones)</div>
+    <h2>Transducers: two constants join three worlds</h2>
+    <div class="meta">Beranek 3.5–3.7, ch. 5 · Leach 4.4–4.7, 5.1–5.4 · problems 4.1–4.4 · Lab A parts 3–4</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A transducer is a pair of controlled sources — one per direction — whose gain is a single physical constant: <span class="m">Bl</span> for a voice coil, <span class="m">S</span> for a diaphragm. Draw that pair right (with the right signs) and a whole microphone is one circuit you can simulate.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>The chain</h3>
+    <div id="diag-chain"></div>
+    <p>A diaphragm of area S turns pressure into force (<span class="m">f = S\,p</span>) and velocity into volume velocity (<span class="m">U = S\,u</span>). A coil of length l in a field B turns current into force (Lorentz, <span class="m">f = Bl\,i</span>) and velocity into voltage (Faraday, <span class="m">v = Bl\,u</span>). Both effects are always present at once, in the same wire — so both must be drawn.</p>
+  </div>
+
+  <div id="bench-coupling"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The rule that explains loudspeakers</span>Scaling vs. inversion</h3>
+    <p>What does one domain <em>see</em> of the next? It depends on whether the coupling pairs like with like.</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">diaphragm: a transformer</span><div class="M">Z_{M,A} = S^2\,Z_A = S^2\,(Z_{Af} + Z_{Ab})</div><p><span class="m">f = Sp</span> pairs across with across, <span class="m">U = Su</span> through with through. Impedances just scale by S². Front and back loads are in series (same U flows through both).</p></div>
+      <div class="fcard"><span class="eyebrow">voice coil: a gyrator</span><div class="M">Z_{E,M} = \frac{(Bl)^2}{Z_M} = (Bl)^2\,Y_M</div><p><span class="m">f = Bl\,i</span> pairs across with <em>through</em>. A gyrator maps impedance to admittance: a mechanical series resonance becomes an electrical <b>parallel</b> resonance — an impedance <b>peak</b>.</p></div>
+      <div class="fcard"><span class="eyebrow">what each element becomes at the terminals</span><div class="M">C_{mot} = \frac{M_M}{(Bl)^2},\quad L_{mot} = (Bl)^2 C_M,\quad R_{mot} = \frac{(Bl)^2}{R_M}</div><p>the “motional” parallel RLC. From one impedance sweep you can read f<sub>s</sub>, Q and, with a known added mass, all the Thiele–Small parameters — no microphone needed.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-speakerz"></div>
+
+  <div class="callout why"><span class="eyebrow">Why you should care about the inversion</span><ul>
+    <li><b>Damping flows backwards through the gyrator.</b> A low impedance across the terminals short-circuits the motional RLC and brakes the cone: <span class="m">(Bl)^2/(R_e + R_{load})</span>. That is why a voltage amplifier controls a woofer, why shorting a speaker's terminals makes the cone stiff to push, and why <span class="m">R_L</span> appears inside the microphone's <span class="m">R_{MT}</span> below.</li>
+    <li><b>Blocked vs. motional.</b> Clamp the diaphragm (<span class="m">Z_M \to \infty</span>) and only <span class="m">R_e + j\omega L_e</span> is left. Free minus blocked is pure motion — that is how Bl is measured.</li>
+  </ul></div>
+
+  <div id="bench-pistonbox"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Lecture 4B · VCH</span>The dynamic pressure microphone</h3>
+    <p>A moving coil on a diaphragm, a magnet, a closed volume behind the diaphragm, and a piece of felt for damping. Three domains, wired with the sources above:</p>
+    <div id="diag-dynmic"></div>
+    <p>Write one loop equation per domain, eliminate <span class="m">p_D</span>, <span class="m">u_D</span> and <span class="m">i</span>, and the whole thing collapses into <b>one series resonator</b> with three totals:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">transfer function</span><div class="M">\frac{e}{p_i} = \frac{R_L}{R_E+R_L}\cdot\frac{-Bl\,S_D}{j\omega M_{MT} + R_{MT} + \dfrac{1}{j\omega C_{MT}}}</div><p>transduction factor over the total mechanical impedance — a second-order <b>band-pass</b></p></div>
+      <div class="fcard"><span class="eyebrow">total mass</span><div class="M">M_{MT} = M_{MD} + S_D^2 M_{A1}</div><p>diaphragm + coil, plus the air it drags in front (radiation mass)</p></div>
+      <div class="fcard"><span class="eyebrow">total resistance</span><div class="M">R_{MT} = R_{MS} + S_D^2 R_{AF} + \frac{(Bl)^2}{R_E + R_L}</div><p>suspension + felt (through S²) + electrical braking (through (Bl)²)</p></div>
+      <div class="fcard"><span class="eyebrow">total compliance</span><div class="M">\frac{1}{C_{MT}} = \frac{1}{C_{MS}} + \frac{S_D^2}{C_{AB}}</div><p>suspension spring and air spring act in parallel, so their <em>stiffnesses</em> add</p></div>
+      <div class="fcard"><span class="eyebrow">sensitivity and bandwidth</span><div class="M">M \approx \frac{Bl\,S_D}{R_{MT}} \qquad f_b - f_a = \frac{f_0}{Q},\quad f_a f_b = f_0^2</div><p>high Q: sensitive but narrow; low Q: wide but deaf. One knob — the felt — trades them.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-dynmic"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Problems 4</span>Two tricks for more bandwidth</h3>
+    <ul>
+      <li><b>Split the back volume</b> (2c). A small V<sub>1</sub> right behind the diaphragm, a tube with damping, then a large V<sub>2</sub>. At low frequency the tube conducts and both volumes count. At high frequency the tube's mass blocks V<sub>2</sub>, the diaphragm sees only the stiff V<sub>1</sub>, and a new higher resonance props up the top end. Put the damping <em>in the tube</em>, or you get a notch instead of a lift.</li>
+      <li><b>Vent the large cavity</b> (2d). A tube from outside into V<sub>2</sub> makes a Helmholtz resonator that boosts the response around its frequency (≈ 100–300 Hz), at the price of a steeper roll-off below it — the same physics as a bass-reflex box.</li>
+    </ul>
+    <p>Worked result from the vault: with both tricks the Problems 4 mic goes from a 292 Hz – 5 kHz hump to <b>flat ±2 dB from 100 Hz to 10 kHz</b>, trading sensitivity (1.6 → 0.67 mV/Pa) for flatness. That is how real broadband dynamic mics are built.</p>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>Signs.</b> The reaction force <span class="m">f = S\,p</span> must <em>oppose</em> the motion, and the back-EMF must oppose the current. Get one backwards and the acoustic load becomes a negative damper: the simulation blows up instead of settling. Sanity-check every coupled circuit by drawing it in both analogies (Problem 4.4) — they must give the same curve.</p></div>
+
+  <div id="quiz-4"></div>
+</section>
+
+<!-- ============================== L5 ============================== -->
+<section class="lecture" id="l5">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 5 · Mon 14 Sep · VCH</div>
+    <h2>Directional microphones and the condenser microphone</h2>
+    <div class="meta">Beranek 5.2–5.6 · Leach 4.6, 5.5, 5.9–5.11 · problems 5.1–5.2 · Lab C</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Open the back of the diaphragm and the microphone hears the <em>difference</em> in pressure — it becomes directional. Swap the voice coil for a charged capacitor and the transduction law gains a 1/jω — the response becomes a low-pass instead of a band-pass.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part 1</span>Gradient microphones</h3>
+    <p>If sound also reaches the back after an extra path <span class="m">\Delta l</span>, the diaphragm feels <span class="m">p_D = p_F - p_B</span>. For a plane wave (<span class="m">p \propto e^{-jkx}</span>) that is</p>
+    <div class="M">p_D = jk\,\Delta l\,p\cos\theta</div>
+    <p>Two consequences fall out at once. The <span class="m">\cos\theta</span> is a <b>figure-8</b> pattern. The <span class="m">k = \omega/c</span> means the drive <b>rises with frequency</b> — so a gradient mic with the same moving system as lecture 4B is a <b>high-pass</b>: below resonance the response drops at 12 dB per octave. A ribbon microphone is the purest example: the corrugated aluminium ribbon is diaphragm, coil and suspension in one.</p>
+  </div>
+  <div id="bench-proximity"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part 1, continued</span>Combination microphones: the cardioid family</h3>
+    <p>Add an <em>internal</em> delayed path <span class="m">\Delta l'</span> (a small damped duct — Problem 2.4's low-pass again) alongside the external one. The diaphragm now sees a pressure term plus a gradient term:</p>
+    <div class="M">p_D = jk\,p\,\Delta l'\,(1 + B\cos\theta), \qquad B = \frac{\Delta l}{\Delta l'}, \qquad R(\theta) = \frac{1 + B\cos\theta}{1 + B}</div>
+  </div>
+  <div id="bench-polar"></div>
+
+  <div class="callout trap"><span class="eyebrow">Two meanings of “pressure microphone”</span><p>Audio people say <b>pressure mic</b> for any closed-back microphone. Measurement people say <b>pressure mic</b> for one designed to be flat to the pressure actually at the diaphragm (flush-mount, couplers, diffuse field) — as opposed to a <b>free-field</b> mic, which is deliberately shaped to cancel the pressure build-up in front of its own body at high frequency (the T(s) correction). Same words, different design targets. Don't mix them in the exam.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part 2</span>The condenser microphone, from a capacitor to a circuit</h3>
+    <p>Statically it is a parallel-plate capacitor: diaphragm at rest distance <span class="m">x_0</span> from the back plate, charged to E volts, <span class="m">C_{E0} = \varepsilon_0 S/x_0</span>. Let the diaphragm move by x(t) and both capacitance and charge become time-varying: <span class="m">Q + q = C_E(t)\,(E + e)</span>. Nonlinear — so linearise for small signals (drop products of small quantities):</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">electrical side (from Q = CV)</span><div class="M">e = \frac{1}{j\omega C_{E0}}\,i + \frac{E}{j\omega x_0}\,u</div><p>a capacitor, plus a voltage set by the velocity — but with a <b>1/jω</b>: it really follows displacement</p></div>
+      <div class="fcard"><span class="eyebrow">mechanical side (from energy, f = −dW/dx)</span><div class="M">f = -\frac{E}{j\omega x_0}\,i - \frac{1}{j\omega C_M}\,u</div><p>the diaphragm's own spring, plus an electrostatic force set by the charge (the integral of i)</p></div>
+      <div class="fcard"><span class="eyebrow">the coupling constant</span><div class="M">\frac{E}{x_0}\ \ [\text{V/m}]</div><p>plays the role Bl played: 200 V across 20 µm is 10<sup>7</sup> V/m</p></div>
+    </div>
+    <p>SPICE wants frequency-independent sources, so move each 1/jω into the neighbouring element. Both sides become a capacitor in parallel with a controlled current source — a Norton pair:</p>
+    <div id="diag-cond-norton"></div>
+    <p>Because both couplings pair like with like (no gyrator this time), the mechanics reflect into the electrical side <em>without</em> inversion. Add the acoustics — front air mass, the thin gap in front of the back plate (C<sub>AB1</sub>, usually negligible), the back-plate holes (R<sub>AS</sub>, M<sub>AS</sub>), the back volume (C<sub>AB2</sub>) — and with a large load resistor (<span class="m">i \approx 0</span>) the whole thing collapses again to one resonator:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">open-circuit transfer function</span><div class="M">e_{oc} = -\frac{E\,S_D}{j\omega x_0\left[j\omega M_{MT} + R_{MT} + \dfrac{1}{j\omega C_{MT}}\right]}\,T(j\omega)\,p_i</div><p>the extra 1/jω on top turns the band-pass into a <b>low-pass</b></p></div>
+      <div class="fcard"><span class="eyebrow">totals</span><div class="M">M_{MT} = M_{MD} + S_D^2(M_{A1} + M_{AS}),\quad R_{MT} = R_{MD} + S_D^2 R_{AS},\quad \frac{1}{C_{MT}} = \frac{1}{C_{MD}} + \frac{S_D^2}{C_{AB2}}</div></div>
+      <div class="fcard"><span class="eyebrow">sensitivity (flat band)</span><div class="M">M = \frac{E\,S_D\,C_{MT}}{x_0}</div><p>volts × area × softness ÷ gap. Flat below f<sub>0</sub>: compliance-controlled.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-condenser"></div>
+
+  <div class="callout real"><span class="eyebrow">Three things the lecturer added that are not in the books</span><ul>
+    <li><b>Losses live in the gap, not the holes.</b> The textbook puts R<sub>AS</sub> on the back-plate holes; in a real capsule most damping is squeeze-film loss in the thin front gap. You still calculate with the textbook topology, but know it is a simplification.</li>
+    <li><b>Lab C recipe for f<sub>s</sub> and Q.</b> Find the frequency where the phase has dropped 90° from mid-band: that is f<sub>s</sub>, bump or no bump. Then Q is the <em>linear</em> ratio of sensitivity at f<sub>s</sub> to sensitivity in the flat band — for an overdamped capsule that is less than 1, i.e. negative dB.</li>
+    <li><b>The load resistor sets the bass.</b> The capsule is a few pF driving <span class="m">R_L'</span>; that is a high-pass with corner <span class="m">1/(2\pi R_L' C_{E0})</span>. The “large polarization resistor” is not just about not loading the bias supply — it keeps the output flat down to 20 Hz.</li>
+  </ul></div>
+
+  <div id="bench-shapes"></div>
+
+  <div id="quiz-5"></div>
+</section>
+
+<!-- ============================== summary ============================== -->
+<section class="lecture" id="cheat">
+  <div class="lec-head">
+    <div class="eyebrow">Everything so far, on one screen</div>
+    <h2>What to actually remember</h2>
+  </div>
+  <div class="block">
+    <h3>The elements</h3>
+    <div id="diag-series-rlc"></div>
+    <div class="table-wrap"><table>
+      <tr><th></th><th class="el">electrical</th><th class="me">mechanical</th><th class="ac">acoustical</th></tr>
+      <tr><td>across / through</td><td class="el">v / i</td><td class="me">f / u  (impedance) · u / f (mobility)</td><td class="ac">p / U</td></tr>
+      <tr><td>real</td><td class="el">R</td><td class="me">R<sub>M</sub> (or 1/R<sub>M</sub>)</td><td class="ac">R<sub>A</sub> — felt, cloth</td></tr>
+      <tr><td>jω</td><td class="el">L</td><td class="me">M<sub>M</sub> = ρV (mobility: C to ground)</td><td class="ac">M<sub>A</sub> = ρl*/S — open tube</td></tr>
+      <tr><td>1/jω</td><td class="el">C</td><td class="me">C<sub>M</sub> = 1/k (mobility: L)</td><td class="ac">C<sub>A</sub> = V/ρc² — closed box, to ground</td></tr>
+      <tr><td>resonance</td><td colspan="3"><span class="m">f_0 = \frac{1}{2\pi\sqrt{(\text{jω element})(1/\text{jω element})}}</span>, series = impedance minimum, parallel = impedance maximum</td></tr>
+    </table></div>
+  </div>
+  <div class="block">
+    <h3>The couplings</h3>
+    <div class="table-wrap"><table>
+      <tr><th>transducer</th><th>laws</th><th>constant</th><th>type</th><th>what the left side sees</th></tr>
+      <tr><td>diaphragm / piston</td><td>f = S·p, U = S·u</td><td>S</td><td>transformer</td><td>S²·Z<sub>A</sub> (scaled)</td></tr>
+      <tr><td>moving coil</td><td>f = Bl·i, v = Bl·u</td><td>Bl</td><td>gyrator</td><td>(Bl)²/Z<sub>M</sub> (inverted → impedance peak)</td></tr>
+      <tr><td>condenser</td><td>e = i/jωC<sub>E0</sub> + (E/jωx₀)·u, f = −(E/jωx₀)·i − u/jωC<sub>M</sub></td><td>E/x₀</td><td>transformer-like, with 1/jω</td><td>(E/jωx₀)²/Z<sub>M</sub></td></tr>
+    </table></div>
+  </div>
+  <div class="block">
+    <h3>The three microphone shapes</h3>
+    <div class="table-wrap"><table>
+      <tr><th>microphone</th><th>output follows</th><th>flat where…</th><th>shape</th><th>designer's knob</th></tr>
+      <tr><td>dynamic pressure</td><td>velocity (Bl·u)</td><td>damping rules, around f<sub>0</sub></td><td>band-pass, ±6 dB/oct</td><td>felt R<sub>AF</sub></td></tr>
+      <tr><td>dynamic gradient / ribbon</td><td>velocity × jω</td><td>mass rules, above f<sub>0</sub></td><td>high-pass, 12 dB/oct below</td><td>proximity, low f<sub>0</sub></td></tr>
+      <tr><td>condenser</td><td>displacement (E·x/x₀)</td><td>compliance rules, below f<sub>0</sub></td><td>low-pass, −12 dB/oct above</td><td>E, x₀, C<sub>MT</sub>, R<sub>AS</sub></td></tr>
+      <tr><td>(loudspeaker, next)</td><td>acceleration</td><td>mass rules, above f<sub>s</sub></td><td>high-pass</td><td>box, port</td></tr>
+    </table></div>
+  </div>
+  <div class="block">
+    <h3>The five rules you can say out loud</h3>
+    <ol>
+      <li>Lumped elements need the part to be smaller than about λ/10.</li>
+      <li>Ground every mass (mobility) and every enclosed volume (compliance).</li>
+      <li>Check which analogy a circuit is drawn in before reading a single value.</li>
+      <li>A transducer is two controlled sources; the reaction must oppose the motion.</li>
+      <li>A diaphragm scales impedances by S²; a voice coil inverts them by (Bl)².</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Built 14 Sep 2026 from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–5 notes, Problems 4 and 5 worked, Lab A runthrough). Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+</footer>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="quiz.js"></script>
+<script src="diagrams.js"></script>
+<script src="benches.js"></script>
+</body>
+</html>
