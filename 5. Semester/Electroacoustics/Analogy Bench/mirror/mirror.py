@@ -6,8 +6,10 @@ lecture added from either PC reaches the LAN copy on its own."""
 import hashlib, json, pathlib, sys, tempfile, urllib.request, os
 SRC = "https://study.madsrudolph.dev/"
 DST = pathlib.Path("/var/www/analogy-bench")
+UA = "analogy-bench-mirror/1 (CT 116 study; +https://study.madsrudolph.dev)"  # Cloudflare 403s the default Python-urllib agent
 def get(name):
-    with urllib.request.urlopen(SRC + name, timeout=30) as r:
+    req = urllib.request.Request(SRC + name, headers={"User-Agent": UA, "Cache-Control": "no-cache"})
+    with urllib.request.urlopen(req, timeout=30) as r:
         return r.read()
 try:
     manifest = json.loads(get("manifest.json"))
