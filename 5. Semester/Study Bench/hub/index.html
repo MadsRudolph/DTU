@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Bench</title>
+<meta name="description" content="Mads's interactive study sites for the DTU 5th-semester courses: one bench per course, every lecture as something you can play with.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root { --bg:#F4F5F2; --grid:rgba(27,31,38,.055); --surface:#FBFBF9; --surface-2:#ECEEE9; --ink:#1B1F26; --ink-2:#4B525E; --ink-3:#7A818C; --rule:#D3D6CF; --a1:#C2661A; --a2:#6B4BB8; --a3:#178C74; --font-display:"Fraunces","Iowan Old Style",Georgia,serif; --font-body:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",Menlo,monospace; color-scheme:light; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#151A21; --grid:rgba(230,232,227,.05); --surface:#1C232C; --surface-2:#232B36; --ink:#E6E8E3; --ink-2:#B4BAC4; --ink-3:#7F8792; --rule:#2E3742; --a1:#E08A3E; --a2:#9A82E6; --a3:#3FB79B; color-scheme:dark; } }
+:root[data-theme="dark"] { --bg:#151A21; --grid:rgba(230,232,227,.05); --surface:#1C232C; --surface-2:#232B36; --ink:#E6E8E3; --ink-2:#B4BAC4; --ink-3:#7F8792; --rule:#2E3742; --a1:#E08A3E; --a2:#9A82E6; --a3:#3FB79B; color-scheme:dark; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:var(--font-body); font-size:16px; line-height:1.55; color:var(--ink); background-color:var(--bg); background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px); background-size:24px 24px; -webkit-font-smoothing:antialiased; }
+main { max-width:960px; margin:0 auto; padding:56px 28px 90px; }
+.eyebrow { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); }
+h1 { font-family:var(--font-display); font-weight:600; font-size:clamp(36px,5vw,56px); line-height:1.02; letter-spacing:-.012em; margin:10px 0 14px; text-wrap:balance; font-variation-settings:"opsz" 72,"SOFT" 30; }
+.lead { font-size:19px; color:var(--ink-2); max-width:60ch; margin:0 0 36px; }
+.courses { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+.course { display:block; text-decoration:none; color:inherit; border:1px solid var(--rule); border-top:4px solid var(--accent); border-radius:8px; background:var(--surface); padding:20px 22px 18px; box-shadow:0 1px 2px rgba(20,24,30,.06),0 8px 24px -12px rgba(20,24,30,.18); transition:transform .12s ease; }
+.course:hover { transform:translateY(-2px); }
+.course .code { font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:.06em; }
+.course h2 { font-family:var(--font-display); font-weight:600; font-size:26px; line-height:1.12; margin:6px 0 4px; letter-spacing:-.01em; }
+.course .sub { color:var(--ink-2); font-size:14.5px; margin:0 0 12px; }
+.course .status { font-family:var(--font-mono); font-size:12px; color:var(--ink-3); border-top:1px dashed var(--rule); padding-top:10px; display:flex; flex-wrap:wrap; gap:6px 14px; }
+.course.soon { opacity:.65; }
+footer { margin-top:44px; font-size:13px; color:var(--ink-3); max-width:68ch; }
+footer a { color:inherit; }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">DTU · 5th semester · autumn 2026</div>
+  <h1>Study Bench</h1>
+  <p class="lead">One site per course. Each lecture becomes a page with the one idea in a sentence, a picture, something to play with, the formulas that matter, the trap, the problem set with the official solutions, and a self-check. Every plot is computed live.</p>
+  <div class="courses">
+    <a class="course" href="34870/" style="--accent:var(--a1)">
+      <div class="code">34870 · 10 ECTS · oral exam 9–10 Dec</div>
+      <h2>The Analogy Bench</h2>
+      <p class="sub">Electroacoustics. Every microphone and loudspeaker is one circuit, seen from three sides.</p>
+      <div class="status"><span>lectures 0–5</span><span>20 problems</span><span>Lab A</span><span>14 benches</span></div>
+    </a>
+    <a class="course" href="34840/" style="--accent:var(--a2)">
+      <div class="code">34840 · 5 ECTS · written exam 11 Dec</div>
+      <h2>The Sound Bench</h2>
+      <p class="sub">Fundamentals of acoustics and noise control. A small pressure ripple, and everything follows from three equations.</p>
+      <div class="status"><span>lectures 1–3</span><span>16 problems</span><span>12 benches</span></div>
+    </a>
+  </div>
+  <footer>Built from the lecture notes, slides and problem sets in the vault and kept in step with them. Source in the DTU repo under <span style="font-family:var(--font-mono)">5. Semester/Study Bench</span>. Hover any plot to read values; the checks you pass are remembered in this browser.</footer>
+</main>
+</body>
+</html>

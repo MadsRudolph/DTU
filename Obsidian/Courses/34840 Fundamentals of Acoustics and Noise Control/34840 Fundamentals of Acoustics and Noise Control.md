@@ -29,6 +29,13 @@ tags: [Acoustics, Noise, Audio, home]
 > [!important] This is the gateway course
 > DTU states plainly that 34840 is the academic prerequisite for **all** advanced acoustics courses — including [[34870 Electroacoustics|34870]], which you are taking *in the same semester*. Getting the fundamentals solid early pays off twice this term.
 
+> [!success] The Sound Bench — lectures 1–3 as an interactive site
+> Visual walkthrough with live benches: a travelling wave with particle motion, phasor addition of two sources, speed of sound vs temperature and gas, standing waves with any reflection coefficient, tube resonances, air–water transmission, the spherical near field, decibel addition and background correction, octave-band analysis of a harmonic series, A/C-weighting, Fast/Slow/L_eq, white vs pink noise — plus every week's problems with the official solutions and a self-check per lecture.
+> - **Public:** https://study.madsrudolph.dev/34840/ (hub with 34870 at https://study.madsrudolph.dev)
+> - **Claude artifact (same build):** https://claude.ai/code/artifact/5c6961ee-179e-4cff-918b-79d2f86e14eb
+> - **Home server (LAN):** http://192.168.50.220/34840/
+> - **Source:** `5. Semester/Study Bench/courses/34840/` — extend it with each lecture (skill `study-bench`)
+
 > [!tip] Quick Links
 > - [DTU Course Page](https://kurser.dtu.dk/course/34840)
 > - [[DTU Study Path#5.2 34840 – Fundamentals of Acoustics and Noise Control (5 ECTS, autumn, E3A)|Study path context]]

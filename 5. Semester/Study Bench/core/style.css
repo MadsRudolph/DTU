@@ -108,9 +108,9 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--me); outline-offset: 2px; border-radius: 3px; }
 
 /* ---------- layout ---------- */
-.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh; }
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh; overflow-x: clip; }
 .rail {
-  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto; overflow-x: clip; min-width: 0;
   border-right: 1px solid var(--rule);
   background: color-mix(in srgb, var(--surface) 88%, transparent);
   backdrop-filter: blur(6px);
@@ -118,8 +118,10 @@ a { color: inherit; }
   display: flex; flex-direction: column; gap: 18px;
 }
 .brand { display: flex; flex-direction: column; gap: 2px; }
+.hub-link { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); text-decoration: none; margin-bottom: 6px; }
+.hub-link:hover { color: var(--ink); }
 .brand-name { font-family: var(--font-display); font-weight: 600; font-size: 22px; letter-spacing: -0.01em; font-variation-settings: "opsz" 24, "SOFT" 40; line-height: 1.1; }
-.brand-sub { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+.brand-sub { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; overflow-wrap: anywhere; }
 
 /* the nav is drawn as a circuit: one vertical wire with a node per lecture */
 .wire { list-style: none; margin: 0; padding: 0 0 0 14px; position: relative; }

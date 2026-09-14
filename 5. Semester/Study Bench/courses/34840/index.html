@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sound Bench</title>
+<meta name="description" content="34840 Fundamentals of Acoustics and Noise Control, lectures 1–3, made visual: waves, reflections, levels you can play with, with the problem sets and solutions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme.css">
+<!-- KATEX_CSS -->
+<script src="katex.min.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="rail">
+  <div class="brand">
+    <a class="hub-link" href="../">← all courses</a>
+    <div class="brand-name">The Sound Bench</div>
+    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–3</div>
+  </div>
+  <ul class="wire">
+    <li><a href="#l1" data-quiz="1"><span class="n">L1</span><span>Plane waves<span class="sub">pressure, particle velocity, the wave equation</span></span></a></li>
+    <li><a href="#l2" data-quiz="2"><span class="n">L2</span><span>Reflection &amp; spherical waves<span class="sub">standing waves, tubes, two media, near field</span></span></a></li>
+    <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Levels &amp; measurement<span class="sub">dB, adding sources, octave bands, weighting</span></span></a></li>
+    <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
+  </ul>
+  <div class="rail-foot">
+    <div class="progress"><span class="progress-lbl">0 / 0 checks passed</span><div class="progress-bar"><i></i></div></div>
+    <button class="theme-btn" type="button">Theme: system</button>
+    <div>Built from the lecture notes, slides, the course text and the problem sheets in the vault. Hover any plot to read values.</div>
+  </div>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">DTU 34840 · Fundamentals of acoustics and noise control · autumn 2026</div>
+  <h1>Sound is a small pressure ripple. Three equations, and everything follows.</h1>
+  <p class="lead">Newton's law, conservation of mass and an adiabatic gas give the wave equation. Complex notation turns it into algebra. From there: waves that travel, reflect and spread, and the decibel bookkeeping that every noise limit is written in. Every plot below is live.</p>
+  <div class="legend-strip"><span class="pr">pressure p — what a microphone measures</span><span class="vel">particle velocity u — how the air moves</span><span class="lv">energy and levels — squares, then logarithms</span></div>
+  <div class="map">
+    <svg viewBox="0 0 980 220" role="img">
+      <path d="M40 110 H940" stroke="var(--rule-2)" stroke-width="2"/>
+      <g font-family="var(--font-display)" font-size="18" font-weight="600">
+        <circle cx="120" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="120" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">1</text><text x="120" y="60" text-anchor="middle" fill="var(--ink)">Plane waves</text><text x="120" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">p, u, c, λ, k · the wave equation</text>
+        <circle cx="330" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="330" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">2</text><text x="330" y="160" text-anchor="middle" fill="var(--ink)">Reflection &amp; spreading</text><text x="330" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">standing waves, tubes, R and T, 1/r</text>
+        <circle cx="540" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="540" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">3</text><text x="540" y="60" text-anchor="middle" fill="var(--ink)">Levels &amp; measurement</text><text x="540" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">dB, L_eq, octave bands, A-weighting</text>
+        <circle cx="750" cy="110" r="14" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="2"/><text x="750" y="160" text-anchor="middle" fill="var(--ink-3)">Impedance, intensity, power</text><text x="750" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">lecture 4, 22 Sep</text>
+        <circle cx="900" cy="110" r="14" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="2"/><text x="900" y="60" text-anchor="middle" fill="var(--ink-3)">Radiation</text><text x="900" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">monopole, dipole, piston</text>
+      </g>
+      <rect x="60" y="205" width="880" height="6" rx="3" fill="var(--el)" opacity="0.5"/><rect x="260" y="205" width="680" height="6" rx="3" fill="var(--me)" opacity="0.6"/><rect x="470" y="205" width="470" height="6" rx="3" fill="var(--ac)" opacity="0.7"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ============================== L1 ============================== -->
+<section class="lecture" id="l1">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 1 · Tue 1 Sep · FA</div>
+    <h2>Plane waves: what sound is, and the equation it obeys</h2>
+    <div class="meta">course text pp. 1–8 · slides 34840_Lecture1 + wave-equation supplement · Problems week 1</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Sound is a tiny departure of pressure from the ambient 101 kPa, tied to a tiny back-and-forth motion of the air. The pattern travels at c; the air does not. Newton + mass conservation + an adiabatic gas give <span class="m">\partial^2 p/\partial x^2 = (1/c^2)\,\partial^2 p/\partial t^2</span>.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The quantities</span>Three things to keep apart</h3>
+    <div class="tri">
+      <div class="dom pr"><h4>Sound pressure p <span class="u">Pa</span></h4><p>The fluctuation on top of the static pressure <span class="m">p_0</span>. A loud conversation is 0.02 Pa; the pain threshold about 60 Pa; <span class="m">p_0</span> is 101 300 Pa. Linear acoustics assumes <span class="m">|p| \ll p_0</span>.</p></div>
+      <div class="dom vel"><h4>Particle velocity u <span class="u">m/s</span></h4><p>How fast the air at one spot moves, back and forth along the wave. Millimetres per second. Not the speed of sound: the wave passes through the air, the air stays put on average.</p></div>
+      <div class="dom lv"><h4>Speed of sound c <span class="u">m/s</span></h4><p>How fast the pattern travels: 343 m/s in air at 20 °C, <span class="m">c = \sqrt{\gamma R_s T}</span> with T in kelvin. Sets the wavelength <span class="m">\lambda = c/f</span> and the wavenumber <span class="m">k = 2\pi/\lambda = \omega/c</span>.</p></div>
+    </div>
+    <p>Constants the sheets use: <span class="mono">c = 343 m/s</span>, <span class="mono">ρ₀ = 1.204 kg/m³</span>, so <span class="mono">ρ₀c = 413 Pa·s/m</span>; <span class="mono">γ = 1.401</span>, <span class="mono">p₀ = 101.3 kPa</span>. Every amplitude on the sheets is a <b>peak</b> value.</p>
+  </div>
+
+  <div id="bench-wave"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The derivation</span>Three physical statements, one wave equation</h3>
+    <p>A thin slice of air of area S and thickness dx. Write the density as <span class="m">\rho_0 + \rho'</span>, drop products of small quantities.</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">1 · Newton (Euler's equation)</span><div class="M">\rho_0\,\frac{\partial u}{\partial t} = -\frac{\partial p}{\partial x}</div><p>a pressure gradient accelerates the slice: mass × acceleration = net force</p></div>
+      <div class="fcard"><span class="eyebrow">2 · conservation of mass</span><div class="M">\frac{\partial \rho'}{\partial t} = -\rho_0\,\frac{\partial u}{\partial x}</div><p>if more air leaves the slice than enters, its density drops</p></div>
+      <div class="fcard"><span class="eyebrow">3 · adiabatic gas</span><div class="M">p = c^2\rho', \qquad c^2 = \frac{\gamma p_0}{\rho_0}</div><p>compressions are too fast to exchange heat, hence γ; compression raises the pressure, <span class="m">p = -\gamma p_0\,\Delta V/V_0</span></p></div>
+      <div class="fcard"><span class="eyebrow">combine: ∂/∂t of 2, ∂/∂x of 1, insert 3</span><div class="M">\frac{\partial^2 p}{\partial x^2} = \frac{1}{c^2}\frac{\partial^2 p}{\partial t^2}</div><p>anything of the form <span class="m">f(t - x/c)</span> or <span class="m">f(t + x/c)</span> solves it: a shape moving right or left at speed c</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The trick</span>Complex notation</h3>
+    <p>Write a harmonic wave as the real part of a complex exponential and keep the common <span class="m">e^{j\omega t}</span> out of sight:</p>
+    <div class="M">p(x,t) = \Re\{P(x)\,e^{j\omega t}\}, \qquad P(x) = A\,e^{-jkx}, \qquad \frac{\partial}{\partial t} \to j\omega, \qquad \int dt \to \frac{1}{j\omega}</div>
+    <p>Then the wave equation becomes the Helmholtz equation <span class="m">d^2P/dx^2 + k^2 P = 0</span>, and Euler's equation reads <span class="m">j\omega\rho_0 U = -dP/dx</span>. For a wave travelling towards +x that gives the two relations you use in every problem:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">velocity from pressure</span><div class="M">U = \frac{P}{\rho_0 c} \qquad (\rho_0 c = 413\ \text{Pa·s/m})</div><p>in phase with the pressure; the ratio is the <b>characteristic impedance</b> of the medium. A wave travelling towards −x has the opposite sign.</p></div>
+      <div class="fcard"><span class="eyebrow">displacement from velocity</span><div class="M">\Xi = \frac{U}{j\omega} \;\Rightarrow\; |\Xi| = \frac{|P|}{\omega\rho_0 c}</div><p>lags the velocity by 90° and shrinks with frequency — a subwoofer visibly moves, a tweeter does not</p></div>
+      <div class="fcard"><span class="eyebrow">adding waves of the same frequency</span><div class="M">P_{tot} = P_1 + P_2, \qquad |a + a e^{-j\theta}| = 2a\left|\cos\tfrac{\theta}{2}\right|</div><p>add the complex amplitudes first, take the magnitude last</p></div>
+    </div>
+  </div>
+
+  <div id="bench-phasors"></div>
+  <div id="bench-speed"></div>
+
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>Particle velocity is not the speed of sound.</b> 1 Pa gives 2.4 mm/s of air motion; the wave still moves at 343 m/s.</li>
+    <li><b>Kelvin, not celsius,</b> in <span class="m">c = \sqrt{\gamma R_s T}</span>. Ratios of speeds are square roots of ratios of absolute temperatures.</li>
+    <li><b>Peak, not rms.</b> The sheets give peak amplitudes and want peak answers; do not insert a √2 until lecture 3 asks for levels.</li>
+    <li><b>Radians.</b> A 179° lag is <span class="m">179\pi/180</span> before it goes into an exponential.</li>
+  </ul></div>
+
+  <div id="problems-1"></div>
+  <div id="quiz-1"></div>
+</section>
+
+<!-- ============================== L2 ============================== -->
+<section class="lecture" id="l2">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 2 · Tue 8 Sep · FA</div>
+    <h2>Reflection, standing waves, and the spherical wave</h2>
+    <div class="meta">course text pp. 8–15 (§1.2) · slides 34840_Lecture2 · Problems week 2</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Two travelling waves in opposite directions make a standing wave; a boundary decides how much comes back and with what sign. And once a wave spreads in three dimensions, pressure and velocity stop being in phase near the source.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Incident plus reflected</h3>
+    <div class="M">P(x) = P_i e^{-jkx} + P_r e^{jkx}, \qquad U_x(x) = \frac{P_i e^{-jkx} - P_r e^{jkx}}{\rho c}, \qquad R = \frac{P_r}{P_i}</div>
+    <p>The minus sign in the velocity is the whole story: velocity has a direction, pressure does not. At a <b>rigid wall</b> the velocity must vanish, so <span class="m">P_r = P_i</span>, <span class="m">R = +1</span>: pressure antinode at the wall, first pressure node a quarter wavelength away, then every half wavelength. At a <b>pressure-release</b> end (an ideal open tube end) the pressure must vanish, <span class="m">R = -1</span>: the roles swap.</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">rigid wall</span><div class="M">P = 2P_i\cos kx,\quad U = -j\frac{2P_i}{\rho c}\sin kx,\quad d_n = \frac{(2n+1)\lambda}{4}</div></div>
+      <div class="fcard"><span class="eyebrow">pressure release</span><div class="M">P = -2jP_i\sin kx,\quad U = \frac{2P_i}{\rho c}\cos kx</div></div>
+      <div class="fcard"><span class="eyebrow">partial reflection</span><div class="M">s = \frac{|P|_{max}}{|P|_{min}} = \frac{1+|R|}{1-|R|}, \qquad |R| = \frac{s-1}{s+1}</div><p>the standing wave ratio is how |R| is measured in a tube</p></div>
+    </div>
+  </div>
+
+  <div id="bench-standing"></div>
+  <div id="bench-tubemodes"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Two media</span>Reflection and transmission at normal incidence</h3>
+    <p>At the interface the pressure is continuous (no net force on a massless surface) and the normal velocity is continuous (the fluids stay in contact). With <span class="m">Z = \rho c</span> for each medium:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">from the two continuity conditions</span><div class="M">P_i + P_r = P_t, \qquad \frac{P_i - P_r}{Z_1} = \frac{P_t}{Z_2}</div></div>
+      <div class="fcard"><span class="eyebrow">reflection and pressure transmission</span><div class="M">R = \frac{Z_2 - Z_1}{Z_2 + Z_1}, \qquad T_p = \frac{P_t}{P_i} = 1 + R = \frac{2Z_2}{Z_1 + Z_2}</div><p>the sheet's "attenuation factor" is <span class="m">P_i/P_t = 1/T_p</span></p></div>
+      <div class="fcard"><span class="eyebrow">power, which is what actually crosses</span><div class="M">\tau = \frac{4Z_1Z_2}{(Z_1+Z_2)^2} = 1 - |R|^2</div><p>symmetric in the two media; air–water passes 0.1 % of the power either way</p></div>
+    </div>
+  </div>
+
+  <div id="bench-interface"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>A transmitted pressure larger than the incident one is not a gain of energy.</b> Air into water: R = 0.9994, yet <span class="m">P_t = 2P_i</span>. The pressure doubles because the incident and reflected waves add at the interface; the power that gets through is <span class="m">\tau = 0.11\,\%</span>. Water into air: the same 0.11 % of power, but the pressure drops 1793 times (65 dB). Keep pressure ratios and power ratios in separate columns.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Spreading</span>The spherical wave</h3>
+    <p>With spherical symmetry the wave equation for <span class="m">r\,p</span> is one-dimensional, so the outgoing solution is</p>
+    <div class="M">P(r) = \frac{A\,e^{-jkr}}{r}, \qquad |P(r)| = |P(r_0)|\,\frac{r_0}{r}, \qquad U_r = \frac{P}{\rho c}\left(1 + \frac{1}{jkr}\right), \qquad Z_s = \frac{P}{U_r} = \frac{\rho c}{1 + 1/(jkr)}</div>
+    <p>Pressure obeys the inverse-distance law (−6 dB per doubling). The particle velocity has an extra term that only matters close to the source, where <span class="m">kr</span> is small: there the velocity is larger than <span class="m">P/\rho c</span> and lags the pressure, the field is <b>reactive</b>, and the plane-wave relation underestimates the motion.</p>
+  </div>
+
+  <div id="bench-spherical"></div>
+
+  <div class="callout real"><span class="eyebrow">Link to Electroacoustics</span><p><span class="m">P/U_r</span> here is the <b>specific</b> acoustic impedance in Pa·s/m. The lumped circuits of 34870 use pressure over <b>volume</b> velocity, Pa·s/m³: divide by the area the flow passes through. The <span class="m">1/(jkr)</span> near-field term is exactly the "mass-like" radiation impedance that loads a loudspeaker cone at low frequency.</p></div>
+
+  <div id="problems-2"></div>
+  <div id="quiz-2"></div>
+</section>
+
+<!-- ============================== L3 ============================== -->
+<section class="lecture" id="l3">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 3 · Tue 15 Sep · FA · built from the slides and course text §1.3 ahead of the lecture</div>
+    <h2>Levels and measurement: rms, decibels, bands, weighting, time</h2>
+    <div class="meta">course text pp. 15–27 · slides 34840_Lecture3 (43) · Problems week 3 · Matlab sound-level-meter exercise</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A meter squares the pressure, averages it, and takes a logarithm. Independent sounds add as squares; the same tone from two places adds as phasors. Everything else in this lecture is which filter sits before the squaring and which averaging sits after it.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The definitions</span>From pressure to level</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">rms pressure</span><div class="M">p_{rms} = \sqrt{\overline{p^2(t)}} = \sqrt{\frac{1}{T}\int_0^T p^2\,dt}</div><p>a sine of amplitude A has <span class="m">p_{rms} = A/\sqrt2</span></p></div>
+      <div class="fcard"><span class="eyebrow">sound pressure level</span><div class="M">L_p = 10\log_{10}\frac{p_{rms}^2}{p_{ref}^2} = 20\log_{10}\frac{p_{rms}}{20\ \mu\text{Pa}}</div><p>20 µPa ≈ the hearing threshold at 1 kHz; 1 Pa rms is 94 dB</p></div>
+      <div class="fcard"><span class="eyebrow">uncorrelated sources add their mean squares</span><div class="M">p^2_{rms,tot} = \sum_i p^2_{rms,i} \;\Rightarrow\; L_{tot} = 10\log\sum_i 10^{L_i/10}</div><p>+3 dB for two equal sources, +10 dB for ten; the cross terms average to zero</p></div>
+      <div class="fcard"><span class="eyebrow">background correction</span><div class="M">L_{src} = 10\log\left(10^{L_{tot}/10} - 10^{L_{bg}/10}\right)</div><p>only reliable if the background is at least 3 dB below the total; under 0.5 dB correction beyond 10 dB</p></div>
+      <div class="fcard"><span class="eyebrow">same tone, two paths (coherent)</span><div class="M">|A e^{j\varphi_A} + B e^{j\varphi_B}| \in [\,|A - B|,\ A + B\,]</div><p>anywhere between −∞ and +6 dB; the mean-square rule does not apply</p></div>
+      <div class="fcard"><span class="eyebrow">other levels</span><div class="M">L_I = 10\log\frac{I}{10^{-12}\,\text{W/m}^2}, \qquad L_W = 10\log\frac{P_a}{10^{-12}\,\text{W}}</div><p>linear quantities get 20·log, quadratic ones 10·log</p></div>
+    </div>
+  </div>
+
+  <div id="bench-levels"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Frequency</span>Octave bands and 1/n-octave bands</h3>
+    <p>Hearing has roughly constant <em>relative</em> bandwidth, so acoustics analyses in constant-percentage bands: an octave is a factor 2, a 1/3-octave a factor <span class="m">2^{1/3}</span> (almost exactly a tenth of a decade, which is why the standard centre frequencies are 1.25, 1.6, 2, 2.5, 3.15, 4, 5, 6.3, 8, 10 ×10ⁿ).</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">octave band</span><div class="M">f_l = \frac{f_c}{\sqrt2}, \qquad f_u = \sqrt2\,f_c, \qquad f_c = \sqrt{f_l f_u}</div></div>
+      <div class="fcard"><span class="eyebrow">1/n-octave band</span><div class="M">f_u/f_l = 2^{1/n}, \qquad f_{l,u} = f_c\,2^{\mp 1/2n}, \qquad BW = f_c\left(2^{1/2n} - 2^{-1/2n}\right)</div></div>
+      <div class="fcard"><span class="eyebrow">Parseval: bands partition the mean square</span><div class="M">p_{rms}^2 = \sum_i p_{rms,i}^2, \qquad L_Z = 10\log\sum_i 10^{L_i/10}, \qquad L_A = 10\log\sum_i 10^{(L_i + K_i)/10}</div><p>total level from band levels; A-weighted total by adding the table's <span class="m">K_i</span> per band first</p></div>
+    </div>
+  </div>
+
+  <div id="bench-octave"></div>
+  <div id="bench-noise"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Weighting and time</span>What the meter does before and after squaring</h3>
+    <p><b>Before:</b> a frequency weighting. A-weighting follows the ear's low-level sensitivity and is the basis of nearly every noise limit (<span class="m">L_A</span>, "dB(A)"); C-weighting is nearly flat and a large <span class="m">L_C - L_A</span> flags low-frequency noise; Z is unweighted. <b>After:</b> a time weighting. Exponential (Fast τ = 125 ms, Slow τ = 1 s) gives a running level; the equivalent level <span class="m">L_{eq,T}</span> averages the squared pressure over a whole interval (30 s for installations, 8 h for a workplace, 24 h for traffic).</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">exponential time weighting</span><div class="M">L_p(t) = 10\log\left[\frac{1}{\tau}\int_{-\infty}^{t} p^2(u)\,e^{-(t-u)/\tau}\,du \Big/ p_{ref}^2\right]</div><p>digitally: <span class="m">y_n = \alpha y_{n-1} + (1-\alpha)p_n^2</span>, <span class="m">\alpha = e^{-1/\tau f_s}</span></p></div>
+      <div class="fcard"><span class="eyebrow">equivalent level</span><div class="M">L_{eq} = 10\log\left[\frac{1}{t_2 - t_1}\int_{t_1}^{t_2} p^2(t)\,dt \Big/ p_{ref}^2\right]</div><p>the level of the rms pressure over the interval — never the average of the decibels</p></div>
+    </div>
+  </div>
+
+  <div id="bench-weighting"></div>
+  <div id="bench-timeweight"></div>
+
+  <div class="callout real"><span class="eyebrow">The instrument</span><p>A sound level meter is a ½-inch condenser microphone (thin tensioned foil over a charged back plate — the very capsule modelled in 34870 lecture 5), an amplifier, the weighting filter, a squarer, the time-averaging low-pass, and a log converter. Below 1 kHz the 13 mm capsule is omnidirectional; above a few kHz it disturbs the field, which is why free-field, random-incidence and pressure microphones exist. Noise measurements of random signals have a random error that shrinks with bandwidth × averaging time.</p></div>
+
+  <div id="problems-3"></div>
+  <div id="quiz-3"></div>
+</section>
+
+<!-- ============================== summary ============================== -->
+<section class="lecture" id="cheat">
+  <div class="lec-head">
+    <div class="eyebrow">Everything so far, on one screen</div>
+    <h2>What to actually remember</h2>
+  </div>
+  <div class="block">
+    <div class="table-wrap"><table>
+      <tr><th>topic</th><th>the formula</th><th>the number to sanity-check with</th></tr>
+      <tr><td class="pr">plane wave</td><td><span class="m">\lambda = c/f,\ k = \omega/c,\ U = P/\rho c,\ \Xi = U/j\omega</span></td><td>1 Pa, 1 kHz: 34.3 cm · 18.3 rad/m · 2.42 mm/s · 0.385 µm</td></tr>
+      <tr><td class="pr">wave equation</td><td><span class="m">\partial_x^2 p = c^{-2}\partial_t^2 p</span> from Euler + continuity + <span class="m">p = c^2\rho'</span></td><td><span class="m">A e^{j(\omega t - kx)}</span> solves it iff <span class="m">k = \omega/c</span></td></tr>
+      <tr><td class="lv">speed of sound</td><td><span class="m">c = \sqrt{\gamma R_s T}</span>, T in K; <span class="m">p = -\gamma p_0 \Delta V/V</span></td><td>15 → 32 °C: ×1.029 (a quarter tone) · 0.002 % volume → 2.84 Pa</td></tr>
+      <tr><td class="pr">rigid wall</td><td>R = +1, pressure antinode, nodes at (2n+1)λ/4</td><td>1 kHz: 8.6, 25.7, 42.9 cm</td></tr>
+      <tr><td class="pr">tubes</td><td>open–open, closed–closed: nc/2L · closed–open: (2n−1)c/4L</td><td>helium ×2.91 ≈ an octave and a fifth</td></tr>
+      <tr><td class="pr">two media</td><td><span class="m">R = \frac{Z_2 - Z_1}{Z_2+Z_1},\ T_p = 1 + R,\ \tau = \frac{4Z_1Z_2}{(Z_1+Z_2)^2}</span></td><td>air→water: R 0.9994, P_t/P_i 2, τ 0.1 % · water→air: attenuation 1793</td></tr>
+      <tr><td class="vel">spherical wave</td><td><span class="m">P = Ae^{-jkr}/r,\ U_r = \frac{P}{\rho c}(1 + \frac{1}{jkr}),\ \arg Z_s = \arctan\frac{1}{kr}</span></td><td>250 Hz at 10 cm: 5 Pa, 29 mm/s, 65.4°</td></tr>
+      <tr><td class="lv">levels</td><td><span class="m">L_p = 20\log(p_{rms}/20\,\mu\text{Pa})</span>; uncorrelated add squares; coherent add phasors</td><td>0.02 Pa peak → 57 dB · two equal uncorrelated +3 · in phase +6 · 120° apart +0</td></tr>
+      <tr><td class="lv">bands</td><td><span class="m">f_{l,u} = f_c 2^{\mp 1/2n}</span>; n equal lines in a band → +10·log n</td><td>1/12-oct at 1 kHz: 57.8 Hz · 1.3 ms period → 60/63/66 dB in 1k/2k/4k</td></tr>
+      <tr><td class="lv">meter</td><td>A-weight → square → Fast 125 ms / Slow 1 s or L_eq → log</td><td>A at 100 Hz: −19.1 dB · at 31.5 Hz: −39.4 dB</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<footer>
+  Built 14 Sep 2026 from the 34840 lecture notes (1–2), the lecture 3 slides and course text §1.3, the three problem sheets and the official solutions for weeks 1 and 2. Bench readouts reproduce the sheets' answers. Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
+</footer>
+</main>
+</div>
+<script src="app.js"></script>
+<script src="quiz.js"></script>
+<script src="problems.js"></script>
+<script src="benches.js"></script>
+</body>
+</html>

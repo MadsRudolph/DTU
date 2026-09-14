@@ -1,5 +1,5 @@
 {
-  // The Analogy Bench as a static-assets Worker on the madsrudolph.dev zone.
+  // The Study Bench (hub + one site per course) as a static-assets Worker on the madsrudolph.dev zone.
   // No Worker code: Cloudflare serves dist/ directly. Deploy with `npm run deploy:cf`
   // (build.py first — dist/.assetsignore keeps artifact.html out of the upload).
   "$schema": "./node_modules/wrangler/config-schema.json",

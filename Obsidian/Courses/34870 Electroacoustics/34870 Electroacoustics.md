@@ -48,10 +48,10 @@ tags: [Electroacoustics, Audio, home]
 
 > [!success] The Analogy Bench — lectures 0–5 and Lab A as an interactive site
 > Visual walkthrough of everything so far, plus Lab A solved live (dual-diaphragm speaker, silencer ladder, coil + two masses, with the sign checks): live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
-> - **Public:** https://study.madsrudolph.dev
-> - **Home server (LAN):** http://192.168.50.220 (Proxmox CT 116 `study`)
+> - **Public:** https://study.madsrudolph.dev/34870/ (hub for all courses at https://study.madsrudolph.dev)
+> - **Home server (LAN):** http://192.168.50.220/34870/ (Proxmox CT 116 `study`)
 > - **Claude artifact (same build):** https://claude.ai/code/artifact/a2ca9f90-949a-40ad-bea6-2fe4bf114277
-> - **Source + deploy:** `5. Semester/Electroacoustics/Analogy Bench/` (`./deploy.sh`)
+> - **Source + deploy:** `5. Semester/Study Bench/courses/34870/` (`npm run deploy:cf`)
 
 > [!tip] Quick Links
 > - [DTU Course Page](https://kurser.dtu.dk/course/34870)

@@ -1,5 +1,5 @@
 {
-  "name": "analogy-bench",
+  "name": "study-bench",
   "version": "1.0.0",
   "description": "Interactive study site for **34870 Electroacoustics, lectures 0\u20135** (analogies, mechanical and acoustic systems, transducers, dynamic / directional / condenser microphones). Every plot is computed live in the browser from the same formulas as the lecture notes; the bench start values reproduce the worked problem answers (Problem 4.4b, Problems 4 design, Problem 5.1).",
   "scripts": {

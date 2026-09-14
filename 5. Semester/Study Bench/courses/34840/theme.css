@@ -1,0 +1,13 @@
+/* The Sound Bench — course theme for 34840. Reuses the core tokens with new
+   meanings: --el = PRESSURE (violet), --me = PARTICLE VELOCITY (copper),
+   --ac = ENERGY / LEVEL (teal). Class names .el/.me/.ac keep working; .pr/.vel/.lv
+   are readable aliases for the markup. */
+:root { --el: #6B4BB8; --me: #C2661A; --ac: #178C74; --el-soft: rgba(107,75,184,0.12); --me-soft: rgba(194,102,26,0.12); --ac-soft: rgba(23,140,116,0.12); --bg: #F3F4F4; --surface: #FBFBFA; --surface-2: #EBEDEC; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --el: #9A82E6; --me: #E08A3E; --ac: #3FB79B; --el-soft: rgba(154,130,230,0.16); --me-soft: rgba(224,138,62,0.16); --ac-soft: rgba(63,183,155,0.16); --bg: #141A22; --surface: #1B222C; --surface-2: #222A35; } }
+:root[data-theme="dark"] { --el: #9A82E6; --me: #E08A3E; --ac: #3FB79B; --el-soft: rgba(154,130,230,0.16); --me-soft: rgba(224,138,62,0.16); --ac-soft: rgba(63,183,155,0.16); --bg: #141A22; --surface: #1B222C; --surface-2: #222A35; }
+.pr { color: var(--el); } .vel { color: var(--me); } .lv { color: var(--ac); }
+.tag.pr { background: var(--el-soft); color: var(--el); } .tag.vel { background: var(--me-soft); color: var(--me); } .tag.lv { background: var(--ac-soft); color: var(--ac); }
+.legend-strip .pr::before { background: var(--el); } .legend-strip .vel::before { background: var(--me); } .legend-strip .lv::before { background: var(--ac); }
+.dom.pr { border-top-color: var(--el); } .dom.vel { border-top-color: var(--me); } .dom.lv { border-top-color: var(--ac); }
+td.pr { color: var(--el); } td.vel { color: var(--me); } td.lv { color: var(--ac); }
+.stage svg text { font-family: var(--font-mono); }
