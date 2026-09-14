@@ -1,0 +1,7 @@
+[Unit]
+Description=Mirror study.madsrudolph.dev into /var/www/analogy-bench
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/analogy-bench-mirror/mirror.py

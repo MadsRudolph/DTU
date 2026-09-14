@@ -32,4 +32,9 @@ for name in ("style.css", "app.js", "benches.js", "diagrams.js", "quiz.js"):
     shutil.copy(SRC / name, DIST / name)
 shutil.copy(KATEX / "katex.min.js", DIST / "katex.min.js")
 (DIST / ".assetsignore").write_text("artifact.html\n")  # Cloudflare upload skips the artifact flavour
+# manifest: the served files, so the LAN mirror (CT 116) can pull the public site
+import json, hashlib, time
+served = ["index.html", "style.css", "app.js", "benches.js", "diagrams.js", "quiz.js", "katex.min.js"]
+(DIST / "manifest.json").write_text(json.dumps({"built": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    "files": {f: hashlib.sha256((DIST / f).read_bytes()).hexdigest() for f in served}}, indent=1))
 print("built", DIST, "index.html", (DIST / "index.html").stat().st_size // 1024, "KB")

@@ -14,8 +14,9 @@ Auto-loaded by Claude Code, travels with `git pull`. Records **where to pick up*
 
 ### ▶️ FIRST ACTION ON A FRESH PC
 1. `git pull` in `~/DTU`. **That is all** — the PDFs and slides arrive on their own over Syncthing (see the Syncthing section below); there is no manifest to fetch and no hook to enable any more. On a genuinely fresh machine, install `syncthing`, then add the device to the cluster from <http://192.168.50.219:8384> and share the `dtu` folder with it.
-2. Open the dashboard: `Obsidian/Home.md` — weekly timetable, every deadline, every exam date.
-3. Per course: `Obsidian/Courses/<code> <name>/<code> <name>.md` — each index note carries the real DTU course data (staff, rooms, exam form, full lecture plan, assignment briefs).
+2. **Once per PC, for the study site:** `cd "5. Semester/Electroacoustics/Analogy Bench" && npm install && npx wrangler login` (browser OAuth once; the token stays in `~/.config/.wrangler`). Without it `npm run deploy:cf` cannot publish from that PC.
+3. Open the dashboard: `Obsidian/Home.md` — weekly timetable, every deadline, every exam date.
+4. Per course: `Obsidian/Courses/<code> <name>/<code> <name>.md` — each index note carries the real DTU course data (staff, rooms, exam form, full lecture plan, assignment briefs).
 
 ### 📅 The term at a glance
 

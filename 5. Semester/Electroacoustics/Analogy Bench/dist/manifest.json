@@ -1,0 +1,12 @@
+{
+ "built": "2026-09-14T22:46:42",
+ "files": {
+  "index.html": "1464b65f0f99bfc6081c2867d1c11016f755627a7574ff169e5700c32bb9bec0",
+  "style.css": "e56bdd3e56025a0fb8b71604f82342be760fababc5f21f1c125882c942bab882",
+  "app.js": "2fd908035fbcbd604f3e13ef5d48abbf21692e17ad3374a36e033c954ece226a",
+  "benches.js": "cec3ee8021278ad1a016d778210ce567045de0f55c0f8b4f2444970edee35981",
+  "diagrams.js": "1f5571801b1bdbcad35714c7c085ac3926ace709d2e033aab67441cb8ae1faba",
+  "quiz.js": "6ff8ef5378fc4d4578a16ccbb54d48d052e5ef71e07a89677d52b77170622e28",
+  "katex.min.js": "e8d885505949f3a5f4abdd5dd0d53696bd1371ad26ffbf4f310dcd77c8cdae89"
+ }
+}

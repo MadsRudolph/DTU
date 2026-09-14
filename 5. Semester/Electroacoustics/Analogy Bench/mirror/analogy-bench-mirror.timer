@@ -1,0 +1,10 @@
+[Unit]
+Description=Pull the public Analogy Bench every 30 min
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=30min
+RandomizedDelaySec=3min
+
+[Install]
+WantedBy=timers.target
