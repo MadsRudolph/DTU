@@ -1,8 +1,9 @@
 """Markdown the sync writes into the vault.
 
-These notes are committed to git directly -- they are text, so they do not go
-through drive-sync. The Home.md injection is deliberately conservative: it only
-ever touches the region between its own markers.
+These notes are committed to git directly -- they are text. The binaries beside
+them are gitignored and travel by Syncthing instead. The Home.md injection is
+deliberately conservative: it only ever touches the region between its own
+markers.
 """
 
 from __future__ import annotations

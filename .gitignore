@@ -33,8 +33,24 @@
 *.wav
 *.mp3
 
-# Maple worksheets (large; stored in Google Drive via drive-sync)
+# Simulation and engineering binaries. These are carried by Syncthing, not git
+# -- see .stignore. Keeping them out of git is what stops a 30 MB Simulink model
+# landing in a commit; a handful of older ones were force-added before this rule
+# existed and stay tracked, which is harmless.
 *.mw
+*.slx
+*.mlx
+*.mat
+*.npz
+*.wbk
+*.raw
+*.vi
+
+# ===========================================
+# Syncthing internals (the binaries themselves are ignored above)
+# ===========================================
+.stfolder/
+.stversions/
 
 # ===========================================
 # System and editor files

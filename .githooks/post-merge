@@ -1,3 +1,0 @@
-#!/bin/sh
-# post-merge: fires on `git pull` (fast-forward or merge). Body is shared.
-exec "$(dirname "$0")/drive-sync-download.sh"

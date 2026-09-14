@@ -42,12 +42,10 @@ Everything lives in an **Obsidian vault** with consistent structure per course:
 git clone --recurse-submodules git@github.com:MadsRudolph/DTU.git
 cd DTU
 
-# Enable git hooks (auto-downloads new Drive files on pull)
-git config core.hooksPath .githooks
-
-# Download large files (PDFs, slides) from Google Drive
-pip install -r Obsidian/scripts/drive-sync/requirements.txt
-PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
+# Large files (PDFs, slides, videos) arrive over Syncthing -- install it, then
+# add this machine from the always-on node's UI at http://192.168.50.219:8384
+# and share the "dtu" folder with it. Nothing to download by hand.
+sudo pacman -S syncthing && systemctl --user enable --now syncthing
 
 # If already cloned, initialize submodules
 git submodule update --init --recursive
@@ -55,7 +53,7 @@ git submodule update --init --recursive
 
 Open the `Obsidian/` folder as a vault in [Obsidian](https://obsidian.md/).
 
-> **Note:** Large files (PDFs, slides, videos) are stored in Google Drive to keep the repo lightweight. The download script fetches ~335 files (~1GB) automatically.
+> **Note:** Large files (PDFs, slides, videos) are kept out of git to keep the repo lightweight. Syncthing replicates them between the two PCs and an always-on node on the home server (~1 750 files, ~3.6 GB); Google Drive is now only a nightly offsite backup written by that node. See the Syncthing section in `CLAUDE.md`.
 
 ### Setting up SPICEPilot (for SPICE simulations)
 
@@ -91,14 +89,14 @@ DTU/
 │   │   └── 62711 Digital Systems Design/
 │   ├── Archive/                         # Past semester notes
 │   ├── scripts/
-│   │   └── drive-sync/                  # Google Drive sync for large files
 │   └── MOC files
 ├── SPICEPilot/                          # Git submodule (SPICE simulation framework)
 │   ├── examples/                        # Working circuit examples
 │   ├── results/                         # Simulation outputs
 │   ├── setup.bat                        # Automated setup script
 │   └── SETUP_INSTRUCTIONS.md            # Setup guide
-└── .gitignore                           # Excludes PDFs, slides (stored in Drive)
+├── .gitignore                           # Excludes PDFs, slides (carried by Syncthing)
+└── .stignore                            # What Syncthing carries: git owns text, Syncthing owns binaries
 ```
 
 ---
@@ -113,7 +111,7 @@ DTU/
 | Digital Design | Xilinx Vivado, VHDL |
 | SPICE Simulation | SPICEPilot, PySpice, ngspice |
 | MCU / IoT | Arduino IDE, PlatformIO, VS Code |
-| Version Control | Git + Google Drive (large files) |
+| Version Control | Git (text) + Syncthing (large files) |
 
 ---
 
@@ -153,20 +151,17 @@ Comprehensive guides in `Obsidian/Courses/Integrated Analog Electronics/LTspice 
 
 ## 📜 Scripts
 
-### Google Drive Sync (large files)
+### Large files
 
-| Script | Purpose |
-|--------|---------|
-| `download.py` | Download all large files from Google Drive |
-| `upload.py --scan` | Find new large files not yet in Drive |
-| `upload.py --add` | Add a file to the manifest after uploading |
+There are no sync scripts any more. Syncthing replicates every gitignored
+binary between the two PCs, the `learn-sync` container and the always-on node
+at `192.168.50.219`; what it carries is set by `.stignore` in the repo root.
 
 ```bash
-# Download missing files
-PYTHONUTF8=1 python Obsidian/scripts/drive-sync/download.py
-
-# Check for new files to upload
-python Obsidian/scripts/drive-sync/upload.py --scan
+# Is everything in sync?
+curl -s -H "X-API-Key: $(grep -oP '(?<=<apikey>)[^<]+' \
+  ~/.local/state/syncthing/config.xml)" \
+  http://127.0.0.1:8384/rest/db/status?folder=dtu
 ```
 
 ### Vault Maintenance

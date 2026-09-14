@@ -1,7 +1,7 @@
 # learn-sync
 
 Pulls new DTU Learn material into the Obsidian vault on a schedule, files it by
-rules, publishes it through the existing git + drive-sync pipeline, and reports
+rules, commits the notes to git, lets Syncthing carry the binaries, and reports
 to Discord. Design: [`docs/superpowers/specs/2026-08-31-learn-sync-design.md`](../../docs/superpowers/specs/2026-08-31-learn-sync-design.md).
 
 ## Commands
@@ -41,15 +41,16 @@ A course with no rules still syncs: standard folder skeleton, everything under
 Debian 12, unprivileged, 2 GB RAM (Chromium's floor), Docker + Compose installed.
 
 ```bash
-mkdir -p /srv/learn-sync/{app,repo,session,ssh,rclone}
+mkdir -p /srv/learn-sync/{app,repo,session,ssh}
 git clone git@github.com:MadsRudolph/DTU.git /srv/learn-sync/repo
 cp -r /srv/learn-sync/repo/tools/learn-sync/* /srv/learn-sync/app/
 ```
 
 - Put a **deploy key with write access** in `/srv/learn-sync/ssh/` and add its
   public half to the repo on GitHub.
-- Copy the working `rclone.conf` (the one with the `gdrive:` remote) into
-  `/srv/learn-sync/rclone/`.
+- Install Syncthing **in the LXC, outside Docker** (`systemctl enable --now
+  syncthing@root`) and share the `dtu` folder with `/srv/learn-sync/repo`. That
+  is how the downloaded binaries reach the PCs; git only carries the notes.
 - Copy your `storageState.json` into `/srv/learn-sync/session/`.
 - `cp .env.example .env`, fill it in, `chmod 600 .env`.
 
@@ -77,9 +78,9 @@ design — the run aborts before touching git and tells you to re-run
 
 ## On the vault side
 
-Nothing changes. `git pull` then
-`python Obsidian/scripts/drive-sync/download.py`, same as always. Binaries stay
-gitignored and travel via Drive; the manifest travels in git.
+`git pull`, and that is all. The notes arrive in the commit; the PDFs arrive
+separately over Syncthing, usually before the commit does. Binaries stay
+gitignored and are never in git.
 
 ## Tests
 
@@ -102,10 +103,18 @@ clone with a local bare origin:
 - `Home.md` injection checked against the real 135-line dashboard: every
   original line preserved, idempotent
 
-**Not yet exercised:** the rclone leg. The scratch repo had no
-`Obsidian/scripts/drive-sync/upload.py`, so the run took the documented
-"script missing, skipping upload" path. That step runs for the first time on
-the container.
+Superseded on 14-Sep-2026: the Google Drive leg is gone. Binaries used to be
+uploaded to Drive here and pulled back down by a manifest on each PC; a
+Syncthing agent on the container replicates them directly instead, and Drive is
+only a nightly backup written by the always-on node. See the Syncthing section
+in the repo's `CLAUDE.md`.
+
+That migration also fixed the failure it was diagnosing: an untracked file
+colliding with an incoming commit wedged `git pull --rebase --autostash` on
+9-Sep-2026, and the service retried the identical failure every three hours for
+five days without saying anything, because only `AuthFailed` reached Discord.
+`Delivery.pull()` now clears such collisions itself, and every `DeliveryFailed`
+raises an alert.
 
 Filing decisions worth knowing about:
 

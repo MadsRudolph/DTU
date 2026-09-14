@@ -7,7 +7,7 @@
 FROM mcr.microsoft.com/playwright/python:v1.62.0-jammy
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        git openssh-client rclone \
+        git openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

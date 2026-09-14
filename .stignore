@@ -1,0 +1,155 @@
+// Syncthing ignore list for the DTU repo.
+//
+// THE RULE: git owns the text, Syncthing owns the binaries.
+//
+// This is deliberately a DENY-list. Everything listed here is skipped; anything
+// NOT listed syncs. That is the opposite of the old drive-sync manifest, which
+// was an allow-list of "large" extensions -- and which silently dropped every
+// file type nobody had remembered to add (that is how the .slx Simulink models
+// and the learn-sync .jpg photos ended up on one machine only).
+//
+// So: a new binary format starts syncing the day it appears. Only text that git
+// already carries has to be listed below.
+//
+// Keep this in sync with .gitignore's "Large files" block when that changes.
+
+// --- never sync: repo plumbing and caches ---------------------------------
+.git
+.stversions
+.stignore
+.history
+__pycache__
+node_modules
+.venv
+venv
+.obsidian
+.claude
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+~*.lck
+
+// --- never sync: prose and source that git tracks -------------------------
+*.md
+*.txt
+*.csv
+*.json
+*.yml
+*.yaml
+*.ini
+*.cfg
+*.toml
+*.xml
+*.info
+*.dict
+*.example
+*.supp
+*.expected
+
+// code
+*.py
+*.pyc
+*.c
+*.h
+*.cpp
+*.hpp
+*.ino
+*.js
+*.cjs
+*.mjs
+*.ts
+*.css
+*.html
+*.rb
+*.sh
+*.bat
+*.ps1
+*.cmake
+*.tcl
+*.jar
+
+// MATLAB / Maple / SPICE / HDL sources (text)
+*.m
+*.asv
+*.cir
+*.net
+*.asc
+*.vhd
+*.vhdl
+*.v
+*.sv
+*.xdc
+*.qsch
+*.kicad_sch
+*.kicad_pcb
+*.kicad_pro
+*.kicad_prl
+*.kicad_sym
+*.kicad_mod
+
+// LaTeX sources and build droppings
+*.tex
+*.cls
+*.sty
+*.bib
+*.aux
+*.toc
+*.fls
+*.log
+*.out
+*.synctex
+*.synctex.gz
+*.fdb_latexmk
+latexmkrc
+*.latexmkrc
+
+// build artefacts
+*.o
+*.exe
+*.db
+
+// --- never sync: files git owns that carry no extension -------------------
+// The extension deny-list above cannot see these, and .gitignore/.gitattributes
+// in particular describe repo state -- two machines on different commits must
+// not push them at each other behind git's back.
+.gitkeep
+.gitignore
+.gitattributes
+.gitmodules
+.gitconfig
+.dockerignore
+.npmignore
+.editorconfig
+.nvmrc
+.python-version
+LICENSE
+LICENSE.*
+COPYING
+README
+CHANGELOG
+Makefile
+makefile
+GNUmakefile
+Dockerfile
+Dockerfile.*
+latexmkrc
+*.in
+
+// --- never sync: images git already carries -------------------------------
+// These are small, tracked, and arrive with a git pull. Leaving them to git
+// avoids two systems writing the same file.
+*.png
+*.jpg
+*.jpeg
+*.heic
+*.svg
+*.gif
+*.ico
+
+// --- everything else syncs ------------------------------------------------
+// In practice that means: pdf pptx ppt docx doc xlsx dotx zip 7z rar tar.gz iso
+// mov mp4 avi mkv wav mp3 mw mlx slx mat npz raw wbk step stl -- plus whatever
+// new binary format a course throws at you next semester.

@@ -17,8 +17,7 @@ from .collectors.content import TOC_PATH, parse_toc
 from .collectors.courses import ENROLMENTS_PATH, parse_enrollments
 from .collectors.events import EVENTS_PATH, parse_events
 from .collectors.news import NEWS_PATH, parse_news
-from .delivery import Delivery, DriveSyncFailed
-from .drive import DriveUploader, Rclone, folder_id_from_manifest
+from .delivery import Delivery, DeliveryFailed
 from .filing import load_rules
 from .notes import (
     inject_block,
@@ -62,40 +61,6 @@ class Config:
         )
 
 
-def _drive_sync(repo_root: Path, state):
-    """Push to Drive everything state believes is synced but the manifest lacks.
-
-    Uses our own additive uploader rather than drive-sync's `upload.py --sync`.
-    That script rebuilds the manifest from files present on local disk, which is
-    right on a full checkout and destructive here: the container holds only the
-    binaries learn-sync downloaded, so a rebuild would drop every other entry.
-
-    Driving it from state rather than from this run's downloads makes it
-    self-healing -- a file left behind by an aborted run is picked up next time.
-
-    Only files still inside Obsidian/Courses/ go to Drive. A rule can route a
-    topic outside the vault (a `to:` starting with "/", e.g. tool files into
-    "5. Semester/..."); those are small, git-native project files, not the
-    large binaries this pipeline exists to keep out of git, so they are meant
-    to be committed directly instead -- see the `touched` filtering in
-    cmd_sync.
-    """
-
-    def run() -> None:
-        uploader = DriveUploader(
-            repo_root, Rclone(folder_id_from_manifest(repo_root))
-        )
-        vault_paths = [
-            p for p in state.known_vault_paths()
-            if p == COURSES_ROOT or p.startswith(COURSES_ROOT + "/")
-        ]
-        uploaded = uploader.upload(sorted(vault_paths))
-        if uploaded:
-            log.info("uploaded %d file(s) to Drive", len(uploaded))
-
-    return run
-
-
 def _write_note(path: Path, content: str, touched: list[str], repo_root: Path) -> None:
     touched.append(write_note(path, content, repo_root))
 
@@ -131,11 +96,30 @@ def cmd_sync(args) -> int:
     # state a few seconds later (this bit a manual state.json edit made
     # between runs: the very next run's own commit reverted it).
     if not args.dry_run:
-        Delivery(config.repo_root, drive_sync=None).pull()
+        # A pull that cannot be rescued has to be announced. Before this was
+        # wrapped, a DeliveryFailed here escaped as a bare traceback: systemd
+        # logged a failed unit, Discord heard nothing, the status file kept
+        # showing the last good run, and the service sat wedged for five days
+        # while looking, from the outside, exactly like a quiet week.
+        try:
+            Delivery(config.repo_root).pull()
+        except DeliveryFailed as failure:
+            notifier.alert(
+                "DTU Learn sync: the repo is wedged",
+                f"{failure}\n\nNo material was fetched. Until the clone at "
+                "/srv/learn-sync/repo can pull, every run will fail this way.",
+            )
+            log.error("pull failed: %s", failure)
+            write_status(
+                config.status_path,
+                render_status(RunReport(), State.load(config.state_path), ok=False,
+                              courses=0, when=datetime.now().astimezone()),
+            )
+            return 3
 
     rules = load_rules(config.rules_path.read_text(encoding="utf-8"))
     state = State.load(config.state_path)
-    delivery = Delivery(config.repo_root, drive_sync=_drive_sync(config.repo_root, state))
+    delivery = Delivery(config.repo_root)
 
     touched: list[str] = []
 
@@ -261,9 +245,22 @@ def cmd_sync(args) -> int:
 
     try:
         committed = delivery.publish(syncer.report, touched)
-    except DriveSyncFailed as failure:
-        notifier.alert("DTU Learn sync: Drive upload failed", str(failure))
-        log.error("drive-sync failed: %s", failure)
+    except DeliveryFailed as failure:
+        # Covers a rejected push as well as a failed commit. This used to catch
+        # only DriveSyncFailed, so every other delivery problem left the run as a
+        # bare traceback with nothing said on Discord -- the same blind spot that
+        # hid the wedged pull.
+        notifier.alert(
+            "DTU Learn sync: could not publish",
+            f"{failure}\n\nThe material was downloaded but is still only on the "
+            "container. Syncthing has the binaries; the notes are not on GitHub yet.",
+        )
+        log.error("publish failed: %s", failure)
+        write_status(
+            config.status_path,
+            render_status(syncer.report, state, ok=False, courses=len(courses),
+                          when=datetime.now().astimezone()),
+        )
         return 3
 
     log.info("committed=%s files=%d", committed, len(syncer.report.files_added))

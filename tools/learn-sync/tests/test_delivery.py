@@ -2,7 +2,12 @@ import subprocess
 
 import pytest
 
-from learn_sync.delivery import Delivery, DriveSyncFailed, commit_message
+from learn_sync.delivery import (
+    Delivery,
+    DeliveryFailed,
+    _collided_paths,
+    commit_message,
+)
 from learn_sync.models import Announcement, Event, RunReport
 from datetime import datetime
 
@@ -97,7 +102,7 @@ def repo(tmp_path):
 
 
 def test_publish_commits_and_pushes_changed_files(repo):
-    delivery = Delivery(repo, drive_sync=lambda: None)
+    delivery = Delivery(repo)
     (repo / "note.md").write_text("hello\n", encoding="utf-8")
 
     committed = delivery.publish(report(files=[("34870", "a.pdf")]), ["note.md"])
@@ -110,61 +115,13 @@ def test_publish_commits_and_pushes_changed_files(repo):
 
 
 def test_publish_makes_no_commit_when_nothing_changed(repo):
-    delivery = Delivery(repo, drive_sync=lambda: None)
+    delivery = Delivery(repo)
     before = git(repo, "rev-parse", "HEAD")
 
     committed = delivery.publish(report(files=[("34870", "a.pdf")]), ["seed.md"])
 
     assert committed is False
     assert git(repo, "rev-parse", "HEAD") == before
-
-
-def test_drive_sync_runs_before_the_commit(repo):
-    calls = []
-
-    def drive_sync():
-        # If the commit had already happened, status would be clean here.
-        calls.append(git(repo, "status", "--porcelain"))
-
-    delivery = Delivery(repo, drive_sync=drive_sync)
-    (repo / "note.md").write_text("hello\n", encoding="utf-8")
-
-    delivery.publish(report(files=[("34870", "a.pdf")]), ["note.md"])
-
-    assert len(calls) == 1
-    assert "note.md" in calls[0]
-
-
-def test_drive_sync_runs_even_when_this_run_downloaded_nothing(repo):
-    """Self-healing: state can say "synced" while Drive never got the file.
-
-    Gating the upload on what this run touched made such a gap permanent --
-    thirty PDFs once sat on disk, recorded in state, absent from Drive, and no
-    future run could notice. upload.py --sync is idempotent, so just run it.
-    """
-    calls = []
-    delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
-    (repo / "note.md").write_text("hello\n", encoding="utf-8")
-
-    delivery.publish(report(announcements=[announcement()]), ["note.md"])
-
-    assert calls == [1]
-
-
-def test_drive_sync_failure_aborts_before_committing(repo):
-    def boom():
-        raise DriveSyncFailed("rclone exploded")
-
-    delivery = Delivery(repo, drive_sync=boom)
-    (repo / "note.md").write_text("hello\n", encoding="utf-8")
-    before = git(repo, "rev-parse", "HEAD")
-
-    with pytest.raises(DriveSyncFailed):
-        delivery.publish(report(files=[("34870", "a.pdf")]), ["note.md"])
-
-    assert git(repo, "rev-parse", "HEAD") == before
-    # The working tree is left dirty on purpose, so the failure is inspectable.
-    assert "note.md" in git(repo, "status", "--porcelain")
 
 
 def test_publish_rebases_onto_remote_work_pushed_meanwhile(repo, tmp_path):
@@ -179,7 +136,7 @@ def test_publish_rebases_onto_remote_work_pushed_meanwhile(repo, tmp_path):
     git(other, "commit", "-m", "their work")
     git(other, "push")
 
-    delivery = Delivery(repo, drive_sync=lambda: None)
+    delivery = Delivery(repo)
     (repo / "note.md").write_text("hello\n", encoding="utf-8")
 
     assert delivery.publish(report(files=[("34870", "a.pdf")]), ["note.md"]) is True
@@ -189,7 +146,7 @@ def test_publish_rebases_onto_remote_work_pushed_meanwhile(repo, tmp_path):
 
 def test_publish_does_not_stage_unrelated_dirty_files(repo):
     """Only the paths we were handed may enter the commit."""
-    delivery = Delivery(repo, drive_sync=lambda: None)
+    delivery = Delivery(repo)
     (repo / "note.md").write_text("hello\n", encoding="utf-8")
     (repo / "unrelated.md").write_text("do not commit me\n", encoding="utf-8")
 
@@ -208,34 +165,6 @@ def test_commit_message_for_an_empty_report_is_still_readable():
     assert not msg.endswith("for")
 
 
-def test_drive_sync_runs_when_files_were_only_adopted(repo):
-    """Adopted files are on disk but may never have reached Drive."""
-    calls = []
-    delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
-    (repo / "note.md").write_text("hello\n", encoding="utf-8")
-    r = report()
-    r.files_adopted = [("34870", "a.pdf")]
-
-    delivery.publish(r, ["note.md"])
-
-    assert calls == [1]
-
-
-def test_drive_sync_runs_even_when_no_tracked_file_changed(repo):
-    """The early "nothing pending" return must not skip the upload.
-
-    A run where notes and state are all unchanged is exactly the run that has to
-    push a previously stranded binary, so the upload comes before that check.
-    """
-    calls = []
-    delivery = Delivery(repo, drive_sync=lambda: calls.append(1))
-
-    committed = delivery.publish(report(), ["seed.md"])
-
-    assert calls == [1]
-    assert committed is False
-
-
 def test_pull_survives_a_dirty_tree_left_by_an_aborted_run(repo, tmp_path):
     """A run that dies after writing notes but before committing leaves the tree
     dirty. Without autostash the next pull aborts, and every run after it too."""
@@ -252,7 +181,97 @@ def test_pull_survives_a_dirty_tree_left_by_an_aborted_run(repo, tmp_path):
     # Our tree still has an uncommitted change to a tracked file.
     (repo / "seed.md").write_text("half-finished work\n", encoding="utf-8")
 
-    Delivery(repo, drive_sync=lambda: None).pull()
+    Delivery(repo).pull()
 
     assert (repo / "remote.md").exists(), "remote commit was not pulled"
     assert (repo / "seed.md").read_text(encoding="utf-8") == "half-finished work\n"
+
+
+# --- untracked collisions -----------------------------------------------------
+
+
+def _push_file_from_elsewhere(tmp_path, name, body, clone="collide"):
+    """Land `name` in origin from another clone, the way a second machine would."""
+    other = tmp_path / clone
+    subprocess.run(["git", "clone", str(tmp_path / "origin.git"), str(other)],
+                   check=True, capture_output=True)
+    git(other, "config", "user.email", "other@example.com")
+    git(other, "config", "user.name", "Other")
+    target = other / name
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(body, encoding="utf-8")
+    git(other, "add", name)
+    git(other, "commit", "-m", f"add {name}")
+    git(other, "push")
+
+
+def test_collided_paths_reads_the_file_list_git_prints():
+    message = (
+        "git pull --rebase --autostash failed: From github.com:MadsRudolph/DTU\n"
+        "   db6684a..edf4129  main       -> origin/main\n"
+        "error: The following untracked working tree files would be "
+        "overwritten by merge:\n"
+        "\tObsidian/Courses/62755 Power Electronics/_Learn/a.jpg\n"
+        "\tObsidian/Courses/62755 Power Electronics/_Learn/b.jpg\n"
+        "Please move or remove them before you merge.\n"
+        "Aborting"
+    )
+
+    assert _collided_paths(message) == [
+        "Obsidian/Courses/62755 Power Electronics/_Learn/a.jpg",
+        "Obsidian/Courses/62755 Power Electronics/_Learn/b.jpg",
+    ]
+
+
+def test_collided_paths_ignores_an_unrelated_failure():
+    assert _collided_paths("git push failed: rejected, non-fast-forward") == []
+
+
+def test_pull_drops_an_untracked_file_identical_to_the_incoming_one(repo, tmp_path):
+    """The September 2026 wedge, reproduced.
+
+    A run downloaded a photo and died before committing it; the same photo then
+    arrived in someone else's commit. Identical bytes on both sides, so the local
+    copy is redundant and the pull must simply proceed.
+    """
+    _push_file_from_elsewhere(tmp_path, "photo.jpg", "same bytes\n")
+    (repo / "photo.jpg").write_text("same bytes\n", encoding="utf-8")
+
+    Delivery(repo).pull()
+
+    assert (repo / "photo.jpg").read_text(encoding="utf-8") == "same bytes\n"
+    assert not list(repo.glob("photo.jpg.local*")), "identical file should be dropped"
+    assert git(repo, "status", "--porcelain").strip() == ""
+
+
+def test_pull_keeps_an_untracked_file_that_differs(repo, tmp_path):
+    """Unwedging must never cost a file that exists nowhere else."""
+    _push_file_from_elsewhere(tmp_path, "notes.pdf", "theirs\n")
+    (repo / "notes.pdf").write_text("mine\n", encoding="utf-8")
+
+    Delivery(repo).pull()
+
+    assert (repo / "notes.pdf").read_text(encoding="utf-8") == "theirs\n"
+    assert (repo / "notes.pdf.local").read_text(encoding="utf-8") == "mine\n"
+
+
+def test_pull_clears_a_collision_in_a_subdirectory(repo, tmp_path):
+    """Real collisions arrive at vault paths with spaces in them."""
+    name = "Obsidian/Courses/62755 Power Electronics/_Learn/photo.jpg"
+    _push_file_from_elsewhere(tmp_path, name, "same\n")
+    local = repo / name
+    local.parent.mkdir(parents=True, exist_ok=True)
+    local.write_text("same\n", encoding="utf-8")
+
+    Delivery(repo).pull()
+
+    assert local.read_text(encoding="utf-8") == "same\n"
+    assert git(repo, "status", "--porcelain").strip() == ""
+
+
+def test_pull_still_raises_when_it_cannot_help(repo):
+    """A failure that is not a collision must surface, not be swallowed."""
+    git(repo, "remote", "set-url", "origin", str(repo / "does-not-exist.git"))
+
+    with pytest.raises(DeliveryFailed):
+        Delivery(repo).pull()

@@ -1,6 +1,6 @@
 """Push the 34722 Obsidian notes to the Loop Pad container.
 
-Only markdown and images travel - the PDFs in the vault are drive-synced and far
+Only markdown and images travel - the PDFs in the vault are Syncthing-synced and far
 too big to be useful on a tablet mid-derivation. Re-run this whenever the notes
 change; it is a full mirror, so deletions propagate too.
 

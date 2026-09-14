@@ -16,9 +16,7 @@ services:
       - /srv/learn-sync/status:/status
       # The deploy key is only ever read.
       - /srv/learn-sync/ssh:/root/.ssh:ro
-      # NOT read-only: Google Drive access tokens expire hourly and rclone writes
-      # the refreshed token back into rclone.conf. Mounted :ro, every transfer
-      # fails with "Failed to save config ... read-only file system" -- and
-      # upload.py reports success anyway, so the failure is silent.
-      - /srv/learn-sync/rclone:/root/.config/rclone
+      # No rclone mount: binaries no longer go to Google Drive from here. They
+      # are written into /repo and a Syncthing agent on this container (outside
+      # Docker) replicates them to the PCs and the always-on node.
     working_dir: /repo
