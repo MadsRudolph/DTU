@@ -1,9 +1,9 @@
 {
   "announcements": {
     "34654": "187276",
-    "34840": "187022",
+    "34840": "187503",
     "34870": "187422",
-    "62755": "187390"
+    "62755": "187640"
   },
   "schema": 1,
   "topics": {
@@ -241,6 +241,18 @@
       "synced_at": "2026-09-08T16:04:45+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems4_2026.pdf"
     },
+    "1271063": {
+      "revision": "2026-09-10T08:46:00.640Z",
+      "sha256": "371172e1c880c80682060a2182ac9b9742da30b73dbe44d3b6fbd0cf50c95436",
+      "synced_at": "2026-09-14T13:52:05+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870 Solutions4_2026.pdf"
+    },
+    "1271064": {
+      "revision": "2026-09-04T15:13:23.733Z",
+      "sha256": "3f26ff6e2c1ad1c921078c9161d3b8cb5f2c856442d67bee006000d100c359f8",
+      "synced_at": "2026-09-14T13:52:12+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_4B_E26.mp4"
+    },
     "1271214": {
       "revision": "2026-09-06T08:29:55.070Z",
       "sha256": "7df1403c3e32ea367dc9e122cd2fb819097334de6f2d32ce72bd26b6af433938",
@@ -360,6 +372,54 @@
       "sha256": "3a67310b9cfaf61be6f18581b1af8d54aaf5a69f9b30648c95b649e5908e01f1",
       "synced_at": "2026-09-08T16:04:43+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture4A_10092026.pdf"
+    },
+    "1274019": {
+      "revision": "2026-09-10T09:22:39.920Z",
+      "sha256": "e8e5cbdd571a320a86db9833d4ec6977cab8fcb81bfb8ee726bdd29d62bf2d9c",
+      "synced_at": "2026-09-14T13:51:29+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 Solutions2.pdf"
+    },
+    "1274644": {
+      "revision": "2026-09-11T12:24:10.690Z",
+      "sha256": "79c34deeccee8cd6860cd38ffc2a78d5cfc3e77e09c6fc78deef14dbddf5c8a1",
+      "synced_at": "2026-09-14T13:52:03+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions4A.pdf"
+    },
+    "1274955": {
+      "revision": "2026-09-13T10:10:57.183Z",
+      "sha256": "ac137893df1b3d54f19306f21ceae6956de4143cbdc1ed8e8f8e7fdf0c3b3a24",
+      "synced_at": "2026-09-14T13:52:12+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_5_E26.pdf"
+    },
+    "1274956": {
+      "revision": "2026-09-13T10:11:56.590Z",
+      "sha256": "45fb9e4ed39433637dfd0ee8b905bfaf6ab6630aec98dad511370d495256a63f",
+      "synced_at": "2026-09-14T13:52:13+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems5_2026.pdf"
+    },
+    "1275759": {
+      "revision": "2026-09-14T12:35:06.113Z",
+      "sha256": "f84bf406b9ada89f0f916259e90ec4fd3c517b2679edb1c00894c4389cda7a01",
+      "synced_at": "2026-09-14T13:51:52+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026.pptx"
+    },
+    "1275762": {
+      "revision": "2026-09-14T12:35:22.300Z",
+      "sha256": "b0ddf9f17a5f8028840b4781bf1a4cbff4692d2b7f74410e75c789b6c1454f54",
+      "synced_at": "2026-09-14T13:51:52+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems3.pdf"
+    },
+    "1275774": {
+      "revision": "2026-09-14T12:39:11.763Z",
+      "sha256": "86c98dc2f81db04f898a56df1ce52da098f45049d872ec7929d7c471ec8f6e63",
+      "synced_at": "2026-09-14T13:51:57+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/3a - Matlab SLM/Matlab_SLM - Copy.zip"
+    },
+    "1275775": {
+      "revision": "2026-09-14T12:39:18.657Z",
+      "sha256": "5b7657c54812f0e8ec4dc8b79cfa9cb8c7a6d03b4c7ec9c01443109e007ed888",
+      "synced_at": "2026-09-14T13:51:57+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_SoundLevelMeter_Matlab_exercise_guide.pdf"
     }
   }
 }

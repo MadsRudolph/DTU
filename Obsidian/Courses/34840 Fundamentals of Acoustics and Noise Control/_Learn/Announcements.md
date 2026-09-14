@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-09-10 — Solution 2 available
+
+Dear all 
+Solutions2 are available for download
+Finn
+
 ## 2026-09-03 — Solutions 1 available
 
 Dear all

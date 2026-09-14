@@ -1,5 +1,103 @@
 # Announcements
 
+## 2026-09-13 — Information for tomorrow's lecture
+
+Dear All,
+Hi, please make sure that Matlab Simscape is installed on your computers.
+Here are the updated activities:
+
+
+
+Week 1
+31/Aug
+Introduction
+ 
+
+
+Week 2
+07/Sept
+Power electronics basics
+ 
+
+
+Week 3
+14/Sept
+Power diodes
+ 
+
+
+Week 4
+21/Sept
+Diode rectifier
+Assignment 1
+
+
+Week 5
+28/Sept
+Power transistors
+Lab 2
+
+
+Week 6
+05/Oct
+DC-DC converters
+Assignment 2
+
+
+Break
+12/Oct
+ 
+ 
+
+
+Week 7
+19/Oct
+DC-DC converters
+Lab 3
+
+
+Week 8
+26/Oct
+Inverters
+Assignment 3
+
+
+Week 9
+02/Nov
+Inverters
+Lab 4
+
+
+Week 10
+09/Nov
+Inverters
+Assignment 4
+
+
+Week 11
+16/Nov
+Thristors
+Lab 5
+
+
+Week 12
+23/Nov
+Controlled Rectifier
+ 
+
+
+Week 13
+30/Nov
+Revisions
+Assignment 5
+
+
+
+
+See you tomorrow at 8.30 AM.
+Best Regards
+Ashraf
+
 ## 2026-09-09 — Reference Book
 
 Dear All,
