@@ -398,9 +398,9 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems5_2026.pdf"
     },
     "1274957": {
-      "revision": "2026-09-14T08:06:17.860Z",
+      "revision": "2026-09-15T14:09:53.647Z",
       "sha256": "b6d7e8d70b647cc708dbffd25f349d14ab1f20ddf0392496c363714d5a980dec",
-      "synced_at": "2026-09-14T16:10:29+00:00",
+      "synced_at": "2026-09-15T16:05:29+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026.pdf"
     },
     "1274958": {
@@ -438,6 +438,12 @@
       "sha256": "5b587f68afb024d2b77597ae18a740c513616dbde38c399ae7c11eaea09917b4",
       "synced_at": "2026-09-15T14:02:11+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies.pdf"
+    },
+    "1276525": {
+      "revision": "2026-09-15T14:10:15.543Z",
+      "sha256": "160393ef95b173d7fa622a7c93e998df2ce9f820d364c5b5d26bb5ad0b884efd",
+      "synced_at": "2026-09-15T16:05:30+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026 (2).pdf"
     }
   }
 }
