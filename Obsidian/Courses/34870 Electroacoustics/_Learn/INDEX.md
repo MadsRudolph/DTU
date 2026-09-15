@@ -35,13 +35,13 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Exercises/34870 Solutions4_2026.pdf|Problems 4B - Solutions]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_4B_E26.mp4|Lecture 4B - Commented slides]]
 
-## Lab A - Analogies
-
-- [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
-
 ## Lecture 5 - Directionality /Condenser microphones
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_5_E26.pdf|Lecture 5 - Directionality /Condenser microphones]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Problems5_2026.pdf|Problems 5 - Condenser microphones]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026.pdf|Problems 5 - Condenser microphones - Solutions]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_5_E26.mp4|Lecture 5 - Commented slides]]
+
+## Lab A - Analogies
+
+- [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]

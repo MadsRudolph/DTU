@@ -34,6 +34,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026.pptx|34840_Lecture3_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems3.pdf|34840_Problems3]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies.pdf|34840_Lecture3_addition_of_multiple_frequencies]]
 
 ## 3a - Matlab SLM
 

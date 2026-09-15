@@ -432,6 +432,12 @@
       "sha256": "5b7657c54812f0e8ec4dc8b79cfa9cb8c7a6d03b4c7ec9c01443109e007ed888",
       "synced_at": "2026-09-14T13:51:57+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_SoundLevelMeter_Matlab_exercise_guide.pdf"
+    },
+    "1276283": {
+      "revision": "2026-09-15T08:47:07.720Z",
+      "sha256": "5b587f68afb024d2b77597ae18a740c513616dbde38c399ae7c11eaea09917b4",
+      "synced_at": "2026-09-15T14:02:11+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies.pdf"
     }
   }
 }
