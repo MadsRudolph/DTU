@@ -3,7 +3,7 @@
     "34654": "187743",
     "34840": "187503",
     "34870": "187422",
-    "62755": "187640"
+    "62755": "187881"
   },
   "schema": 1,
   "topics": {
@@ -438,6 +438,42 @@
       "sha256": "5b587f68afb024d2b77597ae18a740c513616dbde38c399ae7c11eaea09917b4",
       "synced_at": "2026-09-15T14:02:11+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies.pdf"
+    },
+    "1276511": {
+      "revision": "2025-09-08T12:25:44.443Z",
+      "sha256": "9d88bab14aa731a3e562f4856d844f207c00e039c87fc91f6062ef924f87a9b4",
+      "synced_at": "2026-09-16T10:01:47+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Diaphragm reflections - Leach 5.2.pdf"
+    },
+    "1276512": {
+      "revision": "2025-09-08T12:26:01.940Z",
+      "sha256": "57251cb4e06057df67a5fe93aa5c77120b285f353219ae49fa686b95ffffdd7a",
+      "synced_at": "2026-09-16T10:01:45+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Plane wave on a cylinder - Leach 2.15.pdf"
+    },
+    "1276514": {
+      "revision": "2026-09-15T14:36:23.453Z",
+      "sha256": "f57ad35c48475f9a238daca762ebc0f42b4a621bbba2cd2791278fd34de870de",
+      "synced_at": "2026-09-16T10:01:39+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6A_E26.pdf"
+    },
+    "1276516": {
+      "revision": "2026-09-15T14:37:05.833Z",
+      "sha256": "5785556e0f2fc2afa7fa1675b37f0a90026e1ee5c14b4df5d0f2b6448c455001",
+      "synced_at": "2026-09-16T10:01:41+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.pdf"
+    },
+    "1276518": {
+      "revision": "2026-09-15T14:37:58.327Z",
+      "sha256": "c5e65834a82a6e84769d31b8915be20b01cb3e9f652a792c24dd1a00c67a640c",
+      "synced_at": "2026-09-16T10:01:42+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6C_E26.pdf"
+    },
+    "1276521": {
+      "revision": "2026-09-15T14:48:43.923Z",
+      "sha256": "5517f33960fad10b85722d7849f3bbae7bc3093e35d9c76ca4294cb9638a3387",
+      "synced_at": "2026-09-16T10:01:43+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems6_2026.pdf"
     },
     "1276525": {
       "revision": "2026-09-15T14:10:15.543Z",

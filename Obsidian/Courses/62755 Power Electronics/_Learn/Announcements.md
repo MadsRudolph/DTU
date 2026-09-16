@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-09-16 — Groups forming
+
+Dear All,
+Hi,  I can see that some of you have not joined groups, please do so as soon as possible, if you have a difficulty in finding a group, please let me know.
+Best Regards
+
 ## 2026-09-13 — Information for tomorrow's lecture
 
 Dear All,

@@ -43,6 +43,15 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026 (2).pdf|Problems 5 - Condenser microphones - Solutions 2]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_5_E26.mp4|Lecture 5 - Commented slides]]
 
+## Lecture 6 - Microphone scattering / Metrology & calibration
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6A_E26.pdf|Lecture 6A - Microphone scattering]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.pdf|Lecture 6B - Metrology – Acoustic calibration]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6C_E26.pdf|Lecture 6C - Introduction to Lab exercises B and C]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Problems6_2026.pdf|Problems 6 – Metrology & calibration]]
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Plane wave on a cylinder - Leach 2.15.pdf|Plane wave on a cylinder - Leach 2.15.pdf]]
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Diaphragm reflections - Leach 5.2.pdf|Diaphragm reflections - Leach 5.2.pdf]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
