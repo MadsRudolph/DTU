@@ -1,5 +1,16 @@
 # Announcements
 
+## 2026-09-16 — Lab exercises B and C available - Schedule for labs B-C-D-E is open
+
+Dear all,
+The descriptions and associated files for lab exercises are available: Lab B - Microphone Scattering - Description / Lab C – Microphone calibration - Description. 
+The teaching tomorrow will complete the theory you need for these two lab exercises. I will also give practical guidance about what you must do in the lab and how. It is important that you prepare for the exercises beforehand by reading the material and understanding the link to the theory. Additionally, I will also use one hour on Monday (13:00 to 14:00 classroom 019) to give further guidance. In the lab, every group starting an exercise will also get assistance from me or our TA, Teguh.
+There is an editable spreadsheet available (Lab schedule - Exercises B-C-D-E) where you can write your group number (e.g. "Group 1") in the slots. You will need four slots for exercises B-C-D-E. Note that the lab exercises are mandatory and all group members must participate. Show up on time not to disturb the flow of the work.
+The exercises will be evaluated with a quiz containing multiple choice questions and text/figure inputs to upload your results and comments. There is a quiz for lab exercises B and C and another quiz for exercises D and E. The quizzes are done and graded individually. You will get feedback sometime afterwards. Note that you need to pass all quizzes to be allowed to the oral exam. The quizzes will be made available gradually, starting with the Lab B/C next week.
+Let me know if you have questions. See you tomorrow!
+Best regards,
+Vicente
+
 ## 2026-09-09 — Lab A and group signup
 
 Dear all,

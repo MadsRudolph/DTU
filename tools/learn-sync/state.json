@@ -2,7 +2,7 @@
   "announcements": {
     "34654": "187743",
     "34840": "187503",
-    "34870": "187422",
+    "34870": "187923",
     "62755": "187881"
   },
   "schema": 1,
@@ -480,6 +480,36 @@
       "sha256": "160393ef95b173d7fa622a7c93e998df2ce9f820d364c5b5d26bb5ad0b884efd",
       "synced_at": "2026-09-15T16:05:30+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions5_2026 (2).pdf"
+    },
+    "1277013": {
+      "revision": "2026-09-16T10:58:59.067Z",
+      "sha256": "84c705b96612d051451fdfb8282da344246d0d9ec70d9937b463a2be893e9b2c",
+      "synced_at": "2026-09-16T16:01:22+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_Lab_B_CylinderScattering_E2026.pdf"
+    },
+    "1277014": {
+      "revision": "2026-09-16T10:59:55.550Z",
+      "sha256": "b0980b39d6c3981af834ee2aada9e676b5b6a3bf73e2be449e89f0ff328ad4be",
+      "synced_at": "2026-09-16T16:06:46+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/BEM_FreeField.zip"
+    },
+    "1277015": {
+      "revision": "2026-09-16T11:00:23.240Z",
+      "sha256": "4a140f1906d18d938cb62ce952584ad8cd7c1b66d85149ba3e7aef3463a684ea",
+      "synced_at": "2026-09-16T16:06:50+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870 - Lab B.zip"
+    },
+    "1277247": {
+      "revision": "2026-09-16T13:11:33.950Z",
+      "sha256": "3e96b1045bad9fbdc943edc5e9e93d4fed2d67d613fa4833b75124e2e5a624a3",
+      "synced_at": "2026-09-16T16:06:50+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_Lab_C_ActuatorCalibration_E2026.pdf"
+    },
+    "1277248": {
+      "revision": "2026-09-16T13:12:44.770Z",
+      "sha256": "011e7c4c59b31ae5ff1bcef74a635bb9c08697fde2b14776dc32857fe858900c",
+      "synced_at": "2026-09-16T16:06:52+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_LabC_MatlabFiles.zip"
     }
   }
 }
