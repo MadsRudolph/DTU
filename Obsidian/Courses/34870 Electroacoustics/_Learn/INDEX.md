@@ -29,7 +29,7 @@ links to where the file actually lives in the vault.*
 ## Lecture 4 - Transducers & Dynamic microphone
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture4A_10092026.pdf|34870_Lecture4A_10092026]]
-- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions4A.pdf|34870_Solutions4A]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions4A (2).pdf|34870_Solutions4A]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_4B_E26.pdf|Lecture 4B - Dynamic microphones]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Problems4_2026.pdf|Problems 4B]]
 - [[Courses/34870 Electroacoustics/Exercises/34870 Solutions4_2026.pdf|Problems 4B - Solutions]]
@@ -49,6 +49,10 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.pdf|Lecture 6B - Metrology – Acoustic calibration]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6C_E26.pdf|Lecture 6C - Introduction to Lab exercises B and C]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Problems6_2026.pdf|Problems 6 – Metrology & calibration]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions6_2026.pdf|Problems 6 – Metrology & calibration - SOLUTIONS]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6A_E26.mp4|Lecture 6A - Commented slides]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.mp4|Lecture 6B - Commented slides]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_6C_E26.mp4|Lecture 6C - Commented slides]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Plane wave on a cylinder - Leach 2.15.pdf|Plane wave on a cylinder - Leach 2.15.pdf]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Diaphragm reflections - Leach 5.2.pdf|Diaphragm reflections - Leach 5.2.pdf]]
 

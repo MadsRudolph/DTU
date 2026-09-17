@@ -1,5 +1,23 @@
 # Announcements
 
+## 2026-09-17 — List of group members (as of today)
+
+Dear all,
+I copy below the list of group members, in case you need to contact another group regarding lab work.
+Best regards,
+Vicente
+Group - 1Jiménez, Guillermo González    s231592Li, Joie    s252783Ozols, Ugis    s253539
+Group - 2Holm, Jacob Osvald Beeken    s234413Møberg, Emil Schjelde Holm    s224008Tuxen, Nicolaj Nørgaard    s211496
+Group - 3Bulancea, Sebastian    s253526COSTES, Thomas    s262927Poulsen, Rasmus Bruun    s195758
+Group - 4Montagne, Thomas    s262933Puntin, Gabriele    s262969Schmitz, Lucas    s263324
+Group - 5Fallon, David    s253512Grande, Guillermo Montero    s263288Vidal, Claudia de Hita    s261947
+Group - 6Blomqvist, Edwin    s262075Degerth, Jonas Emil    s263634Pedersen, Oliver Løvstrøm    s203657
+Group - 7Cardoso, Diogo Castelo    s253521Frantzen, Viktor Dongwu    s216188Martinez, Romel Alejandro Meza    s215212
+Group - 8Caro, Emanuele De    s250380Jørgensen, Oliver    s264027Lydakis, Stylianos    s262943
+Group - 9Ceano-Vivas, Rosa    s253368Genové, Oriol Monfar    s253363Zisopoulos, Spyridon    s260150
+Group - 10Andrianne, Louis    s253472Kimura, Sophie    s252751Rudolph, Mads Vølkers    s246132
+Group - 11Andreasen, Hørdur Kai    s173933
+
 ## 2026-09-16 — Lab exercises B and C available - Schedule for labs B-C-D-E is open
 
 Dear all,

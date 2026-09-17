@@ -1,8 +1,8 @@
 {
   "announcements": {
     "34654": "187743",
-    "34840": "187503",
-    "34870": "187923",
+    "34840": "187972",
+    "34870": "187965",
     "62755": "187881"
   },
   "schema": 1,
@@ -451,17 +451,35 @@
       "synced_at": "2026-09-16T10:01:45+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Plane wave on a cylinder - Leach 2.15.pdf"
     },
+    "1276513": {
+      "revision": "2026-09-15T14:50:09.510Z",
+      "sha256": "0dad8d22fc4f2fc94f0a933e4ac9ddffea4ea66c46124293d860d906b23277cb",
+      "synced_at": "2026-09-17T19:08:14+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6A_E26.mp4"
+    },
     "1276514": {
       "revision": "2026-09-15T14:36:23.453Z",
       "sha256": "f57ad35c48475f9a238daca762ebc0f42b4a621bbba2cd2791278fd34de870de",
       "synced_at": "2026-09-16T10:01:39+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6A_E26.pdf"
     },
+    "1276515": {
+      "revision": "2026-09-15T14:50:38.777Z",
+      "sha256": "e821681996b82b3536c3b62bcc94b11b25f5b9676ce2979b63e7b811b750584b",
+      "synced_at": "2026-09-17T19:08:38+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.mp4"
+    },
     "1276516": {
       "revision": "2026-09-15T14:37:05.833Z",
       "sha256": "5785556e0f2fc2afa7fa1675b37f0a90026e1ee5c14b4df5d0f2b6448c455001",
       "synced_at": "2026-09-16T10:01:41+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6B_E26.pdf"
+    },
+    "1276517": {
+      "revision": "2026-09-15T14:55:38.660Z",
+      "sha256": "388428d4ccc4da5d7c9e4ff2542a96f0eb7980e4572fd37342c4e3ba8142c94d",
+      "synced_at": "2026-09-17T19:08:44+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_6C_E26.mp4"
     },
     "1276518": {
       "revision": "2026-09-15T14:37:58.327Z",
@@ -474,6 +492,12 @@
       "sha256": "5517f33960fad10b85722d7849f3bbae7bc3093e35d9c76ca4294cb9638a3387",
       "synced_at": "2026-09-16T10:01:43+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems6_2026.pdf"
+    },
+    "1276522": {
+      "revision": "2026-09-15T14:49:36.050Z",
+      "sha256": "0b1ed67c17f95f7e267ccc289f9a008729dca799e3e7174d5dfa2c34339f5ab1",
+      "synced_at": "2026-09-17T19:07:57+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions6_2026.pdf"
     },
     "1276525": {
       "revision": "2026-09-15T14:10:15.543Z",
@@ -510,6 +534,24 @@
       "sha256": "011e7c4c59b31ae5ff1bcef74a635bb9c08697fde2b14776dc32857fe858900c",
       "synced_at": "2026-09-16T16:06:52+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_LabC_MatlabFiles.zip"
+    },
+    "1277713": {
+      "revision": "2026-09-17T08:42:05.597Z",
+      "sha256": "0f0627bf6a4b3fef2bb5fbf193232bc70c5c3a736ff3dedf9c22987c4d2462e2",
+      "synced_at": "2026-09-17T19:07:48+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions03.pdf"
+    },
+    "1277714": {
+      "revision": "2026-09-17T08:42:37.440Z",
+      "sha256": "80facbbfdd11dec8eb2a60c8bdf8009b86cd9dd854e4bdca75fddabadd4021c7",
+      "synced_at": "2026-09-17T19:07:49+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/Matlab_SLM_solution.zip"
+    },
+    "1277764": {
+      "revision": "2026-09-17T09:22:41.180Z",
+      "sha256": "d8daa3d7ef2c090254f3dfae314f23eda023b7e5d9552f931167c73a71a8f96e",
+      "synced_at": "2026-09-17T19:07:55+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions4A (2).pdf"
     }
   }
 }

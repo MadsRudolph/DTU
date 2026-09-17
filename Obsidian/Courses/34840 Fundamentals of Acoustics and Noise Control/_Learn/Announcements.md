@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-09-17 — Solutions 3 available
+
+Solutions 3 are available:
+Solutions to problems: 34840_Solutions03
+Solutions to Matlab exercise: Matlab_SLM_solution
+Finn
+
 ## 2026-09-10 — Solution 2 available
 
 Dear all 
