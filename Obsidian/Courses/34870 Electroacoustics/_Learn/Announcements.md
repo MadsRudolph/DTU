@@ -1,5 +1,20 @@
 # Announcements
 
+## 2026-09-18 — Lecture Monday 21/09 and start of lab exercises
+
+Dear all,
+This coming Monday 21/09 we will start at 13:00, as usual, in the 019 classroom. We will use one hour to introduce you to lab exercises B and C. At 14:00 the lab slots will begin at the small anechoic room in building 354. Some practical issues:
+
+You may need to update your access cards to open the doors to 354. Ask our technician Henrik Hvidberg. It is also possible to bypass the doors if you take the underground tunnel that connects the cellars of buildings 352 and 354.
+The measurement computers in the labs are not connected to internet. They are fitted with a USB memory stick you can use to transfer your results. Bring a laptop to copy the data to, as the USB memory cannot be taken away from the lab.
+Another, fixed, memory is attached to the computers, containing the Matlab files you need for your measurements. Do not work on this unit. Make a copy on the lab computer and work on the copy. When you are finished, take the files with you (via USB stick) and delete your data from the computer.
+Book slots in the lab if you have not done so: Lab schedule - Exercises B-C-D-E
+Be aware and comply with Lab Etiquette.
+
+Teguh and I will be around if you need assistance.
+Best regards,
+Vicente
+
 ## 2026-09-17 — List of group members (as of today)
 
 Dear all,
