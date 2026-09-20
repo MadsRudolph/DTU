@@ -46,7 +46,7 @@ tags: [Electroacoustics, Audio, home]
 > [!warning] 34840 is a formal prerequisite — and you are taking it *in parallel*
 > DTU lists [[34840 Fundamentals of Acoustics and Noise Control|34840]] as a prerequisite, but both run this autumn (34840 is E3A, Tue mornings). For the first weeks 34870 runs ahead of your acoustics foundation — which is exactly why the staff hand out the *Fundamentals of Acoustics* note as background reading.
 
-> [!success] The Analogy Bench — lectures 0–5 and Lab A as an interactive site
+> [!success] The Analogy Bench — lectures 0–6 and Lab A as an interactive site
 > Visual walkthrough of everything so far, plus Lab A solved live (dual-diaphragm speaker, silencer ladder, coil + two masses, with the sign checks): live resonators, Helmholtz bottle (with sound), radiation impedance, loudspeaker impedance peak, dynamic and condenser microphone designers, polar patterns, and a self-check quiz per lecture.
 > - **Public:** https://study.madsrudolph.dev/34870/ (hub for all courses at https://study.madsrudolph.dev)
 > - **Home server (LAN):** http://192.168.50.220/34870/ (Proxmox CT 116 `study`)
@@ -108,7 +108,7 @@ tags: [Electroacoustics, Audio, home]
 
 | | Exercise | Period | Quiz deadline |
 |---|---|---|---|
-| **A** | Analogy circuits in **LTspice** — [[Lab A - Runthrough|full runthrough + KiCad/ngspice sims]] | 8/9 – 20/9 | ⏰ **20/9** |
+| **A** | Analogy circuits in **LTspice** — [[Lab A - Runthrough|full runthrough + KiCad/ngspice sims]] · LTspice files in `5. Semester/Electroacoustics/Labs/Lab A/LTspice/` | 8/9 – 20/9 | ⏰ **20/9** |
 | **B** | Scaled microphone measurement | 21/9 – 29/9 | ⏰ **5/10** |
 | **C** | Microphone calibration | 21/9 – 29/9 | ⏰ **5/10** |
 | **D** | Loudspeaker enclosures | 5/10 – 20/10 | ⏰ **26/10** |

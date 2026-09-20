@@ -217,6 +217,38 @@ window.PROBLEMS = {
       bench: "#bench-condenser", benchLabel: "raise R_AS on the condenser designer until the hump is gone",
     },
   ],
+  "6": [
+    {
+      id: "Sheet 6 · 1", title: "Uncertainty of a condenser microphone's sensitivity (GUM)", tag: "∂M/∂C_MD = 2.370·10³ · u_c(M) = 0.948 mV/Pa",
+      given: `a) Write the pressure sensitivity M from theory and find the GUM <b>sensitivity coefficients</b> for the diaphragm's mass, damping and compliance (<span class="mono">M<sub>MD</sub>, R<sub>MD</sub>, C<sub>MD</sub></span>); ignore other contributions. b) Numerical values for the Problems 5 microphone. c) Combined standard uncertainty with no correlation and standard deviations of 10 % of the given values. d) Comment on the hypotheses.`,
+      hint: `<span class="m">M = E S_D C_{MT}/x_0</span> with <span class="m">1/C_{MT} = 1/C_{MD} + S_D^2/C_{AB}</span>. Which of the three quantities appear at all? Use the quotient rule on <span class="m">C_{MT}</span>.`,
+      sol: `<div class="M">\\frac{\\partial M}{\\partial M_{MD}} = 0, \\qquad \\frac{\\partial M}{\\partial R_{MD}} = 0, \\qquad \\frac{\\partial M}{\\partial C_{MD}} = \\frac{\\partial M}{\\partial C_{MT}}\\frac{\\partial C_{MT}}{\\partial C_{MD}} = \\frac{E S_D}{x_0}\\cdot\\frac{1}{C_{MD}^2\\left(\\dfrac{1}{C_{MD}} + \\dfrac{S_D^2}{C_{AB}}\\right)^2}</div>
+<p><b>b)</b> <span class="m">E S_D/x_0 = 2544.7</span>, <span class="m">1/C_{MD} + S_D^2/C_{AB} = 2.5904\\times10^5</span>:</p>
+<div class="M">\\frac{\\partial M}{\\partial C_{MD}} = 2544.7 \\times \\frac{6.25\\times10^{10}}{6.710\\times10^{10}} = 2.370\\times10^{3}\\ \\frac{\\text{V/Pa}}{\\text{m/N}}</div>
+<div class="M">\\text{c)}\\quad u_c(M) = \\sqrt{\\left[\\frac{\\partial M}{\\partial C_{MD}}\\,(0.1\\,C_{MD})\\right]^2} = 2370 \\times 4\\times10^{-7} = 0.948\\ \\text{mV/Pa}</div>
+<p><b>d)</b> Too simplistic, valid only as an exercise. The condenser microphone is a highly coupled system: a change of <span class="m">C_{MD}</span> changes the static deflection and therefore <span class="m">x_0</span> — the two are correlated, and the neglected inputs (E, x₀, S_D, the static pressure in C_AB) are not negligible in a real budget.</p>`,
+      bench: "#bench-uncertainty", benchLabel: "the budget bench starts on this case; add x₀ and a correlation to see 1d",
+    },
+    {
+      id: "Sheet 6 · 2", title: "The same uncertainties in LTspice", tag: "M₂₅₀ = 9.6 mV/Pa · ±10 % C_MD → +0.922 / −0.929 mV/Pa",
+      given: `Use the circuit of Problems 5 Q2b. a) Read M at 250 Hz with a cursor (linear axis). b) Get f₀ and Q from the simulated modulus and phase with the slide method; compare with theory. c) Vary <span class="mono">M<sub>MD</sub>, R<sub>MD</sub>, C<sub>MD</sub></span> by 10 % and watch M₂₅₀. d) What do those changes do to the overall response, and does the free-field generator Gpb matter?`,
+      hint: `f₀ is where the phase has dropped 90° from its mid-band value; Q is the <em>linear</em> ratio of the response there to the flat band. For c) a <span class="mono">.step param</span> with 0.9 / 1 / 1.1 does all three runs at once.`,
+      sol: `<p><b>a)</b> <span class="m">M_{250} = 9.6</span> mV/Pa, very close to the 9.8 predicted in Problems 5. <b>b)</b> Should reproduce 10.6 kHz and Q ≈ 2.4 if the circuit holds the same components.</p>
+<p><b>c)</b> With Gpb deactivated, ±10 % on M<sub>MD</sub> and R<sub>MD</sub> changes M₂₅₀ negligibly; ±10 % on C<sub>MD</sub> gives <b>+0.922 and −0.929 mV/Pa</b>, matching the 0.948 of 1c (finite differences on a slightly curved function are asymmetric).</p>
+<p><b>d)</b> With Gpb working the mid-band result is the same: the free-field correction only acts at high frequency and cannot reach down to 250 Hz. But the three parameters do matter elsewhere: <b>at and above resonance the response is governed by mass and damping, below it by compliance</b>.</p>`,
+      bench: "#bench-freefield", benchLabel: "pressure vs free-field bench: the two curves coincide at 250 Hz",
+    },
+    {
+      id: "Sheet 6 · 3", title: "Pistonphone and sound calibrator", tag: "U_i into C_A ∥ Z_A · large cavity · two resonances tuned to the calibration frequency",
+      given: `A rigid piston oscillates at fixed frequency and amplitude at one end of a cylindrical cavity; a pressure microphone closes the other end. With the diaphragm blocked the cavity compliance is <span class="m">C_A = V/\\gamma p_s = V/\\rho c^2</span>. a) Equivalent impedance analogy. b) The ideal pistonphone gives the same pressure for any microphone and environment: what does that demand? c–d) A commercial calibrator: a piezo-driven diaphragm (pressure source p<sub>a</sub> with internal M<sub>a</sub>, R<sub>a</sub>, C<sub>a</sub>), a front volume at the microphone, and a long narrow tube to the volume behind the diaphragm. Sketch it and draw the analogy.`,
+      hint: `Is a heavy cam-driven piston closer to a pressure source or a volume-velocity source? Then every enclosed volume is a capacitor to ground, every narrow tube an inductor.`,
+      sol: `<p><b>a)</b> The pistonphone is a heavy, strong construction, so its volume velocity is independent of the load: a current source <span class="m">U_i</span> feeding <span class="m">C_A</span> in parallel with the microphone's <span class="m">Z_A</span>, both to ground.</p>
+<div class="M">\\text{b)}\\quad p = \\left(\\frac{1}{j\\omega C_A} \\,\\Big\\|\\, Z_A\\right) U_i, \\qquad Z_A \\gg \\frac{1}{\\omega C_A} \;\\Rightarrow\; C_A \\gg \\frac{1}{Z_A\\,\\omega}</div>
+<p>The larger the volume, the less the pressure depends on the microphone — but the cavity must stay sufficiently smaller than the wavelength.</p>
+<p><b>c–d)</b> Series branch <span class="m">p_a</span> – <span class="m">M_{as}</span> – <span class="m">R_{as}</span> – <span class="m">C_{as}</span> into the front-volume node (compliance to ground, microphone <span class="m">Z_a</span> in parallel); from there the narrow tube <span class="m">M_{ah}</span> to the rear-volume node with <span class="m">C_{a3}</span> to ground. Two resonances: piston and suspension (<span class="m">M_{as}, C_{as}</span>) and the Helmholtz resonance (<span class="m">M_{ah}, C_{a3}</span>). Tuned to the calibration frequency, they make the calibrator's source impedance very small — the "low internal impedance" a level calibrator needs, achieved in a pocket-sized device.</p>`,
+      bench: "#bench-pistonphone", benchLabel: "pistonphone bench: cavity volume vs microphone equivalent volume",
+    },
+  ],
 };
 
 /* ---------- renderer ---------- */

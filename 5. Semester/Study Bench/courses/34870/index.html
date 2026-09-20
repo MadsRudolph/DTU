@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–5 and Lab A, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–6 and Lab A, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–5 · problems · Lab A</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–6 · problems · Lab A</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -27,6 +27,7 @@
     <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Acoustic systems<span class="sub">tube = mass, box = spring</span></span></a></li>
     <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Transducers &amp; dynamic mics<span class="sub">Bl and S join the worlds</span></span></a></li>
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Directional &amp; condenser mics<span class="sub">polar patterns, low-pass</span></span></a></li>
+    <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
@@ -390,6 +391,89 @@
   <div id="quiz-5"></div>
 </section>
 
+<!-- ============================== L6 ============================== -->
+<section class="lecture" id="l6">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 6 · Thu 17 Sep · VCH · three decks: 6A scattering, 6B metrology and calibration, 6C intro to Labs B and C</div>
+    <h2>The microphone disturbs what it measures, and how we know what it measures</h2>
+    <div class="meta">Leach 2.15, 5.2 · Jacobsen eq. 7.6 · BIPM SI Brochure, GUM, VIM · B&amp;K Microphone Handbook · Problems 6 · Labs B and C</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>At high frequency a microphone is an obstacle: the pressure on its diaphragm is up to 10 dB above the field it was put into. That is the <span class="m">T(j\omega)</span> left unexplained in lecture 5, the difference between a free-field and a pressure microphone, and what Lab B measures. The rest of the lecture is how a measured number earns trust: units, uncertainty, traceability, calibrators.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part A · the picture</span>Two microphones for two fields</h3>
+    <div class="tri">
+      <div class="dom ac"><h4>Free-field microphone</h4><p>Reports the pressure that was there <em>before</em> the microphone arrived. Its own response droops at high frequency to cancel the pressure build-up its body causes. Point it at the source.</p></div>
+      <div class="dom ac"><h4>Pressure microphone</h4><p>Used where it cannot disturb anything: flush in a wall, closing a small cavity (couplers, calibrators, ear simulators). No compensation — flat to the pressure on the diaphragm.</p></div>
+      <div class="dom me"><h4>Size decides</h4><p>What counts is the diameter in wavelengths, <span class="m">D/\lambda</span> or <span class="m">kR</span>. Bigger capsule: more sensitivity, more field disturbance, lower maximum frequency. 1″, ½″, ¼″, ⅛″ trade those off.</p></div>
+    </div>
+    <p>The scattered wave is the reflection from the front face plus waves diffracted from the edges. The slides' numerical result for the pressure at the centre of the diaphragm: about 0 dB below <span class="m">kR = 0.3</span>, +4 dB at <span class="m">kR = 1</span>, a first peak of <b>+10 dB near <span class="m">kR = 3</span></b>, a dip to −1 dB near 6, and +10 dB again near 9.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The approximation</span>Diaphragm reflection only</h3>
+    <p>Ignore the edges and treat the capsule front as a plane reflector. Incident volume velocity <span class="m">U</span> on the diaphragm area, reflected <span class="m">U_r</span>, diaphragm <span class="m">U_t = U - U_r</span>:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">incident and reflected</span><div class="M">p_i = \frac{\rho c}{S}U, \qquad U_r = \frac{Z_{ad} - \rho c/S}{Z_{ad} + \rho c/S}\,U</div><p>the ordinary reflection coefficient, with the diaphragm's acoustic impedance as the wall</p></div>
+      <div class="fcard"><span class="eyebrow">pressure on the diaphragm</span><div class="M">p_D = p_i + Z_{ar}U_r</div><p>the reflected flow drives the radiation impedance in front of the capsule</p></div>
+      <div class="fcard"><span class="eyebrow">stiff diaphragm: Z_ad → ∞, R = 1</span><div class="M">p_D = p_i\left(1 + \frac{Z_{ar}}{\rho c/S}\right) = T(s)\,p_i</div><p>Leach eq. 5.1. <span class="m">T \to 1</span> at low frequency, <span class="m">T \to 2</span> (+6 dB) when <span class="m">Z_{ar} \to R_{A2} = \rho c/S</span></p></div>
+    </div>
+    <p><b>In the circuit:</b> put a copy of the radiation network <span class="m">M_{A1} \parallel [R_{A2} + (R_{A1} \parallel C_{A1})]</span> in series with the source <span class="m">p_i</span> and drive it with a G source of gain <span class="m">1/R_{A2}</span> controlled by <span class="m">p_i</span> (the generator called Gpb in the course circuit). The current <span class="m">p_i/R_{A2}</span> through <span class="m">Z_{ar}</span> adds <span class="m">p_i Z_{ar}/R_{A2}</span> — exactly T.</p>
+  </div>
+
+  <div id="bench-scatter"></div>
+  <div id="bench-freefield"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>Every one of these slides carries the same red line: <b>plane reflection — the effect of the corners is not included</b>. The model tops out at +6 dB; the real capsule reaches +10 dB and then oscillates. Use T(s) up to the first peak, and say so. Also: the <b>free-field correction</b> is defined as the ratio between the undisturbed field and the pressure at the <em>diaphragm</em>, not the microphone's output.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Part B · metrology</span>Units, uncertainty, traceability</h3>
+    <p><b>SI.</b> Metre and kilogram from 1795, the Metre Convention and the BIPM in 1875, the SI in 1960, and since <b>20 May 2019 every unit is defined by seven natural constants</b> (Δν<sub>Cs</sub>, c, h, e, k, N<sub>A</sub>, K<sub>cd</sub>). Write a value as <b>number × unit</b>: unit symbols upright, no full stop, no plural; lower case unless named after a person (Pa, V, N, Hz, Ω — but "pascal", "kelvin" spelled out). In this course: 1 Pa, 1 m³/s, 1 Ns/m⁵.</p>
+    <div class="table-wrap"><table>
+      <tr><th>term (GUM / VIM)</th><th>meaning</th></tr>
+      <tr><td>measurement uncertainty</td><td>a parameter, e.g. a standard deviation, for the dispersion of values that could reasonably be attributed to the measurand</td></tr>
+      <tr><td>true value · error</td><td>what we seek, never known · result minus true value, so never known either</td></tr>
+      <tr><td>repeatability · reproducibility</td><td>spread under the same conditions · spread under different conditions (operator, day, lab, instrument)</td></tr>
+    </table></div>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">measurement model</span><div class="M">Y = f(X_1, \ldots, X_n), \qquad y = f(x_1, \ldots, x_n)</div></div>
+      <div class="fcard"><span class="eyebrow">combined standard uncertainty</span><div class="M">u_c^2(y) = \sum_i \left(\frac{\partial f}{\partial x_i}\right)^2 u^2(x_i)</div><p><span class="m">\partial f/\partial x_i \approx \Delta y/\Delta x_i</span> is the <b>sensitivity coefficient</b>; <span class="m">u(x_i)</span> the standard deviation of the input</p></div>
+      <div class="fcard"><span class="eyebrow">with correlated inputs</span><div class="M">+\; 2\sum_{i&lt;j} \frac{\partial f}{\partial x_i}\frac{\partial f}{\partial x_j}\,u(x_i)\,u(x_j)\,r(x_i, x_j)</div><p>the result tends to a normal distribution whatever the inputs' distributions (central limit theorem)</p></div>
+    </div>
+  </div>
+
+  <div id="bench-uncertainty"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Traceability</span>From the national standard to your sound level meter</h3>
+    <p>National standard (primary calibration) → secondary standard → working standard → measurement instrument. Each step is a comparison with the one above and adds uncertainty; the documented, unbroken chain is <b>traceability</b>. National institutes (DFM in the cellar of building 352, NPL, PTB, NIST…) sit in regional bodies under the BIPM and check each other in <b>key comparisons</b>.</p>
+    <p><b>The acoustic primary standard is reciprocity.</b> Three condenser microphones are measured in pairs, one emitting, one receiving. A condenser microphone is reciprocal, so each pair yields the product of two sensitivities; three pairs give three equations for three unknowns — absolute, no reference microphone needed. Two versions: <b>pressure</b> (the pair closes a small coupler; B&amp;K 4160/4180, coupler lengths 3.5 to 9.5 mm) and <b>free field</b> (the pair faces each other at distance d₁₂ in an anechoic room).</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">In your hands in Lab C</span>Calibrator and pistonphone</h3>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>sound calibrator</th><th>pistonphone</th></tr>
+      <tr><td>tone, level</td><td>1 kHz (or 250 Hz), 94 dB = 1 Pa (or 114 dB = 10 Pa)</td><td>250 Hz, 124 dB</td></tr>
+      <tr><td>use</td><td>field</td><td>laboratory, secondary calibration; very stable</td></tr>
+      <tr><td>how</td><td>small loudspeaker in a coupler; B&amp;K 4231: built-in feedback microphone + gain control; B&amp;K 4230: Helmholtz resonator behind the diaphragm</td><td>cam-driven pistons pump a known volume into a closed cavity (B&amp;K 4228)</td></tr>
+      <tr><td>requirement</td><td colspan="2">the pressure must not depend on the microphone inserted → <b>low internal impedance</b>. Strictly this is a <em>verification</em> of the chain, not a metrological calibration.</td></tr>
+    </table></div>
+  </div>
+
+  <div id="bench-pistonphone"></div>
+
+  <div class="callout real"><span class="eyebrow">Part C · what Labs B and C are</span><ul>
+    <li><b>Lab B, scaled microphone:</b> measure the pressure on the end of a cylinder against the undisturbed field — the scattering curve of the bench above. B&amp;K's free-field corrections bump near 7 kHz (1″), 13 kHz (½″) and 25 kHz (¼″): the larger the microphone, the lower the effect.</li>
+    <li><b>Lab C, calibration:</b> an <b>electrostatic actuator</b> (grid over the diaphragm, high DC + AC) pulls on the diaphragm directly. No acoustic excitation means no scattering: it gives the <em>pressure</em> response's shape cleanly, but not the absolute sensitivity — that comes from the calibrator. Compare a B&amp;K 4191 (free-field) with a 4192 (pressure-field).</li>
+    <li><b>f<sub>s</sub> and Q from the measured response:</b> f<sub>s</sub> is where the phase has dropped 90°; Q is the linear ratio of the response there to the flat band — below 1, hence negative in dB, for an over-damped free-field capsule.</li>
+    <li><b>Lab etiquette</b> (buildings 354/355): no food or drink, never alone, tell the lab responsible when you come and go, safety introduction before first use of equipment, report damage immediately and do not repair it yourself.</li>
+  </ul></div>
+
+  <div id="problems-6"></div>
+  <div id="quiz-6"></div>
+</section>
+
 <!-- ============================== Lab A ============================== -->
 <section class="lecture" id="labA">
   <div class="lec-head">
@@ -501,6 +585,7 @@
       <tr><td>dynamic pressure</td><td>velocity (Bl·u)</td><td>damping rules, around f<sub>0</sub></td><td>band-pass, ±6 dB/oct</td><td>felt R<sub>AF</sub></td></tr>
       <tr><td>dynamic gradient / ribbon</td><td>velocity × jω</td><td>mass rules, above f<sub>0</sub></td><td>high-pass, 12 dB/oct below</td><td>proximity, low f<sub>0</sub></td></tr>
       <tr><td>condenser</td><td>displacement (E·x/x₀)</td><td>compliance rules, below f<sub>0</sub></td><td>low-pass, −12 dB/oct above</td><td>E, x₀, C<sub>MT</sub>, R<sub>AS</sub></td></tr>
+      <tr><td>free-field vs pressure capsule</td><td colspan="2">same capsule × the scattering gain T = 1 + Z<sub>ar</sub>/(ρc/S) on axis</td><td>free-field: over-damped so capsule × T is flat</td><td>R<sub>AS</sub></td></tr>
       <tr><td>(loudspeaker, next)</td><td>acceleration</td><td>mass rules, above f<sub>s</sub></td><td>high-pass</td><td>box, port</td></tr>
     </table></div>
   </div>
@@ -517,7 +602,7 @@
 </section>
 
 <footer>
-  Built 14 Sep 2026 from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–5 notes, Problems 4 and 5 worked, Lab A runthrough). Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–6 notes, Problems 4–6 with official solutions, Lab A runthrough); last extended 20 Sep 2026 with lecture 6. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>

@@ -463,6 +463,111 @@ function benchPistonBox() {
   upd();
 }
 
+/* ===== L6 · scattering: T = 1 + Z_ar/(ρc/S) for the standard capsule sizes ===== */
+function tubeEndZ6(f, a) { // piston in the end of a long tube (the "piston on a cylinder" of the microphone slides)
+  const S = Math.PI * a * a, MA1 = 0.6133 * RHO / (Math.PI * a), CA1 = 0.55 * Math.PI * Math.PI * a * a * a / (RHO * C0 * C0);
+  const RA1 = 0.5045 * RHO * C0 / S, RA2 = RHO * C0 / S;
+  return par(ZL(f, MA1), cadd(ZR(RA2), par(ZR(RA1), ZC(f, CA1))));
+}
+function scatterT(f, a) { const S = Math.PI * a * a; return cadd(cx(1, 0), cscale(tubeEndZ6(f, a), S / (RHO * C0))); }
+const MIC_SIZES = { "1": ["1 inch", 0.0127], "2": ["1/2 inch", 0.00635], "4": ["1/4 inch", 0.003175], "8": ["1/8 inch", 0.0015875] };
+function benchScatter() {
+  const b = bench("bench-scatter", "A microphone is an obstacle: the pressure on its own diaphragm", "lecture 6A · Leach 5.1 · Lab B");
+  if (!b) return;
+  const st = { size: "2" };
+  const chips = h("div", { class: "chips" });
+  for (const [k, [n]] of Object.entries(MIC_SIZES)) chips.append(h("button", { type: "button", class: "chip" + (k === st.size ? " on" : ""), onclick: (e) => { st.size = k; $$(".chip", chips).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, n));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "k1", label: "kR = 1 at", dom: "ac" }, { id: "k3", label: "numerical +10 dB peak (kR ≈ 3) at", dom: "ac" }, { id: "t1k", label: "|T| at 1 kHz" }, { id: "t10k", label: "|T| at 10 kHz" }, { id: "hf", label: "high-frequency limit" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 100, xmax: 100000, ymin: -2, ymax: 12, ylabel: "pressure on the diaphragm re undisturbed field (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const fs = logspace(100, 100000, 400), cols = { "1": DOMC.el, "2": DOMC.me, "4": DOMC.ac, "8": DOMC.ink2 };
+  const NUM = [[0.1, 0.1], [0.2, 0.3], [0.5, 1.5], [1, 4], [2, 8.3], [3, 10], [4.5, 5], [6, -1], [7.5, 6], [9, 10]]; // read off slide 6
+  function upd() {
+    const a = MIC_SIZES[st.size][1];
+    const series = Object.entries(MIC_SIZES).map(([k, [n, r]]) => ({ name: `${n}: |T| plane-reflection model`, color: cols[k], thin: k !== st.size, width: k === st.size ? 2.6 : undefined, pts: fs.map(f => [f, dB(cabs(scatterT(f, r)))]) }));
+    series.push({ name: `${MIC_SIZES[st.size][0]}: numerical, edges included (slide 6)`, color: DOMC.warn, pts: NUM.map(([kr, v]) => [kr * C0 / (TAU * a), v]) });
+    plot.set({ series, vlines: [{ x: C0 / (TAU * a), label: "kR = 1", color: cols[st.size] }] });
+    ro({ k1: hz(C0 / (TAU * a)), k3: hz(3 * C0 / (TAU * a)), t1k: `${dB(cabs(scatterT(1000, a))).toFixed(2)} dB`, t10k: `${dB(cabs(scatterT(10000, a))).toFixed(2)} dB`, hf: "+6.02 dB (T → 2, pressure doubling)" });
+  }
+  upd();
+  b.note.innerHTML = `<p>Treat the front of the capsule as a plane reflector with an infinitely stiff diaphragm: the reflected volume velocity equals the incident one and drives the radiation impedance, so <span class="mono">p_D = p_i·(1 + Z_ar/(ρc/S)) = T·p_i</span>. At low frequency Z_ar is a small mass and nothing happens; at high frequency Z_ar → ρc/S and the pressure <b>doubles</b>, as at any rigid wall. The red curve is the full numerical solution from the slides: the edges add diffracted waves that push the first peak to about +10 dB at kR ≈ 3 and then carve a dip near kR ≈ 6 — the plane model is only trusted <b>up to the first peak</b>.</p><p>Everything scales with size: a 1-inch capsule is disturbed from 4 kHz, a 1/8-inch one not until 34 kHz. Bigger means more sensitive but lower maximum frequency.</p>`;
+}
+
+/* ===== L6 · pressure response vs free-field response of the Problem 5 capsule ===== */
+function benchFreeField() {
+  const b = bench("bench-freefield", "Pressure microphone or free-field microphone? Same capsule, different damping", "lecture 6A · Problems 5 Q2 d–e · Lab C");
+  if (!b) return;
+  const st = { RAS: 1e7, V: 1 };
+  slider(b.ctl, { label: "backplate damping <b>R<sub>AS</sub></b>", min: 1e6, max: 3e8, log: true, value: 1e7, unit: "Ns/m⁵", dom: "ac", onchange: v => { st.RAS = v; upd(); } });
+  slider(b.ctl, { label: "back volume <b>V<sub>AB2</sub></b>", min: 0.1, max: 6, step: 0.05, value: 1, unit: "cm³", dom: "ac", onchange: v => { st.V = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "f0", label: "f₀", dom: "me" }, { id: "Q", label: "Q" }, { id: "pf", label: "pressure response: ripple to 20 kHz" }, { id: "ff", label: "free-field response: ripple to 20 kHz" }, { id: "verdict", label: "this capsule is a better…" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 100, xmax: 100000, ymin: -60, ymax: -25, ylabel: "sensitivity (dB re 1 V/Pa)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const fs = logspace(100, 100000, 400);
+  function upd() {
+    const r = condMic({ a: 0.009, MMD: 5e-5, CMD: 4e-6, RMD: 1, MAS: 100, RAS: st.RAS, V: st.V * 1e-6, E: 200, x0: 20e-6, RL: 5e8, front: "tube" });
+    const P = fs.map(f => [f, dB(cabs(r.H(f)))]), F = fs.map(f => [f, dB(cabs(r.H(f)) * cabs(scatterT(f, 0.009)))]);
+    const rip = (pts) => { const v = pts.filter(p => p[0] <= 20000 && p[0] >= 200).map(p => p[1]); return Math.max(...v) - Math.min(...v); };
+    plot.set({ series: [{ name: "pressure response (what the actuator in Lab C measures)", color: DOMC.me, pts: P }, { name: "free-field response = pressure response × |T| (axial incidence)", color: DOMC.el, pts: F }] });
+    const rp = rip(P), rf = rip(F);
+    ro({ f0: hz(r.f0), Q: r.Q.toFixed(2), pf: `${rp.toFixed(1)} dB`, ff: `${rf.toFixed(1)} dB`, verdict: rp < rf ? "pressure microphone" : "free-field microphone" });
+  }
+  upd();
+  b.note.innerHTML = `<p>The scattering gain T is not part of the capsule: it is what the body does to the field. A <b>pressure microphone</b> is tuned so the capsule alone is flat (Q ≈ 0.7). A <b>free-field microphone</b> is deliberately <em>over</em>-damped so its pressure response droops by the same amount that T rises, and the product is flat for sound arriving on axis. Raise R_AS from the Problem 5 value and watch the verdict flip.</p><p>This is also the Lab C picture: the electrostatic actuator pulls on the diaphragm directly, so it measures the lower curve — for a B&K 4191 free-field capsule that curve <em>should</em> droop.</p>`;
+}
+
+/* ===== L6 · GUM uncertainty budget for M = E·S_D·C_MT / x0 ===== */
+function benchUncertainty() {
+  const b = bench("bench-uncertainty", "An uncertainty budget: which input actually moves the sensitivity?", "lecture 6B · GUM · Problems 6 Q1");
+  if (!b) return;
+  const st = { uC: 10, ux: 0, uE: 0, uV: 0, r: 0 };
+  slider(b.ctl, { label: "u(<b>C<sub>MD</sub></b>) diaphragm compliance", min: 0, max: 20, step: 0.5, value: 10, unit: "%", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.uC = v; upd(); } });
+  slider(b.ctl, { label: "u(<b>x₀</b>) gap", min: 0, max: 20, step: 0.5, value: 0, unit: "%", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.ux = v; upd(); } });
+  slider(b.ctl, { label: "u(<b>E</b>) polarization voltage", min: 0, max: 5, step: 0.1, value: 0, unit: "%", dom: "el", fmt: v => v.toFixed(1), onchange: v => { st.uE = v; upd(); } });
+  slider(b.ctl, { label: "u(<b>V<sub>AB</sub></b>) back volume", min: 0, max: 20, step: 0.5, value: 0, unit: "%", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.uV = v; upd(); } });
+  slider(b.ctl, { label: "correlation r(C<sub>MD</sub>, x₀)", min: -1, max: 1, step: 0.05, value: 0, fmt: v => v.toFixed(2), onchange: v => { st.r = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "M", label: "M", dom: "el" }, { id: "cC", label: "∂M/∂C_MD" }, { id: "uc", label: "combined u_c(M)", dom: "el" }, { id: "rel", label: "relative · expanded (k = 2)" }]);
+  const stage = h("div", { class: "stage" }); b.plot.append(stage);
+  function upd() {
+    const E = 200, x0 = 20e-6, a = 0.009, S = Math.PI * a * a, CMD = 4e-6, V = 1e-6, RC2 = RHO * C0 * C0, CAB = V / RC2;
+    const CMT = 1 / (1 / CMD + S * S / CAB), M = E * S * CMT / x0;
+    const c = { C: E * S / x0 * CMT * CMT / (CMD * CMD), x: -M / x0, E: M / E, V: E * S / x0 * CMT * CMT * S * S / (CAB * CAB) / RC2 };
+    const u = { C: st.uC / 100 * CMD, x: st.ux / 100 * x0, E: st.uE / 100 * E, V: st.uV / 100 * V };
+    const contrib = [["C_MD", c.C * u.C, DOMC.me], ["x₀", c.x * u.x, DOMC.me], ["E", c.E * u.E, DOMC.el], ["V_AB", c.V * u.V, DOMC.ac], ["M_MD", 0, DOMC.ink3], ["R_MD", 0, DOMC.ink3]];
+    let var_ = contrib.reduce((t, x) => t + x[1] * x[1], 0) + 2 * (c.C * u.C) * (c.x * u.x) * st.r;
+    const uc = Math.sqrt(Math.max(var_, 0));
+    ro({ M: `${(M * 1e3).toFixed(2)} mV/Pa`, cC: `${sci(c.C, 5)} (V/Pa)/(m/N)`, uc: `${(uc * 1e3).toFixed(3)} mV/Pa`, rel: `${(100 * uc / M).toFixed(1)} % · ±${(2e3 * uc).toFixed(2)} mV/Pa` });
+    const W = 640, H = 250, x0p = 110, x1 = 600, top = 30, rowH = 30, max = Math.max(uc, ...contrib.map(x => Math.abs(x[1])), 1e-9);
+    let g = "";
+    contrib.forEach(([n, v, col], i) => { const y = top + i * rowH, w = Math.abs(v) / max * (x1 - x0p); g += `<text x="${x0p - 10}" y="${y + 15}" text-anchor="end" font-size="12" fill="var(--ink)">${n}</text><rect x="${x0p}" y="${y + 3}" width="${Math.max(w, 0.5)}" height="16" rx="3" fill="${col}" opacity="0.8"/><text x="${x0p + w + 6}" y="${y + 15}" font-size="11" fill="var(--ink-2)">${(Math.abs(v) * 1e3).toFixed(3)} mV/Pa${v < 0 ? "  (negative coefficient)" : ""}</text>`; });
+    const y = top + 6 * rowH + 8, w = uc / max * (x1 - x0p);
+    g += `<line x1="${x0p}" x2="${x1}" y1="${y - 4}" y2="${y - 4}" stroke="var(--rule)"/><text x="${x0p - 10}" y="${y + 15}" text-anchor="end" font-size="12" font-weight="600" fill="var(--ink)">u_c(M)</text><rect x="${x0p}" y="${y + 3}" width="${Math.max(w, 0.5)}" height="16" rx="3" fill="var(--ink)"/><text x="${x0p + w + 6}" y="${y + 15}" font-size="11" fill="var(--ink)">${(uc * 1e3).toFixed(3)} mV/Pa</text>`;
+    stage.innerHTML = `<svg viewBox="0 0 ${W} ${H}"><text x="${x0p}" y="18" font-size="11" fill="var(--ink-2)">contribution |∂M/∂x_i|·u(x_i) of each input; the bottom bar is their root-sum-square${st.r ? " plus the correlation term" : ""}</text>${g}</svg>`;
+  }
+  upd();
+  b.note.innerHTML = `<p><span class="mono">u_c²(y) = Σ (∂f/∂x_i)²·u²(x_i)</span> — each input contributes its standard uncertainty times a <b>sensitivity coefficient</b> (nothing to do with the microphone's sensitivity M). In the flat band M = E·S_D·C_MT/x₀ contains neither the diaphragm mass nor its damping, so their coefficients are exactly zero; with the sheet's 10 % on C_MD alone the answer is <b>0.948 mV/Pa</b> (9.7 %, not 10 %, because the certain air spring carries part of the stiffness).</p><p>Now break the sheet's assumptions: give x₀ an uncertainty, then correlate it with C_MD. A softer diaphragm sags further under the bias, so the two are physically correlated; with M ∝ C_MT/x₀ a positive correlation makes the contributions partly <em>cancel</em>, a negative one makes them add. That is solution 1d's point: the uncorrelated budget is an exercise, not a calibration certificate.</p>`;
+}
+
+/* ===== L6 · pistonphone ===== */
+function benchPistonphone() {
+  const b = bench("bench-pistonphone", "The pistonphone: a known volume pumped into a closed cavity", "lecture 6B · Problems 6 Q3 · Lab C");
+  if (!b) return;
+  const st = { V: 20, dV: 4.47, Veq: 10, ps: 101.325 };
+  slider(b.ctl, { label: "cavity volume <b>V</b>", min: 1, max: 100, log: true, value: 20, unit: "cm³", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.V = v; upd(); } });
+  slider(b.ctl, { label: "piston stroke volume <b>ΔV</b> (rms)", min: 0.1, max: 20, step: 0.01, value: 4.47, unit: "mm³", dom: "me", fmt: v => v.toFixed(2), onchange: v => { st.dV = v; upd(); } });
+  slider(b.ctl, { label: "microphone equivalent volume", min: 0, max: 300, step: 1, value: 10, unit: "mm³", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.Veq = v; upd(); } });
+  slider(b.ctl, { label: "static pressure <b>p<sub>s</sub></b>", min: 85, max: 105, step: 0.1, value: 101.325, unit: "kPa", fmt: v => v.toFixed(1), onchange: v => { st.ps = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "spl", label: "level in the cavity", dom: "ac" }, { id: "mic", label: "change caused by this microphone" }, { id: "baro", label: "change vs 101.325 kPa" }, { id: "lam", label: "cavity size / λ at 250 Hz" }]);
+  const plot = new Plot(b.plot, { h: 280, xmin: 1, xmax: 100, ymin: -3, ymax: 0.2, xlabel: "cavity volume (cm³)", ylabel: "level change when the microphone is inserted (dB)", xfmt: v => `${Number(v.toPrecision(2))}`, yfmt: v => v.toFixed(2), yunit: " dB", xticks: [1, 2, 5, 10, 20, 50, 100].map(v => ({ v, l: String(v) })) });
+  const Vs = logspace(1, 100, 200), err = (V, Veq) => 20 * Math.log10(V / (V + Veq / 1000));
+  function upd() {
+    const g = 1.4, p = g * st.ps * 1e3 * (st.dV * 1e-9) / (st.V * 1e-6 + st.Veq * 1e-9), spl = 20 * Math.log10(p / 20e-6);
+    plot.set({ series: [{ name: `this microphone (${st.Veq.toFixed(0)} mm³)`, color: DOMC.ac, pts: Vs.map(V => [V, err(V, st.Veq)]) }, { name: "1-inch lab standard (≈ 150 mm³)", color: DOMC.el, thin: true, pts: Vs.map(V => [V, err(V, 150)]) }, { name: "1/2-inch capsule (≈ 10 mm³)", color: DOMC.me, thin: true, pts: Vs.map(V => [V, err(V, 10)]) }], markers: [{ x: st.V, y: err(st.V, st.Veq), label: `${err(st.V, st.Veq).toFixed(3)} dB`, color: DOMC.ac }] });
+    ro({ spl: `${spl.toFixed(2)} dB re 20 µPa`, mic: `${err(st.V, st.Veq).toFixed(3)} dB`, baro: `${(20 * Math.log10(st.ps / 101.325)).toFixed(2)} dB`, lam: `${(Math.cbrt(st.V * 1e-6) / (C0 / 250) * 100).toFixed(1)} % of λ` });
+  }
+  upd();
+  b.note.innerHTML = `<p>A heavy cam-driven piston is a <b>volume-velocity source</b>; a closed cavity is a compliance <span class="mono">C_A = V/γp_s</span>. So <span class="mono">p = U/(jωC_A) = γ·p_s·ΔV/V</span>: geometry and the barometer, nothing else — that is why it is the laboratory reference (250 Hz, 124 dB). The microphone's own compliance (its "equivalent volume") sits in parallel and steals a little: <span class="mono">p = (1/jωC_A ∥ Z_A)·U</span>. The demand from Problem 3b follows at once: make <span class="mono">Z_A ≫ 1/ωC_A</span>, i.e. a <b>big cavity</b> — but still small against the wavelength. And since p ∝ p_s, a pistonphone comes with a barometric correction; a feedback-controlled 94 dB calibrator does not need one.</p>`;
+}
+
 /* ===== L2 · Problem 2.4: two masses and the five limits ===== */
 function twoMass(f, p) {
   const Yl = cadd(ZC(f, p.C1), ZR(p.R1));
@@ -508,6 +613,7 @@ document.addEventListener("DOMContentLoaded", () => {
   benchPhasor(); benchResonator(); benchDual(); benchHelmholtz(); benchTube(); benchRadiation();
   benchCoupling(); benchSpeakerZ(); benchPistonBox(); benchDynMic();
   benchPolar(); benchProximity(); benchCondenser(); benchShapes(); benchTwoMass();
+  benchScatter(); benchFreeField(); benchUncertainty(); benchPistonphone();
   if (window.QUIZZES) { for (const [lec, qs] of Object.entries(QUIZZES)) { const root = document.getElementById(`quiz-${lec}`); if (root) { buildQuiz(root, lec, qs); TOTAL_Q += qs.length; const a = $(`.wire a[data-quiz="${lec}"]`); if (a) a.dataset.n = qs.length; } } }
   updateProgress();
   setupNav(); setupTheme();
