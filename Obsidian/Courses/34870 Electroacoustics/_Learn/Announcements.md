@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-09-20 — Lab A Quiz deadline tonight
+
+Dear all,
+Please remember that everyone has to submit the Lab A: Analogy circuits in LTspice quiz today before midnight. Submitting (and passing) all quizzes is mandatory (>50% in every quiz), you cannot take the oral exam without them and they contribute to your total grade.Hint: Don't wait until the last minute! And don't forget to press "Submit" and confirm submission after you answered all questions. 
+Frieder
+
 ## 2026-09-18 — Lecture Monday 21/09 and start of lab exercises
 
 Dear all,
