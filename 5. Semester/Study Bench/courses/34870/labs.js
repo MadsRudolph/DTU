@@ -155,4 +155,37 @@ function benchLab4() {
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); });
+
+// ---------------------------------------------------------------- Lab B: scattering by the microphone mock-up (course BEM data)
+const LABB_OBJ = { mock: ["mock-up 250 mm", 0.250], "1": ["1 inch", 0.02377], "2": ["1/2 inch", 0.0127], "4": ["1/4 inch", 0.00635], "8": ["1/8 inch", 0.003175] };
+function benchLabB() {
+  const b = bench("bench-labB", "The mock-up in a plane wave: pick the angle, then shrink it to a real microphone", "Lab B · course BEM model · D = 250 mm, L = 855 mm");
+  if (!b || !window.LABB) return;
+  const D = window.LABB, st = { obj: "mock", q: "centre", on: new Set([0, 45, 90]) };
+  const mk = (key, opts) => { const seg = h("div", { class: "seg" }); for (const [k, l] of opts) seg.append(h("button", { type: "button", class: st[key] === k ? "on" : "", onclick: (e) => { st[key] = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l)); b.ctl.append(seg); };
+  mk("obj", Object.entries(LABB_OBJ).map(([k, v]) => [k, v[0]]));
+  mk("q", [["centre", "centre of the face"], ["avg", "averaged over the face"], ["fp", "3 cm in front"], ["flat", "centre, flat back end"]]);
+  const chips = h("div", { class: "chips" });
+  for (const a of D.ang) chips.append(h("button", { type: "button", class: "chip" + (st.on.has(a) ? " on" : ""), onclick: (e) => { st.on.has(a) ? st.on.delete(a) : st.on.add(a); e.target.classList.toggle("on"); upd(); } }, a + "°"));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "s", label: "scale factor" }, { id: "k1", label: "ka = 1 at", dom: "ac" }, { id: "pk", label: "0° maximum", dom: "ac" }, { id: "lo", label: "0° at the lowest frequency" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 5400, ymin: -12, ymax: 12, ylabel: "pressure re the undisturbed wave (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const cols = ["#3b82d6", "#6aa5e8", "#1fa88a", "#5cc4a9", "#a3a844", "#d9822b", "#d9503f", "#a565c9", "#8a8a8a", "#b0a090"];
+  function upd() {
+    const s = 0.250 / LABB_OBJ[st.obj][1], fx = D.f.map(f => f * s), c = 343.4, a = LABB_OBJ[st.obj][1] / 2;
+    const y0 = D[st.q][0], ip = y0.indexOf(Math.max(...y0));
+    ro({ s: st.obj === "mock" ? "1 (as measured)" : `× ${s.toFixed(1)} in frequency`, k1: hz(c / (2 * Math.PI * a)), pk: `${y0[ip] >= 0 ? "+" : ""}${y0[ip].toFixed(1)} dB at ${hz(fx[ip])}`, lo: `${y0[0] >= 0 ? "+" : ""}${y0[0].toFixed(2)} dB at ${hz(fx[0])}` });
+    const series = D.ang.map((ang, i) => st.on.has(ang) ? { name: ang + "°", color: cols[i], pts: fx.map((f, k) => [f, D[st.q][i][k]]) } : null).filter(Boolean);
+    plot.set({ xmin: 50 * s, xmax: 5400 * s, ymin: st.q === "fp" ? -30 : -12, ymax: 12, series, vlines: [{ x: c / (2 * Math.PI * a), label: "ka = 1", color: DOMC.ink3 }], markers: st.on.has(0) ? [{ x: fx[ip], y: y0[ip], label: `${y0[ip].toFixed(1)} dB`, color: cols[0] }] : [] });
+    b.note.innerHTML = ({
+      centre: `<p><b>The point we measure in the lab.</b> Below ka ≈ 0.3 the body is invisible: 0 dB at every angle. Head-on the pressure climbs past the +6 dB of an infinite wall to <b>+9.9 dB at ka ≈ 3</b>, because the waves diffracted at the rim all reach the centre in phase, then it ripples. At 90° the face does not block the wave and the curve stays within about 2 dB. From behind (180°) there is still +2 dB: the bright spot on the axis of the shadow.</p>`,
+      avg: `<p><b>What a real diaphragm feels</b>: the pressure averaged over the face with a parabolic weight. Same story, but lower at high ka (+6.2 instead of +9.9 dB at 4 kHz, 0°), because the pressure is not uniform across the face once the wavelength is comparable to it. This is one reason the datasheet corrections sit a little below our centre-point measurement.</p>`,
+      fp: `<p><b>3 cm in front of the face.</b> The rigid face makes a standing wave in front of itself; where the distance is λ/4 the incident and reflected waves cancel: a notch of more than 20 dB near 4 kHz at 0° (λ/4 = 2.1 cm, the diffraction pulls it a little). If the UMIK tip is not flush with the face in the lab, this is the notch you will see.</p>`,
+      flat: `<p><b>Flat instead of round back end.</b> At 0° the difference is below 0.25 dB: the front face decides. The back only matters when the sound comes from behind.</p>` })[st.q]
+      + (st.obj === "mock" ? "" : `<p class="muted">Scaled to a ${LABB_OBJ[st.obj][0]} microphone (D = ${(LABB_OBJ[st.obj][1] * 1000).toFixed(2)} mm): same shape, every frequency × ${s.toFixed(1)}. Compare with the B&K free-field corrections in the brief: the 1 inch type 4145 peaks at about +10 dB near 13 kHz.</p>`)
+      + `<p class="muted">BEM with 8 circumferential terms: the last few points of the oblique curves (above ≈ 4 kHz on the mock-up) are not reliable.</p>`;
+  }
+  upd();
+}
+
+document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); });

@@ -29,6 +29,7 @@
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Directional &amp; condenser mics<span class="sub">polar patterns, low-pass</span></span></a></li>
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
+    <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">anechoic chamber + BEM, quiz due 5 Oct</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -552,6 +553,51 @@
 </section>
 
 <!-- ============================== summary ============================== -->
+<section class="lecture" id="labB">
+  <div class="lec-head">
+    <div class="eyebrow">Lab B · from 21 Sep · small anechoic room, building 354 · quiz (Lab B + C) due Mon 5 Oct, individual</div>
+    <h2>Lab B: a microphone is an obstacle, measured on a wooden one 20 times too big</h2>
+    <div class="meta">brief: Labs/34870_Lab_B_CylinderScattering_E2026.pdf · vault: Lab B - Preparation.md · scripts and BEM results: 5. Semester/Electroacoustics/Labs/Lab B/ · theory: lecture 6A</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Once a microphone is not small compared with the wavelength, sound reflects off it and the pressure on its own diaphragm is higher than the pressure that would be there without it. That increase, versus frequency and angle, is the <b>free-field correction</b>. Everything depends on <span class="m">ka = 2\pi f a / c</span>, so a 250 mm wooden cylinder at 1.3 kHz behaves exactly like a 1/2 inch microphone at 26 kHz, and an ordinary small microphone can play the role of one point on its "diaphragm".</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">In the chamber</span>One ratio, and nothing may move</h3>
+    <p>The loudspeaker and the small UMIK microphone (pointing up) are set up once. Measure the transfer function <span class="m">H = V_{mic}/V_{loudspeaker}</span> <b>without</b> the mock-up, then with the mock-up's face almost touching the UMIK at 0°, 45°, 90° (the mock-up is rotated around the fixed microphone). The result is</p>
+    <div class="M">H_{norm}(\theta) = \frac{H_{\theta}}{H_{no\ mock\text{-}up}}</div>
+    <p>and the loudspeaker, amplifier, UMIK response and distance all cancel, <b>but only if the loudspeaker and the UMIK never move</b>. Measure the reference again at the end to prove nothing drifted.</p>
+    <div class="table-wrap"><table>
+      <tr><th>setting</th><th>value</th><th>why</th></tr>
+      <tr><td>f1, f2</td><td>50 Hz, 10 kHz</td><td>multitone, 24 tones per octave</td></tr>
+      <tr><td>fres, Nav</td><td>1 Hz, 32 averages</td><td>long averaging pushes the noise down; check the spectrum <i>between</i> the tones to see the noise floor</td></tr>
+      <tr><td>IncAngle</td><td>90</td><td>incidence on the <b>UMIK</b> (it points up, sound arrives from the side): picks the UMIK's own correction file. It is not the mock-up angle</td></tr>
+      <tr><td>chamber</td><td>cut-off 125 Hz</td><td>below that the room is not anechoic: ripples in the ratio are the room, not the mock-up</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">What to expect</span>The course BEM model, run before the lab</h3>
+    <p>A rigid cylinder with a rounded back in a plane wave. The bench shows the real numbers from <span class="mono">CylinderPlaneWave</span>: choose angles, choose <i>where</i> the pressure is taken, then shrink the mock-up to a real microphone and watch only the frequency axis change.</p>
+  </div>
+  <div id="bench-labB"></div>
+
+  <div class="callout trap"><span class="eyebrow">Why more than +6 dB?</span><p>An infinite rigid wall doubles the pressure: +6 dB. The mock-up reaches <b>+9.9 dB at ka ≈ 3</b> because its face has an edge: the wave diffracted at the rim travels back across the face, and at the centre all of it arrives with the same delay, in phase. The centre is the worst point; averaged over the face the maximum is lower, which is what a real diaphragm feels.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Afterwards</span>Scaling, and why measurement, BEM and datasheet differ</h3>
+    <div class="table-wrap"><table>
+      <tr><th>microphone</th><th>diameter</th><th>scale factor</th><th>0° maximum (1345 Hz on the mock-up) lands at</th></tr>
+      <tr><td>1 inch (B&amp;K 4144/4145)</td><td>23.77 mm</td><td>10.5</td><td>14 kHz</td></tr>
+      <tr><td>1/2 inch</td><td>12.7 mm</td><td>19.7</td><td>26 kHz</td></tr>
+      <tr><td>1/4 inch</td><td>6.35 mm</td><td>39.4</td><td>53 kHz</td></tr>
+      <tr><td>1/8 inch</td><td>3.175 mm</td><td>78.7</td><td>106 kHz</td></tr>
+    </table></div>
+    <p><b>Measurement vs BEM:</b> the loudspeaker makes a spherical, not a plane wave; the UMIK is not a point, not exactly at the centre and not exactly flush (see "3 cm in front" in the bench); its body and the stand scatter too; the angle comes from a paper protractor; below 125 Hz the room reflects; the speed of sound on the day shifts the frequency axis. <b>vs the datasheet:</b> a real microphone has a protection grid, its diaphragm averages the pressure, and its body is not a plain cylinder.</p>
+  </div>
+
+  <div id="quiz-B"></div>
+</section>
+
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -610,6 +656,7 @@
 <script src="quiz.js"></script>
 <script src="diagrams.js"></script>
 <script src="benches.js"></script>
+<script src="labB_data.js"></script>
 <script src="labs.js"></script>
 <script src="problems.js"></script>
 </body>
