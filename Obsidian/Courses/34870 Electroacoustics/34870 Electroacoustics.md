@@ -110,7 +110,7 @@ tags: [Electroacoustics, Audio, home]
 |---|---|---|---|
 | **A** ✅ | Analogy circuits in **LTspice** (quiz submitted 20/9) — [[Lab A - Runthrough|full runthrough + KiCad/ngspice sims]] · LTspice files in `5. Semester/Electroacoustics/Labs/Lab A/LTspice/` | 8/9 – 20/9 | ⏰ **20/9** |
 | **B** | Scaled microphone measurement — [[Lab B - Preparation|preparation: procedure, checklist, BEM predictions]] · scripts in `5. Semester/Electroacoustics/Labs/Lab B/` | 21/9 – 29/9 | ⏰ **5/10** |
-| **C** | Microphone calibration | 21/9 – 29/9 | ⏰ **5/10** |
+| **C** | Microphone calibration — [[Lab C - Preparation|preparation: procedure, metrology vocabulary, f_s/Q, LTspice model]] · scripts + LTspice in `5. Semester/Electroacoustics/Labs/Lab C/` | 21/9 – 29/9 | ⏰ **5/10** |
 | **D** | Loudspeaker enclosures | 5/10 – 20/10 | ⏰ **26/10** |
 | **E** | Loudspeaker response | 5/10 – 20/10 | ⏰ **26/10** |
 | 🔧 | **Loudspeaker project** | 19/10 – 30/11 | ⏰ **30/11** |

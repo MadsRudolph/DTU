@@ -30,6 +30,7 @@
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">anechoic chamber + BEM, quiz due 5 Oct</span></span></a></li>
+    <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">calibrator, actuator, LTspice fit</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -596,6 +597,38 @@
   </div>
 
   <div id="quiz-B"></div>
+</section>
+
+<section class="lecture" id="labC">
+  <div class="lec-head">
+    <div class="eyebrow">Lab C · from 21 Sep · room 026, building 354 · quiz (Lab B + C) due Mon 5 Oct, individual</div>
+    <h2>Lab C: one number from a calibrator, a whole curve from an actuator</h2>
+    <div class="meta">brief: Labs/34870_Lab_C_ActuatorCalibration_E2026.pdf · vault: Lab C - Preparation.md · scripts and LTspice model: 5. Semester/Electroacoustics/Labs/Lab C/ · theory: lectures 5 and 6B</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A calibrator or pistonphone puts a <b>known pressure</b> on the microphone at one frequency: that gives the sensitivity in mV/Pa, traceable to the SI. An electrostatic actuator pulls on the bare diaphragm with an electric field: no sound, no scattering, no room, so it gives the <b>shape</b> of the pressure response over the whole band, but no absolute level. Shape from the actuator, level from the calibrator. Then f<sub>s</sub> and Q read off the curve tell you what sits behind the diaphragm.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The four parts</span>What is measured, and what it is divided by</h3>
+    <div class="table-wrap"><table>
+      <tr><th>part</th><th>setup</th><th>result</th></tr>
+      <tr><td>1</td><td>AO0 → AI0, and AO0 → Nexus → AI1</td><td><span class="m">H_{21,ref}</span>: the measurement chain itself. Note its value at 250 Hz and 1 kHz</td></tr>
+      <tr><td>2</td><td>each microphone in each calibrator and the pistonphone</td><td><span class="m">M = \text{Calibrate}(f, SPL, 1)/|H_{21}(f)|</span>, with f and SPL from <b>that device's</b> sticker. Repeat 2–3 times</td></tr>
+      <tr><td>3b</td><td>actuator on the diaphragm, supply OFF, Nav = 4 then 64</td><td>noise floor: 16× more synchronous averages lower uncorrelated noise by 12 dB</td></tr>
+      <tr><td>3c</td><td>supply ON, door closed, quiet</td><td><span class="m">H_{pv} = H_{21}/H_{21,ref}</span> for the 4133 and the 4134</td></tr>
+    </table></div>
+    <p>Nexus channel 1: 10 mV/Pa in and out (gain 1), HP 0.1 Hz, LP 100 kHz, polarization 200 V. 94 dB is 1.00 Pa, 114 dB is 10.0 Pa, 124 dB is 31.7 Pa. Nominal sensitivity of both capsules: 12.5 mV/Pa = −38.1 dB re 1 V/Pa.</p>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">Three ways to break something</span><p><b>Never touch a diaphragm</b> (lower the actuator one leg first). The actuator supply is <b>on only while measuring</b>. The Nexus must <b>already be on</b> when the microphone cable goes in, and the cable comes out of the Nexus every time you change capsule, or it re-reads the preamplifier and changes its own settings.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Analysis</span>From two numbers to the backplate</h3>
+    <p>f<sub>s</sub> is where the phase has dropped 90° from its low-frequency value; Q is the linear ratio |H(f<sub>s</sub>)|/|H(f ≪ f<sub>s</sub>)|, so a response that is <i>down</i> at resonance has Q &lt; 1. A pressure-type capsule is built flat in this measurement (Q ≈ 0.7–1). A free-field capsule must droop by the free-field correction of Lab B (up to about 10 dB near 20 kHz for a 1/2 inch), so it is heavily damped (Q ≈ 0.3–0.5). The curve that falls early is the free-field type.</p>
+  </div>
+  <div id="bench-labC"></div>
+  <div class="callout"><span class="eyebrow">A trap in the slide procedure</span><p>A heavily damped capsule has already lost several degrees of phase at 1 kHz. Take "mid-band" there and the −90° point lands about 2 % too high. Reference the phase to 60–300 Hz, or fit <span class="m">G/(1-x^2+jx/Q)</span> to the complex data, which needs no reference at all. <span class="mono">process_labC.m</span> does both and prints the <span class="mono">.param fs Q</span> line for the LTspice sheet, where M<sub>AS</sub> and R<sub>AS</sub> are computed by LTspice itself.</p></div>
+
+  <div id="quiz-C"></div>
 </section>
 
 <section class="lecture" id="cheat">

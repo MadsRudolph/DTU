@@ -46,7 +46,7 @@ tags: [PE, PowerElectronics, home]
 | --- | ------------------------ | ------------------------------------------------------- | ---------- | --------- | ---- |
 | 1   | Introduction             | `Lecture 1 Introduction.pdf`                            |            | **Lab 1** |      |
 | 2   | Diode and diode circuits | `Lecture 2 Power diodes.pdf`                            | **A1**     |           |      |
-| 3   | Diode rectifier          | `Lecture 3 Diode Rectifier.pdf`                         | **A2**     | **Lab 2** |      |
+| 3   | Diode rectifier (held Mon 21-Sep) — [[Lecture 3 - Diode Rectifiers (pre-read)\|pre-read]] | new deck `_Learn/Lecture 3 Diode Rectifier/Diodes Rectifiers.pdf` + `Assignment 2.pdf` (old: `Lecture 3 Diode Rectifier.pdf`) | **A2**     | **Lab 2** |      |
 | 4   | Power transistors        | `Lecture 4 Power Transistors.pdf`                       |            |           |      |
 | 5   | DC/DC converters         | `Lecture 5 DC-DC Converters.pdf`                        |            | **Lab 3** |      |
 | 6   | DC/DC converters         | `Lecture 5 DC-DC Converters.pdf`                        | **A3**     | **Lab 4** |      |

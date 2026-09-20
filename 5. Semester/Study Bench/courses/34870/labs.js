@@ -188,4 +188,38 @@ function benchLabB() {
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); });
+
+// ---------------------------------------------------------------- Lab C: actuator response of a condenser capsule -> backplate mass and resistance
+const LABC = { a: 8.95e-3 / 2, x0: 20.77e-6, E: 200, MMD: 1.5e-6, CMD: 0.02e-3, V: 126.4e-9 };
+function labCmodel(fs, Q) {
+  const SD = Math.PI * LABC.a * LABC.a, CAB = LABC.V / (1.18 * 344 * 344), MA1 = 0.6133 * 1.18 / (Math.PI * LABC.a);
+  const CMT = 1 / (1 / LABC.CMD + SD * SD / CAB), MMT = 1 / (Math.pow(2 * Math.PI * fs, 2) * CMT);
+  return { SD, CAB, MA1, CMT, MMT, MAS: (MMT - LABC.MMD) / (SD * SD) - MA1, RAS: Math.sqrt(MMT / CMT) / Q / (SD * SD), M: LABC.E * SD * CMT / LABC.x0,
+           f0bare: 1 / (2 * Math.PI * Math.sqrt((LABC.MMD + SD * SD * MA1) * CMT)) };
+}
+function benchLabC() {
+  const b = bench("bench-labC", "Read f_s and Q off the actuator response, get the backplate for LTspice", "Lab C · B&K 4133 / 4134 · data from the brief");
+  if (!b) return;
+  const st = { fs: 20000, Q: 0.45, view: "mag" };
+  const seg = h("div", { class: "seg" });
+  for (const [k, l] of [["mag", "magnitude"], ["ph", "phase"]]) seg.append(h("button", { type: "button", class: st.view === k ? "on" : "", onclick: (e) => { st.view = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg);
+  slider(b.ctl, { label: "resonance <b>f<sub>s</sub></b> (phase −90°)", min: 8000, max: 28000, step: 100, value: st.fs, unit: "Hz", dom: "me", onchange: v => { st.fs = v; upd(); } });
+  slider(b.ctl, { label: "quality factor <b>Q</b> = |H(f<sub>s</sub>)|/|H(low)|", min: 0.2, max: 2, step: 0.01, value: st.Q, unit: "", dom: "ac", onchange: v => { st.Q = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "lq", label: "20 log Q (level at f_s)" }, { id: "f3", label: "−3 dB at" }, { id: "mmt", label: "total moving mass M_MT", dom: "me" }, { id: "mas", label: "backplate mass M_AS", dom: "ac" }, { id: "ras", label: "backplate resistance R_AS", dom: "ac" }, { id: "typ", label: "looks like" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 20, xmax: 60000, ymin: -25, ymax: 10, ylabel: "response re low frequency (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const fr = logspace(20, 60000, 500);
+  const H = (f, fs, Q) => cinv(cx(1 - (f / fs) * (f / fs), f / fs / Q));
+  function upd() {
+    const m = labCmodel(st.fs, st.Q), mag = fr.map(f => dB(cabs(H(f, st.fs, st.Q)))), ph = fr.map(f => carg(H(f, st.fs, st.Q)) * 180 / Math.PI);
+    const i3 = mag.findIndex(v => v < -3);
+    ro({ lq: `${(20 * Math.log10(st.Q)).toFixed(1)} dB`, f3: i3 > 0 ? hz(fr[i3]) : "above 60 kHz", mmt: `${(m.MMT * 1e6).toFixed(2)} mg (diaphragm 1.5 mg)`, mas: m.MAS > 0 ? `${m.MAS.toFixed(0)} kg/m⁴` : "negative: f_s too high for this diaphragm", ras: `${sci(m.RAS, 3)} Pa·s/m³`, typ: st.Q < 0.6 ? "free-field type (droops early)" : st.Q <= 1.1 ? "pressure type (flat)" : "under-damped (peak)" });
+    if (st.view === "mag") plot.set({ ymin: -25, ymax: 10, ylabel: "response re low frequency (dB)", yunit: " dB", series: [{ name: "this capsule", color: DOMC.ac, pts: fr.map((f, i) => [f, mag[i]]) }, { name: "free-field-like, Q = 0.45", color: DOMC.ink3, thin: true, pts: fr.map(f => [f, dB(cabs(H(f, 20000, 0.45)))]) }, { name: "pressure-like, Q = 0.95", color: DOMC.ink3, thin: true, pts: fr.map(f => [f, dB(cabs(H(f, 20000, 0.95)))]) }], vlines: [{ x: st.fs, label: "f_s", color: DOMC.me }], markers: [{ x: st.fs, y: 20 * Math.log10(st.Q), label: `Q = ${st.Q.toFixed(2)}`, color: DOMC.ac }] });
+    else plot.set({ ymin: -190, ymax: 10, ylabel: "phase re low frequency (degrees)", yunit: "°", series: [{ name: "this capsule", color: DOMC.me, pts: fr.map((f, i) => [f, ph[i]]) }], vlines: [{ x: st.fs, label: "f_s", color: DOMC.me }], markers: [{ x: st.fs, y: -90, label: "−90°", color: DOMC.me }] });
+    b.note.innerHTML = `<p>The actuator pulls on the diaphragm with an electric field, so this is the <b>pressure response</b>: a second-order low-pass <span class="mono">1/(1 − x² + jx/Q)</span>, <span class="mono">x = f/f_s</span>. Two numbers describe it. With the brief's data (S<sub>D</sub> = 62.9 mm², C<sub>MT</sub> = 18.4 µm/N, the back cavity stiffens the diaphragm by 9 %) they turn into the two unknowns of the LTspice model: <b>M<sub>MT</sub> = 1/((2πf<sub>s</sub>)²C<sub>MT</sub>)</b>, then M<sub>AS</sub> = (M<sub>MT</sub> − M<sub>MD</sub>)/S<sub>D</sub>² − M<sub>A1</sub> and R<sub>AS</sub> = √(M<sub>MT</sub>/C<sub>MT</sub>)/(Q·S<sub>D</sub>²).</p>`
+      + `<p class="muted">Without any backplate mass this diaphragm would resonate at ${hz(m.f0bare)}; a measured f_s near 20 kHz means the air in the backplate holes about doubles the moving mass. Model sensitivity E·S<sub>D</sub>·C<sub>MT</sub>/x<sub>0</sub> = ${(m.M * 1e3).toFixed(1)} mV/Pa (nominal 12.5: the brief's appendix says to accept that).</p>`;
+  }
+  upd();
+}
+
+document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabC(); });
