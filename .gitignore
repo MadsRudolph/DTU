@@ -126,6 +126,8 @@ Obsidian/Courses/*/Images/ex*_*.png
 
 # 62768 team product repo (separate git repo, do not nest into umbrella)
 4. Semester/Electrical Energy Systems/team/
+# 34870 labs: own git repo shared with the lab group and synced with Overleaf (MadsRudolph/34870-electroacoustics-labs)
+5. Semester/Electroacoustics/Labs/
 
 # ===========================================
 # Block Diagram Reducer Standalone App

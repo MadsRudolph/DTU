@@ -153,3 +153,8 @@ latexmkrc
 // In practice that means: pdf pptx ppt docx doc xlsx dotx zip 7z rar tar.gz iso
 // mov mp4 avi mkv wav mp3 mw mlx slx mat npz raw wbk step stl -- plus whatever
 // new binary format a course throws at you next semester.
+
+// 34870 labs is its own git repo (shared with the lab group, synced with Overleaf); it carries its
+// own binaries in git, so Syncthing must not touch it -- otherwise a checkout on one PC becomes
+// deletions on the others.
+/5. Semester/Electroacoustics/Labs
