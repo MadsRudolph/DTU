@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-20 — Diode Rectifiers (Lecture 3)
+
+Dear All,
+Hi, the topic of the lecture tomorrow is Diode Rectifiers.
+See you tomorrow at 8.30 AM.
+Best Regards
+Ashraf
+
 ## 2026-09-16 — Groups forming
 
 Dear All,

@@ -13,7 +13,8 @@ links to where the file actually lives in the vault.*
 
 ## Lecture 3 Diode Rectifier
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 3 Diode Rectifier.pdf|Lecture 3 Diode Rectifier]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 3 Diode Rectifier/Diodes Rectifiers.pdf|Diodes Rectifiers]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 3 Diode Rectifier/Assignment 2.pdf|Assignment 2]]
 
 ## Lecture 4 Power Transistors
 

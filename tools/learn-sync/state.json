@@ -3,7 +3,7 @@
     "34654": "187743",
     "34840": "187972",
     "34870": "188132",
-    "62755": "187881"
+    "62755": "188146"
   },
   "schema": 1,
   "topics": {
@@ -558,6 +558,18 @@
       "sha256": "f96281025b6303a5c50821fae019281ac2bf0d1af8c0c1b41a795df386a14e51",
       "synced_at": "2026-09-18T13:10:05+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/Lab Etiquette.pdf"
+    },
+    "1278898": {
+      "revision": "2026-09-20T16:57:41.137Z",
+      "sha256": "008c92e0dc985ac80a2b1e7ce28e5245fc8e6674ac80cdab244d5a9fc87d222d",
+      "synced_at": "2026-09-20T19:49:38+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 3 Diode Rectifier/Diodes Rectifiers.pdf"
+    },
+    "1278899": {
+      "revision": "2026-09-20T17:03:45.993Z",
+      "sha256": "17ac20ab386aa90ea0904433e6adb096fbf82e148a70d651687780a20420fdd9",
+      "synced_at": "2026-09-20T19:49:39+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 3 Diode Rectifier/Assignment 2.pdf"
     }
   }
 }
