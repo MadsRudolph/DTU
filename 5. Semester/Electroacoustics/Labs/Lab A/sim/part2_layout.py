@@ -21,7 +21,7 @@ from common_p24 import (G, RHO, C0, KICAD_DIR, ctrl, vsrc, isrc, fmt,
 from schdraw import Sheet
 from simfields import set_sim
 
-AC_CMD = ".ac dec 200 10 1000"
+AC_CMD = ".ac dec 2000 10 1000"   # Q > 100: 200 points per decade clips the peaks
 R_TUBE = 25e3           # Pa s/m^3 per narrow tube (given)
 A_TUBE = 2e-3           # m, radius of tubes 1,3,5,7
 S_TUBE = math.pi * A_TUBE ** 2

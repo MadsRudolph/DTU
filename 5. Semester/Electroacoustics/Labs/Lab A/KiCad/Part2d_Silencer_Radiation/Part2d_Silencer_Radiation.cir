@@ -1,6 +1,6 @@
 .title KiCad schematic
-.ac dec 200 10 1000
-R0 /p_in GND 100Meg
+.ac dec 2000 10 1000
+R0 /p_in GND 1T
 C6 /p6 GND 303.728p
 Vs7 /p6 Net-_R7-Pad1_ DC 0 
 R7 Net-_R7-Pad1_ Net-_L7-Pad1_ 25000

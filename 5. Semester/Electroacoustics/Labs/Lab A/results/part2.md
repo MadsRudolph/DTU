@@ -103,9 +103,11 @@ Interpretation:
 | feature | frequency | level |
 |---|---|---|
 | 10 Hz | — | +0.44 dB (→ 0 dB as f → 0) |
-| **peak** | **47.3 Hz** | **+25.8 dB** |
+| **peak** | **47.1 Hz** | **+38.6 dB** |
 | dip | 112.2 Hz | −5.2 dB |
-| **peak** | **175.8 Hz** | **+26.6 dB** (shoulder at 190 Hz) |
+| **peak** | **175.6 Hz** | **+40.9 dB** |
+| dip | 183.7 Hz | +20.1 dB |
+| **peak** | **190.8 Hz** | **+41.1 dB** |
 | 1 kHz | — | −111.5 dB |
 
 Transmission loss TL = −20 log|U_out/U_in|: 20 Hz −1.9 dB · 50 Hz −18.2 dB · 100 Hz +4.7 dB · 150 Hz −0.2 dB ·
@@ -119,7 +121,7 @@ Interpretation and **differences to a)** (overlay: `figures/part2ab_source_compa
   are excited. A volume-velocity source is an *open circuit* at the inlet, so the peaks sit at the
   **open-inlet natural frequencies = maxima of Z_in** (47.3 and 175.8/190 Hz), exactly where the pressure-source
   response has its dips. Conversely the pressure-source peaks (Z_in minima) do not appear at all with the U source.
-- The peaks reach +26 dB: at those frequencies the ladder resonates and the silencer *amplifies* the flow. A real
+- The peaks reach about +40 dB (corrected 20-Sep-2026: the first run had a 100 MΩ leak resistor loading the source and a 200 points/decade sweep, which gave +26 dB and a shoulder instead of a third peak): at those frequencies the ladder resonates and the silencer *amplifies* the flow. A real
   engine exhaust is somewhere between the two ideal sources (finite source impedance), which is why silencer
   design has to know the source impedance.
 - Above 200 Hz the chambers shunt the flow to ground and the mass of the following pipe blocks it; the roll-off is
@@ -134,7 +136,7 @@ Interpretation and **differences to a)** (overlay: `figures/part2ab_source_compa
 | 1 | 0 dB everywhere | (it *is* the source current) |
 | 3 | −30.2 dB | 47 Hz +8.7 dB · 176 Hz +19.9 dB · 191 Hz +22.0 dB; dip at 51 Hz (−22 dB) |
 | 5 | −78.7 dB | 47 Hz +24.9 dB · 176 Hz +18.5 dB · 188 Hz +14.2 dB; dip at 150 Hz (−39 dB) |
-| 7 | −111.5 dB | 47 Hz +25.8 dB · 176 Hz +26.6 dB |
+| 7 | −111.4 dB | 47 Hz +38.6 dB · 176 Hz +40.9 dB · 191 Hz +41.1 dB |
 
 - `I(Vs1)` = U_in by definition (the pipe-1 current is what the source injects), so it is a flat 0 dB line.
 - Each expansion chamber acts as an acoustic low-pass: chamber 2 shunts part of U_1 so U_3 < U_1, chamber 4 takes

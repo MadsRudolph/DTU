@@ -1,11 +1,11 @@
 {
   "custom_cursors": 2,
-  "last_sch_text_sim_command": ".ac dec 200 10 1000",
+  "last_sch_text_sim_command": ".ac dec 2000 10 1000",
   "tabs": [
     {
       "analysis": "AC",
       "commands": [
-        ".ac dec 200 10 1000",
+        ".ac dec 2000 10 1000",
         ".kicad adjustpaths",
         ".save all",
         ".probe alli",

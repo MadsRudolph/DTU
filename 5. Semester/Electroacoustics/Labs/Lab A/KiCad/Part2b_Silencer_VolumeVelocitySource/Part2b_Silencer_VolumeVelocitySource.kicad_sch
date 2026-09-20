@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "450bd696-ef8a-4d56-b465-157d28f82ae3")
+	(uuid "7ca449d6-fb70-43c4-b967-46d73a606f64")
 	(paper "A4")
 	(title_block
 		(title "Lab A Part 2b/c - Silencer driven by a volume-velocity source")
@@ -24,7 +24,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c3fcf317-6aeb-43a2-84f8-18756b3c9cc5")
+		(uuid "17bdff99-ad9d-4bf4-b6d8-5836ee0c8d3f")
 	)
 	(wire
 		(pts
@@ -34,7 +34,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7761a5ab-4e81-4358-858d-8237fc3fbecf")
+		(uuid "958fcc5b-94f2-45d2-b589-5b32eac6c341")
 	)
 	(wire
 		(pts
@@ -44,7 +44,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "cd536172-8e74-4ac0-9e39-0618b862e24f")
+		(uuid "9dd619c8-2503-4e36-bd00-82202f00c413")
 	)
 	(wire
 		(pts
@@ -54,7 +54,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4a0a027b-2ad4-494f-a1ad-255d0d42361c")
+		(uuid "90830bec-95fe-4b6b-8d74-683a568ef9fb")
 	)
 	(wire
 		(pts
@@ -64,7 +64,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1d68f673-f541-4f9c-b18e-d512973fb1e7")
+		(uuid "05999467-53c0-4f88-ab93-09fd7379c593")
 	)
 	(wire
 		(pts
@@ -74,7 +74,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3391edce-1ccf-46ca-81cb-502a7b3a1aa8")
+		(uuid "4c54960c-6e6b-4d09-8b98-befd3af5780e")
 	)
 	(wire
 		(pts
@@ -84,7 +84,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0d568ae7-4f50-49f9-9099-1a04546cba1c")
+		(uuid "046be30b-905c-48a7-85a9-3e1e39b7439a")
 	)
 	(wire
 		(pts
@@ -94,7 +94,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "345bab28-df5e-4d66-9d4f-664765f50392")
+		(uuid "57736ac8-0795-4101-bde3-b94e0bf44619")
 	)
 	(wire
 		(pts
@@ -104,7 +104,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "bf51e83e-fc81-47b1-800a-99964ab05363")
+		(uuid "2f80d48c-095c-4d7c-9291-fe710e740289")
 	)
 	(wire
 		(pts
@@ -114,7 +114,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6f85ee0f-a4a8-4d6e-b6ff-8dd68987061b")
+		(uuid "0a6f702b-018e-41d3-8007-59f97a018c10")
 	)
 	(wire
 		(pts
@@ -124,7 +124,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8c79ee9d-240e-403d-beca-eb428136e0e5")
+		(uuid "dbefba23-4ebe-43bb-b4d6-d545112df0f0")
 	)
 	(wire
 		(pts
@@ -134,7 +134,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "47091ce6-8f20-4a07-b562-a1111a2ea507")
+		(uuid "40f053d9-a4a0-4105-81f4-2064d09aebd3")
 	)
 	(wire
 		(pts
@@ -144,7 +144,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8edf1568-30db-4fc2-939a-07f0186a524a")
+		(uuid "fd405145-2025-4fa6-b589-501d636ef593")
 	)
 	(wire
 		(pts
@@ -154,7 +154,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a750c9a4-c4e2-4a21-8609-1e32199fe73f")
+		(uuid "dca36ef5-6315-42ce-b859-61eb33ab0328")
 	)
 	(wire
 		(pts
@@ -164,7 +164,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f885a8df-ed7f-4bd4-afe1-d0dccc4bc66f")
+		(uuid "dbaedfca-0efc-4102-9700-784a5ea7a889")
 	)
 	(wire
 		(pts
@@ -174,7 +174,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a3105a61-92fb-4333-b018-99ea04ffe17a")
+		(uuid "103fca74-1e4f-4c5e-928d-a68cb6c67c7d")
 	)
 	(wire
 		(pts
@@ -184,7 +184,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d652d12f-e573-41e4-a9de-92b3c876d4ed")
+		(uuid "e6ccc7ef-86a4-40d6-932d-1ff0e2cab2b0")
 	)
 	(wire
 		(pts
@@ -194,7 +194,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "42453087-85f0-4771-b5ce-83f78afc62d5")
+		(uuid "eb1260f2-0fcb-4f0c-a766-2e5b6cc593e8")
 	)
 	(wire
 		(pts
@@ -204,7 +204,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c1adbece-03d2-4755-9e2d-d4fd8062cdf6")
+		(uuid "93da5905-62da-4752-a4cb-ce2b07e5a548")
 	)
 	(wire
 		(pts
@@ -214,7 +214,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9c12c0dd-a182-49f4-ab26-5b572556b9fb")
+		(uuid "20a4a6e4-c865-45f3-a7d5-cfacc5792ea8")
 	)
 	(wire
 		(pts
@@ -224,7 +224,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "997e0595-1e8b-4f8f-9dfe-b53e5869bb9a")
+		(uuid "c424b773-d5e6-4f7a-bd47-e43875ddba22")
 	)
 	(wire
 		(pts
@@ -234,7 +234,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7fbe5ac4-04d0-46a8-b28b-154e50f10e27")
+		(uuid "8a07fba1-79ea-458b-b090-600a8e33b637")
 	)
 	(wire
 		(pts
@@ -244,7 +244,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8db4356e-34bc-4620-b3cb-ad99d9be3528")
+		(uuid "9adc5435-05d6-49b2-b062-a7eb39558c20")
 	)
 	(wire
 		(pts
@@ -254,7 +254,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "11d87eb5-79fd-4332-a474-c837ee47f9a3")
+		(uuid "30eb0a35-a2a5-4e05-ae6f-62b583f04bff")
 	)
 	(wire
 		(pts
@@ -264,7 +264,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "090410ac-e25a-4df7-97e5-b79b2eebeeb2")
+		(uuid "cfbcda33-777e-4399-bdd4-b4a3e3cd400d")
 	)
 	(wire
 		(pts
@@ -274,7 +274,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "70bac414-57a0-4601-84a4-8ced38bf6685")
+		(uuid "f10ff8b1-abb4-4095-a842-6ec55a54b0b6")
 	)
 	(wire
 		(pts
@@ -284,7 +284,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e3aded06-8697-4f4a-994b-00c4b7527bba")
+		(uuid "b9e145bd-e5a0-4060-adc9-b9a944d69c5d")
 	)
 	(wire
 		(pts
@@ -294,7 +294,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "38acb068-febb-4055-b70f-b047d59718e8")
+		(uuid "066f8e93-fad4-4514-9a2a-6efdd32196fb")
 	)
 	(wire
 		(pts
@@ -304,7 +304,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "94792881-6340-4419-8a92-db9efc55f156")
+		(uuid "f02d29fe-b7db-4104-9de8-4c4bd53f4555")
 	)
 	(wire
 		(pts
@@ -314,7 +314,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4146589a-f27a-4f34-b164-32d64200b82e")
+		(uuid "cc7b6c2c-abeb-4733-8d73-3f893f59b602")
 	)
 	(wire
 		(pts
@@ -324,7 +324,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a8c7b597-7ed6-4407-9c91-9fa02e2a1462")
+		(uuid "5e74377e-4602-4f04-aceb-20db33c0c3e5")
 	)
 	(wire
 		(pts
@@ -334,67 +334,67 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7ed49b65-4a90-45e8-a6d0-7e44fc587179")
+		(uuid "033cf936-2509-4e23-b23c-e46aa527efed")
 	)
 	(junction
 		(at 15.24 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "2c74950d-aa49-4632-b189-ad815ffdb5a0")
+		(uuid "304fba70-6728-4dbb-8abc-446923692d19")
 	)
 	(junction
 		(at 25.4 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "2aa46257-7a8a-4501-91e5-d560738574f1")
+		(uuid "b2da1b1f-c999-46ee-869e-26903432a993")
 	)
 	(junction
 		(at 25.4 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "4cc930cb-62e0-4eae-be38-881ab2f54f88")
+		(uuid "4ac80748-91fe-4de9-a29f-e0dbfeaaf393")
 	)
 	(junction
 		(at 35.56 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "7261bd41-ad42-4f5c-b501-0727e4a08341")
+		(uuid "c3167a21-52ca-432d-bd60-ef12bfcae791")
 	)
 	(junction
 		(at 71.12 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "8db1cb58-dad9-441e-b661-d0c54a3e0778")
+		(uuid "f1b11242-1592-4122-91e9-62363f2ab82b")
 	)
 	(junction
 		(at 71.12 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "9a0f1af0-54d4-4825-a2de-d06bb0ac00d6")
+		(uuid "0d577d2d-7aba-4426-b409-28bb12d82801")
 	)
 	(junction
 		(at 116.84 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "bcb01b7b-ab17-4498-aa18-64e6e3b14af8")
+		(uuid "0bebece4-5415-455a-a29a-41e4bfff2310")
 	)
 	(junction
 		(at 116.84 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "d6b6557e-b4c3-4df0-9811-e694273bf3a7")
+		(uuid "2b86b3f2-1850-4abc-9124-0a4ba9f14003")
 	)
 	(junction
 		(at 162.56 38.1)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "87b59eb0-804d-466a-8db6-18e022d46800")
+		(uuid "886ec47a-ec68-414d-900a-1564ad59ca2a")
 	)
 	(junction
 		(at 162.56 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "62352413-ab36-484d-aa51-32e48ad896f3")
+		(uuid "42e1e17e-f05c-4475-bf50-1330929991fb")
 	)
 	(label "p_in"
 		(at 20.32 38.1 0)
@@ -404,7 +404,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "0dd55662-0404-4e76-b6f1-1e0ccde1b7a7")
+		(uuid "b9863d22-4f42-476d-9cba-b361cde9d6c2")
 	)
 	(label "p2"
 		(at 71.12 38.1 0)
@@ -414,7 +414,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "7640fff7-4f2d-4631-bd86-18860e4a06b5")
+		(uuid "bfdcbb3b-df1b-498e-90d8-ac8cb9a1c771")
 	)
 	(label "p4"
 		(at 116.84 38.1 0)
@@ -424,7 +424,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4218ebd3-efaa-49dc-bc0f-7c5ffc1f4f0f")
+		(uuid "961dfbf8-1dbb-4734-9952-f546ebcbe835")
 	)
 	(label "p6"
 		(at 162.56 38.1 0)
@@ -434,7 +434,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "dca406cc-e01e-4527-bb95-58092c9357f6")
+		(uuid "edd4883f-8241-453f-9802-e221159abd42")
 	)
 	(label "p_out"
 		(at 201.93 38.1 0)
@@ -444,7 +444,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "db822590-84c9-4251-a649-ff326b2089bc")
+		(uuid "d4bf2ae8-78de-494c-91c2-bb3bae99aaf5")
 	)
 	(text "Lab A Part 2b/c - Silencer driven by a volume-velocity source"
 		(at 12.7 10.16 0)
@@ -454,7 +454,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6a6af097-1d98-494e-a8dc-2efe82523e21")
+		(uuid "02fe3890-da55-4b87-bc09-68d854ab81a6")
 	)
 	(text "I1 = volume-velocity source, 1 m^3/s AC   |   p = V [Pa], U = I [m^3/s]   |   I(Vs_n) = volume velocity in pipe n"
 		(at 12.7 15.24 0)
@@ -464,7 +464,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "90414f24-5bff-496e-a9c9-1544b0f6b0d8")
+		(uuid "49b079e9-94e7-42d5-bfee-d50a289d258c")
 	)
 	(text "Tubes 1,3,5,7: R = R_A = 25e3 Pa s/m^3 (given), L = M_A = rho*l/S  (a = 2 mm)"
 		(at 12.7 19.05 0)
@@ -474,7 +474,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6b17e55c-4970-4dca-8810-1c03aa52a553")
+		(uuid "abfe545c-fce3-406d-9d50-4715c5759ff6")
 	)
 	(text "Chambers 2,4,6: C = C_A = V/(rho c^2), grounded (reference pressure)"
 		(at 12.7 22.86 0)
@@ -484,7 +484,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6018cca6-eed9-4bf5-9589-5aac4719e73a")
+		(uuid "ea751cd4-12a2-420e-b72e-808309eebc96")
 	)
 	(text "SPICE directive (read automatically):"
 		(at 190.5 12.7 0)
@@ -494,9 +494,9 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d16668e9-33b7-419c-b8c3-83aa8d985695")
+		(uuid "73e56846-6a27-447d-857d-68d571410ffd")
 	)
-	(text ".ac dec 200 10 1000"
+	(text ".ac dec 2000 10 1000"
 		(at 190.5 17.78 0)
 		(effects
 			(font
@@ -504,7 +504,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "116821b6-380a-44b8-a145-844251331eae")
+		(uuid "21271de1-78c7-456f-bbac-986f6ce85d18")
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:IDC")
@@ -516,7 +516,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6e88a986-3f70-400f-aa99-fc6709654357")
+		(uuid "6b86393b-6bc8-47a1-9b02-46b00e45d202")
 		(property "Reference" "I1"
 			(at 19.558 41.91 0)
 			(show_name no)
@@ -605,7 +605,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "I1")
 					(unit 1)
 				)
@@ -622,7 +622,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c9e08f3c-70f1-4844-802d-7a2997ac1659")
+		(uuid "e5b47cac-fefe-4860-81f4-b37b1418b93f")
 		(property "Reference" "R0"
 			(at 28.194 53.34 0)
 			(show_name no)
@@ -633,7 +633,7 @@
 				)
 			)
 		)
-		(property "Value" "100Meg"
+		(property "Value" "1T"
 			(at 28.194 55.88 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -667,7 +667,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "R0")
 					(unit 1)
 				)
@@ -684,7 +684,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "1b25c172-6bdc-4cc7-913c-5a8144185a8d")
+		(uuid "a60ed32b-c031-4853-9348-7fa75a492ddc")
 		(property "Reference" "Vs1"
 			(at 35.56 33.782 0)
 			(show_name no)
@@ -773,7 +773,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "Vs1")
 					(unit 1)
 				)
@@ -790,7 +790,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6e18923a-5454-4d68-9ffe-cb9e83aa45f1")
+		(uuid "50cc3d6a-477b-4206-bde4-ac3cef33ce90")
 		(property "Reference" "R1"
 			(at 48.26 35.306 0)
 			(show_name no)
@@ -835,7 +835,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "R1")
 					(unit 1)
 				)
@@ -852,7 +852,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7dc57fb7-fd28-461b-b481-752d2fd6aec0")
+		(uuid "a9d19a01-8942-4ceb-8507-82a1ae314048")
 		(property "Reference" "L1"
 			(at 58.42 36.322 0)
 			(show_name no)
@@ -897,7 +897,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "L1")
 					(unit 1)
 				)
@@ -914,7 +914,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "78ba25b9-fef9-4a39-a186-f536ef6ab57d")
+		(uuid "ef6333ee-915e-485c-af16-a278f68c9943")
 		(property "Reference" "C2"
 			(at 74.93 40.64 0)
 			(show_name no)
@@ -959,7 +959,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "C2")
 					(unit 1)
 				)
@@ -976,7 +976,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9b6ff2e2-0114-4f25-96e6-b58159806d6d")
+		(uuid "fed5b8b0-6ed5-44b1-8ebf-394722fe5584")
 		(property "Reference" "Vs3"
 			(at 81.28 33.782 0)
 			(show_name no)
@@ -1065,7 +1065,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "Vs3")
 					(unit 1)
 				)
@@ -1082,7 +1082,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "73e3ee4d-c484-46b5-9cf3-97fe8b9a36db")
+		(uuid "b394a0c8-95ef-4ecc-a181-976495da176b")
 		(property "Reference" "R3"
 			(at 93.98 35.306 0)
 			(show_name no)
@@ -1127,7 +1127,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "R3")
 					(unit 1)
 				)
@@ -1144,7 +1144,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6831cabe-784b-497f-9408-378f66ba0d12")
+		(uuid "34c4560c-d895-48d0-8d60-fe735bde8359")
 		(property "Reference" "L3"
 			(at 104.14 36.322 0)
 			(show_name no)
@@ -1189,7 +1189,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "L3")
 					(unit 1)
 				)
@@ -1206,7 +1206,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "fd089a65-6f66-406e-a448-5787fa749e68")
+		(uuid "f8b935ab-ffbf-4c89-89be-6bf33ce49c42")
 		(property "Reference" "C4"
 			(at 120.65 40.64 0)
 			(show_name no)
@@ -1251,7 +1251,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "C4")
 					(unit 1)
 				)
@@ -1268,7 +1268,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "02d6e91e-fd54-4d7b-bb77-a0c0c7b7e19f")
+		(uuid "6e627d90-b43f-41d5-8308-12e0cc2d924a")
 		(property "Reference" "Vs5"
 			(at 127 33.782 0)
 			(show_name no)
@@ -1357,7 +1357,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "Vs5")
 					(unit 1)
 				)
@@ -1374,7 +1374,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "490e244e-5ff9-4874-9975-2e0112cdb004")
+		(uuid "cd838f60-9b08-4718-bb2a-846427f2063a")
 		(property "Reference" "R5"
 			(at 139.7 35.306 0)
 			(show_name no)
@@ -1419,7 +1419,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "R5")
 					(unit 1)
 				)
@@ -1436,7 +1436,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9ee8458d-f1cc-4900-aefd-4ba2d953e29b")
+		(uuid "696dcd7c-1d6a-4c83-baae-1dd8fbb9ce81")
 		(property "Reference" "L5"
 			(at 149.86 36.322 0)
 			(show_name no)
@@ -1481,7 +1481,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "L5")
 					(unit 1)
 				)
@@ -1498,7 +1498,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e7c58637-794d-44d6-b0d5-5d0ec252a6f6")
+		(uuid "c42f6d77-5ce2-4a9a-a701-3756b1dae8d5")
 		(property "Reference" "C6"
 			(at 166.37 40.64 0)
 			(show_name no)
@@ -1543,7 +1543,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "C6")
 					(unit 1)
 				)
@@ -1560,7 +1560,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7be5825b-234e-47f7-96c6-48540dada792")
+		(uuid "ea3e940a-153b-4c93-b318-f4b7f80aad38")
 		(property "Reference" "Vs7"
 			(at 172.72 33.782 0)
 			(show_name no)
@@ -1649,7 +1649,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "Vs7")
 					(unit 1)
 				)
@@ -1666,7 +1666,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "d387a5d6-0734-4a2b-8548-9fadcf942254")
+		(uuid "4915769b-2846-499f-9f04-90055862a038")
 		(property "Reference" "R7"
 			(at 185.42 35.306 0)
 			(show_name no)
@@ -1711,7 +1711,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "R7")
 					(unit 1)
 				)
@@ -1728,7 +1728,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "f914b389-a950-4df1-b11b-b46301834cb1")
+		(uuid "b2369645-5c57-4f46-b4f5-b594126817fd")
 		(property "Reference" "L7"
 			(at 195.58 36.322 0)
 			(show_name no)
@@ -1773,7 +1773,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "L7")
 					(unit 1)
 				)
@@ -1790,7 +1790,7 @@
 		(on_board no)
 		(in_pos_files no)
 		(dnp no)
-		(uuid "68edaaf6-6d1f-4cac-86d9-fe0357ab7267")
+		(uuid "3d5dd624-11c5-4607-8873-fc8401cb9284")
 		(property "Reference" "#PWR001"
 			(at 18.288 74.93 0)
 			(hide yes)
@@ -1836,7 +1836,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "#PWR001")
 					(unit 1)
 				)
@@ -1853,7 +1853,7 @@
 		(on_board no)
 		(in_pos_files no)
 		(dnp no)
-		(uuid "6c163509-b08a-4bf0-9cc7-90d154acaedb")
+		(uuid "f58f6e21-4bbd-4161-b294-30c33e23db46")
 		(property "Reference" "#PWR002"
 			(at 38.354 74.93 0)
 			(hide yes)
@@ -1899,7 +1899,7 @@
 		)
 		(instances
 			(project "Part2b_Silencer_VolumeVelocitySource"
-				(path "/450bd696-ef8a-4d56-b465-157d28f82ae3"
+				(path "/7ca449d6-fb70-43c4-b967-46d73a606f64"
 					(reference "#PWR002")
 					(unit 1)
 				)

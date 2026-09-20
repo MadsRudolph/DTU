@@ -1,5 +1,5 @@
 .title KiCad schematic
-.ac dec 200 10 1000
+.ac dec 2000 10 1000
 C2 /p2 GND 112.492p
 Vs3 /p2 Net-_R3-Pad1_ DC 0 
 R1 Net-_R1-Pad1_ Net-_L1-Pad1_ 25000

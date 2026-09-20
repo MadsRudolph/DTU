@@ -257,11 +257,11 @@ against all three compliances in parallel (\SI{1.136e-9}{\metre\tothe{5}\per\new
 Feature & $f$ & $|U_{out}/p_{in}|$ [dB re \SI{1}{\cubic\metre\per\second\per\pascal}] \\ \midrule
 10 Hz & --- & \num{-123.0} \\
 dip & \SI{42.2}{\hertz} & \num{-132.0} \\
-\textbf{peak} & \SI{76.7}{\hertz} & \num{-101.0} \\
+\textbf{peak} & \SI{77.1}{\hertz} & \num{-98.9} \\
 dip & \SI{142.9}{\hertz} & \num{-143.9} \\
 \textbf{peak} & \SI{179.9}{\hertz} & \num{-112.3} \\
-dip & \SI{309.0}{\hertz} & \num{-170.3} \\
-\textbf{peak} & \SI{354.8}{\hertz} & \num{-149.6} \\
+dip & \SI{309.7}{\hertz} & \num{-170.3} \\
+\textbf{peak} & \SI{356.5}{\hertz} & \num{-141.6} \\
 1 kHz & --- & \num{-253.9} \\
 \bottomrule\end{tabular}
 \caption{Part 2a: output volume velocity of pipe 7 for a \SI{1}{\pascal} pressure source at the inlet.}
@@ -270,14 +270,14 @@ The output is $U_{out} = (p_{in}/Z_{in})\cdot(U_{out}/U_{in})$, so with a pressu
 set by the \emph{input impedance of the whole ladder} (Fig.~\ref{fig:p2zin}). Below about \SI{1}{\hertz} that would be
 the four series losses $\sum R_A = \SI{e5}{\pascal\second\per\cubic\metre}$ (\SI{-100}{\decibel}), but already at
 \SI{10}{\hertz} the series air masses dominate: $\omega\sum M_A = 2\pi\cdot 10\cdot 23006 = \num{1.45e6} \gg \num{e5}$,
-hence $|Z_{in}|\approx\num{1.5e6}$ and \SI{-123}{\decibel}. The three peaks (76.7, 179.9, \SI{354.8}{\hertz}) are the
+hence $|Z_{in}|\approx\num{1.5e6}$ and \SI{-123}{\decibel}. The three peaks (77.1, 179.9, \SI{356.5}{\hertz}) are the
 \emph{minima} of $Z_{in}$, i.e.\ the series resonances: with the inlet held at a fixed pressure the natural frequencies
 are those of the ladder with a short-circuited ($p = 0$) inlet. The dips are where $U_{out}$ passes through zero between
-two poles, close to the $Z_{in}$ maxima (47, 176, \SI{190}{\hertz}) and to the $M_{A1}$--$C_{A2}$ pair
+two poles, close to the $Z_{in}$ maxima (47, 176, \SI{191}{\hertz}) and to the $M_{A1}$--$C_{A2}$ pair
 (\SI{310}{\hertz}). Above the last resonance the response falls at about \SI{18}{\decibel} per octave per chamber section
-(a ladder of three L--C low-pass sections), from \SI{-150}{\decibel} at \SI{355}{\hertz} to \SI{-254}{\decibel} at
+(a ladder of three L--C low-pass sections), from \SI{-142}{\decibel} at \SI{357}{\hertz} to \SI{-254}{\decibel} at
 \SI{1}{\kilo\hertz}. The losses $R_A$ only round off the peaks: at \SI{100}{\hertz} $\omega M_{A3} = \num{4.7e6}\gg\num{2.5e4}$,
-so the Q-factors are in the hundreds and the peaks are very sharp.
+so the Q-factors are in the hundreds and the peaks are very sharp --- sharp enough that the sweep needs about 2000 points per decade to resolve their height (200 points per decade reads the \SI{77}{\hertz} peak \SI{2}{\decibel} and the \SI{357}{\hertz} peak \SI{8}{\decibel} too low).
 
 \begin{figure}[!htb]\centering
 \begin{subfigure}{0.49\linewidth}\includegraphics[width=\linewidth]{part2a_pressure_source_Uout}\caption{pressure source, \SI{1}{\pascal}}\label{fig:p2a}\end{subfigure}
@@ -290,31 +290,39 @@ so the Q-factors are in the hundreds and the peaks are very sharp.
 \begin{table}[H]\centering\small
 \begin{tabular}{@{}lll@{}}\toprule
 Feature & $f$ & $|U_{out}/U_{in}|$ [dB] \\ \midrule
-10 Hz & --- & $+0.44$ ($\to 0$ as $f\to 0$) \\
-\textbf{peak} & \SI{47.3}{\hertz} & $+25.8$ \\
-dip & \SI{112.2}{\hertz} & $-5.2$ \\
-\textbf{peak} & \SI{175.8}{\hertz} & $+26.6$ (shoulder at \SI{190}{\hertz}) \\
-1 kHz & --- & $-111.5$ \\
+10 Hz & --- & $+0.45$ ($\to 0$ as $f\to 0$) \\
+\textbf{peak} & \SI{47.1}{\hertz} & $+38.6$ \\
+dip & \SI{112.1}{\hertz} & $-5.2$ \\
+\textbf{peak} & \SI{175.6}{\hertz} & $+40.9$ \\
+dip & \SI{183.7}{\hertz} & $+20.1$ \\
+\textbf{peak} & \SI{190.8}{\hertz} & $+41.1$ \\
+1 kHz & --- & $-111.4$ \\
 \bottomrule\end{tabular}
 \caption{Part 2b: transfer $U_{out}/U_{in}$ for the volume-velocity source.}
 \end{table}
-Transmission loss $\mathrm{TL} = -20\log|U_{out}/U_{in}|$: \SI{-1.9}{\decibel} at \SI{20}{\hertz}, \SI{-18.2}{\decibel}
-at \SI{50}{\hertz}, $+4.7$ at 100, $-0.2$ at 150, $-5.5$ at 200, $+40.6$ at 300, $+73.5$ at 500, $+92.2$ at 700 and
-$+\SI{111.5}{\decibel}$ at \SI{1}{\kilo\hertz}.
+Transmission loss $\mathrm{TL} = -20\log|U_{out}/U_{in}|$: \SI{-1.9}{\decibel} at \SI{20}{\hertz}, \SI{-19.3}{\decibel}
+at \SI{50}{\hertz}, $+4.7$ at 100, $-0.5$ at 150, $-6.1$ at 200, $+40.9$ at 300, $+73.4$ at 500, $+92.2$ at 700 and
+$+\SI{111.4}{\decibel}$ at \SI{1}{\kilo\hertz}.
 
 With an ideal volume-velocity source the flow is forced into the inlet whatever pressure it takes. At low frequency the
 chambers cannot store flow ($1/(\omega C_A)$ is huge), so everything that goes in comes out: \SI{0}{\decibel}, independent
 of the series masses and losses. The transfer $U_{out}/U_{in}$ is a property of the network alone; the source only
 decides which natural frequencies are excited. A volume-velocity source is an \emph{open circuit} at the inlet, so the
-peaks sit at the open-inlet natural frequencies, the \emph{maxima} of $Z_{in}$ (47.3 and 175.8/\SI{190}{\hertz}) ---
+peaks sit at the open-inlet natural frequencies, the \emph{maxima} of $Z_{in}$ (47.1, 175.6 and \SI{190.8}{\hertz}) ---
 exactly where the pressure-source response has its dips --- while the pressure-source peaks ($Z_{in}$ minima) do not
 appear at all (overlay in Fig.~\ref{fig:p2ab}). At those frequencies the ladder resonates and the silencer
-\emph{amplifies} the flow by \SI{26}{\decibel}. A real engine exhaust is somewhere between the two ideal sources
+\emph{amplifies} the flow by about \SI{40}{\decibel}, limited only by the pipe losses. A real engine exhaust is somewhere between the two ideal sources
 (finite source impedance), which is why a silencer design has to know its source impedance. Above \SI{200}{\hertz}
 the chambers shunt the flow and the mass of the following pipe blocks it; the roll-off is the same \SI{18}{\decibel}
-per octave per section, reaching \SI{111}{\decibel} of transmission loss at \SI{1}{\kilo\hertz}. Only two clear peaks
-appear instead of three because the third open-inlet mode at \SI{190}{\hertz} sits right next to \SI{176}{\hertz}
-and only shows as a shoulder.
+per octave per section, reaching \SI{111}{\decibel} of transmission loss at \SI{1}{\kilo\hertz}. The second and third
+open-inlet modes are close neighbours (176 and \SI{191}{\hertz}) separated by a $+\SI{20}{\decibel}$ saddle.
+
+\emph{A modelling trap worth recording.} The ideal current source must not be loaded. At these anti-resonances
+$|Z_{in}|$ reaches \SI{2.9e8}{\pascal\second\per\cubic\metre} at \SI{47}{\hertz} and \SI{1.5e9}{} at \SI{191}{\hertz}, so a
+\SI{100}{\mega\ohm} ``DC-leak'' resistor across the source --- a common SPICE habit --- takes most of the source flow exactly
+at the peaks: it lowers them to $+25.8$ and $+\SI{26.6}{\decibel}$ and merges the upper two into one hump. The pipe
+inductors already provide the DC path, so no leak is needed (the sheets use \SI{1}{\tera\ohm}); LTspice with an
+unloaded source gives the same three peaks.
 
 \begin{figure}[!htb]\centering
 \begin{subfigure}{0.49\linewidth}\includegraphics[width=\linewidth]{part2ab_source_comparison}\caption{$U_{out}$ for both sources, normalised}\label{fig:p2ab}\end{subfigure}
@@ -329,16 +337,16 @@ $Z_{in}$, the volume-velocity source at its maxima.}
 \begin{tabular}{@{}lll@{}}\toprule
 Pipe & Level at \SI{1}{\kilo\hertz} & Peaks / dips \\ \midrule
 1 & \SI{0}{\decibel} everywhere & (it \emph{is} the source current) \\
-3 & \SI{-30.2}{\decibel} & $+8.7$ dB at 47 Hz, $+19.9$ at 176 Hz, $+22.0$ at 191 Hz; dip \SI{-22}{\decibel} at \SI{51}{\hertz} \\
-5 & \SI{-78.7}{\decibel} & $+24.9$ at 47 Hz, $+18.5$ at 176 Hz, $+14.2$ at 188 Hz; dip \SI{-39}{\decibel} at \SI{150}{\hertz} \\
-7 & \SI{-111.5}{\decibel} & $+25.8$ at 47 Hz, $+26.6$ at 176 Hz \\
+3 & \SI{-30.2}{\decibel} & $+21.0$ dB at 47 Hz, $+34.6$ at 176 Hz, $+45.6$ at 191 Hz; dip \SI{-22}{\decibel} at \SI{51}{\hertz} \\
+5 & \SI{-78.6}{\decibel} & $+37.7$ at 47 Hz, $+32.7$ at 176 Hz, $+37.2$ at 191 Hz; dip \SI{-43}{\decibel} at \SI{149}{\hertz} \\
+7 & \SI{-111.4}{\decibel} & $+38.6$ at 47 Hz, $+40.9$ at 176 Hz, $+41.1$ at 191 Hz \\
 \bottomrule\end{tabular}
 \caption{Part 2c: volume velocity in pipes 1, 3, 5, 7 relative to $U_{in}$.}
 \end{table}
 $I(V_{s1}) = U_{in}$ by definition, a flat \SI{0}{\decibel} line. Each expansion chamber acts as an acoustic low-pass:
 chamber 2 shunts part of $U_1$ so $U_3 < U_1$, chamber 4 takes another bite, chamber 6 the last. At \SI{1}{\kilo\hertz}
 the cumulative attenuation is 30, 79 and \SI{112}{\decibel} after one, two and three chambers, i.e.\ each section
-contributes 30--\SI{40}{\decibel} there. The dips in $U_3$ (\SI{51}{\hertz}) and $U_5$ (\SI{150}{\hertz}) are
+contributes 30--\SI{40}{\decibel} there. The dips in $U_3$ (\SI{51}{\hertz}) and $U_5$ (\SI{149}{\hertz}) are
 anti-resonances where the downstream part of the ladder presents a very high impedance, so almost no flow enters that
 pipe and the chamber before it takes it all; pipe 7 has no dip because nothing follows it. The resonance peaks appear in
 every pipe but grow towards the outlet: energy stored in the resonating chambers is released into the pipe after them.
@@ -358,7 +366,7 @@ $ka = 0.037$ at \SI{1}{\kilo\hertz}, $|\Zrad| = \SI{7.24e5}{\pascal\second\per\c
 \num{1.08e4} (\SI{1.5}{\percent}); the resistive $R_{A2} = \num{3.2e7}$ is only reached near $ka = 1$ at \SI{27}{\kilo\hertz}.
 Consequently $p_{open}\approx \jw M_{A1}U_{out}$: the dashed curve $\omega M_{A1}|U_{out}|$ lies on top of the simulated
 pressure, and the pressure curve is simply the $U_{out}$ curve of b) tilted by $+\SI{6}{\decibel}$ per octave, with the
-same peaks at 47 and \SI{176}{\hertz}. Inserting the radiation load changes $U_{out}$ by less than \SI{0.01}{\decibel}:
+same peaks at 47, 176 and \SI{191}{\hertz}. Inserting the radiation load changes $U_{out}$ by less than \SI{0.01}{\decibel}:
 $|\Zrad|\le\num{7e5}$ against a pipe-7 impedance $\omega M_{A7}$ of \num{2.3e5} at \SI{10}{\hertz} and \num{2.3e7} at
 \SI{1}{\kilo\hertz}. The silencer does not ``see'' the outside air; the ideal open end used in a)--c) is an excellent
 approximation.
@@ -378,19 +386,20 @@ $I(V_{s7})$ of the radiation sheet.
 \begin{table}[H]\centering\small
 \begin{tabular}{@{}lll@{}}\toprule
 $f$ & SPL with silencer [dB re \SI{20}{\micro\pascal}] & unsilenced ($U_{out} = U_{in}$) \\ \midrule
-\SI{20}{\hertz} & 97.3 & 95.4 \\
-\SI{50}{\hertz} & 121.6 & 103.4 \\
+\SI{20}{\hertz} & 97.4 & 95.4 \\
+\SI{50}{\hertz} & 122.6 & 103.4 \\
 \SI{100}{\hertz} & 104.7 & 109.4 \\
-\SI{200}{\hertz} & 120.9 & 115.4 \\
-\SI{500}{\hertz} & 49.9 & 123.4 \\
+\SI{200}{\hertz} & 121.5 & 115.4 \\
+\SI{500}{\hertz} & 50.0 & 123.4 \\
 \SI{1}{\kilo\hertz} & 17.9 & 129.4 \\
 \bottomrule\end{tabular}
 \caption{Part 2e: sound pressure level at \SI{10}{\metre} for $U_{in} = \SI{1}{\cubic\metre\per\second}$.}
 \end{table}
 The far-field pressure of a monopole rises \SI{6}{\decibel} per octave for constant $U$ (the dashed reference), so the
-radiated SPL is the $U_{out}$ transfer of b) plus that tilt. The silencer helps only above about \SI{230}{\hertz}
-(roughly \SI{75}{\decibel} at \SI{500}{\hertz}, \SI{110}{\decibel} at \SI{1}{\kilo\hertz}) and \emph{hurts} by up to
-\SI{18}{\decibel} at its two resonances when driven by an ideal volume-velocity source.
+radiated SPL is the $U_{out}$ transfer of b) plus that tilt. The silencer helps only above about \SI{205}{\hertz}
+(roughly \SI{73}{\decibel} at \SI{500}{\hertz}, \SI{111}{\decibel} at \SI{1}{\kilo\hertz}) and \emph{hurts} by up to
+about \SI{41}{\decibel} at its three resonances when driven by an ideal volume-velocity source; the finite source
+impedance of a real engine is what tames those peaks.
 
 \emph{Validity at higher frequencies.} Lumped elements require $l < \lambda/10$. Pipe 5 (\SI{100}{\milli\metre}) meets
 this only below \SI{344}{\hertz}, pipe 3 and chamber 4 (\SI{80}{\milli\metre}) below \SI{430}{\hertz}, chamber 6 below
@@ -790,7 +799,7 @@ air mass and the \SI{22}{\newton\second\per\metre} of radiation resistance the b
 the \SI{4.9}{\hertz} and \SI{733}{\hertz} modes of the coil system and their mirror image in $Z_E$ (Part 4). The
 most instructive results are the ones the circuit gives for free: the mechanical crossover of the dual diaphragm,
 whose far-field response stays flat to \SI{10}{\kilo\hertz} at the cost of \SI{13}{\decibel} once only the inner
-cone radiates; the silencer amplifying the exhaust by \SI{26}{\decibel} at its resonances while attenuating
+cone radiates; the silencer amplifying the exhaust by about \SI{40}{\decibel} at its resonances while attenuating
 \SI{110}{\decibel} at \SI{1}{\kilo\hertz}, of which the upper half is outside the validity of the lumped model; and
 the sign of the back-EMF, which is easy to get wrong and immediately visible as a \SI{45}{$\times$} change in the
 velocity peak.
@@ -838,7 +847,8 @@ LTspice's \texttt{G} and \texttt{ESOURCE} (VCVS) is \texttt{E}; the SPICE line i
 series with a branch gives its current as \texttt{I(Vs)} in both tools. The mobility-analogy impedance trick is the same:
 drive with a \SI{1}{\ampere} current source and plot \texttt{1/V(u)}; in LTspice use \emph{Add traces} with the
 expression, in KiCad a user-defined signal. Every node needs a DC path to ground, so a current source feeding a
-capacitor-only branch gets a \SI{100}{\mega\ohm} leak.
+capacitor-only branch gets a leak resistor --- chosen far above the largest impedance in the circuit (\SI{1}{\tera\ohm}
+for the silencer, whose input impedance reaches \SI{1.5}{\giga\ohm}), or it becomes part of the physics (Part~2b).
 
 \FloatBarrier
 \section*{Appendix B: KiCad schematics}
