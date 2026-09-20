@@ -104,6 +104,7 @@ Syncthing carry the binaries, and posts to Discord. **Don't download course PDFs
 - **The Playwright pin in `requirements.txt` must equal the Dockerfile base image tag.**
   The image ships browsers for exactly one version; a floating `>=` breaks at launch.
 - **34654's Learn content area is empty** (0 modules). That is correct, not a failure.
+- **If learn-sync dies with "Exiting because of an unresolved conflict"** (seen 20-Sep-2026): its clone is also a Syncthing node, so Syncthing can modify *tracked* binaries there (KiCad `.wbk`, fonts). When a push from a PC then deletes or moves those files, the service's `pull --rebase --autostash` cannot re-apply its stash and every later run fails. Fix on CT 114 in `/srv/learn-sync/repo`: `git status` → `git rm --cached` the "deleted by us" paths, `git stash list` / `git stash show --name-status` to confirm the stashes hold no course material, `git stash drop`, `git pull --rebase`, `systemctl start learn-sync`. Check `journalctl -u learn-sync` after moving or untracking folders.
 - Deploy key `learn-sync (Proxmox LXC 114)` on this repo has **write** access.
 
 ### Syncthing — large binaries are NOT in git (since 14-Sep-2026)
