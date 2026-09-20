@@ -184,11 +184,11 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 > |---|---|---|
 > | 10 Hz | – | −123.0 |
 > | dip | 42.2 Hz | −132.0 |
-> | **peak** | **76.7 Hz** | **−101.0** |
+> | **peak** | **77.1 Hz** | **−98.8** |
 > | dip | 142.9 Hz | −143.9 |
-> | **peak** | **179.9 Hz** | **−112.3** |
+> | **peak** | **180.0 Hz** | **−112.1** |
 > | dip | 309.0 Hz | −170.3 |
-> | **peak** | **354.8 Hz** | **−149.6** |
+> | **peak** | **356.5 Hz** | **−141.6** |
 > | 1 kHz | – | −253.9 |
 >
 > With a pressure source the output is $U_{out} = (p_{in}/Z_{in}) \cdot (U_{out}/U_{in})$, so the low-frequency level is set by the **input impedance of the whole ladder**. Below ~1 Hz that would be the four series losses ($10^5$, −100 dB), but already at 10 Hz the series air masses dominate ($|Z_{in}| \approx 1.5\cdot10^6$ → −123 dB). The three peaks are the **minima of $Z_{in}$** (series resonances): holding the inlet at a fixed pressure means the network's natural frequencies are those of the ladder with a short-circuited ($p = 0$) inlet. The dips are where $U_{out}$ passes through zero between two poles, close to the maxima of $Z_{in}$. Above the last resonance the response falls about 60 dB/decade per chamber section (three L-C low-pass sections, −18 dB/octave each): −150 dB at 355 Hz → −254 dB at 1 kHz. The losses $R_A$ only round the peaks ($\omega M_{A3} = 4.7\cdot10^6 \gg 2.5\cdot10^4$ at 100 Hz, so $Q \approx 100$–200).
@@ -204,14 +204,18 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 > | Feature | Frequency | Level (dB) |
 > |---|---|---|
 > | 10 Hz | – | +0.44 (→ 0 dB as $f \to 0$) |
-> | **peak** | **47.3 Hz** | **+25.8** |
+> | **peak** | **47.1 Hz** | **+38.6** |
 > | dip | 112.2 Hz | −5.2 |
-> | **peak** | **175.8 Hz** | **+26.6** (shoulder at 190 Hz) |
+> | **peak** | **175.6 Hz** | **+41.0** |
+> | dip | 183.7 Hz | +20.1 |
+> | **peak** | **190.9 Hz** | **+41.4** |
 > | 1 kHz | – | −111.5 |
 >
-> Transmission loss $TL = -20\log|U_{out}/U_{in}|$: 50 Hz −18 dB (amplification!) · 100 Hz +4.7 dB · 200 Hz −5.5 dB · 300 Hz +41 dB · 500 Hz +74 dB · 1 kHz +112 dB.
+> Transmission loss $TL = -20\log|U_{out}/U_{in}|$: 50 Hz −19 dB (amplification!) · 100 Hz +4.7 dB · 200 Hz −6.1 dB · 300 Hz +41 dB · 500 Hz +73 dB · 1 kHz +111 dB.
 >
-> **The differences.** An ideal volume-velocity source forces the flow into the inlet whatever pressure that takes. At low frequency the chambers cannot store flow ($1/\omega C_A$ is huge), so everything that goes in comes out: **0 dB transfer**, independent of the series masses and losses. The transfer $U_{out}/U_{in}$ is a property of the network alone; the source only decides *which* natural frequencies get excited. A volume-velocity source is an **open circuit** at the inlet, so its peaks sit at the open-inlet natural frequencies, the **maxima of $Z_{in}$** (47 and 176/190 Hz), exactly where the pressure-source response has its dips; the pressure-source peaks ($Z_{in}$ minima) do not appear at all. At those frequencies the ladder resonates and the silencer *amplifies* the flow by +26 dB. A real engine exhaust sits between the two ideal sources (finite source impedance), which is why silencer design has to know the source impedance. Above 200 Hz the chambers shunt the flow to ground and the following pipe mass blocks it: the same −18 dB/octave per section, 111 dB of transmission loss at 1 kHz (but see the validity warning). Only two clear peaks instead of three because the third open-inlet mode sits at 190 Hz, right beside 176 Hz, and only shows as a shoulder.
+> ⚠️ **Corrected 20-Sep-2026 (found when rebuilding in LTspice).** The first version of this table said +25.8 / +26.6 dB with only a "shoulder" at 190 Hz. That was an artefact: the ngspice schematic had a 100 MΩ DC-leak resistor across the current source, and at the ladder's anti-resonances $|Z_{in}|$ reaches 285 MΩ – 1.5 GΩ, so the "leak" swallowed most of the source flow exactly at the peaks. An ideal volume-velocity source (LTspice `I1`, no leak; the pipe inductors already give the DC path) shows **three** sharp peaks of about +39 to +41 dB. The 2a peak heights were also clipped by the 200 points/decade sweep ($Q > 100$); use `.ac dec 2000 10 1k`. All numbers here and in 2c/2e are now the fine-sweep, ideal-source values, verified in LTspice 26.
+>
+> **The differences.** An ideal volume-velocity source forces the flow into the inlet whatever pressure that takes. At low frequency the chambers cannot store flow ($1/\omega C_A$ is huge), so everything that goes in comes out: **0 dB transfer**, independent of the series masses and losses. The transfer $U_{out}/U_{in}$ is a property of the network alone; the source only decides *which* natural frequencies get excited. A volume-velocity source is an **open circuit** at the inlet, so its peaks sit at the open-inlet natural frequencies, the **maxima of $Z_{in}$** (47, 176 and 191 Hz), exactly where the pressure-source response has its dips; the pressure-source peaks ($Z_{in}$ minima) do not appear at all. At those frequencies the ladder resonates and the silencer *amplifies* the flow by about +40 dB (only the 25 kPa·s/m³ pipe losses limit it). A real engine exhaust sits between the two ideal sources (finite source impedance), which is why silencer design has to know the source impedance. Above 200 Hz the chambers shunt the flow to ground and the following pipe mass blocks it: the same −18 dB/octave per section, 111 dB of transmission loss at 1 kHz (but see the validity warning). The second and third open-inlet modes are close neighbours (176 and 191 Hz) with a +20 dB saddle between them; a coarse sweep or any source loading merges them into one hump.
 
 ### c) Volume velocity in each pipe (U source)
 
@@ -221,9 +225,9 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 > | Pipe | Level at 1 kHz | Peaks / dips |
 > |---|---|---|
 > | 1 | 0 dB everywhere | it *is* the source current |
-> | 3 | −30.2 dB | +8.7 dB (47 Hz), +19.9 dB (176 Hz), +22.0 dB (191 Hz); dip −22 dB at 51 Hz |
-> | 5 | −78.7 dB | +24.9 dB (47 Hz), +18.5 dB (176 Hz), +14.2 dB (188 Hz); dip −39 dB at 150 Hz |
-> | 7 | −111.5 dB | +25.8 dB (47 Hz), +26.6 dB (176 Hz) |
+> | 3 | −30.2 dB | +21.0 dB (47 Hz), +34.6 dB (176 Hz), +45.6 dB (191 Hz); dip −22 dB at 51 Hz |
+> | 5 | −78.6 dB | +37.7 dB (47 Hz), +32.7 dB (176 Hz), +37.2 dB (191 Hz); dip −43 dB at 149 Hz |
+> | 7 | −111.4 dB | +38.6 dB (47 Hz), +41.0 dB (176 Hz), +41.4 dB (191 Hz) |
 >
 > `I(Vs1)` equals $U_{in}$ by definition, so pipe 1 is a flat 0 dB line. Each expansion chamber is an acoustic low-pass: chamber 2 shunts part of $U_1$ so $U_3 < U_1$, chamber 4 takes another bite, chamber 6 the last. At 1 kHz the cumulative attenuation is 30 → 79 → 112 dB after one, two and three chambers, i.e. each chamber section contributes 30–40 dB there. The dips in $U_3$ (51 Hz) and $U_5$ (150 Hz) are anti-resonances where the downstream part of the ladder presents a very high impedance, so almost no flow enters that pipe and the chamber before it takes it all. Pipe 7 has no dip because nothing follows it. The resonance peaks appear in every pipe but grow towards the outlet: energy stored in the resonating chambers is released into the pipe after them.
 
@@ -241,7 +245,7 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 > | 100 Hz | 92.5 dB |
 > | 1 kHz | 5.7 dB |
 >
-> The radiation impedance of a 2 mm tube end is essentially a **pure mass** in this band: $ka = 0.037$ at 1 kHz, so $Z_{rad} \approx j\omega M_{A1}$ with $M_{A1} = 115$ kg/m⁴ (at 1 kHz $|Z_{rad}| = 7.2\cdot10^5$, real part only 1.5 %). The dashed check curve $\omega M_{A1} |U_{out}|$ lies on top of the simulated $|p_{open}|$. So $p_{open} \approx j\omega M_{A1} U_{out}$: the pressure curve is the $U_{out}$ curve of b) tilted by +6 dB/octave, with the same peaks at 47 and 176 Hz and the same steep fall. The resistive part $R_{A2} = 3.2\cdot10^7$ is only reached far above the band ($ka = 1$ at 27 kHz). Inserting the radiation load changes $U_{out}$ by less than 0.01 dB: the silencer does not "see" the outside air, the ideal open end was a fine approximation.
+> The radiation impedance of a 2 mm tube end is essentially a **pure mass** in this band: $ka = 0.037$ at 1 kHz, so $Z_{rad} \approx j\omega M_{A1}$ with $M_{A1} = 115$ kg/m⁴ (at 1 kHz $|Z_{rad}| = 7.2\cdot10^5$, real part only 1.5 %). The dashed check curve $\omega M_{A1} |U_{out}|$ lies on top of the simulated $|p_{open}|$. So $p_{open} \approx j\omega M_{A1} U_{out}$: the pressure curve is the $U_{out}$ curve of b) tilted by +6 dB/octave, with the same peaks at 47, 176 and 191 Hz and the same steep fall. The resistive part $R_{A2} = 3.2\cdot10^7$ is only reached far above the band ($ka = 1$ at 27 kHz). Inserting the radiation load changes $U_{out}$ by less than 0.01 dB: the silencer does not "see" the outside air, the ideal open end was a fine approximation.
 
 ### e) Pressure at 10 m and model validity
 
@@ -252,14 +256,14 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 >
 > | $f$ | SPL with silencer | Unsilenced ($U_{out} = U_{in}$) |
 > |---|---|---|
-> | 20 Hz | 97.3 dB | 95.4 dB |
-> | 50 Hz | 121.6 dB | 103.4 dB |
+> | 20 Hz | 97.4 dB | 95.4 dB |
+> | 50 Hz | 122.6 dB | 103.4 dB |
 > | 100 Hz | 104.7 dB | 109.4 dB |
-> | 200 Hz | 120.9 dB | 115.4 dB |
-> | 500 Hz | 49.9 dB | 123.4 dB |
+> | 200 Hz | 121.5 dB | 115.4 dB |
+> | 500 Hz | 50.0 dB | 123.4 dB |
 > | 1 kHz | 17.9 dB | 129.4 dB |
 >
-> The far-field pressure of a monopole rises 6 dB/octave for constant $U$ (dashed reference), so the radiated SPL is the transfer of b) plus that tilt. The silencer helps only above about 230 Hz (≈ 75 dB at 500 Hz, 110 dB at 1 kHz) and **hurts by up to 18 dB at its two resonances** (47 and 176 Hz) when driven by an ideal volume-velocity source.
+> The far-field pressure of a monopole rises 6 dB/octave for constant $U$ (dashed reference), so the radiated SPL is the transfer of b) plus that tilt. The silencer helps only above about 205 Hz (≈ 73 dB at 500 Hz, 111 dB at 1 kHz) and **hurts by up to about 40 dB at its three resonances** (47, 176 and 191 Hz) when driven by an ideal volume-velocity source; a real engine has a finite source impedance, which is exactly what tames those peaks.
 
 > [!warning] Validity of the silencer model at higher frequencies
 > - **Lumped elements need $l < \lambda/10$.** Pipe 5 (100 mm) satisfies this only below **344 Hz**, pipe 3 and chamber 4 (80 mm) below 430 Hz, chamber 6 below 573 Hz, chamber 2 below 688 Hz, pipe 7 below 860 Hz, pipe 1 below 1.4 kHz. Above roughly 350–450 Hz the pipes and chambers must be treated as transmission lines (the ABCD two-port of Lecture 3 §4); the smooth −18 dB/octave-per-section roll-off then turns into a sequence of pass and stop bands (first half-wave resonance of the 100 mm pipe at $c/2l = 1.7$ kHz, of the 80 mm chamber at 2.15 kHz). The grey band in the figure marks this region: the 111 dB transmission loss at 1 kHz is not to be trusted.
@@ -268,7 +272,8 @@ Sweep `.ac dec 200 10 1000`. Projects: `KiCad/Part2a_Silencer_PressureSource/` (
 > - Free-space radiation ignores the car body and the road (a tailpipe under a car sees roughly a half space, +6 dB, plus reflections). $R_A = 25\cdot10^3$ is a crude constant, whereas viscous losses in a 2 mm pipe grow with $\sqrt{f}$. Rigid walls assumed. Hot exhaust gas has a different $\rho$ and $c$ than 20 °C air.
 
 > [!tip] Doing Part 2 in LTspice for the quiz
-> `V1 AC 1` for a), `I1 AC 1` for b)–e). Ground every chamber capacitor. Put a 0 V voltage source in series with each narrow pipe and plot `I(Vs7)` etc.; use dB (right-click the axis) with a wide dynamic range (−260 … +30 dB for a), 0 … −120 dB for b). For d) plot `V(p_out)`. For e) add the trace `2*pi*frequency*1.18*I(Vs7)/(4*pi*10)` (that is $|p|$ at 10 m in Pa; divide by 20e-6 and take dB for SPL). LTspice complains about an ideal current source in series with a capacitor at DC only if there is no DC path — the pipes' inductors provide one here, but a 100 MΩ across the source never hurts.
+> **Ready-made, LTspice-verified schematics for all four parts are in `5. Semester/Electroacoustics/Labs/Lab A/LTspice/` (`.asc` + matching `.plt`; regenerate/verify with `gen_ltspice.py --verify`).** Use `.ac dec 2000 10 1k` for part 2 — the peaks are too sharp for 200 points per decade.
+> `V1 AC 1` for a), `I1 AC 1` for b)–e). Ground every chamber capacitor. Put a 0 V voltage source in series with each narrow pipe and plot `I(Vs7)` etc.; use dB (right-click the axis) with a wide dynamic range (−260 … +30 dB for a), 0 … −120 dB for b). For d) plot `V(p_out)`. For e) add the trace `2*pi*frequency*1.18*I(Vs7)/(4*pi*10)` (that is $|p|$ at 10 m in Pa; divide by 20e-6 and take dB for SPL). LTspice complains about an ideal current source in series with a capacitor at DC only if there is no DC path — the pipes' inductors provide one here, so do **not** add a leak resistor across the source here: at the anti-resonances the ladder's input impedance is 0.3–1.5 GΩ and a 100 MΩ "leak" takes most of the flow (that mistake cost 13 dB of peak height in the first ngspice run).
 
 ---
 
@@ -526,7 +531,7 @@ Every plot must have **distinguishable curves, labelled axes with units, the rel
 
 - [ ] Part 1a: $u_{vc}$, $u_d$ vs $f$ (10 Hz – 10 kHz, m/s per N, dB or log), stiff and soft on one plot, with the 51 Hz / 1288 Hz / 1799 Hz features called out.
 - [ ] Part 1b: $|Z_M|$ and phase (`1/V(u_vc)`), both cases; name the compliance line, resistive floor 0.72 Ns/m, mass lines 11 g and 6 g, anti-resonance 334 Ns/m.
-- [ ] Part 2a/b: $U_{out}$ for p-source (dB, −260 … −90) and U-source (dB, −120 … +30); explain short-circuit vs open-circuit natural frequencies.
+- [ ] Part 2a/b: $U_{out}$ for p-source (dB, −260 … −90) and U-source (dB, −120 … +50; three peaks ≈ +40 dB at 47/176/191 Hz); explain short-circuit vs open-circuit natural frequencies.
 - [ ] Part 2c: $I(Vs1), I(Vs3), I(Vs5), I(Vs7)$ on one plot, 10 – 1000 Hz.
 - [ ] Part 2d: $p_{out}$ with the radiation network, note $\approx j\omega M_{A1} U_{out}$ and the effective-length choice.
 - [ ] Part 2e: SPL at 10 m, plus the $l < \lambda/10$ limit (344 Hz for the 100 mm pipe).

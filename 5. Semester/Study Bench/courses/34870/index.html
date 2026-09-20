@@ -432,7 +432,7 @@
     </table></div>
   </div>
   <div id="bench-lab2"></div>
-  <div class="callout real"><span class="eyebrow">Hand estimates that land on the simulation</span><p>Each chamber with the two pipes beside it in parallel: C<sub>A2</sub> with M<sub>A1</sub>∥M<sub>A3</sub> → 355 Hz, C<sub>A4</sub> with M<sub>A3</sub>∥M<sub>A5</sub> → 92 Hz, C<sub>A6</sub> with M<sub>A5</sub>∥M<sub>A7</sub> → 176 Hz. The 176 Hz (U-source) and 355 Hz (p-source) guesses are exact. Far field at 10 m as a point source: <span class="m">|p| = \rho f |U_{out}| / (2r)</span>, so the SPL is the transfer tilted by +6 dB/oct; the silencer helps only above ~230 Hz and <em>hurts</em> by up to 18 dB at its two resonances when driven by an ideal flow source.</p></div>
+  <div class="callout real"><span class="eyebrow">Hand estimates that land on the simulation</span><p>Each chamber with the two pipes beside it in parallel: C<sub>A2</sub> with M<sub>A1</sub>∥M<sub>A3</sub> → 355 Hz, C<sub>A4</sub> with M<sub>A3</sub>∥M<sub>A5</sub> → 92 Hz, C<sub>A6</sub> with M<sub>A5</sub>∥M<sub>A7</sub> → 176 Hz. The 176 Hz (U-source) and 355 Hz (p-source) guesses are exact. Far field at 10 m as a point source: <span class="m">|p| = \rho f |U_{out}| / (2r)</span>, so the SPL is the transfer tilted by +6 dB/oct; the silencer helps only above ~205 Hz and <em>hurts</em> by about 40 dB at its three resonances (47, 176, 191 Hz) when driven by an ideal flow source — a real engine's finite source impedance is what tames them.</p></div>
 
   <div class="block">
     <h3><span class="eyebrow">Part 4</span>A coil driving two masses</h3>
@@ -457,11 +457,11 @@
       <li>Every plot: distinguishable curves, labelled axes with units, the relevant frequency range and dynamic range (part 2a needs −260…−90 dB, 2b 0…−120 dB).</li>
       <li>Every circuit screenshot: readable element names, values as text, controlled-source gains stated (S in m², Bl, Bl/R<sub>c</sub>).</li>
       <li>Part 1: u<sub>vc</sub> and u<sub>d</sub> for stiff and soft on one plot with 51 / 1288 / 1799 Hz called out; |Z<sub>M</sub>| as <span class="mono">1/V(u_vc)</span> with the compliance line, the 0.72 Ns/m floor, the 11 g and 6 g mass lines and the 334 Ns/m wall.</li>
-      <li>Part 2: U<sub>out</sub> for both sources with the short-circuit vs open-circuit argument; I(Vs1…Vs7); p<sub>out</sub> ≈ jωM<sub>A1</sub>U<sub>out</sub>; SPL at 10 m plus the λ/10 limit (344 Hz for the 100 mm pipe).</li>
+      <li>Part 2: U<sub>out</sub> for both sources (sweep with 2000 points per decade; the U-source peaks are ≈ +40 dB at 47/176/191 Hz) with the short-circuit vs open-circuit argument; I(Vs1…Vs7); p<sub>out</sub> ≈ jωM<sub>A1</sub>U<sub>out</sub>; SPL at 10 m plus the λ/10 limit (344 Hz for the 100 mm pipe).</li>
       <li>Part 3: part 1 vs part 3 overlaid; 51.3 → 43.7 Hz, added masses 0.5 / 3.4 g, radiation resistances 4.9 / 17 Ns/m; front pressures and the far-field sum; one paragraph on the mechanical crossover.</li>
       <li>Part 4: u<sub>c</sub>, u<sub>1</sub>, Z<sub>M</sub>, Z<sub>E</sub> from 1 Hz to 10 kHz, the table above, and the back-EMF sign check.</li>
     </ul>
-    <p class="small">The vault note has LTspice tips per part (<span class="mono">.step param</span> for stiff/soft in one sweep, waveform arithmetic for Z, the G-source pin order). Labs B–E will get their own sections here as they are done.</p>
+    <p class="small"><b>Ready-to-run LTspice schematics</b> for all four parts (verified headless in LTspice 26 against these numbers) are in the repo: <span class="mono">5. Semester/Electroacoustics/Labs/Lab A/LTspice/</span>. The vault note has LTspice tips per part (<span class="mono">.step param</span> for stiff/soft in one sweep, waveform arithmetic for Z, the G-source pin order). Labs B–E will get their own sections here as they are done.</p>
   </div>
 
   <div id="quiz-A"></div>

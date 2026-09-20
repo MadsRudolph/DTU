@@ -91,7 +91,7 @@ def build(variant: str, name: str, title: str):
     sh.wire(s_top, (s_top.x, RAIL))
     sh.wire(s_bot, (s_bot.x, BOT))
     if variant != "p":
-        rl = sh.place("Device:R", "R0", at=(G(20), RAIL + G(13)), value="100Meg")
+        rl = sh.place("Device:R", "R0", at=(G(20), RAIL + G(13)), value="1T")   # was 100Meg: that loaded the source at the ladder anti-resonances (|Z_in| up to 1.5 G) and cut the 2b peaks by 13 dB
         rt, rb = topbot(rl)
         sh.wire(rt, (rt.x, RAIL))
         sh.wire(rb, (rb.x, BOT))
