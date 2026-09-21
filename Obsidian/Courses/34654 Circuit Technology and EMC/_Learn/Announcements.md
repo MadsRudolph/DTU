@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-09-21 — Second EMC lecture tomorrow
+
+Dear all,
+🧘‍♂️ I'll invite you again to begin the lecture with a short meditation. If that's not your thing, please wait outside and I'll invite you in, when we are done. 
+📡  Tomorrow we'll have the second flipped classroom lecture on EMC. I invite you to have a look at the videos and quizzes before-hand and during the lecture I'll walk through selected topics.
+🔬 Tomorrow is also a really good day to ramp up the group work on the EMC exercise. And I'd highly recommend you to get the learning reflections on the passives module out of your head. Again: it's not a "deadline" ☠️, only a "living line" 🌱 - or call it a "recommendation" if you want. one hint on the EMC exercise: don't overcomplicate the modelling, try to simplify as much as you can and move on to the hands-on part. There's usually plenty of fun in that. And as we are really many and the EMC room is small: for the ones, that don't necessarily need to do it on a Tuesday afternoon: you should have access to the EMC lab 24/7 and we are doing our best to answer questions on Discord any time.🤞 Let's cross fingers that the projector is with us tomorrow.I'm looking forward to seeing you.
+All good
+Arnold
+
 ## 2026-09-14 — Starting with Electromagnetic Compatibility tomorrow
 
 Hello everyone,
