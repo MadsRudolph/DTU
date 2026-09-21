@@ -60,6 +60,7 @@ links to where the file actually lives in the vault.*
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
+- [[Courses/34870 Electroacoustics/Labs/34870_LabAfeedback.pdf|34870_LabAfeedback]]
 
 ## Lab B – Microphone scattering
 
