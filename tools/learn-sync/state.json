@@ -524,10 +524,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/BEM_FreeField.zip"
     },
     "1277015": {
-      "revision": "2026-09-16T11:00:23.240Z",
-      "sha256": "4a140f1906d18d938cb62ce952584ad8cd7c1b66d85149ba3e7aef3463a684ea",
-      "synced_at": "2026-09-16T16:06:50+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870 - Lab B.zip"
+      "revision": "2026-09-21T13:17:49.503Z",
+      "sha256": "7ad44785b09f05104700e857dbad6cbbed47d30eb4d8a0cfb32d06bf6e674e58",
+      "synced_at": "2026-09-21T16:12:41+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870 - Lab B (2).zip"
     },
     "1277247": {
       "revision": "2026-09-16T13:11:33.950Z",
@@ -582,6 +582,18 @@
       "sha256": "07fb12ed6bac4a43c649dbf900c1f1a5de2e16687d8812a4f635c4ee438c914b",
       "synced_at": "2026-09-21T10:05:23+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 3 Diode Rectifier/Rectifier.zip"
+    },
+    "1279386": {
+      "revision": "2026-09-21T13:22:33.087Z",
+      "sha256": "c7aedccdd6865b34ddd23c401116e2187ca3f7b6cdcb1622a5f2a53604cbbe5c",
+      "synced_at": "2026-09-21T16:12:35+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026.pptx"
+    },
+    "1279387": {
+      "revision": "2026-09-21T13:22:33.737Z",
+      "sha256": "1a9444a9e1a4f21870ee8ff9417107fc14989d8ba70724cf064d2ca80605c9a2",
+      "synced_at": "2026-09-21T16:12:35+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 - Problems 4.pdf"
     }
   }
 }

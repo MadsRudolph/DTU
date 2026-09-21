@@ -66,7 +66,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Labs/34870_Lab_B_CylinderScattering_E2026.pdf|Lab B  - Microphone Scattering - Description]]
 - [[Courses/34870 Electroacoustics/Labs/BEM_FreeField.zip|Boundary Element Method simulation of microphone scattering]]
-- [[Courses/34870 Electroacoustics/Labs/34870 - Lab B.zip|Lab B - Measurement files]]
+- [[Courses/34870 Electroacoustics/Labs/34870 - Lab B (2).zip|Lab B - Measurement files]]
 
 ## Lab C – Microphone calibration
 
