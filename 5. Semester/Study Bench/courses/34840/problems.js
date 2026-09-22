@@ -97,13 +97,106 @@ window.PROBLEMS = {
   ],
 };
 
+window.PROBLEMS["4"] = [
+  {
+    "id": "1",
+    "title": "Problem 1 — Bottle resonance",
+    "tag": "334 Hz",
+    "given": "<p><b>Given:</b> <span class=\"m\">V=400\\ \\mathrm{ml}=4.00\\times10^{-4}\\ \\mathrm{m^3}</span>, neck diameter <span class=\"m\">d=20\\ \\mathrm{mm}=0.020\\ \\mathrm m</span>, effective neck length <span class=\"m\">l_{\\rm eff}=0.021\\ \\mathrm m</span>.</p>",
+    "hint": "<p>The neck is an acoustic mass and the enclosed air is a compliance. Find the neck area, then set their reactances equal.</p>",
+    "sol": "<div class=\"M\">S=\\pi(d/2)^2=\\pi(0.010)^2=3.1416\\times10^{-4}\\ \\mathrm{m^2}.</div>\n<div class=\"M\">M_a=\\frac{\\rho l_{\\rm eff}}S=80.21\\ \\mathrm{kg/m^4},\\qquad\nK_a=\\frac{\\rho c^2}V=3.5295\\times10^8\\ \\mathrm{N/m^5}.</div>\n<div class=\"M\">f_0=\\frac1{2\\pi}\\sqrt{\\frac{K_a}{M_a}}\n=\\frac{343}{2\\pi}\\sqrt{\\frac{3.1416\\times10^{-4}}{(4.00\\times10^{-4})(0.021)}}\n=\\boxed{333.8\\ \\mathrm{Hz}}.</div>\nA bigger cavity lowers the resonance; a bigger neck area raises it. The wavelength is approximately 1.03 m, much longer than the neck. The given length is already effective, so no extra end correction is needed.",
+    "bench": "#bench-helmholtz",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "2",
+    "title": "Problem 2 — Power carried by a plane wave",
+    "tag": "1.54 mW",
+    "given": "<p><b>Given:</b> <span class=\"m\">L_p=82\\ \\mathrm{dB}</span> and perpendicular area <span class=\"m\">S=10\\ \\mathrm{m^2}</span>.</p>",
+    "hint": "<p>Convert SPL to RMS pressure, then use the progressive-plane-wave intensity and multiply by area.</p>",
+    "sol": "<div class=\"M\">p_{\\rm rms}=p_0\\,10^{L_p/20}=20\\times10^{-6}\\,10^{82/20}=0.25179\\ \\mathrm{Pa}.</div>\n<div class=\"M\">I=\\frac{p_{\\rm rms}^2}{\\rho c}=\\frac{0.25179^2}{413}=1.5350\\times10^{-4}\\ \\mathrm{W/m^2}.</div>\n<div class=\"M\">W=IS=\\boxed{1.535\\ \\mathrm{mW}\\approx1.54\\ \\mathrm{mW}}.</div>\nNo extra factor <span class=\"m\">1/2</span>: the pressure is already RMS. The area must be normal to propagation, as stated.",
+    "bench": "#bench-power4",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "3.1–3.2",
+    "title": "Problem 3 — Intensity transmission between water and air",
+    "tag": "29.5 dB each way",
+    "given": "<p><b>Given/recall from Week 2:</b> <span class=\"m\">z_a=413\\ \\mathrm{Pa\\,s/m}</span>, <span class=\"m\">z_w=1000\\times1480=1.48\\times10^6\\ \\mathrm{Pa\\,s/m}</span>. Lossless media, plane wave, normal incidence.</p>",
+    "hint": "<p><span class=\"m\">I=p_{\\rm rms}^2/z</span>. The pressures on opposite sides have different pressure-to-velocity ratios, so squaring the pressure transmission coefficient is not enough.</p>",
+    "sol": "<p>Pressure continuity and normal-velocity continuity give <div class=\"M\">P_i+P_r=P_t,\\qquad\\frac{P_i-P_r}{z_1}=\\frac{P_t}{z_2},</div> <div class=\"M\">R=\\frac{z_2-z_1}{z_2+z_1},\\qquad T_p=\\frac{P_t}{P_i}=\\frac{2z_2}{z_1+z_2}.</div> Thus <div class=\"M\">\\tau=\\frac{I_t}{I_i}=|T_p|^2\\frac{z_1}{z_2}=\\frac{4z_1z_2}{(z_1+z_2)^2}.</div></p><h4>3.1 Water to air</h4><div class=\"M\">T_{p,w\\to a}=\\frac{826}{1480413}=0.00055795,</div>\n<div class=\"M\">\\tau=(0.00055795)^2\\frac{1.48\\times10^6}{413}=0.0011156.</div>\nDefine positive attenuation as incident over transmitted intensity:\n<div class=\"M\">A_I=10\\log_{10}\\frac{I_i}{I_t}=-10\\log_{10}\\tau=\\boxed{29.525\\ \\mathrm{dB}\\approx30\\ \\mathrm{dB}}.</div>\nIf reporting transmitted minus incident intensity level instead, the result is <b>−29.525 dB</b>.<h4>3.2 Air to water</h4><div class=\"M\">T_{p,a\\to w}=\\frac{2(1.48\\times10^6)}{1480413}=1.999442,</div>\n<div class=\"M\">\\tau=(1.999442)^2\\frac{413}{1.48\\times10^6}=0.0011156,</div>\n<div class=\"M\">\\boxed{A_I=29.525\\ \\mathrm{dB}\\approx30\\ \\mathrm{dB}}.</div>\nThe expression is symmetric in <span class=\"m\">z_1,z_2</span>: intensity transmission is the same in either direction. Only <b>0.1116%</b> of the incident power crosses the interface.<p><b>Compare Week 2:</b> the pressure attenuation <span class=\"m\">20\\log_{10}|P_i/P_t|</span> is about <b>65.1 dB</b> water-to-air but <b>−6.02 dB</b> air-to-water. The latter means transmitted pressure nearly doubles. This does not mean energy doubles: water's very large impedance makes the transmitted particle velocity tiny. The missing transmitted energy is reflected, not absorbed by this ideal interface.</p>",
+    "bench": "#bench-transmission4",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "4.1–4.2",
+    "title": "Problem 4 — Standing-wave tube",
+    "tag": "0.686 · 0.863 µW · 59.36 dB",
+    "given": "<p><b>Given:</b> tube length 1 m, area <span class=\"m\">S=0.01\\ \\mathrm{m^2}</span>, <span class=\"m\">f=1\\ \\mathrm{kHz}</span>, <span class=\"m\">L_{\\max}=85\\ \\mathrm{dB}</span>, <span class=\"m\">L_{\\min}=74\\ \\mathrm{dB}</span>. Assume a lossless plane-wave tube and an absorbing termination with no transmitted power.</p>",
+    "hint": "<p>The difference of levels gives a pressure ratio. From the extrema recover incident and reflected pressures, then subtract their powers.</p>",
+    "sol": "<h4>4.1 Absorption coefficient</h4><div class=\"M\">s=10^{(85-74)/20}=3.54813,</div>\n<div class=\"M\">|R|=\\frac{s-1}{s+1}=0.56026,</div>\n<div class=\"M\">\\boxed{\\alpha=1-|R|^2=0.68611\\approx0.69}.</div>\nUsing <span class=\"m\">10^{11/10}</span> would give an intensity ratio where a pressure ratio is required.<h4>4.2 Absorbed power and power level</h4><div class=\"M\">p_{\\max,\\rm rms}=20\\times10^{-6}10^{85/20}=0.355656\\ \\mathrm{Pa},</div>\n<div class=\"M\">p_{\\min,\\rm rms}=20\\times10^{-6}10^{74/20}=0.100237\\ \\mathrm{Pa}.</div>\n<div class=\"M\">p_{i,\\rm rms}=\\frac{p_{\\max}+p_{\\min}}2=0.227947\\ \\mathrm{Pa},\\qquad\np_{r,\\rm rms}=\\frac{p_{\\max}-p_{\\min}}2=0.127709\\ \\mathrm{Pa}.</div>\n<div class=\"M\">W_i=\\frac{S p_i^2}{413}=1.2581\\ \\mu\\mathrm W,\\qquad W_r=\\frac{S p_r^2}{413}=0.39491\\ \\mu\\mathrm W.</div>\n<div class=\"M\">W_{\\rm abs}=W_i-W_r=\\alpha W_i=\\frac{S p_{\\max}p_{\\min}}{413}\n=\\boxed{0.8632\\ \\mu\\mathrm W}.</div>\n<div class=\"M\">L_W=10\\log_{10}\\frac{0.8632\\times10^{-6}}{10^{-12}}=\\boxed{59.36\\ \\mathrm{dB}\\approx59.4\\ \\mathrm{dB}}.</div>\nThe sheet's <span class=\"m\">0.87\\ \\mu\\mathrm W</span> differs only by rounding/constants. Tube length and frequency are not needed once both extrema are known; they determine their spacing. Here <span class=\"m\">\\lambda=0.343</span> m, with adjacent maximum/minimum separated by <span class=\"m\">\\lambda/4=0.08575</span> m.",
+    "bench": "#bench-absorption4",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "5.1–5.2",
+    "title": "Problem 5 — Loudspeaker cone and sealed cabinet",
+    "tag": "59.1 Hz · 140.85 dB",
+    "given": "<p><b>Given:</b> cone diameter <span class=\"m\">d=0.150\\ \\mathrm m</span>, moving mass <span class=\"m\">M=0.020\\ \\mathrm{kg}</span>, cabinet volume <span class=\"m\">V=0.016\\ \\mathrm{m^3}</span>. Ignore suspension stiffness and external radiation impedance. Treat the cone as a rigid piston and the cavity as a uniform adiabatic compliance.</p>",
+    "hint": "<p>Convert the cone's mechanical mass to the acoustic side using <span class=\"m\">S^2</span>. For internal pressure, cone displacement changes the volume by <span class=\"m\">Sx</span>.</p>",
+    "sol": "<h4>5.1 Acoustic impedances and natural frequency</h4><div class=\"M\">S=\\pi(0.075)^2=0.0176715\\ \\mathrm{m^2},\\qquad M_a=\\frac M{S^2}=64.04499\\ \\mathrm{kg/m^4}.</div>\n<div class=\"M\">\\boxed{Z_{a,\\rm cone}=j\\omega\\frac M{S^2}=j\\omega(64.045)\\ \\mathrm{N\\,s/m^5}}.</div>\n<div class=\"M\">K_a=\\frac{\\rho c^2}V=\\frac{1.2(343)^2}{0.016}=8.823675\\times10^6\\ \\mathrm{N/m^5},</div>\n<div class=\"M\">\\boxed{Z_{a,V}=\\frac{K_a}{j\\omega}=\\frac{8.823675\\times10^6}{j\\omega}\\ \\mathrm{N\\,s/m^5}}.</div>\n<div class=\"M\">f_0=\\frac1{2\\pi}\\sqrt{\\frac{K_a}{M_a}}=\\boxed{59.07\\ \\mathrm{Hz}\\approx59\\ \\mathrm{Hz}}.</div>\nMechanical cross-check: <span class=\"m\">K_m=S^2K_a\\approx2755.5\\ \\mathrm{N/m}</span>, so <span class=\"m\">f_0=\\sqrt{K_m/M}/(2\\pi)</span> gives the same result.<h4>5.2 Internal SPL at the displacement limit</h4><p>The specified <b>4 mm peak-to-peak</b> means <span class=\"m\">x_{\\rm pk}=2\\ \\mathrm{mm}=0.002\\ \\mathrm m</span>. <div class=\"M\">|\\Delta V|_{\\rm pk}=Sx_{\\rm pk}=3.53429\\times10^{-5}\\ \\mathrm{m^3}.</div> Adiabatic compression gives <span class=\"m\">p=-\\rho c^2\\Delta V/V</span>, so its amplitude is <div class=\"M\">p_{\\rm pk}=\\frac{\\rho c^2Sx_{\\rm pk}}V=311.85\\ \\mathrm{Pa},\\qquad p_{\\rm rms}=\\frac{311.85}{\\sqrt2}=220.51\\ \\mathrm{Pa}.</div> <div class=\"M\">L_p=20\\log_{10}\\frac{220.51}{20\\times10^{-6}}=\\boxed{140.85\\ \\mathrm{dB}\\approx140.9\\ \\mathrm{dB}}.</div> This is the <b>pressure inside the cabinet</b>, not the free-field SPL outside. For a prescribed displacement, this ideal cavity-pressure amplitude does not depend on frequency within the lumped approximation. Using 4 mm as peak adds an erroneous 6.02 dB; forgetting peak-to-RMS adds another 3.01 dB.</p>",
+    "bench": "#bench-cabinet4",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "A.1–A.2",
+    "title": "Exam Problem A — Tube with 10% absorption",
+    "tag": "0.127 mW/m² · 97.0 dB",
+    "given": "<p><b>Given:</b> circular diameter <span class=\"m\">d=0.10</span> m, absorbed power <span class=\"m\">W_{\\rm abs}=1\\ \\mu\\mathrm W</span>, absorption coefficient <span class=\"m\">\\alpha=0.10</span>.</p>",
+    "hint": "Identify incident and reflected energy, or convert the decibel levels to linear quantities first.",
+    "sol": "<h4>A.1 Intensity in the tube</h4><div class=\"M\">S=\\pi(0.05)^2=0.00785398\\ \\mathrm{m^2}.</div>\nIn a lossless tube the net intensity equals the flux into the sample:\n<div class=\"M\">\\boxed{I_{\\rm net}=\\frac{W_{\\rm abs}}S=1.27324\\times10^{-4}\\ \\mathrm{W/m^2}}.</div>\nFor clarity, the incident and reflected components are different:\n<div class=\"M\">W_i=W_{\\rm abs}/\\alpha=10\\ \\mu\\mathrm W,\\quad W_r=9\\ \\mu\\mathrm W,</div>\n<div class=\"M\">I_i=1.27324\\times10^{-3}\\ \\mathrm{W/m^2},\\quad I_r=-1.14592\\times10^{-3}\\ \\mathrm{W/m^2}.</div>\nTheir signed sum gives the boxed answer. The phrase “intensity in the tube” refers to this net quantity; all three are shown to remove ambiguity.<h4>A.2 Maximum SPL</h4><div class=\"M\">|R|=\\sqrt{1-\\alpha}=\\sqrt{0.9}=0.948683,</div>\n<div class=\"M\">p_{i,\\rm rms}=\\sqrt{\\rho c I_i}=0.725155\\ \\mathrm{Pa},</div>\n<div class=\"M\">p_{\\max,\\rm rms}=p_{i,\\rm rms}(1+|R|)=1.41310\\ \\mathrm{Pa},</div>\n<div class=\"M\">\\boxed{L_{p,\\max}=20\\log_{10}\\frac{1.41310}{20\\times10^{-6}}=96.98\\ \\mathrm{dB}\\approx97.0\\ \\mathrm{dB}}.</div>\nA strong standing-wave maximum can coexist with small net intensity because most incident power returns towards the source.",
+    "bench": "#bench-absorption4",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "MC 1",
+    "title": "Multiple choice 1 — Group third-octaves into octaves",
+    "tag": "c · 60, 60, 66, 66 dB",
+    "given": "<p><b>Given:</b> only 100, 160, 250, 400, 630 and 1000 Hz third-octave bands contain energy, at 56, 58, 60, 62, 64 and 66 dB respectively. Missing bands contribute zero mean-square energy (not 0 dB).</p>",
+    "hint": "Identify incident and reflected energy, or convert the decibel levels to linear quantities first.",
+    "sol": "<p>Add the band energies using <span class=\"m\">L=10\\log_{10}\\sum 10^{L_i/10}</span>:</p><div class=\"table-wrap\"><table>\n<tr><td>Octave centre</td><td>Contributing third-octave centres</td><td>Calculation</td><td>Result</td></tr>\n<tr><td>125 Hz</td><td>100, 160 Hz (125 Hz empty)</td><td><span class=\"m\">10\\log_{10}(10^{5.6}+10^{5.8})</span></td><td>60.12 dB</td></tr>\n<tr><td>250 Hz</td><td>250 Hz (200, 315 Hz empty)</td><td><span class=\"m\">60</span></td><td>60 dB</td></tr>\n<tr><td>500 Hz</td><td>400, 630 Hz (500 Hz empty)</td><td><span class=\"m\">10\\log_{10}(10^{6.2}+10^{6.4})</span></td><td>66.12 dB</td></tr>\n<tr><td>1000 Hz</td><td>1000 Hz (800, 1250 Hz empty)</td><td><span class=\"m\">66</span></td><td>66 dB</td></tr>\n</table></div><p>Rounded tuple <span class=\"m\">(60,60,66,66)</span>: <b>answer c</b>.</p>",
+    "bench": "#bench-octave",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "MC 2",
+    "title": "Multiple choice 2 — Distance from free-field SPL",
+    "tag": "c · 0.5, 1.4, 10 m",
+    "given": "<p><b>Given:</b> <span class=\"m\">L_p(1\\ \\mathrm m)=64</span> dB; other readings 70, 61 and 44 dB. Assume spherical spreading from the same source, with no reflections or appreciable atmospheric attenuation. <div class=\"M\">L_p(r)=64-20\\log_{10}\\frac r{1\\ \\mathrm m},\\qquad r=(1\\ \\mathrm m)10^{(64-L_p)/20}.</div> The distances are <span class=\"m\">10^{-6/20}=0.501</span> m, <span class=\"m\">10^{3/20}=1.413</span> m and <span class=\"m\">10^{20/20}=10</span> m. <b>Answer c: 0.5 m, 1.4 m, 10 m.</b></p>",
+    "hint": "Identify incident and reflected energy, or convert the decibel levels to linear quantities first.",
+    "sol": "",
+    "bench": "#bench-spherical",
+    "benchLabel": "explore the relevant relationships"
+  },
+  {
+    "id": "MC 3",
+    "title": "Multiple choice 3 — Absorption from incident/reflected levels",
+    "tag": "d · 0.99",
+    "given": "<p><b>Given:</b> incident plane-wave SPL 90 dB, reflected SPL 70 dB in the same medium. <div class=\"M\">\\frac{I_r}{I_i}=10^{(70-90)/10}=0.01,\\qquad <div class=\"table-wrap\"><table> <tr><td>R</td><td>=10^{(70-90)/20}=0.1.</div></td></tr> </table></div> <div class=\"M\">\\boxed{\\alpha=1-|R|^2=1-0.01=0.99}.</div> <b>Answer d.</b> Subtracting the pressure ratio instead would produce the distractor 0.9.</p>",
+    "hint": "Identify incident and reflected energy, or convert the decibel levels to linear quantities first.",
+    "sol": "",
+    "bench": "#bench-absorption4",
+    "benchLabel": "explore the relevant relationships"
+  }
+];
+
 function renderProblems() {
   for (const [lec, list] of Object.entries(window.PROBLEMS || {})) {
     const root = document.getElementById(`problems-${lec}`);
     if (!root) continue;
     root.classList.add("problems");
     root.append(h("h3", {}, h("span", { class: "eyebrow" }, `Problems · week ${lec}`), "Problems and solutions"));
-    root.append(h("p", { class: "small" }, "Open a problem, try it, then open the hint before the solution. Answers in the header are the ones printed on the sheet."));
+    root.append(h("p", { class: "small" }, "Open a problem, try it, then open the hint before the solution. Answers are checked against the sheet where provided; exam examples include derived answers."));
     for (const p of list) {
       const body = h("div", { class: "pbody" });
       body.append(h("div", { class: "pgiven", html: p.given }));

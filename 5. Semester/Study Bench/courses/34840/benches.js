@@ -369,3 +369,76 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNav(); setupTheme();
   renderMath();
 });
+
+/* L4: pure SI models, verified against Week4/check_week4.py. */
+function helmholtz4(V, d, l) {
+  const S = Math.PI*d*d/4, M = 1.2*l/S, K = 1.2*CA*CA/V;
+  return {S, M, K, f0: Math.sqrt(K/M)/TAU};
+}
+function power4(L, S, phi=0) {
+  const p = PREF*10**(L/20), I = p*p/ZAIR*Math.cos(phi*Math.PI/180);
+  return {p, I, W:S*I};
+}
+function transmission4(z1,z2) {
+  const R=(z2-z1)/(z2+z1), T=2*z2/(z1+z2), tau=T*T*z1/z2;
+  return {R,T,tau,atten:-10*Math.log10(tau)};
+}
+function absorption4(Lmax,Lmin,S) {
+  const pmax=PREF*10**(Lmax/20), pmin=PREF*10**(Lmin/20), pi=(pmax+pmin)/2, pr=(pmax-pmin)/2;
+  const R=pr/pi, alpha=1-R*R, W=S*pmax*pmin/ZAIR;
+  return {pmax,pmin,pi,pr,R,alpha,W,LW:10*Math.log10(W/1e-12)};
+}
+function cabinet4(V,d,m,xpp) {
+  const S=Math.PI*d*d/4, M=m/S**2, K=1.2*CA**2/V, p=K*S*xpp/2/Math.sqrt(2);
+  return {S,M,K,p,f0:Math.sqrt(K/M)/TAU,L:LP(p)};
+}
+function benchHelmholtz4() {
+  const b=bench('bench-helmholtz','The bottle: neck mass meets the air spring','lecture 4 · problem 1'); if(!b)return;
+  const st={V:400,d:20,l:21};
+  for(const [key,label,min,max,unit] of [['V','cavity volume',100,1000,'ml'],['d','neck diameter',10,40,'mm'],['l','effective neck length',10,80,'mm']]) slider(b.ctl,{label,min,max,step:1,value:st[key],unit,onchange:v=>{st[key]=v;upd();}});
+  const ro=readouts(b.ctl,[{id:'f',label:'resonance f₀'},{id:'M',label:'acoustic mass'},{id:'K',label:'acoustic stiffness'}]);
+  const plot=new Plot(b.plot,{xmin:20,xmax:3000,ymin:0,ymax:8,ylabel:'|Z| / √(MK)',yfmt:v=>v.toFixed(1)});
+  function upd(){const a=helmholtz4(st.V*1e-6,st.d/1000,st.l/1000);plot.set({series:[{name:'ideal series impedance',color:DOMC.ac,pts:logspace(20,3000,500).map(f=>[f,Math.abs(TAU*f*a.M-a.K/(TAU*f))/Math.sqrt(a.M*a.K)])}],markers:[{x:a.f0,y:0,label:a.f0.toFixed(1)+' Hz'}]});ro({f:a.f0.toFixed(1)+' Hz',M:a.M.toFixed(2)+' kg/m⁴',K:(a.K/1e6).toFixed(2)+' MN/m⁵'});}
+  upd();b.note.innerHTML='<p>Start values reproduce 333.8 Hz. Increase cavity volume and watch the minimum move left. The ideal impedance is zero at resonance; real losses leave a finite resistance. The top of the plot is cropped to show the resonance region.</p>';
+}
+function benchPower4(){
+  const b=bench('bench-power4','Pressure can oscillate without carrying net energy','lecture 4 · problem 2');if(!b)return;
+  const st={L:82,S:10,phi:0};
+  for(const [key,label,min,max,step,unit] of [['L','pressure level',40,100,1,'dB'],['S','perpendicular area',1,20,0.5,'m²'],['phi','pressure–velocity phase',0,90,1,'°']])slider(b.ctl,{label,min,max,step,value:st[key],unit,onchange:v=>{st[key]=v;upd();}});
+  const ro=readouts(b.ctl,[{id:'p',label:'RMS pressure'},{id:'I',label:'mean intensity'},{id:'W',label:'mean power'}]);
+  const plot=new Plot(b.plot,{xlog:false,xmin:0,xmax:90,ymin:0,ymax:1.05,xlabel:'phase difference (°)',ylabel:'active fraction cos φ',xfmt:v=>v.toFixed(0),yfmt:v=>v.toFixed(2)});
+  function upd(){const a=power4(st.L,st.S,st.phi);ro({p:a.p.toFixed(4)+' Pa',I:(a.I*1000).toFixed(4)+' mW/m²',W:(a.W*1000).toFixed(4)+' mW'});plot.set({series:[{name:'cos φ',color:DOMC.ac,pts:linspace(0,90,91).map(x=>[x,Math.cos(x*Math.PI/180)])}],markers:[{x:st.phi,y:Math.cos(st.phi*Math.PI/180),label:st.phi+'°'}]});}
+  upd();b.note.innerHTML='<p>At 0° this is Problem 2: 82 dB across 10 m² gives 1.535 mW. For the phase experiment, velocity magnitude stays fixed at pᵣₘₛ/413 while phase changes; nonzero phase represents a different field, not a single travelling plane wave. At 90° average flow is zero.</p>';
+}
+function benchTransmission4(){
+  const b=bench('bench-transmission4','Twice the pressure, a thousandth of the power','lecture 4 · problem 3');if(!b)return;
+  const st={ratio:1.48e6/413,reverse:0};
+  const ratioControl=slider(b.ctl,{label:'water / air impedance ratio',min:1,max:10000,log:true,value:st.ratio,fmt:v=>v.toFixed(1),onchange:v=>{st.ratio=v;upd();}});
+  ratioControl.el.querySelector('input').step='any'; ratioControl.set(st.ratio);
+  segCtl(b.ctl,st,'reverse',[[0,'Air → water'],[1,'Water → air']],upd);
+  const ro=readouts(b.ctl,[{id:'T',label:'transmitted pressure / incident'},{id:'tau',label:'transmitted power fraction'},{id:'A',label:'intensity attenuation'}]);
+  const plot=new Plot(b.plot,{xmin:1,xmax:10000,ymin:0,ymax:35,xlabel:'impedance ratio',ylabel:'intensity attenuation (dB)',xfmt:v=>v.toFixed(0)});
+  function upd(){const a=transmission4(st.reverse?413*st.ratio:413,st.reverse?413:413*st.ratio);ro({T:a.T.toFixed(6),tau:(100*a.tau).toFixed(4)+' %',A:a.atten.toFixed(3)+' dB'});plot.set({series:[{name:'either direction',color:DOMC.ac,pts:logspace(1,10000,201).map(x=>[x,transmission4(1,x).atten])}],markers:[{x:st.ratio,y:a.atten,label:a.atten.toFixed(2)+' dB'}]});}
+  upd();b.note.innerHTML='<p>Swap direction: the pressure transmission changes dramatically, but power transmission stays the same. These are ideal lossless media at normal incidence: the remaining energy is reflected, not dissipated.</p>';
+}
+function benchAbsorption4(){
+  const b=bench('bench-absorption4','Read absorbed power from standing-wave extrema','lecture 4 · problem 4 and exam A');if(!b)return;
+  const st={min:74,delta:11,S:0.01};const controls={};
+  for(const [key,label,min,max,step,unit] of [['min','minimum SPL',40,100,0.1,'dB'],['delta','maximum − minimum',0,40,0.1,'dB'],['S','tube area',0.001,0.02,0.0001,'m²']])controls[key]=slider(b.ctl,{label,min,max,step,value:st[key],unit,fmt:v=>v.toFixed(key==='S'?5:1),onchange:v=>{st[key]=v;upd();}});
+  Object.values(controls).forEach(c=>{c.el.querySelector('input').step='any';});
+  b.ctl.append(h('button',{type:'button',class:'chip',onclick:()=>{const R=Math.sqrt(0.9),S=Math.PI*0.05**2,p=Math.sqrt(413*1e-5/S);st.min=LP(p*(1-R));st.delta=20*Math.log10((1+R)/(1-R));st.S=S;Object.entries(controls).forEach(([k,c])=>c.set(st[k]));upd();}},'Exam A preset: 10% absorption, 1 µW'));
+  const ro=readouts(b.ctl,[{id:'a',label:'absorption α'},{id:'W',label:'absorbed power'},{id:'LW',label:'sound power level'},{id:'max',label:'maximum SPL'},{id:'I',label:'net intensity'}]);
+  const plot=new Plot(b.plot,{xlog:false,xmin:0,xmax:0.5,ymin:40,ymax:110,xlabel:'distance along tube (m)',ylabel:'pressure level (dB)',xfmt:v=>v.toFixed(2)});
+  function upd(){const a=absorption4(st.min+st.delta,st.min,st.S);ro({a:a.alpha.toFixed(4),W:(a.W*1e6).toFixed(4)+' µW',LW:a.LW.toFixed(2)+' dB re 1 pW',max:(st.min+st.delta).toFixed(2)+' dB',I:(a.W/st.S*1000).toFixed(4)+' mW/m²'});plot.set({ymin:st.min-3,ymax:st.min+st.delta+3,series:[{name:'1 kHz pressure envelope',color:DOMC.el,pts:linspace(0,0.5,401).map(x=>[x,LP(Math.sqrt(a.pi*a.pi+a.pr*a.pr+2*a.pi*a.pr*Math.cos(2*TAU*1000/CA*x)))])}]});}
+  upd();b.note.innerHTML='<p>Problem 4 starts at 85/74 dB: α = 0.686, W = 0.863 µW and Lw = 59.36 dB. The curve uses a pressure maximum as its distance origin; extrema alone do not determine the reflection phase or the wall position. Exam A has no specified frequency; its preset uses this same illustrative 1 kHz plot.</p>';
+}
+function benchCabinet4(){
+  const b=bench('bench-cabinet4','A sealed loudspeaker box is an air spring','lecture 4 · problem 5');if(!b)return;
+  const st={V:16,d:150,m:20,x:4};
+  for(const [key,label,min,max,step,unit] of [['V','cabinet volume',4,40,1,'litres'],['d','cone diameter',80,250,1,'mm'],['m','moving mass',5,80,1,'g'],['x','peak-to-peak excursion',0.1,4,0.1,'mm']])slider(b.ctl,{label,min,max,step,value:st[key],unit,onchange:v=>{st[key]=v;upd();}});
+  const ro=readouts(b.ctl,[{id:'f',label:'natural frequency'},{id:'M',label:'acoustic mass'},{id:'K',label:'acoustic stiffness'},{id:'L',label:'internal SPL'},{id:'p',label:'internal RMS pressure'}]);
+  const plot=new Plot(b.plot,{xlog:false,xmin:0.1,xmax:4,ymin:100,ymax:160,xlabel:'peak-to-peak excursion (mm)',ylabel:'internal SPL (dB)',xfmt:v=>v.toFixed(1)});
+  function upd(){const a=cabinet4(st.V/1000,st.d/1000,st.m/1000,st.x/1000);ro({f:a.f0.toFixed(2)+' Hz',M:a.M.toFixed(3)+' kg/m⁴',K:(a.K/1e6).toFixed(4)+' MN/m⁵',L:a.L.toFixed(2)+' dB',p:a.p.toFixed(2)+' Pa'});plot.set({series:[{name:'uniform sealed cavity',color:DOMC.el,pts:linspace(0.1,4,101).map(x=>[x,cabinet4(st.V/1000,st.d/1000,st.m/1000,x/1000).L])}],markers:[{x:st.x,y:a.L,label:a.L.toFixed(1)+' dB'}]});}
+  upd();b.note.innerHTML='<p>Defaults give 59.07 Hz and 140.85 dB inside the cabinet. The 4 mm limit is peak-to-peak, so peak displacement is 2 mm. Changing mass shifts resonance but cannot change pressure at a prescribed displacement in this ideal model. Suspension stiffness and external radiation loading are neglected.</p>';
+}
+document.addEventListener('DOMContentLoaded',()=>{benchHelmholtz4();benchPower4();benchTransmission4();benchAbsorption4();benchCabinet4();renderMath();});

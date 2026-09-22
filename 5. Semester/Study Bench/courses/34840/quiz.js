@@ -22,3 +22,61 @@ window.QUIZZES = {
     { q: "A 100 Hz tone measures 70 dB unweighted. A-weighted it reads about…", a: ["70 dB(A)", "51 dB(A)", "89 dB(A)", "66 dB(A)"], c: 1, why: "The A-weighting response at 100 Hz is −19.1 dB (table 1.3.2): the meter mimics the ear's low-level insensitivity to bass. C-weighting would take off only 0.3 dB." },
   ],
 };
+
+QUIZZES["4"] = [
+  {
+    "q": "A piston converts mechanical to acoustic impedance by…",
+    "a": [
+      "dividing by S",
+      "dividing by S²",
+      "multiplying by S",
+      "multiplying by S²"
+    ],
+    "c": 1,
+    "why": "F = PS and Q = Sv, so Zm = F/v = S²P/Q = S²Za."
+  },
+  {
+    "q": "Double the bottle volume while keeping the neck unchanged. Its resonance…",
+    "a": [
+      "doubles",
+      "halves",
+      "falls by a factor √2",
+      "stays the same"
+    ],
+    "c": 2,
+    "why": "Cavity stiffness is proportional to 1/V and f₀ is proportional to √K, hence f₀ ∝ 1/√V."
+  },
+  {
+    "q": "Pressure and velocity are 90° apart. Mean intensity is…",
+    "a": [
+      "maximum",
+      "zero",
+      "negative",
+      "equal to pressure squared divided by ρc"
+    ],
+    "c": 1,
+    "why": "The average product is prms urms cos φ. At quadrature, stored energy returns each cycle."
+  },
+  {
+    "q": "Air-to-water transmitted pressure nearly doubles. Transmitted intensity…",
+    "a": [
+      "quadruples",
+      "doubles",
+      "is only about 0.11% of incident intensity",
+      "is unchanged"
+    ],
+    "c": 2,
+    "why": "Intensity is pressure squared divided by characteristic impedance. Water has about 3584 times the impedance of air."
+  },
+  {
+    "q": "90 dB incident SPL and 70 dB reflected SPL give absorption…",
+    "a": [
+      "0.1",
+      "0.9",
+      "0.99",
+      "0.01"
+    ],
+    "c": 2,
+    "why": "The reflected power fraction is 10^((70−90)/10) = 0.01, so α = 1 − 0.01."
+  }
+];

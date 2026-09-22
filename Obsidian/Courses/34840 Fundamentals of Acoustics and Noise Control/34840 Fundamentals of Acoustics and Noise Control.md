@@ -148,6 +148,8 @@ tags: [Acoustics, Noise, Audio, home]
 
 ## Lecture Notes
 
+- [[Lecture 4 - Impedance Intensity and Sound Power|Lecture 4 — impedance, intensity and sound power]] · [[Week 4 - Impedance Intensity and Sound Power|Week 4 worked problems]] · [[34840_Lecture4_2026.pdf|slides PDF]]
+
 - [[Lecture 1 - Introduction and Plane Waves|Lecture 1 — introduction and plane waves]] · [[Week 1 - Fundamental Concepts and Plane Waves|Week 1 problems + MATLAB]]
 - [[Lecture 2 - Plane Waves Reflection and Spherical Waves|Lecture 2 — reflection and spherical waves]] · [[Week 2 - Reflection and Spherical Waves|Week 2 problems + MATLAB]]
 

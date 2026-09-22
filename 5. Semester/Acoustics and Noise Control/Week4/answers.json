@@ -1,0 +1,27 @@
+{
+  "bottle_hz": 333.84858896820555,
+  "plane_power_w": 0.001535005513279527,
+  "transmission_fraction": 0.001115593507561727,
+  "transmission_attenuation_db": 29.524940218695235,
+  "tube_alpha": 0.6861096198665451,
+  "tube_absorbed_w": 8.631970345121028e-07,
+  "tube_power_db": 59.361099396715616,
+  "cone_acoustic_mass": 64.04499509244067,
+  "cabinet_acoustic_stiffness": 8823675.0,
+  "cabinet_hz": 59.07480340602868,
+  "cabinet_spl": 140.8481381024557,
+  "exam_net_intensity": 0.00012732395447351627,
+  "exam_max_spl": 96.98282704724252,
+  "octave_levels": [
+    60.1244260279434,
+    60,
+    66.1244260279434,
+    66
+  ],
+  "distances_m": [
+    0.5011872336272722,
+    1.4125375446227544,
+    10.0
+  ],
+  "mc_absorption": 0.99
+}

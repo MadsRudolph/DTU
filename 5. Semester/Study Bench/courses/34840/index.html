@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Sound Bench</title>
-<meta name="description" content="34840 Fundamentals of Acoustics and Noise Control, lectures 1–3, made visual: waves, reflections, levels you can play with, with the problem sets and solutions.">
+<meta name="description" content="34840 Fundamentals of Acoustics and Noise Control, lectures 1–4, made visual: waves, reflections, levels you can play with, with the problem sets and solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -19,12 +19,13 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Sound Bench</div>
-    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–3</div>
+    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–4</div>
   </div>
   <ul class="wire">
     <li><a href="#l1" data-quiz="1"><span class="n">L1</span><span>Plane waves<span class="sub">pressure, particle velocity, the wave equation</span></span></a></li>
     <li><a href="#l2" data-quiz="2"><span class="n">L2</span><span>Reflection &amp; spherical waves<span class="sub">standing waves, tubes, two media, near field</span></span></a></li>
     <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Levels &amp; measurement<span class="sub">dB, adding sources, octave bands, weighting</span></span></a></li>
+    <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Impedance &amp; power<span class="sub">resonance, energy flow, absorption</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -47,7 +48,7 @@
         <circle cx="120" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="120" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">1</text><text x="120" y="60" text-anchor="middle" fill="var(--ink)">Plane waves</text><text x="120" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">p, u, c, λ, k · the wave equation</text>
         <circle cx="330" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="330" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">2</text><text x="330" y="160" text-anchor="middle" fill="var(--ink)">Reflection &amp; spreading</text><text x="330" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">standing waves, tubes, R and T, 1/r</text>
         <circle cx="540" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="540" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">3</text><text x="540" y="60" text-anchor="middle" fill="var(--ink)">Levels &amp; measurement</text><text x="540" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">dB, L_eq, octave bands, A-weighting</text>
-        <circle cx="750" cy="110" r="14" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="2"/><text x="750" y="160" text-anchor="middle" fill="var(--ink-3)">Impedance, intensity, power</text><text x="750" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">lecture 4, 22 Sep</text>
+        <circle cx="750" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="750" y="115" text-anchor="middle" fill="var(--ink)" font-size="14">4</text><text x="750" y="160" text-anchor="middle" fill="var(--ink)">Impedance, intensity, power</text><text x="750" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">lecture 4, 22 Sep</text>
         <circle cx="900" cy="110" r="14" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="2"/><text x="900" y="60" text-anchor="middle" fill="var(--ink-3)">Radiation</text><text x="900" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">monopole, dipole, piston</text>
       </g>
       <rect x="60" y="205" width="880" height="6" rx="3" fill="var(--el)" opacity="0.5"/><rect x="260" y="205" width="680" height="6" rx="3" fill="var(--me)" opacity="0.6"/><rect x="470" y="205" width="470" height="6" rx="3" fill="var(--ac)" opacity="0.7"/>
@@ -220,6 +221,24 @@
 </section>
 
 <!-- ============================== summary ============================== -->
+
+<section class="lecture" id="l4">
+  <div class="lec-head"><div class="eyebrow">Lecture 4 · Tue 22 Sep 2026 · Finn Agerkvist</div><h2>Impedance, intensity and sound power</h2><div class="meta">Lecture 4 slides 1–36 · course text: impedance and sound energy · all Week 4 problems and exam examples</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Impedance tells us how pressure drives motion; only motion in phase with pressure transports energy on average.</div>
+  <div class="block"><h3>The picture: choose the right port variables</h3><div class="table-wrap"><table><tr><th>Impedance</th><th>Definition</th><th>Units</th></tr><tr><td>Specific / wave</td><td><span class="m">z=P/U</span></td><td>Pa·s/m</td></tr><tr><td>Mechanical</td><td><span class="m">Z_m=F/v</span></td><td>N·s/m</td></tr><tr><td>Acoustic</td><td><span class="m">Z_a=P/Q=Z_m/S^2</span></td><td>N·s/m⁵</td></tr></table></div><p>For uniform motion, <span class="m">Q=SU</span> and <span class="m">F=PS</span>. Both variables transform, so the area gets squared. A mass contributes <span class="m">j\omega M</span>; a spring contributes <span class="m">K/(j\omega)</span>. Their reactive impedances cancel at resonance.</p></div>
+  <div class="formulas"><div class="fcard"><span class="eyebrow">Closed tube and cavity limit</span><div class="M">Z_{a,\mathrm{in}}=-j\frac{\rho c}{S}\cot(kl)\approx\frac{\rho c^2}{j\omega V}\quad(kl\ll1)</div><p>Rigid end: infinite impedance. Input zeros: odd quarter wavelengths. A small sealed cavity acts as an air spring.</p></div><div class="fcard"><span class="eyebrow">Helmholtz neck and cavity</span><div class="M">M_a=\frac{\rho l_{\rm eff}}S,\quad K_a=\frac{\rho c^2}V,\quad f_0=\frac{c}{2\pi}\sqrt{\frac{S}{Vl_{\rm eff}}}</div></div></div>
+  <div id="bench-helmholtz"></div>
+  <div class="callout trap"><span class="eyebrow">Reading the slides</span><p>Slide 14: graph <b>C</b> is the series input impedance, with a minimum at resonance. Slide 16 says 300 ml but substitutes 330 ml: 330 ml gives 199.7 Hz; 300 ml gives 209.5 Hz. Problem 1 has its own 400 ml bottle and gives 334 Hz. An effective neck length already includes the end correction.</p></div>
+  <div class="block"><h3>Stored energy and energy flow</h3><div class="formulas"><div class="fcard"><div class="M">\overline w_p=\frac{|P|^2}{4\rho c^2},\qquad\overline w_k=\frac{\rho|U|^2}{4}</div><p>Peak phasors; energy density in J/m³. The two are equal for a travelling plane wave.</p></div><div class="fcard"><div class="M">I=\tfrac12\Re\{PU^*\}=p_{\rm rms}u_{\rm rms}\cos\phi</div><p>Quadrature motion stores and returns energy. For a plane wave <span class="m">I=p_{\rm rms}^2/(\rho c)</span>.</p></div><div class="fcard"><div class="M">W=\int_S\mathbf I\cdot\mathbf n\,dS=\tfrac12|Q|^2\Re\{Z_a\}</div><p>The last equality uses a uniform acoustic port. A plane wave through area S gives IS; an outgoing spherical wave gives <span class="m">4\pi r^2 I_r</span>.</p></div></div><p>For a spherical wave <span class="m">U_r=(P/\rho c)(1+1/jkr)</span>. The near-field term is reactive, so <span class="m">I_r=|P|^2/(2\rho c)</span> still falls as 1/r² and total power stays constant.</p></div>
+  <div id="bench-power4"></div>
+  <div id="bench-transmission4"></div>
+  <div class="formulas"><div class="fcard"><span class="eyebrow">Absorbing termination</span><div class="M">s=10^{(L_{\max}-L_{\min})/20},\quad |R|=\frac{s-1}{s+1},\quad\alpha=1-|R|^2</div></div><div class="fcard"><span class="eyebrow">Net power in the tube</span><div class="M">W_{\rm abs}=\frac{S(p_{i,\rm rms}^2-p_{r,\rm rms}^2)}{\rho c}=\frac{S p_{\max,\rm rms}p_{\min,\rm rms}}{\rho c}</div></div></div>
+  <div id="bench-absorption4"></div>
+  <div id="bench-cabinet4"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><p>Use RMS pressure for SPL and the factor ½ with peak phasors for power. A 4 mm peak-to-peak displacement means 2 mm peak. In a standing wave, local pressure squared does not give net intensity. At a transmitting interface, <span class="m">1-|R|^2</span> is transmitted energy, not heat absorption. Slide 33's net intensity equals absorbed intensity at the termination; it equals incident intensity only for full absorption.</p></div>
+  <div id="problems-4"></div><div id="quiz-4"></div>
+</section>
+
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -240,10 +259,10 @@
       <tr><td class="lv">meter</td><td>A-weight → square → Fast 125 ms / Slow 1 s or L_eq → log</td><td>A at 100 Hz: −19.1 dB · at 31.5 Hz: −39.4 dB</td></tr>
     </table></div>
   </div>
-</section>
+<div class="fcard"><span class="eyebrow">L4 · resonance, power, absorption</span><div class="M">Z_a=Z_m/S^2,\quad f_0=\frac1{2\pi}\sqrt{K_a/M_a},\quad I=\frac12\Re\{PU^*\},\quad\alpha=1-|R|^2</div><div class="M">L_W=10\log_{10}(W/10^{-12}\mathrm W),\quad L_I=10\log_{10}(I/10^{-12}\mathrm{W\,m^{-2}})</div></div></section>
 
 <footer>
-  Built 14 Sep 2026 from the 34840 lecture notes (1–2), the lecture 3 slides and course text §1.3, the three problem sheets and the official solutions for weeks 1 and 2. Bench readouts reproduce the sheets' answers. Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
+  Updated 22 Sep 2026 from the 34840 lecture notes (1–2, 4), the lecture slides and course text, problem sheets 1–4 and the official solutions for weeks 1 and 2. Week 4 derivations are checked against the printed answers; exam examples have derived solutions. Bench readouts reproduce the sheets' answers. Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
 </footer>
 </main>
 </div>
