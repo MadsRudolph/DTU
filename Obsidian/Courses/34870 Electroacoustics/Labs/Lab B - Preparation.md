@@ -10,6 +10,13 @@ tags: [Electroacoustics, lab-note, scattering, free-field-correction, BEM, anech
 
 # Lab B — Microphone scattering: preparation
 
+> [!todo] Lab day — **Tue 22 Sep 2026, 10:00–12:00** (Group 10 slot, 2 h)
+> **Rooms:** building 354, small anechoic chamber **028**, control room **025**. Card access: ask Henrik Hvidberg, or take the tunnel from the 352 cellar. Arrive on time, all three group members.
+> **Bring:** laptop, the folder `Lab B/matlab/` on a USB stick (the lab stick cannot leave the room, so the data comes home via the laptop), tape measure, phone for photos.
+> **On the lab PC, in this order:** plug in the UMIK → start MATLAB → `cd` into the copied `matlab/` → `labB_devices` (must print three device IDs, none NaN) → `measure_labB('nomockup', '708-03xx')` with the amplifier very low → turn up until the check plot shows > 30 dB clearance → the series below → delete your data from the lab PC when done.
+> **Heads-up:** the staff re-uploaded the measurement files on 21-Sep 18:12 (`34870 - Lab B (2).zip`): the only change is how the sound card is found, now an input called `Line In` and an output called `Speakers` (the internal card), instead of the USB "7.1 Surround" card. The repo copy is the new one. If `labB_devices` still cannot find a device, the names are printed and the three `contains(...)` tests are on lines 88–98 of `course/meas_mag_spec2_SoundCard_LabB.m`.
+> **Later slots:** Lab C Tue 29 Sep 10:30 (room 026) · Lab D Tue 6 Oct 08:00 (026) · Lab E Tue 20 Oct 10:00 (028/025). Loudspeaker **System D**, shared with Group 4 (never book the same slot as them for D/E). All four collide with the 34840 Tuesday-morning lecture.
+
 > [!info] Practical
 > **Where:** small anechoic room, building 354 (card access may need updating with Henrik Hvidberg; or take the tunnel between the cellars of 352 and 354). **Group 10:** Louis Andrianne, Sophie Kimura, Mads. **Quiz:** Lab B + C together, individual, deadline **Mon 5 Oct 2026**.
 > **Brief:** [[34870_Lab_B_CylinderScattering_E2026.pdf]] · **Theory:** [[Lecture 6 - Microphone Scattering, Metrology & Calibration]] §2–3 and §9 · **Files:** `5. Semester/Electroacoustics/Labs/Lab B/` (labs repo) · interactive version: [The Analogy Bench, Lab B](https://study.madsrudolph.dev/34870/#labB)
@@ -52,12 +59,15 @@ flowchart TD
 Connect the UMIK **before** starting MATLAB. Start with the amplifier volume very low.
 
 ```matlab
-measure_labB('nomockup', '708-03xx')     % serial number is printed on the UMIK
+labB_devices                              % first: are Umik, Line In and Speakers all found?
+measure_labB('nomockup', '708-03xx')     % serial number is printed on the UMIK (0329, 0332 or 0335)
 measure_labB('ang000',   '708-03xx')
 measure_labB('ang045',   '708-03xx')
-measure_labB('ang090',   '708-03xx')
+measure_labB('ang090',   '708-03xx')     % ang030, ang060, ang135, ang180 if there is time
 measure_labB('nomockup_end', '708-03xx')
 ```
+
+Each call takes about 35 s (32 periods of 1 s plus one for the transient). A bad run is simply measured again with the same tag: the wrapper never overwrites, the repeat becomes `_2`, and `process_labB` uses the **newest** repeat of every tag. The end reference is compared with the first one by `process_labB` (drift plot, should be 0 dB).
 
 `measure_labB` calls the course routine with the parameters from the brief (`50, 10000, 24, 1, 32, SN, 90`), saves `data/labB_<tag>.mat` immediately (it never overwrites, a repeat becomes `_2`), and shows the signal against the noise floor between the tones. Want more than 30 dB of clearance; if not, turn the amplifier up a little. The raw call, if the wrapper is not available:
 

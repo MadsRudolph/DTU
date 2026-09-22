@@ -109,11 +109,13 @@ tags: [Electroacoustics, Audio, home]
 | | Exercise | Period | Quiz deadline |
 |---|---|---|---|
 | **A** ✅ | Analogy circuits in **LTspice** (quiz submitted 20/9) — [[Lab A - Runthrough|full runthrough + KiCad/ngspice sims]] · LTspice files in `5. Semester/Electroacoustics/Labs/Lab A/LTspice/` | 8/9 – 20/9 | ⏰ **20/9** |
-| **B** | Scaled microphone measurement — [[Lab B - Preparation|preparation: procedure, checklist, BEM predictions]] · scripts in `5. Semester/Electroacoustics/Labs/Lab B/` | 21/9 – 29/9 | ⏰ **5/10** |
-| **C** | Microphone calibration — [[Lab C - Preparation|preparation: procedure, metrology vocabulary, f_s/Q, LTspice model]] · scripts + LTspice in `5. Semester/Electroacoustics/Labs/Lab C/` | 21/9 – 29/9 | ⏰ **5/10** |
-| **D** | Loudspeaker enclosures | 5/10 – 20/10 | ⏰ **26/10** |
-| **E** | Loudspeaker response | 5/10 – 20/10 | ⏰ **26/10** |
+| **B** | Scaled microphone measurement — [[Lab B - Preparation|preparation: procedure, checklist, BEM predictions]] · scripts in `5. Semester/Electroacoustics/Labs/Lab B/` | **Tue 22/9 10:00–12:00**, b.354 r.028/025 | ⏰ **5/10** |
+| **C** | Microphone calibration — [[Lab C - Preparation|preparation: procedure, metrology vocabulary, f_s/Q, LTspice model]] · scripts + LTspice in `5. Semester/Electroacoustics/Labs/Lab C/` | **Tue 29/9 10:30–12:30**, b.354 r.026 | ⏰ **5/10** |
+| **D** | Loudspeaker enclosures — loudspeaker **System D** (shared with Group 4) | **Tue 6/10 08:00–10:00**, b.354 r.026 | ⏰ **26/10** |
+| **E** | Loudspeaker response — System D | **Tue 20/10 10:00–12:00**, b.354 r.028/025 | ⏰ **26/10** |
 | 🔧 | **Loudspeaker project** | 19/10 – 30/11 | ⏰ **30/11** |
+
+→ Group 10 slots from the *Lab schedule - Exercises B-C-D-E* sheet (22-Sep-2026). All four are Tuesday mornings and overlap the 34840 lecture (Tue 8–12).
 
 → Working folders: `5. Semester/Electroacoustics/Labs/` and `.../Project - Loudspeaker System/`
 
