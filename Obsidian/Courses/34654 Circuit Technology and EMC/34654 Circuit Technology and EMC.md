@@ -51,7 +51,7 @@ tags: [EMC, PCB, home]
 |---|---|---|---|---|
 | 1 | **Passives** — components & filter | `Projects/Assignment 1 - Passives.pdf` | `Assignment 1 - Passives/` | |
 | 2 | **PCB** — schematic → layout → cross-review | `Projects/Assignment 2 - PCB.pdf` | `Assignment 2 - PCB/` | |
-| 3 | **EMC** — input filter for conducted emission | `Projects/Assignment 3 - EMC.pdf` | `Assignment 3 - EMC/` | |
+| 3 | **EMC** — input filter for conducted emission | `Projects/Assignment 3 - EMC.pdf` | `Assignment 3 - EMC/` | model + filter design done 22-Sep → [[Assignment 3 - EMC - Runthrough]] |
 | 4 | **Environmental** — temperature chamber | `Projects/Assignment 4 - Environmental.pdf` | `Assignment 4 - Environmental/` | |
 
 > [!important] They chain together
