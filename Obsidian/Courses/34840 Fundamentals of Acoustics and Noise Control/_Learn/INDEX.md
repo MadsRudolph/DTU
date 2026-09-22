@@ -42,3 +42,8 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/3a - Matlab SLM/Matlab_SLM - Copy.zip|Matlab_SLM]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_SoundLevelMeter_Matlab_exercise_guide.pdf|34840_SoundLevelMeter_Matlab_exercise_guide]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/Matlab_SLM_solution.zip|Matlab_SLM_solution]]
+
+## 4 - Impedance, sound intensity and sound power
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026.pptx|34840_Lecture4_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 - Problems 4.pdf|34840 - Problems 4]]
