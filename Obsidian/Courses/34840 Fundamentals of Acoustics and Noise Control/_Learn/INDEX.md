@@ -45,5 +45,6 @@ links to where the file actually lives in the vault.*
 
 ## 4 - Impedance, sound intensity and sound power
 
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026.pptx|34840_Lecture4_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 - Problems 4.pdf|34840 - Problems 4]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 – Solutions4.pdf|34840 – Solutions4]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026 - Copy.pptx|34840_Lecture4_2026]]

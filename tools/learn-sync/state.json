@@ -606,6 +606,18 @@
       "sha256": "1a9444a9e1a4f21870ee8ff9417107fc14989d8ba70724cf064d2ca80605c9a2",
       "synced_at": "2026-09-21T16:12:35+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 - Problems 4.pdf"
+    },
+    "1280985": {
+      "revision": "2026-09-23T14:54:20.300Z",
+      "sha256": "b3eb8b5b70a6df07739310247dd164b95057cd0239d88fd281ce5a8140ac8195",
+      "synced_at": "2026-09-23T16:05:01+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 – Solutions4.pdf"
+    },
+    "1280991": {
+      "revision": "2026-09-23T15:10:23.050Z",
+      "sha256": "2c8f95ac72f92262f19ce5a682ebd370b998143445195d85ddf36aaad32a96d3",
+      "synced_at": "2026-09-23T16:05:07+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026 - Copy.pptx"
     }
   }
 }
