@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-09-23 — Quiz for labB and Lab C is available
+
+Dear all,
+You may already fill the quiz covering Lab B and Lab C: Lab B/C - Microphones.
+The quiz is individual and, as all quizzes, must be passed.
+Best regards,
+Vicente
+
 ## 2026-09-20 — Lab A Quiz deadline tonight
 
 Dear all,
