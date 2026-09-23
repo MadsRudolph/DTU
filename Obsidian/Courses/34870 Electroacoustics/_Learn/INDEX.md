@@ -57,6 +57,11 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Plane wave on a cylinder - Leach 2.15.pdf|Plane wave on a cylinder - Leach 2.15.pdf]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 6 - Microphone scattering - Metrology & calibration/Diaphragm reflections - Leach 5.2.pdf|Diaphragm reflections - Leach 5.2.pdf]]
 
+## Lecture 7 - Moving coil loudspeakers
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_7_E26.pdf|Lecture 7 - Loudspeakers: Moving coil]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Problems7_2026.pdf|Problems 7 - Loudspeakers 1]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
