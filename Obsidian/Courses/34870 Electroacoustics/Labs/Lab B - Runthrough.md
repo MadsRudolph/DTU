@@ -13,7 +13,7 @@ tags: [Electroacoustics, lab-note, scattering, free-field-correction, BEM, anech
 > **Measured:** Tue 22 Sep 2026, Group 10 (Louis Andrianne, Sophie Kimura, Mads), building 354, small anechoic room 028 + control room 025 · **Brief:** [[34870_Lab_B_CylinderScattering_E2026.pdf]] · **Preparation note:** [[Lab B - Preparation]] (BEM prediction, procedure, checklist)
 > **Quiz:** Lab B + C together, individual, in DTU Learn, ⏰ **deadline Mon 5 Oct 2026**
 > **Theory:** [[Lecture 6 - Microphone Scattering, Metrology & Calibration]] §2–3 and §9 (free-field correction, $ka$, diffraction at the rim)
-> **Files:** labs repo `5. Semester/Electroacoustics/Labs/Lab B/` — raw data `data/Lab B master group 10/`, pipeline files `data/labB_*.mat`, log `data/labB_log.md`, `matlab/import_group_files.m` → `matlab/process_labB.m`, BEM `bem/`, figures `figures/`, report `report/LabB_report.tex`
+> **Files:** labs repo `5. Semester/Electroacoustics/Labs/Lab B/` — raw data `data/Lab B master group 10/`, pipeline files `data/labB_*.mat`, log `data/labB_log.md`, `matlab/import_group_files.m` → `matlab/process_labB.m`, BEM `bem/`, figures `figures/`, report `report/LabB_report.tex` · **How to run the scripts:** [[Lab B - MATLAB Guide]]
 > **Interactive version:** [The Analogy Bench, Lab B](https://study.madsrudolph.dev/34870/#labB) — the bench now overlays the measured curves on the BEM
 
 > [!abstract] The one idea, and what the day showed
