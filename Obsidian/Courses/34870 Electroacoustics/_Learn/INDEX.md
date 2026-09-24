@@ -62,6 +62,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_7_E26.pdf|Lecture 7 - Loudspeakers: Moving coil]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Problems7_2026.pdf|Problems 7 - Loudspeakers 1]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions7_2026.pdf|Problems 7 - Loudspeakers 1 - SOLUTIONS]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_7_E26.mp4|Lecture 7 - Commented slides]]
 
 ## Lab A - Analogies
 
