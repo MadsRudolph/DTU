@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-09-18T17:10:57.787Z",
-      "sha256": "770ea22ea33749e847baa24a0dbbbff97f92972e7a9be6c7881071a80791b6ba",
-      "synced_at": "2026-09-18T19:04:24+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
+      "revision": "2026-09-24T09:31:43.547Z",
+      "sha256": "d5735dc70ef957331332560984029793d92ca273e3761fba17e990e7b6ece987",
+      "synced_at": "2026-09-24T10:13:05+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
@@ -588,6 +588,12 @@
       "sha256": "0a682bc9d7c3251e52bd43c7de0d8af30b0217f1f4406b70964bbb43f2cee03d",
       "synced_at": "2026-09-23T13:11:16+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems7_2026.pdf"
+    },
+    "1278911": {
+      "revision": "2026-09-20T17:45:14.943Z",
+      "sha256": "25fafd71d02e7e1b74d37e9fd89d0319b622711958501927f66a5f946d268859",
+      "synced_at": "2026-09-24T10:13:05+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions7_2026.pdf"
     },
     "1279010": {
       "revision": "2026-09-21T07:19:50.800Z",
