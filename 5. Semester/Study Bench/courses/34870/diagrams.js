@@ -64,9 +64,9 @@ function diagMap() {
   root.innerHTML = svgWrap(980, 250, [
     // spine
     `<path d="M40 125 H940" stroke="var(--rule-2)" stroke-width="2"/>`,
-    ...[[60, "0", "The rules", "why circuits", "lecture 0"], [185, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [310, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [435, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [560, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [685, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [810, "6", "Calibration", "scattering · GUM · pistonphone", "lecture 6"], [925, "→", "Loudspeakers", "next up", ""]].map(([x, n, t, s, e], i) => `
-      <circle cx="${x}" cy="125" r="${i === 7 ? 14 : 20}" fill="var(--surface)" stroke="${i === 7 ? "var(--rule-2)" : "var(--ink)"}" stroke-width="2"/>
-      <text x="${x}" y="130" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="${i === 7 ? "var(--ink-3)" : "var(--ink)"}">${n}</text>
+    ...[[60, "0", "The rules", "why circuits", "lecture 0"], [185, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [310, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [435, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [560, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [685, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [790, "6", "Calibration", "scattering · GUM · pistonphone", "lecture 6"], [890, "7", "Loudspeakers", "T-S · η · excursion", "lecture 7"], [955, "→", "Enclosures", "next up", ""]].map(([x, n, t, s, e], i) => `
+      <circle cx="${x}" cy="125" r="${i === 8 ? 14 : 20}" fill="var(--surface)" stroke="${i === 8 ? "var(--rule-2)" : "var(--ink)"}" stroke-width="2"/>
+      <text x="${x}" y="130" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="${i === 8 ? "var(--ink-3)" : "var(--ink)"}">${n}</text>
       <text x="${x}" y="${i % 2 ? 74 : 178}" text-anchor="middle" font-family="var(--font-display)" font-size="18" font-weight="600" fill="var(--ink)">${t}</text>
       <text x="${x}" y="${i % 2 ? 94 : 198}" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" fill="var(--ink-2)">${s}</text>
       <line x1="${x}" y1="${i % 2 ? 100 : 150}" x2="${x}" y2="${i % 2 ? 105 : 145}" stroke="var(--rule-2)"/>`),

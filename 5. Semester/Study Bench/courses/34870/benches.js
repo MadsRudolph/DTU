@@ -607,6 +607,109 @@ function benchTwoMass() {
   upd();
 }
 
+/* ===== L7 · Moving-coil loudspeaker ===== */
+const SPK_RHO = 1.2, SPK_C = 344;                      // the Problems 7 air
+const SPK_PRESETS = {
+  swr: { name: "315 SWR (baffled)", Bl: 11.6, Re: 5.46, Mms: 88.2, Cms: 0.55, Rms: 3.25, Sd: 519, xmax: 9 },
+  p1: { name: "Problem 1", Bl: 5, Re: 6, Mms: 38, Cms: 0.9, Rms: 1.5, Sd: 314.2, xmax: 5 },
+  s13: { name: "slide 13 example", Bl: 3.4, Re: 6, Mms: 2.48, Cms: 0.98, Rms: 0.35, Sd: 29.22, xmax: 2 },
+};
+function speaker(p) {  // p: Bl, Re [ohm], Mms [kg], Cms [m/N], Rms, Sd [m2], le: "none"|"lossy"|"ideal", Le [H], Lstar, n, eg [V]
+  const ws = 1 / Math.sqrt(p.Mms * p.Cms), fs = ws / TAU;
+  const Rmt = p.Rms + p.Bl * p.Bl / p.Re;
+  const Qms = ws * p.Mms / p.Rms, Qes = p.Re * ws * p.Mms / (p.Bl * p.Bl), Qts = ws * p.Mms / Rmt;
+  const Vas = SPK_RHO * SPK_C * SPK_C * p.Sd * p.Sd * p.Cms;
+  const p1m = SPK_RHO / TAU * p.Bl * p.Sd / (p.Re * p.Mms);
+  const eta = SPK_RHO / (TAU * SPK_C) / p.Re * (p.Bl * p.Sd / p.Mms) ** 2;
+  const Zcoil = (f) => {
+    if (p.le === "ideal") return cx(p.Re, TAU * f * p.Le);
+    if (p.le === "lossy") { const m = p.Lstar * Math.pow(TAU * f, p.n), ph = p.n * Math.PI / 2; return cx(p.Re + m * Math.cos(ph), m * Math.sin(ph)); }
+    return cx(p.Re, 0);
+  };
+  const ZM = (f) => cx(p.Rms, TAU * f * p.Mms - 1 / (TAU * f * p.Cms));
+  const ZE = (f) => cadd(Zcoil(f), cscale(cinv(ZM(f)), p.Bl * p.Bl));
+  const u = (f) => cscale(cdiv(cinv(ZE(f)), ZM(f)), p.Bl * p.eg);           // cone velocity
+  const pff = (f) => cabs(u(f)) * TAU * f * SPK_RHO * p.Sd / TAU;            // |p| at 1 m, point source on a baffle
+  const x = (f) => cabs(u(f)) / (TAU * f);
+  const xHand = (f) => { const r = f / fs; return p.Bl * p.Cms / p.Re * p.eg / Math.hypot(1 - r * r, r / Qts); };
+  const Zmax = p.Re + p.Bl * p.Bl / p.Rms;
+  return { fs, Rmt, Qms, Qes, Qts, Vas, p1m, eta, ZE, pff, x, xHand, Zmax };
+}
+function benchDriver() {
+  const b = bench("bench-driver", "Driver bench: from T-S parameters to SPL, impedance and excursion", "lecture 7 · problems 7.1–7.4");
+  if (!b) return;
+  const st = Object.assign({ le: "none", eg: 1, preset: "swr" }, SPK_PRESETS.swr);
+  const segP = h("div", { class: "seg" });
+  for (const [k, v] of Object.entries(SPK_PRESETS)) segP.append(h("button", { type: "button", class: k === st.preset ? "on" : "", onclick: (e) => { Object.assign(st, v); st.preset = k; $$("button", segP).forEach(x => x.classList.toggle("on", x === e.target)); for (const [key, s] of Object.entries(sl)) s.set(st[key]); upd(); } }, v.name));
+  b.ctl.append(segP);
+  const segL = h("div", { class: "seg" });
+  for (const [k, l] of [["none", "coil = R_E only"], ["lossy", "lossy L_E (jω)^0.76"], ["ideal", "ideal 2.8 mH"]]) segL.append(h("button", { type: "button", class: k === st.le ? "on" : "", onclick: (e) => { st.le = k; $$("button", segL).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(segL);
+  const sl = {
+    Bl: slider(b.ctl, { label: "force factor <b>Bl</b>", min: 1, max: 25, step: 0.1, value: st.Bl, unit: "T·m", dom: "el", onchange: v => { st.Bl = v; upd(); } }),
+    Re: slider(b.ctl, { label: "coil resistance <b>R<sub>E</sub></b>", min: 2, max: 16, step: 0.01, value: st.Re, unit: "Ω", dom: "el", fmt: v => v.toFixed(2), onchange: v => { st.Re = v; upd(); } }),
+    Mms: slider(b.ctl, { label: "moving mass <b>M<sub>MS</sub></b> (with air)", min: 1, max: 200, step: 0.01, value: st.Mms, unit: "g", dom: "me", fmt: v => v < 10 ? v.toFixed(2) : v.toFixed(1), onchange: v => { st.Mms = v; upd(); } }),
+    Cms: slider(b.ctl, { label: "suspension <b>C<sub>MS</sub></b>", min: 0.1, max: 3, step: 0.01, value: st.Cms, unit: "mm/N", dom: "me", fmt: v => v.toFixed(2), onchange: v => { st.Cms = v; upd(); } }),
+    Rms: slider(b.ctl, { label: "mech. damping <b>R<sub>MS</sub></b>", min: 0.1, max: 10, step: 0.05, value: st.Rms, unit: "Ns/m", dom: "me", fmt: v => v.toFixed(2), onchange: v => { st.Rms = v; upd(); } }),
+    Sd: slider(b.ctl, { label: "piston area <b>S<sub>D</sub></b>", min: 10, max: 1200, step: 0.1, value: st.Sd, unit: "cm²", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.Sd = v; upd(); } }),
+    eg: slider(b.ctl, { label: "drive amplitude <b>e<sub>g</sub></b> (peak)", min: 0.5, max: 40, step: 0.1, value: 1, unit: "V", dom: "el", fmt: v => v.toFixed(1), onchange: v => { st.eg = v; upd(); } }),
+    xmax: slider(b.ctl, { label: "linear excursion <b>x<sub>max</sub></b> = |l<sub>vc</sub> − h<sub>mg</sub>|/2", min: 0.5, max: 15, step: 0.5, value: st.xmax, unit: "mm", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.xmax = v; upd(); } }),
+  };
+  const ro = readouts(b.ctl, [{ id: "fs", label: "f_S", dom: "me" }, { id: "Q", label: "Q_MS · Q_ES · Q_TS" }, { id: "Vas", label: "V_AS", dom: "ac" }, { id: "sens", label: "sensitivity (1 V, 1 m)", dom: "ac" }, { id: "s283", label: "SPL at 2.83 V rms (sheet: 89.3 measured)", dom: "ac" }, { id: "eta", label: "efficiency η", dom: "el" }, { id: "zmax", label: "Z_max = R_E + (Bl)²/R_MS", dom: "el" }, { id: "x50", label: "x_D at 50 / 200 Hz", dom: "me" }, { id: "lim", label: "SPL at x_max, 50 / 200 Hz (rms)", dom: "me" }]);
+  const pS = new Plot(b.plot, { h: 230, xmin: 5, xmax: 20000, ymin: 40, ymax: 120, ylabel: "SPL at 1 m  (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const pZ = new Plot(b.plot, { h: 170, xmin: 5, xmax: 20000, ymin: 0, ymax: 60, ylabel: "|Z_E|  (Ω)", yfmt: v => v.toFixed(1), yunit: " Ω" });
+  const pX = new Plot(b.plot, { h: 170, xmin: 5, xmax: 20000, ymin: -60, ymax: 30, ylabel: "x_D  (dB re 1 mm)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const F = logspace(5, 20000, 360);
+  function upd() {
+    const r = speaker({ Bl: st.Bl, Re: st.Re, Mms: st.Mms / 1000, Cms: st.Cms / 1000, Rms: st.Rms, Sd: st.Sd / 1e4, le: st.le, Le: 2.8e-3, Lstar: 0.0106, n: 0.76, eg: st.eg });
+    const spl = (f) => dB(r.pff(f) / Math.SQRT2 / 20e-6);
+    const xm = st.xmax / 1000, lim = (f) => dB((TAU * f) ** 2 * SPK_RHO * (st.Sd / 1e4) * xm / TAU / Math.SQRT2 / 20e-6);
+    const pass = dB(r.p1m * st.eg / Math.SQRT2 / 20e-6);
+    pS.set({ ymin: Math.floor(pass / 10) * 10 - 40, ymax: Math.floor(pass / 10) * 10 + 30,
+      series: [{ name: `far field, e_g = ${st.eg.toFixed(1)} V (rms SPL)`, color: DOMC.ac, pts: F.map(f => [f, spl(f)]) }, { name: "excursion limit x_max", color: DOMC.me, thin: true, pts: F.filter(f => f < 1000).map(f => [f, lim(f)]) }],
+      markers: [{ x: r.fs, y: spl(r.fs), label: `f_S ${hz(r.fs)}`, color: DOMC.me }],
+      regions: [{ from: 5, to: r.fs, color: DOMC.me, label: "spring, +12 dB/oct" }, { from: r.fs, to: 20000, color: DOMC.ac, label: "mass control — flat" }] });
+    const zp = F.map(f => [f, cabs(r.ZE(f))]);
+    pZ.set({ ymax: Math.max(20, Math.ceil(Math.max(...zp.map(q => q[1])) * 1.1 / 10) * 10), series: [{ name: "|Z_E|", color: DOMC.el, pts: zp }], markers: [{ x: r.fs, y: cabs(r.ZE(r.fs)), label: `${cabs(r.ZE(r.fs)).toFixed(1)} Ω`, color: DOMC.el }] });
+    pX.set({ series: [{ name: `x_D at ${st.eg.toFixed(1)} V (peak)`, color: DOMC.me, pts: F.map(f => [f, dB(r.x(f) * 1000)]) }, { name: "x_max", color: DOMC.warn, thin: true, pts: [[5, dB(st.xmax)], [20000, dB(st.xmax)]] }],
+      markers: [50, 200].map(f => ({ x: f, y: dB(r.x(f) * 1000), label: `${sci(r.x(f) * 1000, 3)} mm`, color: DOMC.me })) });
+    ro({ fs: hz(r.fs), Q: `${r.Qms.toFixed(2)} · ${r.Qes.toFixed(3)} · ${r.Qts.toFixed(3)}`, Vas: `${(r.Vas * 1000).toFixed(1)} L`,
+      sens: `${dB(r.p1m).toFixed(2)} dB re 1 Pa/V = ${dB(r.p1m / 20e-6).toFixed(1)} dB SPL at 1 V rms`, s283: `${dB(2.83 * r.p1m / 20e-6).toFixed(1)} dB`,
+      eta: `${(r.eta * 100).toFixed(3)} %`, zmax: `${r.Zmax.toFixed(1)} Ω`, x50: `${sci(r.x(50) * 1000, 3)} mm / ${sci(r.x(200) * 1e6, 3)} µm`, lim: `${lim(50).toFixed(1)} / ${lim(200).toFixed(1)} dB` });
+  }
+  upd();
+  b.note.innerHTML = `<p>The whole driver in one series loop: <span class="mono">u = Bl·e_g / (Z_coil·Z_M + (Bl)²)</span>, far field <span class="mono">p = jωρS_D·u / 2πr</span>, displacement <span class="mono">x = u/jω</span>. Mass control above f_S makes the pressure flat at <span class="mono">(ρ/2π)·Bl·S_D / (R_E·M_MS)</span>. Starts on the 315 SWR: −12.4 dB re 1 Pa/V, η = 0.47 %, Z_max 46.9 Ω. The slider is the voltage <i>amplitude</i>, so x_D is a peak value and the SPL curve is the rms level of that tone; the sensitivity readouts are for an rms voltage (rms in, rms out). Set e_g = 4 V for Problem 3.3: 0.76 mm at 50 Hz, 59.9 µm at 200 Hz.</p><p><b>Try:</b> double Bl and watch Q_TS fall and the efficiency quadruple while the bass rolls off earlier. Switch the coil to "ideal 2.8 mH" and the impedance climbs far too fast; the lossy (jω)^0.76 model is what a real coil does. Push e_g up until the excursion curve crosses x_max: at 50 Hz that happens at 47 V, at 200 Hz only at 600 V, when the coil has long since burnt.</p>`;
+}
+function tsFromZ(p, dM) {  // Lab D procedure on a simulated curve: returns f_S, f1, f2, r_c, the Q's and the added-mass results
+  const r = speaker(Object.assign({}, p, { le: "none", eg: 1 }));
+  const Z = (f) => cabs(r.ZE(f)), Zmax = Z(r.fs), rc = Zmax / p.Re, Zr = Math.sqrt(p.Re * Zmax);
+  const bis = (lo, hi) => { for (let i = 0; i < 80; i++) { const m = Math.sqrt(lo * hi); if ((Z(m) - Zr) * (Z(lo) - Zr) > 0) lo = m; else hi = m; } return Math.sqrt(lo * hi); };
+  const f1 = bis(r.fs / 20, r.fs), f2 = bis(r.fs, r.fs * 20);
+  const Qms = r.fs * Math.sqrt(rc) / (f2 - f1), Qes = Qms / (rc - 1), Qts = Qms / rc;
+  const fs1 = 1 / (TAU * Math.sqrt((p.Mms + dM) * p.Cms));
+  const Mms = dM / ((r.fs / fs1) ** 2 - 1), Cms = 1 / ((TAU * r.fs) ** 2 * Mms);
+  const Bl = Math.sqrt(TAU * r.fs * p.Re * Mms / Qes), Rms = TAU * r.fs * Mms / Qms;
+  return { r, Zmax, rc, Zr, f1, f2, Qms, Qes, Qts, fs1, Mms, Cms, Bl, Rms, Z, Z1: (f) => cabs(speaker(Object.assign({}, p, { Mms: p.Mms + dM, le: "none", eg: 1 })).ZE(f)) };
+}
+function benchTSMeasure() {
+  const b = bench("bench-tsmeasure", "Lab D on paper: T-S parameters from the impedance curve", "lecture 7 · slides 15–16 · Lab D");
+  if (!b) return;
+  const st = { dM: 20, sig: 0 };
+  slider(b.ctl, { label: "added mass <b>ΔM</b>", min: 2, max: 100, step: 1, value: 20, unit: "g", dom: "me", fmt: v => v.toFixed(0), onchange: v => { st.dM = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "fs", label: "f_S (peak) → f_S1 with ΔM", dom: "me" }, { id: "rc", label: "r_c = Z_max / R_E", dom: "el" }, { id: "zr", label: "Z_r = √(R_E·Z_max)", dom: "el" }, { id: "f12", label: "f₁ · f₂" }, { id: "Q", label: "Q_MS · Q_ES · Q_TS" }, { id: "M", label: "M_MS · C_MS", dom: "me" }, { id: "Bl", label: "Bl · R_MS", dom: "el" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 5, xmax: 200, ymin: 0, ymax: 55, ylabel: "|Z_E|  (Ω)", yfmt: v => v.toFixed(1), yunit: " Ω" });
+  const F = logspace(5, 200, 400);
+  const P = { Bl: 11.6, Re: 5.46, Mms: 0.0882, Cms: 0.55e-3, Rms: 3.25, Sd: 0.0519 };
+  function upd() {
+    const t = tsFromZ(P, st.dM / 1000);
+    plot.set({ series: [{ name: "|Z_E| as bought", color: DOMC.el, pts: F.map(f => [f, t.Z(f)]) }, { name: `with ΔM = ${st.dM} g`, color: DOMC.me, thin: true, pts: F.map(f => [f, t.Z1(f)]) }, { name: "Z_r = √(R_E Z_max)", color: DOMC.ink3, thin: true, pts: [[5, t.Zr], [200, t.Zr]] }],
+      markers: [{ x: t.r.fs, y: t.Zmax, label: `f_S ${hz(t.r.fs)}`, color: DOMC.el }, { x: t.f1, y: t.Zr, label: `f₁ ${hz(t.f1)}`, color: DOMC.ink2, dx: -6, anchor: "end" }, { x: t.f2, y: t.Zr, label: `f₂ ${hz(t.f2)}`, color: DOMC.ink2 }, { x: t.fs1, y: t.Z1(t.fs1), label: `f_S1 ${hz(t.fs1)}`, color: DOMC.me, dx: -6, anchor: "end" }] });
+    ro({ fs: `${hz(t.r.fs)} → ${hz(t.fs1)}`, rc: t.rc.toFixed(3), zr: `${t.Zr.toFixed(2)} Ω`, f12: `${t.f1.toFixed(2)} · ${t.f2.toFixed(2)} Hz`, Q: `${t.Qms.toFixed(2)} · ${t.Qes.toFixed(3)} · ${t.Qts.toFixed(3)}`, M: `${(t.Mms * 1000).toFixed(1)} g · ${(t.Cms * 1000).toFixed(3)} mm/N`, Bl: `${t.Bl.toFixed(2)} T·m · ${t.Rms.toFixed(2)} Ns/m` });
+  }
+  upd();
+  b.note.innerHTML = `<p>The 315 SWR (baffled) measured the Lab D way. Read f_S and Z_max at the peak, draw the line at the <b>geometric</b> mean <span class="mono">√(R_E·Z_max)</span>, read f₁ and f₂ where it cuts the curve, then <span class="mono">Q_MS = f_S√r_c/(f₂ − f₁)</span>, <span class="mono">Q_ES = Q_MS/(r_c − 1)</span>, <span class="mono">Q_TS = Q_MS/r_c</span>. A known mass on the cone shifts the peak down and gives <span class="mono">M_MS = ΔM/((f_S/f_S1)² − 1)</span>; the rest follow from the T-S definitions. Every readout lands back on the data sheet: 3.90, 0.514, 0.454, 88.2 g, 0.55 mm/N, 11.6 T·m, 3.25 Ns/m.</p><p><b>Try:</b> a tiny ΔM barely moves the peak, so in the lab a small error in f_S1 becomes a big error in M_MS. Pick a mass that shifts f_S by 10–30 %.</p>`;
+}
+
 /* ===== boot ===== */
 document.addEventListener("DOMContentLoaded", () => {
   renderMath();
@@ -614,6 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
   benchCoupling(); benchSpeakerZ(); benchPistonBox(); benchDynMic();
   benchPolar(); benchProximity(); benchCondenser(); benchShapes(); benchTwoMass();
   benchScatter(); benchFreeField(); benchUncertainty(); benchPistonphone();
+  benchDriver(); benchTSMeasure();
   if (window.QUIZZES) { for (const [lec, qs] of Object.entries(QUIZZES)) { const root = document.getElementById(`quiz-${lec}`); if (root) { buildQuiz(root, lec, qs); TOTAL_Q += qs.length; const a = $(`.wire a[data-quiz="${lec}"]`); if (a) a.dataset.n = qs.length; } } }
   updateProgress();
   setupNav(); setupTheme();

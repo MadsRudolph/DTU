@@ -249,6 +249,47 @@ window.PROBLEMS = {
       bench: "#bench-pistonphone", benchLabel: "pistonphone bench: cavity volume vs microphone equivalent volume",
     },
   ],
+  "7": [
+    {
+      id: "Sheet 7 · 1", title: "T-S parameters of a baffled driver, then free air", tag: "27.2 Hz · 4.3 · 1.56 · 1.15 · 126 L · free air 4.17, 35.2 g",
+      given: `A loudspeaker in a baffle: <span class="mono">M<sub>MS</sub> = 38 g, R<sub>MS</sub> = 1.5 Ns/m, C<sub>MS</sub> = 0.9 mm/N, Bl = 5 T·m, R<sub>E</sub> = 6 Ω</span>, radius 10 cm (ρ = 1.2 kg/m³, c = 344 m/s). a) Find f<sub>S</sub>, Q<sub>MS</sub>, Q<sub>ES</sub>, Q<sub>TS</sub>, V<sub>AS</sub>. b) In free air Q<sub>ES</sub> is measured to 1.5. Find Q<sub>MS</sub> and the total moving mass in free air.`,
+      hint: `a) is the T-S table straight off. For b): which of R<sub>E</sub>, Bl, C<sub>MS</sub>, M<sub>MS</sub> changes when the baffle is removed? Solve <span class="m">Q_{ES} = \\frac{R_E}{(Bl)^2}\\sqrt{M_{MS}/C_{MS}}</span> for that one.`,
+      sol: `<p><b>a)</b> <span class="m">\\omega_S = 1/\\sqrt{0.038 \\cdot 0.9\\times10^{-3}} = 171.0</span> rad/s ⇒ <b>f<sub>S</sub> = 27.2 Hz</b>. <span class="m">Q_{MS} = 171.0 \\cdot 0.038/1.5 = 4.33</span>, <span class="m">Q_{ES} = 6 \\cdot 171.0 \\cdot 0.038/25 = 1.56</span>, <span class="m">Q_{TS} = 4.33 \\cdot 1.56/5.89 = 1.15</span>. With <span class="m">S_D = \\pi(0.1)^2 = 0.0314</span> m²: <span class="m">V_{AS} = 1.2 \\cdot 344^2 \\cdot 0.0314^2 \\cdot 0.9\\times10^{-3} = 0.126</span> m³ = <b>126 L</b>.</p>
+<p><b>b)</b> Only the air mass changes; R<sub>E</sub>, Bl and C<sub>MS</sub> belong to the driver:</p>
+<div class="M">M_{MS,free} = \\left(\\frac{Q_{ES}(Bl)^2}{R_E}\\right)^2 C_{MS} = 6.25^2 \\times 0.9\\times10^{-3} = 35.2\\ \\text{g}, \\qquad Q_{MS} = \\frac{1}{R_{MS}}\\sqrt{\\frac{M_{MS}}{C_{MS}}} = \\frac{6.25}{1.5} = 4.17</div>
+<p>Cross-check: removing one side's air load, <span class="m">S_D^2 \\cdot 8\\rho/3\\pi^2a = 3.2</span> g, gives 34.8 g. Less mass, so f<sub>S</sub> rises to 28.3 Hz in free air.</p>`,
+      bench: "#bench-driver", benchLabel: "driver bench, preset “Problem 1”",
+    },
+    {
+      id: "Sheet 7 · 2", title: "Complete the 315 SWR data sheet", tag: "23.96 Hz · 519 cm² · 5.46 Ω · Q_ES 0.515",
+      given: `From the 315 SWR data sheet (free air: M<sub>MS</sub> = 80.2 g, Q<sub>ES</sub> = 0.49; common: C<sub>MS</sub> = 0.55 mm/N, Bl = 11.6 T·m, V<sub>AS</sub> = 210 L; baffled: M<sub>MS</sub> = 88.2 g, f<sub>S</sub> = 22.9 Hz) find the free-air resonance frequency, the effective piston area, the DC resistance and the baffled Q<sub>ES</sub>. The moving mass includes the air load.`,
+      hint: `f<sub>S</sub> from M and C; S<sub>D</sub> from V<sub>AS</sub>; R<sub>E</sub> from the free-air Q<sub>ES</sub>; then Q<sub>ES</sub> again with the baffled mass and f<sub>S</sub>.`,
+      sol: `<div class="M">f_{S,free} = \\frac{1}{2\\pi\\sqrt{0.0802 \\cdot 0.55\\times10^{-3}}} = 23.96\\ \\text{Hz}, \\qquad S_D = \\sqrt{\\frac{V_{AS}}{\\rho c^2 C_{MS}}} = \\sqrt{\\frac{0.210}{1.2\\cdot344^2\\cdot0.55\\times10^{-3}}} = 519\\ \\text{cm}^2</div>
+<div class="M">R_E = \\frac{Q_{ES}(Bl)^2}{\\omega_S M_{MS}} = \\frac{0.49 \\cdot 134.56}{2\\pi \\cdot 23.96 \\cdot 0.0802} = 5.46\\ \\Omega, \\qquad Q_{ES,baffled} = \\frac{5.46 \\cdot 2\\pi \\cdot 22.9 \\cdot 0.0882}{134.56} = 0.515</div>
+<p>Free checks: <span class="m">\\pi(0.257/2)^2 = 518.7</span> cm², and <span class="m">Z_{max} = R_E + (Bl)^2/R_{MS} = 5.46 + 134.56/3.25 = 46.9</span> Ω, the sheet's "maximum impedance".</p>`,
+      bench: "#bench-tsmeasure", benchLabel: "the Lab D bench recovers every 315 SWR number from its impedance curve",
+    },
+    {
+      id: "Sheet 7 · 3", title: "315 SWR on an infinite baffle: efficiency, sensitivity, excursion, max SPL", tag: "0.47 % · −12.4 dB re 1 Pa/V · 0.76 mm / 59.9 µm · 109.9 / 133.9 dB",
+      given: `For the 315 SWR in an infinite baffle, at 1 m: 1) efficiency above f<sub>S</sub>, ignoring L<sub>E</sub>. 2) Sensitivity for 1 V (f &gt; f<sub>S</sub>, ka &lt; 1). 3) Voice-coil displacement at 50 Hz and 200 Hz for 4 V. 4) The magnet system limits linear excursion (coil length 26 mm, gap height 8 mm). Find the maximum linear SPL at 50 Hz and 200 Hz.`,
+      hint: `Use the baffled M<sub>MS</sub> = 88.2 g. For 3), the displacement is a low-pass with the same f<sub>S</sub> and Q<sub>TS</sub>. For 4), overhung coil: <span class="m">x_{max} = (l_{vc} - h_{mg})/2</span>, and <span class="m">|p| = \\omega^2\\rho S_D x/2\\pi r</span>.`,
+      sol: `<div class="M">\\eta = \\frac{\\rho}{2\\pi c}\\frac{1}{R_E}\\left(\\frac{Bl\\,S_D}{M_{MS}}\\right)^2 = 5.55\\times10^{-4} \\cdot 0.183 \\cdot 46.6 = 0.47\\,\\%</div>
+<div class="M">p_{1m} = \\frac{\\rho}{2\\pi}\\frac{Bl\\,S_D}{R_E M_{MS}} = 0.191 \\cdot \\frac{0.602}{0.482} = 0.2385\\ \\text{Pa} \;\\Rightarrow\; -12.4\\ \\text{dB re 1 Pa/V}</div>
+<p>That is 81.5 dB SPL at 1 V, 90.6 dB at 2.83 V (the sheet measured 89.3).</p>
+<p><b>3)</b> Static <span class="m">Bl\\,C_{MS}e_g/R_E = 4.67</span> mm, f<sub>S</sub> = 22.85 Hz, Q<sub>TS</sub> = 0.454. 50 Hz: <span class="m">|1 - 2.188^2 + j\\,2.188/0.454| = 6.13</span> ⇒ <b>0.76 mm</b>. 200 Hz: <span class="m">|1 - 8.75^2 + j\\,8.75/0.454| = 78.0</span> ⇒ <b>59.9 µm</b>.</p>
+<p><b>4)</b> <span class="m">x_{max} = (26 - 8)/2 = 9</span> mm. At 50 Hz <span class="m">|p| = (2\\pi 50)^2 \\cdot 1.2 \\cdot 0.0519 \\cdot 0.009/2\\pi = 8.80</span> Pa peak = 6.22 Pa rms = <b>109.9 dB</b>; at 200 Hz 16 times more, <b>133.9 dB</b>. Reaching 9 mm at 200 Hz would take about 600 V, so there the limit is really thermal.</p>`,
+      bench: "#bench-driver", benchLabel: "set e_g = 4 V and read x_D; x_max = 9 mm gives the SPL limits",
+    },
+    {
+      id: "Sheet 7 · 4", title: "LTspice: the 315 SWR in a baffle, with a lossy voice-coil inductance", tag: "f_S 22.9 Hz · near field +22.4 dB · |Z_E(1 kHz)| 11.2 Ω",
+      given: `1) Implement a model of the 315 SWR in a baffle, voice coil as its DC resistance; verify by finding the resonance frequency. 2) Plot the far-field and the near-field pressure. 3) Add the voice-coil impedance <span class="m">Z_L = L_E^*(j\\omega)^n</span> with a G source, <span class="m">L_E^* = 0.0106</span>, n = 0.76.`,
+      hint: `Follow slide 27: impedance analogy in all three domains, H sources for Bl·u and Bl·i, E source for S_D·p_D, F source for U = S_D·u into front + back radiation impedance. The data sheet's 88.2 g already includes the air.`,
+      sol: `<p><b>1)</b> Mechanical inductor = dry mass <span class="m">M_{MD} = 88.2 - 2 \\cdot 0.0519^2 \\cdot 2.524 = 74.6</span> g, because the circuit adds its own radiation mass. The <span class="m">|Z_E|</span> peak then sits at <b>22.85 Hz</b> (46.1 Ω, slightly below 46.9 because of the radiation resistance).</p>
+<p><b>2)</b> Far field (<span class="mono">Laplace=ρS_D/(2π·20µ)·s</span> on u): flat at 81.2 dB above ~80 Hz for 1 V. Near field = V(pD)/2: same shape <b>22.4 dB higher</b> = <span class="m">20\\log(16r/3\\pi a)</span> with a = 12.85 cm, until ka = 1 (≈ 430 Hz), where Z<sub>ar</sub> turns resistive.</p>
+<p><b>3)</b> <span class="mono">G_Le vc1 vc2 vc1 vc2 Laplace=1/(0.0106*s**0.76)</span>. |Z<sub>E</sub>| at 1 kHz becomes 11.2 Ω (an ideal 2.8 mH would give 18.4 Ω and rise far too fast), and the extra impedance costs about 0.7 dB of SPL at 150 Hz, more higher up. Generated, verified model: <span class="mono">5. Semester/Electroacoustics/LTspice/Problems 7 - Loudspeaker/</span>.</p>`,
+      bench: "#bench-driver", benchLabel: "driver bench: switch the coil between R_E, lossy and ideal L_E",
+    },
+  ],
 };
 
 /* ---------- renderer ---------- */

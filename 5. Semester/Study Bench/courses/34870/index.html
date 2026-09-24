@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–6 and Lab A, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–7 and Labs A–C, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–6 · problems · Lab A</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–7 · problems · Labs A–C</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -28,6 +28,7 @@
     <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Transducers &amp; dynamic mics<span class="sub">Bl and S join the worlds</span></span></a></li>
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Directional &amp; condenser mics<span class="sub">polar patterns, low-pass</span></span></a></li>
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
+    <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Moving-coil loudspeakers<span class="sub">T-S parameters, η, excursion</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">measured 22 Sep, BEM, quiz due 5 Oct</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">calibrator, actuator, LTspice fit</span></span></a></li>
@@ -476,6 +477,79 @@
   <div id="quiz-6"></div>
 </section>
 
+<section class="lecture" id="l7">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 7 · Thu 24 Sep · VCH · Loudspeakers 1: moving coil</div>
+    <h2>The dynamic microphone, run backwards</h2>
+    <div class="meta">Beranek 6.1–6.11, 6.18 · Leach 6.1–6.21, 11.7 · Klippel · Problems 7 · Lab D</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A loudspeaker's far-field pressure follows the cone's <b>acceleration</b>, so it is flat where the <b>mass</b> rules, above f<sub>S</sub>: a second-order high-pass whose level <span class="m">\frac{\rho}{2\pi}\frac{Bl\,S_D}{R_E M_{MS}}</span> and shape (f<sub>S</sub>, Q<sub>TS</sub>) are all you need, and the price of bass is excursion.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Same circuit as the dynamic mic, opposite design goal</h3>
+    <div class="tri">
+      <div class="dom el"><h4>Electrical</h4><p>Amplifier <span class="m">R_g \approx 0</span>, coil <span class="m">R_E</span>, inductance <span class="m">L_E</span> with eddy-current loss <span class="m">R_E'</span>. The back-EMF <span class="m">Bl\,u_D</span> opposes the drive.</p></div>
+      <div class="dom me"><h4>Mechanical</h4><p>Coil + cone <span class="m">M_{MD}</span>, suspension <span class="m">R_{MS}</span>, <span class="m">C_{MS}</span>, driven by <span class="m">f = Bl\,i</span>. The air adds mass: <span class="m">M_{MS} = M_{MD} + 2S_D^2M_{A1}</span> on a baffle.</p></div>
+      <div class="dom ac"><h4>Acoustical</h4><p>Front and back radiation impedances, each <span class="m">\approx j\omega M_{A1}</span> with <span class="m">M_{A1} = 8\rho/3\pi^2a</span>. In free air the two sides share one <span class="m">M_{A1}</span>, so f<sub>S</sub> is higher.</p></div>
+    </div>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>dynamic microphone</th><th>loudspeaker</th></tr>
+      <tr><td>output follows</td><td>velocity, <span class="m">e = Bl\,u</span></td><td>acceleration, <span class="m">p = \rho S_D a\,e^{-jkr}/2\pi r</span></td></tr>
+      <tr><td>flat where</td><td>damping rules (band-pass)</td><td>mass rules, above f<sub>S</sub> (high-pass)</td></tr>
+      <tr><td>level</td><td><span class="m">M = Bl\,S_D/R_{MT}</span></td><td><span class="m">p_{1m} = \frac{\rho}{2\pi}\frac{Bl\,S_D}{R_E M_{MS}}</span></td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Formulas</span>Everything follows from one loop</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">volume velocity (L_E ≈ 0, R_g ≈ 0)</span><div class="M">U_D = \frac{Bl\,S_D}{R_E}\,\frac{e_g}{j\omega M_{MS} + R_{MT} + 1/j\omega C_{MS}}</div><p><span class="m">R_{MT} = R_{MS} + (Bl)^2/R_E</span>: the electrical damping usually dominates</p></div>
+      <div class="fcard"><span class="eyebrow">far-field pressure</span><div class="M">p(r) = \frac{\rho}{2\pi}\frac{Bl\,S_D}{R_E M_{MS}}\,H_{HP}(s)\,\frac{e^{-jkr}}{r}e_g</div><p>with the 2nd-order high-pass <span class="m">H_{HP} = \frac{(s/\omega_S)^2}{(s/\omega_S)^2 + (s/\omega_S)/Q_{TS} + 1}</span></p></div>
+      <div class="fcard"><span class="eyebrow">input impedance</span><div class="M">Z_{ET} = R_E + (j\omega L_E \parallel R_E') + \frac{(Bl)^2}{Z_{MS}}</div><p><span class="m">Z_{MS} = j\omega M_{MS} + R_{MS} + 1/j\omega C_{MS}</span>; peak <span class="m">Z_{max} = R_E + (Bl)^2/R_{MS}</span> at f<sub>S</sub></p></div>
+      <div class="fcard"><span class="eyebrow">Thiele-Small: resonance and volume</span><div class="M">\omega_S = \frac{1}{\sqrt{M_{MS}C_{MS}}}, \qquad V_{AS} = \rho c^2S_D^2C_{MS}</div><p>V<sub>AS</sub>: the air volume as stiff as the suspension</p></div>
+      <div class="fcard"><span class="eyebrow">Thiele-Small: the Q's</span><div class="M">Q_{MS} = \frac{\omega_SM_{MS}}{R_{MS}}, \quad Q_{ES} = \frac{R_E\omega_SM_{MS}}{(Bl)^2}</div><p><span class="m">1/Q_{TS} = 1/Q_{MS} + 1/Q_{ES}</span>; typical Q<sub>MS</sub> 2–10, Q<sub>ES</sub> 0.2–1.5</p></div>
+      <div class="fcard"><span class="eyebrow">efficiency (f ≫ f_S)</span><div class="M">\eta = \frac{\rho}{2\pi c}\frac{1}{R_E}\left(\frac{Bl\,S_D}{M_{MS}}\right)^2 \approx 1\,\%</div><p>the rest is heat in the voice coil</p></div>
+      <div class="fcard"><span class="eyebrow">displacement</span><div class="M">x_D = \frac{Bl\,C_{MS}}{R_E}\frac{e_g}{(j\omega/\omega_S)^2 + (j\omega/\omega_S)/Q_{TS} + 1}</div><p>a low-pass: same pressure at half the frequency needs four times the excursion</p></div>
+    </div>
+  </div>
+
+  <div id="bench-driver"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Lab D</span>Measuring the T-S parameters</h3>
+    <p>Drive the speaker through a 33 Ω resistor and record voltage and current together. f<sub>S</sub> and <span class="m">Z_{max}</span> come from the peak, R<sub>E</sub> from DC. Then <span class="m">r_c = Z_{max}/R_E</span>, and <span class="m">f_1, f_2</span> are where <span class="m">|Z_{ET}| = \sqrt{R_EZ_{max}}</span>:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">Q's from the peak</span><div class="M">Q_{MS} = \frac{f_S\sqrt{r_c}}{f_2 - f_1},\quad Q_{ES} = \frac{Q_{MS}}{r_c - 1},\quad Q_{TS} = \frac{Q_{MS}}{r_c}</div></div>
+      <div class="fcard"><span class="eyebrow">added mass ΔM</span><div class="M">M_{MS} = \frac{\Delta M}{(f_S/f_{S1})^2 - 1}, \qquad C_{MS} = \frac{1}{(2\pi f_S)^2M_{MS}}</div><p>alternative: change C<sub>MS</sub> with a closed box (next lecture)</p></div>
+      <div class="fcard"><span class="eyebrow">then the motor and the damping</span><div class="M">Bl = \sqrt{\frac{2\pi f_SR_EM_{MS}}{Q_{ES}}}, \qquad R_{MS} = \frac{2\pi f_SM_{MS}}{Q_{MS}}</div></div>
+    </div>
+  </div>
+
+  <div id="bench-tsmeasure"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Beyond the small-signal model</span>Excursion, eddy currents, break-up, near field</h3>
+    <div class="table-wrap"><table>
+      <tr><th>effect</th><th>what happens</th><th>how to handle it</th></tr>
+      <tr><td>large excursion</td><td><span class="m">Bl(x)</span> drops as the coil leaves the gap, <span class="m">C_{MS}(x)</span> drops as the suspension hardens, <span class="m">L_E(x)</span> falls for x &gt; 0: harmonics and intermodulation</td><td>linear range <span class="m">x_{max} \approx |l_{vc} - h_{mg}|/2</span>. Overhung (long coil): cooler, more excursion. Underhung (short coil): more sensitive, runs hot. Details in 34871.</td></tr>
+      <tr><td>eddy currents in the pole piece</td><td>a shorted secondary winding: less inductance, more loss</td><td><span class="m">Z = L_E'(j\omega)^n</span>, n &lt; 1. LTspice: a G source across its own terminals, <span class="mono">Laplace=1/(Lstar*s**n)</span></td></tr>
+      <tr><td>high frequency</td><td>the cone stops being a piston: break-up modes</td><td>the lumped model ends there</td></tr>
+      <tr><td>measuring without an anechoic room</td><td><span class="m">p_{near} = j\omega M_{A1}U</span> vs <span class="m">p_{ff} = j\omega\rho U/2\pi r</span></td><td><span class="m">p_{near}/p_{ff} = 16r/3\pi a</span>, same shape: valid while ka &lt; 1</td></tr>
+    </table></div>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>A data sheet's <b>M<sub>MS</sub> already contains the air load</b>. In a circuit that models the radiation impedance itself, the mechanical inductor is the dry mass <span class="m">M_{MD} = M_{MS} - 2S_D^2M_{A1}</span> (74.6 g for the 315 SWR, not 88.2 g). Otherwise the air is counted twice and f<sub>S</sub> drops from 22.9 to 21.3 Hz. Also: the Q-measurement line sits at the <b>geometric mean</b> <span class="m">\sqrt{R_EZ_{max}}</span>, not at −3 dB, and <span class="m">Z_{max}</span> contains R<sub>MS</sub>, not R<sub>MT</sub>.</p></div>
+
+  <div class="callout real"><span class="eyebrow">From the slides, not the books</span><ul>
+    <li>At high frequency the limit is <b>thermal</b>, at low frequency it is <b>excursion</b>. Problem 3.4's 134 dB at 200 Hz would need 600 V; the data sheet's "max linear SPL 110 dB" is the 50 Hz, excursion-limited figure.</li>
+    <li>The slide 27 LTspice circuit writes the far-field output as <span class="mono">Laplace=9390*s</span>: that is ρ/(2π·1 m·20 µPa) with ρ = 1.18, so V(out) in dB is SPL directly.</li>
+    <li>Sensitivity is quoted at 1 V, at 2.83 V (1 W into 8 Ω) or at 1 W. Check which before comparing drivers.</li>
+  </ul></div>
+
+  <div id="problems-7"></div>
+  <div id="quiz-7"></div>
+</section>
+
 <!-- ============================== Lab A ============================== -->
 <section class="lecture" id="labA">
   <div class="lec-head">
@@ -683,7 +757,7 @@
       <tr><td>dynamic gradient / ribbon</td><td>velocity × jω</td><td>mass rules, above f<sub>0</sub></td><td>high-pass, 12 dB/oct below</td><td>proximity, low f<sub>0</sub></td></tr>
       <tr><td>condenser</td><td>displacement (E·x/x₀)</td><td>compliance rules, below f<sub>0</sub></td><td>low-pass, −12 dB/oct above</td><td>E, x₀, C<sub>MT</sub>, R<sub>AS</sub></td></tr>
       <tr><td>free-field vs pressure capsule</td><td colspan="2">same capsule × the scattering gain T = 1 + Z<sub>ar</sub>/(ρc/S) on axis</td><td>free-field: over-damped so capsule × T is flat</td><td>R<sub>AS</sub></td></tr>
-      <tr><td>(loudspeaker, next)</td><td>acceleration</td><td>mass rules, above f<sub>s</sub></td><td>high-pass</td><td>box, port</td></tr>
+      <tr><td>moving-coil loudspeaker</td><td>acceleration (p ∝ a)</td><td>mass rules, above f<sub>S</sub></td><td>high-pass, −12 dB/oct below f<sub>S</sub></td><td>Bl, M<sub>MS</sub>, Q<sub>TS</sub>; box and port next</td></tr>
     </table></div>
   </div>
   <div class="block">
@@ -699,7 +773,7 @@
 </section>
 
 <footer>
-  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–6 notes, Problems 4–6 with official solutions, Lab A runthrough); last extended 20 Sep 2026 with lecture 6. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–7 notes, Problems 4–7 (4–6 with official solutions), Lab A runthrough); last extended 24 Sep 2026 with lecture 7. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>
