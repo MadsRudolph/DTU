@@ -630,6 +630,12 @@
       "sha256": "2c8f95ac72f92262f19ce5a682ebd370b998143445195d85ddf36aaad32a96d3",
       "synced_at": "2026-09-23T16:05:07+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026 - Copy.pptx"
+    },
+    "1282133": {
+      "revision": "2026-09-27T08:29:14.770Z",
+      "sha256": "441e9c520d00b4f3203a2239e5af3be261637fc16e8f5fa43ad0875c34f7c9bc",
+      "synced_at": "2026-09-27T13:08:25+00:00",
+      "vault_path": "5. Semester/Power Electronics/Simulink/slide15.slx"
     }
   }
 }
