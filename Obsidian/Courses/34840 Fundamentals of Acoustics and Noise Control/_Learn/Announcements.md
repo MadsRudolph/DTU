@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-09-28 — lecture 5 : Radiation of sound
+
+Dear all
+Tomorrows lecture will be on radiation of sound.
+We will also have a midterm evaluation, where you will have the opportunity to give feedback on the course so far.
+Finn
+
 ## 2026-09-17 — Solutions 3 available
 
 Solutions 3 are available:

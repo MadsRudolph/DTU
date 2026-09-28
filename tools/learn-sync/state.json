@@ -1,7 +1,7 @@
 {
   "announcements": {
     "34654": "188242",
-    "34840": "187972",
+    "34840": "188769",
     "34870": "188331",
     "62755": "188146"
   },
@@ -648,6 +648,18 @@
       "sha256": "bebe9549534381e2c50f8f1646aa5b5fae4a9070f39df30b69a601d7931fb466",
       "synced_at": "2026-09-28T10:11:46+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 4 Power Transistors/Power Transistors.pdf"
+    },
+    "1283803": {
+      "revision": "2026-09-28T14:49:07.527Z",
+      "sha256": "9fa4a6514db61d94cc72011571efb23c5f1278f51516adff9fa8aa085a74fd87",
+      "synced_at": "2026-09-28T16:06:26+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026.pptx"
+    },
+    "1283804": {
+      "revision": "2026-09-28T14:49:14.233Z",
+      "sha256": "2aa5af766f64572a6d610a213602dca2feeba93a8289b60a6264f780e22b30ad",
+      "synced_at": "2026-09-28T16:06:26+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems5.pdf"
     }
   }
 }
