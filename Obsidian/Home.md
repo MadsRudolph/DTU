@@ -137,3 +137,10 @@ FROM "Courses"
 WHERE type != "home"
 GROUP BY course-name
 ```
+
+
+<!-- learn-sync:deadlines:start -->
+| Date | Course | What |
+|---|---|---|
+| 2026-10-09 | 34840 | Individual hand-in |
+<!-- learn-sync:deadlines:end -->
