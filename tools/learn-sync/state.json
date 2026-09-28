@@ -636,6 +636,18 @@
       "sha256": "441e9c520d00b4f3203a2239e5af3be261637fc16e8f5fa43ad0875c34f7c9bc",
       "synced_at": "2026-09-27T13:08:25+00:00",
       "vault_path": "5. Semester/Power Electronics/Simulink/slide15.slx"
+    },
+    "1282375": {
+      "revision": "2026-09-28T07:53:20.550Z",
+      "sha256": "a9434fb2a417468ac76f02a2f0d60b471ffa678e36eb68c48c7d1a1769fbde37",
+      "synced_at": "2026-09-28T10:11:44+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 4 Power Transistors/switches.zip"
+    },
+    "1282377": {
+      "revision": "2026-09-28T07:54:48.947Z",
+      "sha256": "bebe9549534381e2c50f8f1646aa5b5fae4a9070f39df30b69a601d7931fb466",
+      "synced_at": "2026-09-28T10:11:46+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 4 Power Transistors/Power Transistors.pdf"
     }
   }
 }

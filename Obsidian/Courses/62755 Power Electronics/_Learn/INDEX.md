@@ -20,7 +20,8 @@ links to where the file actually lives in the vault.*
 
 ## Lecture 4 Power Transistors
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 4 Power Transistors.pdf|Lecture 4 Power Transistors]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 4 Power Transistors/switches.zip|switches]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 4 Power Transistors/Power Transistors.pdf|Power Transistors]]
 
 ## Lecture 5 DC-DC Converters
 
