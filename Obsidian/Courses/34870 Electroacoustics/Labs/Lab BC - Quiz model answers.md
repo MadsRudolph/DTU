@@ -62,7 +62,7 @@ f_s is where the phase crosses −90°, and Q is |H(f_s)| relative to the flat l
 - 4134: M_AS = 420 kg/m⁴, R_AS = 1.3·10⁸ Pa·s/m³
 - 4133: M_AS = 231 kg/m⁴, R_AS = 2.8·10⁸ Pa·s/m³
 
-For the 4134 it matches within about 1 dB in magnitude and a few degrees in phase over the whole band. For the 4133 it rolls off too early. Its phase levels off around −75° between 10 and 20 kHz, which one lumped R and M cannot do: the strong damping of the air film behind the diaphragm is frequency dependent. The model level (11.14 mV/Pa) is the same for both mics because the brief gives one set of diaphragm data. This is close to the 4134 but 1.4 dB below the 4133, as the brief's appendix warns.
+The model level (11.14 mV/Pa) is the same for both mics because the brief gives one set of diaphragm data. That is 0.1 dB below the 4134 and 1.4 dB below the 4133, as the brief's appendix warns. Aligned at 1 kHz, the shape matches both mics within ±0.5 dB up to 20 kHz, and the phase within 5°. Above resonance the 4133 departs by up to 1.6 dB and 19°: one lumped backplate R and M can't follow the frequency-dependent air-film damping of a heavily damped free-field capsule. The same thing shows as a 9 % difference between its −90° reading (22.9 kHz) and a whole-curve fit (21.1 kHz).
 
 ## Q11: Lab B ↔ Lab C
 
