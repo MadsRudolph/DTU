@@ -30,8 +30,8 @@
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
     <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Moving-coil loudspeakers<span class="sub">T-S parameters, η, excursion</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
-    <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">measured 22 Sep, BEM, quiz due 5 Oct</span></span></a></li>
-    <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">calibrator, actuator, LTspice fit</span></span></a></li>
+    <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
+    <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -627,65 +627,118 @@
   <div id="quiz-A"></div>
 </section>
 
-<!-- ============================== summary ============================== -->
 <section class="lecture" id="labB">
   <div class="lec-head">
     <div class="eyebrow">Lab B · measured Tue 22 Sep 2026 · small anechoic room 028, building 354 · quiz (Lab B + C) due Mon 5 Oct, individual</div>
     <h2>Lab B: a microphone is an obstacle, measured on a wooden one 20 times too big</h2>
-    <div class="meta">brief: Labs/34870_Lab_B_CylinderScattering_E2026.pdf · vault: Lab B - Preparation.md, Lab B - Runthrough.md · data, scripts, BEM and report: 5. Semester/Electroacoustics/Labs/Lab B/ · theory: lecture 6A</div>
+    <div class="meta">brief: Labs/34870_Lab_B_CylinderScattering_E2026.pdf · vault: Lab B - Preparation.md, Lab B - Runthrough.md · data, scripts, BEM and reference report: 5. Semester/Electroacoustics/Labs/Lab B/ · theory: lecture 6A</div>
   </div>
   <div class="one-idea"><span class="eyebrow">The one idea</span>Once a microphone is not small compared with the wavelength, sound reflects off it and the pressure on its own diaphragm is higher than the pressure that would be there without it. That increase, versus frequency and angle, is the <b>free-field correction</b>. Everything depends on <span class="m">ka = 2\pi f a / c</span>, so a 250 mm wooden cylinder at 1.3 kHz behaves exactly like a 1/2 inch microphone at 26 kHz, and an ordinary small microphone can play the role of one point on its "diaphragm".</div>
 
   <div class="block">
-    <h3><span class="eyebrow">In the chamber</span>One ratio, and nothing may move</h3>
-    <p>The loudspeaker and the small UMIK microphone (pointing up) are set up once. Measure the transfer function <span class="m">H = V_{mic}/V_{loudspeaker}</span> <b>without</b> the mock-up, then with the mock-up's face almost touching the UMIK at 0°, 45°, 90° (the mock-up is rotated around the fixed microphone). The result is</p>
-    <div class="M">H_{norm}(\theta) = \frac{H_{\theta}}{H_{no\ mock\text{-}up}}</div>
-    <p>and the loudspeaker, amplifier, UMIK response and distance all cancel, <b>but only if the loudspeaker and the UMIK never move</b>. Measure the reference again at the end to prove nothing drifted (we took it only once, after the series: no drift plot, and the low-frequency levels have to vouch for it).</p>
+    <h3><span class="eyebrow">Theory 1 · the field we want</span>What "free field" means, and how Part 0 proves we have one</h3>
+    <p>A <b>free field</b> is sound travelling away from its source with nothing to reflect it: no walls, no floor, no stand. The anechoic room fakes that with deep absorbing wedges. A wedge absorbs well only when it is deep compared with the wavelength (roughly λ/4), so below a <b>cut-off frequency</b> the walls start reflecting again. For room 028 that is <b>125 Hz</b> (λ = 2.7 m): below it, ripples in any measured ratio are the room, not the physics.</p>
+    <p>In a free field a small source radiates a <b>spherical wave</b>. The same power spreads over a sphere of area 4πr², so the intensity falls as 1/r² and the pressure as 1/r. Between two distances the level changes by</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">spherical spreading</span><div class="M">|p(r)| \propto \frac{1}{r} \quad\Rightarrow\quad \Delta L = 20\log_{10}\frac{r_1}{r_2}</div><p>−6 dB per doubling of distance</p></div>
+      <div class="fcard"><span class="eyebrow">Part 0, reference 2.8 m (mean 125–200 Hz)</span><div class="M">1.4\ \text{m}: +6.25\ \text{dB}\ (\tfrac{1}{r}: +6.02) \qquad 0.93\ \text{m}: +9.84\ \text{dB}\ (\tfrac{1}{r}: +9.57)</div><p>both within 0.3 dB of 1/r just above the cut-off</p></div>
+    </div>
+    <p>So Part 0 checks two things at once: the room behaves as a free field above its cut-off, and the loudspeaker is far enough away to look like a point source. That matters because the BEM model assumes a <b>plane wave</b>, and a spherical wave from 2.8 m away is nearly plane across a 25 cm face. It also settled a file-name typo: the lab PC called the series position "1.8 m", but 1/r from 0.93 m to 1.8 m would be 5.7 dB, not the 9.8 dB we saw, so the series was at 2.8 m (as the tape said).</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 2 · what an obstacle does</span>Incident plus scattered, and why the answer depends on ka</h3>
+    <p>Put a rigid body into a sound field. Air cannot flow into a rigid surface, so the particle velocity normal to it must be zero. To satisfy that, the body sends out a <b>scattered wave</b>, and the pressure anywhere is <span class="m">p = p_i + p_s</span>. How big the scattered wave is depends only on the size compared with the wavelength, the <b>Helmholtz number</b> <span class="m">ka</span> (a = radius):</p>
+    <div class="tri">
+      <div class="dom ac"><h4>ka ≪ 1 <span class="u">below ~200 Hz here</span></h4><p>The wave is so long it flows round the body as if it weren't there. p<sub>s</sub> is tiny: <b>0 dB</b> at every angle. Our measurement: +0.0 to +0.8 dB for 125–200 Hz.</p></div>
+      <div class="dom ac"><h4>ka ≈ 1 <span class="u">437 Hz for a = 125 mm</span></h4><p>The transition. The pressure on the face starts to rise and the curves for different angles separate.</p></div>
+      <div class="dom ac"><h4>ka ≫ 1 <span class="u">above ~1.5 kHz</span></h4><p>The face acts like a wall: incident and reflected wave add, <b>pressure doubling, +6 dB</b>. On top of that the wave diffracted at the rim arrives at the centre in phase from all round the edge: up to <b>+9.9 dB at ka ≈ 3</b>, then ripples.</p></div>
+    </div>
+    <p><b>Angle.</b> Head-on (0°) the face blocks the wave fully: the biggest build-up. As the body turns, the face sees the wave more and more at grazing incidence, and at 90° it is not blocking it at all: within about 2 dB. From behind (180°) the face is in the shadow, yet the centre still gets a little: the edge waves meet on the axis (the "bright spot").</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">Helmholtz number</span><div class="M">ka = \frac{2\pi f a}{c}, \qquad ka = 1 \text{ at } f = \frac{c}{2\pi a}</div><p>250 mm mock-up: 437 Hz. Useful band 125 Hz–2 kHz is ka = 0.3–4.6</p></div>
+      <div class="fcard"><span class="eyebrow">free-field correction</span><div class="M">C_{ff}(f,\theta) = 20\log_{10}\frac{p_{\text{on the diaphragm}}}{p_{\text{free field, mic removed}}}</div><p>defined on the diaphragm, not on the microphone's output</p></div>
+      <div class="fcard"><span class="eyebrow">scaling: same ka, same curve</span><div class="M">f_{mic} = f_{mock}\,\frac{D_{mock}}{D_{mic}}</div><p>f·D is constant. 250/12.7 = 19.7 for a 1/2 inch</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 3 · why a real microphone cares</span>Free-field, pressure and diffuse-field microphones</h3>
+    <p>A microphone's output follows the pressure on its <b>diaphragm</b>. In a free field that is <span class="m">C_{ff}</span> above the pressure we want to know (the one that was there before the microphone arrived). For a 1/2 inch capsule the build-up is several dB above about 10 kHz. Three ways to live with it:</p>
+    <div class="tri">
+      <div class="dom ac"><h4>Free-field type <span class="u">B&amp;K 4133</span></h4><p>Pointed at the source. The diaphragm is deliberately <b>over-damped</b> so its own (pressure) response droops by exactly the build-up: droop × C<sub>ff</sub> = flat. That droop is what Lab C measures.</p></div>
+      <div class="dom ac"><h4>Pressure type <span class="u">B&amp;K 4134</span></h4><p>Flat to the pressure on the diaphragm. Used where it does not disturb the field: flush in a wall, closing a coupler (calibrators, ear simulators).</p></div>
+      <div class="dom ac"><h4>Diffuse-field type</h4><p>For reverberant rooms where sound comes from everywhere. Flat for the correction <i>averaged over all angles</i>, which is much smaller than the 0° one.</p></div>
+    </div>
+    <p>The mock-up is the same shape as a microphone, 20 times bigger, so Lab B measures a microphone's free-field correction on a scale where a small microphone (the UMIK) can sit on the "diaphragm" and 10 kHz of lab equipment covers the 200 kHz a real 1/2 inch would need.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 4 · the measurement</span>One ratio, and nothing may move</h3>
+    <p>The loudspeaker and the UMIK (pointing up) are set up once. The multitone measurement gives the transfer function <span class="m">H = V_{mic}/V_{out}</span>: every stage in the chain multiplies,</p>
+    <div class="M">H_\theta = G_{amp}\,H_{spk}\,H_{path}\,T_\theta\,M_{umik}, \qquad H_{ref} = G_{amp}\,H_{spk}\,H_{path}\,M_{umik}</div>
+    <p>where <span class="m">T_\theta</span> is the only thing the mock-up adds. Dividing the two leaves <span class="m">H_{norm}(\theta) = H_\theta/H_{ref} = T_\theta</span>: amplifier, loudspeaker, distance and the UMIK's own response all cancel, <b>but only if the loudspeaker and the UMIK never move</b>. A reference before <i>and</i> after the series proves it; we took it once, after, so the low-frequency levels (0 dB at every angle) have to vouch for it.</p>
     <div class="table-wrap"><table>
       <tr><th>setting</th><th>value</th><th>why</th></tr>
       <tr><td>f1, f2</td><td>50 Hz, 10 kHz</td><td>multitone, 24 tones per octave</td></tr>
       <tr><td>fres, Nav</td><td>1 Hz, 32 averages</td><td>long averaging pushes the noise down; check the spectrum <i>between</i> the tones to see the noise floor</td></tr>
-      <tr><td>IncAngle</td><td>90</td><td>incidence on the <b>UMIK</b> (it points up, sound arrives from the side): picks the UMIK's own correction file. It is not the mock-up angle</td></tr>
+      <tr><td>IncAngle</td><td>90</td><td>incidence on the <b>UMIK</b> (it points up, sound arrives from the side): picks the UMIK's own correction file. It is not the mock-up angle, and it cancels in the ratio anyway</td></tr>
       <tr><td>chamber</td><td>cut-off 125 Hz</td><td>below that the room is not anechoic: ripples in the ratio are the room, not the mock-up</td></tr>
     </table></div>
   </div>
 
   <div class="block">
-    <h3><span class="eyebrow">Prediction and measurement</span>The course BEM model, and what we measured on 22 Sep</h3>
-    <p>A rigid cylinder with a rounded back in a plane wave. The bench shows the real numbers from <span class="mono">CylinderPlaneWave</span>: choose angles, choose <i>where</i> the pressure is taken, then shrink the mock-up to a real microphone and watch only the frequency axis change. Switch on <b>measured 22 Sep</b> to lay our seven angles (UMIK 708-0332, 2.8 m from the loudspeaker, tip 2–3 cm in front of the face) over the model, and then pick <i>3 cm in front</i>: that is the curve we actually measured.</p>
+    <h3><span class="eyebrow">Theory 5 · the prediction</span>What the BEM model computes</h3>
+    <p>The <b>boundary element method</b> solves the wave equation for a single frequency (the Helmholtz equation) outside a body by working only on its <b>surface</b>. The surface is cut into small elements, the rigid-wall condition (zero normal velocity) is imposed on each, and the Helmholtz integral equation gives the pressure on every element. The outgoing-wave condition at infinity is built in, which is why BEM suits scattering in free space. Once the surface pressure is known, the same integral gives the pressure at any <b>field point</b> off the surface.</p>
+    <p>The course model <span class="mono">CylinderPlaneWave</span> is axisymmetric: it meshes only the outline of the cylinder and expands an oblique plane wave in circumferential terms (8 of them), which runs out of accuracy above about 4 kHz at oblique angles. It returns the pressure at the face centre, averaged over the face (what a diaphragm feels), or at a field point, and that last option is what explained our data.</p>
   </div>
   <div id="bench-labB"></div>
 
   <div class="block">
     <h3><span class="eyebrow">What we got</span>Right ordering, right level to 2 kHz, and a notch that gives away the tip gap</h3>
     <div class="table-wrap"><table>
-      <tr><th>angle</th><th>125–200 Hz</th><th>maximum below 2 kHz</th><th>at 1345 Hz</th><th>BEM, face centre</th></tr>
-      <tr><td>0°</td><td>+0.8 dB</td><td><b>+8.6 dB at 1155 Hz</b></td><td>+8.1</td><td>+9.9 dB at 1345 Hz</td></tr>
-      <tr><td>15°</td><td>+0.8</td><td>+8.4 at 972</td><td>+7.7</td><td>+9.4</td></tr>
-      <tr><td>30°</td><td>+0.7</td><td>+7.2 at 917</td><td>+5.8</td><td>+8.3</td></tr>
-      <tr><td>45°</td><td>+0.6</td><td>+6.5 at 891</td><td>+5.0</td><td>+6.7 at 1068 Hz</td></tr>
-      <tr><td>60°</td><td>+0.4</td><td>+5.4 at 917</td><td>+3.8</td><td>+5.0</td></tr>
-      <tr><td>75°</td><td>+0.2</td><td>+3.6 at 1995</td><td>+1.6</td><td>+3.0</td></tr>
-      <tr><td>90°</td><td>0.0</td><td>+2.1 at 891</td><td>+0.3</td><td>+1.7 at 673 Hz</td></tr>
+      <tr><th>angle</th><th>125–200 Hz</th><th>maximum below 2 kHz</th><th>at 1345 Hz: measured / BEM</th><th>BEM face centre, maximum</th></tr>
+      <tr><td>0°</td><td>+0.8 dB</td><td><b>+8.6 dB at 1155 Hz</b></td><td>+8.1 / +9.9</td><td>+9.9 dB at 1345 Hz</td></tr>
+      <tr><td>15°</td><td>+0.8</td><td>+8.4 at 972</td><td>+7.8 / +9.4</td><td>+9.4 at 1199</td></tr>
+      <tr><td>30°</td><td>+0.7</td><td>+7.2 at 917</td><td>+6.0 / +8.1</td><td>+8.3 at 1131</td></tr>
+      <tr><td>45°</td><td>+0.6</td><td>+6.5 at 891</td><td>+5.3 / +6.2</td><td>+6.7 at 1068</td></tr>
+      <tr><td>60°</td><td>+0.4</td><td>+5.4 at 917</td><td>+4.2 / +4.2</td><td>+5.0 at 951</td></tr>
+      <tr><td>75°</td><td>+0.2</td><td>+3.6 at 1995</td><td>+1.9 / +2.2</td><td>+3.3 at 848</td></tr>
+      <tr><td>90°</td><td>0.0</td><td>+2.1 at 891</td><td>+0.6 / +0.3</td><td>+1.7 at 673</td></tr>
     </table></div>
-    <p>Below 200 Hz (<span class="m">ka &lt; 0.5</span>) every angle is 0 dB: the body is invisible. From there to 2 kHz the measured curves sit on the BEM curves for the same angles within about 1 dB, 0° on top and 90° at the bottom. The 0° maximum is 1.3 dB low and 15 % early, everything falls away above 2 kHz, and there are notches of 10–19 dB between 2.5 and 6 kHz that the face-centre model does not have.</p>
-    <div class="callout real"><span class="eyebrow">The notch is the tip gap</span><p>The BEM evaluated <b>3 cm in front of the face</b> reproduces the measured 0° curve within 1.5 dB from 200 Hz to 3.5 kHz: same maximum (+8.7 dB at 1.1–1.2 kHz), same dip at 2.5 kHz, a −21 dB notch at 4.0 kHz against our −18 dB at 3.9 kHz, same return to +9 dB at 5 kHz. A rigid face builds a standing wave in front of itself and a quarter wavelength out the incident and reflected waves cancel: λ/4 = 2.2 cm at 3.9 kHz, and the gap was 2–3 cm. So the data is a good free-field correction up to 2 kHz and a good measurement of "2–3 cm in front of a scatterer" above that. Next time: tip flush, and a reference before <i>and</i> after.</p></div>
-    <p><b>Part 0, done last</b> (so the microphone never moved during the series): moving the UMIK from 0.93 m to 1.4 m and 2.8 m without the mock-up gave −3.66 and −9.61 dB between 125 and 400 Hz against −3.55 and −9.57 dB from 1/r. Free field to 0.1 dB in that band; ±3 dB ripples above 400 Hz from the stand and the cabinet; below 100 Hz the room. (The lab-PC file says "1.8 m"; the −9.6 dB says 2.8 m, and so did the tape.)</p>
-    <p class="muted">Not recorded on the day: the mock-up diameter (250 mm nominal is used, and the low-frequency rise matches it within 1 dB), the temperature, the amplifier setting (unchanged all session). The course script saved only the ratio <span class="mono">h</span>, so the frequency axis was rebuilt from the multitone generator and there is no noise-floor plot.</p>
+    <p>Below 200 Hz (<span class="m">ka &lt; 0.5</span>) every angle is within 1 dB of 0 dB: the body is invisible. From there to 2 kHz the measured curves sit on the BEM curves for the same angles within about 1 dB, 0° on top and 90° at the bottom. The 0° maximum is 1.3 dB low and 15 % early, everything falls away above 2 kHz, and there are notches of 10–19 dB between 2.5 and 6 kHz that the face-centre model does not have.</p>
   </div>
+
+  <div id="bench-labBgap"></div>
+
+  <div class="callout real"><span class="eyebrow">The notch is the tip gap</span><p>The BEM evaluated <b>3 cm in front of the face</b> reproduces the measured 0° curve within 1.5 dB from 200 Hz to 3.5 kHz: same maximum (+8.7 dB at 1.1 kHz), same dip at 2.5 kHz, a −21 dB notch at 4.0 kHz against our −18 dB at 3.9 kHz. A BEM sweep of the gap (0, 1, 2, 3, 5 cm) shows only 3 cm gives both. So the data is a good free-field correction up to 2 kHz and a good measurement of "2–3 cm in front of a scatterer" above that. Next time: tip flush, and a reference before <i>and</i> after.</p></div>
 
   <div class="callout trap"><span class="eyebrow">Why more than +6 dB?</span><p>An infinite rigid wall doubles the pressure: +6 dB. The mock-up reaches <b>+9.9 dB at ka ≈ 3</b> because its face has an edge: the wave diffracted at the rim travels back across the face, and at the centre all of it arrives with the same delay, in phase. The centre is the worst point; averaged over the face the maximum is lower, which is what a real diaphragm feels.</p></div>
 
   <div class="block">
     <h3><span class="eyebrow">Afterwards</span>Scaling, and why measurement, BEM and datasheet differ</h3>
     <div class="table-wrap"><table>
-      <tr><th>microphone</th><th>diameter</th><th>scale factor</th><th>0° maximum (1345 Hz on the mock-up) lands at</th></tr>
-      <tr><td>1 inch (B&amp;K 4144/4145)</td><td>23.77 mm</td><td>10.5</td><td>14 kHz</td></tr>
-      <tr><td>1/2 inch</td><td>12.7 mm</td><td>19.7</td><td>26 kHz</td></tr>
-      <tr><td>1/4 inch</td><td>6.35 mm</td><td>39.4</td><td>53 kHz</td></tr>
-      <tr><td>1/8 inch</td><td>3.175 mm</td><td>78.7</td><td>106 kHz</td></tr>
+      <tr><th>microphone</th><th>diameter</th><th>scale factor</th><th>BEM 0° maximum (1345 Hz on the mock-up)</th><th>our 0° maximum (1155 Hz)</th></tr>
+      <tr><td>1 inch (B&amp;K 4144/4145)</td><td>23.77 mm</td><td>10.5</td><td>14 kHz</td><td>12.1 kHz</td></tr>
+      <tr><td>1/2 inch</td><td>12.7 mm</td><td>19.7</td><td>26 kHz</td><td>22.7 kHz</td></tr>
+      <tr><td>1/4 inch</td><td>6.35 mm</td><td>39.4</td><td>53 kHz</td><td>45 kHz</td></tr>
+      <tr><td>1/8 inch</td><td>3.175 mm</td><td>78.7</td><td>106 kHz</td><td>91 kHz</td></tr>
     </table></div>
-    <p><b>Measurement vs BEM:</b> the loudspeaker makes a spherical, not a plane wave; the UMIK is not a point, not exactly at the centre and not exactly flush (see "3 cm in front" in the bench); its body and the stand scatter too; the angle comes from a paper protractor; below 125 Hz the room reflects; the speed of sound on the day shifts the frequency axis. <b>vs the datasheet:</b> a real microphone has a protection grid, its diaphragm averages the pressure, and its body is not a plain cylinder.</p>
+    <p><b>Against the handbook:</b> the mock-up has no protection grid, so compare with the curves <i>without</i> grid. For the 1 inch (B&amp;K handbook Fig. 6.3) that is about +8 dB at 12–13 kHz, and our scaled +8.6 dB at 12.1 kHz lands on it. With the grid (Fig. 6.2) the peak is higher and sharper (about +13 dB near 17 kHz): not comparable. For the 1/2 inch the level agrees but the handbook peak sits higher in frequency (40–50 kHz) than simple scaling predicts, probably because the real diaphragm sits recessed behind the rim and averages the pressure over its area.</p>
+    <p><b>Measurement vs BEM:</b> the loudspeaker makes a spherical, not a plane wave; the UMIK is not a point, not exactly at the centre and not flush; its body and the stand scatter too; the angle comes from a paper protractor (±3°); below 125 Hz the room reflects; the speed of sound on the day shifts the frequency axis; the mock-up diameter was not measured (250 mm nominal).</p>
+    <p class="muted">The course script saved only the ratio <span class="mono">h</span>, so the frequency axis was rebuilt from the multitone generator and there is no noise-floor plot.</p>
+  </div>
+
+  <div class="problems">
+    <h3><span class="eyebrow">At the bench and in the oral</span>Questions Vicente could ask you</h3>
+    <details class="prob"><summary><span class="pid">B1</span><span class="pt">Why do you divide by the measurement without the mock-up?</span><span class="pans">everything else cancels</span></summary><div class="pbody"><p>Each measurement is a product of the amplifier, loudspeaker, propagation path and UMIK responses; the mock-up only adds the scattering factor. The ratio leaves exactly that factor, so we never need to know the loudspeaker or microphone response. It only works if nothing moved between the two measurements.</p></div></details>
+    <details class="prob"><summary><span class="pid">B2</span><span class="pt">What is ka and why is it the only thing that matters?</span><span class="pans">size in wavelengths</span></summary><div class="pbody"><p><span class="m">ka = 2\pi a/\lambda</span>, the radius measured in wavelengths. The wave equation has no built-in length, so the scattering pattern of a given shape depends only on the size relative to the wavelength. That is why a 250 mm cylinder at 1.3 kHz is a 1/2 inch microphone at 26 kHz.</p></div></details>
+    <details class="prob"><summary><span class="pid">B3</span><span class="pt">What happens at low and at high ka?</span><span class="pans">0 dB → +6 dB (+ edge)</span></summary><div class="pbody"><p>Low ka: the wave bends round the body, no build-up, 0 dB. High ka: the face reflects like a wall, the reflected and incident waves add, +6 dB; the rim adds diffracted waves that reach the centre in phase, up to about +10 dB at ka ≈ 3. The correction is largest at 0° and small at 90°.</p></div></details>
+    <details class="prob"><summary><span class="pid">B4</span><span class="pt">Why did you measure at different distances without the mock-up?</span><span class="pans">free field + point source</span></summary><div class="pbody"><p>To check that the level falls as 1/r (−6 dB per doubling): that shows the room is anechoic in that band and the loudspeaker acts as a point source, so the incident wave on the mock-up is (nearly) plane, as the BEM assumes. With 2.8 m as reference we got +6.25 dB at 1.4 m and +9.84 dB at 0.93 m against +6.02 and +9.57 dB from 1/r.</p></div></details>
+    <details class="prob"><summary><span class="pid">B5</span><span class="pt">Why is there a deep notch near 4 kHz in your 0° curve?</span><span class="pans">λ/4 in front of the face</span></summary><div class="pbody"><p>The UMIK tip was 2–3 cm in front of the face. In front of a hard face the incident and reflected waves form a standing wave with a pressure null a quarter wavelength out: λ/4 = 2.2 cm at 3.9 kHz. The BEM at a field point 3 cm in front reproduces the notch; the face-centre BEM has none.</p></div></details>
+    <details class="prob"><summary><span class="pid">B6</span><span class="pt">What is the difference between a free-field and a pressure microphone?</span><span class="pans">compensated vs not</span></summary><div class="pbody"><p>A free-field microphone is designed so that its pressure response times the free-field correction is flat at 0°: it reports the field as it was without the microphone. A pressure microphone is flat to the pressure on its diaphragm and is used where it does not disturb the field (couplers, flush in a wall). In Lab C the free-field 4133 droops by about 8.6 dB at 20 kHz in the actuator test for exactly this reason.</p></div></details>
+    <details class="prob"><summary><span class="pid">B7</span><span class="pt">What does the BEM calculate, and what are its limits here?</span><span class="pans">surface integral equation</span></summary><div class="pbody"><p>It solves the Helmholtz integral equation on the surface mesh of a rigid body in a plane wave, giving the surface pressure and from it the pressure anywhere. Limits: a rigid, ideal cylinder in a plane wave (not a spherical wave from a real loudspeaker), no stand or UMIK body, and only 8 circumferential terms, so oblique curves are unreliable above about 4 kHz.</p></div></details>
+    <details class="prob"><summary><span class="pid">B8</span><span class="pt">Why is the measured maximum lower than the BEM's?</span><span class="pans">not on the face</span></summary><div class="pbody"><p>The UMIK was not at the face centre but a few cm in front of it, where the build-up is smaller and the phase of the reflected wave differs; the 3 cm field-point BEM gives +8.7 dB at 1.1 kHz, matching our +8.6 dB at 1155 Hz. Protractor error, spherical incidence and the nominal diameter add smaller effects.</p></div></details>
   </div>
 
   <div id="quiz-B"></div>
@@ -693,36 +746,136 @@
 
 <section class="lecture" id="labC">
   <div class="lec-head">
-    <div class="eyebrow">Lab C · from 21 Sep · room 026, building 354 · quiz (Lab B + C) due Mon 5 Oct, individual</div>
+    <div class="eyebrow">Lab C · measured Tue 29 Sep 2026 · room 026, building 354 · quiz (Lab B + C) due Mon 5 Oct, individual</div>
     <h2>Lab C: one number from a calibrator, a whole curve from an actuator</h2>
-    <div class="meta">brief: Labs/34870_Lab_C_ActuatorCalibration_E2026.pdf · vault: Lab C - Preparation.md · scripts and LTspice model: 5. Semester/Electroacoustics/Labs/Lab C/ · theory: lectures 5 and 6B</div>
+    <div class="meta">brief: Labs/34870_Lab_C_ActuatorCalibration_E2026.pdf · raw data, MATLAB (part1–part4), LTspice and reference report: 5. Semester/Electroacoustics/Labs/Lab C/ · theory: lectures 5 and 6B</div>
   </div>
-  <div class="one-idea"><span class="eyebrow">The one idea</span>A calibrator or pistonphone puts a <b>known pressure</b> on the microphone at one frequency: that gives the sensitivity in mV/Pa, traceable to the SI. An electrostatic actuator pulls on the bare diaphragm with an electric field: no sound, no scattering, no room, so it gives the <b>shape</b> of the pressure response over the whole band, but no absolute level. Shape from the actuator, level from the calibrator. Then f<sub>s</sub> and Q read off the curve tell you what sits behind the diaphragm.</div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A calibrator puts a <b>known pressure</b> on the microphone at one frequency: that gives the sensitivity in mV/Pa, traceable to the SI. An electrostatic actuator pulls on the bare diaphragm with an electric field: no sound, no scattering, no room, so it gives the <b>shape</b> of the pressure response over the whole band, but no absolute level. Shape from the actuator, level from the calibrator. Then f<sub>s</sub> and Q read off the curve tell you what sits behind the diaphragm.</div>
 
   <div class="block">
-    <h3><span class="eyebrow">The four parts</span>What is measured, and what it is divided by</h3>
+    <h3><span class="eyebrow">Theory 1 · the transducer</span>How a condenser microphone turns pressure into volts</h3>
+    <p>A thin, tensioned metal diaphragm sits <span class="m">x_0 \approx 20\ \mu\text{m}</span> in front of a rigid, perforated <b>backplate</b>. The two form a capacitor, <span class="m">C_{E0} = \varepsilon_0 S_D/x_0 \approx 27\ \text{pF}</span>, charged to the <b>polarisation voltage</b> E = 200 V through a resistor of several GΩ. That resistor is so large that the charge cannot change during one period of any audio frequency: the capsule works at <b>constant charge</b>. With Q fixed, the voltage follows the gap, <span class="m">v = Q/C \propto x_0 - x</span>, so a diaphragm displacement x gives</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">electrical: constant charge</span><div class="M">e = E\,\frac{x}{x_0}</div><p>the output is proportional to <b>displacement</b></p></div>
+      <div class="fcard"><span class="eyebrow">mechanical: stiffness controlled</span><div class="M">x = C_{MT}\,S_D\,p \quad (f \ll f_s)</div><p>force S<sub>D</sub>p on a spring of compliance C<sub>MT</sub></p></div>
+      <div class="fcard"><span class="eyebrow">so the sensitivity is</span><div class="M">M = \frac{e}{p} = \frac{E\,C_{MT}\,S_D}{x_0} = 11.14\ \text{mV/Pa}</div><p>with the brief's numbers: E = 200 V, C<sub>MT</sub> = 18.4 µm/N, S<sub>D</sub> = 62.9 mm², x<sub>0</sub> = 20.77 µm</p></div>
+    </div>
+    <div class="tri">
+      <div class="dom el"><h4>Electrical <span class="u">E, x₀, C<sub>E0</sub></span></h4><p>E/x₀ is the coupling: it sets the level, nothing else. Bigger E or smaller gap = more sensitive, until the electrostatic pull collapses the diaphragm onto the backplate.</p></div>
+      <div class="dom me"><h4>Mechanical <span class="u">M<sub>MD</sub>, C<sub>MD</sub></span></h4><p>The diaphragm: 1.5 mg of mass, its tension a compliance of 0.02 mm/N. Alone it would resonate at 28.4 kHz.</p></div>
+      <div class="dom ac"><h4>Acoustical <span class="u">M<sub>AS</sub>, R<sub>AS</sub>, C<sub>AB</sub></span></h4><p>Behind the diaphragm, air is squeezed sideways through the thin gap and the backplate holes (mass M<sub>AS</sub> and viscous loss R<sub>AS</sub>) into the back volume (126 mm³, a spring C<sub>AB</sub>). A tiny <b>vent</b> lets the static pressure equalise, so the capsule does not respond to weather: a high-pass corner at a few Hz.</p></div>
+    </div>
+    <p>The back volume is a second spring in series with the diaphragm's tension: <span class="m">1/C_{MT} = 1/C_{MD} + S_D^2/C_{AB}</span>, stiffening it by 9 % (0.02 → 0.0184 mm/N). Our measured phase leads by about +6° at 20 Hz, which is that low-frequency corner (vent, preamplifier input, Nexus high-pass) sitting near 2 Hz.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 2 · the response shape</span>Stiffness below, mass above, damping in between</h3>
+    <p>Seen from the diaphragm everything is in series: one mass (diaphragm plus the air it drags through the backplate), one resistance, one spring. Output follows displacement, and displacement per force is <span class="m">1/(j\omega Z_M)</span>:</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">series mechanical impedance</span><div class="M">Z_M = j\omega M_{MT} + R_{MT} + \frac{1}{j\omega C_{MT}}</div><p><span class="m">M_{MT} = M_{MD} + S_D^2(M_{A1} + M_{AS})</span>, <span class="m">R_{MT} = S_D^2 R_{AS}</span></p></div>
+      <div class="fcard"><span class="eyebrow">second-order low-pass</span><div class="M">\frac{e}{p} = \frac{M}{1 - (f/f_s)^2 + j (f/f_s)/Q}</div><p><span class="m">f_s = \frac{1}{2\pi\sqrt{M_{MT}C_{MT}}}</span>, <span class="m">Q = \frac{1}{R_{MT}}\sqrt{\frac{M_{MT}}{C_{MT}}}</span></p></div>
+      <div class="fcard"><span class="eyebrow">reading it off a measurement</span><div class="M">\angle H(f_s) = -90^\circ, \qquad Q = \frac{|H(f_s)|}{|H(f \ll f_s)|}</div><p>Q is a linear ratio; a response that is <i>down</i> at f<sub>s</sub> has Q &lt; 1</p></div>
+    </div>
+    <div class="table-wrap"><table>
+      <tr><th>region</th><th>what dominates Z<sub>M</sub></th><th>displacement</th><th>response</th><th>phase</th></tr>
+      <tr><td>f ≪ f<sub>s</sub></td><td class="me">spring 1/jωC<sub>MT</sub></td><td>x = C<sub>MT</sub>S<sub>D</sub>p</td><td>flat: the useful band</td><td>0°</td></tr>
+      <tr><td>f = f<sub>s</sub></td><td class="ac">resistance R<sub>MT</sub> (mass and spring cancel)</td><td>x = S<sub>D</sub>p/(jω<sub>s</sub>R<sub>MT</sub>)</td><td>Q × the flat level</td><td>−90°</td></tr>
+      <tr><td>f ≫ f<sub>s</sub></td><td class="me">mass jωM<sub>MT</sub></td><td>x = −S<sub>D</sub>p/(ω²M<sub>MT</sub>)</td><td>falls 12 dB/octave</td><td>−180°</td></tr>
+    </table></div>
+    <p>So the designer's knobs: <b>M<sub>AS</sub> sets f<sub>s</sub></b> (the air in the backplate holes about doubles the moving mass, 28.4 → 20 kHz), and <b>R<sub>AS</sub> sets Q</b>, i.e. whether the capsule is flat (pressure type, Q ≈ 0.7–1) or droops early (free-field type, Q ≈ 0.3–0.5, the droop Lab B's free-field correction fills back in).</p>
+  </div>
+  <div id="bench-labCcap"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 3 · the two excitations</span>Calibrator for the level, actuator for the shape</h3>
+    <div class="two">
+      <div class="dom ac"><h4>Sound calibrator / pistonphone</h4><p>A closed coupler much smaller than the wavelength, so the pressure is uniform and known: the device's certificate states it for a microphone of this type inserted. 94 dB = 1.00 Pa, 114 dB = 10.0 Pa. <b>1 kHz</b> is the reference frequency of acoustics (A-weighting is 0 dB there, a 1/2 inch microphone's free-field correction is practically 0 dB). <b>250 Hz</b> is the pistonphone's frequency: a cam-driven piston changes the volume by a known ΔV, <span class="m">p = \gamma P_0 \Delta V/V</span>, so it needs a barometer correction. Our three GRAS 42AG units do both frequencies.</p></div>
+      <div class="dom el"><h4>Electrostatic actuator</h4><p>A slotted metal grid a fraction of a mm above the diaphragm, fed with a high DC plus the AC signal. The electrostatic force is <span class="m">F \propto U_{DC}\,u_{ac}/d^2</span>, spread evenly over the diaphragm and independent of frequency: an equivalent pressure. No sound field, no scattering, no room, so you get the <b>pressure response shape</b> to far above what any calibrator reaches, but not its level: d and the voltages are not known well enough to compute the force in pascals.</p></div>
+    </div>
+    <p>That is why the lab combines them: scale the actuator curve so it passes through the calibrator's value at 1 kHz,</p>
+    <div class="M">M(f) = M(1\ \text{kHz})\,\frac{H_{pv}(f)}{|H_{pv}(1\ \text{kHz})|}</div>
+    <p>The calibrator gives a <i>pressure</i> sensitivity (closed coupler), and so does the actuator, so the two are compatible for both capsule types. For the free-field 4133 the free-field response would be this times the free-field correction of Lab B.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 4 · the measurement chain</span>Multitone, a system reference, and Nyquist</h3>
+    <p>The NI card plays a <b>multitone</b>: 70 sines, 6 per octave from 20 Hz, each on an exact FFT bin (1 Hz resolution, 1 s period) with random phases. One period is thrown away (transients), the next are <b>averaged in time</b>, synchronised to the signal. Then one FFT gives every tone at once, and the ratio of the two input channels is the transfer function <span class="m">H_{21} = V_{AI1}/V_{AI0}</span>.</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">Part 1: the chain alone</span><div class="M">H_{21,ref} = \frac{V_{AI1}}{V_{AI0}}\Big|_{\text{loop-back via Nexus}}</div><p>ideally 1. Measured: within 0.15 dB, but the phase falls to −48° at 42 kHz: a 3.2 µs delay between the channels</p></div>
+      <div class="fcard"><span class="eyebrow">Part 3: remove it</span><div class="M">H_{pv} = \frac{H_{21}}{H_{21,ref}}</div><p>a complex division: it corrects magnitude <i>and</i> phase. Without it the −90° crossing of Mic 1 lands near 17 kHz instead of 20.2 kHz</p></div>
+      <div class="fcard"><span class="eyebrow">sampling</span><div class="M">f_{Nyq} = \frac{f_{sample}}{2} = \frac{96\ \text{kHz}}{2} = 48\ \text{kHz}</div><p>the brief asks for f2 = 60 kHz. The 53.6 kHz tone folds to 96 − 53.6 = 42.4 kHz and the 47.8 kHz tone sits on the anti-aliasing edge: both dropped, usable band 20 Hz–42.7 kHz</p></div>
+    </div>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">averaging</span><div class="M">\text{SNR gain} = 10\log_{10} N</div><p>synchronous averaging keeps the signal and shrinks random noise amplitude by √N. 4 → 64 averages: 12 dB expected, <b>11.6 dB measured</b></p></div>
+      <div class="fcard"><span class="eyebrow">our noise floor (Mic 2)</span><div class="M">\text{SNR} = 60\text{–}90\ \text{dB}; \ \text{worst } 46 / 60\ \text{dB at 20 Hz}</div><p>for Nav = 4 / 64. Room noise is worst at low frequency; the noise does not affect the responses</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Theory 5 · metrology, with our own numbers</span>Repeatability is not accuracy</h3>
+    <div class="table-wrap"><table>
+      <tr><th>term</th><th>meaning</th><th>in our Lab C</th></tr>
+      <tr><td>repeatability</td><td>spread under the same conditions</td><td>three calibrators, same mic, 1 kHz: <b>0.2 %</b> (0.02 dB)</td></tr>
+      <tr><td>reproducibility</td><td>spread when a condition changes (method, device, operator, day)</td><td>250 Hz vs 1 kHz: <b>−0.35 dB (4 %)</b> for Mic 1, −0.32 dB for Mic 2</td></tr>
+      <tr><td>true value</td><td>what we want; never known exactly</td><td>the 4 % offset is ten times the spread and invisible in it: a small spread says nothing about closeness to the truth</td></tr>
+      <tr><td>Type A / Type B</td><td>uncertainty from statistics of repeats / from other knowledge (certificate, specification)</td><td>A: s/√3 = 0.12 %. B: calibrator ±0.2 dB (assumed class-1 tolerance, rectangular) = 1.3 %, which dominates</td></tr>
+      <tr><td>combined, expanded</td><td><span class="m">u_c = \sqrt{\sum u_i^2}</span>; <span class="m">U = k\,u_c</span>, k = 2 ≈ 95 % coverage</td><td>u<sub>c</sub> ≈ 1.4 %, <b>U ≈ 2.8 %</b>: Mic 1 = 10.98 ± 0.31 mV/Pa</td></tr>
+      <tr><td>traceability</td><td>unbroken chain of calibrations to the SI</td><td>42AG ← laboratory standard microphone ← primary reciprocity calibration at the national institute (DFM)</td></tr>
+    </table></div>
+    <p>The 250/1 kHz offset is the same for both microphones and all three calibrators, so it belongs to the method. The likely cause is <span class="mono">Calibrate.m</span> itself: at 250 Hz it sums only six FFT bins ending at the nominal frequency (it was written for a 251.2 Hz pistonphone), while at 1 kHz it sums seventeen bins around the tone.</p>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">Our blunder, and how it was caught</span><p>On the lab PC the <b>dB value</b> of H<sub>21,ref</sub> (−0.0036 dB) was typed in where the formula wants the <b>magnitude</b> (0.9996). Every sensitivity came out about 277 times too large, around 3 V/Pa. That is not an uncertainty; it is a mistake, and the defence is a plausibility check: a 1/2 inch condenser microphone is around 10 mV/Pa. Multiplying back by the typed number gives the corrected values below.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">What we got</span>29 Sep 2026, Group 10</h3>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>Mic 1 = B&amp;K 4134 (pressure)</th><th>Mic 2 = B&amp;K 4133 (free field)</th></tr>
+      <tr><td>M at 1 kHz (mean of 3 calibrators)</td><td><b>10.98 mV/Pa</b> (−39.19 dB re 1 V/Pa)</td><td><b>13.03 mV/Pa</b> (−37.70 dB)</td></tr>
+      <tr><td>M at 250 Hz</td><td>10.54 mV/Pa</td><td>12.56 mV/Pa</td></tr>
+      <tr><td>actuator response at 10 / 20 kHz</td><td>+0.55 / −1.4 dB</td><td>−3.6 / −8.6 dB</td></tr>
+      <tr><td>f<sub>s</sub>, Q (slide procedure)</td><td>20.2 kHz, 0.84</td><td>22.9 kHz, 0.34</td></tr>
+      <tr><td>f<sub>s</sub>, Q (whole-curve fit)</td><td>20.8 kHz, 0.81</td><td>21.1 kHz, 0.39</td></tr>
+      <tr><td>backplate M<sub>AS</sub>, R<sub>AS</sub></td><td>420.5 kg/m⁴, 1.29×10⁸ Pa·s/m³</td><td>231.4 kg/m⁴, 2.80×10⁸ Pa·s/m³</td></tr>
+      <tr><td>model vs calibration at low f</td><td>−0.13 dB</td><td>−1.36 dB</td></tr>
+    </table></div>
+    <p>The capsules were only labelled "Mic 1" and "Mic 2": the response shapes identify them. Mic 1 is flat with a small rise before resonance, a pressure capsule. Mic 2 is heavily damped, a free-field capsule. The free-field one has twice the backplate resistance: that is its damping. The 4134 is a textbook second-order system; the 4133 is not, its phase flattens near −75° between 10 and 20 kHz, because its air-film damping changes with frequency.</p>
+  </div>
+  <div id="bench-labC"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The lab procedure</span>What is measured, and what it is divided by</h3>
     <div class="table-wrap"><table>
       <tr><th>part</th><th>setup</th><th>result</th></tr>
-      <tr><td>1</td><td>AO0 → AI0, and AO0 → Nexus → AI1</td><td><span class="m">H_{21,ref}</span>: the measurement chain itself. Note its value at 250 Hz and 1 kHz</td></tr>
-      <tr><td>2</td><td>each microphone in each calibrator and the pistonphone</td><td><span class="m">M = \text{Calibrate}(f, SPL, 1)/|H_{21}(f)|</span>, with f and SPL from <b>that device's</b> sticker. Repeat 2–3 times</td></tr>
-      <tr><td>3b</td><td>actuator on the diaphragm, supply OFF, Nav = 4 then 64</td><td>noise floor: 16× more synchronous averages lower uncorrelated noise by 12 dB</td></tr>
-      <tr><td>3c</td><td>supply ON, door closed, quiet</td><td><span class="m">H_{pv} = H_{21}/H_{21,ref}</span> for the 4133 and the 4134</td></tr>
+      <tr><td>1</td><td>AO0 → AI0, and AO0 → Nexus → AI1</td><td><span class="m">H_{21,ref}</span>: the measurement chain itself. Note its <b>magnitude</b> at 250 Hz and 1 kHz</td></tr>
+      <tr><td>2</td><td>each microphone in each calibrator</td><td><span class="m">M = \text{Calibrate}(f, SPL, 1)/|H_{21,ref}(f)|</span>, with f and SPL from <b>that device's</b> label</td></tr>
+      <tr><td>3b</td><td>actuator on the diaphragm, supply OFF, Nav = 4 then 64</td><td>noise floor</td></tr>
+      <tr><td>3c</td><td>supply ON, door closed, quiet</td><td><span class="m">H_{pv} = H_{21}/H_{21,ref}</span> for both capsules</td></tr>
+      <tr><td>analysis</td><td>f<sub>s</sub>, Q → M<sub>AS</sub>, R<sub>AS</sub> → LTspice</td><td>no G<sub>pb</sub> / T(s) generator: the actuator makes no sound field</td></tr>
     </table></div>
-    <p>Nexus channel 1: 10 mV/Pa in and out (gain 1), HP 0.1 Hz, LP 100 kHz, polarization 200 V. 94 dB is 1.00 Pa, 114 dB is 10.0 Pa, 124 dB is 31.7 Pa. Nominal sensitivity of both capsules: 12.5 mV/Pa = −38.1 dB re 1 V/Pa.</p>
+    <p>Nexus channel 1: 10 mV/Pa in and out (gain 1), HP 0.1 Hz, LP 100 kHz, polarisation 200 V. The analysis scripts (<span class="mono">Lab C/matlab/part1…part4</span>) read the untouched lab-PC files in <span class="mono">Lab C/raw data/</span>.</p>
   </div>
 
   <div class="callout trap"><span class="eyebrow">Three ways to break something</span><p><b>Never touch a diaphragm</b> (lower the actuator one leg first). The actuator supply is <b>on only while measuring</b>. The Nexus must <b>already be on</b> when the microphone cable goes in, and the cable comes out of the Nexus every time you change capsule, or it re-reads the preamplifier and changes its own settings.</p></div>
 
-  <div class="block">
-    <h3><span class="eyebrow">Analysis</span>From two numbers to the backplate</h3>
-    <p>f<sub>s</sub> is where the phase has dropped 90° from its low-frequency value; Q is the linear ratio |H(f<sub>s</sub>)|/|H(f ≪ f<sub>s</sub>)|, so a response that is <i>down</i> at resonance has Q &lt; 1. A pressure-type capsule is built flat in this measurement (Q ≈ 0.7–1). A free-field capsule must droop by the free-field correction of Lab B (up to about 10 dB near 20 kHz for a 1/2 inch), so it is heavily damped (Q ≈ 0.3–0.5). The curve that falls early is the free-field type.</p>
+  <div class="problems">
+    <h3><span class="eyebrow">At the bench and in the oral</span>Questions Vicente could ask you</h3>
+    <details class="prob"><summary><span class="pid">C1</span><span class="pt">Why is the output of a condenser microphone proportional to displacement?</span><span class="pans">constant charge</span></summary><div class="pbody"><p>The polarisation resistor is so large that the charge on the capacitor cannot change within an audio period. With constant charge, V = Q/C and C = ε₀S/(x₀ − x), so the voltage changes linearly with the gap: e = E·x/x₀.</p></div></details>
+    <details class="prob"><summary><span class="pid">C2</span><span class="pt">Derive the sensitivity.</span><span class="pans">M = E·C_MT·S_D/x₀</span></summary><div class="pbody"><p>Below resonance the diaphragm is stiffness controlled: x = C<sub>MT</sub>·F = C<sub>MT</sub>·S<sub>D</sub>·p. Then e = E·x/x₀ = E·C<sub>MT</sub>·S<sub>D</sub>·p/x₀. With the brief's numbers 11.14 mV/Pa; we measured 10.98 (4134) and 13.03 (4133) mV/Pa.</p></div></details>
+    <details class="prob"><summary><span class="pid">C3</span><span class="pt">Why is the response a second-order low-pass?</span><span class="pans">mass–spring–damper, output ∝ x</span></summary><div class="pbody"><p>The diaphragm, the air in the backplate and the back volume make one series mass, resistance and compliance. Displacement per force is C<sub>MT</sub>/(1 − ω²M<sub>MT</sub>C<sub>MT</sub> + jωR<sub>MT</sub>C<sub>MT</sub>): flat below f<sub>s</sub> (spring), −12 dB/octave above (mass), −90° at f<sub>s</sub> where only the resistance is left.</p></div></details>
+    <details class="prob"><summary><span class="pid">C4</span><span class="pt">How do you find f_s and Q from your measurement?</span><span class="pans">−90° phase, level ratio</span></summary><div class="pbody"><p>f<sub>s</sub> where the corrected phase crosses −90°, Q as the linear ratio of the level there to the low-frequency level. Mic 1: 20.2 kHz, Q 0.84. Mic 2: 22.9 kHz, Q 0.34. For Mic 2 a whole-curve fit gives 21.1 kHz, Q 0.39: its damping is not a single lumped resistance.</p></div></details>
+    <details class="prob"><summary><span class="pid">C5</span><span class="pt">Which microphone is the free-field one, and why is it made like that?</span><span class="pans">Mic 2, over-damped</span></summary><div class="pbody"><p>Mic 2 (4133): it droops early in the actuator (pressure) response, −8.6 dB at 20 kHz. In a free field its own body raises the pressure on the diaphragm by the free-field correction (Lab B), and the droop is designed to cancel it so the free-field response is flat at 0°.</p></div></details>
+    <details class="prob"><summary><span class="pid">C6</span><span class="pt">Why do you need both a calibrator and the actuator?</span><span class="pans">level vs shape</span></summary><div class="pbody"><p>The calibrator gives a known pressure, so an absolute sensitivity, but at one frequency. The actuator gives the response at all frequencies, without scattering or room effects, but the force in pascals is unknown (grid distance and voltages are not known precisely). Scale the actuator curve to the calibrator value at 1 kHz.</p></div></details>
+    <details class="prob"><summary><span class="pid">C7</span><span class="pt">Why divide by H_21,ref, and why complex?</span><span class="pans">removes the chain, incl. delay</span></summary><div class="pbody"><p>It removes the Nexus and card responses, including a 3.2 µs delay between the input channels that is −48° of phase at 42 kHz. f<sub>s</sub> is read from the phase, so without the complex correction it comes out several kHz too low.</p></div></details>
+    <details class="prob"><summary><span class="pid">C8</span><span class="pt">Your three calibrators agree to 0.2 %. Is the sensitivity then known to 0.2 %?</span><span class="pans">no: repeatability ≠ accuracy</span></summary><div class="pbody"><p>No. 0.2 % is repeatability. Changing the method (250 Hz vs 1 kHz) shifted the result by 4 %, a systematic effect the spread cannot see. The uncertainty is dominated by the calibrators' own (Type B) uncertainty: about ±0.2 dB each, giving U ≈ 2.8 % at k = 2.</p></div></details>
+    <details class="prob"><summary><span class="pid">C9</span><span class="pt">Why did you drop the top frequencies?</span><span class="pans">above Nyquist</span></summary><div class="pbody"><p>The card samples at 96 kHz, so nothing above 48 kHz can be measured. The 53.6 kHz tone aliases to 42.4 kHz, and the 47.8 kHz tone is on the anti-aliasing filter edge (−5.8 dB in the reference). The usable band is 20 Hz to 42.7 kHz.</p></div></details>
+    <details class="prob"><summary><span class="pid">C10</span><span class="pt">What does 64 instead of 4 averages buy you?</span><span class="pans">12 dB less noise</span></summary><div class="pbody"><p>Synchronous averaging leaves the multitone unchanged and reduces random noise by √N in amplitude, so 16 times more averages lowers the noise by 10·log₁₀16 = 12 dB. We measured 11.6 dB, showing the noise is random, not a disturbance locked to the signal.</p></div></details>
   </div>
-  <div id="bench-labC"></div>
-  <div class="callout"><span class="eyebrow">A trap in the slide procedure</span><p>A heavily damped capsule has already lost several degrees of phase at 1 kHz. Take "mid-band" there and the −90° point lands about 2 % too high. Reference the phase to 60–300 Hz, or fit <span class="m">G/(1-x^2+jx/Q)</span> to the complex data, which needs no reference at all. <span class="mono">process_labC.m</span> does both and prints the <span class="mono">.param fs Q</span> line for the LTspice sheet, where M<sub>AS</sub> and R<sub>AS</sub> are computed by LTspice itself.</p></div>
 
   <div id="quiz-C"></div>
 </section>
 
+<!-- ============================== summary ============================== -->
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -773,7 +926,7 @@
 </section>
 
 <footer>
-  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–7 notes, Problems 4–7 (4–6 with official solutions), Lab A runthrough); last extended 24 Sep 2026 with lecture 7. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–7 notes, Problems 4–7 (4–6 with official solutions), Lab A runthrough); last extended 24 Sep 2026 with lecture 7. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>
@@ -783,6 +936,7 @@
 <script src="benches.js"></script>
 <script src="labB_data.js"></script>
 <script src="labB_measured.js"></script>
+<script src="labC_measured.js"></script>
 <script src="labs.js"></script>
 <script src="problems.js"></script>
 </body>
