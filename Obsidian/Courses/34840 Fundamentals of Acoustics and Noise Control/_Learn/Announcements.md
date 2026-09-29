@@ -1,5 +1,20 @@
 # Announcements
 
+## 2026-09-29 — Estimated lecture start 8.45
+
+.
+
+## 2026-09-29 — Lecture delay estimate 8.30
+
+.
+
+## 2026-09-29 — Lecture info
+
+Due to an accident on the highway the lecture will be start delayed.
+Estimated starting time 8.15
+
+Finn
+
 ## 2026-09-28 — lecture 5 : Radiation of sound
 
 Dear all
