@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-09-29 — Assignment 2
+
+Dear All,
+Hi, for assignment 2, you only need to submit those with titles like Assignment 2.1, 2.2, etc. You do not need to submit those with a problem title.
+Best Regards
+Ashraf
+
 ## 2026-09-20 — Diode Rectifiers (Lecture 3)
 
 Dear All,

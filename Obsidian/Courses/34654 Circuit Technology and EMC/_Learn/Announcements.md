@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-09-29 — Guest lecture on EMC in industry application today
+
+Dear all,
+🧘‍♂️ I invite you again for about 15 minutes guided meditation at the beginning of the lecture today. If that's not your thing, please wait outside and I invite you in, when we are done.〄 Today we are going to have a presentation on how the principles of EMC are relevant in industrial products as a guest lecture from Demant (Oticon).
+🔬 Afterwards there's time for the EMC exercise.All goodArnold
+
 ## 2026-09-21 — Second EMC lecture tomorrow
 
 Dear all,

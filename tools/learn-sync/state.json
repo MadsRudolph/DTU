@@ -1,9 +1,9 @@
 {
   "announcements": {
-    "34654": "188242",
+    "34654": "188826",
     "34840": "188795",
     "34870": "188331",
-    "62755": "188146"
+    "62755": "188807"
   },
   "schema": 1,
   "topics": {
@@ -660,6 +660,12 @@
       "sha256": "2aa5af766f64572a6d610a213602dca2feeba93a8289b60a6264f780e22b30ad",
       "synced_at": "2026-09-28T16:06:26+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems5.pdf"
+    },
+    "1284076": {
+      "revision": "2026-09-29T09:55:41.717Z",
+      "sha256": "9db7beb370e046dc1148accc4d19322be8bc6e9a25fd287d9c415a03f14a4ee0",
+      "synced_at": "2026-09-29T10:07:50+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions week 5.pdf"
     }
   }
 }
