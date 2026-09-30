@@ -744,6 +744,30 @@
       "sha256": "43fbbab83545c644cddd4d1aaf44e389b2768d0ce162d610edd40ec4068b25dd",
       "synced_at": "2026-09-30T16:05:53+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/6 - room acoustics/34840_Room Acoustics.pdf"
+    },
+    "1285354": {
+      "revision": "2026-09-30T18:24:55.863Z",
+      "sha256": "353508828117d7ab88e5ea0f803133b3e780bc87c4aac5ececa3dab15df376f6",
+      "synced_at": "2026-09-30T19:03:29+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Lab 1.pdf"
+    },
+    "1285355": {
+      "revision": "2026-09-30T18:25:12.233Z",
+      "sha256": "c2db9342f9822a198f1c731c2c3e96fd3bed432d930ab7cf9c7996a161d676b4",
+      "synced_at": "2026-09-30T19:03:30+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Diodebro_BR3510.pdf"
+    },
+    "1285356": {
+      "revision": "2026-09-30T18:25:13.150Z",
+      "sha256": "ddb08f73f2ba95d2870e55abb38d1b058714d64680fa7a966e3162e60d25d92d",
+      "synced_at": "2026-09-30T19:03:32+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Ens_retter_boks_lab.pdf"
+    },
+    "1285357": {
+      "revision": "2026-09-30T18:25:13.740Z",
+      "sha256": "84d7743d9ab7264db04a29f7f2d6efa10f9b34a7d45ed82f5154ae4879cd29d8",
+      "synced_at": "2026-09-30T19:03:33+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Kondensator_101102phrst.pdf"
     }
   }
 }

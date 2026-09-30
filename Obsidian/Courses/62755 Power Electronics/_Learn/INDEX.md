@@ -65,3 +65,10 @@ links to where the file actually lives in the vault.*
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/3.CodeGeneration (1).pptx|3.CodeGeneration (1)]]
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/2.Codegeneration.pdf|2.Codegeneration]]
 - [[Courses/62755 Power Electronics/_Learn/Code Generation using MATLAB - Simulink/photo_6044139650269955386_y - Copy.jpg|photo_6044139650269955386_y]]
+
+## Lab 2
+
+- [[Courses/62755 Power Electronics/Labs/Lab 1.pdf|Lab 1]]
+- [[Courses/62755 Power Electronics/Labs/Diodebro_BR3510.pdf|Diodebro_BR3510]]
+- [[Courses/62755 Power Electronics/Labs/Ens_retter_boks_lab.pdf|Ens_retter_boks_lab]]
+- [[Courses/62755 Power Electronics/Labs/Kondensator_101102phrst.pdf|Kondensator_101102phrst]]
