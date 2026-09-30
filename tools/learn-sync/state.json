@@ -631,6 +631,48 @@
       "synced_at": "2026-09-23T16:05:07+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026 - Copy.pptx"
     },
+    "1281678": {
+      "revision": "2026-09-25T07:42:11.880Z",
+      "sha256": "845b6b5714403689b12edd7418d13c80699a9dd4a19577daf90879e12e44d27f",
+      "synced_at": "2026-09-30T16:06:05+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter7_closedbox.pdf"
+    },
+    "1281679": {
+      "revision": "2026-09-25T07:42:51.550Z",
+      "sha256": "c4084e47583315e9fb272ca5cfcb76d246203051254d0ce99ef090912c41141f",
+      "synced_at": "2026-09-30T16:06:07+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter8_ventedbox.pdf"
+    },
+    "1281680": {
+      "revision": "2026-09-25T07:41:18.700Z",
+      "sha256": "774526a355a111c40dfc8dcaafe0c2176c912d4c2def655a7973a6a419ed6040",
+      "synced_at": "2026-09-30T16:06:08+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/VentedBox_Matlab.zip"
+    },
+    "1281681": {
+      "revision": "2025-09-24T12:45:18.323Z",
+      "sha256": "c2be6cec71cb4cad3b2c615b47a02e2f94fcf346debd3b11f53d819258c214ca",
+      "synced_at": "2026-09-30T16:06:03+00:00",
+      "vault_path": "5. Semester/Electroacoustics/Matlab/diffrac.m"
+    },
+    "1281682": {
+      "revision": "2026-09-25T07:39:06.057Z",
+      "sha256": "b50f5276ac39584de312f53dee1e2231c9b55c509e81e011a6eaa16451c05450",
+      "synced_at": "2026-09-30T16:06:02+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_10_Digest_Lab_E.pdf"
+    },
+    "1281701": {
+      "revision": "2026-09-25T08:03:59.897Z",
+      "sha256": "3e4b8c9849a545ad3130f2ec5694b9d6309498cf9e7153bd08b7d6f659d0b0a7",
+      "synced_at": "2026-09-30T16:06:00+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems8_2026.pdf"
+    },
+    "1281708": {
+      "revision": "2026-09-25T09:07:03.937Z",
+      "sha256": "b10d18aefbb28f180544a3ba389099a018c00bbfaf586b6c192486dbe36ae339",
+      "synced_at": "2026-09-30T16:05:59+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_8_E26.pdf"
+    },
     "1282133": {
       "revision": "2026-09-27T08:29:14.770Z",
       "sha256": "441e9c520d00b4f3203a2239e5af3be261637fc16e8f5fa43ad0875c34f7c9bc",
@@ -666,6 +708,42 @@
       "sha256": "9db7beb370e046dc1148accc4d19322be8bc6e9a25fd287d9c415a03f14a4ee0",
       "synced_at": "2026-09-29T10:07:50+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions week 5.pdf"
+    },
+    "1284411": {
+      "revision": "2026-09-29T20:06:16.280Z",
+      "sha256": "ebb439c86dcf15fa1e7b6f1bc2e4da07d920c2d3d0a68b8446ae80705fdc309e",
+      "synced_at": "2026-09-30T16:06:09+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_Lab_D_Loudspeakers1_E2026.pdf"
+    },
+    "1284412": {
+      "revision": "2026-09-30T16:02:15.090Z",
+      "sha256": "c882a76117895301b6f4f45503b958f0fc8f5212d4aef1f2fa8003e7e54db865",
+      "synced_at": "2026-09-30T16:06:11+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/Matlab files - Lab D.zip"
+    },
+    "1284413": {
+      "revision": "2026-09-29T20:07:25.930Z",
+      "sha256": "028b20eb3419d27f6d244d446a7c393a174507f34e0a8a02f5e926e5c5a7c1ac",
+      "synced_at": "2026-09-30T16:06:12+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_Lab_E_Loudspeakers2_E2026.pdf"
+    },
+    "1284414": {
+      "revision": "2026-09-29T20:07:50.170Z",
+      "sha256": "8930dbaacf89f0f76580db6ccb5e3f2dae7a40234a8abcb87de4fa47b6f803ec",
+      "synced_at": "2026-09-30T16:06:14+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/Matlab files - Lab E.zip"
+    },
+    "1285260": {
+      "revision": "2026-09-30T14:20:12.927Z",
+      "sha256": "8066cdae95b15d7f7d64186f72b9e26c4e8fe1e00e6f32a771514436097a064e",
+      "synced_at": "2026-09-30T16:05:51+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_roomacoustics6.pdf"
+    },
+    "1285262": {
+      "revision": "2026-09-30T14:21:56.313Z",
+      "sha256": "43fbbab83545c644cddd4d1aaf44e389b2768d0ce162d610edd40ec4068b25dd",
+      "synced_at": "2026-09-30T16:05:53+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/6 - room acoustics/34840_Room Acoustics.pdf"
     }
   }
 }

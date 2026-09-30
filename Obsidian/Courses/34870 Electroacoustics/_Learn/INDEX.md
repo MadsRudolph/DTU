@@ -64,6 +64,16 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions7_2026.pdf|Problems 7 - Loudspeakers 1 - SOLUTIONS]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_7_E26.mp4|Lecture 7 - Commented slides]]
 
+## Lecture 8 - Loudspeaker enclosures
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_8_E26.pdf|Lecture 8 - Loudspeaker enclosures]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Problems8_2026.pdf|Problems 8 - Loudspeakers 2]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_10_Digest_Lab_E.pdf|Digest of Lecture 10 for Lab E]]
+- [[5. Semester/Electroacoustics/Matlab/diffrac.m|"Diffrac" Matlab script for baffle effect calculation]]
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter7_closedbox.pdf|Leach 4th ed. chapter 7: closed box]]
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter8_ventedbox.pdf|Leach 4th ed. chapter 8: vented box]]
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/VentedBox_Matlab.zip|Matlab functions for vented box design]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
@@ -79,3 +89,13 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Labs/34870_Lab_C_ActuatorCalibration_E2026.pdf|Lab C – Microphone calibration - Description]]
 - [[Courses/34870 Electroacoustics/Labs/34870_LabC_MatlabFiles.zip|Lab C – Measurement files]]
+
+## Lab D - Loudspeaker impedance and near field
+
+- [[Courses/34870 Electroacoustics/Labs/34870_Lab_D_Loudspeakers1_E2026.pdf|Lab D - Loudspeaker impedance and near field - Description]]
+- [[Courses/34870 Electroacoustics/Labs/Matlab files - Lab D.zip|Lab D - Measurement files]]
+
+## Lab E - Loudspeaker frequency response in free field
+
+- [[Courses/34870 Electroacoustics/Labs/34870_Lab_E_Loudspeakers2_E2026.pdf|Lab E - Loudspeaker response in free field - Description]]
+- [[Courses/34870 Electroacoustics/Labs/Matlab files - Lab E.zip|Lab E - Measurement files]]

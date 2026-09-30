@@ -54,3 +54,8 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026.pptx|34840_Lecture5_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems5.pdf|34840_Problems5]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions week 5.pdf|34840_Solutions week 5]]
+
+## 6 - room acoustics
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_roomacoustics6.pdf|34840_Problems_roomacoustics6]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/6 - room acoustics/34840_Room Acoustics.pdf|34840_Room Acoustics]]
