@@ -68,6 +68,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_8_E26.pdf|Lecture 8 - Loudspeaker enclosures]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Problems8_2026.pdf|Problems 8 - Loudspeakers 2]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions8_2026.pdf|Problems 8 - Loudspeakers 2 - SOLUTIONS]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_10_Digest_Lab_E.pdf|Digest of Lecture 10 for Lab E]]
 - [[5. Semester/Electroacoustics/Matlab/diffrac.m|"Diffrac" Matlab script for baffle effect calculation]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter7_closedbox.pdf|Leach 4th ed. chapter 7: closed box]]
@@ -77,7 +78,7 @@ links to where the file actually lives in the vault.*
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
-- [[Courses/34870 Electroacoustics/Labs/34870_LabAfeedback.pdf|34870_LabAfeedback]]
+- [[Courses/34870 Electroacoustics/Labs/34870_LabAfeedback (2).pdf|34870_LabAfeedback]]
 
 ## Lab B – Microphone scattering
 

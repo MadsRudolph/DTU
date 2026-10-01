@@ -667,6 +667,12 @@
       "synced_at": "2026-09-30T16:06:00+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Problems8_2026.pdf"
     },
+    "1281702": {
+      "revision": "2026-09-25T08:05:51.097Z",
+      "sha256": "f076329b6b3c66b19216895e7cc2cb515dc968a381f28f2f032dc91aa875aa27",
+      "synced_at": "2026-10-01T10:09:44+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions8_2026.pdf"
+    },
     "1281708": {
       "revision": "2026-09-25T09:07:03.937Z",
       "sha256": "b10d18aefbb28f180544a3ba389099a018c00bbfaf586b6c192486dbe36ae339",
@@ -768,6 +774,12 @@
       "sha256": "84d7743d9ab7264db04a29f7f2d6efa10f9b34a7d45ed82f5154ae4879cd29d8",
       "synced_at": "2026-09-30T19:03:33+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Kondensator_101102phrst.pdf"
+    },
+    "1285581": {
+      "revision": "2026-10-01T09:27:53.697Z",
+      "sha256": "d50250d6278df58d27c4931aa664177c3ac86ca144e27bde0ca36a742060de90",
+      "synced_at": "2026-10-01T10:09:45+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_LabAfeedback (2).pdf"
     }
   }
 }
