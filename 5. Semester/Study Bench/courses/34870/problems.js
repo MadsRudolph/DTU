@@ -290,6 +290,56 @@ window.PROBLEMS = {
       bench: "#bench-driver", benchLabel: "driver bench: switch the coil between R_E, lossy and ideal L_E",
     },
   ],
+  "8": [
+    {
+      id: "Sheet 8 · 1a", title: "Closed box: lowest −3 dB cut-off for three Peerless woofers", tag: "51.2 Hz, 38.8 L · 37.8 Hz, 104 L · 64 Hz, 12.2 L",
+      given: `Baffle data: CSX 217C f<sub>S</sub> = 34 Hz, Q<sub>TS</sub> = 0.47, V<sub>AS</sub> = 49 L; SWR 263 27.8 Hz, 0.52, 88 L; SWR 308 18.1 Hz, 0.2, 140 L. For each, find the lowest −3 dB cut-off in a closed box and the box volume V<sub>AB</sub>. Ignore damping material; same air loads as on the baffle.`,
+      hint: `The lowest f₃ of a 2nd-order high-pass is at <span class="m">Q_{TC} = 1/\\sqrt2</span>, where f₃ = f<sub>C</sub>. The box multiplies both Q and f by <span class="m">\\sqrt{1+\\alpha}</span>.`,
+      sol: `<div class="M">\\alpha = \\left(\\frac{Q_{TC}}{Q_{TS}}\\right)^2 - 1, \\qquad V_{AB} = \\frac{V_{AS}}{\\alpha}, \\qquad f_3 = f_C = f_S\\sqrt{1+\\alpha} = f_S\\frac{Q_{TC}}{Q_{TS}}</div>
+<p>CSX 217C: α = (0.7071/0.47)² − 1 = 1.263 ⇒ <b>38.8 L</b>, f₃ = 34 × 1.504 = <b>51.2 Hz</b>. SWR 263: α = 0.849 ⇒ <b>104 L</b>, <b>37.8 Hz</b>. SWR 308: α = 11.5 ⇒ <b>12.2 L</b>, <b>64 Hz</b>.</p>
+<p>The SWR 308 has the lowest f<sub>S</sub> but the highest cut-off: its Q<sub>TS</sub> = 0.2 needs Q × 3.5, and f rises by the same factor. It wants a vented box.</p>`,
+      bench: "#bench-closedbox", benchLabel: "closed-box bench, readout “lowest f₃”",
+    },
+    {
+      id: "Sheet 8 · 1b", title: "The same three woofers in a 40 L box", tag: "51.2 Hz · 40.5 Hz · 75.0 Hz",
+      given: `Find the −3 dB cut-off frequency for the three drivers of 1a in a 40 L closed box.`,
+      hint: `α = V<sub>AS</sub>/40 L, then f<sub>C</sub> and Q<sub>TC</sub>, then the full f₃ formula: Q<sub>TC</sub> is no longer 0.707.`,
+      sol: `<div class="M">f_3 = f_C\\sqrt{x + \\sqrt{x^2+1}}, \\qquad x = \\frac{1}{2Q_{TC}^2} - 1</div>
+<p>CSX 217C: α = 1.225, f<sub>C</sub> = 50.7 Hz, Q<sub>TC</sub> = 0.701 ⇒ <b>51.2 Hz</b> (40 L is almost its optimum). SWR 263: α = 2.2, f<sub>C</sub> = 49.7 Hz, Q<sub>TC</sub> = 0.930, x = −0.422 ⇒ f₃ = 49.7 × 0.814 = <b>40.5 Hz</b> (it peaks, so f₃ &lt; f<sub>C</sub>). SWR 308: α = 3.5, f<sub>C</sub> = 38.4 Hz, Q<sub>TC</sub> = 0.424 ⇒ <b>75.0 Hz</b> (overdamped, f₃ ≈ 2f<sub>C</sub>).</p>`,
+      bench: "#bench-closedbox", benchLabel: "closed-box bench, set V_AB = 40 L and switch drivers",
+    },
+    {
+      id: "Sheet 8 · 2a", title: "Vented box design for the three woofers (Q_L = 5)", tag: "31 Hz, 90 L · 22 Hz, 250 L · 40 Hz, 18 L",
+      given: `For each woofer of problem 1, design a vented system: find the box volume and the vent (tuning) frequency. The Q of the vent can be assumed to be 5 (use Leach's chart for Q<sub>L</sub> = 5).`,
+      hint: `Enter the chart at Q<sub>TS</sub> on the Q<sub>TS</sub> curve and read α on the bottom axis. At that α read h = f<sub>B</sub>/f<sub>S</sub> on the right axis.`,
+      sol: `<p>CSX 217C (Q<sub>TS</sub> 0.47 → Chebyshev): α ≈ 0.55 ⇒ V<sub>AB</sub> = 49/0.55 ≈ <b>90 L</b>; h ≈ 0.9 ⇒ f<sub>B</sub> ≈ <b>31 Hz</b>. SWR 263 (0.52 → C4): α ≈ 0.35 ⇒ <b>250 L</b>, h ≈ 0.8 ⇒ <b>22 Hz</b>. SWR 308 (0.2 → QB3): α ≈ 7.8 ⇒ <b>18 L</b>, h ≈ 2.2 ⇒ <b>40 Hz</b>.</p>
+<p>The course's <span class="mono">ventbox.m</span> tables give 91.3 L / 29.8 Hz, 246 L / 21.8 Hz, 18.6 L / 36.2 Hz (f₃ 27.5, 19.5, 46.8 Hz): the same to chart accuracy, except the steep h-curve for the SWR 308. Compared with the closed boxes the cut-offs fall from 51 / 38 / 64 Hz to about 28 / 20 / 47 Hz.</p>`,
+      bench: "#bench-ventbox", benchLabel: "vented-box bench, presets load the sheet's volume and tuning",
+    },
+    {
+      id: "Sheet 8 · 2b", title: "Vent length with a PVC tube of radius 3.75 cm", tag: "10.4 cm · 6.0 cm · 42.2 cm",
+      given: `The vent is made from PVC tube with inner radius 3.75 cm. Find the physical tube length for the three designs of 2a.`,
+      hint: `<span class="m">M_{AP} = 1/(\\omega_B^2C_{AB})</span> with <span class="m">C_{AB} = V_{AB}/\\rho c^2</span>, then subtract the end correction 1.46·a from the effective length.`,
+      sol: `<div class="M">L_P = \\frac{M_{AP}S_P}{\\rho} - 1.46\\,a_P, \\qquad S_P = \\pi(0.0375)^2 = 4.42\\times10^{-3}\\ \\text{m}^2, \\quad 1.46a_P = 5.48\\ \\text{cm}</div>
+<p>CSX 217C: C<sub>AB</sub> = 0.090/(1.2·344²) = 6.34·10⁻⁷, M<sub>AP</sub> = 1/((2π·31)²·6.34·10⁻⁷) = 41.6 kg/m⁴ ⇒ L<sub>P</sub> = 15.3 − 5.5 = <b>9.8 cm</b> (sheet 10.4). SWR 263: 5.5 cm (sheet 6.0). SWR 308: 40.5 cm (sheet 42.2).</p>
+<p>The sheet's lengths fit unrounded chart tunings (≈ 30.4 / 21.5 / 39.3 Hz). L<sub>P</sub> is very sensitive: <span class="m">M_{AP} \\propto 1/f_B^2</span> and the end correction is subtracted, so cut the tube long and trim it while watching the impedance dip.</p>`,
+      bench: "#bench-ventbox", benchLabel: "vented-box bench, readout “vent length”",
+    },
+    {
+      id: "Sheet 8 · 3", title: "LTspice: closed box", tag: "design task · f₃ ≤ 40 Hz in ≤ 100 L",
+      given: `a) Make an equivalent circuit for a loudspeaker in a closed box. b) Find a Peerless unit that gives a −3 dB cut-off of at most 40 Hz in a cabinet of at most 100 L, and tune it to the performance you judge best. c) How sensitive is the system to box volume?`,
+      hint: `Start from the Problems 7 baffle circuit and replace the back radiation impedance with C<sub>AB</sub> (+ R<sub>AB</sub>, M<sub>AB</sub> ≈ M<sub>A1</sub>). For the driver search: at Q<sub>TC</sub> = 0.707, f₃ = 0.707 f<sub>S</sub>/Q<sub>TS</sub>.`,
+      sol: `<p><b>b)</b> You need <span class="m">f_S/Q_{TS} \\le 56.6</span> Hz, and <span class="m">V_{AS}/[(0.707/Q_{TS})^2 - 1] \\le 100</span> L. The SWR 263 in 100 L gives α = 0.88, Q<sub>TC</sub> = 0.71, f₃ ≈ 38 Hz. <b>c)</b> Near the optimum, f₃ is at a minimum, so it is flat to first order in V<sub>AB</sub>; the shape (the bump) changes faster than f₃. Halving the Scan-Speak's box (20 → 10 L) costs only 5 Hz.</p>`,
+      bench: "#bench-closedbox", benchLabel: "closed-box bench, sweep V_AB",
+    },
+    {
+      id: "Sheet 8 · 4", title: "LTspice: vented box", tag: "design task · B4, chart design, detuning",
+      given: `a) Make the equivalent circuit for a vented system. b) Find a driver that can be used for a B4 alignment and design the system. c) Take the driver from 3) and design with Leach's graphs. d) Experiment with the vent tuning frequency.`,
+      hint: `The box becomes M<sub>AP</sub> ∥ C<sub>AB</sub> ∥ R<sub>AL</sub> with <span class="m">R_{AL} = Q_L\\sqrt{M_{AP}/C_{AB}}</span>. The vent output is the current in M<sub>AP</sub>.`,
+      sol: `<p><b>b)</b> B4 needs Q<sub>TS</sub> ≈ 0.40–0.41 (0.414 at Q<sub>L</sub> = 5); then h = 1 (f<sub>B</sub> = f<sub>S</sub> = f₃) and α ≈ 0.93. <b>c)</b> SWR 263 at Q<sub>L</sub> = 7: Chebyshev, α ≈ 0.41, ≈ 216 L, f<sub>B</sub> ≈ 21.5 Hz, f₃ ≈ 19 Hz. <b>d)</b> A lower f<sub>B</sub> gives a long, drooping tail; a higher f<sub>B</sub> gives a bump. The impedance dip always follows f<sub>B</sub>.</p>`,
+      bench: "#bench-ventbox", benchLabel: "vented-box bench, move f_B",
+    },
+  ],
 };
 
 /* ---------- renderer ---------- */

@@ -710,6 +710,123 @@ function benchTSMeasure() {
   b.note.innerHTML = `<p>The 315 SWR (baffled) measured the Lab D way. Read f_S and Z_max at the peak, draw the line at the <b>geometric</b> mean <span class="mono">√(R_E·Z_max)</span>, read f₁ and f₂ where it cuts the curve, then <span class="mono">Q_MS = f_S√r_c/(f₂ − f₁)</span>, <span class="mono">Q_ES = Q_MS/(r_c − 1)</span>, <span class="mono">Q_TS = Q_MS/r_c</span>. A known mass on the cone shifts the peak down and gives <span class="mono">M_MS = ΔM/((f_S/f_S1)² − 1)</span>; the rest follow from the T-S definitions. Every readout lands back on the data sheet: 3.90, 0.514, 0.454, 88.2 g, 0.55 mm/N, 11.6 T·m, 3.25 Ns/m.</p><p><b>Try:</b> a tiny ΔM barely moves the peak, so in the lab a small error in f_S1 becomes a big error in M_MS. Pick a mass that shifts f_S by 10–30 %.</p>`;
 }
 
+/* ===== L8 · Enclosures ===== */
+// Normalised acoustic circuit built from the T-S parameters only (slides 6 and 19):
+//   C_AS = V_AS/ρc², M_AS = 1/(ω_S² C_AS), R_AT = √(M_AS/C_AS)/Q_TS, of which R_AE = R_AT·Q_TS/Q_ES is the electrical part.
+//   closed: Z_A2 = 1/(sC_AB)   vented: Y_A2 = 1/(sM_AP) + 1/R_AL + sC_AB   baffle: Z_A2 = 0
+// Response = far-field pressure over its mass-controlled pass-band level, Z_E in units of R_E.
+const ENC_DRIVERS = {
+  csx: { name: "CSX 217C", fs: 34, Qts: 0.47, Vas: 49, Qms: 5, Vab: 40, fb: 31, Vv: 90, QL: 5 },
+  swr263: { name: "SWR 263", fs: 27.8, Qts: 0.52, Vas: 88, Qms: 5, Vab: 40, fb: 22, Vv: 250, QL: 5 },
+  swr308: { name: "SWR 308", fs: 18.1, Qts: 0.2, Vas: 140, Qms: 5, Vab: 40, fb: 40, Vv: 18, QL: 5 },
+  ss: { name: "Scan-Speak 22W (slide 14)", fs: 23.04, Qts: 0.305, Vas: 88, Qms: 4.87, Vab: 10, fb: 29.8, Vv: 32.6, QL: 7 },
+};
+function encl(p) {  // p: fs [Hz], Qts, Qms, Vas [L], type: "baffle"|"closed"|"vented", Vab [L], fb [Hz], QL
+  const rc2 = SPK_RHO * SPK_C * SPK_C, ws = TAU * p.fs;
+  const Cas = p.Vas / 1000 / rc2, Mas = 1 / (ws * ws * Cas), Rat = Math.sqrt(Mas / Cas) / p.Qts;
+  const Qes = 1 / (1 / p.Qts - 1 / p.Qms), Rae = Rat * p.Qts / Qes, Ram = Rat - Rae;
+  const Cab = p.Vab / 1000 / rc2, alpha = Cas / Cab;
+  const Map = p.type === "vented" ? 1 / ((TAU * p.fb) ** 2 * Cab) : Infinity;
+  const Ral = p.type === "vented" ? p.QL * Math.sqrt(Map / Cab) : Infinity;
+  const ZA2 = (s) => {                                   // s = jω as a complex number
+    if (p.type === "baffle") return cx(0, 0);
+    if (p.type === "closed") return cinv(cmul(s, cx(Cab, 0)));
+    return cinv(cadd(cadd(cinv(cmul(s, cx(Map, 0))), cx(1 / Ral, 0)), cmul(s, cx(Cab, 0))));
+  };
+  const at = (f) => {
+    const s = cx(0, TAU * f), za2 = ZA2(s);
+    const Zd = cadd(cadd(cmul(s, cx(Mas, 0)), cx(Rat, 0)), cinv(cmul(s, cx(Cas, 0))));
+    const UD = cinv(cadd(Zd, za2));                       // per unit source pressure
+    const Uv = p.type === "vented" ? cscale(cdiv(cmul(UD, za2), cmul(s, cx(Map, 0))), -1) : cx(0, 0);
+    const k = cmul(s, cx(Mas, 0));                         // pass band: U_D → 1/(sM_AS)
+    const Zm = cadd(cadd(cmul(s, cx(Mas, 0)), cx(Ram, 0)), cinv(cmul(s, cx(Cas, 0))));
+    return { tot: cmul(k, cadd(UD, Uv)), drv: cmul(k, UD), vent: cmul(k, Uv), ZE: cadd(cx(1, 0), cscale(cinv(cadd(Zm, za2)), Rae)) };
+  };
+  const fc = p.type === "closed" ? p.fs * Math.sqrt(1 + alpha) : p.fs;
+  const Qtc = p.type === "closed" ? p.Qts * Math.sqrt(1 + alpha) : p.Qts;
+  let f3 = NaN;                                          // highest frequency (below 10 f_S) still under −3 dB
+  for (let f = 10 * p.fs; f > p.fs / 20; f /= 1.0005) if (cabs(at(f).tot) < Math.SQRT1_2) { f3 = f; break; }
+  return { alpha, fc, Qtc, f3, Cab, Map, Ral, Qes, at, h: p.fb / p.fs };
+}
+function closedF3(fc, Q) { const x = 1 / (2 * Q * Q) - 1; return fc * Math.sqrt(x + Math.sqrt(x * x + 1)); }
+function closedOpt(fs, Qts, Vas, Qtc = Math.SQRT1_2) { const a = (Qtc / Qts) ** 2 - 1; return { alpha: a, Vab: Vas / a, fc: fs * Math.sqrt(1 + a), f3: fs * Qtc / Qts }; }
+function ventLength(fb, VabL, a) {  // slide 28
+  const Cab = VabL / 1000 / (SPK_RHO * SPK_C * SPK_C), Map = 1 / ((TAU * fb) ** 2 * Cab);
+  return Map * Math.PI * a * a / SPK_RHO - 1.46 * a;
+}
+function encPresetSeg(b, st, after) {
+  const seg = h("div", { class: "seg" });
+  for (const [k, v] of Object.entries(ENC_DRIVERS)) seg.append(h("button", { type: "button", class: k === st.preset ? "on" : "", onclick: (e) => { st.preset = k; Object.assign(st, v); $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); after(); } }, v.name));
+  b.ctl.append(seg);
+}
+function benchClosedBox() {
+  const b = bench("bench-closedbox", "Closed-box bench: a box is an extra spring", "lecture 8 · slides 6–9, 14 · problems 8.1");
+  if (!b) return;
+  const st = Object.assign({ preset: "csx" }, ENC_DRIVERS.csx);
+  const sl = {};
+  encPresetSeg(b, st, () => { for (const k of ["fs", "Qts", "Vas", "Vab"]) sl[k].set(st[k]); upd(); });
+  sl.fs = slider(b.ctl, { label: "driver resonance <b>f<sub>S</sub></b>", min: 10, max: 80, step: 0.1, value: st.fs, unit: "Hz", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.fs = v; upd(); } });
+  sl.Qts = slider(b.ctl, { label: "driver <b>Q<sub>TS</sub></b>", min: 0.15, max: 1.2, step: 0.005, value: st.Qts, dom: "el", fmt: v => v.toFixed(3), onchange: v => { st.Qts = v; upd(); } });
+  sl.Vas = slider(b.ctl, { label: "equivalent volume <b>V<sub>AS</sub></b>", min: 5, max: 300, step: 1, value: st.Vas, unit: "L", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.Vas = v; upd(); } });
+  sl.Vab = slider(b.ctl, { label: "box volume <b>V<sub>AB</sub></b>", min: 2, max: 250, step: 0.1, value: st.Vab, unit: "L", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.Vab = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "a", label: "α = V_AS/V_AB", dom: "ac" }, { id: "fc", label: "f_C = f_S√(1+α)", dom: "me" }, { id: "Q", label: "Q_TC = Q_TS√(1+α)", dom: "el" }, { id: "f3", label: "−3 dB frequency f₃" }, { id: "opt", label: "lowest f₃ (Q_TC = 0.707): box · f₃" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 5, xmax: 1000, ymin: -30, ymax: 6, ylabel: "response re pass band  (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const F = logspace(5, 1000, 360);
+  function upd() {
+    const base = { fs: st.fs, Qts: st.Qts, Qms: st.Qms, Vas: st.Vas };
+    const r = encl(Object.assign({}, base, { type: "closed", Vab: st.Vab })), ib = encl(Object.assign({}, base, { type: "baffle", Vab: 1 }));
+    const o = closedOpt(st.fs, st.Qts, st.Vas), ok = o.alpha > 0;
+    const ro2 = ok ? encl(Object.assign({}, base, { type: "closed", Vab: o.Vab })) : null;
+    const f3 = closedF3(r.fc, r.Qtc);
+    const series = [{ name: "infinite baffle", color: DOMC.ink3, thin: true, pts: F.map(f => [f, dB(cabs(ib.at(f).tot))]) }];
+    if (ok) series.push({ name: `optimum box ${o.Vab.toFixed(1)} L`, color: DOMC.me, thin: true, pts: F.map(f => [f, dB(cabs(ro2.at(f).tot))]) });
+    series.push({ name: `closed box ${st.Vab.toFixed(1)} L`, color: DOMC.ac, pts: F.map(f => [f, dB(cabs(r.at(f).tot))]) });
+    series.push({ name: "−3 dB", color: DOMC.warn, thin: true, pts: [[5, -3], [1000, -3]] });
+    plot.set({ series, markers: [{ x: f3, y: -3, label: `f₃ ${hz(f3)}`, color: DOMC.ac }] });
+    ro({ a: r.alpha.toFixed(3), fc: hz(r.fc), Q: r.Qtc.toFixed(3) + (r.Qtc > 0.72 ? " (peaks)" : r.Qtc < 0.69 ? " (droops)" : " (Butterworth)"), f3: hz(f3),
+      opt: ok ? `${o.Vab.toFixed(1)} L · ${hz(o.f3)}` : "none: Q_TS > 0.707, no closed box reaches Butterworth" });
+  }
+  upd();
+  b.note.innerHTML = `<p>The box air is a second spring, <span class="mono">C_AB = V_AB/ρc²</span>, in series with the suspension. Mass and damping stay put, so f and Q both rise by <span class="mono">√(1 + V_AS/V_AB)</span>. Starts on Problem 8.1 with the CSX 217C in 40 L: f₃ = 51.2 Hz, and its optimum box is 38.8 L. Switch drivers for the other answers: SWR 263 40.5 Hz in 40 L (optimum 104 L, 37.8 Hz), SWR 308 75.0 Hz (optimum 12.2 L, 64 Hz). Scan-Speak in 10 L is slide 14's case 2: Q_TC 0.96, f₃ 58 Hz.</p><p><b>Try:</b> sweep V_AB on any driver and watch f₃ bottom out where Q_TC passes 0.707; a smaller box gives a bump, a bigger one a slow droop. Then raise Q_TS above 0.707: the optimum disappears, because a box can only add Q.</p>`;
+}
+function benchVentBox() {
+  const b = bench("bench-ventbox", "Vented-box bench: driver, vent and the two-peak impedance", "lecture 8 · slides 17–28 · problems 8.2");
+  if (!b) return;
+  const st = Object.assign({ preset: "csx", aP: 3.75 }, ENC_DRIVERS.csx);
+  const sl = {};
+  encPresetSeg(b, st, () => { for (const k of ["Vv", "fb", "QL", "Qms"]) sl[k].set(st[k]); upd(); });
+  sl.Vv = slider(b.ctl, { label: "box volume <b>V<sub>AB</sub></b>", min: 5, max: 350, step: 0.1, value: st.Vv, unit: "L", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.Vv = v; upd(); } });
+  sl.fb = slider(b.ctl, { label: "vent tuning <b>f<sub>B</sub></b>", min: 8, max: 80, step: 0.1, value: st.fb, unit: "Hz", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.fb = v; upd(); } });
+  sl.QL = slider(b.ctl, { label: "box losses <b>Q<sub>L</sub></b>", min: 2, max: 20, step: 0.5, value: st.QL, dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.QL = v; upd(); } });
+  sl.Qms = slider(b.ctl, { label: "assumed <b>Q<sub>MS</sub></b> (impedance only)", min: 2, max: 10, step: 0.01, value: st.Qms, dom: "me", fmt: v => v.toFixed(2), onchange: v => { st.Qms = v; upd(); } });
+  slider(b.ctl, { label: "vent radius <b>a<sub>P</sub></b>", min: 1, max: 8, step: 0.05, value: st.aP, unit: "cm", dom: "ac", fmt: v => v.toFixed(2), onchange: v => { st.aP = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "a", label: "α = V_AS/V_AB · h = f_B/f_S", dom: "ac" }, { id: "f3", label: "−3 dB frequency f₃" }, { id: "cl", label: "best closed box, for comparison" }, { id: "L", label: "vent length L_P", dom: "ac" }, { id: "pk", label: "impedance peaks · dip", dom: "el" }]);
+  const pS = new Plot(b.plot, { h: 260, xmin: 5, xmax: 1000, ymin: -30, ymax: 6, ylabel: "response re pass band  (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const pZ = new Plot(b.plot, { h: 190, xmin: 5, xmax: 1000, ymin: 0, ymax: 10, ylabel: "|Z_E| / R_E", yfmt: v => v.toFixed(2), yunit: "" });
+  const F = logspace(5, 1000, 420);
+  function upd() {
+    const d = { fs: st.fs, Qts: st.Qts, Qms: Math.max(st.Qms, st.Qts * 1.05), Vas: st.Vas };
+    const r = encl(Object.assign({}, d, { type: "vented", Vab: st.Vv, fb: st.fb, QL: st.QL }));
+    const ib = encl(Object.assign({}, d, { type: "baffle", Vab: 1 }));
+    const pts = F.map(f => r.at(f));
+    pS.set({ series: [{ name: "total", color: DOMC.warn, pts: pts.map((q, i) => [F[i], dB(cabs(q.tot))]) }, { name: "driver (front of cone)", color: DOMC.ac, thin: true, pts: pts.map((q, i) => [F[i], dB(cabs(q.drv))]) }, { name: "vent", color: DOMC.me, thin: true, pts: pts.map((q, i) => [F[i], dB(cabs(q.vent))]) }, { name: "−3 dB", color: DOMC.ink3, thin: true, pts: [[5, -3], [1000, -3]] }],
+      vlines: [{ x: st.fb, label: "f_B", color: DOMC.me }], markers: isFinite(r.f3) ? [{ x: r.f3, y: -3, label: `f₃ ${hz(r.f3)}`, color: DOMC.warn }] : [] });
+    const z = pts.map((q, i) => [F[i], cabs(q.ZE)]);
+    const peaks = [], dips = [];
+    for (let i = 1; i < z.length - 1; i++) { if (z[i][1] > z[i - 1][1] && z[i][1] > z[i + 1][1] && z[i][0] < 300) peaks.push(z[i]); if (z[i][1] < z[i - 1][1] && z[i][1] < z[i + 1][1] && z[i][0] < 300) dips.push(z[i]); }
+    const zmax = Math.max(...z.map(q => q[1]), ...F.map(f => cabs(ib.at(f).ZE)));
+    pZ.set({ ymax: Math.ceil(zmax * 1.1), series: [{ name: "vented box", color: DOMC.el, pts: z }, { name: "infinite baffle", color: DOMC.ink3, thin: true, pts: F.map(f => [f, cabs(ib.at(f).ZE)]) }],
+      vlines: [{ x: st.fb, label: "f_B", color: DOMC.me }, { x: st.fs, label: Math.abs(Math.log(st.fb / st.fs)) > 0.2 ? "f_S" : "", color: DOMC.ink3 }] });
+    const c = closedOpt(st.fs, st.Qts, st.Vas);
+    const L = ventLength(st.fb, st.Vv, st.aP / 100);
+    ro({ a: `${r.alpha.toFixed(3)} · ${r.h.toFixed(3)}`, f3: isFinite(r.f3) ? hz(r.f3) : "—", cl: c.alpha > 0 ? `${c.Vab.toFixed(1)} L, f₃ ${hz(c.f3)}` : "none (Q_TS > 0.707)",
+      L: L > 0 ? `${(L * 100).toFixed(1)} cm` : "negative: tube too wide for this tuning",
+      pk: `${peaks.map(q => hz(q[0])).join(" · ") || "—"} · dip ${dips.map(q => hz(q[0])).join(", ") || "—"}` });
+  }
+  upd();
+  b.note.innerHTML = `<p>The closed box's single spring becomes a Helmholtz resonator: <span class="mono">Y_A2 = 1/jωM_AP + 1/R_AL + jωC_AB</span>. What leaves the box is <span class="mono">U_0 = jωC_AB·Z_A2·U_D</span>, a 4th-order high-pass. Starts on Problem 8.2 with the CSX 217C in the sheet's 90 L at 31 Hz (Q_L = 5): f₃ ≈ 28 Hz against 51 Hz in its best closed box, and a 3.75 cm PVC vent of 9.8 cm (sheet 10.4 cm; the sheet used unrounded chart values). SWR 263: 250 L, 22 Hz, 5.5 cm (sheet 6.0); SWR 308: 18 L, 40 Hz, 40.5 cm (sheet 42.2). Q_MS only shapes the impedance; the Peerless presets assume 5.</p><p><b>Try:</b> watch the driver curve dip at f_B, where the cone stands still and the vent does the work. Move f_B and watch the impedance: f_B always sits in the dip between the two peaks, and the peaks are equal only when f_B ≈ f_S. Shrink the vent radius and the tube gets short, but the air in it speeds up (port noise).</p>`;
+}
+
 /* ===== boot ===== */
 document.addEventListener("DOMContentLoaded", () => {
   renderMath();
@@ -718,6 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
   benchPolar(); benchProximity(); benchCondenser(); benchShapes(); benchTwoMass();
   benchScatter(); benchFreeField(); benchUncertainty(); benchPistonphone();
   benchDriver(); benchTSMeasure();
+  benchClosedBox(); benchVentBox();
   if (window.QUIZZES) { for (const [lec, qs] of Object.entries(QUIZZES)) { const root = document.getElementById(`quiz-${lec}`); if (root) { buildQuiz(root, lec, qs); TOTAL_Q += qs.length; const a = $(`.wire a[data-quiz="${lec}"]`); if (a) a.dataset.n = qs.length; } } }
   updateProgress();
   setupNav(); setupTheme();
