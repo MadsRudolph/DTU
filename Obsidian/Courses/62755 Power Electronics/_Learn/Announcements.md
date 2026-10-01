@@ -1,5 +1,39 @@
 # Announcements
 
+## 2026-10-01 — Lab 2: Monday  5th of October
+
+Dear All,
+Here is the lab schedule for Monday, the labs are T2.04, 05.
+
+
+
+8.30-10.30
+Group 1
+Group 2
+Group 3
+Group 4
+Group 5
+Group 6
+
+
+
+
+10.30-12.30
+Group 7
+Group 8
+Group 9
+Group 10
+Group 11
+Group 12
+Group 13
+Group 14
+
+
+
+Please bring your multimeters.
+Best Regards
+Ashraf
+
 ## 2026-09-29 — Assignment 2
 
 Dear All,

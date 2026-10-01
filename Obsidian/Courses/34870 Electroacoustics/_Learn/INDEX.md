@@ -5,7 +5,7 @@ links to where the file actually lives in the vault.*
 
 ## Basic Material
 
-- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf|34870 Course plan Fall 2026]]
+- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf|34870 Course plan Fall 2026]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/Fundamentals_of_acoustics.pdf|Fundamentals of Acoustics]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf|LTspice circuit simulator - Quick Guide]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf|34870 Lecture 0 E26 - Introduction to the course]]
@@ -74,6 +74,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter7_closedbox.pdf|Leach 4th ed. chapter 7: closed box]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/Leach_4ed_chapter8_ventedbox.pdf|Leach 4th ed. chapter 8: vented box]]
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/VentedBox_Matlab.zip|Matlab functions for vented box design]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_8_E26.mp4|Lecture 8 - Loudspeaker enclosures - Commented slides]]
 
 ## Lab A - Analogies
 
