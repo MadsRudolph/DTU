@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-10-02 — Lab A Quiz - Evaluation published
+
+Dear all,
+I have finishing evaluating your quizzes for Lab A. You should now be able to see your grading and my feedback in Lab A: Analogy circuits in LTspice.The grades are points out of 100, the minimum to pass is 50 points. Specific feedback is placed under individual questions, general comments in the main feedback box.Let me know if there are any issues seeing the evaluation or if something was missed. You are then also welcome to come to my office if you have any specific questions about my feedback.
+I hope the feedback helps you with the remaining quizzes and the exam. Remember that the Lab B/C - Microphones quiz is due soon.Best regards
+Frieder
+
 ## 2026-09-23 — Quiz for labB and Lab C is available
 
 Dear all,
