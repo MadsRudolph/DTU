@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-10-04 — Lab 2: Monday 5th of October
+
+Dear All,
+Hi, please do not forget to bring a USB stick to save your measurements.
+Best Regards
+Ashraf
+
 ## 2026-10-01 — Lab 2: Monday  5th of October
 
 Dear All,
