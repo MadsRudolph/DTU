@@ -158,3 +158,5 @@ latexmkrc
 // own binaries in git, so Syncthing must not touch it -- otherwise a checkout on one PC becomes
 // deletions on the others.
 /5. Semester/Electroacoustics/Labs
+// 62755 assignments: the group's Overleaf project, own git repo -- same reason.
+/5. Semester/Power Electronics/Assignments
