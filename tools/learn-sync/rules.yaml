@@ -65,6 +65,8 @@ courses:
       - {file:   "(?i)\\.(slx|mdl)$",               to: "/5. Semester/Power Electronics/Simulink/"}
       - {file:   "(?i)\\.(pscx?|psc)$",             to: "/5. Semester/Power Electronics/PSCAD/"}
       - {file:   "(?i)solution|løsning|facit",      to: "Exercises/"}
+      # The weekly assignment briefs ("Assignment 2.pdf") sit in the lecture modules.
+      - {file:   "(?i)assignment|aflevering",       to: "Exercises/"}
       - {file:   "(?i)(lecture|slides?)",           to: "Slides/"}
       - {module: "(?i)^lab",                        to: "Labs/"}
       - {module: "(?i)literature|reading",          to: "Literature/"}
