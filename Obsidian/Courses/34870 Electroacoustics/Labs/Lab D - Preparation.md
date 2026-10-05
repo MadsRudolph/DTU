@@ -47,7 +47,7 @@ flowchart LR
 
 ## Tonight (10 minutes)
 
-- [ ] **Put `Lab D/matlab/` on a USB stick**, or anywhere the lab PC can reach. It holds `measure_labD.m`, `analyse_labD.m`, `labD_dims.m`, `ts_from_Z.m`, `fb_from_Z.m` and the course routines in `course/`. `test_labD` runs the whole analysis on synthetic data, which is a quick way to check the copy works.
+- [ ] **Put `Lab D/matlab/` on a USB stick**, or anywhere the lab PC can reach. It holds `labD_run.m` (**the one you open in the editor**), `measure_labD.m`, `analyse_labD.m`, `labD_dims.m`, `ts_from_Z.m`, `fb_from_Z.m` and the course routines in `course/`. `test_labD` runs the whole analysis on synthetic data, which is a quick way to check the copy works.
 - [ ] Bring a **tape measure or ruler** and **calipers** if you have them. You need the box's inside dimensions, the vent radius and length, the cone diameter and the room size.
 - [ ] Re-read the three formulas in "Numbers to know by heart" below.
 - [ ] Agree roles with Louis and Sophie: one person on the PC, one on the speaker and microphone, one writing everything down.
@@ -75,6 +75,9 @@ The NI inputs are **grounded**, so you can't measure the voltage across R direct
 $$\frac{V_{loud}}{V_{amp}} = \frac{Z_L}{R+Z_L} \;\Rightarrow\; \boxed{Z_L = R\,\frac{V_{loud}/V_{amp}}{1 - V_{loud}/V_{amp}}}$$
 
 That is the brief's formula. At low frequency $Z_L \to R_E$, which is your check that the wiring is right.
+
+> [!important] How to run it: `labD_run.m`
+> Open `labD_run.m` in the MATLAB editor. Set the measured resistor value once in section 0. Then for each measurement, edit the values at the top of its section (tag, vent length, open vents, mic position, Nav, Nexus setting), click inside the section and press **Run Section** (Ctrl+Enter). Each section calls `measure_labD` for you. The command lines below show what each section does.
 
 Course routine: `[fn,specn,f,spec,ch] = meas_mag_spec2_LabD(f1,f2,n_oct,fres,Nav)`. `specn(:,1)` is AI0 and `specn(:,2)` is AI1. `measure_labD` calls it with the brief's numbers ($n_{oct}$ = 48, $f_{res}$ = 0.125 Hz, so each period is 8 s) and computes $Z$ (or $H$ for the near field). It then saves to `data/labD_<tag>.mat`, never overwriting an older file, and plots the result.
 
