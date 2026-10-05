@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–8 and Labs A–C, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–8 and Labs A–D, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–8 · problems · Labs A–C</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–8 · problems · Labs A–D</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -33,6 +33,7 @@
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
+    <li><a href="#labD" data-quiz="D"><span class="n">Lab D</span><span>Loudspeaker impedance &amp; near field<span class="sub">6 Oct · T-S, V_AS, f_B</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -941,6 +942,51 @@
 </section>
 
 <!-- ============================== summary ============================== -->
+<section class="lecture" id="labD">
+  <div class="lec-head">
+    <div class="eyebrow">Lab D · Tue 6 Oct 2026, 08:00–10:00 · room 026, building 354 · System D (shared with Group 4) · quiz (Lab D + E) due Mon 26 Oct, individual</div>
+    <h2>Lab D: the loudspeaker measured through its own impedance</h2>
+    <div class="meta">brief: Labs/34870_Lab_D_Loudspeakers1_E2026.pdf · MATLAB (measure_labD, analyse_labD, test_labD): 5. Semester/Electroacoustics/Labs/Lab D/ · vault: Labs/Lab D - Preparation · theory: lecture 7 §8 and lecture 8 §6, §8–12</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>The cone's resonance shows up as a <b>peak in the electrical impedance</b>, because near f<sub>S</sub> the cone moves most and its back-EMF <span class="m">Bl\,u</span> pushes against the current. One curve in free air gives f<sub>S</sub> and the three Q's. Change the air behind the cone and the peak moves: a closed box pushes it up by <span class="m">\sqrt{1+\alpha}</span>, which gives V<sub>AS</sub>, and an open vent splits it into two peaks around the vent tuning f<sub>B</sub>.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Four steps, one setup</h3>
+    <table>
+      <tr><th>Part</th><th>What is behind the cone</th><th>What the curve shows</th><th>What you get</th></tr>
+      <tr><td>1</td><td colspan="2">multimeter on each driver (lead resistance subtracted)</td><td><span class="el">R<sub>E</sub></span> of woofer, midrange, tweeter, and the real value of each 33 Ω resistor</td></tr>
+      <tr><td>2a</td><td>tweeter and midrange in their box</td><td>one peak, then the L<sub>E</sub> rise</td><td>complex Z for the passive crossover</td></tr>
+      <tr><td>2b1</td><td><span class="me">free air</span> (cover off, filling out)</td><td>one peak at f<sub>S</sub></td><td>f<sub>S</sub>, Q<sub>MS</sub>, Q<sub>ES</sub>, Q<sub>TS</sub></td></tr>
+      <tr><td>2b2–3</td><td><span class="el">closed box</span> (vents plugged, no filling)</td><td>one peak, higher, at f<sub>C</sub></td><td><span class="m">\alpha = (f_C/f_S)^2-1</span>, V<sub>AS</sub> = αV<sub>B</sub></td></tr>
+      <tr><td>2b4</td><td><span class="ac">vented box</span>, ≥ 3 tube lengths</td><td>two peaks, dip at f<sub>B</sub></td><td>f<sub>B</sub> against the Helmholtz formula</td></tr>
+      <tr><td>3</td><td>vented, microphone at cone and at vent (R shorted)</td><td>cone notch and vent peak near f<sub>B</sub></td><td>f<sub>B</sub> acoustically; data to validate the project's woofer model</td></tr>
+    </table>
+    <p>Wiring: NI AO0 → amplifier → 33 Ω → driver. AI0 reads the amplifier voltage, AI1 the driver voltage. The inputs are grounded, so the resistor voltage can't be read directly; the divider gives <span class="m">Z_L = R\,\dfrac{V_{loud}/V_{amp}}{1-V_{loud}/V_{amp}}</span>, and at low frequency it must land on R<sub>E</sub>. Aim for about 0.1 V rms on the driver: much less is noisy, much more is nonlinear (brief, appendix A).</p>
+  </div>
+
+  <div id="bench-labD"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Formulas</span>Everything analyse_labD computes</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">the peak</span><div class="M">Z_{MAX} = R_E + \frac{(Bl)^2}{R_{MS}},\quad r_c = \frac{Z_{MAX}}{R_E}</div><p>f₁ and f₂ where <span class="m">|Z| = \sqrt{R_E Z_{MAX}}</span>, the geometric mean</p></div>
+      <div class="fcard"><span class="eyebrow">the Q's</span><div class="M">Q_{MS} = \frac{f_S\sqrt{r_c}}{f_2-f_1},\; Q_{ES} = \frac{Q_{MS}}{r_c-1},\; Q_{TS} = \frac{Q_{MS}}{r_c}</div><p>free air, baffle or closed box; never the vented box</p></div>
+      <div class="fcard"><span class="eyebrow">added compliance</span><div class="M">V_{AS} = V_B\left[\left(\frac{f_C}{f_S}\right)^2-1\right]</div><p>assumes M<sub>MC</sub> ≈ M<sub>MS</sub>; check f<sub>C</sub>/f<sub>S</sub> ≈ Q<sub>TC</sub>/Q<sub>TS</sub></p></div>
+      <div class="fcard"><span class="eyebrow">the vent</span><div class="M">f_B = \frac{c}{2\pi}\sqrt{\frac{N S_P}{V_B\,(L_P + 1.46\,a_P)}}</div><p>1.46 = 0.85 (flanged) + 0.61 (unflanged); N equal tubes in parallel</p></div>
+      <div class="fcard"><span class="eyebrow">near field</span><div class="M">p_{near} = j\omega M_{A1} U,\quad M_{A1} = \frac{8\rho}{3\pi^2 a}</div><p>same shape as the far field, level set by each radiator's own radius</p></div>
+      <div class="fcard"><span class="eyebrow">the rest, with S<sub>D</sub></span><div class="M">C_{MS} = \frac{V_{AS}}{\rho c^2 S_D^2},\quad M_{MS} = \frac{1}{\omega_S^2 C_{MS}}</div><p>then <span class="m">Bl = \sqrt{\omega_S R_E M_{MS}/Q_{ES}}</span>, <span class="m">R_{MS} = \omega_S M_{MS}/Q_{MS}</span>; S<sub>D</sub> from the cone diameter plus half the surround</p></div>
+    </div>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>f₁ and f₂ are not the −3 dB points.</b> They sit at <span class="m">\sqrt{R_E Z_{MAX}}</span>; only there does <span class="m">f_2 - f_1</span> come out as <span class="m">f_S\sqrt{r_c}/Q_{MS}</span>. And the Q recipe needs <b>one</b> peak: on the vented curve it gives nonsense. The vent's tuning comes from the dip between the two peaks instead, and the phase zero-crossing there is closer to f<sub>B</sub> than the |Z| minimum (33.5 against 34.4 Hz in the bench, formula 33.7 Hz).</p></div>
+
+  <div id="bench-labDnear"></div>
+
+  <div class="callout real"><span class="eyebrow">In the lab</span><p><b>Never touch the tweeter dome</b>, and keep the mid/tweeter box's vent closed. Take the filling <b>out</b> for free air and closed box, so V<sub>AB</sub> = V<sub>B</sub>, and put it <b>back</b> before you leave, because Group 4 uses the same system. For Part 3 the microphone goes into the Nexus <b>before</b> it is switched on (it reads the sensitivity), output 1 V/Pa, and the 33 Ω is replaced by a short. Raise the amplifier from very low until the time signals approach ±1 V, never over; the vent can clip at f<sub>B</sub>. Write down every length, the room size and the temperature: Lab B lost its mock-up dimensions that way.</p></div>
+
+  <div id="quiz-D"></div>
+</section>
+
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -993,7 +1039,7 @@
 </section>
 
 <footer>
-  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Lab D added 5 Oct 2026 (before the lab): the benches run the synthetic woofer of test_labD.m and reproduce its numbers, f<sub>S</sub> 39.99 Hz, Q<sub>MS</sub> 4.01, Q<sub>ES</sub> 0.452, f<sub>C</sub> 59.88 Hz, V<sub>AS</sub> 25.00 L, f<sub>B</sub> 43.3 / 33.5 / 28.3 Hz. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>

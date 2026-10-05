@@ -336,4 +336,119 @@ function benchLabBgap() {
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); });
+// ---------------------------------------------------------------- Lab D: one woofer in free air, a closed box and a vented box
+// Same model as Lab D/matlab/test_labD.m: R_E + jωL_E + (Bl)²/Z_M, with Z_M = jωM_MS + R_MS + 1/(jωC_MS) + S_D²·Z_A(back).
+const LABD = { rho: 1.2041, c: 343.2, RE: 6.0, LE: 0.4e-3, fs: 40, Qms: 4, Qes: 0.45, Vas: 25, VB: 20.125, aP: 0.0175, L: 0.10, N: 1, QL: 7, a: 0.065 };
+function labDgrid(f1, f2) {   // the measurement's tones: 48 per octave on a 0.125 Hz grid
+  const out = [];
+  for (let k = 0; ; k++) { const f = 0.125 * Math.round(f1 * Math.pow(2, k / 48) / 0.125); if (f > f2) break; if (f >= f1 && f !== out[out.length - 1]) out.push(f); }
+  return out;
+}
+function labDwoofer(p) {
+  const ws = TAU * p.fs, CAS = p.Vas * 1e-3 / (p.rho * p.c * p.c), SD = Math.PI * p.a * p.a, CMS = CAS / (SD * SD);
+  const MMS = 1 / (ws * ws * CMS), RMS = ws * MMS / p.Qms, Bl = Math.sqrt(ws * p.RE * MMS / p.Qes);
+  const CAB = p.VB * 1e-3 / (p.rho * p.c * p.c), SP = Math.PI * p.aP * p.aP;
+  const MAP = p.rho * (p.L + 1.46 * p.aP) / (p.N * SP), RAL = p.QL / Math.sqrt(CAB / MAP);
+  const back = (f, mode) => mode === "free" ? cx(0) : mode === "closed" ? ZC(f, CAB)
+    : cinv(cadd(cadd(cinv(cx(0, TAU * f * MAP)), cx(1 / RAL)), cx(0, TAU * f * CAB)));
+  const zm = (f, mode) => cadd(cadd(cadd(cx(0, TAU * f * MMS), cx(RMS)), ZC(f, CMS)), cscale(back(f, mode), SD * SD));
+  const Z = (f, mode) => cadd(cadd(cx(p.RE), cx(0, TAU * f * p.LE)), cdiv(cx(Bl * Bl), zm(f, mode)));
+  // 1 V straight on the terminals (Part 3: resistor shorted): cone and port volume velocities, out of the box positive
+  const flows = (f) => {
+    const i = cinv(Z(f, "vent")), UD = cscale(cdiv(cscale(i, Bl), zm(f, "vent")), SD);
+    const pB = cscale(cmul(UD, back(f, "vent")), -1), UP = cdiv(pB, cx(0, TAU * f * MAP));
+    return { UD, UP };
+  };
+  return { SD, CMS, MMS, RMS, Bl, CAB, MAP, Z, flows, fb: 1 / (TAU * Math.sqrt(MAP * CAB)), fc: p.fs * Math.sqrt(1 + p.Vas / p.VB) };
+}
+// Appendix B on a curve: parabola on the peak in log f, f1/f2 interpolated in log f at √(R_E Z_max)
+function labDts(fn, Zm, RE) {
+  let i0 = 0; for (let k = 1; k < Zm.length; k++) if (Zm[k] > Zm[i0]) i0 = k;
+  const x = [-1, 0, 1].map(d => Math.log(fn[i0 + d])), y = [-1, 0, 1].map(d => Zm[i0 + d]);
+  const den = (x[0] - x[1]) * (x[0] - x[2]) * (x[1] - x[2]);
+  const A = (x[2] * (y[1] - y[0]) + x[1] * (y[0] - y[2]) + x[0] * (y[2] - y[1])) / den;
+  const B = (x[2] * x[2] * (y[0] - y[1]) + x[1] * x[1] * (y[2] - y[0]) + x[0] * x[0] * (y[1] - y[2])) / den;
+  const C = (x[1] * x[2] * (x[1] - x[2]) * y[0] + x[2] * x[0] * (x[2] - x[0]) * y[1] + x[0] * x[1] * (x[0] - x[1]) * y[2]) / den;
+  const lf0 = -B / (2 * A), f0 = Math.exp(lf0), Zmax = A * lf0 * lf0 + B * lf0 + C, rc = Zmax / RE, Zr = Math.sqrt(RE * Zmax);
+  let lo = i0; while (lo > 0 && Zm[lo] >= Zr) lo--;
+  let hi = i0; while (hi < Zm.length - 1 && Zm[hi] >= Zr) hi++;
+  const li = (a, b) => Math.exp(Math.log(fn[a]) + (Zr - Zm[a]) / (Zm[b] - Zm[a]) * (Math.log(fn[b]) - Math.log(fn[a])));
+  const f1 = li(lo, lo + 1), f2 = li(hi - 1, hi), QM = f0 * Math.sqrt(rc) / (f2 - f1);
+  return { f0, Zmax, rc, Zr, f1, f2, QM, QE: QM / (rc - 1), QT: QM / rc };
+}
+function labDfb(fn, Zc) {   // two peaks; the minimum between them and the upward phase zero
+  const Zm = Zc.map(cabs), pk = [];
+  for (let k = 1; k < Zm.length - 1; k++) if (Zm[k] > Zm[k - 1] && Zm[k] >= Zm[k + 1]) pk.push(k);
+  pk.sort((a, b) => Zm[b] - Zm[a]); const [a, b] = pk.slice(0, 2).sort((u, v) => u - v);
+  let im = a; for (let k = a; k <= b; k++) if (Zm[k] < Zm[im]) im = k;
+  let fph = NaN;
+  for (let k = a; k < b; k++) { const p1 = carg(Zc[k]), p2 = carg(Zc[k + 1]); if (p1 < 0 && p2 >= 0) { fph = fn[k] + (0 - p1) / (p2 - p1) * (fn[k + 1] - fn[k]); break; } }
+  return { fL: fn[a], fH: fn[b], fmin: fn[im], fph };
+}
+function benchLabD() {
+  const b = bench("bench-labD", "One woofer, three backs: read f_S, the Q's, V_AS and f_B off the impedance", "Lab D · parts 2b1–2b4 · synthetic woofer from test_labD.m");
+  if (!b) return;
+  const st = Object.assign({}, LABD, { view: "all" });
+  const seg = h("div", { class: "seg" });
+  for (const [k, l] of [["all", "all three"], ["free", "free air"], ["closed", "closed box"], ["vent", "vented"]]) seg.append(h("button", { type: "button", class: st.view === k ? "on" : "", onclick: (e) => { st.view = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg);
+  slider(b.ctl, { label: "driver resonance <b>f<sub>S</sub></b>", min: 20, max: 80, step: 0.5, value: st.fs, unit: "Hz", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.fs = v; upd(); } });
+  slider(b.ctl, { label: "electrical Q <b>Q<sub>ES</sub></b>", min: 0.2, max: 1.2, step: 0.01, value: st.Qes, unit: "", dom: "el", fmt: v => v.toFixed(2), onchange: v => { st.Qes = v; upd(); } });
+  slider(b.ctl, { label: "equivalent volume <b>V<sub>AS</sub></b>", min: 5, max: 80, step: 0.5, value: st.Vas, unit: "L", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.Vas = v; upd(); } });
+  slider(b.ctl, { label: "box volume <b>V<sub>B</sub></b>", min: 5, max: 60, step: 0.125, value: st.VB, unit: "L", dom: "ac", fmt: v => v.toFixed(3), onchange: v => { st.VB = v; upd(); } });
+  slider(b.ctl, { label: "vent tube length <b>L<sub>P</sub></b> (radius 17.5 mm)", min: 0.01, max: 0.3, step: 0.005, value: st.L, unit: "mm", dom: "ac", fmt: v => (v * 1000).toFixed(0), onchange: v => { st.L = v; upd(); } });
+  const seg2 = h("div", { class: "seg" });
+  for (const [k, l] of [[1, "one vent open"], [2, "both vents open"]]) seg2.append(h("button", { type: "button", class: st.N === k ? "on" : "", onclick: (e) => { st.N = k; $$("button", seg2).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg2);
+  const ro = readouts(b.ctl, [{ id: "free", label: "free air: f_S, Z_max", dom: "me" }, { id: "f12", label: "f₁ / f₂ at √(R_E Z_max)" }, { id: "q", label: "Q_MS / Q_ES / Q_TS read back", dom: "el" },
+    { id: "cl", label: "closed box: f_C, Q_TC" }, { id: "vas", label: "V_AS = V_B[(f_C/f_S)² − 1]", dom: "ac" }, { id: "fb", label: "vented: f_B phase 0 / |Z| min / formula", dom: "ac" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 5, xmax: 500, ymin: 0, ymax: 70, ylabel: "|Z| (Ω)", yfmt: v => v.toFixed(0), yunit: " Ω" });
+  const fn = labDgrid(1, 1000), sel = fn.map((f, k) => f <= 500 ? k : -1).filter(k => k >= 0), fs5 = sel.map(k => fn[k]);
+  function upd() {
+    const W = labDwoofer(st), Zs = {};
+    for (const m of ["free", "closed", "vent"]) Zs[m] = fs5.map(f => W.Z(f, m));
+    const tf = labDts(fs5, Zs.free.map(cabs), st.RE), tc = labDts(fs5, Zs.closed.map(cabs), st.RE), vb = labDfb(fs5, Zs.vent);
+    const vas = st.VB * ((tc.f0 / tf.f0) ** 2 - 1);
+    ro({ free: `${tf.f0.toFixed(2)} Hz, ${tf.Zmax.toFixed(1)} Ω (r_c = ${tf.rc.toFixed(2)})`, f12: `${tf.f1.toFixed(2)} / ${tf.f2.toFixed(2)} Hz at ${tf.Zr.toFixed(1)} Ω`,
+      q: `${tf.QM.toFixed(2)} / ${tf.QE.toFixed(3)} / ${tf.QT.toFixed(3)}`, cl: `${tc.f0.toFixed(2)} Hz, Q_TC = ${tc.QT.toFixed(3)} (f_C/f_S = ${(tc.f0 / tf.f0).toFixed(3)})`,
+      vas: `${vas.toFixed(2)} L (α = ${((tc.f0 / tf.f0) ** 2 - 1).toFixed(3)})`, fb: `${vb.fph.toFixed(1)} / ${vb.fmin.toFixed(1)} / ${W.fb.toFixed(1)} Hz` });
+    const col = { free: DOMC.me, closed: DOMC.el, vent: DOMC.ac }, nm = { free: "free air", closed: "closed box", vent: `vented, L = ${(st.L * 1000).toFixed(0)} mm` };
+    const show = st.view === "all" ? ["free", "closed", "vent"] : [st.view];
+    const series = show.map(m => ({ name: nm[m], color: col[m], width: show.length === 1 ? 2.4 : 1.8, pts: fs5.map((f, k) => [f, cabs(Zs[m][k])]) }));
+    const markers = [], vlines = [];
+    if (show.includes("free")) { series.push({ name: "√(R_E Z_max), free air", color: DOMC.ink3, thin: true, pts: [[5, tf.Zr], [500, tf.Zr]] }); markers.push({ x: tf.f1, y: tf.Zr, label: "f₁", color: DOMC.me }, { x: tf.f2, y: tf.Zr, label: "f₂", color: DOMC.me }); vlines.push({ x: tf.f0, label: "f_S", color: DOMC.me }); }
+    if (show.includes("closed")) vlines.push({ x: tc.f0, label: "f_C", color: DOMC.el });
+    if (show.includes("vent")) vlines.push({ x: vb.fph, label: "f_B", color: DOMC.ac });
+    plot.set({ ymax: Math.max(20, 10 * Math.ceil(Math.max(tf.Zmax, tc.Zmax) / 10 + 0.5)), series, markers, vlines });
+  }
+  b.note.innerHTML = `<p>This is the measurement of Part 2b done on paper. The woofer is invented (f<sub>S</sub> = 40 Hz, Q<sub>MS</sub> = 4, Q<sub>ES</sub> = 0.45, V<sub>AS</sub> = 25 L, R<sub>E</sub> = 6 Ω, L<sub>E</sub> = 0.4 mH), the box is 20.1 L and the vent 17.5 mm in radius: exactly what <span class="mono">test_labD.m</span> uses. The readouts apply the brief's Appendix B to the curve, the way <span class="mono">analyse_labD</span> does on the real data, and land back on the inputs: 39.99 Hz, 59.3 Ω, f₁ = 27.22 and f₂ = 58.54 Hz, Q<sub>MS</sub> = 4.01, Q<sub>ES</sub> = 0.452, f<sub>C</sub> = 59.88 Hz, V<sub>AS</sub> = 25.00 L. At 100 mm the vent gives f<sub>B</sub> = 33.5 Hz from the phase against 33.7 Hz from the formula.</p>`
+    + `<p><b>Try:</b> make the box smaller and watch f<sub>C</sub> and Q<sub>TC</sub> rise together by √(1 + α). Lengthen the vent: both peaks slide down and the dip (f<sub>B</sub>) with them. Open the second vent: twice the area halves M<sub>AP</sub>, so f<sub>B</sub> rises by √2. The |Z| minimum always sits a little above the phase zero, which is why the lab script reports both.</p>`;
+  upd();
+}
+function benchLabDnear() {
+  const b = bench("bench-labDnear", "Near field at the cone and at the vent: the notch and the peak at f_B", "Lab D · part 3 · same woofer, 1 V on the terminals");
+  if (!b) return;
+  const st = Object.assign({}, LABD);
+  slider(b.ctl, { label: "vent tube length <b>L<sub>P</sub></b>", min: 0.01, max: 0.3, step: 0.005, value: st.L, unit: "mm", dom: "ac", fmt: v => (v * 1000).toFixed(0), onchange: v => { st.L = v; upd(); } });
+  slider(b.ctl, { label: "box loss <b>Q<sub>L</sub></b>", min: 2, max: 30, step: 0.5, value: st.QL, unit: "", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.QL = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "fb", label: "f_B from the formula", dom: "ac" }, { id: "notch", label: "cone notch (between ½ and 2 f_B)" }, { id: "peak", label: "vent peak" }, { id: "dep", label: "notch depth below the cone's level at 2 f_B", dom: "me" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 5, xmax: 500, ymin: 40, ymax: 130, ylabel: "near-field SPL at 1 V (dB re 20 µPa)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const fr = logspace(5, 500, 900);
+  const MA1 = (a) => 8 * st.rho / (3 * Math.PI * Math.PI * a);
+  function upd() {
+    const W = labDwoofer(st), aP = st.aP;
+    const F = fr.map(f => W.flows(f));
+    const pc = F.map((q, k) => dB(cabs(q.UD) * TAU * fr[k] * MA1(st.a) / 2e-5)), pv = F.map((q, k) => dB(cabs(q.UP) * TAU * fr[k] * MA1(aP) / 2e-5));
+    const ff = F.map((q, k) => dB(cabs(cadd(q.UD, q.UP)) * TAU * fr[k] * st.rho / (TAU * 1) / 2e-5));
+    let iN = -1, iP = 0; for (let k = 0; k < fr.length; k++) { const w = fr[k] > 0.5 * W.fb && fr[k] < 2 * W.fb; if (w && (iN < 0 || pc[k] < pc[iN])) iN = k; if (fr[k] > 10 && pv[k] > pv[iP]) iP = k; }
+    const k2 = fr.findIndex(f => f >= 2 * W.fb);
+    ro({ fb: hz(W.fb), notch: `${hz(fr[iN])}`, peak: `${hz(fr[iP])}`, dep: `${(pc[k2] - pc[iN]).toFixed(1)} dB` });
+    plot.set({ series: [{ name: "cone, near field", color: DOMC.me, width: 2.2, pts: fr.map((f, k) => [f, pc[k]]) }, { name: "vent, near field", color: DOMC.ac, width: 2.2, pts: fr.map((f, k) => [f, pv[k]]) },
+      { name: "far field at 1 m, cone + vent", color: DOMC.ink3, thin: true, pts: fr.map((f, k) => [f, ff[k]]) }], vlines: [{ x: W.fb, label: "f_B", color: DOMC.ac }] });
+  }
+  b.note.innerHTML = `<p>Close to a piston the pressure is set by the air mass in front of it, <span class="mono">p<sub>near</sub> = jω M<sub>A1</sub> U</span> with <span class="mono">M<sub>A1</sub> = 8ρ/(3π²a)</span>. So each near-field curve has the far-field shape of its own radiator, and the level depends on its own radius. Here the cone has a = 6.5 cm and the vent 1.75 cm, which is why the vent curve sits so high: the two levels can only be added after scaling each one, which the grey far-field line does properly (ρω(U<sub>D</sub> + U<sub>P</sub>)/2πr).</p>`
+    + `<p><b>What to look for in the lab:</b> the cone's <b>notch</b> sits at f<sub>B</sub>, the same tuning the impedance dip gives, and the vent's <b>peak</b> sits close to it but not on it (at 100 mm: notch 33.6 Hz, formula 33.7 Hz, vent peak 31.1 Hz). Read f<sub>B</sub> off the cone notch. Raise Q<sub>L</sub> (fewer losses) and the notch gets deeper. Below f<sub>B</sub> cone and vent move in antiphase, so the far field falls at 24 dB/octave even though each near-field curve does not. Real data will also show room modes, so measure the room.</p>`;
+  upd();
+}
+
+document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); });
