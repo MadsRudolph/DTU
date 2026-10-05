@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-05 — Problem solving week 6 - 10.00-12.00
+
+Dear all 
+The plan for tomorrow is that you will watch Cheol-Ho's video lectures on your own 8-10 (or any other time you prefer).
+Problem solving will take place in 358/063 as usual from 10.00 and Stefan will be there to answer your questions.
+br
+Finn
+
 ## 2026-10-05 — Lecture 6. Room acoustics
 
 Hi all
