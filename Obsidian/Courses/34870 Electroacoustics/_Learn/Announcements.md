@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-10-05 — Reminder: Lab B/C quiz deadline today!
+
+Dear all,
+Just in case you forgot, remember to submit your individual quiz today.
+Best regards,
+Vicente
+
 ## 2026-10-02 — Lab A Quiz - Evaluation published
 
 Dear all,

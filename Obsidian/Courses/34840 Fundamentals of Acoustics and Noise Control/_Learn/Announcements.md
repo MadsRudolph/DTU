@@ -1,5 +1,19 @@
 # Announcements
 
+## 2026-10-05 — Lecture 6. Room acoustics
+
+Hi all
+I hope you are well. But I am not and particularly I lost my voice and I doubt if I can really talk tomorrow morning for 2 hr.
+So I suggest that you watch my recordings of the same lecture from 2024, before you move on to the problem solving. 
+Part 1
+https://dtu.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=78f049ce-477c-41e1-987f-b203006b43a6
+Part 2
+https://dtu.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f9677dae-fef2-480c-a712-b2030079b344
+
+I look forward to seeing you after the autumn break.
+Best
+Cheolho
+
 ## 2026-09-29 — Estimated lecture start 8.45
 
 .
