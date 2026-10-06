@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-10-06 — Important update regarding handin assignment
+
+Dear all
+The handin assignment that was announced last week contained a question (2.3) regarding the required voltage for driving a loudspeaker. This question is not supposed to be part of the assignment, as it deals with topics not yet covered in the course.
+You can skip this question completely in your answer.
+An updated set of handin problems without this question is now available in the assignment
+Sorry for the confusion
+Finn
+
 ## 2026-10-05 — Problem solving week 6 - 10.00-12.00
 
 Dear all 

@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-06 — Quiz for lab D and Lab E is available
+
+Dear all,
+You may already fill the quiz covering Lab D and Lab E: Lab D/E - Loudspeakers
+The quiz is individual and, as all quizzes, must be passed. The deadline is 26th October.
+Best regards,
+Vicente
+
 ## 2026-10-05 — Reminder: Lab B/C quiz deadline today!
 
 Dear all,

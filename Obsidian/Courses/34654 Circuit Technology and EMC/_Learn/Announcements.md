@@ -1,5 +1,15 @@
 # Announcements
 
+## 2026-10-06 — Lecture today
+
+Dear all,
+🧘‍♂️ We'll start once more - and for a while the last time - with approximately 15 minutes grounding. If that's not for you, feel free to wait outside and I'll invite you in afterwards.
+🏭 We have a guest lecture that shows where the standards and directives for electromagnetic compatibility (EMC) are coming from: it's engineers creating them. And there's an exercise for finding around in that.🔬 Afterwards, there is time to keep working on the EMC exercise.
+🌞 Next week is a holiday week, so no lecture. And after that, Gabriel will take you through the Printed Circuit Boards module of the course.
+I'm looking forward to seeing you later today
+All good
+Arnold
+
 ## 2026-09-29 — EMC-seminar at DTU from Würth
 
 Dear all,

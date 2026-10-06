@@ -1,8 +1,8 @@
 {
   "announcements": {
-    "34654": "188858",
-    "34840": "189379",
-    "34870": "189361",
+    "34654": "189435",
+    "34840": "189443",
+    "34870": "189433",
     "62755": "189256"
   },
   "schema": 1,
@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-10-01T10:47:25.670Z",
-      "sha256": "6cb0cb2a7288a85e504e02cf70c67752a3824334348a3d3f7bf1864a034761ac",
-      "synced_at": "2026-10-01T13:05:33+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
+      "revision": "2026-10-06T10:03:36.083Z",
+      "sha256": "81937eef4976596b041bde401edd9335793a5ab1475fdf4c03f5d31a11a411dc",
+      "synced_at": "2026-10-06T10:04:07+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
