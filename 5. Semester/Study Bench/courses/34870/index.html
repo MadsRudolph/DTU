@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–8 and Labs A–D, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–8 and Labs A–E, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–8 · problems · Labs A–D</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–8 · problems · Labs A–E</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -34,6 +34,7 @@
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
     <li><a href="#labD" data-quiz="D"><span class="n">Lab D</span><span>Loudspeaker impedance &amp; near field<span class="sub">6 Oct · T-S, V_AS, f_B</span></span></a></li>
+    <li><a href="#labE" data-quiz="E"><span class="n">Lab E</span><span>Loudspeaker in free field<span class="sub">20 Oct · baffles, directivity, phase</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -985,6 +986,50 @@
   <div class="callout real"><span class="eyebrow">In the lab</span><p><b>Never touch the tweeter dome</b>, and keep the mid/tweeter box's vent closed. Take the filling <b>out</b> for free air and closed box, so V<sub>AB</sub> = V<sub>B</sub>, and put it <b>back</b> before you leave, because Group 4 uses the same system. For Part 3 the microphone goes into the Nexus <b>before</b> it is switched on (it reads the sensitivity), output 1 V/Pa, and the 33 Ω is replaced by a short. Raise the amplifier from very low until the time signals approach ±1 V, never over; the vent can clip at f<sub>B</sub>. Write down every length, the room size and the temperature: Lab B lost its mock-up dimensions that way.</p></div>
 
   <div id="quiz-D"></div>
+</section>
+
+<section class="lecture" id="labE">
+  <div class="lec-head">
+    <div class="eyebrow">Lab E · Tue 20 Oct 2026, 10:00 · rooms 028/025 (large anechoic chamber), building 354 · System D (shared with Group 4) · quiz (Lab D + E) due Mon 26 Oct, individual</div>
+    <h2>Lab E: what the mounting does to a loudspeaker's response</h2>
+    <div class="meta">brief: Labs/34870_Lab_E_Loudspeakers2_E2026.pdf · digest: Slides/34870_Lecture_10_Digest_Lab_E.pdf · MATLAB (measure_labE, labE_run, test_labE; course diffrac.m, phaseunwrap.m): 5. Semester/Electroacoustics/Labs/Lab E/ · vault: Labs/Lab E - Preparation · theory: lecture 6 (scattering, reciprocity), lecture 7 §5</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Every edge of a finite baffle sends back an <b>inverted copy</b> of the wave, and where those copies arrive in or out of step with the direct wave the response gets <span class="ac">peaks and dips</span>. A centred driver on a circle lines all the copies up (worst case); an off-centre driver on a rectangle spreads them out (the IEC screen). For the project system, the three units are measured in <b>one run</b> so their <b>relative phase</b> survives for the crossover.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Two parts, one microphone</h3>
+    <table>
+      <tr><th>Part</th><th>What</th><th>Angles</th><th>Settings</th><th>What you get</th></tr>
+      <tr><td>1a</td><td>3″ driver in its small box</td><td>0°, 30°</td><td rowspan="3">50 Hz–20 kHz, 24/oct, Nav 16</td><td>the box as its own (small) baffle</td></tr>
+      <tr><td>1b</td><td><span class="ac">circular screen</span>, driver centred</td><td>0°, 30°</td><td>regular ripple at λ/2 and λ path difference; smeared off axis</td></tr>
+      <tr><td>1c</td><td><span class="ac">IEC screen</span>, driver off-centre</td><td>0°, 15°, 30°, 60°</td><td>smooth on-axis curve; off/on = piston directivity</td></tr>
+      <tr><td>2</td><td>project system, vent plugged, <b>3 units in one run</b> through the switchboard</td><td>0°, 30°, 60°</td><td>48/oct, Nav 64, Nmeas 3</td><td>|H| and <b>relative phase</b> of woofer, midrange, tweeter for the crossover</td></tr>
+    </table>
+    <p>Hardware: the PC's sound card plays the multitone into the amplifier and back into line-in (the reference), and a <b>UMIK-1</b> USB microphone records the pressure. Plug the UMIK in <b>before</b> MATLAB starts, and give the routine its serial number so it applies the right correction curve. The card does not synchronise playback and recording, so every run gets its own random delay: magnitudes are always fine, <b>phases only compare within one run</b>.</p>
+  </div>
+
+  <div id="bench-labE"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Formulas</span>What to compare the curves with</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">path difference, circle</span><div class="M">\Delta = a + \sqrt{a^2+r^2} - r \approx a</div><p>edge wave inverted: peak at <span class="m">\Delta = (2n-1)\lambda/2</span>, dip at <span class="m">\Delta = n\lambda</span></p></div>
+      <div class="fcard"><span class="eyebrow">first peak and dip</span><div class="M">f_{\max} = \frac{c}{2\Delta},\quad f_{\min} = \frac{c}{\Delta}</div><p>a = 25 cm, r = 1 m: 611 Hz and 1.22 kHz; below, the baffle step down to −6 dB</p></div>
+      <div class="fcard"><span class="eyebrow">piston directivity</span><div class="M">D(\theta) = \frac{2J_1(ka\sin\theta)}{ka\sin\theta}</div><p>−3 dB at <span class="m">ka\sin\theta = 1.62</span>, first null at 3.83</p></div>
+      <div class="fcard"><span class="eyebrow">transfer function</span><div class="M">H_k = \frac{\texttt{specn(:,2,k)}}{\texttt{specn(:,1,k)}}</div><p>pressure over voltage, unit k of the run (1 woofer, 2 midrange, 3 tweeter)</p></div>
+      <div class="fcard"><span class="eyebrow">phase compensation</span><div class="M">\varphi_c = \varphi + 2\pi f\,\frac{d}{c}</div><p>same d for all three units; all rising → shorter d, all falling → longer</p></div>
+      <div class="fcard"><span class="eyebrow">reciprocity</span><div class="M">p_B/Q_A = p_A/Q_B</div><p>source on a body (Lab E) ↔ receiver on a body (Lab B): same diffraction</p></div>
+    </div>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>Measuring the three units in three separate runs</b> gives three perfect magnitude curves and three meaningless phases: each run has its own random sound-card delay. Use Nmeas = 3 and the switchboard, and don't move the microphone. A second trap: normalising the IEC off-axis curves by the 0° curve removes the baffle ripple but <b>not</b> the beaming; that ratio is what you compare with <span class="m">D(\theta)</span>.</p></div>
+
+  <div id="bench-labEdir"></div>
+  <div id="bench-labEphase"></div>
+
+  <div class="callout real"><span class="eyebrow">In the lab</span><p>The wedges are fragile and expensive, and nuts dropped through the net are gone: screw the small box's bolts into the spare holes when you take it off. Choose the <b>listening height</b> for part 2 before you go in, and keep the box layout and dust cover for the whole project. Start the amplifier very low; time signals must stay below 1. Write the 3″ driver diameter, circle radius, IEC screen size and driver position, all driver diameters and the microphone distance into <span class="mono">labE_dims.m</span> before you leave.</p></div>
+
+  <div id="quiz-E"></div>
 </section>
 
 <section class="lecture" id="cheat">

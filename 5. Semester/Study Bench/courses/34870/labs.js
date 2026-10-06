@@ -451,4 +451,149 @@ function benchLabDnear() {
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); });
+/* ---------- Lab E: baffle diffraction, piston directivity, relative phase ---------- */
+// J1 for any x: power series below 12, Hankel asymptotic (two terms) above.
+function labEj1(x) {
+  const ax = Math.abs(x);
+  if (ax < 12) return besselJ1(x);
+  const w = ax - 0.75 * Math.PI, P = 1 + 0.1171875 / (ax * ax), Q = 0.375 / ax;
+  return Math.sign(x) * Math.sqrt(2 / (Math.PI * ax)) * (P * Math.cos(w) - Q * Math.sin(w));
+}
+function labEpiston(x) { return Math.abs(x) < 1e-9 ? 1 : 2 * labEj1(x) / x; }   // 2J1(x)/x
+
+// Edge model: direct wave + one inverted secondary source per edge element, each weighted by the
+// angle it subtends at the driver (sum of weights = 1), so the low-frequency limit is half the
+// infinite-baffle pressure (−6 dB, full-space radiation). A simplified Vanderkooy-style model,
+// not Terai's (diffrac.m); good enough for where the peaks and dips fall.
+// g = {shape: "circle"|"rect", a, W, H, xl, yb, r, th (deg), as (piston radius)}
+function labEedges(g, N = 720) {
+  const pts = [];
+  if (g.shape === "circle") { for (let i = 0; i < N; i++) { const p = TAU * (i + 0.5) / N; pts.push([g.a * Math.cos(p), g.a * Math.sin(p)]); } }
+  else {
+    const x1 = -g.xl, x2 = g.W - g.xl, y1 = -g.yb, y2 = g.H - g.yb, C = [[x1, y1], [x2, y1], [x2, y2], [x1, y2], [x1, y1]];
+    const per = 2 * (g.W + g.H);
+    for (let s = 0; s < 4; s++) { const [ax, ay] = C[s], [bx, by] = C[s + 1], L = Math.hypot(bx - ax, by - ay), n = Math.max(2, Math.round(N * L / per));
+      for (let i = 0; i < n; i++) { const u = (i + 0.5) / n; pts.push([ax + u * (bx - ax), ay + u * (by - ay)]); } }
+  }
+  const ang = pts.map(([x, y]) => Math.atan2(y, x));
+  return pts.map(([x, y], i) => {   // angular share: half the angle to each neighbour
+    const prev = ang[(i - 1 + pts.length) % pts.length], next = ang[(i + 1) % pts.length];
+    const wrap = d => { d = Math.abs(d); return d > Math.PI ? TAU - d : d; };
+    return { x, y, rho: Math.hypot(x, y), w: (wrap(ang[i] - prev) + wrap(next - ang[i])) / 2 / TAU };
+  });
+}
+function labEbaffle(g, fr) {
+  const E = labEedges(g), th = g.th * Math.PI / 180, mx = g.r * Math.sin(th), mz = g.r * Math.cos(th);
+  const wsum = E.reduce((s, e) => s + e.w, 0);
+  return fr.map(f => {
+    const k = TAU * f / C0, ka = k * (g.as || 0);
+    let re = labEpiston(ka * Math.sin(th)), im = 0;          // direct wave, phase referred to r
+    const dg = labEpiston(ka);                                // the piston radiating along the baffle (90°)
+    for (const e of E) {
+      const d = Math.hypot(mx - e.x, e.y, mz), ph = -k * (e.rho + d - g.r), amp = -0.5 * (e.w / wsum) * (g.r / d) * dg;
+      re += amp * Math.cos(ph); im += amp * Math.sin(ph);
+    }
+    return Math.hypot(re, im);
+  });
+}
+function labEpeaks(fr, L, f0, f1) {   // first local max and first local min above f0 in the band
+  let pk = null, dp = null;
+  for (let k = 1; k < fr.length - 1; k++) {
+    if (fr[k] < f0 || fr[k] > f1) continue;
+    if (!pk && L[k] > L[k - 1] && L[k] >= L[k + 1]) pk = k;
+    if (pk && !dp && L[k] < L[k - 1] && L[k] <= L[k + 1]) dp = k;
+  }
+  return { pk, dp };
+}
+function benchLabE() {
+  const b = bench("bench-labE", "Same driver, three mountings: where the edge waves put the ripples", "Lab E · part 1 · point source or piston, mic at r");
+  if (!b) return;
+  const st = { shape: "circle", a: 0.25, W: 0.4, H: 0.5, xl: 0.15, yb: 0.32, r: 1.0, th: 0, as: 0.001 };
+  const seg = h("div", { class: "seg" });
+  for (const [k, l] of [["circle", "circular, centred"], ["rect", "rectangular, off-centre"]]) seg.append(h("button", { type: "button", class: st.shape === k ? "on" : "", onclick: (e) => { st.shape = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg);
+  slider(b.ctl, { label: "circle radius <b>a</b>", min: 0.05, max: 0.5, step: 0.005, value: st.a, unit: "cm", dom: "ac", fmt: v => (v * 100).toFixed(1), onchange: v => { st.a = v; upd(); } });
+  slider(b.ctl, { label: "rectangle: driver from left edge", min: 0.02, max: 0.38, step: 0.005, value: st.xl, unit: "cm", dom: "ac", fmt: v => (v * 100).toFixed(1), onchange: v => { st.xl = v; upd(); } });
+  slider(b.ctl, { label: "microphone angle <b>θ</b>", min: 0, max: 60, step: 15, value: st.th, unit: "°", fmt: v => v.toFixed(0), onchange: v => { st.th = v; upd(); } });
+  slider(b.ctl, { label: "source radius <b>a<sub>s</sub></b> (0 = point)", min: 0.001, max: 0.06, step: 0.001, value: st.as, unit: "cm", dom: "me", fmt: v => (v * 100).toFixed(1), onchange: v => { st.as = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "pk", label: "first peak (model)", dom: "ac" }, { id: "dp", label: "first dip (model)", dom: "ac" }, { id: "fx", label: "circle formula, peak / dip", dom: "ac" }, { id: "rip", label: "ripple 200 Hz – 5 kHz" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 20000, ymin: -20, ymax: 8, ylabel: "level re infinite baffle, on axis (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const fr = logspace(50, 20000, 700);
+  function upd() {
+    const L = labEbaffle(st, fr).map(dB), inf = fr.map(f => dB(labEpiston(TAU * f / C0 * st.as * Math.sin(st.th * Math.PI / 180))));
+    const { pk, dp } = labEpeaks(fr, L, 80, 20000);
+    const D = st.a + Math.hypot(st.a, st.r) - st.r;
+    const band = fr.map((f, k) => f >= 200 && f <= 5000 ? L[k] - inf[k] : null).filter(v => v !== null);
+    ro({ pk: pk ? `${hz(fr[pk])}, ${L[pk].toFixed(1)} dB` : "—", dp: dp ? `${hz(fr[dp])}, ${L[dp].toFixed(1)} dB` : "—",
+      fx: st.shape === "circle" ? `${hz(C0 / (2 * D))} / ${hz(C0 / D)}` : "n/a (edges spread)", rip: `${(Math.max(...band) - Math.min(...band)).toFixed(1)} dB` });
+    plot.set({ series: [{ name: st.shape === "circle" ? "circular baffle" : "rectangular baffle", color: DOMC.ac, width: 2.2, pts: fr.map((f, k) => [f, L[k]]) },
+      { name: "infinite baffle, same angle", color: DOMC.ink3, thin: true, pts: fr.map((f, k) => [f, inf[k]]) }],
+      vlines: st.shape === "circle" ? [{ x: C0 / (2 * D), label: "λ/2", color: DOMC.ac }, { x: C0 / D, label: "λ", color: DOMC.ac }] : [] });
+  }
+  b.note.innerHTML = `<p>The baffle sends back an <b>inverted</b> copy of the wave from every edge point. A centred driver on a circle has every edge point at the same distance, so all the copies arrive together: a peak where the path difference <span class="mono">Δ = a + √(a² + r²) − r</span> is half a wavelength and a dip where it is a whole one. With a = 25 cm and r = 1 m that is 611 Hz and 1.22 kHz, the numbers in the preparation note. Below the first peak the baffle is too small to matter and the level falls towards −6 dB: the <b>baffle step</b> from half space to full space.</p>`
+    + `<p><b>Try:</b> switch to the rectangle (40 × 50 cm, driver off-centre, like the IEC screen) and watch the ripple shrink: the edge distances are spread out, so the copies arrive at different times. Turn θ to 30° on the circle: the edge points are no longer equidistant from the microphone and the ripples smear, which is what part 1b measures. Raise the source radius: a real piston sends less sound along the baffle at high frequency, so the edges get weaker. This is a simplified edge model; <span class="mono">diffrac.m</span> (Terai) is the one the brief asks for.</p>`;
+  upd();
+}
+
+function benchLabEdir() {
+  const b = bench("bench-labEdir", "Off-axis over on-axis: the piston's directivity", "Lab E · part 1c analysis and part 2 · D(θ) = 2J₁(ka sinθ)/(ka sinθ)");
+  if (!b) return;
+  const st = { a: 0.03 };
+  slider(b.ctl, { label: "piston radius <b>a</b>", min: 0.01, max: 0.12, step: 0.0005, value: st.a, unit: "cm", dom: "me", fmt: v => (v * 100).toFixed(2), onchange: v => { st.a = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "ka1", label: "ka = 1 at" }, { id: "d15", label: "15°: −3 dB / first null" }, { id: "d30", label: "30°: −3 dB / first null" }, { id: "d60", label: "60°: −3 dB / first null" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 100, xmax: 20000, ymin: -40, ymax: 3, ylabel: "20 log |D(θ)| (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const fr = logspace(100, 20000, 800);
+  const X3 = 1.6163, X0 = 3.8317;   // 2J1(x)/x = 1/√2 and the first zero
+  function upd() {
+    const f1 = C0 / (TAU * st.a), cols = { 15: DOMC.el, 30: DOMC.me, 60: DOMC.ac };
+    const fmt = (th) => { const s = Math.sin(th * Math.PI / 180), a = X3 / s * f1, z = X0 / s * f1; return `${hz(a)} / ${z > 20000 ? "> 20 kHz" : hz(z)}`; };
+    ro({ ka1: hz(f1), d15: fmt(15), d30: fmt(30), d60: fmt(60) });
+    plot.set({ series: [15, 30, 60].map(th => ({ name: `${th}°`, color: cols[th], width: 2, pts: fr.map(f => [f, Math.max(-40, dB(Math.abs(labEpiston(TAU * f / C0 * st.a * Math.sin(th * Math.PI / 180)))))]) })) });
+  }
+  b.note.innerHTML = `<p>A piston in an infinite baffle beams once its circumference passes a wavelength (ka &gt; 1). The off-axis level relative to on-axis is <span class="mono">2J₁(x)/x</span> with <span class="mono">x = ka sinθ</span>: −3 dB at x = 1.62, the first null at x = 3.83. For the 3″ driver (a ≈ 3 cm) that gives −3 dB at 30° near 5.9 kHz and a null near 14 kHz; at 60° 3.4 and 8.0 kHz.</p>`
+    + `<p><b>Try:</b> set a = 10.55 cm, the Scan-Speak woofer of System D. At 30° it is already −3 dB at about 1.7 kHz, so the woofer has to hand over to the midrange well below that if the speaker is to sound the same off axis. In the lab, divide each IEC off-axis curve by the 0° curve and lay it on these lines: the baffle ripple cancels in the ratio, the beaming does not.</p>`;
+  upd();
+}
+
+// Three invented units (Lab E part 2): minimum-phase shapes, acoustic centres at slightly different depths,
+// all seen through the same distance r and the same unknown sound-card delay tau0.
+const LABE_UNITS = [
+  { name: "woofer", col: "el", hp: [42, 0.6], lp: 1500, back: 0.03 },
+  { name: "midrange", col: "me", hp: [90, 1.0], lp: 8000, back: 0.01 },
+  { name: "tweeter", col: "ac", hp: [1450, 0.5], lp: 30000, back: 0 },
+];
+function labEunitPhase(u, f, r, tau0) {   // radians, wrapped; delay = flight over r + back + tau0
+  const s = cx(0, TAU * f), w0 = TAU * u.hp[0], wl = TAU * u.lp;
+  const hp = cdiv(cmul(s, s), cadd(cadd(cmul(s, s), cscale(s, w0 / u.hp[1])), cx(w0 * w0, 0)));
+  const lp = cinv(cadd(cx(1, 0), cscale(s, 1 / wl)));
+  const H = cmul(hp, lp), ph = Math.atan2(H.im, H.re) - TAU * f * ((r + u.back) / C0 + tau0);
+  return Math.atan2(Math.sin(ph), Math.cos(ph));
+}
+function labEunwrap(ph) { const out = [ph[0]]; for (let k = 1; k < ph.length; k++) { let d = ph[k] - ph[k - 1]; d -= TAU * Math.round(d / TAU); out.push(out[k - 1] + d); } return out; }
+function benchLabEphase() {
+  const b = bench("bench-labEphase", "Finding the compensation distance d: make the three phases readable", "Lab E · part 2d · what phaseunwrap.m does");
+  if (!b) return;
+  const st = { d: 0, r: 1.5, tau0: 2.3e-3 };
+  slider(b.ctl, { label: "compensation distance <b>d</b> (same for all units)", min: -1, max: 4, step: 0.01, value: st.d, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.d = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "true", label: "flight distance + card delay × c" }, { id: "sl", label: "slope 2–10 kHz (°/kHz) w / m / t" }, { id: "verdict", label: "verdict" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 20000, ymin: -1080, ymax: 720, ylabel: "compensated, unwrapped phase (°)", yfmt: v => v.toFixed(0), yunit: "°" });
+  const fr = logspace(50, 20000, 1200);
+  function upd() {
+    const curves = LABE_UNITS.map(u => {
+      const ph = labEunwrap(fr.map(f => labEunitPhase(u, f, st.r, st.tau0) + TAU * f * st.d / C0)).map(v => v * 180 / Math.PI);
+      const off = 360 * Math.round(ph[fr.findIndex(f => f >= 1000)] / 360);   // move by whole turns, as the brief allows
+      return ph.map(v => v - off);
+    });
+    const i2 = fr.findIndex(f => f >= 2000), i10 = fr.findIndex(f => f >= 10000);
+    const sl = curves.map(c => (c[i10] - c[i2]) / 8);
+    const up = sl.filter(s => s > 3).length, dn = sl.filter(s => s < -3).length;
+    ro({ true: `${(st.r + st.tau0 * C0).toFixed(2)} m`, sl: sl.map(s => s.toFixed(0)).join(" / "),
+      verdict: up === 3 ? "all rise: d too long" : dn === 3 ? "all fall: d too short" : "mixed or flat: done" });
+    plot.set({ series: LABE_UNITS.map((u, i) => ({ name: u.name, color: DOMC[u.col], width: 2, pts: fr.map((f, k) => [f, curves[i][k]]) })) });
+  }
+  b.note.innerHTML = `<p>Each measured phase holds three things: the unit's own phase (what the crossover needs), the flight time over the distance, and a delay the sound card adds at random to every run. The last two are the <b>same for all three units</b> as long as they are measured in <b>one</b> run without moving the microphone, so one distance d removes both. Here the speaker is 1.5 m away and the card adds 2.3 ms (another 0.79 m), so the pure delay is 2.29 m; because the units' own phase also falls a little at high frequency, the slopes turn mixed at d ≈ 2.31 m.</p>`
+    + `<p><b>Try:</b> start at d = 0 (everything falls) and follow the brief's rule: all falling, increase d; all rising, decrease it; stop when the slopes are mixed. What is left at that point is real: the woofer's acoustic centre sits 3 cm behind the tweeter's, and that shows as the woofer still falling a little relative to the tweeter. That relative phase is exactly what the crossover has to sum correctly.</p>`;
+  upd();
+}
+
+document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); benchLabE(); benchLabEdir(); benchLabEphase(); });
