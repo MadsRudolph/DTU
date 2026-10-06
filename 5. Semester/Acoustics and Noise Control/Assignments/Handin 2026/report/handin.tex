@@ -1,0 +1,349 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\graphicspath{{../figures/}{images/}}
+
+% DTU corporate colours (DTU-templates/external/dtucolours.tex)
+\definecolor{dtured}{rgb}{0.6,0,0}
+\definecolor{dtugrey}{rgb}{0.6,0.6,0.6}
+
+% Running header and footer on every page after the front page
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 34840 Fundamentals of Acoustics and Noise Control}
+\fancyhead[R]{\includegraphics[height=0.9cm]{dtu_logo.pdf}}
+\fancyfoot[L]{\small Mads Rudolph, s246132}
+\fancyfoot[R]{\small Page \thepage\ of \pageref*{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{dtured}\leaders\hrule height \headrulewidth\hfill}}
+\setlength{\headheight}{28pt}
+\sisetup{per-mode=symbol, detect-all}
+
+\lstset{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  commentstyle=\color{green!40!black},
+  keywordstyle=\color{blue!70!black},
+  stringstyle=\color{purple!70!black},
+  breaklines=true,
+  columns=fullflexible,
+  frame=single,
+  rulecolor=\color{gray!50},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  literate={µ}{{$\mu$}}1
+}
+
+\newcommand{\answer}[1]{\par\smallskip\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#1}}\par\smallskip}
+
+\begin{document}
+
+%--------------------------------------------------------------------- front page
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=north east, inner sep=0] at ([xshift=-2.5cm, yshift=-2cm]current page.north east)
+    {\includegraphics[height=3.2cm]{dtu_logo.pdf}};
+  \fill[dtured] ([yshift=1.6cm]current page.south west) rectangle ([yshift=2.0cm]current page.south east);
+\end{tikzpicture}
+
+\vspace*{5.5cm}
+{\color{dtured}\rule{\linewidth}{1.2pt}}\\[0.8cm]
+{\huge\bfseries Individual Hand-in 2026}\\[0.4cm]
+{\Large 34840 Fundamentals of Acoustics and Noise Control}\\[0.4cm]
+{\color{dtured}\rule{\linewidth}{1.2pt}}
+
+\vspace{2.5cm}
+\begin{tabular}{@{}ll}
+  \textbf{Author:}     & Mads Rudolph \\
+  \textbf{Study no.:}  & s246132 \\[0.3cm]
+  \textbf{Course:}     & 34840 Fundamentals of Acoustics and Noise Control, autumn 2026 \\
+  \textbf{Deadline:}   & 9 October 2026 \\
+\end{tabular}
+
+\vfill
+\noindent\textbf{DTU Electro}\\
+Department of Electrical and Photonics Engineering\\
+Technical University of Denmark
+\vspace*{1.2cm}
+\end{titlepage}
+\setcounter{page}{1}
+
+\noindent Constants used throughout, as given in the assignment: air
+$\rho_0 = \SI{1.2}{kg/m^3}$, $c = \SI{343}{m/s}$; water
+$\rho_w = \SI{1000}{kg/m^3}$, $c_w = \SI{1480}{m/s}$; reference pressure
+$p_\text{ref} = \SI{20}{\micro Pa}$. All calculations are done in the MATLAB
+scripts \texttt{problem1.m} and \texttt{problem2.m}, listed in the appendix.
+
+%=====================================================================
+\section*{Problem 1 --- Plane wave on a coral reef}
+%=====================================================================
+
+A plane wave travels in water and hits a large reef at normal incidence. The
+incident pressure amplitude is $\hat p_i = \SI{3}{Pa}$ and the total
+intensity in front of the reef is $I_t = \SI{2.1}{\micro W/m^2}$. I read
+``amplitude'' as the peak value of the harmonic pressure.
+
+\subsection*{Q1.1 --- Absorption coefficient}
+
+The characteristic impedance of water is
+\begin{equation}
+  Z_0 = \rho_w c_w = 1000 \cdot 1480 = \SI{1.48e6}{Pa.s/m}.
+\end{equation}
+For a plane wave the time-averaged intensity follows from the peak amplitude
+as $I = \hat p^2/(2\rho c)$, so the incident wave carries
+\begin{equation}
+  I_i = \frac{\hat p_i^2}{2\rho_w c_w} = \frac{3^2}{2\cdot\num{1.48e6}}
+      = \SI{3.04}{\micro W/m^2}.
+\end{equation}
+
+In front of the reef the field is the sum of the incident wave and the
+reflected wave $\hat p_r = R\,\hat p_i$. The two waves travel in opposite
+directions, so their intensities subtract (the cross terms between them
+carry no net power in a plane-wave field). The measured total intensity is
+therefore the net power per unit area that goes \emph{into} the reef:
+\begin{equation}
+  I_t = I_i - I_r = I_i\left(1 - |R|^2\right).
+\end{equation}
+The absorption coefficient is by definition the fraction of the incident
+power that is not reflected, $\alpha = 1 - |R|^2$, which gives
+\begin{equation}
+  \alpha = \frac{I_t}{I_i} = \frac{2.1}{3.04} = 0.691.
+\end{equation}
+
+\answer{$\alpha \approx 0.69$ --- the reef absorbs about 69\,\% of the incident sound power.}
+
+\subsection*{Q1.2 --- Surface impedance}
+
+The reflection factor at normal incidence is set by the surface impedance
+$Z_s = p/u$ of the reef:
+\begin{equation}
+  R = \frac{Z_s - Z_0}{Z_s + Z_0}.
+\end{equation}
+From Q1.1 the magnitude is
+\begin{equation}
+  |R| = \sqrt{1-\alpha} = \sqrt{1 - 0.691} = 0.556.
+\end{equation}
+Because $Z_s$ is real, $R$ is real as well, so either $R = +0.556$ or
+$R = -0.556$. Solving the expression for $R$ for $Z_s$:
+\begin{equation}
+  Z_s = Z_0\,\frac{1+R}{1-R}.
+\end{equation}
+\begin{align}
+  R = +0.556:&\quad Z_s = \num{1.48e6}\cdot\frac{1.556}{0.444}
+     = 3.51\,Z_0 = \SI{5.19e6}{Pa.s/m},\\
+  R = -0.556:&\quad Z_s = \num{1.48e6}\cdot\frac{0.444}{1.556}
+     = 0.285\,Z_0 = \SI{4.22e5}{Pa.s/m}.
+\end{align}
+Both values give exactly the same absorption coefficient, so the intensity
+measurement alone cannot tell them apart. To decide, I use what the reef
+physically is: a rigid structure of calcium carbonate, which is both denser
+and stiffer than water. It is acoustically \emph{harder} than water,
+$Z_s > Z_0$, which means a positive reflection factor (pressure maximum at
+the surface). The soft solution, $Z_s < Z_0$, would require a surface that
+is acoustically softer than the water itself, e.g.\ a gas-filled layer, and
+is not expected for a reef. Measuring the phase of the reflected wave (or
+whether the standing-wave pattern has a pressure maximum or minimum at the
+surface) would settle it.
+
+\answer{$Z_s \approx \SI{5.2e6}{Pa.s/m}$ ($\approx 3.5\,\rho_w c_w$, $R = +0.556$).
+The mathematically possible soft solution is $\SI{4.2e5}{Pa.s/m}$ ($R = -0.556$).}
+
+%=====================================================================
+\section*{Problem 2 --- Music festival}
+%=====================================================================
+
+Each stage plays 6 one-hour shows a day between 14:00 and 02:00. I assume the
+stages contribute nothing outside the shows (background noise from other
+sources is not part of the festival's emission).
+
+\subsection*{Q2.1 --- 24 h equivalent level for stage 2}
+
+The equivalent continuous level is the energy (mean-square pressure)
+average over the period $T$:
+\begin{equation}
+  L_{\text{eq},T} = 10\log_{10}\!\left(\frac{1}{T}\sum_i t_i\,10^{L_i/10}\right).
+\end{equation}
+Stage 2 gives $L_2 = \SI{60}{dB}$ for $t_\text{on} = \SI{6}{h}$ and nothing for
+the remaining 18 hours, so
+\begin{equation}
+  L_{\text{eq},24\text{h}} = 10\log_{10}\!\left(\frac{6}{24}\,10^{60/10}\right)
+  = 60 + 10\log_{10}\frac{6}{24} = 60 - 6.0 = \SI{54.0}{dB}.
+\end{equation}
+The result does not depend on when during the day the six shows take place.
+
+\answer{$L_{\text{eq},24\text{h}} \approx \SI{54.0}{dB}$ re \SI{20}{\micro Pa} for stage 2.}
+
+\subsection*{Q2.2 --- 24 h equivalent level for the whole festival}
+
+The three stages play different, unrelated programmes, so their signals are
+incoherent and the mean-square pressures add. Each stage contributes for 6
+hours. Because energy is summed over the full 24 hours, it makes no
+difference whether the shows on the different stages overlap in time or
+not:
+\begin{equation}
+  L_{\text{eq},24\text{h}}
+  = 10\log_{10}\!\left(\frac{6}{24}\left(10^{58/10} + 10^{60/10} + 10^{54/10}\right)\right).
+\end{equation}
+The individual contributions are $\SI{52.0}{dB}$ (stage 1), $\SI{54.0}{dB}$
+(stage 2) and $\SI{48.0}{dB}$ (stage 3), and the total is
+
+\answer{$L_{\text{eq},24\text{h}} \approx \SI{56.7}{dB}$ re \SI{20}{\micro Pa} for the entire festival.}
+
+\noindent For comparison, when all three stages play at the same time the
+level at the neighbour is $\SI{62.7}{dB}$; the 24-hour average is
+$\SI{6}{dB}$ lower because sound is only emitted a quarter of the day.
+
+\subsection*{Q2.3 --- Subwoofer interference at 20 Hz}
+
+\paragraph{Geometry.} I place the origin at the centre of the stage front
+with $x$ along the stage and $y$ towards the audience
+(Figure~\ref{fig:geometry}). The two subwoofers stand at the stage ends,
+$(\mp10, 0)$\,m, Front of House (FOH) is at $(0, 13)$\,m and the five
+audience positions are at $x = -20, -10, 0, 10, 20$\,m on the line
+$y = \SI{19}{m}$.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.21]
+  \fill[gray!25] (-10,-2.2) rectangle (10,-0.4);
+  \node at (0,-1.3) {\footnotesize stage};
+  \fill (-10,0) ++(-0.6,-0.6) rectangle ++(1.2,1.2);
+  \fill (10,0) ++(-0.6,-0.6) rectangle ++(1.2,1.2);
+  \node[below left] at (-10.5,0) {\footnotesize L $(-10,0)$};
+  \node[below right] at (10.5,0) {\footnotesize R $(10,0)$};
+  \draw[fill=white] (0,13) circle (0.6);
+  \node[right] at (0.8,13) {\footnotesize FOH $(0,13)$};
+  \foreach \x in {-20,-10,0,10,20} {
+    \draw[fill=white] (\x,19) circle (0.6);
+    \node[above] at (\x,19.6) {\footnotesize $\x$};
+  }
+  \draw[dashed,gray] (-10,0) -- (0,13) -- (10,0);
+  \draw[dashed,blue!60] (-10,0) -- (-10,19);
+  \draw[dashed,blue!60] (10,0) -- (-10,19);
+  \node[blue!60!black,left] at (-10,9.5) {\footnotesize $r_L=19.0$};
+  \node[blue!60!black] at (5.5,4.5) {\footnotesize $r_R=27.6$};
+  \draw[->] (-24,0) -- (24,0) node[right] {\footnotesize $x$ [m]};
+  \draw[->] (-24,0) -- (-24,22) node[above] {\footnotesize $y$ [m]};
+\end{tikzpicture}
+\caption{Geometry used in Q2.3 (not to scale). The blue lines show the two
+paths to the position $x = -10$\,m, which differ by almost exactly half a
+wavelength.}
+\label{fig:geometry}
+\end{figure}
+
+\paragraph{Assumptions.} Both the stage and the FOH tent are acoustically
+transparent at 20\,Hz, and each subwoofer radiates as a monopole, so the
+sound pressure falls as $1/r$ and its phase as $e^{-jkr}$. The subwoofers
+and the listeners are all close to the ground, which is far less than a
+wavelength at 20\,Hz. The ground reflection therefore adds in phase with the
+direct sound everywhere and raises all levels by the same amount. Since the
+subwoofers are calibrated by the level they produce at FOH, this common
+factor is already included in the 80\,dB, and the problem can be treated as
+free-field radiation from two monopoles.
+
+\paragraph{Wavenumber and source strength.} At 20\,Hz
+\begin{equation}
+  k = \frac{2\pi f}{c} = \frac{2\pi\cdot 20}{343} = \SI{0.366}{rad/m},
+  \qquad \lambda = \frac{c}{f} = \SI{17.15}{m}.
+\end{equation}
+The complex RMS pressure from a monopole is $p(r) = A\,e^{-jkr}/r$. Both
+subwoofers are $r_\text{FOH} = \sqrt{10^2+13^2} = \SI{16.40}{m}$ from FOH and
+each gives 80\,dB there, so they have the same strength:
+\begin{equation}
+  p_\text{FOH} = p_\text{ref}\,10^{80/20} = \SI{0.2}{Pa},\qquad
+  |A| = p_\text{FOH}\,r_\text{FOH} = \SI{3.28}{Pa.m}.
+\end{equation}
+Both arrive at FOH with the same path length, i.e.\ in phase, so together
+they would give 86\,dB there.
+
+\paragraph{Coherent sum.} Both subwoofers are driven by the same 20\,Hz
+signal, so their pressures are coherent and must be added as complex
+numbers, not as energies:
+\begin{equation}
+  p = A\left(\frac{e^{-jkr_L}}{r_L} + \frac{e^{-jkr_R}}{r_R}\right),
+  \qquad
+  L_p = 20\log_{10}\frac{|p|}{p_\text{ref}},
+\end{equation}
+with $r_{L,R} = \sqrt{(x \pm 10)^2 + 19^2}$. The level from each subwoofer on
+its own is $L = 80 + 20\log_{10}(r_\text{FOH}/r)$. The result depends on the
+phase difference $k\,\Delta r$, where $\Delta r = |r_L - r_R|$ is the path
+difference. Table~\ref{tab:q23} gives the numbers.
+
+\begin{table}[htbp]
+\centering
+\caption{SPL at the five audience positions (dB re \SI{20}{\micro Pa}).
+$L_L$, $L_R$: each subwoofer alone. Last column: energy sum, i.e.\ the
+level without interference, for comparison.}
+\label{tab:q23}
+\begin{tabular}{rcccccc>{\bfseries}cc}
+\toprule
+$x$ [m] & $r_L$ [m] & $r_R$ [m] & $L_L$ & $L_R$ & $\Delta r$ [m] & $k\Delta r$ [$^\circ$] & $L_p$ & energy sum\\
+\midrule
+$-20$ & 21.47 & 35.51 & 77.7 & 73.3 & 14.04 & 295 & 80.4 & 79.0\\
+$-10$ & 19.00 & 27.59 & 78.7 & 75.5 &  8.59 & 180 & 68.6 & 80.4\\
+$0$   & 21.47 & 21.47 & 77.7 & 77.7 &  0.00 &   0 & 83.7 & 80.7\\
+$10$  & 27.59 & 19.00 & 75.5 & 78.7 &  8.59 & 180 & 68.6 & 80.4\\
+$20$  & 35.51 & 21.47 & 73.3 & 77.7 & 14.04 & 295 & 80.4 & 79.0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\answer{SPL at $x = -20, -10, 0, 10, 20$\,m: \quad
+\textbf{80.4, 68.6, 83.7, 68.6, 80.4\,dB} re \SI{20}{\micro Pa}.}
+
+\paragraph{Discussion.} On the centre line the two paths are equal, so the
+subwoofers add in phase: $77.7 + 6.0 = \SI{83.7}{dB}$. At $x = \pm\SI{10}{m}$
+the path difference is \SI{8.59}{m}, almost exactly $\lambda/2$, so the two
+pressures are in antiphase. They do not cancel completely only because the
+nearer subwoofer is $3.2$\,dB louder than the farther one, which leaves a dip
+of \SI{68.6}{dB}, about 15\,dB below the centre. At $x = \pm\SI{20}{m}$ the
+phase difference is $295^\circ$ ($-65^\circ$), close enough to a full cycle
+that the waves partly reinforce each other again. Figure~\ref{fig:line}
+shows the full level variation along the audience line, and
+Figure~\ref{fig:map} shows the interference pattern in front of the stage.
+It is the classic left--right subwoofer ``power alley'' on the centre line,
+with deep notches either side of it.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{spl_audience_line.pdf}
+\caption{SPL along the audience line $y = \SI{19}{m}$ at 20\,Hz. The solid
+line is the coherent sum, the dashed line is the energy sum without
+interference, and the dots are the five positions asked for.}
+\label{fig:line}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{spl_map.pdf}
+\caption{SPL map at 20\,Hz in front of the stage. Squares: subwoofers;
+triangle: FOH; circles: audience positions.}
+\label{fig:map}
+\end{figure}
+
+\clearpage
+\appendix
+\section*{Appendix --- MATLAB scripts}
+
+\subsection*{problem1.m}
+\lstinputlisting{../matlab/problem1.m}
+
+\subsection*{problem2.m}
+\lstinputlisting{../matlab/problem2.m}
+
+\end{document}
