@@ -86,7 +86,7 @@ tags: [dashboard, home]
 > - [ ] **Tue 29 Sep 10:30** — 34870 **Lab C** slot, b.354 room 026
 > - [ ] **5 Oct** — 34870 Labs B/C quiz (mic measurement + calibration)
 > - [ ] **Tue 6 Oct 08:00** — 34870 **Lab D** slot, b.354 room 026 (loudspeaker System D, shared with Group 4)
-> - [ ] **Tue 20 Oct 10:00** — 34870 **Lab E** slot, b.354 room 028/025
+> - [ ] **Tue 20 Oct 08:30** — 34870 **Lab E** slot, b.354 room 028/025
 > - [ ] **9 Oct** — 34840 problem set due *(individual hand-in)*
 > - [ ] **26 Oct** — 34870 Labs D/E quiz (enclosures + response)
 > - [ ] **27 Oct – 17 Nov** — 34840 lab exercise window (report due 2 weeks after)

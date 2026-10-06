@@ -11,7 +11,7 @@ tags: [Electroacoustics, lab-note, loudspeakers, diffraction, baffle, directivit
 # Lab E: loudspeaker response in free field (preparation)
 
 > [!info] Practical
-> **When:** **Tue 20 Oct 2026, 10:00**, rooms 028/025, building 354 (the large anechoic chamber + control room). **Group 10:** Louis Andrianne, Sophie Kimura, Mads.
+> **When:** **Tue 20 Oct 2026, 08:30** (moved from 10:00), rooms 028/025, building 354 (the large anechoic chamber + control room). **Group 10:** Louis Andrianne, Sophie Kimura, Mads.
 > **Loudspeaker:** **System D** (Scan-Speak woofer box + DALI mid/tweeter box), shared with Group 4. It clashes with the 34840 Tuesday lecture.
 > **Quiz:** Lab D and Lab E together, individual, deadline **Mon 26 Oct 2026**. Q6–Q9 are already ticked from theory; Q10 and Q11 wait for this lab.
 > **Brief:** [[34870_Lab_E_Loudspeakers2_E2026.pdf]] · **Digest:** [[34870_Lecture_10_Digest_Lab_E.pdf]]
