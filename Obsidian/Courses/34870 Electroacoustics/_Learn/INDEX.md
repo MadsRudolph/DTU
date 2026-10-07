@@ -76,6 +76,12 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 8 - Loudspeaker enclosures/VentedBox_Matlab.zip|Matlab functions for vented box design]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_8_E26.mp4|Lecture 8 - Loudspeaker enclosures - Commented slides]]
 
+## Lecture 9 - Loudspeaker systems – Project intro
+
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf|Lecture 9: Loudspeaker systems & Project]]
+- [[Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf|Problems 9 – Loudspeakers 3]]
+- [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach 4th ed. chapter10: crossover networks]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]

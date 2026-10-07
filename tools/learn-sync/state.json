@@ -745,6 +745,12 @@
       "synced_at": "2026-09-30T16:06:14+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/Matlab files - Lab E.zip"
     },
+    "1284424": {
+      "revision": "2026-10-01T13:55:58.053Z",
+      "sha256": "c1f4f11fe4dd72ac803130139370181ab9adeb2814358c268f3ab946e955f55d",
+      "synced_at": "2026-10-07T19:09:32+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf"
+    },
     "1285260": {
       "revision": "2026-09-30T14:20:12.927Z",
       "sha256": "8066cdae95b15d7f7d64186f72b9e26c4e8fe1e00e6f32a771514436097a064e",
@@ -786,6 +792,18 @@
       "sha256": "d50250d6278df58d27c4931aa664177c3ac86ca144e27bde0ca36a742060de90",
       "synced_at": "2026-10-01T10:09:45+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/34870_LabAfeedback (2).pdf"
+    },
+    "1285686": {
+      "revision": "2026-10-07T10:10:51.813Z",
+      "sha256": "35039066eefb1d6691508af31565beb84fd06ca3003099e644fac88673e3b396",
+      "synced_at": "2026-10-07T19:09:30+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf"
+    },
+    "1285710": {
+      "revision": "2026-10-01T13:54:37.887Z",
+      "sha256": "32d42bbcff01a63b07804c16a22a2563581b3de246c643c3c46394ca610baa6f",
+      "synced_at": "2026-10-07T19:09:30+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf"
     }
   }
 }
