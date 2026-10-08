@@ -745,6 +745,18 @@
       "synced_at": "2026-09-30T16:06:14+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/Matlab files - Lab E.zip"
     },
+    "1284415": {
+      "revision": "2026-09-29T20:08:57.237Z",
+      "sha256": "1e7d1a3af026b8366a4d27439b7f61a5a9a740cf5251ef4720c245f508aa30d4",
+      "synced_at": "2026-10-08T10:06:28+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Loudspeaker Project - Systems 2026.pdf"
+    },
+    "1284417": {
+      "revision": "2026-09-29T20:09:16.083Z",
+      "sha256": "dad31392b56d86f700f9b55341e854c5bbc38ca5b1c758ee939d846a03e3a6e9",
+      "synced_at": "2026-10-08T10:06:27+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Project woofers datasheets.pdf"
+    },
     "1284424": {
       "revision": "2026-10-01T13:55:58.053Z",
       "sha256": "c1f4f11fe4dd72ac803130139370181ab9adeb2814358c268f3ab946e955f55d",
@@ -799,11 +811,35 @@
       "synced_at": "2026-10-07T19:09:30+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf"
     },
+    "1285687": {
+      "revision": "2026-10-01T12:46:23.807Z",
+      "sha256": "74c14aff41c1e1a4673c70d05a294e88ab3cf5a210c025f13d4e6f8cd69c340a",
+      "synced_at": "2026-10-08T10:06:20+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870_Solutions_9_2026.pdf"
+    },
     "1285710": {
       "revision": "2026-10-01T13:54:37.887Z",
       "sha256": "32d42bbcff01a63b07804c16a22a2563581b3de246c643c3c46394ca610baa6f",
       "synced_at": "2026-10-07T19:09:30+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf"
+    },
+    "1285727": {
+      "revision": "2026-10-01T14:22:34.440Z",
+      "sha256": "031aef9d8a4aa542834088ffa0fa7ea12108db70a529a795d12be676277b2ed3",
+      "synced_at": "2026-10-08T10:06:25+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Digital_Filters_to_MiniDSP_&_LTspice.zip"
+    },
+    "1285728": {
+      "revision": "2026-10-01T14:22:00.893Z",
+      "sha256": "19f6b81a9ae1f79d8d6d44d5db8afeb51f967a3fa76d80937966a51c05f8fab9",
+      "synced_at": "2026-10-08T10:06:23+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Passive_Filters_And_Measurement_Data_in_LTspice.zip"
+    },
+    "1285755": {
+      "revision": "2026-10-01T15:49:07.390Z",
+      "sha256": "e9e2b5ac2c37f8b3a91ebd23defc6e9299054e6312581108e875777137597e09",
+      "synced_at": "2026-10-08T10:06:22+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026.pdf"
     }
   }
 }

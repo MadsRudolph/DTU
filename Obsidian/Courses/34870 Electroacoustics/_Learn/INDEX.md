@@ -80,6 +80,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf|Lecture 9: Loudspeaker systems & Project]]
 - [[Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf|Problems 9 – Loudspeakers 3]]
+- [[Courses/34870 Electroacoustics/Exercises/34870_Solutions_9_2026.pdf|Problems 9 – Loudspeakers 3 –SOLUTIONS]]
 - [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach 4th ed. chapter10: crossover networks]]
 
 ## Lab A - Analogies
@@ -107,3 +108,11 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/Labs/34870_Lab_E_Loudspeakers2_E2026.pdf|Lab E - Loudspeaker response in free field - Description]]
 - [[Courses/34870 Electroacoustics/Labs/Matlab files - Lab E.zip|Lab E - Measurement files]]
+
+## Loudspeaker project
+
+- [[Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026.pdf|Project Guide]]
+- [[Courses/34870 Electroacoustics/Project/Passive_Filters_And_Measurement_Data_in_LTspice.zip|Passive Filters and Measurement Data in LTspice]]
+- [[Courses/34870 Electroacoustics/Project/Digital_Filters_to_MiniDSP_&_LTspice.zip|Digital Filters to MiniDSP & LTspice]]
+- [[Courses/34870 Electroacoustics/Project/Project woofers datasheets.pdf|Project woofers datasheets]]
+- [[Courses/34870 Electroacoustics/Project/Loudspeaker Project - Systems 2026.pdf|Loudspeaker Project - Systems]]
