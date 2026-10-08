@@ -668,6 +668,8 @@
 
   <div class="callout real"><span class="eyebrow">From the slides and the project files, not the books</span><ul>
     <li>Slide 10 prints 10.06 µF for the tweeter capacitor; 1/(5·2π·3000) = 10.61 µF.</li>
+    <li>From the recording: the low-pass and high-pass <b>don't need the same f<sub>c</sub></b>; that is VCH's main shaping tool. His slide-24 example is left unsolved on purpose ("an exercise in your project"): move one or both crossover frequencies.</li>
+    <li>From the recording: Zobel networks are "not allowed" in the project. Keep the order low, because only standard component values exist.</li>
     <li>Measured phase: unwrap, then compensate the travel time with <span class="mono">e<sup>+jkd</sup></span> (<span class="mono">phaseunwrap.m</span> uses c = 345 m/s). Use the <b>same d for every driver</b> and the same microphone position, or the relative phase you are designing with is gone. Never compensate an input impedance.</li>
     <li>In LTspice the measured Z<sub>i</sub> is a current source I = V/Z (the 0 V source Yi senses it) and the TF a voltage source; <span class="mono">Matlab2LTspice</span> writes both as <span class="mono">.inc</span> tables. Rename Vspkr/Pout per driver in the first line of each file.</li>
     <li>The example schematic in the passive zip is described as a low-pass but drawn as series C + shunt L, a <b>high-pass</b>.</li>

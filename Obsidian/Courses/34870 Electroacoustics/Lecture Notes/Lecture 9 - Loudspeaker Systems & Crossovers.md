@@ -12,7 +12,7 @@ tags: [Electroacoustics, lecture-note, loudspeakers, crossover, butterworth, lin
 # Lecture 9 — Loudspeakers 3: Systems and Crossovers
 
 > [!info] Lecture Info
-> **Date:** Thursday 8 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck, Problems 9 and the **official solutions** (already out). Every number was checked with `p9.py`. The recording [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|lecture 9 video]] (46 min) was not used for this note: it arrived truncated and was replaced by a full download afterwards, so the commentary is still to be checked against the note.
+> **Date:** Thursday 8 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck, Problems 9 and the **official solutions** (already out). Every number was checked with `p9.py`. The recording [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|lecture 9 video]] (46 min) was transcribed afterwards (Whisper, [[Transcripts/Lecture 9 - transcript|transcript]]) and the commentary checked against the note: what it adds is in §7.6.
 > **Slides:** [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf|Lecture 9 slides]] (28 pages, 2 slides per page; crossovers on slides 2–32, the project on 33–56)
 > **Problems:** [[Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf|Problems 9]] (Loudspeakers 3, with the two Peerless data sheets) · **Solutions:** [[Courses/34870 Electroacoustics/Exercises/34870_Solutions_9_2026.pdf|Solutions 9]] (problems 1–2 only)
 > **Refs:** [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach ch. 10 (crossover networks)]]
@@ -306,6 +306,23 @@ A measured transfer function has a huge phase term $e^{-jkr}$ from the travel ti
 - Prepare the listening-test procedure early. Status meetings and Q&A run during the project. Contact: VCH, b.352 r.016.
 - LTspice plots: keep the y-axis range sensible (< 100 dB), or every curve looks flat.
 
+### 7.6 From the recording, not on the slides
+
+The commentary mostly reads the slides aloud. What it adds (timestamps into the video):
+
+- **Crossover frequencies don't have to match** [05:43]. Already from the 1st-order example: "It doesn't have to be. You may choose different crossover frequencies", as a tool for shaping the response. The same advice comes back for Example 1 and slide 29.
+- **Keep the order low** [06:58]. "The more the components, the more problems". Part of the reason: "you cannot choose exact values of the components, you only can choose normalized values".
+- **Example 1 is left unsolved on purpose** [17:10]. With BW2 the drivers + filters still give a bump (same polarity) or a dip (inverted). "The problem is not solved, even though the filters seem to be the right solution". His suggested fix is moving the crossover frequency, or using different low-pass and high-pass frequencies, "an exercise in your project".
+- **Zobel: "you are not allowed to use it in your project"** [19:30]. Besides being very sensitive to the values ("you could do more harm than good"), it needs non-standard values that are expensive.
+- **L-pad vs DSP** [14:08]. Level matching is easy in a digital crossover (separate amplifier channels, set the gains); the L-pad is only for the passive branch, and should be avoided on woofers because it spoils the low-frequency alignment.
+- **Directivity** [13:36] can't be avoided, only mitigated "with some clever design" (driver placement on the box, see also the box-edge diffraction from the previous lecture).
+- **Lab D uses the closed-box method for V_AS** [27:24] ("this is actually what you will be doing in Lab D"), with $M_{AB} ≈ M_{A1}$ because it is "less subject to uncertainties" than Beranek's route via the $Q_E$'s.
+- **Hardware chain** [29:58]: the same stereo amplifier as in the labs, its two channels go into the chamber / listening room, where the boxes and the passive board sit. MiniDSP: one input, two outputs; set the input gain and channel gains in the app; use **Advanced** and paste your own coefficients, because the basic filter definitions would not match LTspice.
+- **Distance compensation** [36:24]: "Always R1 for all of them. In some cases it will be too short, some others it will be too big", and that is the point: you *want* to see the phase differences between units at the crossover frequency.
+- **Pout resistor** [40:18]: "any resistor will do", because the output is a voltage source that imposes the voltage.
+- **Digital branch without $Z_i$** [42:47]: the input impedance is commented out because the amplifier sits between filter and driver. He says the amplifier's output impedance is "so high that it doesn't matter"; a voltage amplifier's output impedance is actually very **low**, which is exactly why the driver's impedance does not load the filter. Slip of the tongue, same conclusion.
+- **Listening test** [43:49]: a questionnaire about how the sound is perceived, but methodical: choose subjects (group members or recruited people), run them through it the same way, present the results "in a kind of a statistic". You can bring your own music; inside the room there is only the chair, the boxes and the passive filter board.
+
 > [!note] Reminders on slides 34–37 (nothing new)
 > Near/far-field ratio $16r/3\pi a$ ([[Lecture 8 - Loudspeaker Enclosures|L8 §7]]), T-S from the impedance curve, the added mass and the added box ([[Lecture 7 - Moving Coil Loudspeakers|L7 §8]], L8 §6). New hint on slide 36: assume $M_{AB} ≈ M_{A1}$ where possible. Beranek 2019 eqs. 6.71–6.72 need $Q_E$ with and without the box, and those come from measurements with large errors.
 
@@ -313,6 +330,6 @@ A measured transfer function has a huge phase term $e^{-jkr}$ from the travel ti
 
 ## 8. Open questions
 
-- [ ] Watch the recording (now complete) and check the note against the commentary.
+- [x] Recording transcribed and checked against the note (§7.6).
 - [ ] LR vs Butterworth in the DSP: can we paste two identical Q = 0.707 biquads to get LR4 (§7.4)?
 - [ ] For System D: where is the Spektor 2's internal mid/tweeter crossover, and is it bypassed for the project? The units must be driven separately for the passive filter board to make sense.
