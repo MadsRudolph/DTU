@@ -215,3 +215,32 @@ def test_adopted_files_are_tracked_separately_from_new_ones(tmp_path, sync):
     assert sync.report.files_adopted == [
         ("34870", "Obsidian/Courses/34870 Electroacoustics/Slides/Lecture 1.pdf")
     ]
+
+
+def _zipped(name: str, data: bytes, extra: str | None = None) -> bytes:
+    import io, zipfile
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr(f"Lecture 7/{name}", data)
+        if extra:
+            z.writestr(extra, b"x")
+    return buf.getvalue()
+
+
+def test_video_served_as_zip_is_unwrapped(tmp_path):
+    video = b"\x00\x00\x00\x20ftypisom" + b"v" * 100
+    s = Sync(rules=RULES, state=State.empty(), repo_root=tmp_path,
+             download=Downloader(content=_zipped("Lecture 7.mp4", video)))
+    s.process(COURSE, [topic(filename="Lecture 7.mp4")])
+    (path,) = [p for p in tmp_path.rglob("*.mp4")]
+    assert path.read_bytes() == video
+
+
+def test_real_zip_and_multi_member_archives_are_kept(tmp_path):
+    from learn_sync.sync import unwrap_zip
+    single = _zipped("notes.pdf", b"%PDF")
+    assert unwrap_zip("Matlab files.zip", single) == single          # a real zip stays a zip
+    multi = _zipped("Lecture 7.mp4", b"v", extra="other.txt")
+    assert unwrap_zip("Lecture 7.mp4", multi) == multi                # ambiguous: keep it
+    assert unwrap_zip("Lecture 7.mp4", single) == single              # wrong extension inside
+    assert unwrap_zip("Lecture 7.pdf", b"%PDF-1.7") == b"%PDF-1.7"    # not a zip at all
