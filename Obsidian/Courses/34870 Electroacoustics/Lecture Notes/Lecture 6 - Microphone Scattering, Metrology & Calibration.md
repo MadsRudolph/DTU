@@ -12,7 +12,7 @@ tags: [Electroacoustics, lecture-note, microphones, scattering, free-field, metr
 # Lecture 6 — Microphone Scattering, Metrology & Calibration
 
 > [!info] Lecture Info
-> **Date:** Thursday 17 September 2026, 8:30–12:00 · Lyngby · **VCH** — *not attended; written from the three slide decks, the recordings' slide order, Problems 6 and its official solutions.*
+> **Date:** Thursday 17 September 2026, 8:30–12:00 · Lyngby · **VCH** — *not attended; written from the three slide decks, the recordings' slide order, Problems 6 and its official solutions.* The recordings (14 + 25 + 13 min) were transcribed on 8 Oct ([[Transcripts/Lecture 6 - transcript|transcript]]): what they add is in *From the recording*, and §9 was corrected.
 > **Slides:** `Slides/34870_Lecture_6A_E26.pdf` (microphone scattering, 12 slides) · `Slides/34870_Lecture_6B_E26.pdf` (metrology and calibration, 30 slides) · `Slides/34870_Lecture_6C_E26.pdf` (intro to Labs B and C, 14 slides). Recordings with audio: `Slides/34870_Lecture_6A/6B/6C_E26.mp4` — **watch 6C before the lab**, it is the practical briefing.
 > **Problems:** `Exercises/34870_Problems6_2026.pdf` · solutions `Exercises/34870_Solutions6_2026.pdf`
 > **Refs:** Leach §2.15 (scattering), §5.2 (T(s)) — uploaded excerpts · Jacobsen *Fundamentals* eq. 7.6 · BIPM SI Brochure, GUM and VIM (`Literature/Metrology - BIPM/`) · B&K Microphone Handbook
@@ -28,7 +28,7 @@ tags: [Electroacoustics, lecture-note, microphones, scattering, free-field, metr
 
 > [!important] Same capsule idea, two design targets
 > - **Free-field microphone:** meant to report the sound pressure that existed *before* the microphone was placed in the field. Its own frequency response must therefore **compensate** for the pressure increase that its body causes at high frequency (sound arriving at normal incidence, pointed at the source).
-> - **Pressure (cavity) microphone:** used where it has no influence on the field — flush in a wall, or closing a small cavity (couplers, calibrators, ear simulators). **No compensation**: flat response to the pressure actually on the diaphragm.
+> - **Pressure (cavity) microphone:** used where it has no influence on the field — flush in a wall, or closing a small cavity (couplers, calibrators, ear simulators), and in diffuse fields (6A [01:39]). **No compensation**: flat response to the pressure actually on the diaphragm. Flush in a wall there *is* a reflection, but it doubles the pressure equally at all frequencies, so nothing frequency-dependent needs correcting (6A [01:02]).
 >
 > This is the measurement-world meaning of "pressure microphone" flagged in [[Lecture 5 - Microphone Directionality & Condenser Microphones#3. Classification of microphones — slide 11|Lecture 5 §3]] — not the audio-jargon "closed back" meaning.
 
@@ -164,12 +164,12 @@ Every step down the chain is a comparison against the step above, and each adds 
 ## 9. Intro to Labs B and C — deck 6C
 
 > [!important] Lab B — scaled microphone (cylinder scattering)
-> Measures what §2 computed: the pressure on the end of a cylinder vs the undisturbed field. The **free-field correction** is *defined as the ratio between the undisturbed sound field and the pressure at the diaphragm — not the microphone output*. It is sometimes used to correct a microphone used in the "wrong" field. B&K handbook curves: the bump sits near 7 kHz for a 1-inch, 13 kHz for a ½-inch, 25 kHz for a ¼-inch capsule, all about +9 to +10 dB: **the larger the microphone, the lower in frequency the effect**.
+> Measures what §2 computed: the pressure on the end of a cylinder vs the undisturbed field. The **free-field correction** is *defined as the ratio between the undisturbed sound field and the pressure at the diaphragm — not the microphone output*. It is sometimes used to correct a microphone used in the "wrong" field. B&K handbook curves: the bump sits just above **10 kHz** for a 1-inch, in the **20s of kHz** for a ½-inch, near **50 kHz** for a ¼-inch and near **100 kHz** for an ⅛-inch capsule (VCH, 6C [06:56]), about +9 to +10 dB, and largest at normal incidence (0°), smaller off-axis [06:32]: **the larger the microphone, the lower in frequency the effect**. Check: the first peak at kR ≈ 3 (§2) gives 13 / 26 / 52 kHz, and Lab B's 250 mm mock-up peak scaled to ½″ lands at ≈ 23 kHz. *(Corrected 8 Oct: the note first said 7 / 13 / 25 kHz, one size off.)*
 >
 > **Effect of size** (1″, ½″, ¼″, ⅛″): bigger → more field disturbance, **more sensitivity**, lower maximum frequency; smaller → the opposite.
 
 > [!important] Lab C — microphone calibration with an electrostatic actuator
-> A metal grid is placed just above the diaphragm (protection grid removed) and driven with a **high DC voltage plus an AC signal**; the electric field pulls directly on the diaphragm. **No acoustic excitation → no scattering effects**, so it gives the *pressure* frequency response cleanly. Good for the **shape** of the response, **unsuited for absolute sensitivity** (that comes from the calibrator or pistonphone). Compare the B&K ½″ **4191 free-field** and **4192 pressure-field** capsules: the actuator response of the 4191 droops at high frequency by exactly the free-field correction it is built to cancel.
+> A metal grid is placed just above the diaphragm (protection grid removed) and driven with a **high DC voltage plus an AC signal**; the electric field pulls directly on the diaphragm. **No acoustic excitation → no scattering effects**, so it gives the *pressure* frequency response cleanly. Good for the **shape** of the response, **unsuited for absolute sensitivity** (that comes from the calibrator or pistonphone). Compare the B&K ½″ **4191 free-field** and **4192 pressure-field** capsules: the actuator response of the 4191 droops at high frequency by (approximately) the free-field correction it is built to cancel. Actuator response + free-field correction gives the free-field response only "more or less", "not as precise as measuring with the correct microphone" (6C [06:11]).
 
 > [!warning] Lab etiquette (labs in buildings 354 and 355)
 > No food or drink; never alone in the labs, tell the lab responsible when you arrive and leave; tidy up. First use of any equipment needs a (safety) introduction; do not take parts from existing setups; label your workspace. **Report damage or injuries immediately — do not hide it, do not repair it yourself.**
@@ -219,6 +219,25 @@ Every step down the chain is a comparison against the step above, and each adds 
 
 ---
 
+## From the recording, not on the slides
+
+Watched by proxy: the three recordings transcribed and compared on 8 Oct. Parts of 6B ([18:44]–[20:05]) and 6C ([00:07]–[05:36]) replay clips of 6A, nothing new there.
+
+- **Why the reflection-only model is enough** (6A [06:51]): above the first peak the pressure over the diaphragm is non-uniform and gives "a wrong output or almost zero output", so microphones are not used above the first maximum anyway.
+- **Use the slides rather than Leach** (6A [07:44]): "I recommend rather to use the description here in the slides". The model "is an approximation, it's not real".
+- **The G source is p_i·T(s)** (6A [11:21]): adding the controlled source is the same as driving the circuit with p_i·T(s). Above the peak the model rolls off, but "not in the same way as it actually does".
+- **Gpb on only in a sound field** (6A [13:46], repeated 6B [19:28]): include the G generator when you model a sound field, "not if the microphone is used in other conditions, for example an actuator. Remember this for your exercises." For Lab C (actuator) the scattering source is **off**.
+- **The LTspice model is meant for the labs too** (6A [12:38]), and in LTspice a net label acts as a wire, which is how p_i reaches the G source.
+- **Remember the edge-diffraction comb** (6A [04:11]): the maxima and minima from the edge sources come back with loudspeakers in baffles (Lab E, Lecture 8's diffraction).
+- **Lab C handling** (6C [10:21]): with the grid off, "a single touch with the diaphragm will destroy" the microphone, and "these microphones are really expensive". Removing the grid and placing the actuator is the delicate step.
+- **Lab B mock-up** (6C [08:00]) is "a cylinder made of wood" (he says "Lab D", meaning Lab B).
+- **Reciprocity, in practice** (6B [11:24]–[13:37]): "the standard is the method, not the microphones": a fourth microphone can ride along and come out calibrated as a secondary standard. Coupler reciprocity gets unreliable at high frequency (complicated field in the cavity). The chamber is held at sea-level pressure with temperature logged; CENAM (Mexico City) sits at 80 % of that and has to pump. DFM's home-made system is below the classroom; visits through Salvador Barrera.
+- **Calibrators** (6B [21:24]–[23:11]): a calibrator "should be called a verificator"; one mid-band frequency is enough (multi-frequency ones are rare). The pistonphone has no feedback, so read a barometer "at the same time" and correct. Mainly for secondary calibration.
+- **Traceability in industry** (6B [08:19], [09:30]): big measurement companies run their own traceability chains and metrology labs. There is no world standard: national institutes only compare with each other (travelling microphone sets).
+
+> [!warning] Slips in the recording
+> 6B [11:44] "echo chamber" for free-field reciprocity means the **anechoic** chamber. 6C [07:43] the "quarter-inch … around 100 kHz" is the **⅛-inch**. 6B [04:13] "all the uncertainty depends on how well one can measure the physical constants" is loose: since 2019 the constants are exact by definition, and the uncertainty sits in how each unit is realised.
+
 ## Summary — what to walk away with
 
 > [!success] Key takeaways
@@ -230,10 +249,10 @@ Every step down the chain is a comparison against the step above, and each adds 
 > - Calibrator 94 dB @ 1 kHz (field), pistonphone 124 dB @ 250 Hz (lab); both need low source impedance; big cavity → microphone-independent pressure.
 > - Lab B = measure the scattering; Lab C = actuator response (no scattering, shape only) + absolute level from a calibrator.
 
-> [!question] Open questions — not attended, so check these in the recordings or on Monday
-> - ⬜ Does VCH want $T(s)$ built with the **tube-end** radiation network (0.6133 ρ/πa, as in the Problems 4/5 solutions) or the baffled-piston one? The slide's circuit labels are Ma1/Ra1/Ra2/Ca1 without values.
-> - ⬜ Which standard uncertainties (type A from repeats, type B from certificates) are expected in the Lab C uncertainty budget?
-> - ⬜ Anything said in the 6C recording about group timeslots for Labs B/C.
+> [!question] Open questions — checked against the recordings on 8 Oct
+> - ⬜ Tube-end (0.6133 ρ/πa) or baffled-piston network for $T(s)$? **Not said.** He only notes that at the top of the band the network reduces to $R_{A2} = \rho c/S$ (identical in both), and that the LTspice model keeps all four elements "because we work at high frequencies" (6A [10:02], [13:04]). The choice only moves the mid-band overshoot of |T|: ask the TA.
+> - ⬜ Type A / type B in the Lab C budget? **Not said.** The uncertainty part covers the measurement model, sensitivity coefficients (derivative, or "vary one input and see the effect") and the uncorrelated formula; covariance is "not in your exercise today" (6B [14:17]–[16:47]).
+> - ⬜ Group timeslots for Labs B/C: not in the recordings (settled since: Group 10's slots are in CLAUDE.md).
 
 > [!tip] Looking ahead
 > Monday 21/9: scattering (continued), lab introduction, **Labs B/C begin** (21–29 Sep, quiz due 5 Oct). Thursday 24/9: moving-coil loudspeakers.
