@@ -12,7 +12,7 @@ tags: [Electroacoustics, lecture-note, loudspeakers, enclosures, closed-box, ven
 # Lecture 8 — Loudspeakers 2: Enclosures
 
 > [!info] Lecture Info
-> **Date:** Thursday 1 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck and Problems 8 on the day. There is no recording and there are no official solutions yet, so every number below was checked against the brackets on the problem sheet with `p8.py`.
+> **Date:** Thursday 1 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck and Problems 8 on the day. There were no official solutions at the time, so every number below was checked against the brackets on the problem sheet with `p8.py`. The recording (36 min) was transcribed on 8 Oct ([[Transcripts/Lecture 8 - transcript|transcript]]); what it adds is in the section *From the recording*.
 > **Slides:** `Slides/34870_Lecture_8_E26.pdf` (30 slides, 2 per page)
 > **Problems:** `Exercises/34870_Problems8_2026.pdf` (Loudspeakers 2; answers in brackets, page 2 has Leach's alignment charts for $Q_L$ = 7 and 5)
 > **Refs:** Leach ch. 7 (closed box) and ch. 8 (vented box), both in `_Learn/Lecture 8 - Loudspeaker enclosures/` · Beranek ch. 7
@@ -380,6 +380,26 @@ An **unconnected driver** (cone + suspension, no magnet) can provide the acousti
 
 ---
 
+## From the recording, not on the slides
+
+The commentary mostly reads the slides. What it adds (timestamps into the video):
+
+- **Three ways to pick $M_{AB}$, and it's your call** [05:18]: B = 0.65 ("the standard value"), Leach's formula with the two areas, or simply $M_{AB} = M_{A1}$. "That's your choice depending on the situation."
+- **Approximations are fine if you say so** [09:08], about the filled-box volume: "It's okay to make approximations as long as you explain it and assume the errors."
+- **Exam cue** [11:16]: "the lowest possible cutoff frequency" in a problem means design for $Q_{TC} = 1/\sqrt2$. "Very often you will be after this Qtc in your designs."
+- **Typical efficiency** [11:39]: loudspeakers are about 1–2 % efficient, close to 5 % at best (the Scan-Speak's 0.32 % in §5 is on the low side).
+- **SPL in LTspice assumes RMS sources** [14:52]: the 1/20 µPa gain only gives true SPL because everything is driven with RMS values.
+- **Why the added-box method assumes $M_{AB} = M_{A1}$** [18:19]: not just convenient, it is "probably less subject to uncertainties"; without it $V_{AS}$ inherits the errors of the measured Q's. (Lecture 9 confirms Lab D uses this method.)
+- **Leakage $R_{AL}$** [20:32, 21:14] covers sealing problems *and* radiation from the vibrating box panels; $R_{AL}$ is "really very high".
+- **Only the woofer gets this analysis** [01:50, 19:36]: the whole lecture is a low-frequency model, and in a multi-way box only the woofer's enclosure is designed this way.
+- **Why $L_E$ is dropped for the vented box** [22:05]: at these frequencies the coil inductance is negligible (that is why §9's transfer function has no $L_E$).
+- **A box tuned by trial is almost never a textbook alignment** [25:56, 27:24], only "suboptimal or close to optimal". Commercial boxes add DSP and active control on top. Backs up the Lab E warning in §10.
+- **Vent end correction vs radiation impedance** [34:02]: the end correction *is* the port's radiation mass. If your circuit also contains the port's radiation impedance, "you have to remove the corresponding part of the end correction" from $M_{AP}$, or it is counted twice (the same trap as Lab A part 2d). Matters for the Problem 4 LTspice model.
+- **Real ports have rounded edges** [35:02] to keep turbulence (chuffing) down.
+
+> [!warning] Slips in the recording
+> [07:13] "not dependent on the total mass, compliance and resistance" should be "now dependent". [31:39] He calls the vented box "a second order system": it is 4th order (§9). [26:15] He says B4 needs $Q_{TS}$ = "0.4 exactly"; the chart value depends on $Q_L$ (0.414 at $Q_L$ = 5, 0.397 at $Q_L$ = 10), as in §10. [12:16] "If you make the box small then it's less efficient" holds for a fixed response, see the warning in §5.
+
 ## Summary — what to walk away with
 
 > [!success] Key takeaways
@@ -396,7 +416,7 @@ An **unconnected driver** (cone + suspension, no magnet) can provide the acousti
 > [!question] Open questions — check against the recording or solutions when they appear
 > - ⬜ Problem 2: did VCH read the chart (the sheet's brackets) or use `ventbox.m`? The two differ by up to 10 % in $f_B$ for the SWR 308.
 > - ⬜ Problem 2a at $Q_L$ = 5 but slide 23 says "$Q_L$ = 7 is typical". Which one does Lab E assume?
-> - ⬜ Does Lab D measure $V_{AS}$ with added mass or with an added box (§6)?
+> - ✅ Lab D measures $V_{AS}$ with the **added box**: "this is actually what you will be doing in Lab D" (Lecture 9 recording, 27:24).
 > - ⬜ Slide 4 writes $\sqrt{pi/Sd}$ in $B$: confirmed as $\sqrt{\pi/S_D}$ against Leach eq. 7.4?
 
 > [!tip] Looking ahead

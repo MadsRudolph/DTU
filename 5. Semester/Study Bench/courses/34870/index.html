@@ -548,6 +548,7 @@
     <li>At high frequency the limit is <b>thermal</b>, at low frequency it is <b>excursion</b>. Problem 3.4's 134 dB at 200 Hz would need 600 V; the data sheet's "max linear SPL 110 dB" is the 50 Hz, excursion-limited figure.</li>
     <li>The slide 27 LTspice circuit writes the far-field output as <span class="mono">Laplace=9390*s</span>: that is ρ/(2π·1 m·20 µPa) with ρ = 1.18, so V(out) in dB is SPL directly.</li>
     <li>Sensitivity is quoted at 1 V, at 2.83 V (1 W into 8 Ω) or at 1 W. Check which before comparing drivers.</li>
+      <li>From the recording: near-field measurements dodge room <i>reflections</i>, not room <i>resonances</i>, which still show up ("you will see this in lab D"). Lab D gets V<sub>AS</sub> with the added box, not added mass.</li>
   </ul></div>
 
   <div id="problems-7"></div>
@@ -580,7 +581,7 @@
       <div class="fcard"><span class="eyebrow">effect of the box</span><div class="M">f_C = f_S\sqrt{1+\alpha}, \quad Q_{TC} = Q_{TS}\sqrt{1+\alpha}</div><p>with <span class="m">\alpha = V_{AS}/V_{AB}</span>; mass and damping unchanged (M<sub>AB</sub> ≈ M<sub>A1</sub>, R<sub>AB</sub> ≈ 0), only the stiffness grows</p></div>
       <div class="fcard"><span class="eyebrow">−3 dB cut-off</span><div class="M">f_3 = f_C\sqrt{x + \sqrt{x^2 + 1}}, \quad x = \frac{1}{2Q_{TC}^2} - 1</div><p>lowest for <span class="m">Q_{TC} = 1/\sqrt2</span>, then f₃ = f<sub>C</sub> and <span class="m">\alpha = (0.707/Q_{TS})^2 - 1</span></p></div>
       <div class="fcard"><span class="eyebrow">efficiency</span><div class="M">\eta = \frac{4\pi^2}{c^3}\,\frac{f_C^3\,V_{AT}}{Q_{EC}}, \quad V_{AT} = \frac{V_{AB}V_{AS}}{V_{AB} + V_{AS}}</div><p>for a given response: smaller box or lower f<sub>C</sub> costs efficiency</p></div>
-      <div class="fcard"><span class="eyebrow">V<sub>AS</sub> by an added box</span><div class="M">V_{AS} = V_{AB}\left[\left(\frac{f_C}{f_S}\right)^2 - 1\right]</div><p>the alternative to the added-mass method (Lab D)</p></div>
+      <div class="fcard"><span class="eyebrow">V<sub>AS</sub> by an added box</span><div class="M">V_{AS} = V_{AB}\left[\left(\frac{f_C}{f_S}\right)^2 - 1\right]</div><p>the alternative to the added-mass method, and the one Lab D uses (lecture 7 recording, 15:27)</p></div>
     </div>
   </div>
 
@@ -612,6 +613,7 @@
     <li>In the lab you are handed the box and the driver, so α is fixed. You tune with the vent (h) and the filling (Q<sub>L</sub>, V<sub>AB</sub>), not with the recipe.</li>
     <li>LTspice far field: <span class="mono">Laplace=9.5493e3*s</span> on the current through the front M<sub>A1</sub> = ρ/(2π·20 µPa)·jωU, so the node reads SPL at 1 m in dB.</li>
     <li>Narrow vents are short but chuff (turbulence); wide vents may not fit. A passive radiator replaces the tube when it does not.</li>
+    <li>From the recording: the vent's end correction <i>is</i> its radiation mass. If your LTspice circuit also has the port's radiation impedance, take that part out of M<sub>AP</sub>, or it counts twice. And "lowest possible cut-off" in a problem means Q<sub>TC</sub> = 1/√2.</li>
   </ul></div>
 
   <div id="problems-8"></div>

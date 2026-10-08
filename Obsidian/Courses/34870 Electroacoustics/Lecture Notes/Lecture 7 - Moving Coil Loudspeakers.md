@@ -12,7 +12,7 @@ tags: [Electroacoustics, lecture-note, loudspeakers, moving-coil, thiele-small, 
 # Lecture 7 — Loudspeakers 1: Moving Coil
 
 > [!info] Lecture Info
-> **Date:** Thursday 24 September 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck and Problems 7. No recording and no official solutions yet, so every answer below was checked against the brackets on the problem sheet and against an LTspice run.
+> **Date:** Thursday 24 September 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck and Problems 7. There were no official solutions at the time, so every answer below was checked against the brackets on the problem sheet and against an LTspice run. The recording (30 min) was transcribed on 8 Oct ([[Transcripts/Lecture 7 - transcript|transcript]]); what it adds is in *From the recording*, and two corrections are folded into §8 and §12.
 > **Slides:** `Slides/34870_Lecture_7_E26.pdf` (27 slides)
 > **Problems:** `Exercises/34870_Problems7_2026.pdf` (Loudspeakers 1; answers in brackets)
 > **Refs:** Beranek §6.1–6.11, 6.18 · Leach §6.1–6.21, 11.7.1–11.7.4 (T-S measurement) · Klippel (nonlinearities)
@@ -146,8 +146,8 @@ The mechanical **series** resonance appears on the electrical side as a **parall
 ## 8. Measuring the T-S parameters (Lab D) — slides 15–16
 
 > [!important] Step 1: $f_S$ and the Q's from the impedance curve (Beranek 6.10, Leach 11.7)
-> Measure voltage and current together: amplifier → 33 Ω series resistor → speaker, with $V_R$ giving $I$ and $V_{LOUD}$ giving the speaker voltage.
-> 1. $f_S$ is at the peak, and $Z_{MAX} = R_E + (Bl)^2/R_{MS}$. $R_E$ comes from a DC measurement.
+> Measure voltage and current together: amplifier → 33 Ω series resistor → speaker, with $V_R$ giving $I$ and $V_{LOUD}$ giving the speaker voltage. In practice $V_R$ cannot be measured directly because neither end of the resistor is grounded [12:59]: measure the amplifier output and the speaker voltage (both to ground) and take $V_R$ as the difference.
+> 1. $f_S$ is at the peak, and $Z_{MAX} = R_E + (Bl)^2/R_{MS}$. $R_E$ comes from a DC measurement: an ohmmeter / multimeter on the terminals with no excitation [13:39].
 > 2. $r_c = \dfrac{Z_{MAX}}{R_E} = 1 + \dfrac{(Bl)^2}{R_E R_{MS}}$
 > 3. Find $f_1 < f_S < f_2$ where $|Z_{ET}| = Z_r = \sqrt{R_E Z_{MAX}}$, the geometric mean and **not** the −3 dB point.
 > 4. $$Q_{MS} = \frac{f_S\sqrt{r_c}}{f_2 - f_1}, \qquad Q_{ES} = \frac{Q_{MS}}{r_c - 1}, \qquad Q_{TS} = \frac{Q_{MS}}{r_c}$$
@@ -157,12 +157,12 @@ The mechanical **series** resonance appears on the electrical side as a **parall
 > **Sanity check with the 315 SWR (baffled, R_E only, computed):** $Z_{MAX} = 46.86$ Ω, $r_c = 8.583$, $Z_r = 16.00$ Ω, $f_1 = 15.82$ Hz, $f_2 = 33.00$ Hz (their geometric mean is $f_S = 22.85$ Hz). This gives $Q_{MS} = 22.85\sqrt{8.583}/17.18 = 3.90$, $Q_{ES} = 0.514$ and $Q_{TS} = 0.454$, which matches the data sheet exactly.
 
 > [!important] Step 2: $M_{MS}$, $C_{MS}$, $Bl$, $R_{MS}$ by the **added-mass** method
-> Glue a known mass $\Delta M$ to the cone and measure the new resonance $f_{S1}$:
+> Stick a known mass $\Delta M$ (moldable putty in the lab [14:55]) to the cone and measure the new resonance $f_{S1}$:
 > $$f_S = \frac{1}{2\pi\sqrt{M_{MS}C_{MS}}}, \quad f_{S1} = \frac{1}{2\pi\sqrt{(M_{MS}+\Delta M)C_{MS}}} \;\Rightarrow\; M_{MS} = \frac{\Delta M}{(f_S/f_{S1})^2 - 1}$$
 > $$C_{MS} = \frac{1}{(2\pi f_S)^2 M_{MS}}, \qquad Bl = \sqrt{\frac{2\pi f_S R_E M_{MS}}{Q_{ES}}}, \qquad R_{MS} = \frac{2\pi f_S M_{MS}}{Q_{MS}}$$
 > These are just the T-S definitions of §7 solved backwards. Example: 20 g on the 315 SWR moves $f_S$ from 22.85 to 20.63 Hz, and the formula returns 88.2 g.
 >
-> **Alternative:** change $C_{MS}$ instead of $M_{MS}$ by mounting the unit in a closed box of known volume (next lecture).
+> **Alternative:** change $C_{MS}$ instead of $M_{MS}$ by mounting the unit in a closed box of known volume ([[Lecture 8 - Loudspeaker Enclosures|Lecture 8]] §6). **This is the Lab D method**: "this is actually what you would be doing in Lab D" [15:27–15:42], and it is what Lab D used ($f_S$ 22.7 Hz → $f_C$ 42.0 Hz in the 88 L box).
 
 ## 9. Efficiency — slide 18 (Beranek 6.9, Leach 6.20)
 
@@ -235,7 +235,7 @@ $$p_{near} = Z_{ar}U ≃ j\omega M_{A1}U = j\omega\frac{8\rho}{3\pi^2 a}U \qquad
 
 $$\boxed{\frac{p_{near}}{p_{ff}} = \frac{16\,r}{3\pi a}}$$
 
-Both are $\propto j\omega U$, so they have the **same frequency dependence and differ only in level**, and that level depends on the piston radius. So **the far-field response can be deduced from a near-field measurement**: put the microphone almost against the dust cap, then subtract $20\log(16r/3\pi a)$. The payoff is that no anechoic room is needed, because the near-field pressure is so large that room reflections don't matter. It is valid only while $ka < 1$, since above that $Z_{ar}$ is no longer a pure mass (see the figure in §13, Problem 4).
+Both are $\propto j\omega U$, so they have the **same frequency dependence and differ only in level**, and that level depends on the piston radius. So **the far-field response can be deduced from a near-field measurement**: put the microphone almost against the dust cap, then subtract $20\log(16r/3\pi a)$. The payoff is that no anechoic room is needed, because the near-field pressure is so large that room *reflections* don't matter. Room *resonances* can still show up in the measurement: "you will see this in lab D" [29:30]. It is valid only while $ka < 1$, since above that $Z_{ar}$ is no longer a pure mass (see the figure in §13, Problem 4).
 
 ---
 
@@ -325,13 +325,29 @@ Both are $\propto j\omega U$, so they have the **same frequency dependence and d
 
 ---
 
+## From the recording, not on the slides
+
+The commentary mostly reads the slides. What it adds (timestamps into the video):
+
+- **Why the input impedance matters** [08:18]: it is the one quantity you can measure with electrical equipment. The $(Bl)^2/Z_M$ term is the **motional impedance**, which "only exists when the diaphragm is allowed to move" (block the cone and it disappears).
+- **The design goal at low frequency** [05:19]: a cut-off "as low as possible" with good behaviour around it, which is why the model drops $L_E$, "an okay assumption for low frequencies".
+- **Free air = acoustic short circuit** [11:41]: front and back volume velocities are in antiphase and cancel round the rim at low frequency, which "hinders the performance of the loudspeaker" in the bass. That is what the box (Lecture 8) fixes.
+- **Efficiency ceiling** [17:15]: "below or around 1 %", "very difficult to get as high as 5 %". Higher needs a **horn**, which matches the diaphragm to the air (not in this course).
+- **Heat changes the driver** [17:51]: it must be dissipated, and it "can also alter the properties of the loudspeaker" while hot.
+- **Cone break-up** [23:11]: visible in data sheets as peaks and dips on and off axis; a Klippel scanning laser shows the modes. Since "you don't want to use the loudspeaker with this effect", the cure is a **crossover** handing that band to another driver ([[Lecture 9 - Loudspeaker Systems & Crossovers|Lecture 9]]).
+- **Metal parts in the magnet** [25:51] (shorting rings, copper caps) "homogenize this magnetic field and make it more even and more linear", and reduce the eddy-current losses behind the lossy inductance. Its $L^*$ and $n$ must be "chosen carefully" to fit a measurement [26:48].
+- **Demos** in class: stroboscope (bass needs large excursion) [19:02], distortion clips at rising level [22:03], eddy currents in the pole pieces [25:31].
+
+> [!warning] Slips in the recording
+> [07:52] The 2.83 V explanation comes out garbled ("one volt over eight ohms", "eight volts as a DC resistance"): 2.83 V is **1 W into 8 Ω nominal**, and nominal is not the DC resistance (an 8 Ω driver has $R_E$ ≈ 6 Ω). [05:51] "R_MD, the total resistance" means $R_{MT}$. [13:54] He calls $f_1, f_2$ the "half power bandwidth"; they are at $\sqrt{R_EZ_{MAX}}$, the dB midpoint between $R_E$ and $Z_{MAX}$, **not** 3 dB below the peak (§8). Same formula, looser words: say it the note's way in the oral.
+
 ## Summary — what to walk away with
 
 > [!success] Key takeaways
 > - The loudspeaker is the dynamic microphone reversed, with **pressure ∝ acceleration**. Above $f_S$ it is **mass controlled**, giving a **2nd-order high-pass** with flat level $p_{1m} = \dfrac{\rho}{2\pi}\dfrac{Bl S_D}{R_E M_{MS}}$ (1 V, 1 m).
 > - The totals are $M_{MS} = M_{MD} + 2S_D^2M_{A1}$ (baffle; only one $S_D^2M_{A1}$ in free air, so $f_S$ is higher in free air) and $R_{MT} = R_{MS} + (Bl)^2/R_E$, where electrical damping dominates.
 > - **T-S:** $f_S = 1/2\pi\sqrt{M_{MS}C_{MS}}$, $Q_{MS} = \omega_S M_{MS}/R_{MS}$, $Q_{ES} = R_E\omega_S M_{MS}/(Bl)^2$, $1/Q_{TS} = 1/Q_{MS} + 1/Q_{ES}$, $V_{AS} = \rho c^2 S_D^2 C_{MS}$.
-> - **$Z_E$** peaks at $f_S$ with $Z_{MAX} = R_E + (Bl)^2/R_{MS}$. The Q's come from $f_1, f_2$ at $\sqrt{R_E Z_{MAX}}$, and the masses from the **added-mass** method. This is Lab D.
+> - **$Z_E$** peaks at $f_S$ with $Z_{MAX} = R_E + (Bl)^2/R_{MS}$. The Q's come from $f_1, f_2$ at $\sqrt{R_E Z_{MAX}}$, and the masses from the **added-mass** or the **added-box** method. Lab D uses the added box.
 > - **$\eta = \dfrac{\rho}{2\pi c R_E}\left(\dfrac{Bl S_D}{M_{MS}}\right)^2 ≈ 1\,\%$**, flat above $f_S$, and the rest is heat.
 > - **$x_D$** is a low-pass: static $Bl C_{MS}e_g/R_E$, then −40 dB/decade. Bass means excursion. $x_{max,lin} = |l_{vc} - h_{mg}|/2$ (overhung or underhung), and beyond it $Bl(x)$, $C_{MS}(x)$ and $L_E(x)$ distort (34871).
 > - Voice-coil **eddy currents** give $Z = L_E'(j\omega)^n$, $n < 1$. In LTspice this is a G source with `Laplace=1/(L*s**n)`.
@@ -339,7 +355,7 @@ Both are $\propto j\omega U$, so they have the **same frequency dependence and d
 
 > [!question] Open questions — check against the lecture or the solutions when they appear
 > - ⬜ Is the sheet's Problem 3.4 meant as rms SPL of a *peak* excursion $x_{max}$? The bracket (109.9 dB) only matches that reading.
-> - ⬜ For Lab D: which added mass and which series resistor (the slide shows 33 Ω) does the setup use, and is $R_E$ measured with the DC function of the DMM?
+> - ✅ For Lab D: added **box**, not added mass; $R_E$ with a multimeter, no excitation (recording 13:39, 15:27). The series resistor was 32.9 Ω.
 > - ⬜ The slide builds the radiation network separately for front (f) and back (b). Is the doubled single network acceptable in hand-ins? It is electrically identical.
 
 > [!tip] Looking ahead
