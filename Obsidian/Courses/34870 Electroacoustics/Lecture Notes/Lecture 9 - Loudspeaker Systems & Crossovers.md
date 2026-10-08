@@ -12,7 +12,7 @@ tags: [Electroacoustics, lecture-note, loudspeakers, crossover, butterworth, lin
 # Lecture 9 — Loudspeakers 3: Systems and Crossovers
 
 > [!info] Lecture Info
-> **Date:** Thursday 8 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck, Problems 9 and the **official solutions** (already out). Every number was checked with `p9.py`. The recording [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|lecture 9 video]] is broken on this PC (66 MB, `moov atom not found`, probably a truncated copy), so nothing here comes from the commentary.
+> **Date:** Thursday 8 October 2026, 8:30–12:00 · Lyngby · **VCH**. Written from the slide deck, Problems 9 and the **official solutions** (already out). Every number was checked with `p9.py`. The recording [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|lecture 9 video]] (46 min) was not used for this note: it arrived truncated and was replaced by a full download afterwards, so the commentary is still to be checked against the note.
 > **Slides:** [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.pdf|Lecture 9 slides]] (28 pages, 2 slides per page; crossovers on slides 2–32, the project on 33–56)
 > **Problems:** [[Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf|Problems 9]] (Loudspeakers 3, with the two Peerless data sheets) · **Solutions:** [[Courses/34870 Electroacoustics/Exercises/34870_Solutions_9_2026.pdf|Solutions 9]] (problems 1–2 only)
 > **Refs:** [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach ch. 10 (crossover networks)]]
@@ -313,6 +313,6 @@ A measured transfer function has a huge phase term $e^{-jkr}$ from the travel ti
 
 ## 8. Open questions
 
-- [ ] Is the lecture recording complete on the other PC / CT 115? This copy is truncated.
+- [ ] Watch the recording (now complete) and check the note against the commentary.
 - [ ] LR vs Butterworth in the DSP: can we paste two identical Q = 0.707 biquads to get LR4 (§7.4)?
 - [ ] For System D: where is the Spektor 2's internal mid/tweeter crossover, and is it bypassed for the project? The units must be driven separately for the passive filter board to make sense.
