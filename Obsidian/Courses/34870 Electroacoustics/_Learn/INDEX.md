@@ -82,6 +82,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Project/34870_Problems_9_2026.pdf|Problems 9 – Loudspeakers 3]]
 - [[Courses/34870 Electroacoustics/Exercises/34870_Solutions_9_2026.pdf|Problems 9 – Loudspeakers 3 –SOLUTIONS]]
 - [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach 4th ed. chapter10: crossover networks]]
+- [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|Lecture 9: Loudspeaker systems & Project - Commented slides]]
 
 ## Lab A - Analogies
 
