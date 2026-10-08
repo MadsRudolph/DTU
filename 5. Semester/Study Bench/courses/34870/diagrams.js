@@ -63,8 +63,8 @@ function diagMap() {
   const root = document.getElementById("diag-map"); if (!root) return;
   root.innerHTML = svgWrap(980, 250, [
     // spine
-    `<path d="M40 125 H940" stroke="var(--rule-2)" stroke-width="2"/>`,
-    ...[[55, "0", "The rules", "why circuits", "lecture 0"], [160, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [265, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [370, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [475, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [580, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [685, "6", "Calibration", "scattering · GUM", "lecture 6"], [790, "7", "Loudspeakers", "T-S · η · excursion", "lecture 7"], [895, "8", "Enclosures", "closed · bass reflex", "lecture 8"]].map(([x, n, t, s, e], i) => `
+    `<path d="M40 125 H955" stroke="var(--rule-2)" stroke-width="2"/>`,
+    ...[[50, "0", "The rules", "why circuits", "lecture 0"], [147, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [244, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [341, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [438, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [535, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [632, "6", "Calibration", "scattering · GUM", "lecture 6"], [729, "7", "Loudspeakers", "T-S · η · excursion", "lecture 7"], [826, "8", "Enclosures", "closed · bass reflex", "lecture 8"], [923, "9", "Systems", "crossovers · LR", "lecture 9"]].map(([x, n, t, s, e], i) => `
       <circle cx="${x}" cy="125" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
       <text x="${x}" y="130" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--ink)">${n}</text>
       <text x="${x}" y="${i % 2 ? 74 : 178}" text-anchor="middle" font-family="var(--font-display)" font-size="18" font-weight="600" fill="var(--ink)">${t}</text>

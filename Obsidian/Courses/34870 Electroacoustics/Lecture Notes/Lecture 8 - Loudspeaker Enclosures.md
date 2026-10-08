@@ -18,7 +18,7 @@ tags: [Electroacoustics, lecture-note, loudspeakers, enclosures, closed-box, ven
 > **Refs:** Leach ch. 7 (closed box) and ch. 8 (vented box), both in `_Learn/Lecture 8 - Loudspeaker enclosures/` · Beranek ch. 7
 > **Course tools:** `VentedBox_Matlab.zip` (`ventbox.m` picks a QB3 or Chebyshev alignment from lookup tables, an alternative to reading Leach's graphs) and `diffrac.m` (baffle diffraction)
 > **Script:** `5. Semester/Electroacoustics/LTspice/Problems 8 - Enclosures/p8.py`. It prints every answer next to its bracket, ports `ventbox.m` to Python (it parses the course tables straight out of the zip), and writes the figures in `Images/Lecture8/` with `--plots`.
-> **Previous:** [[Lecture 7 - Moving Coil Loudspeakers|Lecture 7]] · **Next:** **Lab D** Tue 6/10 (T-S parameters of System D, including the added-box method of §6) · Lecture 10 digest for Lab E is already out (`Slides/34870_Lecture_10_Digest_Lab_E.pdf`)
+> **Previous:** [[Lecture 7 - Moving Coil Loudspeakers|Lecture 7]] · **Next:** [[Lecture 9 - Loudspeaker Systems & Crossovers|Lecture 9]] · **Lab D** Tue 6/10 (T-S parameters of System D, including the added-box method of §6) · Lecture 10 digest for Lab E is already out (`Slides/34870_Lecture_10_Digest_Lab_E.pdf`)
 > **Interactive version:** <https://study.madsrudolph.dev/34870/#l8>
 
 > [!abstract] Where this lecture sits

@@ -290,6 +290,51 @@ window.PROBLEMS = {
       bench: "#bench-driver", benchLabel: "driver bench: switch the coil between R_E, lossy and ideal L_E",
     },
   ],
+  "9": [
+    {
+      id: "Sheet 9 · 1a", title: "2nd-order Butterworth crossover at 2.5 kHz", tag: "tweeter 0.54 mH, 7.5 µF · woofer 0.45 mH, 9 µF",
+      given: `1″ tweeter: f<sub>s</sub> = 800 Hz, R<sub>E</sub> = 6 Ω. 8″ woofer: f<sub>s</sub> = 45 Hz, R<sub>E</sub> = 5 Ω. Design a crossover with 2nd-order Butterworth filters (Q = 1/√2) at 2500 Hz.`,
+      hint: `Low-pass and high-pass share the denominator <span class="m">1 + s/Q + s^2</span>, so the same two formulas give L and C for both; only R<sub>E</sub> differs.`,
+      sol: `<div class="M">L = \\frac{R_E}{2\\pi f_c Q}, \\qquad C = \\frac{Q}{2\\pi f_c R_E}</div>
+<p>Woofer (low-pass, series L, shunt C): L = 5√2/(π·5000) = <b>0.448 mH</b>, C = 1/(5·π·5000·√2) = <b>9.04 µF</b>. Tweeter (high-pass, series C, shunt L): L = 6√2/(π·5000) = <b>0.537 mH</b>, C = <b>7.53 µF</b>.</p>
+<p>The tweeter's f<sub>s</sub> = 800 Hz is 1.6 octaves below the crossover, enough margin (slide 28). Note the official example schematic in the project zip uses exactly these woofer values but wired as a high-pass.</p>`,
+      bench: "#bench-xover", benchLabel: "crossover bench, 2nd Butterworth",
+    },
+    {
+      id: "Sheet 9 · 1b", title: "Show that LR2 sums flat with the tweeter inverted", tag: "|L − H| = |(1−s)/(1+s)| = 1",
+      given: `The BW2 crossover leaves the drivers 180° apart at f<sub>c</sub> (a dip); inverting the tweeter gives a 3 dB peak instead. A Linkwitz-Riley filter is a Butterworth squared, <span class="m">H_{LR2} = (H_{BW1})^2</span>. Show that the LR2 low-pass/high-pass pair sums flat when the tweeter is inverted.`,
+      hint: `Write both over the common denominator (1 + s)² and factor the numerator 1 − s².`,
+      sol: `<div class="M">L_{LR2} - H_{LR2} = \\frac{1}{(1+j\\omega/\\omega_c)^2} - \\frac{(j\\omega/\\omega_c)^2}{(1+j\\omega/\\omega_c)^2} = \\frac{1-j\\omega/\\omega_c}{1+j\\omega/\\omega_c}</div>
+<div class="M">\\left|L_{LR2} - H_{LR2}\\right| = \\sqrt{\\frac{1+(\\omega/\\omega_c)^2}{1+(\\omega/\\omega_c)^2}} = 1</div>
+<p>Flat at every frequency. It is an all-pass: the phase still turns from 0° to −180°, through −90° at f<sub>c</sub>. Each half is −6 dB at f<sub>c</sub> and they arrive in phase, so they add to 0 dB.</p>`,
+      bench: "#bench-xover", benchLabel: "crossover bench, LR2 + high-pass inverted",
+    },
+    {
+      id: "Sheet 9 · 2a", title: "Total response with LR2 filters (MATLAB)", tag: "flat inverted · null same polarity · phase 0 → −180°",
+      given: `Use MATLAB to find the magnitude and phase response of the total system with 2nd-order Linkwitz-Riley filters (f<sub>c</sub> = 2.5 kHz).`,
+      hint: `<span class="mono">s = 1j*f/fc; L = 1./(1+s).^2; H = s.^2./(1+s).^2;</span> then plot L+H and L−H.`,
+      sol: `<p>Each half is −6 dB at f<sub>c</sub>. Same polarity: the halves are 180° apart at f<sub>c</sub> and cancel completely (−4.4 dB at f/f<sub>c</sub> = 0.5 and 2). Tweeter inverted: <b>exactly 0 dB everywhere</b>.</p>
+<p>The official solution: "the magnitude is flat but due to the opposite polarity the response shows a shift in phase of 180 degrees from low to high frequency. This results in a non-linear phase response (in a linear phase system the phase must be proportional to frequency, i.e. a delay)."</p>`,
+      bench: "#bench-xover", benchLabel: "crossover bench, LR2, toggle the polarity",
+    },
+    {
+      id: "Sheet 9 · 2b", title: "Total response with LR4 filters", tag: "flat with the same polarity · phase 0 → −360°",
+      given: `Find the magnitude and phase response of the whole system with a 4th-order Linkwitz-Riley crossover.`,
+      hint: `<span class="m">H_{LR4} = (H_{BW2})^2</span>: each half turns 180°, so at f<sub>c</sub> they are 360° apart, i.e. back in phase.`,
+      sol: `<div class="M">L + H = \\frac{1 + s^4}{(1 + \\sqrt2 s + s^2)^2} = \\frac{1 - \\sqrt2 s + s^2}{1 + \\sqrt2 s + s^2}</div>
+<p>Again an all-pass, now with the <b>same</b> polarity: |L + H| = 1. The phase turns 0 → −360° (±180° at f<sub>c</sub>). The official solution: the magnitude sums to 1 with the same polarity, and the phase "is much better than for 2nd order since it is only near the crossover frequency that the phase is different from zero" (wrapped phase). Inverting one driver with LR4 gives a deep null at f<sub>c</sub>.</p>`,
+      bench: "#bench-xover", benchLabel: "crossover bench, LR4",
+    },
+    {
+      id: "Sheet 9 · 3", title: "LTspice: Peerless woofer + midrange with a 250 Hz crossover", tag: "design task · no official answer",
+      given: `a) SLS-P830669 12″ woofer in a 40 L closed box, NE123W-08 midrange in a 2 L box, 2nd-order Butterworth crossover at 250 Hz: LTspice model of both drivers and the filters. b) Change the polarity of the midrange and/or the Q. c) Your own filter type and crossover frequency.`,
+      hint: `Put each driver in its box first (Lecture 8: f<sub>C</sub> = f<sub>S</sub>√(1+α), Q<sub>TC</sub> = Q<sub>TS</sub>√(1+α)) and look at where its impedance peak sits relative to 250 Hz. Then always plot the voltage <i>across the driver</i>, not just the filter.`,
+      sol: `<p>In the boxes: woofer α = 3.31, f<sub>C</sub> = <b>65.4 Hz</b>, Q<sub>TC</sub> = <b>1.12</b>; midrange α = 2.95, f<sub>C</sub> = <b>121.8 Hz</b>, Q<sub>TC</sub> = 0.69. Filter on R<sub>E</sub>: woofer L = 5.04 mH, C = 80.4 µF; midrange C = 71.8 µF, L = 5.64 mH.</p>
+<p>a) Same polarity: a hole of ~20 dB, 74.7 dB at 250 Hz (2.83 V, 1 m). The high-pass puts 2.71 V on the midrange instead of 2.00 V, peaking +4.6 dB at 179 Hz, because the mid's resonance is only an octave below. b) Midrange inverted: 95.0 dB at f<sub>c</sub>, 6.9 dB ripple over 125–500 Hz; Q = 0.5 (LR2) 6.3 dB. c) LR4 at 250 Hz (same polarity) is smooth through f<sub>c</sub> but resonates with the woofer: +9 dB on the woofer at 84 Hz (103.5 dB bass hump). BW2 at 350 Hz, midrange inverted: 2.6 dB over 125–500 Hz. The rest of the ripple is the woofer being ~4 dB louder (92.7 vs 88.5 dB at 250 Hz) and its Q<sub>TC</sub> = 1.12 bump.</p>
+<p>Script: <span class="mono">LTspice/Problems 9 - Crossovers/p9.py</span>, LTspice matches the closed form to 3·10⁻⁵.</p>`,
+      bench: "#bench-xodrivers", benchLabel: "two-driver bench, starts on the sheet's case",
+    },
+  ],
   "8": [
     {
       id: "Sheet 8 · 1a", title: "Closed box: lowest −3 dB cut-off for three Peerless woofers", tag: "51.2 Hz, 38.8 L · 37.8 Hz, 104 L · 64 Hz, 12.2 L",

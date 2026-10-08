@@ -30,6 +30,7 @@
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Scattering, metrology &amp; calibration<span class="sub">free-field vs pressure, GUM, pistonphone</span></span></a></li>
     <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Moving-coil loudspeakers<span class="sub">T-S parameters, η, excursion</span></span></a></li>
     <li><a href="#l8" data-quiz="8"><span class="n">L8</span><span>Loudspeaker enclosures<span class="sub">closed box, bass reflex</span></span></a></li>
+    <li><a href="#l9" data-quiz="9"><span class="n">L9</span><span>Loudspeaker systems<span class="sub">crossovers, LR, project</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
@@ -617,6 +618,66 @@
   <div id="quiz-8"></div>
 </section>
 
+<section class="lecture" id="l9">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 9 · Thu 8 Oct · VCH · Loudspeakers 3: systems</div>
+    <h2>Two drivers, one sound</h2>
+    <div class="meta">Leach ch. 10 (crossover networks) · Problems 9 + official solutions · Project Guide · Matlab2LTspice · DigitalCrossover</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A crossover splits the signal so each driver plays where it is good, but the two halves only add back to a flat response if their <b>phases</b> line up (Linkwitz-Riley: −6 dB each, in phase), and a passive filter only behaves like the textbook when its load is the <b>resistor R<sub>E</sub></b> it was designed for, which a real driver never is.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Passive or active</h3>
+    <div class="table-wrap"><table>
+      <tr><th></th><th class="el">passive (slide 4)</th><th class="me">active / DSP (slide 5)</th></tr>
+      <tr><td>where</td><td class="el">L-C network after the amplifier</td><td class="me">digital filter before the amplifiers</td></tr>
+      <tr><td>amplifiers</td><td class="el">one for all drivers</td><td class="me">one channel per driver</td></tr>
+      <tr><td>affected by the driver?</td><td class="el"><b>yes</b>: the driver is the filter's load</td><td class="me">no: the amp drives the driver</td></tr>
+      <tr><td>in the project</td><td class="el">midrange / tweeter, parts on a screw board</td><td class="me">woofer / midrange, MiniDSP 2x4 HD at 96 kHz</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Formulas</span>The ideal filters on R<sub>E</sub></h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">1st order</span><div class="M">L = \frac{R_E}{\omega_0}, \qquad C = \frac{1}{R_E\,\omega_0}</div><p>series L to the woofer, series C to the tweeter; the halves sum to exactly 1. Order = number of L and C, 6 dB/oct each.</p></div>
+      <div class="fcard"><span class="eyebrow">2nd order (LP: series L, shunt C · HP: series C, shunt L)</span><div class="M">L = \frac{R_E}{\omega_0 Q}, \qquad C = \frac{Q}{\omega_0 R_E}</div><p>same formulas for both halves. Butterworth Q = 1/√2 (−3 dB at f<sub>0</sub>), LR2 = the same circuit with Q = 1/2 (−6 dB)</p></div>
+      <div class="fcard"><span class="eyebrow">Linkwitz-Riley</span><div class="M">H_{LR2} = H_{BW1}^2, \qquad H_{LR4} = H_{BW2}^2</div><p>LR2 sums flat with one driver <b>inverted</b>, LR4 with the <b>same</b> polarity. LR4 ladder: L₁ = 1.886R/ω₀, C₁ = 1.591/ω₀R, L₂ = 0.943R/ω₀, C₂ = 0.354/ω₀R</p></div>
+      <div class="fcard"><span class="eyebrow">Problem 9.1b in one line</span><div class="M">\frac{1}{(1+s)^2} - \frac{s^2}{(1+s)^2} = \frac{1-s}{1+s}</div><p>|1 − jx| = |1 + jx|: an all-pass, flat magnitude, phase 0 → −180°</p></div>
+      <div class="fcard"><span class="eyebrow">L-pad (slide 21)</span><div class="M">R_1 = (1-\kappa)R_E, \qquad R_2 = \frac{\kappa}{1-\kappa}R_E</div><p>attenuates by κ and still shows R<sub>E</sub> to the filter. 6 Ω tweeter −3 dB: 1.75 Ω + 14.5 Ω. Not on a woofer: it raises Q<sub>ES</sub> and retunes the box.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-xover"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Real drivers</span>What breaks the textbook (slides 20–30)</h3>
+    <div class="table-wrap"><table>
+      <tr><th>issue</th><th>what happens</th><th>remedy</th></tr>
+      <tr><td class="el">voice-coil inductance</td><td>|Z<sub>E</sub>| rises like ωL, so a 1st-order low-pass stops attenuating</td><td>higher order, or a lower crossover</td></tr>
+      <tr><td class="me">mechanical resonance</td><td>a high-pass near it sees the impedance peak and overshoots</td><td>crossover well above the driver's f<sub>C</sub></td></tr>
+      <tr><td class="ac">driver phase</td><td>the drivers themselves can be ~180° apart at f<sub>c</sub></td><td>choose the order / polarity from the <b>measured</b> phase in the box</td></tr>
+      <tr><td>sensitivity</td><td>the tweeter is usually louder</td><td>L-pad (passive) or DSP gain (active)</td></tr>
+    </table></div>
+    <p>Zobel networks (R<sub>E</sub>–C = L<sub>E</sub>/R<sub>E</sub>² for the coil, an R-L-C for the resonance) would make the driver look like R<sub>E</sub>, but slide 29 says <b>do not use them in the project</b>: move a crossover frequency or change a filter instead.</p>
+  </div>
+
+  <div id="bench-xodrivers"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>"Butterworth is maximally flat" is true for <b>each half</b>, not for the sum: two BW2 halves null at f<sub>c</sub> with the same polarity and give +3 dB inverted, because −3 dB halves add in power but loudspeakers add in pressure. And the course's <span class="mono">DigitalCrossover.m</span> makes <b>Butterworth</b> biquads (Q = 0.707, or 0.541 + 1.307 for n = 4), not Linkwitz-Riley: an LR4 would be the n = 2 biquad applied twice.</p></div>
+
+  <div class="callout real"><span class="eyebrow">From the slides and the project files, not the books</span><ul>
+    <li>Slide 10 prints 10.06 µF for the tweeter capacitor; 1/(5·2π·3000) = 10.61 µF.</li>
+    <li>Measured phase: unwrap, then compensate the travel time with <span class="mono">e<sup>+jkd</sup></span> (<span class="mono">phaseunwrap.m</span> uses c = 345 m/s). Use the <b>same d for every driver</b> and the same microphone position, or the relative phase you are designing with is gone. Never compensate an input impedance.</li>
+    <li>In LTspice the measured Z<sub>i</sub> is a current source I = V/Z (the 0 V source Yi senses it) and the TF a voltage source; <span class="mono">Matlab2LTspice</span> writes both as <span class="mono">.inc</span> tables. Rename Vspkr/Pout per driver in the first line of each file.</li>
+    <li>The example schematic in the passive zip is described as a low-pass but drawn as series C + shunt L, a <b>high-pass</b>.</li>
+    <li>Group 10's project system D: Dali Spektor 2 (L) mid/tweeter + ScanSpeak 26W/8534G00 woofer. Passive parts only from the guide's list, no combining.</li>
+  </ul></div>
+
+  <div id="problems-9"></div>
+  <div id="quiz-9"></div>
+</section>
+
 <!-- ============================== Lab A ============================== -->
 <section class="lecture" id="labA">
   <div class="lec-head">
@@ -1069,6 +1130,7 @@
       <tr><td>moving-coil loudspeaker</td><td>acceleration (p ∝ a)</td><td>mass rules, above f<sub>S</sub></td><td>high-pass, −12 dB/oct below f<sub>S</sub></td><td>Bl, M<sub>MS</sub>, Q<sub>TS</sub></td></tr>
       <tr><td>closed box</td><td>acceleration</td><td>above f<sub>C</sub> = f<sub>S</sub>√(1+α)</td><td>high-pass, −12 dB/oct</td><td>V<sub>AB</sub> sets α, Q<sub>TC</sub></td></tr>
       <tr><td>vented box</td><td>cone + port</td><td>above f₃, port covers f<sub>B</sub></td><td>high-pass, −24 dB/oct</td><td>V<sub>AB</sub>, f<sub>B</sub> (vent), Q<sub>L</sub></td></tr>
+      <tr><td>crossover sum (LR2 inverted / LR4 same)</td><td>both drivers</td><td>everywhere, as an all-pass</td><td>flat magnitude, phase 0 → −180° / −360°</td><td>order, polarity, f<sub>c</sub></td></tr>
     </table></div>
   </div>
   <div class="block">

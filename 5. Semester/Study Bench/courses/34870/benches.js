@@ -827,6 +827,128 @@ function benchVentBox() {
   b.note.innerHTML = `<p>The closed box's single spring becomes a Helmholtz resonator: <span class="mono">Y_A2 = 1/jωM_AP + 1/R_AL + jωC_AB</span>. What leaves the box is <span class="mono">U_0 = jωC_AB·Z_A2·U_D</span>, a 4th-order high-pass. Starts on Problem 8.2 with the CSX 217C in the sheet's 90 L at 31 Hz (Q_L = 5): f₃ ≈ 28 Hz against 51 Hz in its best closed box, and a 3.75 cm PVC vent of 9.8 cm (sheet 10.4 cm; the sheet used unrounded chart values). SWR 263: 250 L, 22 Hz, 5.5 cm (sheet 6.0); SWR 308: 18 L, 40 Hz, 40.5 cm (sheet 42.2). Q_MS only shapes the impedance; the Peerless presets assume 5.</p><p><b>Try:</b> watch the driver curve dip at f_B, where the cone stands still and the vent does the work. Move f_B and watch the impedance: f_B always sits in the dip between the two peaks, and the peaks are equal only when f_B ≈ f_S. Shrink the vent radius and the tube gets short, but the air in it speeds up (port noise).</p>`;
 }
 
+/* ===== Lecture 9: crossovers ===== */
+function xoverIdeal(type, x, Q = Math.SQRT1_2) {  // x = f/f_c; returns {lo, hi} for the ideal filter into a resistor
+  const s = cx(0, x), one = cx(1, 0), s2 = cmul(s, s), s3 = cmul(s2, s);
+  if (type === "1") { const d = cadd(one, s); return { lo: cinv(d), hi: cdiv(s, d) }; }
+  if (type === "bw2" || type === "lr2") {
+    const q = type === "lr2" ? 0.5 : Q, d = cadd(cadd(one, cscale(s, 1 / q)), s2);
+    return { lo: cinv(d), hi: cdiv(s2, d) };
+  }
+  if (type === "bw3") { const d = cadd(cadd(cadd(one, cscale(s, 2)), cscale(s2, 2)), s3); return { lo: cinv(d), hi: cdiv(s3, d) }; }
+  const b = xoverIdeal("bw2", x);                     // lr4 = bw2 squared
+  return { lo: cmul(b.lo, b.lo), hi: cmul(b.hi, b.hi) };
+}
+const XO_TYPES = { "1": "1st order", bw2: "2nd Butterworth", lr2: "LR2", bw3: "3rd Butterworth", lr4: "LR4" };
+function benchXover() {
+  const b = bench("bench-xover", "Crossover bench: do the two halves add up?", "lecture 9 · slides 8–17 · problems 9.1–9.2");
+  if (!b) return;
+  const st = { type: "lr2", inv: true, Q: Math.SQRT1_2 };
+  const seg = h("div", { class: "seg" });
+  for (const [k, v] of Object.entries(XO_TYPES)) seg.append(h("button", { type: "button", class: k === st.type ? "on" : "", onclick: (e) => { st.type = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, v));
+  b.ctl.append(seg);
+  const pseg = h("div", { class: "seg" });
+  for (const [k, v] of [[false, "same polarity"], [true, "high-pass inverted"]]) pseg.append(h("button", { type: "button", class: k === st.inv ? "on" : "", onclick: (e) => { st.inv = k; $$("button", pseg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, v));
+  b.ctl.append(pseg);
+  slider(b.ctl, { label: "<b>Q</b> of the 2nd-order Butterworth", min: 0.4, max: 1.2, step: 0.005, value: st.Q, dom: "el", fmt: v => v.toFixed(3), onchange: v => { st.Q = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "c", label: "sum at f_c: level · phase", dom: "el" }, { id: "h", label: "each half at f_c" }, { id: "r", label: "sum: worst deviation from 0 dB" }, { id: "s", label: "slope of each half" }]);
+  const pM = new Plot(b.plot, { h: 260, xmin: 0.01, xmax: 100, ymin: -30, ymax: 6, xlabel: "f / f_c", xfmt: v => Number(v.toPrecision(2)) + "", ylabel: "magnitude  (dB)", yfmt: v => v.toFixed(2), yunit: " dB" });
+  const pP = new Plot(b.plot, { h: 190, xmin: 0.01, xmax: 100, ymin: -360, ymax: 90, xlabel: "f / f_c", xfmt: v => Number(v.toPrecision(2)) + "", ylabel: "phase of the sum  (°)", yfmt: v => v.toFixed(1), yunit: "°", yticks: [-360, -270, -180, -90, 0, 90] });
+  const X = logspace(0.01, 100, 500);
+  function upd() {
+    const sg = st.inv ? -1 : 1;
+    const pts = X.map(x => { const r = xoverIdeal(st.type, x, st.Q); return { x, ...r, sum: cadd(r.lo, cscale(r.hi, sg)) }; });
+    let ph = 0, prev = null; const phs = [];                                 // unwrap the phase of the sum
+    for (const q of pts) { let a = carg(q.sum); if (prev !== null) { while (a - prev > 180) a -= 360; while (a - prev < -180) a += 360; } prev = a; phs.push([q.x, cabs(q.sum) < 1e-6 ? NaN : a]); }
+    pM.set({ series: [{ name: "low-pass", color: DOMC.el, thin: true, pts: pts.map(q => [q.x, dB(cabs(q.lo))]) }, { name: "high-pass", color: DOMC.me, thin: true, pts: pts.map(q => [q.x, dB(cabs(q.hi))]) }, { name: st.inv ? "sum, high-pass inverted" : "sum, same polarity", color: DOMC.warn, pts: pts.map(q => [q.x, dB(cabs(q.sum))]) }], vlines: [{ x: 1, label: "f_c", color: DOMC.ink3 }] });
+    pP.set({ series: [{ name: "phase of the sum", color: DOMC.warn, pts: phs.filter(p => isFinite(p[1])) }], vlines: [{ x: 1, label: "f_c", color: DOMC.ink3 }] });
+    const c = xoverIdeal(st.type, 1, st.Q), cs = cadd(c.lo, cscale(c.hi, sg));
+    const worst = Math.max(...pts.map(q => Math.abs(dB(cabs(q.sum)))));
+    const order = { "1": 1, bw2: 2, lr2: 2, bw3: 3, lr4: 4 }[st.type];
+    ro({ c: cabs(cs) < 1e-6 ? "−∞ dB: total cancellation" : `${dB(cabs(cs)).toFixed(2)} dB · ${carg(cs).toFixed(1)}°`,
+      h: `${dB(cabs(c.lo)).toFixed(2)} dB at ${carg(c.lo).toFixed(0)}° and ${carg(c.hi).toFixed(0)}°`,
+      r: worst > 60 ? "a null (−∞ dB)" : `${worst.toFixed(2)} dB`, s: `${20 * order} dB/decade (${6 * order} dB/oct)` });
+  }
+  upd();
+  b.note.innerHTML = `<p>The ideal filters of slides 8–15 into a resistor, low-pass and high-pass at the same f<sub>c</sub>, added as pressures. Starts on Problem 9.1b: LR2 with the tweeter inverted sums to <b>exactly 0 dB</b>, an all-pass whose phase turns 0 → −180°. Problem 9.2: BW2 gives a null with the same polarity and <b>+3.01 dB</b> inverted; LR4 is flat with the <b>same</b> polarity and turns twice as far (0 → −360°). 1st order sums to exactly 1 with no phase shift at all, but only 6 dB/oct of protection.</p><p><b>Try:</b> read "each half at f_c": Butterworth halves are −3 dB, Linkwitz-Riley halves −6 dB. Then sweep Q on BW2 with the high-pass inverted: Q = 0.5 is LR2 and the bump disappears.</p>`;
+}
+
+const XO_DRIVERS = {  // Problems 9.3: Tymphany data sheets
+  w: { name: "SLS-P830669 woofer", Re: 5.6, Le: 1.12e-3, Mms: 74.1e-3, Cms: 345e-6, Qms: 7.07, Bl: 11.88, Sd: 522.8e-4, Vas: 132.42, Vb: 40 },
+  m: { name: "NE123W-08 midrange", Re: 6.27, Le: 0.06e-3, Mms: 4.7e-3, Cms: 1433.2e-6, Qms: 4.98, Bl: 5.53, Sd: 54.1e-4, Vas: 5.89, Vb: 2 },
+};
+function xoDriver(d, Vb) {  // closed box, M_AB = M_A1: only the spring changes
+  const ws = 1 / Math.sqrt(d.Mms * d.Cms), Rms = ws * d.Mms / d.Qms, a = d.Vas / Vb;
+  const Qes = d.Re * ws * d.Mms / d.Bl ** 2, Qts = Qes * d.Qms / (Qes + d.Qms);
+  return { ...d, Rms, alpha: a, Cmt: d.Cms / (1 + a), fs: ws / TAU, fc: ws * Math.sqrt(1 + a) / TAU, Qtc: Qts * Math.sqrt(1 + a) };
+}
+function xoParts(kind, order, R, fc, Q) {  // [['s'|'p', 'L'|'C', value]] from the source to the driver
+  const w = TAU * fc;
+  if (order === 2) { const L = R / (w * Q), C = Q / (w * R); return kind === "lp" ? [["s", "L", L], ["p", "C", C]] : [["s", "C", C], ["p", "L", L]]; }
+  return kind === "lp" ? [["s", "L", 1.886 * R / w], ["p", "C", 1.591 / (w * R)], ["s", "L", 0.943 * R / w], ["p", "C", 0.354 / (w * R)]]
+    : [["s", "C", 1 / (w * 1.886 * R)], ["p", "L", R / (w * 1.591)], ["s", "C", 1 / (w * 0.943 * R)], ["p", "L", R / (w * 0.354)]];
+}
+function xoLadder(parts, f, Zload) {  // V_load / V_in
+  const Z = parts.map(([k, t, v]) => t === "L" ? ZL(f, v) : ZC(f, v));
+  const after = []; let z = Zload;
+  for (let i = parts.length - 1; i >= 0; i--) { after[i] = z; z = parts[i][0] === "s" ? cadd(z, Z[i]) : par(z, Z[i]); }
+  let H = cx(1, 0);
+  for (let i = 0; i < parts.length; i++) if (parts[i][0] === "s") H = cmul(H, cdiv(after[i], cadd(after[i], Z[i])));
+  return H;
+}
+function xoSystem(p, f) {  // p: {W, M (from xoDriver), order, fc, Q, pol, eg}; pressures at 1 m, filter voltages
+  const out = {};
+  for (const [t, d, kind] of [["w", p.W, "lp"], ["m", p.M, "hp"]]) {
+    const s = jw(f), zm = cadd(cadd(cmul(s, cx(d.Mms, 0)), cx(d.Rms, 0)), cinv(cmul(s, cx(d.Cmt, 0))));
+    const ze = cadd(cadd(cx(d.Re, 0), cmul(s, cx(d.Le, 0))), cscale(cinv(zm), d.Bl ** 2));
+    const parts = p.order ? xoParts(kind, p.order, d.Re, p.fc, p.Q) : [];
+    const v = cscale(xoLadder(parts, f, ze), p.eg), vid = cscale(xoLadder(parts, f, cx(d.Re, 0)), p.eg);
+    const u = cscale(cdiv(v, cmul(ze, zm)), d.Bl);
+    out["v" + t] = v; out["v" + t + "_id"] = vid; out["p" + t] = cscale(cmul(s, u), SPK_RHO * d.Sd / TAU); out["ze" + t] = ze;
+  }
+  out.ptot = cadd(out.pw, cscale(out.pm, p.pol));
+  return out;
+}
+function benchXoverDrivers() {
+  const b = bench("bench-xodrivers", "Two-driver bench: the textbook filter meets real drivers", "lecture 9 · slides 20–30 · problems 9.3");
+  if (!b) return;
+  const st = { order: 2, fc: 250, Q: Math.SQRT1_2, pol: 1, Vbw: 40, Vbm: 2 };
+  const seg = h("div", { class: "seg" });
+  for (const [k, v] of [[2, "2nd order (Q)"], [4, "LR4 ladder"]]) seg.append(h("button", { type: "button", class: k === st.order ? "on" : "", onclick: (e) => { st.order = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, v));
+  b.ctl.append(seg);
+  const pseg = h("div", { class: "seg" });
+  for (const [k, v] of [[1, "midrange normal"], [-1, "midrange inverted"]]) pseg.append(h("button", { type: "button", class: k === st.pol ? "on" : "", onclick: (e) => { st.pol = k; $$("button", pseg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, v));
+  b.ctl.append(pseg);
+  slider(b.ctl, { label: "crossover <b>f<sub>c</sub></b>", min: 100, max: 1000, step: 1, value: st.fc, unit: "Hz", dom: "el", fmt: v => v.toFixed(0), onchange: v => { st.fc = v; upd(); } });
+  slider(b.ctl, { label: "<b>Q</b> (2nd order; 0.5 = LR2)", min: 0.4, max: 1.2, step: 0.005, value: st.Q, dom: "el", fmt: v => v.toFixed(3), onchange: v => { st.Q = v; upd(); } });
+  slider(b.ctl, { label: "woofer box <b>V<sub>B</sub></b>", min: 10, max: 150, step: 1, value: st.Vbw, unit: "L", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.Vbw = v; upd(); } });
+  slider(b.ctl, { label: "midrange box <b>V<sub>B</sub></b>", min: 0.5, max: 10, step: 0.1, value: st.Vbm, unit: "L", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.Vbm = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "box", label: "in the boxes: f_C · Q_TC (woofer | mid)", dom: "ac" }, { id: "parts", label: "filter parts on R_E", dom: "el" }, { id: "v", label: "|V| on the midrange at f_c: driver vs R_E", dom: "el" }, { id: "spl", label: "summed SPL at f_c (2.83 V, 1 m)" }, { id: "rip", label: "ripple f_c/2 … 2f_c" }]);
+  const pS = new Plot(b.plot, { h: 280, xmin: 20, xmax: 20000, ymin: 50, ymax: 110, ylabel: "SPL at 1 m, 2.83 V  (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const pV = new Plot(b.plot, { h: 200, xmin: 20, xmax: 20000, ymin: -40, ymax: 10, ylabel: "V_driver / V_in  (dB)", yfmt: v => v.toFixed(2), yunit: " dB" });
+  const F = logspace(20, 20000, 420);
+  const fmtL = v => v >= 1e-3 ? (v * 1e3).toFixed(2) + " mH" : (v * 1e6).toFixed(0) + " µH", fmtC = v => (v * 1e6).toFixed(1) + " µF";
+  function upd() {
+    const W = xoDriver(XO_DRIVERS.w, st.Vbw), M = xoDriver(XO_DRIVERS.m, st.Vbm);
+    const p = { W, M, order: st.order, fc: st.fc, Q: st.Q, pol: st.pol, eg: 2.83 };
+    const r = F.map(f => xoSystem(p, f));
+    const spl = (z) => dB(cabs(z) / 20e-6);
+    pS.set({ series: [{ name: "woofer", color: DOMC.el, thin: true, pts: r.map((q, i) => [F[i], spl(q.pw)]) }, { name: "midrange", color: DOMC.me, thin: true, pts: r.map((q, i) => [F[i], spl(q.pm)]) }, { name: "sum", color: DOMC.warn, pts: r.map((q, i) => [F[i], spl(q.ptot)]) }],
+      vlines: [{ x: st.fc, label: "f_c", color: DOMC.ink3 }] });
+    pV.set({ series: [{ name: "low-pass into R_E", color: DOMC.el, thin: true, pts: r.map((q, i) => [F[i], dB(cabs(q.vw_id) / 2.83)]) }, { name: "low-pass into the woofer", color: DOMC.el, pts: r.map((q, i) => [F[i], dB(cabs(q.vw) / 2.83)]) },
+      { name: "high-pass into R_E", color: DOMC.me, thin: true, pts: r.map((q, i) => [F[i], dB(cabs(q.vm_id) / 2.83)]) }, { name: "high-pass into the midrange", color: DOMC.me, pts: r.map((q, i) => [F[i], dB(cabs(q.vm) / 2.83)]) }],
+      vlines: [{ x: M.fc, label: "f_C mid", color: DOMC.me }, { x: W.fc, label: "f_C w", color: DOMC.el }] });
+    const c = xoSystem(p, st.fc);
+    const win = logspace(st.fc / 2, st.fc * 2, 97).map(f => spl(xoSystem(p, f).ptot));
+    const pw = xoParts("lp", st.order, W.Re, st.fc, st.Q), pm = xoParts("hp", st.order, M.Re, st.fc, st.Q);
+    const show = (ps) => ps.map(([k, t, v]) => (t === "L" ? fmtL(v) : fmtC(v))).join(", ");
+    ro({ box: `${hz(W.fc)} · ${W.Qtc.toFixed(2)} | ${hz(M.fc)} · ${M.Qtc.toFixed(2)}`, parts: `LP ${show(pw)} | HP ${show(pm)}`,
+      v: `${cabs(c.vm).toFixed(2)} V vs ${cabs(c.vm_id).toFixed(2)} V`, spl: `${spl(c.ptot).toFixed(1)} dB`, rip: `${(Math.max(...win) - Math.min(...win)).toFixed(2)} dB` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Problem 9.3 solved live, the same circuit as <span class="mono">p9.py</span>'s LTspice schematic: each driver's electrical and mechanical loop in a closed box (only the spring changes, <span class="mono">C_MT = C_MS/(1+V_AS/V_B)</span>), the filter designed on R<sub>E</sub>, and the far-field pressures added. Starts on the sheet's case: BW2 at 250 Hz, woofer 40 L (f<sub>C</sub> 65 Hz, Q<sub>TC</sub> 1.12), midrange 2 L (122 Hz, 0.69). Same polarity leaves a hole (74.7 dB at f<sub>c</sub>); invert the midrange and it fills to 95.0 dB. The high-pass puts 2.71 V on the midrange instead of the 2.00 V the textbook promises, because the mid's box resonance is only an octave below.</p><p><b>Try:</b> invert the midrange, then move f<sub>c</sub> to 350 Hz: the ripple (f<sub>c</sub>/2 … 2f<sub>c</sub>) drops from 6.9 to 4.5 dB, because you moved away from the mid's resonance <i>and</i> met it where the woofer's level has come down (slide 29's remedy). Then pick LR4 at 250 Hz and look at the woofer: the ladder resonates with it and lifts the bass by 9 dB at 84 Hz. A higher-order passive filter is more fragile, not less.</p>`;
+}
+
 /* ===== boot ===== */
 document.addEventListener("DOMContentLoaded", () => {
   renderMath();
@@ -836,6 +958,7 @@ document.addEventListener("DOMContentLoaded", () => {
   benchScatter(); benchFreeField(); benchUncertainty(); benchPistonphone();
   benchDriver(); benchTSMeasure();
   benchClosedBox(); benchVentBox();
+  benchXover(); benchXoverDrivers();
   if (window.QUIZZES) { for (const [lec, qs] of Object.entries(QUIZZES)) { const root = document.getElementById(`quiz-${lec}`); if (root) { buildQuiz(root, lec, qs); TOTAL_Q += qs.length; const a = $(`.wire a[data-quiz="${lec}"]`); if (a) a.dataset.n = qs.length; } } }
   updateProgress();
   setupNav(); setupTheme();
