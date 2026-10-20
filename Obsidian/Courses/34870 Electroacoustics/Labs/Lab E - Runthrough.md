@@ -59,7 +59,7 @@ $$\Delta = a + \sqrt{a^2 + r^2} - r = 0.30 + \sqrt{0.30^2 + 2.44^2} - 2.44 = 0.3
 
 - The measured curve contains the driver's own response (its roll-off below ~200 Hz and its peak near 11 kHz), and `diffrac` does not. So the top two panels are shifted to the model's level over 300 Hz – 5 kHz.
 - **The point source** keeps rippling at full strength up to 20 kHz. **The 30 mm piston** damps the high-frequency ripple, because a piston sends less sound sideways along the baffle once ka > 1. The measurement follows the piston.
-- **The bottom panel is the cleanest test:** circle minus IEC, measured and modelled. The driver is the same in both, so it **drops out completely**, and only the two baffles are left. The dips at 1029 and 2115 Hz and the ripples up to 5 kHz are on top of `diffrac` within about 1 dB.
+- **The bottom panel is the cleanest test:** circle minus IEC, measured and modelled. The driver is the same in both, so it **drops out completely**, and only the two baffles are left. The dips at 1029 and 2115 Hz and the ripples up to 5 kHz follow `diffrac` to **1.4 dB RMS** (maximum 3.5 dB) from 300 Hz to 5 kHz.
 
 ### IEC screen: directivity
 

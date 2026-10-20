@@ -21,7 +21,7 @@ Q1–9 are already ticked, and Q5 has its text and two figures. These are the tw
 - **On the IEC screen** the driver is off-centre, so the edges are 0.20–0.44 m away. The copies arrive spread out in time and mostly cancel each other: 10 dB peak to peak, with no deep dips.
 - **In the small box** the front is so small that the driver radiates into full space at low frequency. The box sits **5.7 dB below** the screens at 250–600 Hz and level with them above 3 kHz: the baffle step from 4π to 2π radiation.
 - **At 30°** the circle's edge points are no longer equidistant from the microphone, so the ripple smears out.
-- **diffrac.m** (Terai) with a 30 mm piston reproduces the circle-minus-IEC difference within about 1 dB up to 5 kHz. In that difference the driver's own response cancels out, so what is left is the baffles alone. A point source keeps rippling at full strength to 20 kHz; the real piston does not, because it sends less sound along the baffle once ka > 1.
+- **diffrac.m** (Terai) with a 30 mm piston reproduces the circle-minus-IEC difference to 1.4 dB RMS (maximum 3.5 dB) from 300 Hz to 5 kHz. In that difference the driver's own response cancels out, so what is left is the baffles alone. A point source keeps rippling at full strength to 20 kHz; the real piston does not, because it sends less sound along the baffle once ka > 1.
 - **The IEC off-axis curves divided by the 0° curve** follow a 30 mm piston's 2J₁(x)/x. At 60° we measured −3 dB at 3.45 kHz and the null at 7.96 kHz, against 3.40 and 8.06 kHz for the piston. At 15–30° the nulls come early above 10 kHz, because the cone no longer moves as a rigid piston.
 
 **The three units of System D** (vent plugged, all three in one run, so the relative phase is valid).
