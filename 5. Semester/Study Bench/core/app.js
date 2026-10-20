@@ -179,7 +179,7 @@ class Plot {
         if (!isFinite(py) || px < o.xmin || px > o.xmax) { pen = false; continue; }
         d += (pen ? "L" : "M") + X(px).toFixed(1) + " " + Y(py).toFixed(1); pen = true;
       }
-      parts.push(`<path class="series ${s.thin ? "thin" : ""}" d="${d}" stroke="${s.color}" ${s.width ? `stroke-width="${s.width}"` : ""}/>`);
+      parts.push(`<path class="series ${s.thin ? "thin" : ""}" d="${d}" stroke="${s.color}" ${s.width ? `stroke-width="${s.width}"` : ""} ${s.dash ? `stroke-dasharray="${s.dash}"` : ""}/>`);
     }
     parts.push(`</g>`);
     for (const m of o.markers) {

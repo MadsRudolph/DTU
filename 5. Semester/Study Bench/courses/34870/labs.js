@@ -505,53 +505,176 @@ function labEpeaks(fr, L, f0, f1) {   // first local max and first local min abo
   }
   return { pk, dp };
 }
+// Group 10's Lab E geometry (labE_dims.m, 20 Oct 2026): mic 2.44 m, circle a = 0.30 m, IEC 0.51 × 0.71 m with the
+// driver 0.205 m from the left and 0.44 m from the bottom, 3″ driver a ≈ 3 cm.
+const LABE_G = { a: 0.30, W: 0.51, H: 0.71, xl: 0.205, yb: 0.44, r: 2.44, as: 0.03 };
+const labEmean = (pts, f0, f1) => { const v = pts.filter(([f, y]) => f >= f0 && f <= f1 && isFinite(y)).map(p => p[1]); return v.reduce((a, b) => a + b, 0) / v.length; };
+const labEext = (pts, f0, f1, sgn) => pts.filter(([f]) => f >= f0 && f <= f1).reduce((b, p) => (b === null || sgn * p[1] > sgn * b[1]) ? p : b, null);
+const labEseries = (key) => { const M = window.LABE_MEAS; return M && M[key] ? M.fb.map((f, i) => [f, M[key][i]]) : null; };
+
 function benchLabE() {
-  const b = bench("bench-labE", "Same driver, three mountings: where the edge waves put the ripples", "Lab E · part 1 · point source or piston, mic at r");
+  const b = bench("bench-labE", "Same driver, three mountings: where the edge waves put the ripples", "Lab E · part 1 · edge model against our measurement");
   if (!b) return;
-  const st = { shape: "circle", a: 0.25, W: 0.4, H: 0.5, xl: 0.15, yb: 0.32, r: 1.0, th: 0, as: 0.001 };
+  const M = window.LABE_MEAS;
+  const st = Object.assign({ shape: "circle", th: 0, meas: !!M }, LABE_G);
   const seg = h("div", { class: "seg" });
-  for (const [k, l] of [["circle", "circular, centred"], ["rect", "rectangular, off-centre"]]) seg.append(h("button", { type: "button", class: st.shape === k ? "on" : "", onclick: (e) => { st.shape = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  for (const [k, l] of [["circle", "circular, centred"], ["rect", "IEC, off-centre"]]) seg.append(h("button", { type: "button", class: st.shape === k ? "on" : "", onclick: (e) => { st.shape = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
   b.ctl.append(seg);
+  if (M) {
+    const seg2 = h("div", { class: "seg" });
+    for (const [k, l] of [[true, "with our measurement"], [false, "model only"]]) seg2.append(h("button", { type: "button", class: st.meas === k ? "on" : "", onclick: (e) => { st.meas = k; $$("button", seg2).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+    b.ctl.append(seg2);
+  }
   slider(b.ctl, { label: "circle radius <b>a</b>", min: 0.05, max: 0.5, step: 0.005, value: st.a, unit: "cm", dom: "ac", fmt: v => (v * 100).toFixed(1), onchange: v => { st.a = v; upd(); } });
-  slider(b.ctl, { label: "rectangle: driver from left edge", min: 0.02, max: 0.38, step: 0.005, value: st.xl, unit: "cm", dom: "ac", fmt: v => (v * 100).toFixed(1), onchange: v => { st.xl = v; upd(); } });
+  slider(b.ctl, { label: "IEC: driver from left edge", min: 0.02, max: 0.49, step: 0.005, value: st.xl, unit: "cm", dom: "ac", fmt: v => (v * 100).toFixed(1), onchange: v => { st.xl = v; upd(); } });
   slider(b.ctl, { label: "microphone angle <b>θ</b>", min: 0, max: 60, step: 15, value: st.th, unit: "°", fmt: v => v.toFixed(0), onchange: v => { st.th = v; upd(); } });
-  slider(b.ctl, { label: "source radius <b>a<sub>s</sub></b> (0 = point)", min: 0.001, max: 0.06, step: 0.001, value: st.as, unit: "cm", dom: "me", fmt: v => (v * 100).toFixed(1), onchange: v => { st.as = v; upd(); } });
-  const ro = readouts(b.ctl, [{ id: "pk", label: "first peak (model)", dom: "ac" }, { id: "dp", label: "first dip (model)", dom: "ac" }, { id: "fx", label: "circle formula, peak / dip", dom: "ac" }, { id: "rip", label: "ripple 200 Hz – 5 kHz" }]);
-  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 20000, ymin: -20, ymax: 8, ylabel: "level re infinite baffle, on axis (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
-  const fr = logspace(50, 20000, 700);
+  slider(b.ctl, { label: "source radius <b>a<sub>s</sub></b> (0.1 = point)", min: 0.001, max: 0.06, step: 0.001, value: st.as, unit: "cm", dom: "me", fmt: v => (v * 100).toFixed(1), onchange: v => { st.as = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "fx", label: "circle formula, peak / dip", dom: "ac" }, { id: "pk", label: "model: first peak / first dip", dom: "ac" }, { id: "md", label: "measured: first dip (0.8–1.4 kHz)", dom: "el" }, { id: "rip", label: "ripple 300 Hz – 5 kHz, model / measured" }]);
+  const plot = new Plot(b.plot, { h: 340, xmin: 50, xmax: 18000, ymin: -20, ymax: 10, ylabel: "level re infinite baffle, on axis (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const fr = logspace(50, 18000, 600);
   function upd() {
     const L = labEbaffle(st, fr).map(dB), inf = fr.map(f => dB(labEpiston(TAU * f / C0 * st.as * Math.sin(st.th * Math.PI / 180))));
-    const { pk, dp } = labEpeaks(fr, L, 80, 20000);
+    const model = fr.map((f, k) => [f, L[k]]);
+    const { pk, dp } = labEpeaks(fr, L, 80, 18000);
     const D = st.a + Math.hypot(st.a, st.r) - st.r;
-    const band = fr.map((f, k) => f >= 200 && f <= 5000 ? L[k] - inf[k] : null).filter(v => v !== null);
-    ro({ pk: pk ? `${hz(fr[pk])}, ${L[pk].toFixed(1)} dB` : "—", dp: dp ? `${hz(fr[dp])}, ${L[dp].toFixed(1)} dB` : "—",
-      fx: st.shape === "circle" ? `${hz(C0 / (2 * D))} / ${hz(C0 / D)}` : "n/a (edges spread)", rip: `${(Math.max(...band) - Math.min(...band)).toFixed(1)} dB` });
-    plot.set({ series: [{ name: st.shape === "circle" ? "circular baffle" : "rectangular baffle", color: DOMC.ac, width: 2.2, pts: fr.map((f, k) => [f, L[k]]) },
-      { name: "infinite baffle, same angle", color: DOMC.ink3, thin: true, pts: fr.map((f, k) => [f, inf[k]]) }],
-      vlines: st.shape === "circle" ? [{ x: C0 / (2 * D), label: "λ/2", color: DOMC.ac }, { x: C0 / D, label: "λ", color: DOMC.ac }] : [] });
+    const key = (st.shape === "circle" ? "circle_" : "iec_") + st.th, raw = st.meas ? labEseries(key) : null;
+    // the measurement carries the driver's own response: shift it onto the model's mean over 300 Hz – 5 kHz
+    const meas = raw ? raw.map(([f, y]) => [f, y + labEmean(model, 300, 5000) - labEmean(raw, 300, 5000)]) : null;
+    const pp = (pts) => { const v = pts.filter(([f]) => f >= 300 && f <= 5000).map(p => p[1]); return Math.max(...v) - Math.min(...v); };
+    const dpm = meas && st.shape === "circle" ? labEext(meas, 800, 1400, -1) : null;
+    ro({ fx: st.shape === "circle" ? `${hz(C0 / (2 * D))} / ${hz(C0 / D)}` : "n/a (edges spread)",
+      pk: `${pk ? hz(fr[pk]) : "—"} / ${dp ? hz(fr[dp]) : "—"}`,
+      md: dpm ? `${hz(dpm[0])}, ${(dpm[1] - labEmean(meas, 300, 5000)).toFixed(1)} dB re mean` : (st.meas && !raw ? `not measured at ${st.th}°` : "—"),
+      rip: `${pp(model).toFixed(1)} / ${meas ? pp(meas).toFixed(1) + " dB" : "—"}` });
+    const series = [{ name: st.shape === "circle" ? "edge model, circle" : "edge model, IEC", color: DOMC.ac, width: 2.2, pts: model }];
+    if (meas) series.push({ name: `measured ${key.replace("_", " ")}° (shifted)`, color: DOMC.el, width: 1.8, pts: meas });
+    series.push({ name: "infinite baffle, same angle", color: DOMC.ink3, thin: true, pts: fr.map((f, k) => [f, inf[k]]) });
+    plot.set({ series, vlines: st.shape === "circle" ? [{ x: C0 / (2 * D), label: "λ/2", color: DOMC.ac }, { x: C0 / D, label: "λ", color: DOMC.ac }, { x: 2 * C0 / D, label: "2λ", color: DOMC.ac }] : [] });
   }
-  b.note.innerHTML = `<p>The baffle sends back an <b>inverted</b> copy of the wave from every edge point. A centred driver on a circle has every edge point at the same distance, so all the copies arrive together: a peak where the path difference <span class="mono">Δ = a + √(a² + r²) − r</span> is half a wavelength and a dip where it is a whole one. With a = 25 cm and r = 1 m that is 611 Hz and 1.22 kHz, the numbers in the preparation note. Below the first peak the baffle is too small to matter and the level falls towards −6 dB: the <b>baffle step</b> from half space to full space.</p>`
-    + `<p><b>Try:</b> switch to the rectangle (40 × 50 cm, driver off-centre, like the IEC screen) and watch the ripple shrink: the edge distances are spread out, so the copies arrive at different times. Turn θ to 30° on the circle: the edge points are no longer equidistant from the microphone and the ripples smear, which is what part 1b measures. Raise the source radius: a real piston sends less sound along the baffle at high frequency, so the edges get weaker. This is a simplified edge model; <span class="mono">diffrac.m</span> (Terai) is the one the brief asks for.</p>`;
+  b.note.innerHTML = `<p>The baffle sends back an <b>inverted</b> copy of the wave from every edge point. With the driver centred on a circle, every edge point is the same distance away, so all the copies arrive together: a peak where the path difference <span class="mono">Δ = a + √(a² + r²) − r</span> is half a wavelength and a dip where it is a whole one. Our screen (a = 30 cm, mic at 2.44 m) gives Δ = 0.318 m: <b>539 Hz and 1078 Hz</b>. We measured the dip at <b>1059 Hz</b> and the second one at 2115 Hz (formula 2156 Hz). Below the first peak the baffle is too small to matter and the level falls towards −6 dB: the <b>baffle step</b>.</p>`
+    + `<p><b>Try:</b> switch to the IEC screen. Its edges are 20–44 cm from the driver, so the copies arrive spread out and the ripple shrinks, in the model and in our curve. Turn θ to 30° on the circle: the edge points are no longer equidistant from the microphone and the ripple smears. Drop the source radius to 0.1 cm: a point source keeps rippling to 18 kHz, and the real 3″ cone (a ≈ 3 cm) does not. The measured curve is shifted onto the model, because it also contains the driver's own response (the roll-off below 200 Hz, the peak near 11 kHz). This is a simplified edge model; the course's <span class="mono">diffrac.m</span> (Terai) puts the circle-minus-IEC difference within about 1 dB of ours up to 5 kHz.</p>`;
+  upd();
+}
+
+function benchLabEmeas() {
+  const b = bench("bench-labEmeas", "What we measured: the 3″ driver on three mountings", "Lab E · part 1 · Group 10, 20 Oct 2026 · mic at 2.44 m · dB re 1 Pa/V");
+  if (!b) return;
+  const M = window.LABE_MEAS;
+  if (!M) { b.note.innerHTML = "<p>Measured data not loaded.</p>"; return; }
+  const st = { th: 0, view: "abs" };
+  const seg = h("div", { class: "seg" });
+  for (const [k, l] of [[0, "0°"], [30, "30°"]]) seg.append(h("button", { type: "button", class: st.th === k ? "on" : "", onclick: (e) => { st.th = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg);
+  const seg2 = h("div", { class: "seg" });
+  for (const [k, l] of [["abs", "three mountings"], ["diff", "circle − IEC (driver cancels)"]]) seg2.append(h("button", { type: "button", class: st.view === k ? "on" : "", onclick: (e) => { st.view = k; $$("button", seg2).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg2);
+  const ro = readouts(b.ctl, [{ id: "step", label: "screens minus box, 250–600 Hz / 3–8 kHz" }, { id: "dip", label: "circle dips: measured / formula", dom: "ac" }, { id: "rip", label: "ripple 300 Hz – 5 kHz: box / circle / IEC" }]);
+  const plot = new Plot(b.plot, { h: 340, xmin: 50, xmax: 18000, ymin: -35, ymax: 15, ylabel: "|H| (dB re 1 Pa/V)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const D = LABE_G.a + Math.hypot(LABE_G.a, LABE_G.r) - LABE_G.r;
+  function upd() {
+    const box = labEseries("box_" + st.th), ci = labEseries("circle_" + st.th), ie = labEseries("iec_" + st.th);
+    const pp = (pts) => { const v = pts.filter(([f]) => f >= 300 && f <= 5000).map(p => p[1]); return (Math.max(...v) - Math.min(...v)).toFixed(1); };
+    const scr = ie.map(([f, y], i) => [f, y - box[i][1]]);
+    const d1 = labEext(ci, 800, 1400, -1), d2 = labEext(ci, 1800, 2500, -1);
+    ro({ step: `${labEmean(scr, 250, 600).toFixed(1)} / ${labEmean(scr, 3000, 8000).toFixed(1)} dB`,
+      dip: `${hz(d1[0])}, ${hz(d2[0])} / ${hz(C0 / D)}, ${hz(2 * C0 / D)}`, rip: `${pp(box)} / ${pp(ci)} / ${pp(ie)} dB` });
+    const vl = st.th === 0 ? [{ x: C0 / (2 * D), label: "λ/2", color: DOMC.ac }, { x: C0 / D, label: "λ", color: DOMC.ac }, { x: 2 * C0 / D, label: "2λ", color: DOMC.ac }] : [];
+    if (st.view === "abs") {
+      plot.set({ ymin: -35, ymax: 15, ylabel: "|H| (dB re 1 Pa/V)", vlines: vl, series: [
+        { name: "small box", color: DOMC.ink2, width: 1.8, pts: box },
+        { name: "circular screen, centred", color: DOMC.ac, width: 2.2, pts: ci },
+        { name: "IEC screen, off-centre", color: DOMC.me, width: 2, pts: ie }] });
+    } else {
+      const g = Object.assign({ th: st.th }, LABE_G), fr = logspace(50, 18000, 500);
+      const mc = labEbaffle(Object.assign({ shape: "circle" }, g), fr), mr = labEbaffle(Object.assign({ shape: "rect" }, g), fr);
+      plot.set({ ymin: -12, ymax: 10, ylabel: "circle minus IEC (dB)", vlines: vl, series: [
+        { name: "measured", color: DOMC.el, width: 2.2, pts: ci.map(([f, y], i) => [f, y - ie[i][1]]) },
+        { name: "edge model, a_s = 3 cm", color: DOMC.ac, width: 1.6, dash: "6 4", pts: fr.map((f, k) => [f, dB(mc[k]) - dB(mr[k])]) }] });
+    }
+  }
+  b.note.innerHTML = `<p><b>The small box</b> sits about 6 dB under the two screens from 250 to 600 Hz and level with them above 3 kHz. Its front is too small to hold the sound in half space, so at low frequency the driver radiates into full space: the baffle step, measured. <b>The circular screen</b> has the deepest dips (1.06 and 2.1 kHz, right on the formula's λ and 2λ), and <b>the IEC screen</b> is the smoothest of the two screens, which is what it is designed for.</p>`
+    + `<p><b>Try:</b> switch to 30°: the circle's dips fill in and the three curves come together above 1 kHz. Then pick <i>circle − IEC</i>: it is the same driver in both, so its own response drops out and only the two baffles are left. The dashed line is the edge model above with our geometry. Everything above 18 kHz is cut: the UMIK channel jumps by about 20 dB there in every run.</p>`;
   upd();
 }
 
 function benchLabEdir() {
   const b = bench("bench-labEdir", "Off-axis over on-axis: the piston's directivity", "Lab E · part 1c analysis and part 2 · D(θ) = 2J₁(ka sinθ)/(ka sinθ)");
   if (!b) return;
+  const M = window.LABE_MEAS;
   const st = { a: 0.03 };
   slider(b.ctl, { label: "piston radius <b>a</b>", min: 0.01, max: 0.12, step: 0.0005, value: st.a, unit: "cm", dom: "me", fmt: v => (v * 100).toFixed(2), onchange: v => { st.a = v; upd(); } });
-  const ro = readouts(b.ctl, [{ id: "ka1", label: "ka = 1 at" }, { id: "d15", label: "15°: −3 dB / first null" }, { id: "d30", label: "30°: −3 dB / first null" }, { id: "d60", label: "60°: −3 dB / first null" }]);
-  const plot = new Plot(b.plot, { h: 320, xmin: 100, xmax: 20000, ymin: -40, ymax: 3, ylabel: "20 log |D(θ)| (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
-  const fr = logspace(100, 20000, 800);
+  const ro = readouts(b.ctl, [{ id: "ka1", label: "ka = 1 at" }, { id: "d30", label: "30°: −3 dB / first null" }, { id: "d60", label: "60°: −3 dB / first null" }, { id: "m", label: "measured IEC 30° / 60°: −3 dB, null", dom: "el" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 200, xmax: 18000, ymin: -40, ymax: 6, ylabel: "off-axis / on-axis (dB)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const fr = logspace(200, 18000, 800);
   const X3 = 1.6163, X0 = 3.8317;   // 2J1(x)/x = 1/√2 and the first zero
+  const cols = { 15: DOMC.el, 30: DOMC.me, 60: DOMC.ac };
+  const ratio = (th) => { const o = labEseries("iec_" + th), z = labEseries("iec_0"); return o && z ? o.map(([f, y], i) => [f, y - z[i][1]]) : null; };
+  const mpt = (th) => { const r = ratio(th); if (!r) return "—"; const m3 = r.find(([f, y]) => f > 2500 && y <= -3), nl = labEext(r, 4000, 16000, -1); return `${hz(m3[0])}, ${hz(nl[0])}`; };
   function upd() {
-    const f1 = C0 / (TAU * st.a), cols = { 15: DOMC.el, 30: DOMC.me, 60: DOMC.ac };
-    const fmt = (th) => { const s = Math.sin(th * Math.PI / 180), a = X3 / s * f1, z = X0 / s * f1; return `${hz(a)} / ${z > 20000 ? "> 20 kHz" : hz(z)}`; };
-    ro({ ka1: hz(f1), d15: fmt(15), d30: fmt(30), d60: fmt(60) });
-    plot.set({ series: [15, 30, 60].map(th => ({ name: `${th}°`, color: cols[th], width: 2, pts: fr.map(f => [f, Math.max(-40, dB(Math.abs(labEpiston(TAU * f / C0 * st.a * Math.sin(th * Math.PI / 180)))))]) })) });
+    const f1 = C0 / (TAU * st.a);
+    const fmt = (th) => { const s = Math.sin(th * Math.PI / 180), a = X3 / s * f1, z = X0 / s * f1; return `${hz(a)} / ${z > 18000 ? "> 18 kHz" : hz(z)}`; };
+    ro({ ka1: hz(f1), d30: fmt(30), d60: fmt(60), m: M ? `${mpt(30)} / ${mpt(60)}` : "—" });
+    const series = [15, 30, 60].map(th => ({ name: `piston ${th}°`, color: cols[th], width: 1.6, dash: M ? "6 4" : null, pts: fr.map(f => [f, Math.max(-40, dB(Math.abs(labEpiston(TAU * f / C0 * st.a * Math.sin(th * Math.PI / 180)))))]) }));
+    if (M) for (const th of [15, 30, 60]) series.push({ name: `measured ${th}°`, color: cols[th], width: 2, pts: ratio(th) });
+    plot.set({ series });
   }
-  b.note.innerHTML = `<p>A piston in an infinite baffle beams once its circumference passes a wavelength (ka &gt; 1). The off-axis level relative to on-axis is <span class="mono">2J₁(x)/x</span> with <span class="mono">x = ka sinθ</span>: −3 dB at x = 1.62, the first null at x = 3.83. For the 3″ driver (a ≈ 3 cm) that gives −3 dB at 30° near 5.9 kHz and a null near 14 kHz; at 60° 3.4 and 8.0 kHz.</p>`
-    + `<p><b>Try:</b> set a = 10.55 cm, the Scan-Speak woofer of System D. At 30° it is already −3 dB at about 1.7 kHz, so the woofer has to hand over to the midrange well below that if the speaker is to sound the same off axis. In the lab, divide each IEC off-axis curve by the 0° curve and lay it on these lines: the baffle ripple cancels in the ratio, the beaming does not.</p>`;
+  b.note.innerHTML = `<p>A piston in an infinite baffle beams once its circumference passes a wavelength (ka &gt; 1). The off-axis level relative to on-axis is <span class="mono">2J₁(x)/x</span> with <span class="mono">x = ka sinθ</span>: −3 dB at x = 1.62, the first null at x = 3.83. Our IEC curves divided by the 0° curve (solid) lie on the 3 cm piston (dashed) up to about 5 kHz. At <b>60°</b> they stay on it: −3 dB at 3.45 kHz and the null at 7.96 kHz, against 3.40 and 8.06 kHz. At 15° and 30° the nulls come early above 10 kHz, because the 3″ cone no longer moves as one piece up there.</p>`
+    + `<p><b>Try:</b> set a = 10.55 cm, the Scan-Speak woofer of System D. At 30° it is already −3 dB at about 1.7 kHz, and in part 2 we measured it 15.6 dB down at 3–8 kHz. So the woofer has to hand over to the midrange well below that. The +3 dB bump near 1.1 kHz in every measured ratio is the IEC screen's own on-axis dip, which the off-axis curves don't share.</p>`;
+  upd();
+}
+
+// System D, measured: three units in one run (Nmeas = 3). Usable band per unit, for phase work.
+const LABE_SYS = [
+  { k: "w", name: "woofer", col: "el", band: [50, 5000] },
+  { k: "m", name: "midrange", col: "me", band: [70, 12000] },
+  { k: "t", name: "tweeter", col: "ac", band: [600, 18000] },
+];
+function benchLabEsys() {
+  const b = bench("bench-labEsys", "System D: three units, one run", "Lab E · part 2 · vent plugged · mic 2.44 m, height 1.15 m · dB re 1 Pa/V");
+  if (!b) return;
+  const M = window.LABE_MEAS;
+  if (!M) { b.note.innerHTML = "<p>Measured data not loaded.</p>"; return; }
+  const st = { view: "mag", ang: "0" };
+  const seg = h("div", { class: "seg" });
+  for (const [k, l] of [["mag", "magnitude"], ["ph", "relative phase"]]) seg.append(h("button", { type: "button", class: st.view === k ? "on" : "", onclick: (e) => { st.view = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg);
+  const seg2 = h("div", { class: "seg" });
+  for (const [k, l] of [["0", "0°"], ["30", "30°"], ["both", "0° and 30°"]]) seg2.append(h("button", { type: "button", class: st.ang === k ? "on" : "", onclick: (e) => { st.ang = k; $$("button", seg2).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+  b.ctl.append(seg2);
+  const ro = readouts(b.ctl, [{ id: "lv", label: "0°, 150–600 Hz: woofer / mid", dom: "el" }, { id: "tw", label: "0°, 1–3 kHz: tweeter minus mid", dom: "ac" }, { id: "x", label: "tweeter crosses woofer / mid at" }, { id: "off", label: "30° − 0°, 3–8 kHz: w / m / t" }]);
+  const plot = new Plot(b.plot, { h: 350, xmin: 50, xmax: 18000, ymin: -45, ymax: 20, ylabel: "|H| (dB re 1 Pa/V)", yfmt: v => v.toFixed(0), yunit: " dB" });
+  const ser = (k) => M.fs.map((f, i) => [f, M[k][i]]);
+  const diff = (a, b2) => M.fs.map((f, i) => [f, M[a][i] - M[b2][i]]);
+  const cross = (a) => { const d = diff("t0", a + "0"); for (let i = 1; i < d.length; i++) if (d[i][0] > 300 && d[i - 1][1] < 0 && d[i][1] >= 0) return d[i][0]; return NaN; };
+  // relative phase: angle(H_a / H_mid), every common delay cancels; unwrapped across the band, whole turns placed at 1 kHz
+  const relph = (a) => {
+    const i0 = M.fs.findIndex(f => f >= 100), i1 = M.fs.findIndex(f => f >= (a === "w" ? 4000 : 10000));
+    const f = M.fs.slice(i0, i1), u = labEunwrap(f.map((_, j) => (M[a + "0ph"][i0 + j] - M.m0ph[i0 + j]) * Math.PI / 180)).map(v => v * 180 / Math.PI);
+    const k1 = f.findIndex(x => x >= 1000), off = 360 * Math.round(u[k1] / 360);
+    return f.map((x, j) => [x, u[j] - off]);
+  };
+  function upd() {
+    ro({ lv: `${labEmean(ser("w0"), 150, 600).toFixed(1)} / ${labEmean(ser("m0"), 150, 600).toFixed(1)} dB`,
+      tw: `${labEmean(diff("t0", "m0"), 1000, 3000) > 0 ? "+" : ""}${labEmean(diff("t0", "m0"), 1000, 3000).toFixed(1)} dB`,
+      x: `${hz(cross("w"))} / ${hz(cross("m"))}`,
+      off: LABE_SYS.map(u => labEmean(diff(u.k + "30", u.k + "0"), 3000, 8000).toFixed(1)).join(" / ") + " dB" });
+    if (st.view === "mag") {
+      const series = [];
+      for (const u of LABE_SYS) {
+        if (st.ang !== "30") series.push({ name: `${u.name} 0°`, color: DOMC[u.col], width: 2, pts: ser(u.k + "0") });
+        if (st.ang !== "0") series.push({ name: `${u.name} 30°`, color: DOMC[u.col], width: 1.6, dash: st.ang === "both" ? "5 4" : null, pts: ser(u.k + "30") });
+      }
+      plot.set({ ymin: -45, ymax: 20, ylabel: "|H| (dB re 1 Pa/V)", yunit: " dB", yfmt: v => v.toFixed(0), series, vlines: [], markers: [] });
+    } else {
+      const w = relph("w"), t = relph("t");
+      const at = (pts, f) => pts.reduce((b2, p) => Math.abs(Math.log(p[0] / f)) < Math.abs(Math.log(b2[0] / f)) ? p : b2);
+      plot.set({ ymin: -180, ymax: 270, ylabel: "phase relative to the midrange, 0° (°)", yunit: "°", yfmt: v => v.toFixed(0), vlines: [],
+        series: [{ name: "woofer − midrange", color: DOMC.el, width: 2, pts: w }, { name: "tweeter − midrange", color: DOMC.ac, width: 2, pts: t }],
+        markers: [{ x: 300, y: at(t, 300)[1], label: `${at(t, 300)[1].toFixed(0)}°`, color: DOMC.ac }, { x: 3000, y: at(t, 3000)[1], label: `${at(t, 3000)[1].toFixed(0)}°`, color: DOMC.ac }, { x: 2000, y: at(w, 2000)[1], label: `${at(w, 2000)[1].toFixed(0)}°`, color: DOMC.el, dy: 16 }] });
+    }
+  }
+  b.note.innerHTML = `<p><b>Woofer</b> (Scan-Speak 26W/8534G00): the most sensitive unit at low frequency, about 5 dB above the midrange, and it beams hard: 15 dB down at 30° from 3 kHz up. <b>Midrange</b> (the DALI's own bass/mid driver): flat within ±2 dB from 120 Hz to 4 kHz. <b>Tweeter</b>: about <b>9 dB hotter</b> than the midrange and nearly the same at 30°. It falls off below its resonance (1.45 kHz in the Lab D impedance), so although the curves cross near 950 Hz, a mid/tweeter crossover around 2.5–3 kHz with about 9 dB of tweeter attenuation fits far better.</p>`
+    + `<p><b>Relative phase:</b> because the three units were measured in one run, <span class="mono">angle(H<sub>a</sub>/H<sub>mid</sub>)</span> cancels the flight time and the sound card's delay exactly, so no compensation distance is needed. The woofer stays within about 60° of the midrange up to 3 kHz; the tweeter is nearly <b>inverted</b> (+163° at 300 Hz) and comes round to +76° at 3 kHz. That is what the crossover filters and the driver polarities have to be designed against. Below 100 Hz the tweeter curve is only noise, and the low end is the chamber, not the drivers.</p>`;
   upd();
 }
 
@@ -570,30 +693,61 @@ function labEunitPhase(u, f, r, tau0) {   // radians, wrapped; delay = flight ov
   return Math.atan2(Math.sin(ph), Math.cos(ph));
 }
 function labEunwrap(ph) { const out = [ph[0]]; for (let k = 1; k < ph.length; k++) { let d = ph[k] - ph[k - 1]; d -= TAU * Math.round(d / TAU); out.push(out[k - 1] + d); } return out; }
+// measured System D: wrapped 0° phase of one unit, compensated by d and unwrapped from the bottom of its band
+function labEmeasPhase(u, d) {
+  const M = window.LABE_MEAS, i0 = M.fs.findIndex(f => f >= u.band[0]), i1 = M.fs.findIndex(f => f > u.band[1]);
+  const f = M.fs.slice(i0, i1 < 0 ? undefined : i1);
+  return { f, ph: labEunwrap(f.map((x, j) => M[u.k + "0ph"][i0 + j] * Math.PI / 180 + TAU * x * d / C0)) };
+}
+// the d that makes the three measured phases smoothest (what plot_labE.m finds: −1.15 m)
+function labEbestD() {
+  const M = window.LABE_MEAS; let best = [Infinity, 0];
+  for (let d = -5; d <= 5; d += 0.005) {
+    let cost = 0;
+    for (const k of ["w", "m", "t"]) for (let i = 1; i < M.fs.length; i++) {
+      if (M.fs[i - 1] < 200 || M.fs[i] > 15000) continue;
+      let x = (M[k + "0ph"][i] - M[k + "0ph"][i - 1]) * Math.PI / 180 + TAU * (M.fs[i] - M.fs[i - 1]) * d / C0;
+      cost += Math.abs(x - TAU * Math.round(x / TAU));
+    }
+    if (cost < best[0]) best = [cost, d];
+  }
+  return best[1];
+}
 function benchLabEphase() {
   const b = bench("bench-labEphase", "Finding the compensation distance d: make the three phases readable", "Lab E · part 2d · what phaseunwrap.m does");
   if (!b) return;
-  const st = { d: 0, r: 1.5, tau0: 2.3e-3 };
-  slider(b.ctl, { label: "compensation distance <b>d</b> (same for all units)", min: -1, max: 4, step: 0.01, value: st.d, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.d = v; upd(); } });
-  const ro = readouts(b.ctl, [{ id: "true", label: "flight distance + card delay × c" }, { id: "sl", label: "slope 2–10 kHz (°/kHz) w / m / t" }, { id: "verdict", label: "verdict" }]);
-  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 20000, ymin: -1080, ymax: 720, ylabel: "compensated, unwrapped phase (°)", yfmt: v => v.toFixed(0), yunit: "°" });
-  const fr = logspace(50, 20000, 1200);
-  function upd() {
-    const curves = LABE_UNITS.map(u => {
-      const ph = labEunwrap(fr.map(f => labEunitPhase(u, f, st.r, st.tau0) + TAU * f * st.d / C0)).map(v => v * 180 / Math.PI);
-      const off = 360 * Math.round(ph[fr.findIndex(f => f >= 1000)] / 360);   // move by whole turns, as the brief allows
-      return ph.map(v => v - off);
-    });
-    const i2 = fr.findIndex(f => f >= 2000), i10 = fr.findIndex(f => f >= 10000);
-    const sl = curves.map(c => (c[i10] - c[i2]) / 8);
-    const up = sl.filter(s => s > 3).length, dn = sl.filter(s => s < -3).length;
-    ro({ true: `${(st.r + st.tau0 * C0).toFixed(2)} m`, sl: sl.map(s => s.toFixed(0)).join(" / "),
-      verdict: up === 3 ? "all rise: d too long" : dn === 3 ? "all fall: d too short" : "mixed or flat: done" });
-    plot.set({ series: LABE_UNITS.map((u, i) => ({ name: u.name, color: DOMC[u.col], width: 2, pts: fr.map((f, k) => [f, curves[i][k]]) })) });
+  const M = window.LABE_MEAS;
+  const dBest = M ? labEbestD() : null;
+  const st = { src: M ? "meas" : "toy", d: M ? Math.round(dBest * 100) / 100 : 0, r: 1.5, tau0: 2.3e-3 };
+  if (M) {
+    const seg = h("div", { class: "seg" });
+    for (const [k, l] of [["meas", "our System D (measured)"], ["toy", "three invented units"]]) seg.append(h("button", { type: "button", class: st.src === k ? "on" : "", onclick: (e) => { st.src = k; $$("button", seg).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, l));
+    b.ctl.append(seg);
   }
-  b.note.innerHTML = `<p>Each measured phase holds three things: the unit's own phase (what the crossover needs), the flight time over the distance, and a delay the sound card adds at random to every run. The last two are the <b>same for all three units</b> as long as they are measured in <b>one</b> run without moving the microphone, so one distance d removes both. Here the speaker is 1.5 m away and the card adds 2.3 ms (another 0.79 m), so the pure delay is 2.29 m; because the units' own phase also falls a little at high frequency, the slopes turn mixed at d ≈ 2.31 m.</p>`
-    + `<p><b>Try:</b> start at d = 0 (everything falls) and follow the brief's rule: all falling, increase d; all rising, decrease it; stop when the slopes are mixed. What is left at that point is real: the woofer's acoustic centre sits 3 cm behind the tweeter's, and that shows as the woofer still falling a little relative to the tweeter. That relative phase is exactly what the crossover has to sum correctly.</p>`;
+  slider(b.ctl, { label: "compensation distance <b>d</b> (same for all units)", min: -3, max: 4, step: 0.01, value: st.d, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.d = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "true", label: "the answer" }, { id: "sl", label: "slope (°/kHz) w / m / t" }, { id: "verdict", label: "verdict" }]);
+  const plot = new Plot(b.plot, { h: 330, xmin: 50, xmax: 18000, ymin: -1080, ymax: 720, ylabel: "compensated, unwrapped phase (°)", yfmt: v => v.toFixed(0), yunit: "°" });
+  const fr = logspace(50, 18000, 1200);
+  function upd() {
+    const meas = st.src === "meas";
+    const units = meas ? LABE_SYS : LABE_UNITS;
+    const curves = units.map(u => {
+      const { f, ph } = meas ? labEmeasPhase(u, st.d) : { f: fr, ph: labEunwrap(fr.map(x => labEunitPhase(u, x, st.r, st.tau0) + TAU * x * st.d / C0)) };
+      const deg = ph.map(v => v * 180 / Math.PI), k1 = f.findIndex(x => x >= 1000), off = 360 * Math.round(deg[k1] / 360);   // move by whole turns, as the brief allows
+      return f.map((x, j) => [x, deg[j] - off]);
+    });
+    const [s0, s1] = meas ? [1000, 4000] : [2000, 10000];
+    const slope = (c) => { const a = c.find(p => p[0] >= s0), z = c.find(p => p[0] >= s1); return (z[1] - a[1]) / ((s1 - s0) / 1000); };
+    const sl = curves.map(slope);
+    const up = sl.filter(s => s > 3).length, dn = sl.filter(s => s < -3).length;
+    ro({ true: meas ? `smoothest at d = ${dBest.toFixed(2)} m (the card delay makes it negative)` : `${(st.r + st.tau0 * C0).toFixed(2)} m = flight + card delay × c`,
+      sl: sl.map(s => s.toFixed(0)).join(" / "),
+      verdict: up === 3 ? "all rise: d too long" : dn === 3 ? "all fall: d too short" : "mixed or flat: done" });
+    plot.set({ series: units.map((u, i) => ({ name: u.name, color: DOMC[u.col], width: 2, pts: curves[i] })) });
+  }
+  b.note.innerHTML = `<p>Each measured phase holds three things: the unit's own phase (what the crossover needs), the flight time over the distance, and a delay the sound card adds at random to every run. The last two are the <b>same for all three units</b> as long as they are measured in <b>one</b> run without moving the microphone, so one distance d removes both. In our run the card's delay was shorter than the flight time, so the d that flattens the phases is <b>negative, −1.15 m</b>, not the 2.44 m we taped.</p>`
+    + `<p><b>Try:</b> it opens at the answer. Drag d to 0 and find your way back with the brief's rule: all falling, increase d; all rising, decrease it; stop when the slopes are mixed. Then try d = 2.44 m, the distance we taped: all three climb by about 2000°/kHz, because that d also undoes a card delay that isn't there. The <i>invented units</i> show the same idea with a known answer (1.5 m flight + 2.3 ms card delay = 2.29 m). What is left once d is right is real: the woofer's acoustic centre sits a little behind the others, and the tweeter is close to inverted below its resonance.</p>`;
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); benchLabE(); benchLabEdir(); benchLabEphase(); });
+document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); benchLabE(); benchLabEmeas(); benchLabEdir(); benchLabEsys(); benchLabEphase(); });
