@@ -1,5 +1,32 @@
 # Announcements
 
+## 2026-10-19 — Lecture 7. Sound absorbers
+
+Dear all
+I look forward to meeting you tomorrow morning at 8.00 and talking about room acoustics and sound absorbers.
+
+Best
+CH
+
+## 2026-10-16 — Lab exercise
+
+Dear all
+The lab exercise will run in the coming weeks.
+See the assignment description:
+Labexercise (group handin) 
+for details on how to sign up and the lab exercise guide for how to prepare for the exercise
+br
+finn
+
+## 2026-10-09 — updated slides and pdf for lectures 1-5
+
+Dear all 
+After the midterm evaluation I have gone through the slides for lectures 1-5 and added explanations for new symbol where needed.
+I've uploaded the revised version (v2) in pptx as well as pdf versions. 
+As the internal viewer on learn struggled with the complete version of lecture 2 I also uploaded the pptx version in 3 parts 
+
+Finn
+
 ## 2026-10-06 — Important update regarding handin assignment
 
 Dear all

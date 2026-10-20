@@ -1,5 +1,31 @@
 # Announcements
 
+## 2026-10-13 — Wurth EMC workshop at DTU - again.
+
+Dear students,For those of you who missed it last time, or those that just want to go through it again, Würth is offering their EMC workshop again.
+📅 When: Wednesday, 28 October 2026, 17:00–20:00
+📍 Where: Building 329A, Room R020 (Study Lab)
+_________________________________________________________
+EMC Seminar at DTU
+From magnetic fields to the right filter solution
+How do you select the right EMC component for a specific application? And how do you ensure that the solution works in practice?
+In this three-hour seminar, Würth Elektronik invites DTU students to explore the world of EMC. You will receive a practical introduction to the fundamental principles behind EMC components and learn how to apply this knowledge when working with electronics development, PCB design and complex systems.
+The seminar combines theory, component knowledge and practical examples, giving you tools you can use when facing real-world design challenges.
+Topics covered include:
+
+Fundamentals of EMC componentsMagnetic fields, core materials and permeability.
+Common modeHow common mode works, how the components behave differently, and how to select the right type for your application.
+Differential modeHow differential mode components work and how to use them effectively. We will also look at the key considerations when selecting a solution for your design.
+PCF ferrites and chip bead ferritesHow they behave, which characteristics are important, and how to identify the best solution for your application.
+Filters and system impedanceAn introduction to filter design, including a practical case where we determine the right components for a more complex challenge.
+Practical tips and tricksUseful advice to help you avoid common EMC challenges and make better component choices.
+
+Practical information
+Duration: 3 hours, including breaksTarget audience: Students interested in electronics, hardware design, PCB design and electromagnetic compatibilityLocation: DTUOrganiser: Würth Elektronik eiSos
+Take your electronics knowledge to the next level
+Gain a better understanding of how EMC components work and how to use them to create more robust and reliable electronic solutions.
+Join the EMC seminar and learn how theory can be turned into better design decisions in practice.
+
 ## 2026-10-06 — Lecture today
 
 Dear all,

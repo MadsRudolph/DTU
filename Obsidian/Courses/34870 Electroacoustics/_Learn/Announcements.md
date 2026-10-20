@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-10-19 — Lecture this Thursday 22/10 moved and replaced by Lab B&C feedback
+
+Dear all,
+This Thursday at 10:00, I will present the general feedback and Q&A for your exercises B and C on microphones. The marks and individual feedback will be out later today.
+The lecture by Finn Agerkvist on radiation and non-linearity is moved to Monday 2/11 at 13:00. The 34870 Course plan Fall 2026 has been updated.
+See you on Thursday!
+Best regards,
+Vicente
+
 ## 2026-10-06 — Quiz for lab D and Lab E is available
 
 Dear all,

@@ -1,8 +1,8 @@
 {
   "announcements": {
-    "34654": "189435",
-    "34840": "189443",
-    "34870": "189433",
+    "34654": "189841",
+    "34840": "190085",
+    "34870": "190069",
     "62755": "189256"
   },
   "schema": 1,
@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-10-06T10:03:36.083Z",
-      "sha256": "81937eef4976596b041bde401edd9335793a5ab1475fdf4c03f5d31a11a411dc",
-      "synced_at": "2026-10-06T10:04:07+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
+      "revision": "2026-10-19T14:15:56.257Z",
+      "sha256": "ed24272c1eb47036d798686f719a650d6a0db4cb272045ee34c0224c975e80b5",
+      "synced_at": "2026-10-20T09:46:18+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
@@ -846,6 +846,144 @@
       "sha256": "e9e2b5ac2c37f8b3a91ebd23defc6e9299054e6312581108e875777137597e09",
       "synced_at": "2026-10-08T10:06:22+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026.pdf"
+    },
+    "1289831": {
+      "revision": "2026-10-09T08:48:46.673Z",
+      "sha256": "46a93f50d3ae155e8082c24ca7346199203674fc6c696eaaf416fc5f537b7522",
+      "synced_at": "2026-10-20T09:42:33+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v2.pdf"
+    },
+    "1289832": {
+      "revision": "2026-10-09T08:48:52.400Z",
+      "sha256": "108430d2891e135d64e404f84c19705ffe32dbe1b6876137f26d951ae3bc2bca",
+      "synced_at": "2026-10-20T09:43:31+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v2.pptx"
+    },
+    "1289833": {
+      "revision": "2026-10-09T08:49:41.513Z",
+      "sha256": "e0cde7a8db9c2d6dd6f8edc93dd8a2b72bc55d4c10706722c91208552ae35b92",
+      "synced_at": "2026-10-20T09:43:31+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026_v2.pdf"
+    },
+    "1289834": {
+      "revision": "2026-10-09T08:49:48.973Z",
+      "sha256": "7e1c0b3fad91aea66d85941646953c4b3252626010850fc150a7ad523b259782",
+      "synced_at": "2026-10-20T09:45:01+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026_v2.pptx"
+    },
+    "1289835": {
+      "revision": "2026-10-09T08:51:53.343Z",
+      "sha256": "df159419d0ca9845e62b3b7ae0647bf5a5d8ccb7473c94ba2fa338c55d01fea2",
+      "synced_at": "2026-10-20T09:45:25+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026_v2.pdf"
+    },
+    "1289836": {
+      "revision": "2026-10-09T08:51:56.600Z",
+      "sha256": "b0414148e01fe8bd723dca42fcf1fbfaae33ca835470dae6ab754735a210c100",
+      "synced_at": "2026-10-20T09:45:35+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026_v2.pptx"
+    },
+    "1289837": {
+      "revision": "2026-10-09T08:53:02.850Z",
+      "sha256": "609aefcbea2e493720d76f1d24498728c7b6b4bbfa6779364847a640216ef564",
+      "synced_at": "2026-10-20T09:45:37+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026_v2.pdf"
+    },
+    "1289838": {
+      "revision": "2026-10-09T08:53:08.750Z",
+      "sha256": "7c5f6347e50c83dac83c27015a274d8d6703dd33e7e37448098c80e228e81423",
+      "synced_at": "2026-10-20T09:45:40+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026_v2.pptx"
+    },
+    "1289839": {
+      "revision": "2026-10-09T08:53:54.217Z",
+      "sha256": "fc463e8c1d2c25255bf1da79a62ce7f0b81afcf40ca9ffa0e2d17c9eab2ce434",
+      "synced_at": "2026-10-20T09:45:41+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026_v2.pdf"
+    },
+    "1289840": {
+      "revision": "2026-10-09T08:53:58.683Z",
+      "sha256": "d3d528071c6ba4b77b6d018415affff2c329ee68565411bfefdc2c26a4314cd0",
+      "synced_at": "2026-10-20T09:46:09+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026_v2.pptx"
+    },
+    "1289842": {
+      "revision": "2026-10-09T08:54:56.287Z",
+      "sha256": "5b587f68afb024d2b77597ae18a740c513616dbde38c399ae7c11eaea09917b4",
+      "synced_at": "2026-10-20T09:45:35+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies - Copy.pdf"
+    },
+    "1289854": {
+      "revision": "2026-10-09T09:09:05.480Z",
+      "sha256": "f3da0691c43388d3aa4d8cdfe71c490cf21c552a64b6e811c3a44979509c46c4",
+      "synced_at": "2026-10-20T09:45:07+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part1_2026v2.pptx"
+    },
+    "1289855": {
+      "revision": "2026-10-09T09:09:18.910Z",
+      "sha256": "bc78cff0f337306efd2e5957c6574b4fccde02597a3e7467d2a660c143eeb6c7",
+      "synced_at": "2026-10-20T09:45:19+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part2_2026v2.pptx"
+    },
+    "1289856": {
+      "revision": "2026-10-09T09:09:28.290Z",
+      "sha256": "c619799fee5b662055376b237c3a0f29a1c6984b537ca4384f010ca9bacaa8bc",
+      "synced_at": "2026-10-20T09:45:22+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part3_2026v2.pptx"
+    },
+    "1290092": {
+      "revision": "2026-10-09T16:59:12.553Z",
+      "sha256": "9beb9b4a5b23bd7699db059839ef47985971491594408b0356992767cea4ea88",
+      "synced_at": "2026-10-20T09:46:09+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/Solution 6.pdf"
+    },
+    "1290094": {
+      "revision": "2026-10-09T17:00:03.003Z",
+      "sha256": "dbf2610f6aa4629298c145459ab37e139d9cc286f13415d9b56e05ad801d31a6",
+      "synced_at": "2026-10-20T09:46:12+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/7 - sound absorbers/34840-Sound Absorber 2026.pdf"
+    },
+    "1290095": {
+      "revision": "2026-10-09T17:00:04.520Z",
+      "sha256": "cda1f2eab2b92f42600856901d48138797d46617b742d04105c528dbcf334fab",
+      "synced_at": "2026-10-20T09:46:12+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_soundabsorbers7.pdf"
+    },
+    "1291281": {
+      "revision": "2026-10-17T19:54:04.383Z",
+      "sha256": "a5afb4dcc0a507df5846f971e654154d65ef9a229aebc34af915f3b00147134e",
+      "synced_at": "2026-10-20T09:42:16+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 5 DC-DC Converters/DCConverters.pdf"
+    },
+    "1291282": {
+      "revision": "2026-10-17T20:15:55.613Z",
+      "sha256": "5d4d9c3b5e1eae92a95c052dc9d59f644b4331b651f0db63c0c7e280756669f8",
+      "synced_at": "2026-10-20T09:42:17+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 5 DC-DC Converters/DCconverters.zip"
+    },
+    "1291285": {
+      "revision": "2026-10-17T20:29:19.110Z",
+      "sha256": "a35930cb97af9c3530fb8288e7c7898cc542b46441c0413838d7d68a63ecd98d",
+      "synced_at": "2026-10-20T09:42:18+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Exercises/Assignment 3.pdf"
+    },
+    "1291303": {
+      "revision": "2026-10-18T08:23:31.420Z",
+      "sha256": "3400ea97ce79921b824f95f27c4d910ac2452b322f6cc5455aac0ecffd151a12",
+      "synced_at": "2026-10-20T09:42:21+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 6 Inverters/Inverters.pdf"
+    },
+    "1291304": {
+      "revision": "2026-10-18T08:23:54.020Z",
+      "sha256": "d1d6513dc306e15a5aea1348c9e452d275137070cb4e328481909cc20a90db56",
+      "synced_at": "2026-10-20T09:42:21+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Exercises/Assignment 4.pdf"
+    },
+    "1291306": {
+      "revision": "2026-10-18T09:38:13.280Z",
+      "sha256": "849060ca34c0f317a83738768071b76d336bc337a0787c1393ffc7343faa7a07",
+      "synced_at": "2026-10-20T09:42:23+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/Controlled Rectifiers.pdf"
     }
   }
 }

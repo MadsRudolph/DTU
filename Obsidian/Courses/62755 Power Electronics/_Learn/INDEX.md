@@ -25,15 +25,18 @@ links to where the file actually lives in the vault.*
 
 ## Lecture 5 DC-DC Converters
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 5 DC-DC Converters.pdf|Lecture 5 DC-DC Converters]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 5 DC-DC Converters/DCConverters.pdf|DCConverters]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 5 DC-DC Converters/DCconverters.zip|DCconverters]]
+- [[Courses/62755 Power Electronics/Exercises/Assignment 3.pdf|Assignment 3]]
 
 ## Lecture 6 Inverters
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 6 Inverters.pdf|Lecture 6 Inverters]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 6 Inverters/Inverters.pdf|Inverters]]
+- [[Courses/62755 Power Electronics/Exercises/Assignment 4.pdf|Assignment 4]]
 
 ## Lecture 7 Thyristors and Thyristorized Converters
 
-- [[Courses/62755 Power Electronics/Slides/Lecture 7 Thyristors andThyristorized Converters.pdf|Lecture 7 Thyristors andThyristorized Converters]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/Controlled Rectifiers.pdf|Controlled Rectifiers]]
 
 ## Lab 1
 

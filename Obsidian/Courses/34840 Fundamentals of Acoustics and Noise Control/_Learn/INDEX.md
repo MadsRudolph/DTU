@@ -20,22 +20,29 @@ links to where the file actually lives in the vault.*
 
 ## 1 - Intro, fundamental concepts, plane waves
 
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v1.pptx|34840_Lecture1_2026_v1]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840-Problems 1.pdf|34840-Problems 1]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions1.pdf|34840_Solutions1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v2.pdf|34840_Lecture1_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture1_2026_v2.pptx|34840_Lecture1_2026_v2]]
 
 ## 2 - Reflection and interference; spherical waves
 
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026.pptx|34840_Lecture2_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems2.pdf|34840_Problems2]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 Solutions2.pdf|34840 Solutions2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026_v2.pdf|34840_Lecture2_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_2026_v2.pptx|34840_Lecture2_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part1_2026v2.pptx|34840_Lecture2_part1_2026v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part2_2026v2.pptx|34840_Lecture2_part2_2026v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture2_part3_2026v2.pptx|34840_Lecture2_part3_2026v2]]
 
 ## 3 - Acoustic measurements
 
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026.pptx|34840_Lecture3_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems3.pdf|34840_Problems3]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies.pdf|34840_Lecture3_addition_of_multiple_frequencies]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions03.pdf|34840_Solutions03]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026_v2.pdf|34840_Lecture3_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_2026_v2.pptx|34840_Lecture3_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture3_addition_of_multiple_frequencies - Copy.pdf|34840_Lecture3_addition_of_multiple_frequencies]]
 
 ## 3a - Matlab SLM
 
@@ -47,15 +54,24 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 - Problems 4.pdf|34840 - Problems 4]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840 – Solutions4.pdf|34840 – Solutions4]]
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026 - Copy.pptx|34840_Lecture4_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026_v2.pdf|34840_Lecture4_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture4_2026_v2.pptx|34840_Lecture4_2026_v2]]
 
 ## 5 - Radiation of sound - monopoles and dipoles
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026.pptx|34840_Lecture5_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems5.pdf|34840_Problems5]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions week 5.pdf|34840_Solutions week 5]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026_v2.pdf|34840_Lecture5_2026_v2]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture5_2026_v2.pptx|34840_Lecture5_2026_v2]]
 
 ## 6 - room acoustics
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_roomacoustics6.pdf|34840_Problems_roomacoustics6]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/6 - room acoustics/34840_Room Acoustics.pdf|34840_Room Acoustics]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/Solution 6.pdf|Solution 6]]
+
+## 7 - sound absorbers
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/7 - sound absorbers/34840-Sound Absorber 2026.pdf|34840-Sound Absorber 2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_soundabsorbers7.pdf|34840_Problems_soundabsorbers7]]
