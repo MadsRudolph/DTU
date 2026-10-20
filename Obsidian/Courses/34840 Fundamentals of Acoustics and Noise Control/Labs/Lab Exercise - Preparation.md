@@ -16,6 +16,7 @@ Source: [[34840_Laboratory exercise 2026.pdf|lab guide (7 pages)]]. Theory: [[Le
 
 | | |
 |---|---|
+| **Our slot** | **Wed 28-Oct-2026, 13:00**, with Joan Escandell Martin (s261552) and Louis Andrianne (s253472). The sheet row was still grey (not yet confirmed by the instructor) on 20-Oct. **Report due Wed 11-Nov-2026.** File name: `34840_ex_s246132_s253472_s261552.pdf` |
 | Format | Groups of **3**, about 2 hours, one group report |
 | Sign-up | The online sheet `34840_LabExercise schedule_2026.xlsx`, linked from the Learn assignment *Labexercise (group handin)*. Choose a slot that is missing students; it turns green when 3 people have signed up. |
 | When | Lab slots fall in the weeks of lectures 8–11 (27-Oct to 17-Nov) |
