@@ -27,7 +27,7 @@ tags: [Electroacoustics, lab-note, loudspeakers, diffraction, baffle, directivit
 
 - **Microphone:** 2.44 m from the speaker in both parts, 1.15 m above the platform in part 2. T = 20 °C, so c = 343.2 m/s.
 - **System layout:** mid/tweeter box at `xrel_mid = 0.12, yrel_mid = 0.29` on the woofer box. Dust cover **off**.
-- **Not measured:** `system_60`, and the midrange and tweeter diameters. The 3″ driver's diameter is the rule of thumb (a = 3 cm).
+- **Not measured:** `system_60`. The 3″ driver's diameter is the rule of thumb (a = 3 cm); the midrange and tweeter come from the DALI data sheet (below).
 - **Above 18.4 kHz** the UMIK channel jumps by about 20 dB in every run, so every plot stops at 18 kHz.
 
 ---
@@ -82,17 +82,21 @@ Dividing each off-axis curve by the 0° curve removes the baffle and the driver,
 
 ![[labE_system.png]]
 
+> [!info] The mid/tweeter box is a DALI Spektor 2
+> From DALI's spec page: 2-way bass reflex, **1 × 5¼″ low/mid driver** (wood-fibre cone), **1 × 25 mm soft-dome tweeter**, **crossover 2,600 Hz**, 84.5 dB (2.83 V / 1 m), 6 Ω nominal, 54 Hz – 26 kHz (±3 dB), 105 dB max SPL. In the project its 5¼″ driver is our **midrange** and the woofer box adds the Scan-Speak below it.
+> **Effective diameters** (`labE_dims.m`): midrange **0.105 m** (the brief's rule of thumb, radius in cm ≈ size in inches: a ≈ 5.25 cm), tweeter **0.025 m** (the dome, a = 12.5 mm).
+
 **Levels** (0°, dB re 1 Pa/V at 2.44 m):
 
 | Unit | 150–600 Hz | 1–3 kHz | 3–8 kHz | 30° minus 0°, 3–8 kHz |
 |---|---|---|---|---|
 | woofer (Scan-Speak 26W/8534G00) | **7.7** | 4.7 | 6.7 | **−15.6 dB** |
-| midrange (DALI) | 2.8 | 3.3 | 0.2 | −7.5 dB |
-| tweeter (DALI) | −19.8 | **12.4** | 11.1 | −0.7 dB |
+| midrange (Spektor 2, 5¼″) | 2.8 | 3.3 | 0.2 | −7.5 dB |
+| tweeter (Spektor 2, 25 mm dome) | −19.8 | **12.4** | 11.1 | −0.7 dB |
 
 - **The woofer** is the most sensitive unit at low frequency, about 5 dB above the midrange. It runs out to 3 kHz on axis with break-up peaks at 2.5–3 kHz, but **off axis it is gone above 3 kHz** (−15.6 dB at 30°). A 21 cm piston has ka = 1 at 520 Hz and reaches −3 dB at 30° near 1.7 kHz. It must hand over well below that.
-- **The midrange** is the DALI bookshelf's own bass/mid driver. It is flat from 120 Hz to about 4 kHz (±2 dB) and keeps going to 12 kHz on axis. At 30° it loses 7.5 dB in the 3–8 kHz band.
-- **The tweeter** is about **9 dB louder** than the midrange in its band and barely beams at all (−0.7 dB at 30°). It is 6 dB down from its band level at 1.04 kHz, just under its resonance (the Lab D impedance peaks at **1.45 kHz**, only 6.7 Ω, so it is well damped). It crosses the woofer and the midrange near **930–960 Hz**, but crossing that low would drive the tweeter at its resonance. A crossover around 2.5–3 kHz keeps it a good octave clear, and that is still below where the midrange starts to beam.
+- **The midrange** is the Spektor 2's own 5¼″ bass/mid driver. It is flat from 120 Hz to about 4 kHz (±2 dB) and keeps going to 12 kHz on axis. At 30° it loses 7.5 dB in the 3–8 kHz band. A rigid 5.25 cm piston would lose 10.3 dB there (ka = 1 at 1.04 kHz, −3 dB at 30° near 3.4 kHz). The real cone beams a little less, because once it breaks up only its centre radiates well.
+- **The tweeter** is about **9 dB louder** than the midrange in its band and barely beams at all (−0.7 dB at 30°). That is what a 25 mm dome should do: ka = 1 only at 4.4 kHz, and a 12.5 mm piston gives −0.4 dB at 3–8 kHz and −1.9 dB at 8–15 kHz (measured −0.7 and −2.5). It is 6 dB down from its band level at 1.04 kHz, just under its resonance (the Lab D impedance peaks at **1.45 kHz**, only 6.7 Ω, so it is well damped). It crosses the woofer and the midrange near **930–960 Hz**, but crossing that low would drive the tweeter at its resonance. A crossover around 2.5–3 kHz keeps it a good octave clear, and that is still below where the midrange starts to beam. **DALI's own crossover for this box is at 2,600 Hz**, which is the same answer.
 - **Below 100 Hz** the tweeter curve is only noise, and the woofer's low end is the chamber, not the woofer: the vent was plugged and the room isn't anechoic that low.
 
 **Phase.** One compensation distance for all three units, found as the d that makes the three phases smoothest, comes out at **d = −1.15 m**. It is negative because the sound card's random delay in this run was shorter than the flight time: d is "flight time plus card delay", and the card delay can have either sign relative to the start. The relative phase doesn't even need d: within one run, `angle(H_a./H_b)` cancels every common delay.
@@ -119,10 +123,10 @@ Dividing each off-axis curve by the 0° curve removes the baffle and the driver,
 | circle at 30° smoother than at 0° | edge points no longer equidistant from the mic |
 | piston fits at 60°, not at 15–30° above 10 kHz | cone break-up: not a rigid piston up there |
 | woofer −15.6 dB at 30° above 3 kHz | a 21 cm piston beams (ka ≈ 6 at 3 kHz) |
-| tweeter ~9 dB hotter than the midrange | higher sensitivity: the crossover needs an L-pad / attenuation |
+| tweeter ~9 dB hotter than the midrange | higher sensitivity: the crossover needs an L-pad / attenuation (DALI's own network does this for the 84.5 dB system) |
+| our dB re 1 Pa/V can't be compared with DALI's 84.5 dB | the reference is the sound card's line-out, before the amplifier, so the amplifier's gain is in every curve |
 | d = −1.15 m, not +2.44 m | the sound card's random delay is part of the "distance" |
 
 ## Open points
 
-- [ ] The midrange and tweeter diameters were not measured. Read them off the DALI box or the Spektor 2 spec before the project.
 - [ ] `system_60` is missing. 0° and 30° are enough for the quiz and the crossover; mention it if the 60° directivity is asked for.

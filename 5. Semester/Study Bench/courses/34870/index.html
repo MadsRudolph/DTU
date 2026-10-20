@@ -1085,9 +1085,10 @@
       <tr><td>IEC 60°/0°: −3 dB and null (a = 3 cm piston)</td><td>3.40 kHz, 8.06 kHz</td><td>3.45 kHz, 7.96 kHz</td></tr>
       <tr><td>System D, 0°: tweeter minus midrange, 1–3 kHz</td><td>sensitivity difference</td><td>about +9 dB</td></tr>
       <tr><td>woofer at 30° vs 0°, 3–8 kHz</td><td>21 cm piston beams above ~1.7 kHz</td><td>−15.6 dB</td></tr>
+      <tr><td>mid/tweeter crossover</td><td>DALI's own: 2,600 Hz</td><td>our estimate 2.5–3 kHz (tweeter resonance 1.45 kHz)</td></tr>
       <tr><td>phase compensation distance (one d, all units)</td><td>flight + card delay</td><td>d = −1.15 m</td></tr>
     </table>
-    <p>Not measured: <span class="mono">system_60</span>, and the midrange and tweeter diameters. <span class="mono">system_30_bad</span> is a rejected run. Everything above 18 kHz is dropped: the UMIK channel jumps by about 20 dB from 18.4 kHz in every run.</p>
+    <p>The mid/tweeter box is a <b>DALI Spektor 2</b> (data sheet: 1 × 5¼″ low/mid driver, 1 × 25 mm soft dome, crossover 2,600 Hz, 84.5 dB at 2.83 V/1 m, 6 Ω), so the midrange has a ≈ 5.25 cm and the tweeter a = 12.5 mm. Not measured: <span class="mono">system_60</span>. <span class="mono">system_30_bad</span> is a rejected run. Everything above 18 kHz is dropped: the UMIK channel jumps by about 20 dB from 18.4 kHz in every run.</p>
   </div>
 
   <div id="bench-labEmeas"></div>
@@ -1111,7 +1112,7 @@
   <div id="bench-labEsys"></div>
   <div id="bench-labEphase"></div>
 
-  <div class="callout real"><span class="eyebrow">In the lab</span><p>What went right this time: one tag per run, every dimension in <span class="mono">labE_dims.m</span> before we left, and all three units in one run. What we'd do differently: measure the midrange and tweeter diameters, take the 60° system run, and note why a run was rejected (<span class="mono">system_30_bad</span> is up to 31 dB off the good one). The chamber is not anechoic at low frequency and the vent was plugged, so below about 100 Hz the system curves are the room, not the drivers: the woofer's low end comes from Lab D's near-field measurement instead.</p></div>
+  <div class="callout real"><span class="eyebrow">In the lab</span><p>What went right this time: one tag per run, every dimension in <span class="mono">labE_dims.m</span> before we left, and all three units in one run. What we'd do differently: take the 60° system run, measure the driver diameters instead of relying on the data sheet, and note why a run was rejected (<span class="mono">system_30_bad</span> is up to 31 dB off the good one). The chamber is not anechoic at low frequency and the vent was plugged, so below about 100 Hz the system curves are the room, not the drivers: the woofer's low end comes from Lab D's near-field measurement instead.</p></div>
 
   <div id="quiz-E"></div>
 </section>

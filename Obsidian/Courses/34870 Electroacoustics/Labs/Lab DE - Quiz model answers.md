@@ -26,9 +26,9 @@ Q1–9 are already ticked, and Q5 has its text and two figures. These are the tw
 
 **The three units of System D** (vent plugged, all three in one run, so the relative phase is valid).
 - **Woofer:** the most sensitive at low frequency, 7.7 dB re 1 Pa/V at 150–600 Hz, about 5 dB above the midrange. It goes to about 3 kHz on axis, but at 30° it is **15.6 dB down** at 3–8 kHz. A 21 cm piston has ka = 1 at 520 Hz, so it beams early.
-- **Midrange:** the flattest of the three, ±2 dB from 120 Hz to 4 kHz. It reaches 12 kHz on axis, but loses 7.5 dB at 30° in the 3–8 kHz band.
-- **Tweeter:** about **9 dB louder** than the midrange in its band (12.4 dB at 1–3 kHz) and almost no beaming (−0.7 dB at 30°). It falls off below 1 kHz, where its resonance (1.45 kHz from Lab D) sets the second-order roll-off.
-- **Crossovers:** the curves cross near 950 Hz, but that would drive the tweeter at its resonance. A mid/tweeter crossover around 2.5–3 kHz with about 9 dB of attenuation on the tweeter fits better. The woofer has to hand over to the midrange well below 1.5 kHz, where it starts to beam.
+- **Midrange** (the DALI Spektor 2's 5¼″ driver, a ≈ 5.25 cm): the flattest of the three, ±2 dB from 120 Hz to 4 kHz. It reaches 12 kHz on axis, but loses 7.5 dB at 30° in the 3–8 kHz band, a little less than a rigid 5.25 cm piston (−10.3 dB): the cone breaks up and its effective area shrinks.
+- **Tweeter** (Spektor 2, 25 mm soft dome, ka = 1 at 4.4 kHz): about **9 dB louder** than the midrange in its band (12.4 dB at 1–3 kHz) and almost no beaming (−0.7 dB at 30°). It falls off below 1 kHz, where its resonance (1.45 kHz from Lab D) sets the second-order roll-off.
+- **Crossovers:** the curves cross near 950 Hz, but that would drive the tweeter at its resonance. A mid/tweeter crossover around 2.5–3 kHz with about 9 dB of attenuation on the tweeter fits better. DALI's own crossover for the Spektor 2 is at **2,600 Hz**, which agrees. The woofer has to hand over to the midrange well below 1.5 kHz, where it starts to beam.
 
 **Phase.**
 - Each measured phase holds the unit's own phase, the flight time and a random sound-card delay. The last two are common to all three units in one run.
