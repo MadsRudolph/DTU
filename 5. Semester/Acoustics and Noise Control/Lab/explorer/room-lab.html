@@ -1,0 +1,715 @@
+<title>Room Lab Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --paper:#F2F5F4; --surface:#FFFFFF; --sunk:#E8EEEC; --ink:#17201E; --muted:#56635F; --rule:#D3DBD8;
+  --ac:#0D776F; --ac-soft:#0D776F22; --cu:#B0602A; --st:#3D6990; --bad:#B23A2E; --good:#2F7A4E;
+  --h0:#F2F5F4; --h1:#93CBC3; --h2:#0B5650;
+  --font-display:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --font-body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+  --font-mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#101614; --surface:#172020; --sunk:#1D2826; --ink:#E3EAE8; --muted:#97A6A2; --rule:#2B3735;
+    --ac:#43B9AD; --ac-soft:#43B9AD26; --cu:#E08E55; --st:#86AED3; --bad:#E06A5D; --good:#5DBB84;
+    --h0:#101614; --h1:#1E6A62; --h2:#9BE6DA;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#101614; --surface:#172020; --sunk:#1D2826; --ink:#E3EAE8; --muted:#97A6A2; --rule:#2B3735;
+  --ac:#43B9AD; --ac-soft:#43B9AD26; --cu:#E08E55; --st:#86AED3; --bad:#E06A5D; --good:#5DBB84;
+  --h0:#101614; --h1:#1E6A62; --h2:#9BE6DA;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;margin:0;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:860px;margin:0 auto}
+.prose{max-width:68ch}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.3rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.55rem,4vw,2.1rem);margin-top:8px}
+h3{font-size:1.15rem;margin-top:28px}
+p{margin:12px 0}
+a{color:var(--ac)}
+.eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.mono,.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.ac{color:var(--ac)} .cu{color:var(--cu)} .st{color:var(--st)}
+i.v{font-family:var(--font-display);font-style:italic}
+nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--paper);border-bottom:1px solid var(--rule);margin-inline:-16px;padding:8px 16px}
+nav.top .in{max-width:860px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.top a{flex:none;text-decoration:none;color:var(--muted);font-size:.85rem;padding:4px 10px;border-radius:999px;border:1px solid transparent}
+nav.top a:hover,nav.top a:focus-visible{color:var(--ink);border-color:var(--rule)}
+header.hero{padding-block:40px 8px;display:grid;gap:20px}
+.lede{font-size:1.15rem;color:var(--muted);max-width:60ch}
+.slot{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.slot div{background:var(--surface);padding:12px 14px}
+.slot b{display:block;font-family:var(--font-display);font-size:1.15rem;font-weight:600}
+.slot span{font-size:.82rem;color:var(--muted)}
+section{padding-top:48px}
+.sec-head{display:grid;gap:6px;margin-bottom:8px}
+.idea{border-left:3px solid var(--ac);padding:4px 0 4px 14px;font-family:var(--font-display);font-size:1.1rem;margin:16px 0}
+figure{margin:24px 0;background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:16px}
+figure>.fh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+figure>.fh h4{font-family:var(--font-display);font-size:1.05rem;margin:0;font-weight:600}
+figure>.fh .tag{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:10px;max-width:70ch}
+canvas{display:block;width:100%;touch-action:none}
+.cv{position:relative}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 18px;margin-top:12px}
+.ctl{display:grid;gap:2px}
+.ctl label{font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.ctl label output{font-family:var(--font-mono);color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+button{font:inherit;font-size:.85rem;background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:8px;padding:5px 11px;cursor:pointer}
+button:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+button.on{background:var(--ac);border-color:var(--ac);color:var(--paper)}
+.readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}
+.ro{background:var(--sunk);border-radius:8px;padding:8px 10px}
+.ro span{display:block;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ro b{font-family:var(--font-mono);font-weight:500;font-size:1.05rem}
+.ro.big b{font-size:1.4rem}
+.two{display:grid;grid-template-columns:1.35fr 1fr;gap:14px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.verdict{margin-top:10px;font-size:.92rem;padding:8px 12px;border-radius:8px;background:var(--sunk)}
+.eq{font-family:var(--font-display);font-size:1.12rem;background:var(--sunk);border-radius:8px;padding:10px 14px;margin:12px 0;overflow-x:auto;white-space:nowrap}
+.eq sub,.eq sup{font-family:var(--font-body);font-size:.68em}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+.tbl{overflow-x:auto;margin:12px 0}
+th,td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left}
+th{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+td.num,th.num{text-align:right}
+td input{width:4.6em;font:inherit;font-family:var(--font-mono);background:var(--paper);color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:2px 6px;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--font-mono);font-size:.78rem}
+details{border:1px solid var(--rule);border-radius:10px;background:var(--surface);padding:10px 14px;margin:8px 0}
+summary{cursor:pointer;font-weight:600}
+details p{margin:8px 0 2px}
+.check li{list-style:none;margin:4px 0}
+.check{padding:0}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{margin-top:5px;accent-color:var(--ac)}
+.q{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;margin:10px 0}
+.q .opts{display:grid;gap:6px;margin-top:8px}
+.q button{text-align:left}
+.q button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.q button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.q .why{font-size:.9rem;color:var(--muted);margin-top:8px}
+.timeline{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--rule);margin:12px 0;font-size:.82rem}
+.timeline div{padding:8px 10px;border-right:1px solid var(--rule);background:var(--surface)}
+.timeline div:last-child{border-right:0}
+.timeline b{display:block;font-family:var(--font-mono);font-weight:500}
+.overview svg{width:100%;height:auto;display:block}
+.overview a{text-decoration:none}
+.note{font-size:.85rem;color:var(--muted)}
+footer{margin-top:56px;border-top:1px solid var(--rule);padding-top:16px;font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+
+<nav class="top" aria-label="Sections"><div class="in">
+  <a href="#overview">Overview</a><a href="#modes">A · Modes</a><a href="#reverb">B · Reverberation</a><a href="#absorbers">Absorbers &amp; diffusers</a><a href="#power">C · Sound power</a><a href="#day">Lab day</a><a href="#quiz">Quiz</a>
+</div></nav>
+
+<div class="wrap">
+<header class="hero" id="overview">
+  <div class="eyebrow">34840 Fundamentals of Acoustics and Noise Control · group lab exercise</div>
+  <h1>Room Lab Explorer</h1>
+  <p class="lede">One small, hard room, used three ways. You find its lowest resonances by ear, measure how fast it forgets a sound, and then use that decay time to weigh a vacuum cleaner's sound power. Everything here is live: drag, sweep and switch things on and off.</p>
+  <div class="slot" role="list">
+    <div role="listitem"><b>Wed 28 Oct, 13:00</b><span id="countdown">Your slot</span></div>
+    <div role="listitem"><b>Building 352, room 005</b><span>Databar, ground floor · about 2 hours</span></div>
+    <div role="listitem"><b>Joan, Louis &amp; you</b><span>s261552 · s253472 · s246132</span></div>
+    <div role="listitem"><b>Report: Wed 11 Nov</b><span>Max 10 pages · one per group</span></div>
+  </div>
+  <div class="overview" aria-label="How the three parts connect">
+    <svg viewBox="0 0 760 210" role="img" aria-label="Part B's decay time turns Part C's pressure into sound power">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <a href="#modes"><g><rect x="8" y="10" width="232" height="112" rx="10" fill="var(--surface)" stroke="var(--rule)"/>
+        <text x="24" y="38" style="font-family:var(--font-display)" font-size="17" font-weight="600" fill="var(--ink)">A · Room modes</text>
+        <text x="24" y="62" font-size="13" fill="var(--ink)">Sweep a sine 30–80 Hz</text>
+        <text x="24" y="81" font-size="13" fill="var(--ink)">Hear 5 resonances</text>
+        <text x="24" y="100" font-size="13" fill="var(--muted)">Count minima → (nx, ny, nz)</text></g></a>
+      <a href="#reverb"><g><rect x="264" y="10" width="232" height="112" rx="10" fill="var(--surface)" stroke="var(--rule)"/>
+        <text x="280" y="38" style="font-family:var(--font-display)" font-size="17" font-weight="600" fill="var(--ink)">B · Reverberation</text>
+        <text x="280" y="62" font-size="13" fill="var(--ink)">Pink noise, then silence</text>
+        <text x="280" y="81" font-size="13" fill="var(--ink)">T20 / T30 per octave</text>
+        <text x="280" y="100" font-size="13" fill="var(--muted)">4 room conditions</text></g></a>
+      <a href="#power"><g><rect x="520" y="10" width="232" height="112" rx="10" fill="var(--surface)" stroke="var(--ac)" stroke-width="2"/>
+        <text x="536" y="38" style="font-family:var(--font-display)" font-size="17" font-weight="600" fill="var(--ink)">C · Sound power</text>
+        <text x="536" y="62" font-size="13" fill="var(--ink)">Vacuum cleaner mid-room</text>
+        <text x="536" y="81" font-size="13" fill="var(--ink)">⟨p²⟩ at 3 positions</text>
+        <text x="536" y="100" font-size="13" fill="var(--muted)">L_W from L_p, V and T</text></g></a>
+      <path d="M496 66H516" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="506" y="146" text-anchor="middle" font-size="12" fill="var(--muted)">T per band</text>
+      <path d="M506 136V122" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>
+      <rect x="8" y="160" width="232" height="40" rx="8" fill="var(--sunk)"/>
+      <text x="124" y="185" text-anchor="middle" font-size="13" fill="var(--ink)">Below f_S: separate modes</text>
+      <rect x="264" y="160" width="488" height="40" rx="8" fill="var(--ac-soft)"/>
+      <text x="508" y="185" text-anchor="middle" font-size="13" fill="var(--ink)">Above f_S ≈ 400–950 Hz: diffuse field, Sabine holds</text>
+    </svg>
+  </div>
+</header>
+
+<!-- ================= PART A ================= -->
+<section id="modes">
+  <div class="sec-head"><div class="eyebrow">Part A · about 30 minutes · sine generator + your ears</div><h2>The room is a resonator</h2></div>
+  <p class="idea">Between two hard walls the air can't move into the wall, so the pressure peaks there. A tone fits when a whole number of half-wavelengths spans the room.</p>
+  <div class="prose">
+    <p>At a rigid wall the particle velocity <i class="v">u</i> must be zero, so the pressure has a maximum there. Between two walls a distance <i class="v">L</i> apart, a standing wave fits when <i class="v">L</i> = <i class="v">n</i>·λ/2, which gives <i class="v">f<sub>n</sub></i> = <i class="v">n</i>·<i class="v">c</i>/(2<i class="v">L</i>). The pressure shape is cos(<i class="v">n</i>π<i class="v">x</i>/<i class="v">L</i>): it has <i class="v">n</i> quiet planes (nodes) between the walls. Watch the air do it:</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>One dimension: a standing wave between two walls</h4><span class="tag">Fig. A1 · animation</span></div>
+    <div class="cv"><canvas id="cvWave" data-aspect="0.42" aria-label="Animated standing wave: air particles, pressure and particle velocity between two rigid walls"></canvas></div>
+    <div class="btns" id="waveBtns">
+      <button data-n="1" class="on">n = 1</button><button data-n="2">n = 2</button><button data-n="3">n = 3</button><button data-n="4">n = 4</button>
+      <button id="wavePlay">Pause</button>
+    </div>
+    <figcaption>The dots are air particles. Where they bunch up the pressure is high (<span class="ac">teal curve</span>); the <span class="cu">copper curve</span> is their velocity. At both walls the velocity is always zero and the pressure swings hardest. For the 4.38 m length of the lab room: <span id="waveF" class="mono"></span>.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>A box is three of these at once. Every combination of whole numbers (<i class="v">n<sub>x</sub></i>, <i class="v">n<sub>y</sub></i>, <i class="v">n<sub>z</sub></i>) is a mode:</p>
+    <div class="eq"><i>f</i> = (<i>c</i>/2) · √[ (<i>n<sub>x</sub></i>/<i>L<sub>x</sub></i>)² + (<i>n<sub>y</sub></i>/<i>L<sub>y</sub></i>)² + (<i>n<sub>z</sub></i>/<i>L<sub>z</sub></i>)² ]</div>
+    <p>One non-zero index is an <b>axial</b> mode (bounces between two parallel walls, the strongest), two is <b>tangential</b>, three is <b>oblique</b>. The lab room is 4.38 × 3.13 × 3.29 m. It's taller than it is wide, so the first height mode (0,0,1) comes <em>before</em> the first width mode (0,1,0).</p>
+    <p>Below, the room is simulated as a sum of its modes, driven from the corner where the lab's loudspeaker stands. Do what you'll do on the day: sweep the generator until the room booms, then <b>drag the listener</b> (the ring) around the floor plan and find the quiet spots. The number of quiet planes along each direction is the mode's index.</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>The lab room on your screen: sweep, listen, walk</h4><span class="tag">Fig. A2 · modal simulation</span></div>
+    <div class="two">
+      <div><div class="note" style="margin-bottom:4px">Floor plan at ear height <span class="mono" id="zLab"></span> · drag the ring</div><div class="cv"><canvas id="cvPlan" data-aspect="0.715" aria-label="Floor plan heat map of sound level in the room"></canvas></div></div>
+      <div><div class="note" style="margin-bottom:4px">Side view (length × height) at <span class="mono" id="yLab"></span></div><div class="cv"><canvas id="cvSide" data-aspect="0.75" aria-label="Side view heat map of sound level in the room"></canvas></div></div>
+    </div>
+    <div class="readouts">
+      <div class="ro big"><span>Generator</span><b id="roF">39.20 Hz</b></div>
+      <div class="ro big"><span>Level at the ring</span><b id="roL">–</b></div>
+      <div class="ro"><span>Nearest mode</span><b id="roM">–</b></div>
+      <div class="ro"><span>Speed of sound</span><b id="roC">–</b></div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="sF">Generator frequency <output id="oF"></output></label><input type="range" id="sF" min="30" max="100" step="0.05" value="39.2"></div>
+      <div class="ctl"><label for="sTemp">Room temperature <output id="oTemp"></output></label><input type="range" id="sTemp" min="15" max="26" step="0.5" value="20"></div>
+      <div class="ctl"><label for="sT60">Low-frequency reverberation time <output id="oT60"></output></label><input type="range" id="sT60" min="1" max="8" step="0.5" value="4"></div>
+      <div class="ctl"><label for="sZ">Ear height (floor plan slice) <output id="oZ"></output></label><input type="range" id="sZ" min="0" max="3.29" step="0.01" value="1.2"></div>
+      <div class="ctl"><label for="sY">Side view taken at width y <output id="oY"></output></label><input type="range" id="sY" min="0" max="3.13" step="0.01" value="0"></div>
+    </div>
+    <div class="btns"><button data-df="-1">−1 Hz</button><button data-df="-0.1">−0.1 Hz</button><button data-df="0.1">+0.1 Hz</button><button data-df="1">+1 Hz</button></div>
+    <div class="note" style="margin-top:12px">Jump to a mode (frequencies follow the temperature):</div>
+    <div class="chips btns" id="modeChips"></div>
+    <div class="cv" style="margin-top:14px"><canvas id="cvResp" data-aspect="0.3" aria-label="Level at the listener versus generator frequency"></canvas></div>
+    <figcaption>Dark teal = loud, pale = quiet, a 30 dB range shared by both views. The bottom curve is what the ring would hear while you sweep 30–100 Hz; dashed lines are the predicted modes. Click the curve to tune the generator there. Try (0,0,1) at 52.2 Hz with the ear height at mid-room (1.65 m), then at the floor. Try the close pair 65.3/67.4 Hz: at a mid-length spot only one of them goes quiet as you move across the width.</figcaption>
+  </figure>
+
+  <details><summary>Why is the corner such a good place for the speaker and for listening?</summary>
+    <p>Every mode has a pressure maximum at every rigid wall, because cos(<i class="v">n</i>π<i class="v">x</i>/<i class="v">L</i>) = ±1 at <i class="v">x</i> = 0 and <i class="v">x</i> = <i class="v">L</i>. A corner is at a wall in all three directions at once, so every mode has its maximum there. A loudspeaker in a corner drives all modes (it pushes on the pressure), and an ear or a phone in a corner hears all of them. In the middle of the room every mode with an odd index has a node and goes silent. Drag the ring to the centre of the plan in Fig. A2 at 39.2 Hz to hear it vanish.</p></details>
+  <details><summary>Why will your measured frequencies be a little off?</summary>
+    <p>The speed of sound changes by about 0.6 m/s per °C, so every mode moves by 0.18 % per kelvin (about 0.1 Hz). The real room isn't a perfect box, the walls and door give a little, and the room's dimensions are "approximate" in the guide. Flexible walls make the room act slightly larger, which lowers the modes. Write down the temperature on the day.</p></details>
+  <details><summary>Why only the lowest five?</summary>
+    <p>The number of modes grows roughly with <i class="v">f</i>³. Above the Schroeder frequency <i class="v">f<sub>S</sub></i> = 2000·√(<i class="v">T</i>/<i class="v">V</i>) so many overlap that you can no longer pick one out, and the sound field is called diffuse. For this room (V = 45.1 m³) that's roughly 400–950 Hz depending on <i class="v">T</i>. Part A lives far below it; Parts B and C rely on being above it, which is also why the 125 Hz band is the shakiest in Part B.</p></details>
+</section>
+
+<!-- ================= PART B ================= -->
+<section id="reverb">
+  <div class="sec-head"><div class="eyebrow">Part B · about 60 minutes · pink noise + MATLAB</div><h2>How fast the room forgets</h2></div>
+  <p class="idea">Feed power in and the walls take a fixed fraction out per bounce. Switch the source off and the level falls by the same number of dB every second: a straight line in dB.</p>
+  <div class="prose">
+    <p>Well above the Schroeder frequency the sound energy is spread evenly and arrives from every direction: a <b>diffuse field</b>. Then one number describes the room, the energy density <i class="v">w</i>, and the intensity hitting any wall is <i class="v">w·c</i>/4. Each surface absorbs a fraction α of what hits it, so the room has an <b>absorption area</b> <i class="v">A</i> = Σ <i class="v">S<sub>i</sub></i>·α<sub><i>i</i></sub> (m², an "open window" equivalent). The energy balance is</p>
+    <div class="eq"><i>V</i> · d<i>w</i>/d<i>t</i> = <i>W</i> − (<i>c A</i>/4) · <i>w</i></div>
+    <p>With the source on, the level settles where input equals loss, <i class="v">w</i> = 4<i class="v">W</i>/(<i class="v">cA</i>). With it off, <i class="v">w</i> decays exponentially, which is a straight line in dB. The time to fall 60 dB is Sabine's reverberation time:</p>
+    <div class="eq"><i>T</i> = 0.161 · <i>V</i> / <i>A</i> &nbsp;&nbsp;[s, with <i>V</i> in m³ and <i>A</i> in m²]</div>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>Build-up, steady state, decay</h4><span class="tag">Fig. B1 · live energy balance</span></div>
+    <div class="cv"><canvas id="cvBal" data-aspect="0.4" aria-label="Sound level in the room over time as the source is switched on and off"></canvas></div>
+    <div class="btns"><button id="balSrc" class="on">Source on</button><button id="balRun">Pause</button><button id="balReset">Restart</button></div>
+    <div class="controls">
+      <div class="ctl"><label for="sA">Absorption area A <output id="oA"></output></label><input type="range" id="sA" min="0" max="1" step="0.001" value="0.25"></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span>Sabine T</span><b id="roT">–</b></div>
+      <div class="ro"><span>Mean α of the 76.8 m²</span><b id="roAl">–</b></div>
+      <div class="ro"><span>Steady level (L<sub>W</sub> 90 dB)</span><b id="roLss">–</b></div>
+    </div>
+    <figcaption>Real time. The empty lab room has <i class="v">A</i> ≈ 0.7–1 m² (T up to about 10 s); the absorbers add several m² at high frequency. More absorption makes the room both quieter in steady state and quicker to decay. That pairing is exactly what Part C exploits.</figcaption>
+  </figure>
+
+  <h3>Why T20 and T30 instead of a full 60 dB</h3>
+  <div class="prose">
+    <p>You almost never have 60 dB between the steady level and the background noise. So the script fits a straight line to part of the decay and extrapolates: <b>T20</b> fits from −5 to −25 dB and multiplies by 3, <b>T30</b> fits from −5 to −35 dB and multiplies by 2. The first 5 dB are skipped because the direct sound dominates there. One noise decay is ragged, because noise is random, so the script averages the squared pressure over 5 decays at each of 3 positions before fitting.</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>The decay analyser: noise floor, averaging and a bent decay</h4><span class="tag">Fig. B2 · synthetic decays</span></div>
+    <div class="cv"><canvas id="cvDec" data-aspect="0.46" aria-label="Decay curve in decibels with T20 and T30 fit lines"></canvas></div>
+    <div class="controls">
+      <div class="ctl"><label for="dT">True reverberation time <output id="odT"></output></label><input type="range" id="dT" min="0.5" max="10" step="0.1" value="3"></div>
+      <div class="ctl"><label for="dSNR">Signal-to-noise ratio <output id="odSNR"></output></label><input type="range" id="dSNR" min="20" max="70" step="1" value="55"></div>
+      <div class="ctl"><label for="dN">Decays averaged <output id="odN"></output></label><input type="range" id="dN" min="1" max="30" step="1" value="15"></div>
+      <div class="ctl"><label for="dTail">Energy trapped in slow paths <output id="odTail"></output></label><input type="range" id="dTail" min="0" max="12" step="0.5" value="0"></div>
+    </div>
+    <div class="btns"><button id="dNew">New noise</button><button id="dSingle">1 decay</button><button id="dAvg">15 decays (lab setting)</button></div>
+    <div class="readouts">
+      <div class="ro big"><span>T20</span><b id="roT20" class="ac">–</b></div>
+      <div class="ro big"><span>T30</span><b id="roT30" class="cu">–</b></div>
+      <div class="ro"><span>T30 / T20</span><b id="roRat">–</b></div>
+    </div>
+    <div class="verdict" id="decVerdict"></div>
+    <figcaption>A healthy decay has a flat level before the cut, a straight drop over at least 20–30 dB and a flat noise floor at least 10 dB below the fit range. Push the SNR under about 45 dB and T30 starts to read long; add trapped energy and the decay bends so T30 > T20. Set "1 decay" to see why one measurement is never enough.</figcaption>
+  </figure>
+</section>
+
+<!-- ================= ABSORBERS ================= -->
+<section id="absorbers">
+  <div class="sec-head"><div class="eyebrow">The four room conditions · lecture 7 in short</div><h2>Absorbers eat sound, diffusers deliver it</h2></div>
+  <p class="idea">A porous panel only works where the air is moving, and at a hard wall the air stands still. Diffusers absorb almost nothing but steer trapped sound into the absorbers.</p>
+  <div class="prose">
+    <p>The six wall panels are porous absorbers (mineral wool or foam): air pushed through the fibres loses energy as heat by friction. In front of a hard wall the particle velocity is zero at the wall and largest a quarter-wavelength away. A thin panel on the wall therefore sits in still air at low frequency and does almost nothing there.</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>How much air motion reaches into the panel?</h4><span class="tag">Fig. B3 · standing wave at a hard wall</span></div>
+    <div class="cv"><canvas id="cvAbs" data-aspect="0.42" aria-label="Particle velocity in front of a hard wall with an absorber panel"></canvas></div>
+    <div class="controls">
+      <div class="ctl"><label for="aF">Frequency <output id="oaF"></output></label><input type="range" id="aF" min="0" max="1" step="0.001" value="0.55"></div>
+      <div class="ctl"><label for="aD">Panel thickness <output id="oaD"></output></label><input type="range" id="aD" min="1" max="20" step="0.5" value="5"></div>
+    </div>
+    <div class="tbl"><table id="absTbl"></table></div>
+    <figcaption>Shaded = the panel. The bars in the table are the average air motion (velocity²) inside the panel, where 100 % is the most a panel of any thickness can catch (that happens just past λ/4). It's a rough guide to where a panel starts to work, not a real α. The rule of thumb: the panel works well once its thickness reaches about λ/4, and the λ/4 marker shows where that is.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p><b>Why one absorbing wall is a problem.</b> All six panels go on the wall opposite the door. Sound bouncing between the two side walls (or floor and ceiling) never touches them, so it decays at the slow empty-room rate. The decay becomes two lines, a fast start and a slow tail, and T30 comes out longer than T20. Diffusers on the hard walls scatter that trapped sound towards the absorbers. Watch it in a top-view ray model:</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>Rays in the lab room, seen from above</h4><span class="tag">Fig. B4 · 2-D ray model, illustrative</span></div>
+    <div class="chips btns" id="rayCfg">
+      <button data-c="0" class="on">Empty</button><button data-c="1">Absorbers</button><button data-c="2">Absorbers + diffusers</button><button data-c="3">Diffusers only</button>
+      <button id="rayPlay">Pause</button><button id="rayRestart">Restart rays</button>
+    </div>
+    <div class="two" style="margin-top:10px">
+      <div class="cv"><canvas id="cvRay" data-aspect="0.715" aria-label="Rays bouncing in the room seen from above"></canvas></div>
+      <div class="cv"><canvas id="cvRayDec" data-aspect="0.75" aria-label="Energy decay curves for the four room conditions"></canvas></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><span>T20 (model)</span><b id="roRT20">–</b></div>
+      <div class="ro"><span>T30 (model)</span><b id="roRT30">–</b></div>
+      <div class="ro"><span>T30 / T20</span><b id="roRRat">–</b></div>
+    </div>
+    <figcaption>Each dot carries energy and fades a little at every wall it hits, a lot on the <span class="cu">absorbers</span> (right wall), and it is sent off in a random direction from a <span class="st">diffuser</span> (blocks on the long walls, staggered so that no straight path between them escapes). Dots skimming between the long walls stay bright with absorbers alone: that's the slow tail on the right. The model is 2-D and its α values are guesses, so trust the shapes and the order of the four curves, not the seconds.</figcaption>
+  </figure>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Condition</th><th>Expect for T</th><th>Listen for (play your track)</th></tr></thead>
+    <tbody>
+      <tr><td>Empty</td><td>Longest, up to ~10 s at low frequency; T20 ≈ T30</td><td>Long ringing tail, flutter between parallel walls</td></tr>
+      <tr><td>Absorbers</td><td>Drops a lot at 1–4 kHz, little at 125 Hz; often T30 &gt; T20</td><td>Less hiss in the tail, still boomy and fluttery</td></tr>
+      <tr><td>Absorbers + diffusers</td><td>Drops further; T20 and T30 closer</td><td>Smoother, even decay; flutter mostly gone</td></tr>
+      <tr><td>Diffusers only</td><td>Close to empty, slightly shorter</td><td>Still very live, but more even</td></tr>
+    </tbody></table></div>
+  <p class="note">Report idea: the absorbers' in-room α ≈ 0.161·V·(1/T<sub>absorbers</sub> − 1/T<sub>empty</sub>) / (panel area). Measure the panels on the day.</p>
+</section>
+
+<!-- ================= PART C ================= -->
+<section id="power">
+  <div class="sec-head"><div class="eyebrow">Part C · about 20 minutes · vacuum cleaner</div><h2>The room as a sound-power meter</h2></div>
+  <p class="idea">In steady state, power in equals power absorbed. Measure the average pressure, know the absorption from T, and the source's sound power follows.</p>
+  <div class="prose">
+    <p>Sound power <i class="v">W</i> is what the source emits in total, a property of the source alone; sound pressure depends on the room and where you stand. In the diffuse field ⟨<i class="v">p</i>²⟩ = 4ρ<i class="v">c</i>·<i class="v">W</i>/<i class="v">A</i>. Put in <i class="v">A</i> = 0.161<i class="v">V</i>/<i class="v">T</i> and take decibels:</p>
+    <div class="eq"><i>L<sub>W</sub></i> = <i>L<sub>p</sub></i> − 14 dB + 10·log<sub>10</sub>(<i>V</i>/1 m³) − 10·log<sub>10</sub>(<i>T</i>/1 s)</div>
+    <p>The −14 is 10·log<sub>10</sub>(0.161/4) = −13.95 dB; the ρ<i class="v">c</i> term vanishes because (20 µPa)²/1 pW = 400 ≈ ρ<i class="v">c</i>. Then A-weight each octave and add the bands as energies. Average <i class="v">p</i>² over the three positions <em>before</em> taking the log. The calculator below starts with made-up example numbers; type in yours after the lab.</p>
+  </div>
+
+  <figure>
+    <div class="fh"><h4>Sound-power calculator</h4><span class="tag">Fig. C1 · example numbers, not measurements</span></div>
+    <div class="tbl"><table id="pwrTbl"></table></div>
+    <div class="cv"><canvas id="cvPwr" data-aspect="0.36" aria-label="Sound power level per octave band, unweighted and A-weighted"></canvas></div>
+    <div class="readouts">
+      <div class="ro big"><span>Total L<sub>WA</sub></span><b id="roLWA" class="ac">–</b></div>
+      <div class="ro"><span>Total L<sub>W</sub> (unweighted)</span><b id="roLW">–</b></div>
+      <div class="ro"><span>If you averaged dB instead</span><b id="roErr">–</b></div>
+      <div class="ro"><span>Room volume V</span><b><input id="pV" type="number" step="0.1" value="45.1" aria-label="Room volume in cubic metres" style="width:5em;font:inherit;background:var(--paper);color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:0 6px"> m³</b></div>
+    </div>
+    <figcaption>Grey bars: L<sub>W</sub> per band; <span class="ac">teal</span>: after A-weighting (−16.1, −8.6, −3.2, 0, +1.2, +1.0 dB). A household vacuum cleaner is typically labelled 75–85 dB(A). Use T from the diffusers-only condition, and T20 in any band where T30 was unreliable.</figcaption>
+  </figure>
+  <details><summary>What limits this measurement (good for the discussion)</summary>
+    <p>Only three microphone positions and one source position (the guide calls the method simplified). At 125 Hz the room is below the Schroeder frequency, so the field isn't diffuse and that band is the least reliable. The microphones must be in the reverberant field: the reverberation distance √(<i class="v">A</i>/16π) is only about 0.1–0.2 m in this hard room, so anywhere a metre from the cleaner is fine.</p></details>
+</section>
+
+<!-- ================= LAB DAY ================= -->
+<section id="day">
+  <div class="sec-head"><div class="eyebrow">Wednesday 28 October · 13:00–15:00</div><h2>On the day</h2></div>
+  <div class="timeline" aria-label="Rough time plan">
+    <div style="flex:30"><b>~30 min</b>A · modes</div><div style="flex:60"><b>~60 min</b>B · four conditions</div><div style="flex:20"><b>~20 min</b>C · vacuum</div>
+  </div>
+  <ul class="check" id="checklist"></ul>
+  <h3>Settings to check</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Thing</th><th>Setting</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>B&amp;K 1049 generator</td><td class="mono">100 mV</td><td>Same drive for every mode</td></tr>
+      <tr><td>Adam A7V gain</td><td class="mono">13 o'clock</td><td>Fixed speaker level in A and B</td></tr>
+      <tr><td>GRAS 12AA mic amplifier</td><td class="mono">20 dB</td><td>Must match the script</td></tr>
+      <tr><td><span class="mono">MeasRTscript.m</span></td><td class="mono">M = 12.5e-3*10</td><td>12.5 mV/Pa × 10 (20 dB)</td></tr>
+      <tr><td>T_build_up</td><td class="mono">≥ expected T60</td><td>The level must be steady before the cut</td></tr>
+      <tr><td>T_silence</td><td class="mono">≥ expected T60</td><td>Record the whole decay, or T30 never reaches −35 dB</td></tr>
+      <tr><td>Navg × Npos</td><td class="mono">5 × 3</td><td>Smooth average; test the empty room with 1 × 1 first and keep it</td></tr>
+    </tbody></table></div>
+  <h3>The questions the guide asks</h3>
+  <details><summary>Why are corners good positions?</summary><p>Every mode has a pressure maximum at every rigid wall, so a corner is a maximum for all modes at once: the speaker there excites them all and an ear there hears them all.</p></details>
+  <details><summary>What are good positions for the diffusers?</summary><p>On the hard parallel surfaces the absorbers don't cover (the side walls, floor and ceiling), where the flutter paths bounce. Their job is to scatter that trapped energy towards the absorbing wall. Keep them away from the microphone positions.</p></details>
+  <details><summary>What does "healthy" mean for a decay?</summary><p>A flat level before the cut, a straight drop in dB over at least 20–30 dB, a flat noise floor at least 10 dB below the fit range, no clipping and no bumps from talking or doors. Some beating at 125 Hz is normal: only a few modes fall in that band.</p></details>
+  <details><summary>Why do T20 and T30 differ?</summary><p>If the decay bends (fast start, slow tail from paths that miss the absorbers), T30 includes more of the slow part and comes out longer. If the SNR is below about 45 dB, the −35 dB point sinks into the noise floor and T30 reads long for a different reason. Use T20 where T30 isn't trustworthy, and say which you used.</p></details>
+  <details><summary>How does one decay compare with the 15-decay average?</summary><p>The single decay wobbles several dB around the line because each burst of noise is random; averaging p² over decays and positions smooths it and also averages over the room. Fig. B2 shows both.</p></details>
+  <h3>The report</h3>
+  <p class="prose">One per group, max 10 pages, due <b>Wed 11 Nov</b>, file name <span class="mono">34840_ex_s246132_s253472_s261552.pdf</span>, all names and study numbers on the front page. It's marked on how you present, interpret and explain the results. A sensible order: setup and sketch → A modes table (predicted vs measured with indices) → B T20/T30 per octave for the four conditions, the single-vs-average comparison and your listening notes → C L<sub>p</sub>, L<sub>W</sub>, L<sub>WA</sub> per band and the total → conclusion.</p>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz">
+  <div class="sec-head"><div class="eyebrow">Check yourself</div><h2>Six questions before Wednesday</h2></div>
+  <div id="quizBox"></div>
+</section>
+
+<footer>
+  Built for the 34840 lab on 28 Oct 2026 from the lab guide (Finn Agerkvist) and the course text, sections 1.3, 1.5, 2.5, 3.1–3.2. Text version with the same content: <a href="https://claude.ai/code/artifact/d20e9009-902f-49d2-a238-c0af3ae92c56">34840 Lab Exercise — Understanding Guide</a>. More benches: <a href="https://study.madsrudolph.dev/34840/#lab">The Sound Bench</a>.
+</footer>
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const hexRgb=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h.slice(0,6),16);return[(n>>16)&255,(n>>8)&255,n&255]};
+const ROOM={x:4.38,y:3.13,z:3.29}; const VOL=ROOM.x*ROOM.y*ROOM.z;
+const cAir=t=>331.3+0.606*t;
+const fmt=(v,d=1)=>Number.isFinite(v)?v.toFixed(d):'–';
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ---------- canvas stages ---------- */
+const stages=[];
+class Stage{
+  constructor(id,draw){this.cv=document.getElementById(id);this.draw=draw;this.ctx=this.cv.getContext('2d');stages.push(this);this.resize();}
+  resize(){const w=this.cv.parentElement.clientWidth||600;const asp=parseFloat(this.cv.dataset.aspect)||0.5;const h=Math.round(w*asp);const dpr=Math.min(2,window.devicePixelRatio||1);
+    this.cv.style.height=h+'px';this.cv.width=Math.round(w*dpr);this.cv.height=Math.round(h*dpr);this.ctx.setTransform(dpr,0,0,dpr,0,0);this.w=w;this.h=h;if(this.draw)this.draw(this);}
+}
+let lastW=0;
+new ResizeObserver(()=>{const w=document.body.clientWidth;if(Math.abs(w-lastW)>2){lastW=w;stages.forEach(s=>s.resize())}}).observe(document.body);
+const themeRedraw=()=>stages.forEach(s=>s.draw&&s.draw(s));
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeRedraw);
+new MutationObserver(themeRedraw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+function pal(){return{paper:css('--paper'),surface:css('--surface'),sunk:css('--sunk'),ink:css('--ink'),muted:css('--muted'),rule:css('--rule'),ac:css('--ac'),cu:css('--cu'),st:css('--st'),bad:css('--bad'),good:css('--good'),h:[hexRgb(css('--h0')),hexRgb(css('--h1')),hexRgb(css('--h2'))]}}
+function heat(P,v){v=Math.max(0,Math.min(1,v));const a=v<0.5?P.h[0]:P.h[1],b=v<0.5?P.h[1]:P.h[2],t=v<0.5?v*2:(v-0.5)*2;return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]}
+function font(ctx,size,kind){ctx.font=`${kind==='mono'?'':''}${size}px ${kind==='mono'?css('--font-mono'):kind==='display'?css('--font-display'):css('--font-body')}`}
+
+/* ---------- countdown ---------- */
+(function(){const d=new Date('2026-10-28T13:00:00+01:00')-new Date();const days=Math.ceil(d/864e5);
+  $('#countdown').textContent=days>1?`In ${days} days`:days===1?'Tomorrow':days===0?'Today':'Done';})();
+
+/* ---------- A1 standing wave ---------- */
+(function(){
+  let n=1,phase=0,playing=!reduceMotion,last=performance.now();
+  const st=new Stage('cvWave',draw);
+  function draw(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);
+    const x0=34,x1=w-34,ym=h*0.27,yg=h*0.74,amp=h*0.17;
+    // walls
+    ctx.fillStyle=P.muted;ctx.fillRect(x0-10,8,8,h-16);ctx.fillRect(x1+2,8,8,h-16);
+    // particles
+    const rows=6,cols=Math.max(28,Math.round((x1-x0)/9));
+    for(let r=0;r<rows;r++){const y=ym-h*0.17+r*(h*0.34/(rows-1));
+      for(let i=0;i<=cols;i++){const s0=i/cols;const xi=Math.sin(n*Math.PI*s0)*Math.cos(phase);const x=x0+s0*(x1-x0)+xi*Math.min(14,(x1-x0)/cols*1.6);
+        const p=-Math.cos(n*Math.PI*s0)*Math.cos(phase);ctx.fillStyle=P.ink;ctx.globalAlpha=0.35+0.45*(p*0.5+0.5);ctx.beginPath();ctx.arc(x,y+((i*7+r*3)%5-2)*0.8,2.1,0,7);ctx.fill();}}
+    ctx.globalAlpha=1;
+    // axis
+    ctx.strokeStyle=P.rule;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x0,yg);ctx.lineTo(x1,yg);ctx.stroke();
+    // envelope
+    ctx.setLineDash([3,4]);ctx.strokeStyle=P.ac;ctx.globalAlpha=0.35;ctx.beginPath();
+    for(let i=0;i<=200;i++){const s0=i/200;const y=yg-Math.abs(Math.cos(n*Math.PI*s0))*amp;i?ctx.lineTo(x0+s0*(x1-x0),y):ctx.moveTo(x0+s0*(x1-x0),y)}ctx.stroke();
+    ctx.beginPath();for(let i=0;i<=200;i++){const s0=i/200;const y=yg+Math.abs(Math.cos(n*Math.PI*s0))*amp;i?ctx.lineTo(x0+s0*(x1-x0),y):ctx.moveTo(x0+s0*(x1-x0),y)}ctx.stroke();
+    ctx.setLineDash([]);ctx.globalAlpha=1;
+    const curve=(fn,col,lw)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.beginPath();for(let i=0;i<=240;i++){const s0=i/240;const y=yg-fn(s0)*amp;i?ctx.lineTo(x0+s0*(x1-x0),y):ctx.moveTo(x0+s0*(x1-x0),y)}ctx.stroke()};
+    curve(s0=>-Math.cos(n*Math.PI*s0)*Math.cos(phase),P.ac,2.5);
+    curve(s0=>-Math.sin(n*Math.PI*s0)*Math.sin(phase),P.cu,2);
+    font(ctx,12,'body');ctx.fillStyle=P.muted;ctx.textAlign='left';ctx.fillText('wall: u = 0, |p| max',x0+4,h-8);ctx.textAlign='right';ctx.fillText('wall: u = 0, |p| max',x1-4,h-8);
+    ctx.textAlign='left';ctx.fillStyle=P.ac;ctx.fillText('pressure p',x0+4,yg-amp-6);ctx.fillStyle=P.cu;ctx.fillText('velocity u',x0+90,yg-amp-6);
+  }
+  function loop(t){const dt=Math.min(0.05,(t-last)/1000);last=t;if(playing){phase+=dt*2*Math.PI*0.45;draw(st)}requestAnimationFrame(loop)}
+  requestAnimationFrame(loop);
+  const setF=()=>{const c=cAir(20);$('#waveF').textContent=`n = ${n} → f = ${n}·${c.toFixed(1)}/(2·4.38) = ${(n*c/(2*4.38)).toFixed(1)} Hz`};
+  document.querySelectorAll('#waveBtns [data-n]').forEach(b=>b.addEventListener('click',()=>{n=+b.dataset.n;document.querySelectorAll('#waveBtns [data-n]').forEach(x=>x.classList.toggle('on',x===b));setF();draw(st)}));
+  const pb=$('#wavePlay');pb.textContent=playing?'Pause':'Play';pb.addEventListener('click',()=>{playing=!playing;pb.textContent=playing?'Pause':'Play'});
+  if(!playing){phase=0.3;draw(st)} setF();
+})();
+
+/* ---------- A2 modal room simulator ---------- */
+const MODES=(function(){const out=[];for(let nx=0;nx<=7;nx++)for(let ny=0;ny<=6;ny++)for(let nz=0;nz<=6;nz++){if(!nx&&!ny&&!nz)continue;const f=cAir(20)/2*Math.hypot(nx/ROOM.x,ny/ROOM.y,nz/ROOM.z);if(f<175)out.push({nx,ny,nz,k:(nx>0)+(ny>0)+(nz>0)})}return out})();
+const fMode=(m,c)=>c/2*Math.hypot(m.nx/ROOM.x,m.ny/ROOM.y,m.nz/ROOM.z);
+const TYPES=['','axial','tangential','oblique'];
+(function(){
+  const S={f:39.2,temp:20,T60:4,z:1.2,y:0,lx:3.9,ly:0.45};
+  const NX=92,NY=Math.round(NX*ROOM.y/ROOM.x),NZ=Math.round(NX*ROOM.z/ROOM.x);
+  const gx=Float64Array.from({length:NX},(_,i)=>(i+0.5)/NX*ROOM.x), gy=Float64Array.from({length:NY},(_,j)=>(j+0.5)/NY*ROOM.y), gz=Float64Array.from({length:NZ},(_,j)=>(j+0.5)/NZ*ROOM.z);
+  const cosTab=(n,L,g)=>Float64Array.from(g,v=>Math.cos(n*Math.PI*v/L));
+  MODES.forEach(m=>{m.cx=cosTab(m.nx,ROOM.x,gx);m.cy=cosTab(m.ny,ROOM.y,gy);m.cz=cosTab(m.nz,ROOM.z,gz)});
+  function amps(f){const c=cAir(S.temp);return MODES.map(m=>{const fm=fMode(m,c),Q=Math.PI*fm*S.T60/6.91,re=fm*fm-f*f,im=f*fm/Q,d=re*re+im*im,eps=1<<m.k;return[eps*re/d,-eps*im/d,fm]})}
+  function pointP(A,x,y,z){let re=0,im=0;MODES.forEach((m,i)=>{const s=Math.cos(m.nx*Math.PI*x/ROOM.x)*Math.cos(m.ny*Math.PI*y/ROOM.y)*Math.cos(m.nz*Math.PI*z/ROOM.z);re+=A[i][0]*s;im+=A[i][1]*s});return 10*Math.log10(re*re+im*im+1e-30)}
+  const plan=new Float64Array(NX*NY),side=new Float64Array(NX*NZ);let maxDb=0;
+  function field(){const A=amps(S.f);const pr=new Float64Array(NX*NY),pi=new Float64Array(NX*NY),sr=new Float64Array(NX*NZ),si=new Float64Array(NX*NZ);
+    MODES.forEach((m,k)=>{const ar=A[k][0],ai=A[k][1];
+      const zc=Math.cos(m.nz*Math.PI*S.z/ROOM.z),yc=Math.cos(m.ny*Math.PI*S.y/ROOM.y);
+      const pr0=ar*zc,pi0=ai*zc;if(Math.abs(pr0)+Math.abs(pi0)>0)for(let j=0;j<NY;j++){const t=m.cy[j];const a=pr0*t,b=pi0*t;const o=j*NX;for(let i=0;i<NX;i++){pr[o+i]+=a*m.cx[i];pi[o+i]+=b*m.cx[i]}}
+      const sr0=ar*yc,si0=ai*yc;if(Math.abs(sr0)+Math.abs(si0)>0)for(let j=0;j<NZ;j++){const t=m.cz[j];const a=sr0*t,b=si0*t;const o=j*NX;for(let i=0;i<NX;i++){sr[o+i]+=a*m.cx[i];si[o+i]+=b*m.cx[i]}}});
+    maxDb=-1e9;for(let i=0;i<plan.length;i++){plan[i]=10*Math.log10(pr[i]*pr[i]+pi[i]*pi[i]+1e-30);if(plan[i]>maxDb)maxDb=plan[i]}
+    for(let i=0;i<side.length;i++){side[i]=10*Math.log10(sr[i]*sr[i]+si[i]*si[i]+1e-30);if(side[i]>maxDb)maxDb=side[i]}
+    return A}
+  const off1=document.createElement('canvas'),off2=document.createElement('canvas');
+  function paint(off,data,nx,ny,P){off.width=nx;off.height=ny;const c=off.getContext('2d');const img=c.createImageData(nx,ny);
+    for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const v=(data[j*nx+i]-(maxDb-30))/30;const col=heat(P,v);const o=((ny-1-j)*nx+i)*4;img.data[o]=col[0];img.data[o+1]=col[1];img.data[o+2]=col[2];img.data[o+3]=255}
+    c.putImageData(img,0,0)}
+  let A=null,resp=null;
+  const box=(s)=>{const m=26;return{x0:m,y0:8,x1:s.w-8,y1:s.h-m}};
+  const planSt=new Stage('cvPlan',drawPlan), sideSt=new Stage('cvSide',drawSide), respSt=new Stage('cvResp',drawResp);
+  function speaker(ctx,x,y,P){ctx.fillStyle=P.ink;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+12,y);ctx.lineTo(x+12,y-12);ctx.lineTo(x,y-12);ctx.closePath();ctx.fill();ctx.fillStyle=P.paper;ctx.beginPath();ctx.arc(x+6,y-6,3,0,7);ctx.fill()}
+  function drawPlan(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);if(!A)return;paint(off1,plan,NX,NY,P);const b=box(s);ctx.imageSmoothingEnabled=true;ctx.drawImage(off1,b.x0,b.y0,b.x1-b.x0,b.y1-b.y0);
+    ctx.strokeStyle=P.ink;ctx.lineWidth=2;ctx.strokeRect(b.x0,b.y0,b.x1-b.x0,b.y1-b.y0);speaker(ctx,b.x0+2,b.y1-2,P);
+    font(ctx,11,'body');ctx.fillStyle=P.muted;ctx.textAlign='center';ctx.fillText('length x = 4.38 m',(b.x0+b.x1)/2,h-8);ctx.save();ctx.translate(12,(b.y0+b.y1)/2);ctx.rotate(-Math.PI/2);ctx.fillText('width y = 3.13 m',0,0);ctx.restore();
+    const lx=b.x0+S.lx/ROOM.x*(b.x1-b.x0),ly=b.y1-S.ly/ROOM.y*(b.y1-b.y0);ctx.strokeStyle=P.cu;ctx.lineWidth=3;ctx.beginPath();ctx.arc(lx,ly,8,0,7);ctx.stroke();ctx.strokeStyle=P.paper;ctx.lineWidth=1;ctx.beginPath();ctx.arc(lx,ly,11,0,7);ctx.stroke();
+    // side-view slice marker
+    const yy=b.y1-S.y/ROOM.y*(b.y1-b.y0);ctx.setLineDash([4,4]);ctx.strokeStyle=P.st;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(b.x0,yy);ctx.lineTo(b.x1,yy);ctx.stroke();ctx.setLineDash([])}
+  function drawSide(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);if(!A)return;paint(off2,side,NX,NZ,P);const b=box(s);ctx.drawImage(off2,b.x0,b.y0,b.x1-b.x0,b.y1-b.y0);
+    ctx.strokeStyle=P.ink;ctx.lineWidth=2;ctx.strokeRect(b.x0,b.y0,b.x1-b.x0,b.y1-b.y0);
+    font(ctx,11,'body');ctx.fillStyle=P.muted;ctx.textAlign='center';ctx.fillText('length x',(b.x0+b.x1)/2,h-8);ctx.save();ctx.translate(12,(b.y0+b.y1)/2);ctx.rotate(-Math.PI/2);ctx.fillText('height z = 3.29 m',0,0);ctx.restore();
+    const zz=b.y1-S.z/ROOM.z*(b.y1-b.y0);ctx.setLineDash([4,4]);ctx.strokeStyle=P.cu;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(b.x0,zz);ctx.lineTo(b.x1,zz);ctx.stroke();ctx.setLineDash([]);
+    if(S.y<0.05)speaker(ctx,b.x0+2,b.y1-2,P)}
+  function computeResp(){const c=cAir(S.temp);const fs=[],L=[];for(let k=0;k<=560;k++){const f=30+70*k/560;const Ak=amps(f);fs.push(f);L.push(pointP(Ak,S.lx,S.ly,S.z))}resp={fs,L}}
+  function drawResp(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);if(!resp)return;const x0=36,x1=w-10,y0=10,y1=h-22;
+    const mx=Math.max(...resp.L),lo=mx-40;const X=f=>x0+(f-30)/70*(x1-x0),Y=v=>y0+(mx+3-v)/(43)*(y1-y0);
+    ctx.strokeStyle=P.rule;ctx.lineWidth=1;font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.textAlign='center';
+    for(let f=30;f<=100;f+=10){ctx.beginPath();ctx.moveTo(X(f),y0);ctx.lineTo(X(f),y1);ctx.stroke();ctx.fillText(f+(f===100?' Hz':''),X(f),h-6)}
+    const c=cAir(S.temp);ctx.setLineDash([2,4]);ctx.strokeStyle=P.muted;MODES.forEach(m=>{const f=fMode(m,c);if(f>=30&&f<=100){ctx.beginPath();ctx.moveTo(X(f),y0);ctx.lineTo(X(f),y1);ctx.stroke()}});ctx.setLineDash([]);
+    ctx.strokeStyle=P.ac;ctx.lineWidth=1.8;ctx.beginPath();resp.fs.forEach((f,i)=>{const y=Y(Math.max(lo,resp.L[i]));i?ctx.lineTo(X(f),y):ctx.moveTo(X(f),y)});ctx.stroke();
+    ctx.strokeStyle=P.cu;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(X(S.f),y0);ctx.lineTo(X(S.f),y1);ctx.stroke();
+    ctx.textAlign='left';ctx.fillStyle=P.muted;font(ctx,10.5,'body');ctx.fillText('level at the ring while sweeping',x0+4,y0+10)}
+  respSt.cv.addEventListener('pointerdown',e=>{const r=respSt.cv.getBoundingClientRect();const f=30+(e.clientX-r.left-36)/(r.width-46)*70;setF(Math.max(30,Math.min(100,f)))});
+  function nearest(){const c=cAir(S.temp);let best=null,bd=1e9;MODES.forEach(m=>{const d=Math.abs(fMode(m,c)-S.f);if(d<bd){bd=d;best=m}});return{m:best,f:fMode(best,c)}}
+  function update(full){A=field();if(full)computeResp();const L=pointP(A,S.lx,S.ly,S.z)+100;
+    $('#roF').textContent=S.f.toFixed(2)+' Hz';$('#roL').textContent=L.toFixed(1)+' dB';const nm=nearest();$('#roM').textContent=`(${nm.m.nx},${nm.m.ny},${nm.m.nz}) ${nm.f.toFixed(1)} Hz`;$('#roC').textContent=cAir(S.temp).toFixed(1)+' m/s';
+    $('#oF').textContent=S.f.toFixed(2)+' Hz';$('#oTemp').textContent=S.temp.toFixed(1)+' °C';$('#oT60').textContent=S.T60.toFixed(1)+' s';$('#oZ').textContent=S.z.toFixed(2)+' m';$('#oY').textContent=S.y.toFixed(2)+' m';
+    $('#zLab').textContent='z = '+S.z.toFixed(2)+' m';$('#yLab').textContent='y = '+S.y.toFixed(2)+' m (dashed line on the plan)';
+    drawPlan(planSt);drawSide(sideSt);drawResp(respSt)}
+  let pend=0,pendFull=false;const schedule=full=>{pendFull=pendFull||full;if(!pend)pend=requestAnimationFrame(()=>{pend=0;update(pendFull);pendFull=false})};
+  function setF(f){S.f=Math.round(f*100)/100;$('#sF').value=S.f;schedule(false)}
+  $('#sF').addEventListener('input',e=>{S.f=+e.target.value;schedule(false)});
+  $('#sTemp').addEventListener('input',e=>{S.temp=+e.target.value;chips();schedule(true)});
+  $('#sT60').addEventListener('input',e=>{S.T60=+e.target.value;schedule(true)});
+  $('#sZ').addEventListener('input',e=>{S.z=+e.target.value;schedule(true)});
+  $('#sY').addEventListener('input',e=>{S.y=+e.target.value;schedule(false)});
+  document.querySelectorAll('[data-df]').forEach(b=>b.addEventListener('click',()=>setF(Math.max(30,Math.min(100,S.f+ +b.dataset.df)))));
+  function chips(){const c=cAir(S.temp);const list=MODES.map(m=>({m,f:fMode(m,c)})).sort((a,b)=>a.f-b.f).slice(0,7);const el=$('#modeChips');el.innerHTML='';
+    list.forEach(({m,f},i)=>{const b=document.createElement('button');b.className='chip';b.textContent=`(${m.nx},${m.ny},${m.nz}) ${f.toFixed(1)} Hz${i>4?' · spare':''}`;b.title=TYPES[m.k];b.addEventListener('click',()=>{S.f=f;$('#sF').value=f;schedule(false)});el.appendChild(b)})}
+  // drag listener
+  let drag=false;const pc=planSt.cv;
+  const move=e=>{const r=pc.getBoundingClientRect();const b=box(planSt);const x=(e.clientX-r.left-b.x0)/(b.x1-b.x0)*ROOM.x,y=(b.y1-(e.clientY-r.top))/(b.y1-b.y0)*ROOM.y;S.lx=Math.max(0,Math.min(ROOM.x,x));S.ly=Math.max(0,Math.min(ROOM.y,y));schedule(true)};
+  pc.addEventListener('pointerdown',e=>{drag=true;pc.setPointerCapture(e.pointerId);move(e)});pc.addEventListener('pointermove',e=>{if(drag)move(e)});pc.addEventListener('pointerup',()=>drag=false);
+  chips();update(true);
+})();
+
+/* ---------- B1 energy balance ---------- */
+(function(){
+  const S={on:true,run:!reduceMotion,t:0,E:0,hist:[]};const LW=90,LBG=32,Wnd=30;
+  const Aof=v=>0.5*Math.pow(30,v); // 0.5..15 m²
+  let A=Aof(+$('#sA').value);
+  const st=new Stage('cvBal',draw);
+  function ro(){const T=0.161*VOL/A;$('#oA').textContent=A.toFixed(2)+' m²';$('#roT').textContent=T.toFixed(2)+' s';$('#roAl').textContent=(A/76.83).toFixed(3);$('#roLss').textContent=(LW+10*Math.log10(4/A)).toFixed(1)+' dB'}
+  $('#sA').addEventListener('input',e=>{A=Aof(+e.target.value);ro();if(!S.run)draw(st)});
+  function draw(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);const x0=40,x1=w-12,y0=12,y1=h-26;const top=110,bot=30;
+    const tEnd=Math.max(Wnd,S.t),tStart=tEnd-Wnd;const X=t=>x0+(t-tStart)/Wnd*(x1-x0),Y=L=>y0+(top-L)/(top-bot)*(y1-y0);
+    ctx.strokeStyle=P.rule;ctx.lineWidth=1;font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.textAlign='right';
+    for(let L=40;L<=100;L+=20){ctx.beginPath();ctx.moveTo(x0,Y(L));ctx.lineTo(x1,Y(L));ctx.stroke();ctx.fillText(L+' dB',x0-4,Y(L)+3)}
+    ctx.textAlign='center';for(let t=Math.ceil(tStart/5)*5;t<=tEnd;t+=5){ctx.fillText(t+' s',X(t),h-8)}
+    const Lss=LW+10*Math.log10(4/A);ctx.setLineDash([5,4]);ctx.strokeStyle=P.muted;ctx.beginPath();ctx.moveTo(x0,Y(Lss));ctx.lineTo(x1,Y(Lss));ctx.stroke();ctx.setLineDash([]);
+    font(ctx,11,'body');ctx.textAlign='left';ctx.fillStyle=P.muted;ctx.fillText('steady state '+Lss.toFixed(0)+' dB',x0+6,Y(Lss)-5);ctx.fillText('background '+LBG+' dB',x0+6,Y(LBG)-5);
+    ctx.strokeStyle=P.ac;ctx.lineWidth=2.2;ctx.beginPath();let first=true;S.hist.forEach(p=>{if(p.t<tStart)return;const x=X(p.t),y=Y(p.L);first?ctx.moveTo(x,y):ctx.lineTo(x,y);first=false});ctx.stroke();
+    S.hist.forEach((p,i)=>{if(p.t<tStart||!p.mark)return;ctx.fillStyle=p.mark==='off'?P.cu:P.ac;ctx.fillRect(X(p.t)-1,y0,2,y1-y0);ctx.fillText(p.mark==='off'?'source off':'source on',X(p.t)+4,y1-6)})}
+  let last=performance.now();
+  function step(now){const dt=Math.min(0.1,(now-last)/1000);last=now;if(S.run){const tau=4*VOL/(343*A);const Ess=Math.pow(10,(LW+10*Math.log10(4/A))/10);
+      const sub=4;for(let k=0;k<sub;k++){const h=dt/sub;S.E+=((S.on?Ess:0)-S.E)*(1-Math.exp(-h/tau));S.t+=h}
+      const L=10*Math.log10(S.E+Math.pow(10,LBG/10));S.hist.push({t:S.t,L});while(S.hist.length&&S.hist[0].t<S.t-Wnd-1&&!S.hist[0].mark)S.hist.shift();if(S.hist.length>4000)S.hist.shift();draw(st)}requestAnimationFrame(step)}
+  requestAnimationFrame(step);
+  const bs=$('#balSrc');bs.addEventListener('click',()=>{S.on=!S.on;bs.textContent=S.on?'Source on':'Source off';bs.classList.toggle('on',S.on);S.hist.push({t:S.t,L:10*Math.log10(S.E+Math.pow(10,LBG/10)),mark:S.on?'on':'off'})});
+  const br=$('#balRun');br.textContent=S.run?'Pause':'Play';br.addEventListener('click',()=>{S.run=!S.run;br.textContent=S.run?'Pause':'Play'});
+  $('#balReset').addEventListener('click',()=>{S.t=0;S.E=0;S.hist=[];S.on=true;bs.textContent='Source on';bs.classList.add('on');draw(st)});
+  ro();draw(st);
+})();
+
+/* ---------- B2 decay analyser ---------- */
+function fitT(t,L,a,b){let i0=L.findIndex(v=>v<=a),i1=L.findIndex(v=>v<=b);if(i0<0||i1<0||i1-i0<3)return{T:NaN};let n=0,sx=0,sy=0,sxx=0,sxy=0;for(let i=i0;i<=i1;i++){n++;sx+=t[i];sy+=L[i];sxx+=t[i]*t[i];sxy+=t[i]*L[i]}const s=(n*sxy-sx*sy)/(n*sxx-sx*sx),c=(sy-s*sx)/n;return{T:-60/s,s,c,t0:t[i0],t1:t[i1]}}
+(function(){
+  const S={T:3,snr:55,N:15,tail:0,seed:7};
+  let D=null;const st=new Stage('cvDec',draw);
+  function gen(){const r=rng(S.seed);const tmax=S.T*1.25,n=300,dt=tmax/n;const T2=S.T*3;const beta=S.tail/100;const floor=Math.pow(10,-S.snr/10);const t=[],L=[];
+    // randn via Box-Muller
+    const randn=()=>{let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
+    const k=3; // degrees of freedom per decay sample (smoothed band noise)
+    for(let i=0;i<n;i++){const ti=i*dt;const env=(1-beta)*Math.pow(10,-6*ti/S.T)+beta*Math.pow(10,-6*ti/T2);let acc=0;
+      for(let d=0;d<S.N;d++){let chi=0;for(let q=0;q<k;q++){const z=randn();chi+=z*z}acc+=(env+floor)*chi/k}
+      t.push(ti);L.push(10*Math.log10(acc/S.N))}
+    const L0=L.slice(0,4).reduce((a,b)=>a+b,0)/4;D={t,L:L.map(v=>v-L0),floorDb:-S.snr,tmax}}
+  function draw(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);if(!D)return;const x0=44,x1=w-12,y0=10,y1=h-26,lo=-75;
+    const X=t=>x0+t/D.tmax*(x1-x0),Y=v=>y0+(5-v)/(5-lo)*(y1-y0);
+    font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.strokeStyle=P.rule;ctx.lineWidth=1;ctx.textAlign='right';
+    for(let v=0;v>=-70;v-=10){ctx.beginPath();ctx.moveTo(x0,Y(v));ctx.lineTo(x1,Y(v));ctx.stroke();ctx.fillText(v,x0-4,Y(v)+3)}
+    ctx.textAlign='center';const stp=D.tmax>6?2:D.tmax>2.5?0.5:0.25;for(let t=0;t<=D.tmax+1e-9;t+=stp)ctx.fillText(+t.toFixed(2)+(t===0?' s':''),X(t),h-8);
+    // fit bands
+    ctx.fillStyle=P.ac;ctx.globalAlpha=0.07;ctx.fillRect(x0,Y(-5),x1-x0,Y(-25)-Y(-5));ctx.fillStyle=P.cu;ctx.fillRect(x0,Y(-25),x1-x0,Y(-35)-Y(-25));ctx.globalAlpha=1;
+    font(ctx,10.5,'body');ctx.textAlign='right';ctx.fillStyle=P.ac;ctx.fillText('T20 range −5…−25 dB',x1-4,Y(-6)+10);ctx.fillStyle=P.cu;ctx.fillText('T30 adds −25…−35 dB',x1-4,Y(-26)+10);
+    ctx.setLineDash([4,4]);ctx.strokeStyle=P.bad;ctx.beginPath();ctx.moveTo(x0,Y(D.floorDb));ctx.lineTo(x1,Y(D.floorDb));ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=P.bad;ctx.textAlign='left';ctx.fillText('noise floor',x0+4,Y(D.floorDb)-4);
+    ctx.strokeStyle=P.ink;ctx.globalAlpha=0.8;ctx.lineWidth=1.3;ctx.beginPath();D.t.forEach((t,i)=>{const y=Y(Math.max(lo,D.L[i]));i?ctx.lineTo(X(t),y):ctx.moveTo(X(t),y)});ctx.stroke();ctx.globalAlpha=1;
+    const line=(F,col)=>{if(!Number.isFinite(F.T))return;ctx.strokeStyle=col;ctx.lineWidth=2;ctx.beginPath();const tA=0,tB=Math.min(D.tmax,(-60-F.c)/F.s);ctx.moveTo(X(tA),Y(F.c+F.s*tA));ctx.lineTo(X(tB),Y(F.c+F.s*tB));ctx.stroke()};
+    line(D.f20,P.ac);line(D.f30,P.cu)}
+  function update(){gen();
+    // fit on a lightly smoothed curve, as the lab script does on its averaged decay
+    const sm=D.L.map((v,i,a)=>{let s=0,n=0;for(let k=-2;k<=2;k++){const j=i+k;if(j>=0&&j<a.length){s+=Math.pow(10,a[j]/10);n++}}return 10*Math.log10(s/n)});
+    D.f20=fitT(D.t,sm,-5,-25);D.f30=fitT(D.t,sm,-5,-35);
+    $('#odT').textContent=S.T.toFixed(1)+' s';$('#odSNR').textContent=S.snr+' dB';$('#odN').textContent=S.N;$('#odTail').textContent=S.tail.toFixed(1)+' %';
+    $('#roT20').textContent=Number.isFinite(D.f20.T)?D.f20.T.toFixed(2)+' s':'no fit';$('#roT30').textContent=Number.isFinite(D.f30.T)?D.f30.T.toFixed(2)+' s':'no fit';
+    const rat=D.f30.T/D.f20.T;$('#roRat').textContent=Number.isFinite(rat)?rat.toFixed(2):'–';
+    let v='';if(S.snr<35)v='SNR below ~35 dB: even T20 reaches into the noise. Raise the level or average more.';
+    else if(!Number.isFinite(D.f30.T))v='The decay never reaches −35 dB above the noise, so T30 cannot be fitted. Use T20 here.';
+    else if(S.snr<45&&rat>1.05)v='T30 reads long because its −35 dB end sits close to the noise floor (SNR under ~45 dB). Trust T20 in this band.';
+    else if(S.tail>0.5&&rat>1.05)v='Bent decay: a fast start and a slow tail from energy that misses the absorbers. T30 includes more of the tail. Report both and explain.';
+    else if(S.N<4)v='One or two decays wobble several dB around the line, so the fit wanders each time you press "New noise". The lab averages 5 decays at 3 positions.';
+    else v='Healthy: straight decay, enough SNR, T20 ≈ T30 within a few percent.';
+    $('#decVerdict').textContent=v;draw(st)}
+  [['#dT','T'],['#dSNR','snr'],['#dN','N'],['#dTail','tail']].forEach(([id,k])=>$(id).addEventListener('input',e=>{S[k]=+e.target.value;update()}));
+  $('#dNew').addEventListener('click',()=>{S.seed++;update()});
+  $('#dSingle').addEventListener('click',()=>{S.N=1;$('#dN').value=1;update()});$('#dAvg').addEventListener('click',()=>{S.N=15;$('#dN').value=15;update()});
+  update();
+})();
+
+/* ---------- C1 absorber velocity ---------- */
+(function(){
+  const S={fv:0.55,d:5};const fOf=v=>63*Math.pow(4000/63,v);const st=new Stage('cvAbs',draw);
+  const eta=(f,d)=>{const k=2*Math.PI*f/343,kd=2*k*d/100;return 1-Math.sin(kd)/kd};
+  function draw(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);const f=fOf(S.fv),k=2*Math.PI*f/343;const xw=w-30,x0=40,span=1.0,y0=16,y1=h-28;
+    const X=dist=>xw-dist/span*(xw-x0),Y=v=>y1-v*(y1-y0);
+    // panel
+    ctx.fillStyle=P.cu;ctx.globalAlpha=0.18;ctx.fillRect(X(S.d/100),y0,X(0)-X(S.d/100),y1-y0);ctx.globalAlpha=1;
+    // wall
+    ctx.fillStyle=P.muted;ctx.fillRect(xw,y0-6,10,y1-y0+12);
+    // grid
+    font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.strokeStyle=P.rule;ctx.textAlign='center';for(let dd=0;dd<=1.0001;dd+=0.2){ctx.beginPath();ctx.moveTo(X(dd),y0);ctx.lineTo(X(dd),y1);ctx.stroke();ctx.fillText(dd===0?'wall':(dd*100).toFixed(0)+' cm',X(dd),h-10)}
+    const curve=(fn,col,lw,dash)=>{ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.setLineDash(dash||[]);ctx.beginPath();for(let i=0;i<=400;i++){const dd=i/400*span;const y=Y(fn(dd));i?ctx.lineTo(X(dd),y):ctx.moveTo(X(dd),y)}ctx.stroke();ctx.setLineDash([])};
+    curve(dd=>Math.abs(Math.cos(k*dd))*0.9,P.ac,1.5,[4,4]);curve(dd=>Math.abs(Math.sin(k*dd))*0.9,P.cu,2.5);
+    const q=343/(4*f);if(q<=span){ctx.strokeStyle=P.ink;ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(X(q),y0);ctx.lineTo(X(q),y1);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=P.ink;font(ctx,11,'body');ctx.textAlign='center';ctx.fillText('λ/4',X(q),y0+10)}
+    font(ctx,11,'body');ctx.textAlign='left';ctx.fillStyle=P.cu;ctx.fillText('|particle velocity|',x0,y0+10);ctx.fillStyle=P.ac;ctx.fillText('|pressure|',x0+120,y0+10);
+    ctx.fillStyle=P.ink;ctx.textAlign='right';ctx.fillText('panel '+S.d+' cm',X(0)-6,y1-8)}
+  function update(){const f=fOf(S.fv);$('#oaF').textContent=(f<1000?f.toFixed(0)+' Hz':(f/1000).toFixed(2)+' kHz')+` · λ/4 = ${(343/(4*f)*100).toFixed(1)} cm`;$('#oaD').textContent=S.d+' cm';
+    const bands=[125,250,500,1000,2000,4000];const P=pal();
+    $('#absTbl').innerHTML='<thead><tr><th>Octave</th>'+bands.map(b=>`<th class="num">${b<1000?b:b/1000+'k'}</th>`).join('')+'</tr></thead><tbody><tr><td>Air motion in panel (100 % = best)</td>'+
+      bands.map(b=>{const e=eta(b,S.d);const r=Math.min(1,e/1.2172);return `<td class="num"><div style="height:6px;border-radius:3px;background:var(--rule);margin-bottom:3px"><div style="height:6px;border-radius:3px;width:${(r*100).toFixed(0)}%;background:var(--cu)"></div></div><span class="mono">${(r*100).toFixed(0)}%</span></td>`}).join('')+'</tr></tbody>';
+    draw(st)}
+  $('#aF').addEventListener('input',e=>{S.fv=+e.target.value;update()});$('#aD').addEventListener('input',e=>{S.d=+e.target.value;update()});update();
+})();
+
+/* ---------- C2 ray model ---------- */
+(function(){
+  const LX=ROOM.x,LY=ROOM.y;const ABS=[0.1,3.03],DIFF_T=[[0,0.73],[1.46,2.19],[2.92,3.65]],DIFF_B=[[0.73,1.46],[2.19,2.92],[3.65,4.38]];const aWall=0.03,aAbs=0.55;
+  const CFG=[{abs:false,dif:false,name:'Empty'},{abs:true,dif:false,name:'Absorbers'},{abs:true,dif:true,name:'Absorbers + diffusers'},{abs:false,dif:true,name:'Diffusers only'}];
+  let cur=0;
+  function hit(px,py,dx,dy){const tx=dx>0?(LX-px)/dx:dx<0?-px/dx:Infinity,ty=dy>0?(LY-py)/dy:dy<0?-py/dy:Infinity;return tx<ty?{t:tx,w:dx>0?'R':'L'}:{t:ty,w:dy>0?'T':'B'}}
+  function bounce(r,w,cfg,rnd){const x=r.x,y=r.y;let a=aWall,diff=false;
+    if(w==='R'&&cfg.abs&&y>ABS[0]&&y<ABS[1])a=aAbs;
+    if((w==='T'||w==='B')&&cfg.dif&&(w==='T'?DIFF_T:DIFF_B).some(s=>x>s[0]&&x<s[1])){diff=true;a=0.05}
+    r.e*=(1-a);
+    if(diff){const th=Math.asin(2*rnd()-1);const ny=w==='B'?1:-1;r.dx=Math.sin(th);r.dy=ny*Math.cos(th)}
+    else if(w==='L'||w==='R')r.dx=-r.dx;else r.dy=-r.dy}
+  function simulate(cfg){const rnd=rng(11);const N=700,tmax=4,dt=0.01,nb=Math.round(tmax/dt);const E=new Float64Array(nb);
+    for(let n=0;n<N;n++){const th=(n+0.5)/N*Math.PI/2;const r={x:0.3,y:0.3,dx:Math.cos(th),dy:Math.sin(th),e:1};let t=0,guard=0;
+      while(t<tmax&&guard++<20000){const hh=hit(r.x,r.y,r.dx,r.dy);const tt=hh.t/343;const b0=Math.ceil(t/dt),b1=Math.min(nb-1,Math.floor((t+tt)/dt));for(let b=b0;b<=b1;b++)E[b]+=r.e;
+        r.x+=r.dx*hh.t;r.y+=r.dy*hh.t;r.x=Math.max(0,Math.min(LX,r.x));r.y=Math.max(0,Math.min(LY,r.y));t+=tt;bounce(r,hh.w,cfg,rnd);if(r.e<1e-9)break}}
+    const t=[],L=[];for(let b=0;b<nb;b++){t.push(b*dt);L.push(10*Math.log10(E[b]/E[0]+1e-12))}
+    return{t,L,f20:fitT(t,L,-5,-25),f30:fitT(t,L,-5,-35)}}
+  const results=CFG.map(simulate);
+  // animation particles
+  let parts=[],playing=!reduceMotion,last=performance.now(),prnd=rng(3),ray=null,dec=null;
+  function reset(){parts=[];for(let n=0;n<260;n++){const th=(n+0.5)/260*Math.PI/2;parts.push({x:0.3,y:0.3,dx:Math.cos(th),dy:Math.sin(th),e:1})}}
+  function stepParts(dt){const v=1.3*dt;const cfg=CFG[cur];parts.forEach(r=>{let rem=v;let guard=0;while(rem>0&&guard++<6){const hh=hit(r.x,r.y,r.dx,r.dy);if(hh.t>rem){r.x+=r.dx*rem;r.y+=r.dy*rem;rem=0}else{r.x+=r.dx*hh.t;r.y+=r.dy*hh.t;rem-=hh.t;r.x=Math.max(0,Math.min(LX,r.x));r.y=Math.max(0,Math.min(LY,r.y));bounce(r,hh.w,cfg,prnd)}}})}
+  function drawRay(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);const m=10,x0=m,y0=m,x1=w-m,y1=h-m;const X=x=>x0+x/LX*(x1-x0),Y=y=>y1-y/LY*(y1-y0);
+    ctx.fillStyle=P.sunk;ctx.fillRect(x0,y0,x1-x0,y1-y0);ctx.strokeStyle=P.ink;ctx.lineWidth=2;ctx.strokeRect(x0,y0,x1-x0,y1-y0);
+    const cfg=CFG[cur];if(cfg.abs){ctx.fillStyle=P.cu;ctx.fillRect(X(LX)-7,Y(ABS[1]),7,Y(ABS[0])-Y(ABS[1]))}
+    if(cfg.dif){ctx.fillStyle=P.st;DIFF_T.forEach(sg=>ctx.fillRect(X(sg[0]),Y(LY),X(sg[1])-X(sg[0]),6));DIFF_B.forEach(sg=>ctx.fillRect(X(sg[0]),Y(0)-6,X(sg[1])-X(sg[0]),6))}
+    ctx.fillStyle=P.ac;parts.forEach(r=>{const a=Math.max(0,Math.min(1,1+Math.log10(r.e+1e-9)/2.2));if(a<=0.02)return;ctx.globalAlpha=a;ctx.beginPath();ctx.arc(X(r.x),Y(r.y),2.2,0,7);ctx.fill()});ctx.globalAlpha=1;
+    ctx.fillStyle=P.ink;ctx.fillRect(X(0)+2,Y(0)-14,12,12)}
+  function drawDec(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);const x0=40,x1=w-10,y0=10,y1=h-24,lo=-60,tmax=4;const X=t=>x0+t/tmax*(x1-x0),Y=v=>y0+(0-v)/(0-lo)*(y1-y0);
+    font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.strokeStyle=P.rule;ctx.lineWidth=1;ctx.textAlign='right';for(let v=0;v>=lo;v-=10){ctx.beginPath();ctx.moveTo(x0,Y(v));ctx.lineTo(x1,Y(v));ctx.stroke();ctx.fillText(v+(v===0?' dB':''),x0-4,Y(v)+3)}
+    ctx.textAlign='center';for(let t=0;t<=tmax;t++)ctx.fillText(t+' s',X(t),h-8);
+    results.forEach((r,i)=>{ctx.strokeStyle=i===cur?P.ac:P.muted;ctx.globalAlpha=i===cur?1:0.35;ctx.lineWidth=i===cur?2.4:1.2;ctx.beginPath();r.t.forEach((t,k)=>{const y=Y(Math.max(lo,r.L[k]));k?ctx.lineTo(X(t),y):ctx.moveTo(X(t),y)});ctx.stroke()});ctx.globalAlpha=1;
+    font(ctx,11,'body');ctx.fillStyle=P.ac;ctx.textAlign='right';ctx.fillText(CFG[cur].name,x1-4,y0+12);
+    const r=results[cur];$('#roRT20').textContent=fmt(r.f20.T,2)+' s';$('#roRT30').textContent=fmt(r.f30.T,2)+' s';$('#roRRat').textContent=fmt(r.f30.T/r.f20.T,2)}
+  function loop(now){const dt=Math.min(0.05,(now-last)/1000);last=now;if(playing){stepParts(dt);drawRay(ray)}requestAnimationFrame(loop)}
+  document.querySelectorAll('#rayCfg [data-c]').forEach(b=>b.addEventListener('click',()=>{cur=+b.dataset.c;document.querySelectorAll('#rayCfg [data-c]').forEach(x=>x.classList.toggle('on',x===b));reset();drawRay(ray);drawDec(dec)}));
+  const pb=$('#rayPlay');pb.textContent=playing?'Pause':'Play';pb.addEventListener('click',()=>{playing=!playing;pb.textContent=playing?'Pause':'Play'});
+  $('#rayRestart').addEventListener('click',()=>{reset();drawRay(ray)});
+  reset();if(!playing){for(let k=0;k<40;k++)stepParts(0.25)}ray=new Stage('cvRay',drawRay);dec=new Stage('cvRayDec',drawDec);requestAnimationFrame(loop);
+})();
+
+/* ---------- D1 sound power ---------- */
+(function(){
+  const bands=[125,250,500,1000,2000,4000],Aw=[-16.1,-8.6,-3.2,0,1.2,1.0];
+  const ex={p:[[66,68,67],[72,70,71],[77,76,78],[80,81,79],[79,78,80],[74,75,73]],T:[6.0,5.0,4.2,3.6,2.9,2.2]};
+  const tbl=$('#pwrTbl');
+  tbl.innerHTML='<thead><tr><th>Octave (Hz)</th>'+bands.map(b=>`<th class="num">${b}</th>`).join('')+'</tr></thead><tbody>'+
+    [0,1,2].map(p=>`<tr><td>L<sub>p</sub> position ${p+1} (dB)</td>`+bands.map((b,i)=>`<td class="num"><input id="p${p}_${i}" type="number" step="0.1" value="${ex.p[i][p]}" aria-label="Lp position ${p+1} at ${b} Hz"></td>`).join('')+'</tr>').join('')+
+    '<tr><td>T, diffusers only (s)</td>'+bands.map((b,i)=>`<td class="num"><input id="T_${i}" type="number" step="0.05" value="${ex.T[i]}" aria-label="T at ${b} Hz"></td>`).join('')+'</tr>'+
+    '<tr><td>⟨L<sub>p</sub>⟩ from mean p²</td>'+bands.map((b,i)=>`<td class="num mono" id="oLp${i}"></td>`).join('')+'</tr>'+
+    '<tr><td>L<sub>W</sub> (dB re 1 pW)</td>'+bands.map((b,i)=>`<td class="num mono" id="oLW${i}"></td>`).join('')+'</tr>'+
+    '<tr><td>L<sub>WA</sub> = L<sub>W</sub> + A</td>'+bands.map((b,i)=>`<td class="num mono" id="oLWA${i}"></td>`).join('')+'</tr></tbody>';
+  let R=null;const st=new Stage('cvPwr',draw);
+  function calc(){const V=Math.max(1,+$('#pV').value||45.1);const Lp=[],LW=[],LWA=[],Lpdb=[];
+    bands.forEach((b,i)=>{const ps=[0,1,2].map(p=>+$(`#p${p}_${i}`).value);const T=Math.max(0.05,+$(`#T_${i}`).value||1);
+      const mean=ps.reduce((a,v)=>a+Math.pow(10,v/10),0)/3;Lp.push(10*Math.log10(mean));Lpdb.push(ps.reduce((a,v)=>a+v,0)/3);
+      LW.push(Lp[i]-14+10*Math.log10(V)-10*Math.log10(T));LWA.push(LW[i]+Aw[i])});
+    const sum=a=>10*Math.log10(a.reduce((s,v)=>s+Math.pow(10,v/10),0));
+    const LWAdb=sum(bands.map((b,i)=>Lpdb[i]-14+10*Math.log10(V)-10*Math.log10(+$(`#T_${i}`).value||1)+Aw[i]));
+    R={LW,LWA,tot:sum(LWA),totW:sum(LW),err:LWAdb-sum(LWA)};
+    bands.forEach((b,i)=>{$('#oLp'+i).textContent=Lp[i].toFixed(1);$('#oLW'+i).textContent=LW[i].toFixed(1);$('#oLWA'+i).textContent=LWA[i].toFixed(1)});
+    $('#roLWA').textContent=R.tot.toFixed(1)+' dB(A)';$('#roLW').textContent=R.totW.toFixed(1)+' dB';$('#roErr').textContent=(R.err>=0?'+':'')+R.err.toFixed(2)+' dB';draw(st)}
+  function draw(s){const {ctx,w,h}=s;const P=pal();ctx.clearRect(0,0,w,h);if(!R)return;const x0=40,x1=w-10,y0=12,y1=h-24;const top=Math.ceil((Math.max(...R.LW,...R.LWA)+5)/10)*10,bot=Math.min(40,Math.floor((Math.min(...R.LWA)-5)/10)*10);
+    const Y=v=>y0+(top-v)/(top-bot)*(y1-y0);const bw=(x1-x0)/bands.length;
+    font(ctx,10.5,'mono');ctx.fillStyle=P.muted;ctx.strokeStyle=P.rule;ctx.lineWidth=1;ctx.textAlign='right';for(let v=bot;v<=top;v+=10){ctx.beginPath();ctx.moveTo(x0,Y(v));ctx.lineTo(x1,Y(v));ctx.stroke();ctx.fillText(v,x0-4,Y(v)+3)}
+    bands.forEach((b,i)=>{const cx=x0+bw*(i+0.5);ctx.fillStyle=P.muted;ctx.globalAlpha=0.35;ctx.fillRect(cx-bw*0.32,Y(R.LW[i]),bw*0.3,y1-Y(R.LW[i]));ctx.globalAlpha=1;ctx.fillStyle=P.ac;ctx.fillRect(cx+bw*0.02,Y(R.LWA[i]),bw*0.3,y1-Y(R.LWA[i]));
+      ctx.fillStyle=P.muted;ctx.textAlign='center';ctx.fillText(b<1000?b:b/1000+'k',cx,h-8);ctx.fillStyle=P.ink;ctx.fillText(R.LWA[i].toFixed(0),cx+bw*0.17,Y(R.LWA[i])-4)})}
+  tbl.addEventListener('input',calc);$('#pV').addEventListener('input',calc);calc();
+})();
+
+/* ---------- checklist ---------- */
+(function(){
+  const items=['Sign-up confirmed (slot turns green in the schedule sheet)','Sound level meter app installed and tested on your phone','A music track you know well + mini-jack cable','USB stick for decay plots and .mat files','Note the room temperature when you arrive','Measure the absorber panels (you need their area for α)','Empty room: one 1×1 test decay saved before the 5×3 run','Save T20, T30, SNR and the plots for all four conditions','Vacuum: save p² for positions 1–3 and the background','Write two lines of listening notes per condition'];
+  let saved={};try{saved=JSON.parse(localStorage.getItem('roomlab-check')||'{}')}catch(e){}
+  const ul=$('#checklist');items.forEach((t,i)=>{const li=document.createElement('li');li.innerHTML=`<label><input type="checkbox" id="ck${i}" ${saved[i]?'checked':''}><span>${t}</span></label>`;ul.appendChild(li)});
+  ul.addEventListener('change',e=>{const i=+e.target.id.slice(2);saved[i]=e.target.checked;try{localStorage.setItem('roomlab-check',JSON.stringify(saved))}catch(err){}});
+})();
+
+/* ---------- quiz ---------- */
+(function(){
+  const Q=[
+    {q:'The lab room is 4.38 × 3.13 × 3.29 m. Which mode is the second lowest?',o:['(0,1,0) at 54.9 Hz','(0,0,1) at 52.2 Hz','(1,1,0) at 67.4 Hz','(2,0,0) at 78.4 Hz'],c:1,w:'The height (3.29 m) is larger than the width (3.13 m), so the first height mode comes before the first width mode: 343.4/(2·3.29) = 52.2 Hz.'},
+    {q:'You stand exactly in the middle of the room. Which of these modes can you hear there?',o:['(1,0,0)','(1,1,0)','(2,0,0)','(0,0,1)'],c:2,w:'cos(nπ/2) = 0 for any odd n, so every mode with an odd index has a node at the centre. (2,0,0) has even indices only (2 and zeros), so it has a maximum there.'},
+    {q:'With all absorbers on one wall, T30 comes out clearly longer than T20 although the SNR is 60 dB. Why?',o:['The microphone gain is wrong','The decay is bent: sound bouncing between the other walls misses the absorbers and decays slowly','T30 always reads 50 % longer','The noise floor is too high'],c:1,w:'With enough SNR, the difference comes from the decay itself: a fast early part and a slow tail from paths that miss the absorbers (a non-diffuse field). Diffusers reduce it.'},
+    {q:'Empty room T = 10 s, V = 45.1 m³. What absorption area does Sabine give?',o:['0.07 m²','0.73 m²','7.3 m²','4.5 m²'],c:1,w:'A = 0.161·V/T = 0.161·45.1/10 = 0.73 m²: the whole room absorbs like a window of less than a square metre.'},
+    {q:'At the three positions you measure 79, 81 and 83 dB in one band. What is ⟨L_p⟩?',o:['81.0 dB','81.3 dB','83.0 dB','79.0 dB'],c:1,w:'Average the energies: 10·log10((10^7.9 + 10^8.1 + 10^8.3)/3) = 81.3 dB. Averaging the dB values (81.0) underestimates the energy.'},
+    {q:'Where does the "−14 dB" in L_W = L_p − 14 + 10log V − 10log T come from?',o:['The A-weighting at 1 kHz','10·log10(0.161/4) from Sabine and the w·c/4 wall intensity','The microphone sensitivity','The 20 dB amplifier gain minus 6 dB'],c:1,w:'W = ⟨p²⟩A/(4ρc) and A = 0.161V/T give 10·log10(0.161/4) = −13.95 dB; ρc ≈ 400 cancels against the reference values.'}];
+  const box=$('#quizBox');
+  Q.forEach((it,qi)=>{const d=document.createElement('div');d.className='q';d.innerHTML=`<div><b>${qi+1}.</b> ${it.q}</div><div class="opts"></div><div class="why" hidden></div>`;const opts=d.querySelector('.opts');
+    it.o.forEach((o,oi)=>{const b=document.createElement('button');b.type='button';b.textContent=o;b.addEventListener('click',()=>{opts.querySelectorAll('button').forEach((x,xi)=>{x.classList.remove('right','wrong');if(xi===it.c)x.classList.add('right')});if(oi!==it.c)b.classList.add('wrong');const w=d.querySelector('.why');w.hidden=false;w.textContent=(oi===it.c?'Right. ':'Not quite. ')+it.w});opts.appendChild(b)});box.appendChild(d)});
+})();
+</script>

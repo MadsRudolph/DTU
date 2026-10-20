@@ -10,7 +10,7 @@ tags: [Acoustics, lab, room-modes, reverberation, sound-power]
 > [!abstract] The idea
 > A small hard room has a few low modes you can find by ear. Measure how quickly it forgets a sound (T20/T30), and the room becomes a calibrated meter for sound power.
 
-Source: [[34840_Laboratory exercise 2026.pdf|lab guide (7 pages)]]. Theory: [[Lecture 6 - Room Modes and the Diffuse Sound Field]] (modes, Sabine, steady-state level) and [[Lecture 7 - Sound Absorption and Room Acoustic Design]] (absorbers, diffusers). Course text sections 1.3, 1.5, 2.5, 3.1 and 3.2. Read-first primer (for the missed lectures 5–7): [34840 Lab Exercise — Understanding Guide](https://claude.ai/code/artifact/d20e9009-902f-49d2-a238-c0af3ae92c56). Interactive: [Sound Bench, lab section](https://study.madsrudolph.dev/34840/#lab). MATLAB: `5. Semester/Acoustics and Noise Control/Lab/lab_prep.m` (preparation) and `lab_soundpower.m` (part C processing).
+Source: [[34840_Laboratory exercise 2026.pdf|lab guide (7 pages)]]. Theory: [[Lecture 6 - Room Modes and the Diffuse Sound Field]] (modes, Sabine, steady-state level) and [[Lecture 7 - Sound Absorption and Room Acoustic Design]] (absorbers, diffusers). Course text sections 1.3, 1.5, 2.5, 3.1 and 3.2. Read-first primer (for the missed lectures 5–7): [34840 Lab Exercise — Understanding Guide](https://claude.ai/code/artifact/d20e9009-902f-49d2-a238-c0af3ae92c56). Interactive: [Room Lab Explorer](https://claude.ai/artifact/4AmSYVRxKxJN2KccXtqXEq) and [Sound Bench, lab section](https://study.madsrudolph.dev/34840/#lab). MATLAB: `5. Semester/Acoustics and Noise Control/Lab/lab_prep.m` (preparation) and `lab_soundpower.m` (part C processing).
 
 ## 0. Logistics
 
