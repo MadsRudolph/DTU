@@ -111,8 +111,9 @@ Syncthing carry the binaries, and posts to Discord. **Don't download course PDFs
   against ADFS with them, so **a DTU password change breaks the sync** (`bad_credentials`
   in the journal, every 3 h). Update `LEARN_PASS` (`ssh -t root@<proxmox>
   'pct exec 114 -- nano /srv/learn-sync/app/.env'`; single-quote it if it holds `$ # space`).
-  Seen 9–20 Oct 2026: 81 failed runs, and the new password was still rejected
-  after the edit, so the session was refreshed by hand instead. **Re-auth from a PC:** venv
+  Seen 9–20 Oct 2026: 81 failed runs; the first edit still had the wrong value, a second
+  edit fixed it (password login re-tested OK on 20-Oct). Test without touching the live session:
+  `ensure_authenticated()` on a fresh context with a throwaway storage path. **Re-auth from a PC:** venv
   with `playwright==1.62.0` + `playwright install chromium`, open a persistent context on
   `https://learn.inside.dtu.dk/d2l/home`, `page.wait_for_url(...d2l/(?!login))`, then
   `context.storage_state(path=...)` (a `time.sleep` poll never sees the URL change: the
