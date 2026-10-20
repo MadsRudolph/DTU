@@ -984,6 +984,12 @@
       "sha256": "849060ca34c0f317a83738768071b76d336bc337a0787c1393ffc7343faa7a07",
       "synced_at": "2026-10-20T09:42:23+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/Controlled Rectifiers.pdf"
+    },
+    "1292085": {
+      "revision": "2026-10-20T10:16:48.407Z",
+      "sha256": "8b4f49d6deb937338023446f7fff04a14c1f7e844850f88b075639820431b345",
+      "synced_at": "2026-10-20T13:10:16+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 10 - Advanced Topics/34870_AdvancedTopics_26102026 - Copy.pdf"
     }
   }
 }

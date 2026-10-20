@@ -84,6 +84,10 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Project/Leach_4ed_chapter10_crossover.pdf|Leach 4th ed. chapter10: crossover networks]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture_9_E26_and_Loudspeaker_Project.mp4|Lecture 9: Loudspeaker systems & Project - Commented slides]]
 
+## Lecture 10 - Advanced Topics
+
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 10 - Advanced Topics/34870_AdvancedTopics_26102026 - Copy.pdf|34870_AdvancedTopics_26102026]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]
