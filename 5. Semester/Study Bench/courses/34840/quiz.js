@@ -80,3 +80,102 @@ QUIZZES["4"] = [
     "why": "The reflected power fraction is 10^((70−90)/10) = 0.01, so α = 1 − 0.01."
   }
 ];
+
+QUIZZES["5"] = [
+  {
+    "q": "A small monopole is moved right up against a large rigid wall (kh ≪ 1), keeping its volume velocity. Far-field SPL and sound power level change by…",
+    "a": ["+3 dB and +3 dB", "+6 dB and +3 dB", "+6 dB and +6 dB", "+3 dB and 0 dB"],
+    "c": 1,
+    "why": "The in-phase image doubles the pressure (+6 dB) but only into a half space: 4× the intensity over half the area is 2× the power (+3 dB). The source really emits more power, because the image's pressure pushes on it in phase with its velocity."
+  },
+  {
+    "q": "Two identical closed-box speakers side by side, same low-frequency signal. Compared with one box, the total power is…",
+    "a": ["×2 (+3 dB)", "×4 (+6 dB)", "unchanged", "×8 (+9 dB)"],
+    "c": 1,
+    "why": "Close together they act as one source with 2Q, and power ∝ |Q|². Each box radiates twice its solo power because it also works against its neighbour's pressure. A wall gives only ×2, since the image does not radiate power of its own."
+  },
+  {
+    "q": "At constant volume velocity, going down one octave changes a dipole's power by…",
+    "a": ["−3 dB", "−6 dB", "−12 dB", "0 dB"],
+    "c": 2,
+    "why": "Dipole power ∝ h²k⁴|Q|², so halving f divides it by 16 (−12 dB). A monopole at constant Q loses 6 dB (∝ k²). That is why a bare driver without a box loses its bass."
+  },
+  {
+    "q": "Why does the directivity factor of a small baffled piston tend to 2 rather than 1?",
+    "a": ["The piston beams forward at low frequency", "All its power goes into a half space, so the on-axis intensity is twice that of an omnidirectional source of the same power", "The baffle doubles the volume velocity", "R₁ tends to 2 at low ka"],
+    "c": 1,
+    "why": "Q(f) compares the on-axis intensity with that of an omnidirectional source of equal power. Half the solid angle means double the intensity: Q = 2, DI = 3 dB. At high ka it grows as (ka)²."
+  },
+  {
+    "q": "A baffled piston's first directivity null appears once…",
+    "a": ["ka > 1", "ka > 1.62", "ka > 3.83", "ka > 2π"],
+    "c": 2,
+    "why": "The far-field directivity is 2J₁(ka sin θ)/(ka sin θ), whose first zero is at 3.83. Since sin θ ≤ 1, the null exists only for ka > 3.83. 1.62 is the −3 dB point; 2π is the condition for the first on-axis near-field minimum."
+  }
+];
+
+QUIZZES["6"] = [
+  {
+    "q": "A microphone sits exactly in the centre of a rectangular room. Which mode can it not hear?",
+    "a": ["(2,0,0)", "(1,0,0)", "(0,0,2)", "(2,2,0)"],
+    "c": 1,
+    "why": "At the centre each factor is cos(nπ/2), which is zero for odd n: (1,0,0) has a nodal plane through the middle. Only modes with all indices even have a maximum there. A corner hears every mode."
+  },
+  {
+    "q": "The modal density of a room at high frequency grows as…",
+    "a": ["V·f", "V·f²", "f³ only, independent of V", "S·f"],
+    "c": 1,
+    "why": "dN/df ≈ 4πVf²/c³. That is why the modes merge above the Schroeder frequency, f_S ≈ 2000√(T/V), and statistics take over."
+  },
+  {
+    "q": "In a diffuse field with mean-square pressure p², the power hitting 1 m² of wall is…",
+    "a": ["p²/ρc", "p²/2ρc", "p²/4ρc", "4p²/ρc"],
+    "c": 2,
+    "why": "Half of the waves travel away from the wall, and the rest arrive obliquely with an average cos θ of ½. Together: a quarter of the normal-incidence plane-wave value."
+  },
+  {
+    "q": "A reverberant room: halve the absorption area A. The reverberant level and T change by…",
+    "a": ["+3 dB, T doubles", "+6 dB, T doubles", "+3 dB, T unchanged", "0 dB, T doubles"],
+    "c": 0,
+    "why": "p² = 4Pρc/A doubles (+3 dB), and T = 0.16V/A doubles. The direct field near the source does not change at all."
+  },
+  {
+    "q": "A source is on for 5 minutes in every 15. Its L_eq relative to its level while on is…",
+    "a": ["−10 dB", "−4.8 dB", "−3 dB", "the same; dB do not average"],
+    "c": 1,
+    "why": "Average the mean-square pressure: one third of the time gives 10 log(1/3) = −4.8 dB. That is Problem 3.1: 95.8 → 91.0 dB."
+  }
+];
+
+QUIZZES["7"] = [
+  {
+    "q": "A 50 mm porous layer mounted directly on a concrete wall absorbs well from about…",
+    "a": ["430 Hz", "860 Hz", "1.7 kHz", "3.4 kHz"],
+    "c": 2,
+    "why": "The layer needs to reach the first velocity maximum, λ/4 out from the wall: f ≈ c/4d = 344/0.2 = 1.7 kHz. Moving it 5 cm out on an air gap halves that, at no cost in material."
+  },
+  {
+    "q": "You double the cavity depth behind a limp panel absorber. Its peak frequency…",
+    "a": ["halves", "falls by √2", "doubles", "stays the same"],
+    "c": 1,
+    "why": "The cavity stiffness per area is ρc²/L, so f_r ∝ 1/√(mL). Doubling L divides f_r by √2."
+  },
+  {
+    "q": "Z_n = 500 + j1000 N·s/m³. Someone puts r = 500, x = 1000 straight into the random-incidence formula and gets 0.0032. The right value is about…",
+    "a": ["0.0032 — the formula is fine", "0.45", "0.53", "0.95"],
+    "c": 2,
+    "why": "The Paris formula takes the normalised impedance ζ = Z/ρc = 1.21 + j2.42, giving α_r ≈ 0.53. 0.45 is the normal-incidence value."
+  },
+  {
+    "q": "A standing-wave tube shows P_max/P_min = 3. The normal-incidence absorption coefficient is…",
+    "a": ["0.33", "0.50", "0.75", "0.89"],
+    "c": 2,
+    "why": "|R| = (n−1)/(n+1) = 0.5, so α₀ = 1 − 0.25 = 0.75. n is a pressure ratio; if it were given in dB you would first convert with 10^(L/20)."
+  },
+  {
+    "q": "A 10 m² sample measures α_s = 1.1 at 315 Hz in a reverberation room. Most likely…",
+    "a": ["the measurement is wrong", "edge diffraction: the sample absorbs more than its geometric area", "the room is not diffuse enough, so α should be capped at 1", "the sample transmits sound"],
+    "c": 1,
+    "why": "Diffraction at the sample edges draws in energy from around it, most at low frequency where the sample is not large compared with λ. Absorber spread in patches beats the same amount in one block."
+  }
+];

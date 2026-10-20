@@ -442,3 +442,282 @@ function benchCabinet4(){
   upd();b.note.innerHTML='<p>Defaults give 59.07 Hz and 140.85 dB inside the cabinet. The 4 mm limit is peak-to-peak, so peak displacement is 2 mm. Changing mass shifts resonance but cannot change pressure at a prescribed displacement in this ideal model. Suspension stiffness and external radiation loading are neglected.</p>';
 }
 document.addEventListener('DOMContentLoaded',()=>{benchHelmholtz4();benchPower4();benchTransmission4();benchAbsorption4();benchCabinet4();renderMath();});
+
+/* L5: radiation. Constants as in the official week-5 solutions (ρ = 1.2, c = 344). */
+const C5 = 344, RHO5 = 1.2, Z5 = RHO5 * C5, W0 = 1e-12, I0 = 1e-12;
+const LW5 = (W) => 10 * Math.log10(Math.max(W, 1e-30) / W0);
+const sinc5 = (x) => Math.abs(x) < 1e-9 ? 1 : Math.sin(x) / x;
+const dir5 = (x) => Math.abs(x) < 1e-9 ? 1 : 2 * besselJ1(x) / x;
+/* monopole: power W (W) seen at distance r (m); p²/ρc holds at any distance */
+function monopole5(W, r) {
+  const I = W / (4 * Math.PI * r * r), p = Math.sqrt(I * Z5);
+  return { I, p, Lp: LP(p), LI: 10 * Math.log10(I / I0), LW: LW5(W) };
+}
+function monoFromLp5(Lp, r) { const p = PREF * 10 ** (Lp / 20); return p * p / Z5 * 4 * Math.PI * r * r; }
+/* one monopole of free-field power W at f; wall at h, or a twin 2h away (in phase / antiphase) */
+function wall5(f, h, W) {
+  const k = TAU * f / C5, kh = k * h, s = sinc5(2 * kh), Q = Math.sqrt(8 * Math.PI * W / (Z5 * k * k));
+  return { k, kh, s, Q, wall: W * (1 + s), pair: 2 * W * (1 + s), dipExact: 2 * W * (1 - s), dipApprox: Z5 * h * h * k ** 4 * Q * Q / (6 * Math.PI), lambda: C5 / f };
+}
+/* baffled piston of radius a at f; prms measured on axis at r in the baffle, then a matched tube */
+function piston5(f, a, prms = 0.1, r = 1) {
+  const k = TAU * f / C5, ka = k * a, R1 = 1 - besselJ1(2 * ka) / ka, X1 = struveH1(2 * ka) / ka;
+  const Qf = ka * ka / R1, Qrms = TAU * r * prms / (RHO5 * TAU * f), ptube = Z5 / (Math.PI * a * a) * Qrms;
+  return { k, ka, R1, X1, Qf, DI: 10 * Math.log10(Qf), th3: ka > 1.6163 ? Math.asin(1.6163 / ka) * 180 / Math.PI : null, th0: ka > 3.8317 ? Math.asin(3.8317 / ka) * 180 / Math.PI : null, Mrad: 8 * RHO5 * a ** 3 / 3, Qrms, ptube, gain: 20 * Math.log10(ptube / prms) };
+}
+/* incoherent sources of equal power at distances d: level of the nearest from the total */
+function sirens5(Ltot, d) {
+  const sum = d.reduce((s, x) => s + (d[0] / x) ** 2, 0), ptot = PREF * 10 ** (Ltot / 20), p1 = ptot / Math.sqrt(sum);
+  return { sum, p1, L1: LP(p1) };
+}
+
+function benchMonopole5() {
+  const b = bench("bench-monopole5", "One SPL reading gives intensity and power", "lecture 5 · problems 1, 2 and A"); if (!b) return;
+  const st = { W: 20, r: 3 };
+  const cW = slider(b.ctl, { label: "sound power <b>W</b>", min: 0.01, max: 1000, log: true, value: st.W, unit: "mW", dom: "ac", fmt: v => v < 1 ? v.toFixed(3) : v.toFixed(2), onchange: v => { st.W = v; upd(); } });
+  const cr = slider(b.ctl, { label: "distance <b>r</b>", min: 0.1, max: 100, log: true, value: st.r, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.r = v; upd(); } });
+  const chips = h("div", { class: "chips" });
+  chips.append(h("button", { type: "button", class: "chip", onclick: () => { st.W = monoFromLp5(86, 1) * 1e3; st.r = 1; cW.set(st.W); cr.set(1); upd(); } }, "Problem 1: 86 dB at 1 m"));
+  chips.append(h("button", { type: "button", class: "chip", onclick: () => { st.W = 20; st.r = 3; cW.set(20); cr.set(3); upd(); } }, "Problem 2: 20 mW"));
+  b.ctl.append(chips);
+  for (const c of [cW, cr]) c.el.querySelector("input").step = "any"; cW.set(st.W); cr.set(st.r);
+  const ro = readouts(b.ctl, [{ id: "p", label: "p_rms at r", dom: "el" }, { id: "Lp", label: "L_p at r", dom: "el" }, { id: "LI", label: "L_I at r (I = p²/ρc)", dom: "ac" }, { id: "L10", label: "L_p at 10 m", dom: "el" }, { id: "LW", label: "L_W re 1 pW", dom: "ac" }]);
+  const plot = new Plot(b.plot, { h: 300, xmin: 0.1, xmax: 100, ymin: 40, ymax: 130, xlabel: "distance r (m)", ylabel: "level (dB)", xfmt: v => Number(v.toPrecision(2)) + " m", yfmt: v => v.toFixed(1), xticks: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100].map(v => ({ v, l: String(v) })) });
+  const rs = logspace(0.1, 100, 200);
+  function upd() {
+    const W = st.W / 1e3, a = monopole5(W, st.r), a10 = monopole5(W, 10);
+    plot.set({ series: [{ name: "L_p (−6 dB per doubling of r)", color: DOMC.el, pts: rs.map(r => [r, monopole5(W, r).Lp]) }, { name: "L_W (does not depend on r)", color: DOMC.ac, pts: rs.map(r => [r, a.LW]) }], markers: [{ x: st.r, y: a.Lp, label: `${a.Lp.toFixed(1)} dB at ${st.r.toFixed(2)} m`, color: DOMC.el }, { x: 10, y: a10.Lp, label: `${a10.Lp.toFixed(2)} dB`, color: DOMC.el, dy: 16 }] });
+    ro({ p: `${a.p.toFixed(4)} Pa`, Lp: `${a.Lp.toFixed(2)} dB`, LI: `${a.LI.toFixed(2)} dB`, L10: `${a10.Lp.toFixed(2)} dB`, LW: `${a.LW.toFixed(2)} dB (${(W * 1e3).toFixed(3)} mW)` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 2: 20 mW gives <b>82.6 dB at 3 m</b> and 72.15 dB at 10 m (the sheet prints 72.1). The Problem 1 chip sets the power that gives 86 dB at 1 m: <b>L_I = 85.86 dB</b> (0.14 dB below L_p, because ρc = 412.8, not 400) and <b>L_W = 96.86 dB</b> (L_I + 11 dB at 1 m). For a monopole the near-field velocity is in quadrature with the pressure, so <span class="mono">I = p²/ρc</span> holds at any distance and no frequency is needed. Exam A uses the same 1/r law the other way round: the 3 km siren gives 0.0843 Pa, and 75× closer (40 m) gives 6.33 Pa rms, 8.94 Pa peak.</p>`;
+}
+
+function benchWall5() {
+  const b = bench("bench-wall5", "A wall, a twin, an antiphase twin: the source's own power changes", "lecture 5 · problems 3, 4, 5 · slides 30, 35"); if (!b) return;
+  const st = { f: 250, h: 0.10, W: 20 };
+  const cf = slider(b.ctl, { label: "frequency <b>f</b>", min: 20, max: 2000, log: true, value: st.f, unit: "Hz", dom: "el", fmt: v => v.toFixed(0), onchange: v => { st.f = v; upd(); } });
+  const chh = slider(b.ctl, { label: "wall distance <b>h</b> (twin spacing 2h)", min: 0.01, max: 2, log: true, value: st.h, unit: "m", fmt: v => v.toFixed(3), onchange: v => { st.h = v; upd(); } });
+  const cw = slider(b.ctl, { label: "free-field power of one source", min: 1, max: 100, log: true, value: st.W, unit: "mW", dom: "ac", fmt: v => v.toFixed(1), onchange: v => { st.W = v; upd(); } });
+  for (const [c, v] of [[cf, st.f], [chh, st.h], [cw, st.W]]) { c.el.querySelector("input").step = "any"; c.set(v); }
+  const ro = readouts(b.ctl, [{ id: "kh", label: "kh = 2πfh/c" }, { id: "s", label: "sin 2kh / 2kh" }, { id: "Q", label: "|Q| of one source (peak)", dom: "me" }, { id: "wall", label: "next to the wall", dom: "ac" }, { id: "pair", label: "in-phase pair, total", dom: "ac" }, { id: "dip", label: "antiphase, small-kh formula", dom: "ac" }, { id: "dipx", label: "antiphase, exact", dom: "ac" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 0.01, xmax: 20, ymin: -40, ymax: 10, xlabel: "kh", ylabel: "power re one free source (dB)", xfmt: v => Number(v.toPrecision(2)), yfmt: v => v.toFixed(1), xticks: [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20].map(v => ({ v, l: String(v) })) });
+  const xs = logspace(0.01, 20, 400), d10 = (x) => 10 * Math.log10(Math.max(x, 1e-12));
+  function upd() {
+    const a = wall5(st.f, st.h, st.W / 1e3), W = st.W / 1e3;
+    plot.set({ series: [
+      { name: "rigid wall (×2 → +3 dB)", color: DOMC.ac, pts: xs.map(x => [x, d10(1 + sinc5(2 * x))]) },
+      { name: "in-phase twin, total (×4 → +6 dB)", color: DOMC.me, pts: xs.map(x => [x, d10(2 * (1 + sinc5(2 * x)))]) },
+      { name: "antiphase twin (dipole), exact", color: DOMC.el, pts: xs.map(x => [x, d10(2 * (1 - sinc5(2 * x)))]) },
+      { name: "dipole, small-kh formula (8/6)(kh)²", color: DOMC.el, dash: "5 4", thin: true, pts: xs.map(x => [x, d10(8 / 6 * x * x)]) }],
+      markers: [{ x: a.kh, y: d10(a.wall / W), label: `${(a.wall * 1e3).toFixed(1)} mW`, color: DOMC.ac, dy: 16 }, { x: a.kh, y: d10(a.pair / W), label: `${(a.pair * 1e3).toFixed(1)} mW`, color: DOMC.me }, { x: a.kh, y: d10(a.dipExact / W), label: `${(a.dipExact * 1e3).toFixed(2)} mW`, color: DOMC.el, dy: 16 }],
+      vlines: [{ x: Math.PI / 2, label: "h = λ/4" }] });
+    ro({ kh: a.kh.toFixed(4), s: a.s.toFixed(4), Q: `${(a.Q * 1e3).toFixed(2)}×10⁻³ m³/s`, wall: `${(a.wall * 1e3).toFixed(1)} mW · ${LW5(a.wall).toFixed(1)} dB`, pair: `${(a.pair * 1e3).toFixed(2)} mW`, dip: `${(a.dipApprox * 1e3).toFixed(2)} mW`, dipx: `${(a.dipExact * 1e3).toFixed(2)} mW` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problems 3–5: 250 Hz, h = 0.10 m, 20 mW per source, kh = 0.457. Wall: <b>37.3 mW, 105.7 dB</b>. In-phase twin 20 cm apart: <b>74.7 mW</b> (sheet 74.6 = 2 × 37.3). Antiphase twin: <b>5.56 mW</b> with the slide-35 formula (sheet 5.6), 5.33 mW exact. Slide h towards zero: the wall goes to +3 dB, the twin to +6 dB, the dipole dives at 6 dB per halving of kh (power ∝ f⁴). Past h = λ/4 every curve settles near its "no interaction" value: 0 dB, +3 dB, +3 dB. Each source is held at a fixed |Q|, so the neighbour's pressure on its surface changes the power it delivers.</p>`;
+}
+
+function benchPiston5() {
+  const b = bench("bench-piston5", "The baffled piston: from half-space monopole to a beam", "lecture 5 · course text §1.6.2 · MC 2"); if (!b) return;
+  const st = { f: 50, a: 0.059 };
+  const cpf = slider(b.ctl, { label: "frequency <b>f</b>", min: 20, max: 10000, log: true, value: st.f, unit: "Hz", dom: "el", fmt: v => v.toFixed(0), onchange: v => { st.f = v; upd(); } });
+  slider(b.ctl, { label: "piston radius <b>a</b>", min: 0.01, max: 0.2, step: 0.001, value: st.a, unit: "m", dom: "me", fmt: v => v.toFixed(3), onchange: v => { st.a = v; upd(); } });
+  cpf.el.querySelector("input").step = "any"; cpf.set(st.f);
+  const ro = readouts(b.ctl, [{ id: "ka", label: "ka" }, { id: "R", label: "R₁ = 1 − J₁(2ka)/ka", dom: "ac" }, { id: "X", label: "X₁ = H₁(2ka)/ka", dom: "me" }, { id: "Q", label: "Q(f) = (ka)²/R₁ · DI" }, { id: "th", label: "−3 dB half-angle · null" }, { id: "M", label: "air mass per side 8ρa³/3", dom: "me" }, { id: "tube", label: "MC 2: 0.1 Pa baffled → tube", dom: "el" }]);
+  const stage = h("div", { style: "display:flex;flex-direction:column;gap:8px" });
+  const pol = h("div", { style: "width:min(100%,300px);margin:0 auto" }), pl = h("div");
+  stage.append(pol, pl); b.plot.append(stage);
+  const plot = new Plot(pl, { h: 280, xmin: 0.02, xmax: 10, ymin: 0, ymax: 1.2, xlabel: "ka", ylabel: "R₁, X₁ (re ρc/S)", xfmt: v => Number(v.toPrecision(2)), yfmt: v => v.toFixed(2), xticks: [0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10].map(v => ({ v, l: String(v) })) });
+  const xs = logspace(0.02, 10, 300);
+  const curveR = xs.map(x => [x, 1 - besselJ1(2 * x) / x]), curveX = xs.map(x => [x, struveH1(2 * x) / x]);
+  function upd() {
+    const a = piston5(st.f, st.a);
+    pol.innerHTML = polarSVG([{ fn: (t) => Math.cos(t) >= 0 ? Math.abs(dir5(a.ka * Math.sin(t))) : 0, color: DOMC.ac }], { w: 300 }) + `<div class="small" style="text-align:center">|2J₁(ka sin θ)/(ka sin θ)|, front half space (baffle on the vertical)</div>`;
+    plot.set({ series: [{ name: "R₁ (resistance)", color: DOMC.ac, pts: curveR }, { name: "X₁ (air-mass reactance)", color: DOMC.me, pts: curveX }], markers: [{ x: a.ka, y: a.R1, label: `R₁ ${a.R1.toFixed(3)}`, color: DOMC.ac }, { x: a.ka, y: a.X1, label: `X₁ ${a.X1.toFixed(3)}`, color: DOMC.me, dy: 16 }], vlines: [{ x: 3.8317, label: "first null" }] });
+    ro({ ka: a.ka.toFixed(4), R: a.R1.toPrecision(4), X: a.X1.toPrecision(4), Q: `${a.Qf.toFixed(2)} · ${a.DI.toFixed(1)} dB`, th: `${a.th3 === null ? "none" : a.th3.toFixed(1) + "°"} · ${a.th0 === null ? "none (ka < 3.83)" : a.th0.toFixed(1) + "°"}`, M: `${(a.Mrad * 1e3).toFixed(2)} g`, tube: `${a.ptube.toFixed(1)} Pa (+${a.gain.toFixed(1)} dB)` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are MC 2: a = 5.9 cm at 50 Hz, ka = 0.054. The polar is a half circle: a monopole on a rigid plane, Q(f) = 2 (3 dB). Fitting a rigid tube of the same cross section turns the tiny load <span class="mono">ρck²/2π</span> into the full <span class="mono">ρc/S</span>, so the same volume velocity gives <b>62.9 Pa</b> (answer c, 62.8 Pa; the spread is the value of c). Now raise f: the beam narrows once ka passes about 1.6, and the first null appears at ka = 3.83. R₁ overshoots to about 1.09 near ka ≈ 2–3, X₁ peaks near ka ≈ 1 and then decays: the air mass stops riding along.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { benchMonopole5(); benchWall5(); benchPiston5(); renderMath(); });
+
+/* L7: absorbers. ρ = 1.2, c = 344 as in the notes; the slide-36 impedance example uses ρc = 414. */
+const RHO7 = 1.2, C7 = 344, ZSLIDE7 = 414;
+/* α from a locally reacting surface impedance Z (N·s/m³), normalised by zc */
+function alphaTheta7(Zr, Zi, th, zc = ZSLIDE7) {
+  const c = Math.cos(th), R = cdiv(cx(Zr * c - zc, Zi * c), cx(Zr * c + zc, Zi * c));
+  return 1 - (R.re * R.re + R.im * R.im);
+}
+function paris7(r, x) {
+  const q = r * r + x * x, t = Math.abs(x) < 1e-12 ? 1 / (r + 1) : Math.atan(x / (r + 1)) / x;
+  return 8 * r / q * (1 - r / q * Math.log((r + 1) ** 2 + x * x) + (r * r - x * x) / q * t);
+}
+function surface7(Zr, Zi, zc = ZSLIDE7) {
+  const R = cdiv(cx(Zr - zc, Zi), cx(Zr + zc, Zi)), r = Zr / zc, x = Zi / zc;
+  let num = 0; const N = 2000; for (let i = 0; i < N; i++) { const th = (i + 0.5) / N * Math.PI / 2; num += alphaTheta7(Zr, Zi, th, zc) * Math.sin(2 * th); } num *= Math.PI / 2 / N;
+  return { R, r, x, an: 1 - (R.re * R.re + R.im * R.im), ar: paris7(r, x), arNum: num, arWrong: paris7(Zr, Zi) };
+}
+const swr7 = (n) => 4 / (n + 1 / n + 2);
+/* membrane and perforated panel on the same cavity */
+function panel7(h, rhoP, L, d, a) {
+  const m = rhoP * h, K = RHO7 * C7 * C7 / L, fr = Math.sqrt(K / m) / TAU;
+  const P = Math.PI * d * d / 4 / (a * a), leff = h + 0.8 * d, f0 = C7 / TAU * Math.sqrt(P / (L * leff));
+  return { m, fr, P, leff, f0, mHole: RHO7 * leff / P, fQuarter: C7 / (4 * L) };
+}
+/* ISO 354 sample test, then the lecture-hall budget (Sabine 0.16 V/A) */
+function reverb7(Vc, Sc, T1, T2, Vh, Tnow, Ttarget, nStud, Astud) {
+  const alpha = 0.16 * Vc / Sc * (1 / T2 - 1 / T1), Anow = 0.16 * Vh / Tnow, Atarget = 0.16 * Vh / Ttarget, Ast = nStud * Astud;
+  const Amat = Atarget - Anow - Ast, S = Amat / alpha;
+  return { alpha, Anow, Atarget, Ast, Amat, S, Sround: Math.ceil(S), Tcheck: 0.16 * Vh / (Anow + Ast + Math.ceil(S) * alpha) };
+}
+
+function benchSurface7() {
+  const b = bench("bench-surface7", "From a surface impedance to α: normal, oblique, random", "lecture 7 · slides 35–36, 38"); if (!b) return;
+  const st = { r: 500, x: 1000, n: 3 };
+  slider(b.ctl, { label: "Re Z<sub>n</sub>", min: 10, max: 3000, step: 10, value: st.r, unit: "N·s/m³", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.r = v; upd(); } });
+  slider(b.ctl, { label: "Im Z<sub>n</sub>", min: -3000, max: 3000, step: 10, value: st.x, unit: "N·s/m³", dom: "me", fmt: v => v.toFixed(0), onchange: v => { st.x = v; upd(); } });
+  slider(b.ctl, { label: "tube: standing-wave ratio <b>n</b>", min: 1, max: 20, step: 0.1, value: st.n, fmt: v => v.toFixed(1), onchange: v => { st.n = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "z", label: "ζ = Z/ρc" }, { id: "R", label: "R(0)" }, { id: "an", label: "α_n = 1 − |R|²", dom: "ac" }, { id: "ar", label: "α_r (Paris)", dom: "ac" }, { id: "bad", label: "α_r, forgot ÷ρc", dom: "el" }, { id: "sw", label: "α₀ from n", dom: "ac" }]);
+  const plot = new Plot(b.plot, { h: 300, xlog: false, xmin: 0, xmax: 90, ymin: 0, ymax: 1, xlabel: "angle of incidence θ (°)", ylabel: "α(θ)", xfmt: v => v.toFixed(0) + "°", yfmt: v => v.toFixed(2) });
+  function upd() {
+    const a = surface7(st.r, st.x);
+    plot.set({ series: [{ name: "α(θ), locally reacting", color: DOMC.ac, pts: linspace(0, 89.9, 300).map(t => [t, alphaTheta7(st.r, st.x, t * Math.PI / 180)]) }, { name: "α_r (diffuse average)", color: DOMC.me, dash: "5 4", pts: [[0, a.ar], [90, a.ar]] }], markers: [{ x: 0, y: a.an, label: `α_n ${a.an.toFixed(3)}`, color: DOMC.ac, dx: 8 }] });
+    ro({ z: `${a.r.toFixed(3)} ${a.x < 0 ? "−" : "+"} j${Math.abs(a.x).toFixed(3)}`, R: `${a.R.re.toFixed(4)} ${a.R.im < 0 ? "−" : "+"} j${Math.abs(a.R.im).toFixed(4)}`, an: a.an.toFixed(4), ar: `${a.ar.toFixed(3)} (∫: ${a.arNum.toFixed(3)})`, bad: a.arWrong.toFixed(4), sw: swr7(st.n).toFixed(3) });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are slide 36, <span class="mono">Z = 500 + j1000</span> with ρc = 414: <b>α_n = 0.451</b>, <b>α_r = 0.53</b>. The bracket after α_r is a numerical <span class="mono">∫α(θ) sin2θ dθ</span> and agrees with the closed form. Forgetting to divide by ρc gives 0.0032, the slide's deliberate nonsense. Set Z = 414 + j0: α_n = 1, yet α_r is only about 0.91, because every curve falls to 0 at grazing incidence. Try a real ζ ≈ 1.6 (Z ≈ 660) for the best possible α_r, about 0.95. The SWR slider is the tube method: n = 3 gives 0.75, n = 1 total absorption.</p>`;
+}
+
+function benchPanel7() {
+  const b = bench("bench-panel7", "Same cavity spring, two masses: the panel or the air in the holes", "lecture 7 · problems 2.1, 2.2 · slides 19–28"); if (!b) return;
+  const st = { h: 20, rho: 600, L: 50, d: 10, a: 30 };
+  for (const [key, label, min, max, step, unit, dom] of [["h", "panel thickness <b>h</b> (= neck length)", 2, 40, 1, "mm", "me"], ["rho", "panel density", 200, 2500, 50, "kg/m³", "me"], ["L", "cavity depth <b>L</b>", 5, 300, 1, "mm", "ac"], ["d", "hole diameter <b>d</b>", 1, 30, 0.5, "mm", "el"], ["a", "hole spacing <b>a</b>", 5, 100, 1, "mm", "el"]]) slider(b.ctl, { label, min, max, step, value: st[key], unit, dom, fmt: v => String(v), onchange: v => { st[key] = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "m", label: "panel mass m = ρh", dom: "me" }, { id: "fr", label: "membrane f_r = (1/2π)√(ρc²/mL)", dom: "me" }, { id: "P", label: "perforation P = πd²/4a²", dom: "el" }, { id: "f0", label: "perforated f₀ = (c/2π)√(P/L(l+0.8d))", dom: "el" }, { id: "mh", label: "hole mass per area ρ(l+δ)/P", dom: "el" }, { id: "q", label: "porous λ/4 at this depth: c/4L", dom: "ac" }]);
+  const plot = new Plot(b.plot, { h: 300, xmin: 5, xmax: 300, ymin: 1.2, ymax: 4, xlabel: "cavity depth L (mm)", ylabel: "frequency (Hz)", xfmt: v => v.toFixed(0) + " mm", yfmt: v => String(Math.round(10 ** v)), yticks: [20, 50, 100, 200, 500, 1000, 2000, 5000].map(v => Math.log10(v)), xticks: [5, 10, 20, 50, 100, 200, 300].map(v => ({ v, l: String(v) })) });
+  const Ls = logspace(5, 300, 200), lg = (v) => Math.log10(v);
+  function upd() {
+    const g = (L) => panel7(st.h / 1e3, st.rho, L / 1e3, st.d / 1e3, st.a / 1e3), a = g(st.L);
+    plot.set({ series: [{ name: "membrane f_r", color: DOMC.me, pts: Ls.map(L => [L, lg(g(L).fr)]) }, { name: "perforated f₀", color: DOMC.el, pts: Ls.map(L => [L, lg(g(L).f0)]) }, { name: "porous layer λ/4 (c/4L)", color: DOMC.ac, dash: "5 4", pts: Ls.map(L => [L, lg(g(L).fQuarter)]) }], markers: [{ x: st.L, y: lg(a.fr), label: `${a.fr.toFixed(1)} Hz`, color: DOMC.me }, { x: st.L, y: lg(a.f0), label: `${a.f0.toFixed(0)} Hz`, color: DOMC.el }] });
+    ro({ m: `${a.m.toFixed(2)} kg/m²`, fr: `${a.fr.toFixed(1)} Hz`, P: `${(a.P * 100).toFixed(2)} %`, f0: `${a.f0.toFixed(1)} Hz`, mh: `${a.mHole.toFixed(3)} kg/m² (${(a.m / a.mHole).toFixed(1)}× lighter)`, q: `${a.fQuarter.toFixed(0)} Hz` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 2: 20 mm plywood at 600 kg/m³, 50 mm cavity. Solid panel: <b>77 Hz</b> (77.4; 76.9 with the slide's ρc² = 1.4×10⁵). Drill 10 mm holes on a 30 mm grid: P = 8.73 %, <b>432 Hz</b>. The cavity spring is the same in both; the air plugs weigh 0.385 kg/m² against the panel's 12, about 31× lighter, and √31 × 77 ≈ 432. Deepen the cavity: both resonances fall as 1/√L. The dashed line is where a porous layer filling the same depth would start to work (λ/4): for 50 mm that is 1.7 kHz, which is why bass needs resonators.</p>`;
+}
+
+function benchReverb7() {
+  const b = bench("bench-reverb7", "Test a sample in the reverberation room, then size it for the hall", "lecture 7 · problems 1.1, 1.2 · slide 40"); if (!b) return;
+  const st = { T1: 5.2, T2: 3.0, Tnow: 3.1, Tt: 0.8, n: 40 };
+  for (const [key, label, min, max, step, unit] of [["T1", "chamber T, empty (200 m³)", 1, 10, 0.1, "s"], ["T2", "chamber T, 10 m² sample", 0.5, 10, 0.1, "s"], ["Tnow", "hall T now (300 m³, no people)", 0.5, 6, 0.1, "s"], ["Tt", "hall target T", 0.3, 2, 0.05, "s"], ["n", "students (0.42 m² each)", 0, 150, 1, ""]]) slider(b.ctl, { label, min, max, step, value: st[key], unit, fmt: v => key === "n" ? v.toFixed(0) : v.toFixed(2), onchange: v => { st[key] = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "al", label: "α = (0.16V/S)(1/T₂ − 1/T₁)", dom: "ac" }, { id: "An", label: "A now · A target", dom: "ac" }, { id: "As", label: "A students", dom: "ac" }, { id: "Am", label: "A the material must add", dom: "ac" }, { id: "S", label: "area needed", dom: "el" }, { id: "T", label: "check: T with that area" }]);
+  const plot = new Plot(b.plot, { h: 300, xlog: false, xmin: 0, xmax: 150, ymin: 0, ymax: 3.5, xlabel: "absorber area in the hall (m²)", ylabel: "T₅₀₀ (s)", xfmt: v => v.toFixed(0), yfmt: v => v.toFixed(1) });
+  function upd() {
+    const a = reverb7(200, 10, st.T1, st.T2, 300, st.Tnow, st.Tt, st.n, 0.42);
+    const ok = a.alpha > 0 && a.S > 0;
+    plot.set({ series: [{ name: "with the students", color: DOMC.ac, pts: linspace(0, 150, 151).map(S => [S, 48 / (a.Anow + a.Ast + S * Math.max(a.alpha, 0))]) }, { name: "empty hall", color: DOMC.me, dash: "5 4", pts: linspace(0, 150, 151).map(S => [S, 48 / (a.Anow + S * Math.max(a.alpha, 0))]) }], vlines: ok ? [{ x: a.S, label: `${a.S.toFixed(1)} m²` }] : [], markers: [{ x: 0, y: 48 / (a.Anow + a.Ast), label: "students only", dx: 8, dy: -8, color: DOMC.ac }, ...(ok ? [{ x: a.S, y: st.Tt, label: `target ${st.Tt.toFixed(2)} s`, color: DOMC.el }] : [])] });
+    ro({ al: a.alpha.toFixed(3), An: `${a.Anow.toFixed(2)} · ${a.Atarget.toFixed(2)} m²`, As: `${a.Ast.toFixed(1)} m²`, Am: `${a.Amat.toFixed(2)} m²`, S: !(a.alpha > 0) ? "T₂ must be below T₁" : a.S <= 0 ? "none needed" : `${a.S.toFixed(1)} m² → ${a.Sround} m²`, T: ok ? `${a.Tcheck.toFixed(3)} s` : "—" });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 1: the chamber gives <b>α = 0.451</b> (sheet 0.45). In the hall: A now 15.48 m², target 60.0 m², students 16.8 m², so the material must add 27.7 m², <b>61.4 m² → 62 m²</b>, rounded up, and the check gives 0.797 s. Work in absorption areas, which add; reverberation times do not. Drop the students to zero and see how much more absorber an empty-room design would need. The dashed curve shows the hall without the students.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { benchSurface7(); benchPanel7(); benchReverb7(); renderMath(); });
+
+/* L6: room modes and the diffuse field. c = 343, ρ = 1.2 (RMS pressures) as in the week-6 solutions. */
+const C6 = 343, RHO6 = 1.2;
+function roomModes6(lx, ly, lz, fmax, c = C6) {
+  const out = [], nm = (l) => Math.floor(2 * l * fmax / c);
+  for (let i = 0; i <= nm(lx); i++) for (let j = 0; j <= nm(ly); j++) for (let k = 0; k <= nm(lz); k++) {
+    if (!i && !j && !k) continue;
+    const f = c / 2 * Math.hypot(i / lx, j / ly, k / lz);
+    if (f > fmax) continue;
+    const nz = (i > 0) + (j > 0) + (k > 0);
+    out.push({ n: [i, j, k], f, type: ["", "axial", "tangential", "oblique"][nz], centre: i % 2 === 0 && j % 2 === 0 && k % 2 === 0 });
+  }
+  return out.sort((a, b) => a.f - b.f);
+}
+function modeCount6(lx, ly, lz, f, c = C6) {
+  const V = lx * ly * lz, S = 2 * (lx * ly + lx * lz + ly * lz), L = 4 * (lx + ly + lz), x = f / c;
+  return { V, S, L, obl: 4 * Math.PI * V / 3 * x ** 3, full: 4 * Math.PI * V / 3 * x ** 3 + Math.PI * S / 4 * x ** 2 + L / 8 * x, density: 4 * Math.PI * V / c ** 3 * f * f };
+}
+/* group equal frequencies (degenerate modes), tolerance in Hz */
+function degenerate6(modes, tol = 1e-6) {
+  const g = []; for (const m of modes) { const last = g[g.length - 1]; if (last && Math.abs(last.f - m.f) < tol) last.modes.push(m.n); else g.push({ f: m.f, modes: [m.n] }); } return g;
+}
+/* diffuse-field steady state, Problem 3 */
+function roomLevel6(V, T, P1, duty, Lff, rff) {
+  const A = 55.3 * V / (C6 * T), zc = RHO6 * C6;
+  const p1 = 4 * P1 * zc / A, pff = (PREF * 10 ** (Lff / 20)) ** 2, P2 = pff / zc * 4 * Math.PI * rff * rff, p2 = 4 * P2 * zc / A;
+  const L = (x) => 10 * Math.log10(x / PREF ** 2);
+  return { A, p1on: Math.sqrt(p1), L1on: L(p1), Leq1: L(p1 * duty), P2, L2: L(p2), Leq: L(p1 * duty + p2), rrev: Math.sqrt(A / (16 * Math.PI)), fS: 2000 * Math.sqrt(T / V) };
+}
+/* level vs distance, Q = 1: direct + reverberant (with 1 − ᾱ when S is known) */
+const lpRel6 = (r, A, abar = 0) => 10 * Math.log10(1 / (4 * Math.PI * r * r) + 4 * (1 - abar) / A);
+/* Sabine vs Eyring with absorption on the ceiling only */
+function sabEyr6(lx, ly, lz, aCeil, aRest) {
+  const V = lx * ly * lz, S = 2 * (lx * ly + lx * lz + ly * lz), A = lx * ly * aCeil + (S - lx * ly) * aRest, ab = A / S;
+  const T1 = (lm, a) => 0.04 * lm / a; /* course text §3.4.4: T ≈ 0.04 l_m / ᾱ */
+  return { V, S, A, ab, lm: 4 * V / S, sab: 55.3 * V / (C6 * A), eyr: 55.3 * V / (-C6 * S * Math.log(1 - ab)), lm2: Math.PI * lx * ly / (2 * (lx + ly)), T2d: T1(Math.PI * lx * ly / (2 * (lx + ly)), aRest), Tlen: T1(lx, aRest), Twid: T1(ly, aRest), Thgt: T1(lz, (aCeil + aRest) / 2) };
+}
+
+function benchRoomModes6() {
+  const b = bench("bench-roommodes6", "A room is a 3-D organ pipe: find its modes", "lecture 6 · problems 1, 2 · slides 13–19"); if (!b) return;
+  const st = { lx: 5, ly: 4, lz: 3, fmax: 80, fc: 50, T: 0.5 };
+  const ctl = {};
+  for (const [key, label, min, max, step, unit] of [["lx", "length l<sub>x</sub>", 1, 20, 0.1, "m"], ["ly", "width l<sub>y</sub>", 1, 20, 0.1, "m"], ["lz", "height l<sub>z</sub>", 1, 10, 0.1, "m"], ["fmax", "list modes up to", 30, 250, 1, "Hz"], ["T", "reverberation time (for f_S)", 0.2, 5, 0.1, "s"]]) ctl[key] = slider(b.ctl, { label, min, max, step, value: st[key], unit, fmt: v => key === "fmax" ? v.toFixed(0) : v.toFixed(1), onchange: v => { st[key] = v; upd(); } });
+  segCtl(b.ctl, st, "fc", [[31.5, "31.5"], [40, "40"], [50, "50"], [63, "63"], [80, "80"], [100, "100"], [125, "125 Hz"]], () => upd());
+  const chips = h("div", { class: "chips" });
+  for (const [lab, d, fm] of [["Problem 1: 5 × 4 × 3 m", [5, 4, 3], 80], ["Problem 2: 3 m cube", [3, 3, 3], 130], ["Slide 16 room 5.7 × 7.0 × 4.8", [5.7, 7, 4.8], 80]]) chips.append(h("button", { type: "button", class: "chip", onclick: () => { [st.lx, st.ly, st.lz] = d; st.fmax = fm; for (const k of ["lx", "ly", "lz", "fmax"]) ctl[k].set(st[k]); upd(); } }, lab));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "ax", label: "axial building blocks c/2l" }, { id: "N", label: "modes ≤ f_max: counted · N(f) formula" }, { id: "band", label: "modes in the third-octave band", dom: "ac" }, { id: "cen", label: "pressure max at the centre (all indices even)", dom: "el" }, { id: "deg", label: "degenerate groups" }, { id: "fs", label: "Schroeder f_S ≈ 2000√(T/V)" }]);
+  const pl1 = h("div"), pl2 = h("div"), list = h("div", { class: "small", style: "font-family:var(--font-mono);line-height:1.6;margin-top:6px" });
+  b.plot.append(pl1, list, pl2);
+  const plot = new Plot(pl1, { h: 240, xlog: false, xmin: 0, xmax: 80, ymin: 0, ymax: 3.4, ml: 84, xlabel: "frequency (Hz)", ylabel: "", xfmt: v => v.toFixed(1) + " Hz", yfmt: v => ["", "oblique", "tangential", "axial"][Math.round(v)] || "", yticks: [1, 2, 3] });
+  const plot2 = new Plot(pl2, { h: 220, xlog: false, xmin: 0, xmax: 80, ymin: 0, ymax: 10, xlabel: "frequency (Hz)", ylabel: "modes below f", xfmt: v => v.toFixed(0) + " Hz", yfmt: v => v.toFixed(1) });
+  const H6 = { axial: 3, tangential: 2, oblique: 1 }, COL = { axial: DOMC.el, tangential: DOMC.me, oblique: DOMC.ac };
+  function upd() {
+    const ms = roomModes6(st.lx, st.ly, st.lz, st.fmax), fl = st.fc / 2 ** (1 / 6), fu = st.fc * 2 ** (1 / 6);
+    const sticks = (t) => ms.filter(m => m.type === t).flatMap(m => [[m.f, 0], [m.f, H6[t]], [m.f, NaN]]);
+    plot.set({ xmax: st.fmax, series: ["axial", "tangential", "oblique"].map(t => ({ name: t, color: COL[t], width: 2.5, pts: sticks(t) })), regions: [{ from: fl, to: fu, color: DOMC.ac, label: `${st.fc} Hz band` }] });
+    const fs = linspace(0, st.fmax, 300), cnt = (f) => ms.filter(m => m.f <= f).length;
+    const mc = modeCount6(st.lx, st.ly, st.lz, st.fmax);
+    plot2.set({ xmax: st.fmax, ymax: Math.max(4, mc.full * 1.15, ms.length * 1.15), series: [{ name: "counted", color: DOMC.ink, pts: fs.map(f => [f, cnt(f)]) }, { name: "N(f), all three terms", color: DOMC.el, pts: fs.map(f => [f, modeCount6(st.lx, st.ly, st.lz, f).full]) }, { name: "oblique term 4πVf³/3c³ only", color: DOMC.ac, dash: "5 4", pts: fs.map(f => [f, modeCount6(st.lx, st.ly, st.lz, f).obl]) }] });
+    list.innerHTML = ms.slice(0, 24).map(m => `<span style="color:${COL[m.type]}">(${m.n.join(",")}) ${m.f.toFixed(1)}</span>${m.centre ? "●" : ""}`).join(" · ") + (ms.length > 24 ? ` · … ${ms.length - 24} more` : "") + `<br><span style="color:var(--ink-3)">● = pressure maximum at the room centre</span>`;
+    const inb = ms.filter(m => m.f >= fl && m.f <= fu), deg = degenerate6(ms, 1e-6).filter(g => g.modes.length > 1);
+    ro({ ax: [st.lx, st.ly, st.lz].map(l => (C6 / (2 * l)).toFixed(2)).join(" · ") + " Hz", N: `${ms.length} · ${mc.full.toFixed(1)}`, band: `${fl.toFixed(1)}–${fu.toFixed(1)} Hz: ${inb.length ? inb.map(m => `(${m.n.join(",")}) ${m.f.toFixed(1)}`).join(", ") : "none"}`, cen: ms.filter(m => m.centre).map(m => `(${m.n.join(",")})`).join(", ") || "none", deg: deg.length ? deg.map(g => `${g.f.toFixed(1)} Hz ×${g.modes.length}`).join(" · ") : "none", fs: `${(2000 * Math.sqrt(st.T / (st.lx * st.ly * st.lz))).toFixed(0)} Hz` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 1, the 5 × 4 × 3 m room up to 80 Hz: <b>34.3, 42.9, 54.9, 57.2, 66.7, 68.6, 71.5, 79.3 Hz</b>. Only (2,0,0) has a pressure maximum at the centre, because an odd index puts a nodal plane through the middle. The 50 Hz band (44.5–56.1 Hz) holds only (1,1,0). The 3 m cube chip gives Problem 2's degenerate groups at <b>57, 81, 114 and 128 Hz</b>; (1,1,1) at 99 Hz has no partner. The lower plot is the mode count: the oblique term alone is poor at low frequency, while the three-term formula gives 8.6 against 8 counted. The modal density grows as Vf², and the Schroeder frequency marks where the modes overlap and the diffuse-field statistics take over. (The 1-D version of this is the closed–closed tube on the lecture 2 bench.)</p>`;
+}
+
+function benchRoomLevel6() {
+  const b = bench("bench-roomlevel6", "The diffuse field: energy in = energy absorbed", "lecture 6 · problem 3 · slides 22–24, 47–51"); if (!b) return;
+  const st = { V: 210, T: 3.1, P: 10, duty: 1 / 3, Lff: 70 };
+  for (const [key, label, min, max, step, unit, fmt] of [["V", "room volume V", 20, 5000, 10, "m³", v => v.toFixed(0)], ["T", "reverberation time T (500 Hz octave)", 0.2, 6, 0.1, "s", v => v.toFixed(1)], ["P", "source 1 power", 0.1, 100, 0.1, "mW", v => v.toFixed(1)], ["duty", "source 1 on-fraction", 0.05, 1, 0.01, "", v => v.toFixed(2)], ["Lff", "source 2: free-field L_p at 4 m", 40, 100, 0.5, "dB", v => v.toFixed(1)]]) { const c = slider(b.ctl, { label, min, max, step, value: st[key], unit, fmt, onchange: v => { st[key] = v; upd(); } }); if (key === "duty") { c.el.querySelector("input").step = "any"; c.set(st.duty); } }
+  const ro = readouts(b.ctl, [{ id: "A", label: "A = 55.3V/(cT)", dom: "ac" }, { id: "on", label: "source 1 on: p_rms · L_p", dom: "el" }, { id: "eq1", label: "L_eq, source 1", dom: "el" }, { id: "s2", label: "source 2: power · reverberant L_p", dom: "me" }, { id: "eq", label: "L_eq, both (add p²)", dom: "ac" }, { id: "rr", label: "reverberation distance √(A/16π)" }, { id: "fs", label: "Schroeder f_S" }]);
+  const plot = new Plot(b.plot, { h: 300, xmin: 0.1, xmax: 30, ymin: -40, ymax: 10, xlabel: "distance from source r (m)", ylabel: "L_p − L_W (dB), Q = 1", xfmt: v => Number(v.toPrecision(2)) + " m", yfmt: v => v.toFixed(0), xticks: [0.1, 0.2, 0.5, 1, 2, 5, 10, 20].map(v => ({ v, l: String(v) })) });
+  const rs = logspace(0.1, 30, 200);
+  function upd() {
+    const a = roomLevel6(st.V, st.T, st.P / 1e3, st.duty, st.Lff, 4);
+    plot.set({ series: [{ name: "direct + reverberant", color: DOMC.ac, pts: rs.map(r => [r, lpRel6(r, a.A)]) }, { name: "direct only (free field)", color: DOMC.el, dash: "5 4", pts: rs.map(r => [r, 10 * Math.log10(1 / (4 * Math.PI * r * r))]) }, { name: "reverberant only, 10 log(4/A)", color: DOMC.me, dash: "2 4", pts: rs.map(r => [r, 10 * Math.log10(4 / a.A)]) }], vlines: [{ x: a.rrev, label: `r_rev ${a.rrev.toFixed(2)} m` }] });
+    ro({ A: `${a.A.toFixed(2)} m²`, on: `${a.p1on.toFixed(3)} Pa · ${a.L1on.toFixed(1)} dB`, eq1: `${a.Leq1.toFixed(1)} dB`, s2: `${(a.P2 * 1e3).toFixed(2)} mW · ${a.L2.toFixed(1)} dB`, eq: `${a.Leq.toFixed(1)} dB`, rr: `${a.rrev.toFixed(2)} m`, fs: `${a.fS.toFixed(0)} Hz` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 3: 210 m³, T = 3.1 s, so A = 10.9 m². Source 1 (10 mW, on 5 of every 15 min) gives 1.23 Pa, 95.8 dB while on and <b>L_eq = 91.0 dB</b>: average p², not dB, so −4.8 dB for one third of the time. Source 2 (70 dB at 4 m in free field, 1.95 mW) gives 88.7 dB in the room, and both together <b>93.0 dB</b>. The reverberation distance is only 0.47 m, so the reverberant formula holds almost everywhere. Raise T and watch the plateau climb 3 dB for every doubling; the direct line never moves.</p>`;
+}
+
+function benchSabine6() {
+  const b = bench("bench-sabine6", "Sabine, Eyring, and a room that ignores both", "lecture 6 · slides 25–34 · course text §3.4.4"); if (!b) return;
+  const st = { lx: 20, ly: 10, lz: 5, ac: 0.8, ar: 0.1 };
+  for (const [key, label, min, max, step, unit] of [["lx", "length", 2, 40, 0.5, "m"], ["ly", "width", 2, 30, 0.5, "m"], ["lz", "height", 2, 15, 0.5, "m"], ["ac", "ceiling α", 0.01, 0.99, 0.01, ""], ["ar", "walls and floor α", 0.01, 0.99, 0.01, ""]]) slider(b.ctl, { label, min, max, step, value: st[key], unit, dom: key[0] === "a" ? "ac" : "", fmt: v => v.toFixed(key[0] === "a" ? 2 : 1), onchange: v => { st[key] = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "VS", label: "V · S · ᾱ" }, { id: "sab", label: "Sabine 0.16V/(Sᾱ)", dom: "ac" }, { id: "eyr", label: "Eyring 0.16V/(−S ln(1−ᾱ))", dom: "ac" }, { id: "d2", label: "2-D horizontal (l_m = πS_x/U)", dom: "el" }, { id: "dir", label: "1-D: length · width · height", dom: "el" }]);
+  const plot = new Plot(b.plot, { h: 300, xlog: false, xmin: 0.01, xmax: 1, ymin: 0, ymax: 4, xlabel: "mean absorption coefficient ᾱ", ylabel: "T (s)", xfmt: v => v.toFixed(2), yfmt: v => v.toFixed(1) });
+  function upd() {
+    const a = sabEyr6(st.lx, st.ly, st.lz, st.ac, st.ar), xs = linspace(0.01, 0.99, 200);
+    const ymax = Math.max(1, Math.min(10, a.sab * 3));
+    plot.set({ ymax, series: [{ name: "Sabine", color: DOMC.ac, pts: xs.map(x => [x, 55.3 * a.V / (C6 * a.S * x)]) }, { name: "Eyring", color: DOMC.me, pts: xs.map(x => [x, 55.3 * a.V / (-C6 * a.S * Math.log(1 - x))]) }], markers: [{ x: a.ab, y: a.sab, label: `${a.sab.toFixed(2)} s`, color: DOMC.ac }, { x: a.ab, y: a.eyr, label: `${a.eyr.toFixed(2)} s`, color: DOMC.me, dy: 16 }], vlines: [{ x: 0.3, label: "ᾱ = 0.3" }] });
+    ro({ VS: `${a.V.toFixed(0)} m³ · ${a.S.toFixed(0)} m² · ${a.ab.toFixed(3)}`, sab: `${a.sab.toFixed(2)} s`, eyr: `${a.eyr.toFixed(2)} s`, d2: `${a.T2d.toFixed(1)} s (l_m ${a.lm2.toFixed(1)} m)`, dir: `${a.Tlen.toFixed(1)} · ${a.Twid.toFixed(1)} · ${a.Thgt.toFixed(1)} s` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are slide 30 (text Fig. 3.4.3): 20 × 10 × 5 m, ceiling α = 0.8, the rest 0.1, so A = 210 m² and ᾱ = 0.30. Sabine gives <b>0.77 s</b> and Eyring <b>0.65 s</b>. They agree below ᾱ ≈ 0.3, and only Eyring goes to zero for an anechoic room. The 2-D and 1-D readouts follow sound travelling only horizontally or along one axis, with the text's T ≈ 0.04 l_m/ᾱ: 4.2 s horizontally, 8.0 / 4.0 / 0.4 s along length, width and height. Horizontally the sound never meets the ceiling. With all the absorption on one surface the real decay is bent and much longer than either formula, and scattering objects pull it back towards Sabine.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { benchRoomModes6(); benchRoomLevel6(); benchSabine6(); renderMath(); });

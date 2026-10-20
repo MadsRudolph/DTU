@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Sound Bench</title>
-<meta name="description" content="34840 Fundamentals of Acoustics and Noise Control, lectures 1–4, made visual: waves, reflections, levels you can play with, with the problem sets and solutions.">
+<meta name="description" content="34840 Fundamentals of Acoustics and Noise Control, lectures 1–7, made visual: waves, reflections, levels, radiation, rooms and absorbers you can play with, with the problem sets and solutions.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -19,13 +19,16 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Sound Bench</div>
-    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–4</div>
+    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–7</div>
   </div>
   <ul class="wire">
     <li><a href="#l1" data-quiz="1"><span class="n">L1</span><span>Plane waves<span class="sub">pressure, particle velocity, the wave equation</span></span></a></li>
     <li><a href="#l2" data-quiz="2"><span class="n">L2</span><span>Reflection &amp; spherical waves<span class="sub">standing waves, tubes, two media, near field</span></span></a></li>
     <li><a href="#l3" data-quiz="3"><span class="n">L3</span><span>Levels &amp; measurement<span class="sub">dB, adding sources, octave bands, weighting</span></span></a></li>
     <li><a href="#l4" data-quiz="4"><span class="n">L4</span><span>Impedance &amp; power<span class="sub">resonance, energy flow, absorption</span></span></a></li>
+    <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Radiation<span class="sub">monopole, wall, dipole, baffled piston</span></span></a></li>
+    <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Room modes &amp; diffuse field<span class="sub">modes, Sabine, Eyring, direct + reverberant</span></span></a></li>
+    <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Absorbers<span class="sub">porous, panel, perforated, α from Z</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -44,13 +47,15 @@
   <div class="map">
     <svg viewBox="0 0 980 220" role="img">
       <path d="M40 110 H940" stroke="var(--rule-2)" stroke-width="2"/>
-      <g font-family="var(--font-display)" font-size="18" font-weight="600">
-        <circle cx="120" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="120" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">1</text><text x="120" y="60" text-anchor="middle" fill="var(--ink)">Plane waves</text><text x="120" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">p, u, c, λ, k · the wave equation</text>
-        <circle cx="330" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="330" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">2</text><text x="330" y="160" text-anchor="middle" fill="var(--ink)">Reflection &amp; spreading</text><text x="330" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">standing waves, tubes, R and T, 1/r</text>
-        <circle cx="540" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="540" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">3</text><text x="540" y="60" text-anchor="middle" fill="var(--ink)">Levels &amp; measurement</text><text x="540" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-2)">dB, L_eq, octave bands, A-weighting</text>
-        <circle cx="750" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="750" y="115" text-anchor="middle" fill="var(--ink)" font-size="14">4</text><text x="750" y="160" text-anchor="middle" fill="var(--ink)">Impedance, intensity, power</text><text x="750" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">lecture 4, 22 Sep</text>
-        <circle cx="900" cy="110" r="14" fill="var(--surface)" stroke="var(--rule-2)" stroke-width="2"/><text x="900" y="60" text-anchor="middle" fill="var(--ink-3)">Radiation</text><text x="900" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" font-weight="400" fill="var(--ink-3)">monopole, dipole, piston</text>
-      </g>
+      <g font-family="var(--font-display)" font-size="17" font-weight="600">
+        <circle cx="90" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="90" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">1</text><text x="90" y="60" text-anchor="middle" fill="var(--ink)">Plane waves</text><text x="90" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">p, u, c, λ, k · the wave equation</text>
+        <circle cx="223" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="223" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">2</text><text x="223" y="160" text-anchor="middle" fill="var(--ink)">Reflection &amp; spreading</text><text x="223" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">standing waves, tubes, R and T, 1/r</text>
+        <circle cx="356" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="356" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">3</text><text x="356" y="60" text-anchor="middle" fill="var(--ink)">Levels &amp; measurement</text><text x="356" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">dB, L_eq, octave bands, A-weighting</text>
+        <circle cx="489" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="489" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">4</text><text x="489" y="160" text-anchor="middle" fill="var(--ink)">Impedance &amp; power</text><text x="489" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">Z = p/u, resonance, W, α</text>
+        <circle cx="622" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="622" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">5</text><text x="622" y="60" text-anchor="middle" fill="var(--ink)">Radiation</text><text x="622" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">monopole, wall, dipole, piston</text>
+        <circle cx="755" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="755" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">6</text><text x="755" y="160" text-anchor="middle" fill="var(--ink)">Room acoustics</text><text x="755" y="180" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">modes, Sabine, Eyring, r_rev</text>
+        <circle cx="888" cy="110" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/><text x="888" y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="14" font-weight="400" fill="var(--ink)">7</text><text x="888" y="60" text-anchor="middle" fill="var(--ink)">Absorbers</text><text x="888" y="80" text-anchor="middle" font-family="var(--font-body)" font-size="12" font-weight="400" fill="var(--ink-2)">porous, panel, perforated, α(Z)</text>
+        </g>
       <rect x="60" y="205" width="880" height="6" rx="3" fill="var(--el)" opacity="0.5"/><rect x="260" y="205" width="680" height="6" rx="3" fill="var(--me)" opacity="0.6"/><rect x="470" y="205" width="470" height="6" rx="3" fill="var(--ac)" opacity="0.7"/>
     </svg>
   </div>
@@ -239,6 +244,127 @@
   <div id="problems-4"></div><div id="quiz-4"></div>
 </section>
 
+<!-- ============================== L5 ============================== -->
+<section class="lecture" id="l5">
+  <div class="lec-head"><div class="eyebrow">Lecture 5 · Tue 29 Sep 2026 · Finn Agerkvist</div><h2>Radiation: monopoles, dipoles and pistons</h2><div class="meta">Lecture 5 slides 1–42 · course text §1.6, pp. 37–48 (the piston is from the text only) · Week 5 problems 1–5, exam A, MC 1–2</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A source radiates well only when it pushes a net volume of air and is not small next to the wavelength; a wall, a twin or a baffle just changes how much of its own pressure pushes back in phase with its velocity.</div>
+  <div class="block"><h3>The picture: one monopole, four situations</h3><div class="table-wrap"><table>
+    <tr><th>Situation, <span class="m">kh\ll1</span>, same <span class="m">Q</span> per source</th><th>Far-field pressure</th><th>Power</th></tr>
+    <tr><td>One monopole, free field</td><td>1</td><td>1</td></tr>
+    <tr><td class="ac">Same monopole against a rigid wall (in-phase image)</td><td>×2 (+6 dB), half space</td><td>×2 (+3 dB)</td></tr>
+    <tr><td class="me">Two in-phase monopoles close together</td><td>×2 (+6 dB), full space</td><td>×4 (+6 dB)</td></tr>
+    <tr><td class="el">Two antiphase monopoles (dipole), 2h apart</td><td><span class="m">\propto kh\cos\theta</span></td><td><span class="m">\times\tfrac86(kh)^2\ll1</span></td></tr>
+  </table></div>
+  <p>Changes its volume (closed-box loudspeaker, exhaust, bubble) → <b>monopole</b>. Only pushes air sideways (bare driver, string, cymbal) → <b>dipole</b>. A small pulsating sphere is quiet not because its surface stands still but because its surface pressure is 90° ahead of the velocity: a mass-like load, <span class="m">Z_{a,r}=\frac{\rho c}{4\pi a^2}\frac{jka}{1+jka}</span>, almost no resistance.</p></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Monopole (volume velocity Q, peak)</span><div class="M">\hat p=\frac{j\omega\rho Q}{4\pi r}e^{j(\omega t-kr)},\qquad I_r=\frac{p_{\rm rms}^2}{\rho c}\ \text{at any }r</div><div class="M">P_a=\frac{\rho c k^2|Q|^2}{8\pi}</div><p>Pressure follows the volume <em>acceleration</em> <span class="m">\omega Q</span>: flat power needs excursion falling as <span class="m">1/f^2</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Levels</span><div class="M">L_I=L_p-10\log_{10}\frac{\rho c}{400},\qquad L_W=L_I+10\log_{10}(4\pi r^2)</div><p>At 1 m: <span class="m">L_W=L_I+11</span> dB. References <span class="m">I_0=W_0=10^{-12}</span>.</p></div>
+  </div>
+  <div id="bench-monopole5"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Near a rigid wall (image 2h away)</span><div class="M">P_a=\frac{\rho ck^2|Q|^2}{8\pi}\left(1+\frac{\sin2kh}{2kh}\right)</div><p>→ ×2 (+3 dB) for <span class="m">kh\to0</span>; no effect past <span class="m">h\approx\lambda/4</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Dipole (antiphase twin, 2h apart)</span><div class="M">\hat p\approx\frac{\rho c\,hk^2Q}{2\pi r}\cos\theta,\qquad P_a\approx\frac{\rho c\,h^2k^4|Q|^2}{6\pi}</div><p>Exact: <span class="m">\frac{\rho ck^2|Q|^2}{4\pi}\left(1-\frac{\sin2kh}{2kh}\right)</span>. Power <span class="m">\propto f^4</span>.</p></div>
+  </div>
+  <div id="bench-wall5"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Baffled piston, far field</span><div class="M">\hat p=\frac{j\omega\rho Q}{2\pi r}\left[\frac{2J_1(ka\sin\theta)}{ka\sin\theta}\right]e^{j(\omega t-kr)},\quad Q=\pi a^2U</div><p>−3 dB at <span class="m">ka\sin\theta=1.62</span>, first null at 3.83.</p></div>
+    <div class="fcard"><span class="eyebrow">Radiation impedance</span><div class="M">Z_{a,r}=\frac{\rho c}{\pi a^2}\left[1-\frac{J_1(2ka)}{ka}+j\frac{H_1(2ka)}{ka}\right]\xrightarrow{ka\ll1}\frac{\rho ck^2}{2\pi}+j\omega\frac{8\rho}{3\pi^2a}</div><p>Air mass <span class="m">8\rho a^3/3</span> per side; <span class="m">Q(f)=(ka)^2/R_1\to2</span>.</p></div>
+  </div>
+  <div id="bench-piston5"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>Three different Q's.</b> Volume velocity (m³/s), quality factor, and the directivity factor <span class="m">Q(f)</span> all appear in this chapter.</li>
+    <li><b>The wall changes the emitted power</b> (fixed <span class="m">Q</span>). "Same power squeezed into half the space" would give +3 dB SPL; the real answer at <span class="m">kh\ll1</span> is +6 dB SPL and +3 dB power.</li>
+    <li><b>Wall vs neighbour:</b> a wall doubles the power, a real in-phase twin quadruples the total. Both double the far-field pressure.</li>
+    <li><b>What h means:</b> the wall distance, or <em>half</em> the dipole spacing. Problems 3–5 all have <span class="m">h=0.1</span> m.</li>
+    <li><b>Peak vs RMS:</b> <span class="m">\rho ck^2|Q|^2/8\pi</span> uses peak <span class="m">|Q|</span>; with RMS it is <span class="m">/4\pi</span>. Exam A's "magnitude" is the peak, 8.94 Pa, not the 6.33 Pa RMS.</li>
+    <li><b>Baffled-piston resistance is <span class="m">\rho ck^2/2\pi</span></b>, twice the free sphere's <span class="m">/4\pi</span>: the baffle is an image.</li>
+    <li>The small-<span class="m">kh</span> dipole formula overestimates: 4 % at <span class="m">kh=0.46</span>, 22 % at <span class="m">kh=1</span>.</li>
+  </ul></div>
+  <div class="callout real"><span class="eyebrow">The loudspeaker link</span><p>A bare driver is a dipole (front and back in antiphase), so its bass falls as <span class="m">f^4</span>; a closed box makes it a monopole. Above resonance a driver is mass-controlled, so a flat drive gives a flat <span class="m">\omega Q</span> and flat power, at the price of excursion rising as <span class="m">1/f^2</span>: bigger cones for more bass. The radiation mass <span class="m">8\rho a^3/3</span> (0.88 g per side for a 6.5″ cone) is the air load inside <span class="m">M_{MS}</span> in 34870. Slide 37's comparison (40 Hz, <span class="m">|Q|=0.1</span> m³/s, h = 5 cm): monopole 109.5 dB, at a wall 112.5 dB, dipole 82.0 dB <span class="m">L_W</span>. Slide 23 misses a minus sign: <span class="m">e^{-jkr_1}</span>.</p></div>
+  <div id="problems-5"></div><div id="quiz-5"></div>
+</section>
+
+<!-- ============================== L6 ============================== -->
+<section class="lecture" id="l6">
+  <div class="lec-head"><div class="eyebrow">Lecture 6 · Tue 6 Oct 2026 · Cheol-Ho Jeong</div><h2>Room modes and the diffuse sound field</h2><div class="meta">Lecture 6 slides (53 pages) · course text ch. 3 (J. H. Rindel), pp. 81–101 · Week 6 problems 1–3 and Solution 6</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>At low frequency a room is a 3-D organ pipe with a few separate modes; at high frequency the modes are so dense that you just balance energy: power in equals power absorbed, and that gives both the reverberation time and the level.</div>
+  <div class="block"><h3>The picture: two regimes, split at the Schroeder frequency</h3><div class="table-wrap"><table>
+    <tr><th></th><th>Low frequency: wave theory</th><th>High frequency: statistical theory</th></tr>
+    <tr><td>What you see</td><td>separate peaks, 20–30 dB between them; depends on position</td><td>smooth response; same <span class="m">p^2</span> everywhere</td></tr>
+    <tr><td>Key result</td><td><span class="m">f_{n_x n_y n_z}=\frac c2\sqrt{(n_x/l_x)^2+(n_y/l_y)^2+(n_z/l_z)^2}</span></td><td><span class="m">T=0.16V/A,\quad p^2=4P_a\rho c/A</span></td></tr>
+    <tr><td>Boundary</td><td colspan="2">modal density <span class="m">dN/df\approx4\pi Vf^2/c^3</span> times bandwidth <span class="m">2.2/T</span> ≈ 3 → <span class="m">f_S\approx2000\sqrt{T/V}</span></td></tr>
+  </table></div>
+  <p><b class="el">Axial</b> modes (one non-zero index) bounce between one pair of walls and are the strongest; <b class="me">tangential</b> modes (two) and <b class="ac">oblique</b> modes (three) are weaker. Every mode has a pressure maximum in the corners; an odd index puts a nodal plane through the centre. Pressures are <b>RMS</b> throughout this lecture.</p></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Mode count</span><div class="M">N(f)\approx\frac{4\pi V}{3}\Big(\frac fc\Big)^3+\frac{\pi S}{4}\Big(\frac fc\Big)^2+\frac L8\frac fc</div><p><span class="m">S</span> = total surface area, <span class="m">L=4(l_x+l_y+l_z)</span> total edge length.</p></div>
+    <div class="fcard"><span class="eyebrow">Third-octave band edges</span><div class="M">f_l=f_c/2^{1/6},\qquad f_u=f_c\cdot2^{1/6}</div><p>50 Hz band: 44.5–56.1 Hz. Use the exact edges, not ±10 %.</p></div>
+  </div>
+  <div id="bench-roommodes6"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Diffuse field on a wall</span><div class="M">I_{\rm inc}=\frac{p^2}{4\rho c}=\frac{wc}{4}</div><p>A quarter of the plane-wave value: half the waves move away from the wall, the rest arrive with <span class="m">\overline{\cos\theta}=\tfrac12</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Energy balance</span><div class="M">\frac{V}{\rho c^2}\frac{d(p^2)}{dt}=P_a-\frac{p^2A}{4\rho c}</div><div class="M">p_s^2=\frac{4P_a\rho c}{A},\quad p^2(t)=p_s^2e^{-cAt/4V}</div><p><span class="m">L_p\approx L_W+10\log(4/A)</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Direct + reverberant</span><div class="M">L_p=L_W+10\log\Big(\frac{Q}{4\pi r^2}+\frac{4(1-\bar\alpha)}{A}\Big)</div><div class="M">r_{\rm rev}=\sqrt{\frac{A}{16\pi}}\approx0.14\sqrt A</div></div>
+  </div>
+  <div id="bench-roomlevel6"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Sabine (energy balance)</span><div class="M">T=\frac{55.3V}{cA}\approx\frac{0.16V}{S\bar\alpha+4mV}</div><p>Good for <span class="m">\bar\alpha&lt;0.3</span>; wrongly gives <span class="m">T&gt;0</span> for an anechoic room.</p></div>
+    <div class="fcard"><span class="eyebrow">Eyring (ray reflections)</span><div class="M">T=\frac{13.8\,l_m}{-c\ln(1-\bar\alpha)},\quad l_m=\frac{4V}{S}</div><div class="M">T\approx\frac{0.16V}{-S\ln(1-\bar\alpha)}</div><p>Always shorter than Sabine; use it above <span class="m">\bar\alpha\approx0.3</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Measuring T</span><div class="M">T_{30}=2(t_{-35}-t_{-5}),\quad T_{20}=3(t_{-25}-t_{-5})</div><div class="M">\mathrm{EDT}=6(t_{-10}-t_0)</div><p>The ear judges reverberance from the early decay (EDT).</p></div>
+  </div>
+  <div id="bench-sabine6"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>RMS, not peak.</b> Room formulas (<span class="m">p^2=4P\rho c/A</span>) use RMS <span class="m">p</span>; Lecture 5's monopole formulas used peak amplitudes with a ½.</li>
+    <li><b>Odd index ⇒ node at the centre.</b> Only all-even modes are heard in the middle of the room; all modes are maximal in the corners.</li>
+    <li><b>Degenerate means a permutation partner.</b> In a cube (1,1,1) at 99 Hz is <em>not</em> degenerate.</li>
+    <li><b>L_eq of an intermittent source:</b> average <span class="m">p^2</span> over time, not dB. On for a third of the time: −4.8 dB.</li>
+    <li><b>0.16 = 55.3/c</b> needs V in m³ and A in m². Don't mix c values within one calculation.</li>
+    <li><b>Absorption on one surface only</b> (just the ceiling) makes the room non-diffuse, and the real T is far longer than Sabine predicts.</li>
+  </ul></div>
+  <div class="callout real"><span class="eyebrow">From the slides and the text</span><p>Measured natural frequencies come out slightly lower than calculated, because real walls give a little. Design small rooms with non-simple dimension ratios and calculate their modes below 100 Hz before building. Optimum T at 500–1000 Hz: cinema 0.4–1.0 s, lecture 0.8–1.2 s, symphony 1.5–2.2 s, organ 2.0–3.0 s. Air absorption (<span class="m">4mV</span>; humid air absorbs <em>less</em>) is why big halls cannot stay reverberant at high frequency. Solution 6 prints 34.4 Hz for (1,0,0): a rounding slip, since c = 343 gives 34.3 Hz, as the sheet says.</p></div>
+  <div id="problems-6"></div><div id="quiz-6"></div>
+</section>
+
+<!-- ============================== L7 ============================== -->
+<section class="lecture" id="l7">
+  <div class="lec-head"><div class="eyebrow">Lecture 7 · Tue 20 Oct 2026 · Cheol-Ho Jeong</div><h2>Sound absorption and room acoustic design</h2><div class="meta">Lecture 7 slides 1–53 · course text ch. 4, pp. 103–112, and §3.4.3–3.4.5 · Week 7 problems 1–2</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>An absorber puts friction where the air moves fastest: a porous layer a quarter wavelength out from the wall, or, when that is too far, a mass bouncing on the cavity air (a panel or the air plugs in holes).</div>
+  <div class="callout real"><span class="eyebrow">Written on lecture day</span><p>This section was written from the slides and the course text on Tuesday 20 October 2026, before or during the lecture. It has not yet been checked against what was said in class (the in-class questions on slides 5 and 28, the hidden answer on slide 25). The Week 7 solutions are derived here, because the official solutions are not out yet. Every one matches the answer printed on the sheet.</p></div>
+  <div class="block"><h3>The picture: three absorbers, three frequency ranges</h3><div class="table-wrap"><table>
+    <tr><th>Type</th><th>Mechanism</th><th>Works</th><th>Key formula</th></tr>
+    <tr><td class="ac">Porous</td><td>viscous and thermal losses in the pores</td><td>mid–high f; low limit set by thickness + air gap</td><td><span class="m">d\approx\lambda/4\Rightarrow f_{\min}\approx c/4d</span></td></tr>
+    <tr><td class="me">Membrane (panel)</td><td>panel mass on the cavity air spring</td><td>low, narrow, below 500 Hz</td><td><span class="m">f_r=\frac1{2\pi}\sqrt{\frac{\rho c^2}{mL}}\approx\frac{60}{\sqrt{mL}}</span></td></tr>
+    <tr><td class="el">Helmholtz resonator</td><td>air plug in a neck on the cavity spring</td><td>very narrow band</td><td><span class="m">f_0=\frac c{2\pi}\sqrt{\frac{s}{V(l+\delta)}},\ \delta\approx0.8d</span></td></tr>
+    <tr><td class="el">Perforated panel</td><td>many resonators sharing one cavity</td><td>wider than a single resonator</td><td><span class="m">f_0=\frac c{2\pi}\sqrt{\frac{P}{L(l+\delta)}}</span></td></tr>
+  </table></div>
+  <p>Incident energy splits into absorbed <span class="m">\alpha</span>, scattered <span class="m">(1-\alpha)\delta</span> and specular <span class="m">(1-\alpha)(1-\delta)</span>. Slide 5: 70 dB incident on <span class="m">\alpha=</span> 0.5, 0.9, 0.99 reflects 67, 60, 50 dB. Near <span class="m">\alpha=1</span> each extra "9" is worth 10 dB. A porous layer does nothing at the wall itself, where the velocity is zero, so an air gap behind it is free low-frequency absorption. A cloth 7 cm out peaks at <span class="m">344/(4\cdot0.07)=1.23</span> kHz and dips at 2.46 kHz (λ/2).</p></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">α from the surface impedance</span><div class="M">R(\theta)=\frac{Z_n\cos\theta-\rho c}{Z_n\cos\theta+\rho c},\qquad\alpha(\theta)=1-|R(\theta)|^2</div><p>Locally reacting surface. Diffuse field: <span class="m">\alpha_r=\int_0^{\pi/2}\alpha(\theta)\sin2\theta\,d\theta</span>.</p></div>
+    <div class="fcard"><span class="eyebrow">Random incidence (Paris), ζ = Z/ρc = r + jx</span><div class="M">\alpha_r=\frac{8r}{r^2+x^2}\Big[1-\frac{r}{r^2+x^2}\ln\big((r+1)^2+x^2\big)+\frac{r^2-x^2}{x(r^2+x^2)}\tan^{-1}\frac{x}{r+1}\Big]</div></div>
+    <div class="fcard"><span class="eyebrow">Standing-wave tube</span><div class="M">n=\frac{P_{\max}}{P_{\min}},\qquad\alpha_0=1-\Big(\frac{n-1}{n+1}\Big)^2=\frac4{n+1/n+2}</div><p>Normal incidence only. The two-microphone tube (ISO 10534-2) also gives Z.</p></div>
+  </div>
+  <div id="bench-surface7"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Why the holes are lighter</span><div class="M">\frac sV=\frac{a^2P}{a^2L}=\frac PL,\qquad m_{\rm holes}=\frac{\rho(l+\delta)}{P}\ \text{vs}\ m_{\rm panel}=\rho_ph</div><p>The cavity spring <span class="m">\rho c^2/L</span> is shared; only the mass per unit area changes.</p></div>
+  </div>
+  <div id="bench-panel7"></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Reverberation room (ISO 354)</span><div class="M">\alpha=\frac{0.16V}{S}\Big(\frac1{T_2}-\frac1{T_1}\Big)+\alpha_{\rm wall}</div><p>Random incidence, ~10 m² sample. Small samples can measure <span class="m">\alpha_s&gt;1</span> (edge diffraction).</p></div>
+    <div class="fcard"><span class="eyebrow">Design budget (Sabine)</span><div class="M">T=\frac{0.16V}{A},\qquad A=\sum S_i\alpha_i+\sum n_jA_j+4mV</div><p>Absorption areas add; reverberation times do not. All absorption in the ceiling: <span class="m">T=0.16h/\alpha</span>.</p></div>
+  </div>
+  <div id="bench-reverb7"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>Normalise by ρc</b> before the Paris formula: 0.53 turns into 0.0032 if you forget (slide 36).</li>
+    <li><b><span class="m">\alpha_n\ne\alpha_r</span>.</b> A tube gives normal incidence; design needs random incidence.</li>
+    <li><b>λ/4 is measured from the wall</b>, not from the front of the absorber.</li>
+    <li><b>Membrane: mass per unit area</b> <span class="m">m=\rho_ph</span> in kg/m², not the density.</li>
+    <li><b>Perforated panel:</b> <span class="m">L</span> is the cavity depth, <span class="m">l</span> the panel thickness; <span class="m">P</span> is a fraction (0.087), and <span class="m">\delta=0.8d</span> uses the diameter.</li>
+    <li><b>SWR n is a pressure ratio.</b> Given in dB? First <span class="m">n=10^{L/20}</span>.</li>
+    <li><b>Sabine needs a diffuse field.</b> All absorption on the ceiling, no scattering: the real T is longer than predicted.</li>
+  </ul></div>
+  <div class="callout real"><span class="eyebrow">Design notes from the slides and the text</span><p>Don't repaint mineral-wool tiles: the paint closes the pores. Porous material in a membrane cavity raises <span class="m">\alpha_{\max}</span> and lowers the peak. DR Studio 1 ceiling resonators (slide 25; Ø65 mm neck, 6.75 and 16 L boxes) come out at about 98 and 64 Hz with <span class="m">\delta=0.8d</span> (the slide hides the answer). Leave the middle of a classroom ceiling reflective for early reflections within about 40 ms. A reflection path more than 17 m longer than the direct path (50 ms) is an echo risk. Diffusers make Sabine's assumption come true.</p></div>
+  <div id="problems-7"></div><div id="quiz-7"></div>
+</section>
+
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -259,10 +385,13 @@
       <tr><td class="lv">meter</td><td>A-weight → square → Fast 125 ms / Slow 1 s or L_eq → log</td><td>A at 100 Hz: −19.1 dB · at 31.5 Hz: −39.4 dB</td></tr>
     </table></div>
   </div>
-<div class="fcard"><span class="eyebrow">L4 · resonance, power, absorption</span><div class="M">Z_a=Z_m/S^2,\quad f_0=\frac1{2\pi}\sqrt{K_a/M_a},\quad I=\frac12\Re\{PU^*\},\quad\alpha=1-|R|^2</div><div class="M">L_W=10\log_{10}(W/10^{-12}\mathrm W),\quad L_I=10\log_{10}(I/10^{-12}\mathrm{W\,m^{-2}})</div></div></section>
+<div class="fcard"><span class="eyebrow">L4 · resonance, power, absorption</span><div class="M">Z_a=Z_m/S^2,\quad f_0=\frac1{2\pi}\sqrt{K_a/M_a},\quad I=\frac12\Re\{PU^*\},\quad\alpha=1-|R|^2</div><div class="M">L_W=10\log_{10}(W/10^{-12}\mathrm W),\quad L_I=10\log_{10}(I/10^{-12}\mathrm{W\,m^{-2}})</div></div>
+<div class="fcard"><span class="eyebrow">L5 · radiation</span><div class="M">P_{\rm mono}=\frac{\rho ck^2|Q|^2}{8\pi},\quad P_{\rm wall}=P_{\rm mono}\Big(1+\frac{\sin2kh}{2kh}\Big),\quad P_{\rm dip}\approx\tfrac86(kh)^2P_{\rm mono}</div><div class="M">D_{\rm piston}=\frac{2J_1(ka\sin\theta)}{ka\sin\theta},\quad Z_{a,r}\xrightarrow{ka\ll1}\frac{\rho ck^2}{2\pi}+j\omega\frac{8\rho}{3\pi^2a}</div><p>Sanity numbers: 20 mW at 250 Hz → wall 10 cm: 37.3 mW · twin: 74.7 mW · antiphase: 5.6 mW. Piston: null at ka = 3.83, Q(f) → 2.</p></div>
+<div class="fcard"><span class="eyebrow">L6 · rooms (RMS)</span><div class="M">f=\frac c2\sqrt{\sum(n_i/l_i)^2},\quad T=\frac{0.16V}{A},\quad p^2=\frac{4P\rho c}{A},\quad r_{\rm rev}=\sqrt{\frac{A}{16\pi}}</div><p>Sanity numbers: 5 × 4 × 3 m → 34.3 Hz first mode · 210 m³, 3.1 s → A = 10.9 m², 10 mW → 95.8 dB · 20 × 10 × 5 m, ᾱ 0.3 → Sabine 0.77 s, Eyring 0.65 s.</p></div>
+<div class="fcard"><span class="eyebrow">L7 · absorbers</span><div class="M">f_{\min}\approx\frac c{4d},\quad f_r=\frac1{2\pi}\sqrt{\frac{\rho c^2}{mL}},\quad f_0=\frac c{2\pi}\sqrt{\frac{P}{L(l+0.8d)}},\quad \alpha=1-|R|^2</div><p>Sanity numbers: 12 kg/m² on 50 mm → 77 Hz · 10 mm holes on a 30 mm grid → 432 Hz · Z = 500 + j1000 → α_n 0.451, α_r 0.53.</p></div></section>
 
 <footer>
-  Updated 22 Sep 2026 from the 34840 lecture notes (1–2, 4), the lecture slides and course text, problem sheets 1–4 and the official solutions for weeks 1 and 2. Week 4 derivations are checked against the printed answers; exam examples have derived solutions. Bench readouts reproduce the sheets' answers. Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
+  Updated 20 Oct 2026 from the 34840 lecture notes (1–2, 4–7), the lecture slides and course text, problem sheets 1–7 and the official solutions for weeks 1, 2, 5 and 6. Week 7 solutions are derived (official ones not out yet) and match the sheet's printed answers; lecture 7 was written from the slides on lecture day. Week 4 derivations are checked against the printed answers; exam examples have derived solutions. Bench readouts reproduce the sheets' answers (week 5 with ρ = 1.2, c = 344 as in the official solutions). Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
 </footer>
 </main>
 </div>
