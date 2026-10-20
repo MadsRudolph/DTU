@@ -29,6 +29,7 @@
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Radiation<span class="sub">monopole, wall, dipole, baffled piston</span></span></a></li>
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Room modes &amp; diffuse field<span class="sub">modes, Sabine, Eyring, direct + reverberant</span></span></a></li>
     <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Absorbers<span class="sub">porous, panel, perforated, α from Z</span></span></a></li>
+    <li><a href="#lab" data-quiz="LAB"><span class="n">Lab</span><span>Lab — room exercise<span class="sub">modes, T20/T30, sound power</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -365,6 +366,41 @@
   <div id="problems-7"></div><div id="quiz-7"></div>
 </section>
 
+<!-- ============================== LAB ============================== -->
+<section class="lecture" id="lab">
+  <div class="lec-head"><div class="eyebrow">Lab exercise · weeks of lectures 8–11 (27 Oct – 17 Nov) · building 352, room 005</div><h2>Lab: room modes, reverberation time and sound power</h2><div class="meta">Lab guide 2026 (7 pages) · lectures 6–7 · course text §1.3, 1.5, 2.5, 3.1, 3.2 · group report, max 10 pages, due 2 weeks after the lab</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A small hard room has a few low modes you can find by ear; measure how fast it forgets a sound (T20/T30), and the room becomes a calibrated meter for sound power.</div>
+  <div class="block"><h3>Logistics in brief</h3><div class="table-wrap"><table>
+    <tr><td>Format</td><td>groups of 3, about 2 h, one group report (with the hand-in, 10 % of the grade)</td></tr>
+    <tr><td>Sign-up</td><td>the online schedule linked from the Learn assignment; a slot turns green with 3 names</td></tr>
+    <tr><td>Bring</td><td>a music track with a mini-jack, a sound-level-meter app installed beforehand, and a USB stick</td></tr>
+    <tr><td>Report</td><td>2 weeks after the lab day, ≤ 10 pages, <span class="mono">34840_ex_s111111_s222222_s333333.pdf</span></td></tr>
+    <tr><td>Contact</td><td>Stefan Graham (slots), Finn Agerkvist</td></tr>
+  </table></div>
+  <p>Room 4.38 × 3.13 × 3.29 m (x length, y width, <b>z height</b>), V = 45.1 m³, S = 76.8 m². Part A: find the five lowest modes by sweeping a tone. Part B: T20/T30 with interrupted pink noise in four conditions (empty → absorbers → absorbers + diffusers → diffusers only). Part C: the sound power of a vacuum cleaner. <b>Measured values: fill in after the lab.</b></p></div>
+  <div id="bench-labmodes"></div>
+  <div class="callout real"><span class="eyebrow">Why put the source and the ear in a corner?</span><p>At a rigid wall the normal particle velocity is zero, so every mode has a pressure <b>maximum</b> there (<span class="m">\cos(n\pi x/L)=\pm1</span> at <span class="m">x=0,L</span>). A corner is a pressure maximum in all three directions at once: a monopole source there excites every mode, and a microphone or ear there hears every mode. In the middle of the room every mode with an odd index has a node and disappears.</p></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Reverberation time from the decay</span><div class="M">T_{20}=3\,(t_{-25}-t_{-5}),\qquad T_{30}=2\,(t_{-35}-t_{-5})</div><p>Both extrapolate to 60 dB. Need about 35 dB SNR for T20 and 45 dB for T30 (the end point plus a 10 dB margin).</p></div>
+    <div class="fcard"><span class="eyebrow">Script times</span><p><span class="mono">T_build_up</span> ≥ the expected T60 (8–10 s empty); <span class="mono">T_silence</span> ≥ T60 at the lowest band; 5 decays × 3 positions. Check <span class="mono">M = 12.5e-3*10</span> (GRAS 46AC, +20 dB) before the first run.</p></div>
+  </div>
+  <div id="bench-decaylab"></div>
+  <div class="callout real"><span class="eyebrow">T20 vs T30, and what a healthy decay looks like</span><p>They agree if the decay is one straight line in dB. <b>T30 &gt; T20</b> means a double slope: slow axial and flutter paths between the hard parallel surfaces that never meet the absorbers, especially with all the absorption on one wall. <b>T30 is invalid below about 45 dB SNR</b>, because its −35 dB point sits in the noise floor and reads long; use T20 there (typically 125 Hz and 4 kHz) and say so in the report. A healthy decay has a clear stationary level before the cut, a straight decay over 20–30 dB, and a flat floor at least 10 dB below the range. It shows no clipping and no bumps from talking or doors. Some beating between modes at 125 Hz is normal.</p></div>
+  <div class="callout real"><span class="eyebrow">Where do the diffusers work best?</span><p>With all the absorbers on one wall, sound bouncing between the <b>side walls</b> and between <b>floor and ceiling</b> never touches them. Put the diffusers on those hard parallel pairs, where the mirror paths hit, so they scatter the trapped energy towards the absorbing wall. Spread them out, and keep them away from the microphone positions. Expected trend: empty is longest with T20 ≈ T30. Absorbers cut mid and high frequencies but hardly 125 Hz, often with T30 &gt; T20. Adding diffusers shortens T further and brings T20 and T30 together. Diffusers alone sit close to empty. The absorbers' α in the room is <span class="m">\Delta A/S_{\rm abs}</span> with <span class="m">A=0.161V/T</span>, so measure the panel area on the day.</p></div>
+  <div class="formulas">
+    <div class="fcard"><span class="eyebrow">Sound power in a reverberant room</span><div class="M">L_W=L_p-14+10\log_{10}\frac{V}{1\,\mathrm{m^3}}-10\log_{10}\frac{T}{1\,\mathrm s}</div><p>From <span class="m">W=\langle p^2\rangle A/4\rho c</span> and <span class="m">A=0.161V/T</span>: <span class="m">10\log(0.161/4)=-13.95</span> dB, and <span class="m">\rho c\approx400</span>. Average <span class="m">p^2</span> over the positions <em>before</em> the log.</p></div>
+    <div class="fcard"><span class="eyebrow">A-weighting and the total</span><div class="M">L_{WA}=10\log_{10}\sum_i10^{(L_{W,i}+A_i)/10}</div><p><span class="m">A_i</span> = −16.1, −8.6, −3.2, 0, +1.2, +1.0 dB at 125 Hz – 4 kHz. Vacuum cleaners are typically 75–85 dB(A).</p></div>
+  </div>
+  <div id="bench-soundpowerlab"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li>Below the Schroeder frequency (400–950 Hz here) a few modes dominate, so the 125 Hz T and L_p scatter from position to position. Three positions are few.</li>
+    <li>Average <span class="m">p^2</span>, not dB, over positions.</li>
+    <li>Part C needs <b>diffusers only, no absorbers</b>, with the vacuum cleaner mid-room and away from the microphones. The reverberation distance is about 0.1 m, so the direct field is negligible beyond about 1 m.</li>
+    <li>The close mode pairs 52.2/54.9 and 65.3/67.4 Hz: sweep in about 0.2 Hz steps, and let the minima pattern decide.</li>
+  </ul></div>
+  <div id="quiz-LAB"></div>
+</section>
+
 <section class="lecture" id="cheat">
   <div class="lec-head">
     <div class="eyebrow">Everything so far, on one screen</div>
@@ -391,7 +427,7 @@
 <div class="fcard"><span class="eyebrow">L7 · absorbers</span><div class="M">f_{\min}\approx\frac c{4d},\quad f_r=\frac1{2\pi}\sqrt{\frac{\rho c^2}{mL}},\quad f_0=\frac c{2\pi}\sqrt{\frac{P}{L(l+0.8d)}},\quad \alpha=1-|R|^2</div><p>Sanity numbers: 12 kg/m² on 50 mm → 77 Hz · 10 mm holes on a 30 mm grid → 432 Hz · Z = 500 + j1000 → α_n 0.451, α_r 0.53.</p></div></section>
 
 <footer>
-  Updated 20 Oct 2026 from the 34840 lecture notes (1–2, 4–7), the lecture slides and course text, problem sheets 1–7 and the official solutions for weeks 1, 2, 5 and 6. Week 7 solutions are derived (official ones not out yet) and match the sheet's printed answers; lecture 7 was written from the slides on lecture day. Week 4 derivations are checked against the printed answers; exam examples have derived solutions. Bench readouts reproduce the sheets' answers (week 5 with ρ = 1.2, c = 344 as in the official solutions). Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
+  Updated 20 Oct 2026 from the 34840 lecture notes (1–2, 4–7), the lecture slides and course text, problem sheets 1–7 and the official solutions for weeks 1, 2, 5 and 6. Week 7 solutions are derived (official ones not out yet) and match the sheet's printed answers; lecture 7 was written from the slides on lecture day. The lab section is preparation from the 2026 lab guide; measured values are filled in after the lab. Week 4 derivations are checked against the printed answers; exam examples have derived solutions. Bench readouts reproduce the sheets' answers (week 5 with ρ = 1.2, c = 344 as in the official solutions). Lecture 3 is written ahead of the lecture; it will be checked against the notes afterwards.
 </footer>
 </main>
 </div>

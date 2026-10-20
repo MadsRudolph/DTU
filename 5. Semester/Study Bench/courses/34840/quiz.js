@@ -179,3 +179,36 @@ QUIZZES["7"] = [
     "why": "Diffraction at the sample edges draws in energy from around it, most at low frequency where the sample is not large compared with λ. Absorber spread in patches beats the same amount in one block."
   }
 ];
+
+QUIZZES["LAB"] = [
+  {
+    "q": "In the lab room (4.38 × 3.13 × 3.29 m), which comes second: the width mode (0,1,0) or the height mode (0,0,1)?",
+    "a": ["(0,1,0) at 54.9 Hz", "(0,0,1) at 52.2 Hz", "they coincide", "(1,1,0) at 67.4 Hz"],
+    "c": 1,
+    "why": "f = c/2l: the room is taller (3.29 m) than it is wide (3.13 m), so the height mode is lower, at 52.2 Hz against 54.9 Hz. The minima pattern tells them apart: (0,0,1) changes with height."
+  },
+  {
+    "q": "Why are the loudspeaker and the listening point placed in a corner when hunting modes?",
+    "a": ["the corner has the least background noise", "every mode has a pressure maximum in a corner", "corners have no reflections", "the direct sound is strongest there"],
+    "c": 1,
+    "why": "Rigid walls force pressure maxima, and a corner is a maximum in x, y and z at once. A monopole couples to pressure, so it excites every mode from there, and a mic there hears every mode."
+  },
+  {
+    "q": "In one band the SNR is only 38 dB. Which reverberation time do you report?",
+    "a": ["T30", "T20", "the average of T20 and T30", "neither: EDT"],
+    "c": 1,
+    "why": "T30 needs the −35 dB point plus about 10 dB margin, so roughly 45 dB SNR; at 38 dB its end point sits in the floor and it reads too long. T20 needs about 35 dB, so it still works."
+  },
+  {
+    "q": "With all the absorbers on one wall, T30 comes out clearly longer than T20. The best explanation is…",
+    "a": ["a calibration error", "a double-sloped decay: flutter between the untreated parallel walls decays slowly", "the noise floor is too low", "air absorption"],
+    "c": 1,
+    "why": "The field is not diffuse: paths between the hard side walls and between floor and ceiling miss the absorbers and form a slow tail. Diffusers on those surfaces scatter the energy into the absorbers and bring T20 and T30 together."
+  },
+  {
+    "q": "Part C: L_p = 80 dB in an octave band, T = 2 s, V = 45.1 m³. L_W in that band is about…",
+    "a": ["66 dB", "79.5 dB", "82.5 dB", "96.5 dB"],
+    "c": 1,
+    "why": "L_W = L_p − 14 + 10 log V − 10 log T = 80 − 14 + 16.5 − 3.0 = 79.5 dB. Then add the A-weighting per band and sum the bands as powers."
+  }
+];

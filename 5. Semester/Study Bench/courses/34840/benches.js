@@ -666,7 +666,7 @@ function benchRoomModes6() {
   for (const [key, label, min, max, step, unit] of [["lx", "length l<sub>x</sub>", 1, 20, 0.1, "m"], ["ly", "width l<sub>y</sub>", 1, 20, 0.1, "m"], ["lz", "height l<sub>z</sub>", 1, 10, 0.1, "m"], ["fmax", "list modes up to", 30, 250, 1, "Hz"], ["T", "reverberation time (for f_S)", 0.2, 5, 0.1, "s"]]) ctl[key] = slider(b.ctl, { label, min, max, step, value: st[key], unit, fmt: v => key === "fmax" ? v.toFixed(0) : v.toFixed(1), onchange: v => { st[key] = v; upd(); } });
   segCtl(b.ctl, st, "fc", [[31.5, "31.5"], [40, "40"], [50, "50"], [63, "63"], [80, "80"], [100, "100"], [125, "125 Hz"]], () => upd());
   const chips = h("div", { class: "chips" });
-  for (const [lab, d, fm] of [["Problem 1: 5 × 4 × 3 m", [5, 4, 3], 80], ["Problem 2: 3 m cube", [3, 3, 3], 130], ["Slide 16 room 5.7 × 7.0 × 4.8", [5.7, 7, 4.8], 80]]) chips.append(h("button", { type: "button", class: "chip", onclick: () => { [st.lx, st.ly, st.lz] = d; st.fmax = fm; for (const k of ["lx", "ly", "lz", "fmax"]) ctl[k].set(st[k]); upd(); } }, lab));
+  for (const [lab, d, fm] of [["Problem 1: 5 × 4 × 3 m", [5, 4, 3], 80], ["Problem 2: 3 m cube", [3, 3, 3], 130], ["Slide 16 room 5.7 × 7.0 × 4.8", [5.7, 7, 4.8], 80], ["Lab room 4.38 × 3.13 × 3.29", [4.38, 3.13, 3.29], 80]]) chips.append(h("button", { type: "button", class: "chip", onclick: () => { [st.lx, st.ly, st.lz] = d; st.fmax = fm; for (const k of ["lx", "ly", "lz", "fmax"]) ctl[k].set(st[k]); upd(); } }, lab));
   b.ctl.append(chips);
   const ro = readouts(b.ctl, [{ id: "ax", label: "axial building blocks c/2l" }, { id: "N", label: "modes ≤ f_max: counted · N(f) formula" }, { id: "band", label: "modes in the third-octave band", dom: "ac" }, { id: "cen", label: "pressure max at the centre (all indices even)", dom: "el" }, { id: "deg", label: "degenerate groups" }, { id: "fs", label: "Schroeder f_S ≈ 2000√(T/V)" }]);
   const pl1 = h("div"), pl2 = h("div"), list = h("div", { class: "small", style: "font-family:var(--font-mono);line-height:1.6;margin-top:6px" });
@@ -721,3 +721,91 @@ function benchSabine6() {
   b.note.innerHTML = `<p>Start values are slide 30 (text Fig. 3.4.3): 20 × 10 × 5 m, ceiling α = 0.8, the rest 0.1, so A = 210 m² and ᾱ = 0.30. Sabine gives <b>0.77 s</b> and Eyring <b>0.65 s</b>. They agree below ᾱ ≈ 0.3, and only Eyring goes to zero for an anechoic room. The 2-D and 1-D readouts follow sound travelling only horizontally or along one axis, with the text's T ≈ 0.04 l_m/ᾱ: 4.2 s horizontally, 8.0 / 4.0 / 0.4 s along length, width and height. Horizontally the sound never meets the ceiling. With all the absorption on one surface the real decay is bent and much longer than either formula, and scattering objects pull it back towards Sabine.</p>`;
 }
 document.addEventListener('DOMContentLoaded', () => { benchRoomModes6(); benchRoomLevel6(); benchSabine6(); renderMath(); });
+
+/* Lab: room 4.38 × 3.13 × 3.29 m (x length, y width, z height), V = 45.1 m³; c = 331.3 + 0.606 θ */
+const LAB = { lx: 4.38, ly: 3.13, lz: 3.29, V: 45.1, S: 76.8 };
+const cAir = (theta) => 331.3 + 0.606 * theta;
+const AW_OCT = [[125, -16.1], [250, -8.6], [500, -3.2], [1000, 0], [2000, 1.2], [4000, 1.0]];
+/* synthetic ensemble-averaged decay: main slope T1, a tail at tailDb (re start) with slope T2, a floor SNR dB down */
+function decayLab(T1, tailDb, T2, snr, t) {
+  const w = 10 ** (tailDb / 10), e = (1 - w) * 10 ** (-6 * t / T1) + w * 10 ** (-6 * t / T2) + 10 ** (-snr / 10);
+  return 10 * Math.log10(e / (1 + 10 ** (-snr / 10)));
+}
+function decayTimes(T1, tailDb, T2, snr) {
+  const cross = (L) => { let a = 0, b = 60; if (decayLab(T1, tailDb, T2, snr, b) > L) return null; for (let i = 0; i < 80; i++) { const m = (a + b) / 2; if (decayLab(T1, tailDb, T2, snr, m) > L) a = m; else b = m; } return (a + b) / 2; };
+  const t5 = cross(-5), t25 = cross(-25), t35 = cross(-35);
+  return { t5, t25, t35, T20: t25 === null ? null : 3 * (t25 - t5), T30: t35 === null ? null : 2 * (t35 - t5) };
+}
+/* part C: per-octave Lp (position-averaged) and T → L_W, A-weighted, total L_WA */
+function soundPowerLab(Lp, T, V = LAB.V) {
+  const bands = Lp.map((L, i) => {
+    const LW = L - 14 + 10 * Math.log10(V) - 10 * Math.log10(T[i]);
+    const p2 = (PREF * 10 ** (L / 20)) ** 2, A = 0.161 * V / T[i], W = p2 * A / (4 * 1.2 * 343);
+    return { f: AW_OCT[i][0], LW, LWA: LW + AW_OCT[i][1], LWexact: 10 * Math.log10(W / 1e-12), A };
+  });
+  return { bands, LWA: 10 * Math.log10(bands.reduce((s, b) => s + 10 ** (b.LWA / 10), 0)), LW: 10 * Math.log10(bands.reduce((s, b) => s + 10 ** (b.LW / 10), 0)) };
+}
+
+function benchLabModes() {
+  const b = bench("bench-labmodes", "The lab room's lowest modes, and where to find their minima", "lab · preparation (i) · part A"); if (!b) return;
+  const st = { th: 20 };
+  slider(b.ctl, { label: "room temperature θ", min: 10, max: 30, step: 0.5, value: 20, unit: "°C", dom: "el", fmt: v => v.toFixed(1), onchange: v => { st.th = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "c", label: "c = 331.3 + 0.606 θ" }, { id: "fs", label: "Schroeder f_S, T = 2–10 s" }]);
+  const pl = h("div"), tbl = h("div", { class: "table-wrap" });
+  b.plot.append(pl, tbl);
+  const COL = { axial: DOMC.el, tangential: DOMC.me, oblique: DOMC.ac }, H = { axial: 3, tangential: 2, oblique: 1 };
+  const plot = new Plot(pl, { h: 220, xlog: false, xmin: 30, xmax: 90, ymin: 0, ymax: 3.4, ml: 84, xlabel: "frequency (Hz)", ylabel: "", xfmt: v => v.toFixed(1) + " Hz", yfmt: v => ["", "oblique", "tangential", "axial"][Math.round(v)] || "", yticks: [1, 2, 3] });
+  const where = (n) => ["length", "width", "height"].map((d, i) => n[i] ? `${n[i]} along the ${d}` : "").filter(Boolean).join(", ");
+  function upd() {
+    const c = cAir(st.th), ms = roomModes6(LAB.lx, LAB.ly, LAB.lz, 90, c);
+    plot.set({ series: ["axial", "tangential", "oblique"].map(t => ({ name: t, color: COL[t], width: 2.5, pts: ms.filter(m => m.type === t).flatMap(m => [[m.f, 0], [m.f, H[t]], [m.f, NaN]]) })) });
+    tbl.innerHTML = `<table><tr><th>#</th><th>mode</th><th>type</th><th>predicted</th><th>pressure minima to find</th><th>measured</th></tr>${ms.slice(0, 7).map((m, i) => `<tr><td>${i < 5 ? i + 1 : "(" + (i + 1) + ")"}</td><td>(${m.n.join(",")})</td><td style="color:${COL[m.type]}">${m.type}</td><td>${m.f.toFixed(1)} Hz</td><td>${where(m.n)}</td><td class="small">fill in after the lab</td></tr>`).join("")}</table>`;
+    ro({ c: `${c.toFixed(2)} m/s`, fs: `${(2000 * Math.sqrt(2 / LAB.V)).toFixed(0)}–${(2000 * Math.sqrt(10 / LAB.V)).toFixed(0)} Hz` });
+  }
+  upd();
+  b.note.innerHTML = `<p>At 20 °C (c = 343.4 m/s) the five lowest modes are <b>39.2 (1,0,0), 52.2 (0,0,1), 54.9 (0,1,0), 65.3 (1,0,1), 67.4 (1,1,0) Hz</b>. The room is taller than it is wide, so the height mode comes before the width mode. Each kelvin moves every mode by about +0.17 %. The two close pairs, 52/55 and 65/67 Hz, need a slow sweep in steps of about 0.2 Hz; the minima pattern tells them apart. The same room also fits on the lecture 6 mode finder.</p>`;
+}
+
+function benchDecayLab() {
+  const b = bench("bench-decaylab", "T20 or T30? A decay with a slow tail and a noise floor", "lab · part B"); if (!b) return;
+  const st = { T1: 2, tail: -60, T2: 6, snr: 60 };
+  for (const [key, label, min, max, step, unit] of [["T1", "main decay T", 0.3, 10, 0.1, "s"], ["tail", "slow tail level (−60 = none)", -60, -10, 1, "dB"], ["T2", "tail decay T", 0.5, 20, 0.1, "s"], ["snr", "SNR (start level − noise floor)", 20, 80, 1, "dB"]]) slider(b.ctl, { label, min, max, step, value: st[key], unit, fmt: v => v.toFixed(key === "T1" || key === "T2" ? 1 : 0), onchange: v => { st[key] = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "t20", label: "T20 = 3(t₋₂₅ − t₋₅)", dom: "ac" }, { id: "t30", label: "T30 = 2(t₋₃₅ − t₋₅)", dom: "me" }, { id: "nf", label: "no floor: T20 · T30" }, { id: "v", label: "verdict", dom: "el" }]);
+  const plot = new Plot(b.plot, { h: 300, xlog: false, xmin: 0, xmax: 4, ymin: -80, ymax: 5, xlabel: "time after the cut (s)", ylabel: "level (dB re start)", xfmt: v => v.toFixed(2) + " s", yfmt: v => v.toFixed(0) });
+  function upd() {
+    const d = decayTimes(st.T1, st.tail, st.T2, st.snr), d0 = decayTimes(st.T1, st.tail, st.T2, 200);
+    const tmax = Math.min(30, Math.max(1.5 * (d0.T30 || st.T1), 1.2 * st.T1)), ts = linspace(0, tmax, 400);
+    const fit = (t0, T) => T === null ? [] : [[t0, -5], [tmax, -5 - 60 * (tmax - t0) / T]];
+    plot.set({ xmax: tmax, series: [{ name: "decay (ensemble average)", color: DOMC.ink, pts: ts.map(t => [t, decayLab(st.T1, st.tail, st.T2, st.snr, t)]) }, { name: "T20 line", color: DOMC.ac, dash: "5 4", pts: fit(d.t5, d.T20) }, { name: "T30 line", color: DOMC.me, dash: "5 4", pts: fit(d.t5, d.T30) }], vlines: [d.t25, d.t35].filter(x => x !== null).map((x, i) => ({ x, label: i ? "−35 dB" : "−25 dB" })) });
+    const f = (x) => x === null ? "never reached" : `${x.toFixed(2)} s`;
+    const ratio = d.T20 && d.T30 ? d.T30 / d.T20 : null;
+    ro({ t20: f(d.T20), t30: f(d.T30), nf: `${f(d0.T20)} · ${f(d0.T30)}`, v: st.snr < 35 ? "SNR < 35 dB: even T20 is unsafe" : st.snr < 45 ? "SNR < 45 dB: T30 reads into the floor; use T20" : ratio && ratio > 1.1 ? `T30/T20 = ${ratio.toFixed(2)}: double slope, not diffuse` : "straight decay: T20 ≈ T30, use T30" });
+  }
+  upd();
+  b.note.innerHTML = `<p>This is a simplified model, not the lab script. It uses a smooth, ensemble-averaged energy envelope: two exponential slopes plus a constant noise floor. T20 and T30 are read from the −5/−25/−35 dB crossings rather than from a regression on the Schroeder integral, so a real single decay will be noisier. The start is a healthy 2 s decay with 60 dB SNR, where T20 = T30. Lower the SNR below about 45 dB and the −35 dB point sinks into the floor, so <b>T30 runs long</b> while T20 holds. Lower it below about 30 dB and T20 goes too. Raise the tail level to about −20 dB with a 6 s tail: T30 &gt; T20 even with no noise, which is the double slope of a room with all its absorption on one wall.</p>`;
+}
+
+function benchSoundPowerLab() {
+  const b = bench("bench-soundpowerlab", "Part C: the vacuum cleaner's sound power from L_p and T", "lab · part C"); if (!b) return;
+  const EX_L = [72, 74, 75, 74, 71, 67], EX_T = [3.0, 2.6, 2.4, 2.2, 1.9, 1.5];
+  const st = { L: EX_L.slice(), T: EX_T.slice() };
+  const grid = h("div", { style: "display:grid;grid-template-columns:auto 1fr 1fr;gap:4px 8px;align-items:center;font-size:12.5px" });
+  grid.append(h("span", {}, "octave"), h("span", {}, "L_p (dB, p² averaged)"), h("span", {}, "T (s)"));
+  const inp = (arr, i, step) => { const e = h("input", { type: "number", step, value: arr[i], style: "width:100%;font:inherit" }); e.addEventListener("input", () => { const v = Number(e.value); if (isFinite(v) && v > 0) { arr[i] = v; upd(); } }); return e; };
+  AW_OCT.forEach(([f], i) => grid.append(h("span", {}, f >= 1000 ? `${f / 1000}k` : String(f)), inp(st.L, i, "0.1"), inp(st.T, i, "0.01")));
+  b.ctl.append(grid);
+  const ro = readouts(b.ctl, [{ id: "LW", label: "total L_W (unweighted)", dom: "ac" }, { id: "LWA", label: "total L_WA", dom: "el" }, { id: "chk", label: "check vs p²A/4ρc route" }]);
+  const tbl = h("div", { class: "table-wrap" });
+  const pl = h("div"); b.plot.append(pl, tbl);
+  const plot = new Plot(pl, { h: 260, xmin: 90, xmax: 5600, ymin: 40, ymax: 100, xlabel: "octave band", ylabel: "dB re 1 pW", xticks: AW_OCT.map(([f]) => ({ v: f, l: f >= 1000 ? f / 1000 + "k" : String(f) })), yfmt: v => v.toFixed(0) });
+  function upd() {
+    const r = soundPowerLab(st.L, st.T);
+    plot.set({ series: [{ name: "L_W per band", color: DOMC.ac, pts: r.bands.map(x => [x.f, x.LW]) }, { name: "L_WA per band", color: DOMC.el, pts: r.bands.map(x => [x.f, x.LWA]) }], markers: r.bands.map(x => ({ x: x.f, y: x.LWA, color: DOMC.el })) });
+    tbl.innerHTML = `<table><tr><th>octave</th>${r.bands.map(x => `<th>${x.f >= 1000 ? x.f / 1000 + "k" : x.f}</th>`).join("")}</tr><tr><td>A (m²) = 0.161V/T</td>${r.bands.map(x => `<td>${x.A.toFixed(2)}</td>`).join("")}</tr><tr><td>L_W</td>${r.bands.map(x => `<td>${x.LW.toFixed(1)}</td>`).join("")}</tr><tr><td>A-weighting</td>${AW_OCT.map(a => `<td>${a[1] > 0 ? "+" : ""}${a[1]}</td>`).join("")}</tr><tr><td>L_WA</td>${r.bands.map(x => `<td>${x.LWA.toFixed(1)}</td>`).join("")}</tr></table>`;
+    const dev = Math.max(...r.bands.map(x => Math.abs(x.LW - x.LWexact)));
+    ro({ LW: `${r.LW.toFixed(1)} dB`, LWA: `${r.LWA.toFixed(1)} dB(A)`, chk: `max ${dev.toFixed(2)} dB difference` });
+  }
+  upd();
+  b.note.innerHTML = `<p><b>The start values are made-up examples, not measurements: fill in after the lab.</b> Use the p² averaged over the three positions (then 10 log) and the chosen T20 or T30 per band. Each band uses <span class="mono">L_W = L_p − 14 + 10 log V − 10 log T</span> with V = 45.1 m³, so 10 log V = 16.5 dB. The check computes <span class="mono">W = p²A/4ρc</span> directly; the "−14" absorbs ρc ≈ 400, which leaves a difference of about 0.1 dB. A household vacuum cleaner is typically 75–85 dB(A). A result far outside that range means a units or averaging slip.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { benchLabModes(); benchDecayLab(); benchSoundPowerLab(); renderMath(); });

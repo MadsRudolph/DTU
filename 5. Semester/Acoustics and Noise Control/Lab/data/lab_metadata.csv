@@ -1,0 +1,7 @@
+date,
+temperature_C,
+absorber_panel_w_m,
+absorber_panel_h_m,
+mic_gain_dB,20
+mic_sensitivity_mV_Pa,12.5
+notes,
