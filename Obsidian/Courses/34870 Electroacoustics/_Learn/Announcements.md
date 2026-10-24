@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-24 — Example of phase unwrapping and distance correction
+
+Dear all,
+Some of you are asking about how to apply the function phaseunwrap for distance/delay correction. I have included an Example of the use of the phaseunwrap function in the Lab E material. It takes measured responses and corrects for distance/delay, and also corrects phase responses by n*2π, n integer, if needed. If you use it, you must find your own corrections.
+You need to understand why we do this: to make phase differences between units at the microphone position readable. The corrections do not modify these differences. 
+Best regards,
+Vicente
+
 ## 2026-10-19 — Lecture this Thursday 22/10 moved and replaced by Lab B&C feedback
 
 Dear all,
