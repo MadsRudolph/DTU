@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-25 — Tomorrow's lecture
+
+Dear All,
+Hi, the topic of the lecture tomorrow is DC converters.
+See you tomorrow at 8.30 AM.
+Best Regards
+Ashraf
+
 ## 2026-10-04 — Lab 2: Monday 5th of October
 
 Dear All,

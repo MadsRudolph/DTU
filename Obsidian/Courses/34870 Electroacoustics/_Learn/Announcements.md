@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-25 — Lectures on Monday 26-Oct and 2-Nov
+
+Dear all,
+Tomorrow at 13:00h we will have Lecture 10 - Advanced Topics on how to extend lumped models and combine them with other methods. I expect we will take about 2h of the lecture slot. Besides that, remember the Lab D/E - Loudspeakers quiz deadline tomorrow evening.
+Next week will be Finn's postponed Lecture 11 - Radiation, acoustic environment, µ-speakers / Nonlinear circuit models also on Monday at 13:00h.
+Best regards
+Frieder
+
 ## 2026-10-24 — Example of phase unwrapping and distance correction
 
 Dear all,
