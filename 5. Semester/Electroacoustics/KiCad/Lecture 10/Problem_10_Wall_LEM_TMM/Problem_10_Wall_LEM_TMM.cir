@@ -1,0 +1,31 @@
+.title KiCad schematic
+.model __T43 LTRA( r=0 l=0.012 g=0 c=7.08321e-08 len=1 )
+.model __T33 LTRA( r=0 l=100 g=0 c=1.92901e-12 len=1 )
+.model __T53 LTRA( r=0 l=11 g=0 c=2.27273e-12 len=1 )
+.model __T22 LTRA( r=0 l=6 g=0 c=6e-10 len=1 )
+.model __T13 LTRA( r=0 l=6.00001 g=0 c=4.62964e-13 len=1 )
+.model __T23 LTRA( r=0 l=6 g=0 c=6e-10 len=1 )
+.model __T42 LTRA( r=0 l=0.012 g=0 c=7.08321e-08 len=1 )
+.ac dec 2000 20 20k
+L32 Net-_L32-Pad1_ Net-_L32-Pad2_ 100
+OT43 Net-_T33-Pad3_ GND Net-_T43-Pad3_ GND __T43
+OT33 Net-_T23-Pad3_ GND Net-_T33-Pad3_ GND __T33
+OT53 Net-_T43-Pad3_ GND /pout3 GND __T53
+Rout3 /pout3 GND 411.6
+L52 Net-_L52-Pad1_ /pout2 11
+Rout2 /pout2 GND 411.6
+OT22 Net-_L12-Pad2_ GND Net-_L32-Pad1_ GND __T22
+OT13 /pin3 GND Net-_T13-Pad3_ GND __T13
+OT23 Net-_T13-Pad3_ GND Net-_T23-Pad3_ GND __T23
+L12 /pin2 Net-_L12-Pad2_ 6
+V2 /pin2 GND DC 0 AC 1  
+V3 /pin3 GND DC 0 AC 1  
+OT42 Net-_L32-Pad2_ GND Net-_L52-Pad1_ GND __T42
+Rout1 /pout1 GND 411.6
+C41 Net-_C41-Pad1_ GND 70.8322n
+L51 Net-_C41-Pad1_ /pout1 11
+V1 /pin1 GND DC 0 AC 1  
+L11 /pin1 Net-_C21-Pad1_ 6
+C21 Net-_C21-Pad1_ GND 600p
+L31 Net-_C21-Pad1_ Net-_C41-Pad1_ 100
+.end
