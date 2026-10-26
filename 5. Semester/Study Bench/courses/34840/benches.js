@@ -809,3 +809,87 @@ function benchSoundPowerLab() {
   b.note.innerHTML = `<p><b>The start values are made-up examples, not measurements: fill in after the lab.</b> Use the p² averaged over the three positions (then 10 log) and the chosen T20 or T30 per band. Each band uses <span class="mono">L_W = L_p − 14 + 10 log V − 10 log T</span> with V = 45.1 m³, so 10 log V = 16.5 dB. The check computes <span class="mono">W = p²A/4ρc</span> directly; the "−14" absorbs ρc ≈ 400, which leaves a difference of about 0.1 dB. A household vacuum cleaner is typically 75–85 dB(A). A result far outside that range means a units or averaging slip.</p>`;
 }
 document.addEventListener('DOMContentLoaded', () => { benchLabModes(); benchDecayLab(); benchSoundPowerLab(); renderMath(); });
+
+/* L8: loudspeakers. ρ = 1.2, c = 343 reproduce every printed answer on Problems 8 (rms values). */
+const C8 = 343, RHO8 = 1.2, Z8 = RHO8 * C8;
+/* baffled driver: p (rms) on axis and at angle th (deg); mass = true drops K and Rt (P3.1) */
+function driver8(p, f, th = 0, massOnly = false) {
+  const w = TAU * f, S = Math.PI * p.a * p.a, k = w / C8, ka = k * p.a;
+  const X = w * p.M - (massOnly ? 0 : p.K / w), R = massOnly ? 0 : p.Rt, Zm = Math.hypot(R, X);
+  const Q = S * p.Bl * p.e / (p.Re * Zm), pr = RHO8 * w * Q / (TAU * p.r), x = Q / S / w;
+  const s = ka * Math.sin(th * Math.PI / 180), D = Math.abs(s) < 1e-9 ? 1 : Math.abs(2 * besselJ1(s) / s);
+  return { S, ka, Zm, Q, p: pr, Lp: LP(pr), Lth: LP(pr * D), D, x, fs: Math.sqrt(p.K / p.M) / TAU, Qt: Math.sqrt(p.K * p.M) / p.Rt, Rel: p.Bl ** 2 / p.Re, pflat: RHO8 * S * p.Bl * p.e / (TAU * p.r * p.Re * p.M) };
+}
+/* one level reading, spherical (half = false) or hemispherical (half = true) spreading */
+function space8(Lp0, r0, r, half) {
+  const p0 = PREF * 10 ** (Lp0 / 20), p = p0 * r0 / r, I = p * p / Z8, W = (half ? TAU : 2 * TAU) * r * r * I;
+  return { p, Lp: LP(p), LI: 10 * Math.log10(I / 1e-12), W, LW: 10 * Math.log10(W / 1e-12) };
+}
+/* sealed cavity V (m³) at level Lin, then the same Q as a free-field monopole at r */
+function headphone8(V, Lin, f, r, d) {
+  const w = TAU * f, CA = V / (RHO8 * C8 * C8), pin = PREF * 10 ** (Lin / 20), Q = w * CA * pin, pf = RHO8 * w * Q / (2 * TAU * r);
+  return { CA, pin, Q, pf, Lf: LP(pf), drop: 20 * Math.log10(pf / pin), ka: w / C8 * d / 2 };
+}
+
+function benchDriver8() {
+  const b = bench("bench-driver8", "One driver in a baffle: spring, mass, then the beam", "lecture 8 · problems 3.1, 3.2 · pages 7–18"); if (!b) return;
+  const st = { Bl: 8, Re: 5, a: 6, M: 20, K: 2000, Rt: 18, e: 2.8, th: 0, mass: false };
+  const sl = {};
+  for (const [key, label, min, max, step, unit, dom] of [["Bl", "force factor <b>Bl</b>", 1, 20, 0.1, "T·m", "el"], ["Re", "coil resistance <b>R_e</b>", 2, 16, 0.1, "Ω", "el"], ["a", "cone radius <b>a</b>", 1, 20, 0.1, "cm", "ac"], ["M", "moving mass <b>M</b>", 2, 150, 1, "g", "me"], ["K", "suspension stiffness <b>K</b>", 100, 10000, 50, "N/m", "me"], ["Rt", "total damping <b>R_t</b>", 0.5, 60, 0.5, "N·s/m", "me"], ["e", "voltage (rms)", 0.5, 20, 0.1, "V", "el"], ["th", "listening angle <b>θ</b>", 0, 90, 1, "°", "ac"]]) sl[key] = slider(b.ctl, { label, min, max, step, value: st[key], unit, dom, fmt: v => String(v), onchange: v => { st[key] = v; upd(); } });
+  const chips = h("div", { class: "chips" });
+  const mk = (label, on) => h("button", { type: "button", class: "chip" + (st.mass === on ? " on" : ""), onclick: (e) => { st.mass = on; $$(".chip", chips).forEach(x => x.classList.toggle("on", x === e.target)); upd(); } }, label);
+  chips.append(mk("3.2: with K and R_t", false), mk("3.1: mass only", true));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "fs", label: "f_s = (1/2π)√(K/M) · Q_t", dom: "me" }, { id: "rel", label: "electrical damping (Bl)²/R_e", dom: "el" }, { id: "flat", label: "flat level ρS·Bl·e/(2πrR_eM), r = 2 m", dom: "ac" }, { id: "l30", label: "L_p at 30 Hz", dom: "ac" }, { id: "l300", label: "L_p at 300 Hz · Q", dom: "ac" }, { id: "l900", label: "L_p at 900 Hz · Q", dom: "ac" }, { id: "x", label: "excursion at 30 Hz · 300 Hz (rms)", dom: "me" }, { id: "ka", label: "ka = 1 at · first null at θ" }]);
+  const plot = new Plot(b.plot, { h: 320, xmin: 10, xmax: 10000, ymin: 40, ymax: 100, xlabel: "frequency (Hz)", ylabel: "SPL at 2 m (dB)", yfmt: v => v.toFixed(0) });
+  const fs = logspace(10, 10000, 400);
+  function upd() {
+    const p = { Bl: st.Bl, Re: st.Re, a: st.a / 100, M: st.M / 1000, K: st.K, Rt: st.Rt, e: st.e, r: 2 }, g = (f, th = 0, m = st.mass) => driver8(p, f, th, m);
+    const a30 = g(30), a300 = g(300), a900 = g(900), f1 = C8 / (TAU * p.a), s = Math.sin(st.th * Math.PI / 180), fnull = s > 0 ? 3.8317 * C8 / (TAU * p.a * s) : null;
+    const series = [{ name: "on axis", color: DOMC.ac, pts: fs.map(f => [f, g(f).Lp]) }, { name: "mass only (no K, R_t)", color: DOMC.me, dash: "5 4", thin: true, pts: fs.map(f => [f, g(f, 0, true).Lp]) }];
+    if (st.th > 0) series.push({ name: `at ${st.th}° (piston directivity)`, color: DOMC.el, pts: fs.map(f => [f, Math.max(g(f, st.th).Lth, 0)]) });
+    plot.set({ series, markers: [{ x: 30, y: a30.Lp, label: `${a30.Lp.toFixed(2)} dB`, color: DOMC.ac }, { x: 300, y: a300.Lp, label: `${a300.Lp.toFixed(2)}`, color: DOMC.ac, dy: 16 }, { x: 900, y: a900.Lp, label: `${a900.Lp.toFixed(2)}`, color: DOMC.ac }], vlines: [{ x: a30.fs, label: "f_s" }, { x: f1, label: "ka = 1" }], regions: [{ from: 10, to: Math.min(a30.fs, 9000), color: DOMC.me, label: "spring" }, { from: Math.min(a30.fs * 2, 9000), to: Math.min(f1, 10000), color: DOMC.ac, label: "mass: flat" }] });
+    ro({ fs: `${a30.fs.toFixed(1)} Hz · ${a30.Qt.toFixed(2)}`, rel: `${a30.Rel.toFixed(1)} N·s/m`, flat: `${LP(a30.pflat).toFixed(2)} dB (${a30.pflat.toFixed(3)} Pa)`, l30: `${a30.Lp.toFixed(2)} dB`, l300: `${a300.Lp.toFixed(2)} dB · ${(a300.Q * 1e3).toFixed(3)}×10⁻³ m³/s`, l900: `${a900.Lp.toFixed(2)} dB · ${(a900.Q * 1e3).toFixed(3)}×10⁻³ m³/s`, x: `${(a30.x * 1e3).toFixed(2)} mm · ${(a300.x * 1e3).toFixed(3)} mm`, ka: `${hz(f1)} · ${fnull ? hz(fnull) : "θ = 0: none"}` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 3: Bl = 8 Tm, R_e = 5 Ω, a = 6 cm, M = 20 g, 2.8 V rms, 2 m in a baffle. With K = 2000 N/m and R_t = 18 N·s/m (3.2): <b>67.49 dB at 30 Hz, 80.96 dB at 300 Hz</b>, f_s = 50.3 Hz. Press "mass only" (3.1): both 300 Hz and 900 Hz give <b>81.65 dB</b>, with Q = 1.344 and 0.448 ×10⁻³ m³/s. A third of the volume velocity at three times the frequency gives the same pressure. Below f_s the curve falls 12 dB/octave; drop R_t to 2 to see the resonance peak, and see how much of the 18 is electrical (12.8). Set θ = 30° or 60°: above ka ≈ 1.6/sin θ the off-axis curve falls away from the on-axis one, which is what page 12 shows for an 8.5 cm cone. Above ka ≈ 1 the real cone also breaks up, so the piston model is only a guide there.</p>`;
+}
+
+function benchSpace8() {
+  const b = bench("bench-space8", "One SPL reading: free space or a baffle", "lecture 8 · problems 1, 2 · page 5"); if (!b) return;
+  const st = { L0: LP(0.1 / Math.SQRT2), r0: 1, r: 0.75, half: false };
+  const cL = slider(b.ctl, { label: "measured L_p", min: 40, max: 120, step: 0.01, value: st.L0, unit: "dB", dom: "el", fmt: v => v.toFixed(2), onchange: v => { st.L0 = v; upd(); } });
+  const c0 = slider(b.ctl, { label: "measured at r₀", min: 0.1, max: 10, step: 0.05, value: st.r0, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.r0 = v; upd(); } });
+  const cr = slider(b.ctl, { label: "wanted at r", min: 0.1, max: 10, step: 0.05, value: st.r, unit: "m", fmt: v => v.toFixed(2), onchange: v => { st.r = v; upd(); } });
+  const chips = h("div", { class: "chips" });
+  const set = (L0, r0, r, half) => { Object.assign(st, { L0, r0, r, half }); cL.set(L0); c0.set(r0); cr.set(r); $$(".chip", chips).forEach((x, i) => x.classList.toggle("on", (i === 0) === !half)); upd(); };
+  chips.append(h("button", { type: "button", class: "chip on", onclick: () => set(LP(0.1 / Math.SQRT2), 1, 0.75, false) }, "P1: free space (4π)"), h("button", { type: "button", class: "chip", onclick: () => set(78, 2.5, 1, true) }, "P2: infinite baffle (2π)"));
+  b.ctl.append(chips);
+  const ro = readouts(b.ctl, [{ id: "Lp", label: "L_p at r", dom: "el" }, { id: "LI", label: "L_I at r (I = p²/ρc)", dom: "ac" }, { id: "W", label: "sound power W", dom: "ac" }, { id: "LW", label: "L_W re 1 pW", dom: "ac" }, { id: "alt", label: "L_W with the other spreading law" }]);
+  const plot = new Plot(b.plot, { h: 280, xmin: 0.1, xmax: 10, ymin: 40, ymax: 120, xlabel: "distance r (m)", ylabel: "level (dB)", xfmt: v => Number(v.toPrecision(2)) + " m", yfmt: v => v.toFixed(0), xticks: [0.1, 0.2, 0.5, 1, 2, 5, 10].map(v => ({ v, l: String(v) })) });
+  const rs = logspace(0.1, 10, 200);
+  function upd() {
+    const a = space8(st.L0, st.r0, st.r, st.half), o = space8(st.L0, st.r0, st.r, !st.half);
+    plot.set({ series: [{ name: "L_p (−6 dB per doubling of r)", color: DOMC.el, pts: rs.map(r => [r, space8(st.L0, st.r0, r, st.half).Lp]) }, { name: "L_W (independent of r)", color: DOMC.ac, pts: [[0.1, a.LW], [10, a.LW]] }], markers: [{ x: st.r0, y: st.L0, label: "reading", color: DOMC.el, dy: 16 }, { x: st.r, y: a.Lp, label: `${a.Lp.toFixed(2)} dB`, color: DOMC.el }] });
+    ro({ Lp: `${a.Lp.toFixed(2)} dB`, LI: `${a.LI.toFixed(2)} dB`, W: a.W < 0.01 ? `${(a.W * 1e3).toFixed(4)} mW` : `${a.W.toFixed(4)} W`, LW: `${a.LW.toFixed(2)} dB (${st.half ? "2πr²" : "4πr²"})`, alt: `${o.LW.toFixed(2)} dB (${st.half ? "+" : "−"}3.01 dB)` });
+  }
+  upd();
+  b.note.innerHTML = `<p>P1: a 0.1 Pa amplitude at 1 m is 0.0707 Pa rms, 70.97 dB. At 0.75 m: <b>73.47 dB, L_I 73.34 dB</b>, and through a sphere <b>W = 0.153 mW, L_W 81.84 dB</b>. P2 (chip): 78 dB at 2.5 m in a baffle gives <b>85.96 dB and 85.83 dB at 1 m</b>, and through a hemisphere <b>2.41 mW, 93.82 dB</b>. L_I sits 0.13 dB under L_p because ρc = 411.6, not 400. The last readout shows the 3 dB you lose or gain by picking the wrong spreading law.</p>`;
+}
+
+function benchHeadphone8() {
+  const b = bench("bench-headphone8", "A headphone on the head, then in free space", "lecture 8 · problem 4 · page 31"); if (!b) return;
+  const st = { V: 50, L: 100, f: 100, r: 0.5 };
+  for (const [key, label, min, max, step, unit, dom] of [["V", "sealed volume <b>V</b>", 1, 200, 1, "cm³", "ac"], ["L", "level inside the cup", 60, 120, 1, "dB", "el"], ["f", "frequency <b>f</b>", 20, 1000, 1, "Hz", "el"], ["r", "free-field distance <b>r</b>", 0.1, 3, 0.05, "m", ""]]) slider(b.ctl, { label, min, max, step, value: st[key], unit, dom, fmt: v => String(v), onchange: v => { st[key] = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "CA", label: "C_A = V/ρc²", dom: "ac" }, { id: "Q", label: "Q = ωC_A·p_in", dom: "me" }, { id: "Lf", label: "free field L_p = ρωQ/4πr", dom: "el" }, { id: "drop", label: "p_free/p_in = k²V/4πr" }, { id: "ka", label: "ka (40 mm driver)" }]);
+  const plot = new Plot(b.plot, { h: 280, xmin: 20, xmax: 1000, ymin: -20, ymax: 120, xlabel: "frequency (Hz)", ylabel: "SPL (dB)", yfmt: v => v.toFixed(0) });
+  const fs = logspace(20, 1000, 200);
+  function upd() {
+    const g = (f) => headphone8(st.V * 1e-6, st.L, f, st.r, 0.04), a = g(st.f);
+    plot.set({ series: [{ name: "inside the sealed cup (held at the set level)", color: DOMC.el, pts: [[20, st.L], [1000, st.L]] }, { name: "same Q radiated into free space", color: DOMC.ac, pts: fs.map(f => [f, g(f).Lf]) }], markers: [{ x: st.f, y: a.Lf, label: `${a.Lf.toFixed(2)} dB`, color: DOMC.ac }] });
+    ro({ CA: `${sci(a.CA)} m⁵/N`, Q: `${sci(a.Q)} m³/s`, Lf: `${a.Lf.toFixed(2)} dB`, drop: `${a.drop.toFixed(2)} dB`, ka: a.ka.toFixed(3) });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values are Problem 4: 100 dB in 50 cm³ at 100 Hz needs only Q = 4.45×10⁻⁷ m³/s. The same Q in free space at 0.5 m gives <b>8.53 dB</b> (the sheet's 8.55 is c rounding), 91.5 dB down. In the cup, pressure follows volume <i>displacement</i> (p = Q/jωC_A). In free space it follows volume <i>acceleration</i>, so for the same in-cup level the outside rises 12 dB per octave. A stiffness-controlled diaphragm below its resonance has constant displacement, and that is why a sealed headphone has flat bass. Halve the volume and the same driver gives 6 dB more inside.</p>`;
+}
+document.addEventListener('DOMContentLoaded', () => { benchDriver8(); benchSpace8(); benchHeadphone8(); renderMath(); });

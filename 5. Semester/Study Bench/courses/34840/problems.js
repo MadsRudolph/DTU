@@ -368,6 +368,57 @@ window.PROBLEMS["7"] = [
   }
 ];
 
+const DER8 = `<p class="small"><i>Derived; official solutions not out yet. The result matches the answer printed on the sheet (ρ = 1.2, c = 343, rms values).</i></p>`;
+window.PROBLEMS["8"] = [
+  {
+    id: "1", title: "Problem 1 — Small Bluetooth speaker in free space", tag: "73.46 dB · 73.34 dB · 0.153 mW · 81.83 dB",
+    given: R5`<p>A small Bluetooth speaker (largest dimension under 6 cm) plays in free space below 100 Hz. It gives a sound pressure <b>amplitude</b> of 0.1 Pa at 1 m. Find the sound pressure level and the sound intensity level at 0.75 m, the radiated power and the sound power level.</p>`,
+    hint: R5`<p><span class="m">ka\ll1</span> and no baffle: a monopole, spherical spreading through <span class="m">4\pi r^2</span>. Convert the amplitude to rms first. For a monopole <span class="m">I=p_{\rm rms}^2/\rho c</span> holds at every distance.</p>`,
+    sol: DER8 + R5`<div class="M">p_{\rm rms}(0.75)=\frac{0.1/\sqrt2}{0.75}=0.0943\ \mathrm{Pa}\Rightarrow L_p=\boxed{73.47\ \mathrm{dB}}</div>
+<div class="M">I=\frac{0.0943^2}{411.6}=2.16\times10^{-5}\ \mathrm{W/m^2}\Rightarrow L_I=\boxed{73.34\ \mathrm{dB}}</div>
+<div class="M">W=4\pi\cdot1^2\cdot\frac{0.0707^2}{411.6}=\boxed{1.527\times10^{-4}\ \mathrm W},\qquad L_W=\boxed{81.84\ \mathrm{dB}}</div>`,
+    bench: "#bench-space8", benchLabel: "P1 chip"
+  },
+  {
+    id: "2", title: "Problem 2 — Speaker in an infinite baffle", tag: "85.96 dB · 85.83 dB · 2.4 mW · 93.82 dB",
+    given: R5`<p>A speaker of radius 5 cm in an infinite baffle, driven at 50 Hz, gives 78 dB SPL at 2.5 m. Find the SPL and the intensity level at 1 m, the total radiated power and the power level.</p>`,
+    hint: R5`<p><span class="m">ka=0.046</span>: a monopole on a rigid plane. Still <span class="m">1/r</span>, but the power flows through a <b>hemisphere</b>, <span class="m">2\pi r^2</span>.</p>`,
+    sol: DER8 + R5`<div class="M">L_p(1)=78+20\log_{10}2.5=\boxed{85.96\ \mathrm{dB}},\qquad p=0.397\ \mathrm{Pa}</div>
+<div class="M">I=\frac{0.397^2}{411.6}=3.83\times10^{-4}\Rightarrow L_I=\boxed{85.83\ \mathrm{dB}}</div>
+<div class="M">W=2\pi\cdot1^2\cdot I=\boxed{2.41\times10^{-3}\ \mathrm W},\qquad L_W=\boxed{93.82\ \mathrm{dB}}</div>
+<p>With <span class="m">4\pi r^2</span> by mistake: 4.8 mW, 3 dB too much.</p>`,
+    bench: "#bench-space8", benchLabel: "P2 chip"
+  },
+  {
+    id: "3.1", title: "Problem 3.1 — Mass-controlled driver: volume velocity and SPL", tag: "1.34e-3 · 0.448e-3 m³/s · 81.65 dB at both",
+    given: R5`<p>A loudspeaker in an infinite baffle: <span class="m">Bl=8</span> Tm, <span class="m">R_e=5\ \Omega</span>, <span class="m">a=6</span> cm, <span class="m">M=20</span> g, driven with 2.8 V rms. It is a piston below 1 kHz; ignore the suspension. Find the volume velocity at 300 Hz and 900 Hz and the SPL at 2 m for both.</p>`,
+    hint: R5`<p>Chain: <span class="m">i=e/R_e</span>, <span class="m">F=Bl\,i</span>, <span class="m">U=F/j\omega M</span>, <span class="m">Q=SU</span>, then <span class="m">p=\rho\omega Q/2\pi r</span>. Watch what happens to <span class="m">\omega</span>.</p>`,
+    sol: DER8 + R5`<div class="M">S=\pi a^2=0.01131\ \mathrm{m^2},\qquad Q=\frac{S\,Bl\,e}{\omega R_eM}:\ Q_{300}=\boxed{1.344\times10^{-3}},\ Q_{900}=\boxed{0.448\times10^{-3}}\ \mathrm{m^3/s}</div>
+<div class="M">p=\frac{\rho\omega Q}{2\pi r}=\frac{\rho\,S\,Bl\,e}{2\pi rR_eM}=\frac{1.2\cdot0.2533}{2\pi\cdot2\cdot5\cdot0.02}=0.242\ \mathrm{Pa}\Rightarrow\boxed{81.65\ \mathrm{dB}}\ \text{at both}</div>
+<p>The frequency cancels. That is the flat, mass-controlled band.</p>`,
+    bench: "#bench-driver8", benchLabel: "“mass only” chip"
+  },
+  {
+    id: "3.2", title: "Problem 3.2 — Add the suspension and the damping", tag: "67.49 dB · 80.96 dB",
+    given: R5`<p>Same driver, now with suspension stiffness <span class="m">K=2000</span> N/m and total damping <span class="m">R_t=18</span> Ns/m. Find the SPL at 2 m at 30 Hz and 300 Hz.</p>`,
+    hint: R5`<p><span class="m">Z_M=R_t+j(\omega M-K/\omega)</span>. Compare <span class="m">\omega M</span> and <span class="m">K/\omega</span> at each frequency first: which one wins?</p>`,
+    sol: DER8 + R5`<div class="M">f_s=\frac1{2\pi}\sqrt{K/M}=50.3\ \mathrm{Hz},\qquad |p|=\frac{\rho\omega}{2\pi r}\,\frac{S\,Bl\,e}{R_e|Z_M|}</div>
+<div class="M">30\ \mathrm{Hz}:\ Z_M=18-6.84j,\ |Z_M|=19.26\Rightarrow p=0.0474\ \mathrm{Pa}=\boxed{67.49\ \mathrm{dB}}</div>
+<div class="M">300\ \mathrm{Hz}:\ Z_M=18+36.64j,\ |Z_M|=40.82\Rightarrow p=0.2234\ \mathrm{Pa}=\boxed{80.96\ \mathrm{dB}}</div>
+<p>At 300 Hz only 0.7 dB under 3.1; at 30 Hz the spring wins and the output is 14 dB down. <span class="m">(Bl)^2/R_e=12.8</span> of the 18 Ns/m is electrical damping; <span class="m">Q_t=\sqrt{KM}/R_t=0.35</span>.</p>`,
+    bench: "#bench-driver8", benchLabel: "start values"
+  },
+  {
+    id: "4", title: "Problem 4 — The headphone taken off", tag: "8.55 dB SPL",
+    given: R5`<p>A headphone driven at 100 Hz gives a uniform 100 dB inside the cup + ear canal, 50 cm³ in total, perfectly sealed, with no sound escaping from the back. The driver is 40 mm in diameter. Find the SPL at 0.5 m when the headphone is taken off and plays into free space.</p>`,
+    hint: R5`<p>On the head the load is a pure compliance: <span class="m">p=Q/(j\omega C_A)</span>, <span class="m">C_A=V/\rho c^2</span>. That gives <span class="m">Q</span>. Off the head, keep the same <span class="m">Q</span> and treat it as a small monopole in free space.</p>`,
+    sol: DER8 + R5`<div class="M">C_A=\frac{50\times10^{-6}}{1.2\cdot343^2}=3.54\times10^{-10}\ \mathrm{m^5/N},\qquad Q=\omega C_A\cdot2\ \mathrm{Pa}=4.45\times10^{-7}\ \mathrm{m^3/s}</div>
+<div class="M">p=\frac{\rho\omega Q}{4\pi r}=5.34\times10^{-5}\ \mathrm{Pa}\Rightarrow\boxed{8.53\ \mathrm{dB}}</div>
+<p>In one line, <span class="m">p_{\rm free}/p_{\rm in}=k^2V/(4\pi r)</span>: −91.5 dB, with ρ cancelling. The sheet's 8.55 corresponds to c ≈ 342.6. The 40 mm only confirms <span class="m">ka=0.037\ll1</span>.</p>`,
+    bench: "#bench-headphone8", benchLabel: "start values"
+  }
+];
+
 function renderProblems() {
   for (const [lec, list] of Object.entries(window.PROBLEMS || {})) {
     const root = document.getElementById(`problems-${lec}`);

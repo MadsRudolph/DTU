@@ -180,6 +180,38 @@ QUIZZES["7"] = [
   }
 ];
 
+QUIZZES["8"] = [
+  {
+    "q": "Above its resonance a baffled woofer is mass controlled. If you double the frequency at the same voltage, the cone's volume velocity…",
+    "a": ["doubles", "stays the same", "halves, and the far-field pressure stays the same", "halves, and the pressure drops 6 dB"],
+    "c": 2,
+    "why": "U = F/(jωM) falls as 1/f, but the far-field pressure goes as ωQ (volume acceleration). The ω cancels: p = ρS·Bl·e/(2πr·Re·M). That is why the response is flat. Problem 3.1 gives 81.65 dB at 300 and 900 Hz."
+  },
+  {
+    "q": "Below the resonance f_s, the far-field response of a driver in an infinite baffle falls by…",
+    "a": ["6 dB per octave", "12 dB per octave", "18 dB per octave", "24 dB per octave"],
+    "c": 1,
+    "why": "Stiffness control: U = F·jω/K, so the acceleration goes as ω², a second-order high-pass. 24 dB/octave is the vented box below its tuning, where port and cone cancel."
+  },
+  {
+    "q": "The total damping R_t in Problem 3.2 is 18 Ns/m with Bl = 8 Tm and Re = 5 Ω. How much of it comes from the amplifier and coil (electrical damping)?",
+    "a": ["none", "1.6 Ns/m", "12.8 Ns/m", "64 Ns/m"],
+    "c": 2,
+    "why": "The moving coil generates a back-EMF Bl·U that drives a current through Re, braking the cone like a resistance (Bl)²/Re = 64/5 = 12.8 Ns/m. In hi-fi drivers this electrical part dominates the mechanical losses."
+  },
+  {
+    "q": "A sealed headphone keeps flat bass well below its driver resonance because…",
+    "a": ["the ear canal resonates at low frequencies", "cavity pressure follows displacement, and a stiffness-controlled diaphragm has constant displacement", "the driver is mass controlled at low frequency", "the headphone is a dipole"],
+    "c": 1,
+    "why": "In a small sealed volume p = Q/(jωC_A) = (volume displacement)/C_A. Below resonance x = F/K is constant, so p is flat. A leak in the seal breaks this, and the bass is the first thing to go."
+  },
+  {
+    "q": "A 17 cm cone (a = 8.5 cm) is listened to 30° off axis. Roughly where does the piston model put it 3 dB below on-axis?",
+    "a": ["200 Hz", "640 Hz", "2.1 kHz", "6 kHz"],
+    "c": 2,
+    "why": "−3 dB at ka·sinθ = 1.62: f = 1.62·343/(2π·0.085·0.5) ≈ 2.1 kHz. At 10° it is 6 kHz, at 60° 1.2 kHz. The beaming is one reason two-way systems cross over to a tweeter around 2–3 kHz."
+  }
+];
 QUIZZES["LAB"] = [
   {
     "q": "In the lab room (4.38 × 3.13 × 3.29 m), which comes second: the width mode (0,1,0) or the height mode (0,0,1)?",
