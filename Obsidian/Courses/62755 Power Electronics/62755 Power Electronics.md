@@ -48,7 +48,7 @@ tags: [PE, PowerElectronics, home]
 | 2   | Diode and diode circuits | `Lecture 2 Power diodes.pdf`                            | **A1**     |           |      |
 | 3   | Diode rectifier (held Mon 21-Sep) — [[Lecture 3 - Diode Rectifiers (pre-read)\|pre-read]] | new deck `_Learn/Lecture 3 Diode Rectifier/Diodes Rectifiers.pdf` + `Assignment 2.pdf` (old: `Lecture 3 Diode Rectifier.pdf`) | **A2**     | **Lab 2** |      |
 | 4   | Power transistors        | `Lecture 4 Power Transistors.pdf`                       |            |           |      |
-| 5   | DC/DC converters         | `Lecture 5 DC-DC Converters.pdf`                        |            | **Lab 3** |      |
+| 5   | DC/DC converters (held Mon 26-Oct) — [[Lecture 5 - DC-DC Converters\|note]] | new deck `_Learn/Lecture 5 DC-DC Converters/DCConverters.pdf` + `DCconverters.zip` + `Assignment 3.pdf` (old: `Lecture 5 DC-DC Converters.pdf`) | **A3** | **Lab 3** |      |
 | 6   | DC/DC converters         | `Lecture 5 DC-DC Converters.pdf`                        | **A3**     | **Lab 4** |      |
 | 7   | Inverters                | `Lecture 6 Inverters.pdf`                               |            | **Lab 5** |      |
 | 8   | Inverters                | `Lecture 6 Inverters.pdf`                               |            |           |      |

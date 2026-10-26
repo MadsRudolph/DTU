@@ -17,6 +17,9 @@ travels over Syncthing.
 | `Problems5_CondenserMicrophone` | Problems 5: f0, Q, sensitivity, circuit with and without T(s), optimisation | `Problems 5-6 - Condenser Microphone/` |
 | `Problems6_Metrology_Calibration` | Problems 6: GUM uncertainty, LTspice ±10 % runs, pistonphone and calibrator | `Problems 5-6 - Condenser Microphone/` |
 | `Lecture7_Loudspeakers_Problems7` | Problems 7: T-S parameters, 315 SWR, efficiency, excursion, lossy L_E | `Problems 7 - Loudspeaker/` |
+| `Lecture10_AdvancedTopics_MixedModels` | Lecture 10 (no problem sheet): the deck's own examples. Ear-drum impedance (slide 2), five-layer wall by LEM / LEM+TMM / full TMM (slides 4–9) with mass-law and resonance checks, 1-D Bragg and local-resonator dispersion (slide 18) | `Lecture 10 - Mixed Models/` (`p10.py`) |
+| `LabD_Loudspeakers1_Study` | Lab D on our own data: impedance of the three units, Appendix B T-S parameters, V_AS, vented box, near field, room modes. Reads `../Labs/Lab D/data/` | — |
+| `LabE_Loudspeakers2_Study` | Lab E on our own data: baffle step, circle diffraction + `diffrac.m`, IEC directivity vs a piston, System D levels, phase compensation and relative phase. Reads `../Labs/Lab E/data/` | — |
 
 Each LTspice folder has a Python generator (`pN.py`) that writes the `.asc`
 files; `--verify` runs LTspice headless and checks it against the hand

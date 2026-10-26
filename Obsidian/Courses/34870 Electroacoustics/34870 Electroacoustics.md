@@ -81,18 +81,18 @@ tags: [Electroacoustics, Audio, home]
 | Th 8/10 | Loudspeaker systems — **project intro** *(VCH)* | 7.20 | 10.1–10.6 | |
 | | 🍂 *Autumn break* | | | |
 | Mo 19/10 | Project work · **Labs D/E** | — | — | |
-| Th 22/10 | Radiation, acoustic environment, speakers · **Nonlinear circuit models** *(FA)* | 13.7, 8.2 | 2.13 | |
-| Mo 26/10 | Advanced topics in electroacoustics: projects and courses | — | — | |
-| Th 29/10 | Guest lecture TBD · Project Q&A *(VCH)* | — | — | |
-| Mo 2/11 | Guest lecture TBD | — | — | |
-| Th 5/11 | Guest lecture TBD · Project Q&A *(VCH)* | — | — | |
-| Mo 9/11 | Guest lecture TBD | — | — | |
-| Th 12/11 | Guest lecture TBD · Project Q&A *(VCH)* | — | — | |
-| Mo 16/11 | Guest lecture TBD | — | — | |
-| Th 19/11 | Guest lecture TBD · Project Q&A *(VCH)* | — | — | |
-| Mo 23/11 | Guest lecture TBD | — | — | |
-| Th 26/11 | **Exam Q&A + evaluation** | — | — | |
-| Mo 30/11 | ⏰ **Project quiz deadline** | — | — | |
+| Th 22/10 | ~~Radiation … nonlinear circuit models (FA)~~ → moved to Mo 2/11; replaced by **Lab B/C feedback + Q&A** *(VCH, 10:00)* | — | — | |
+| Mo 26/10 | **Lecture 10 — Advanced topics** (mixed models, metamaterials) *(FL, ~2 h)* — [[Lecture 10 - Advanced Topics - Mixed Models & Metamaterials\|note]] · ⏰ **Lab D/E quiz due** | — | — | |
+| Th 29/10 | Project Q&A *(VCH)* | — | — | |
+| Mo 2/11 | **Lecture 11 — Radiation, acoustic environment, µ-speakers / Nonlinear circuit models** *(FA, 13:00, postponed from 22/10)* | 13.7, 8.2 | 2.13 | |
+| Th 5/11 | Guest: **Peter Risby Andersen (GN Jabra)** 9:30 · Project Q&A *(VCH)* | — | — | |
+| Mo 9/11 | Guest: **Pierangelo Libianchi (WS Audiology)** 13:00 · Project work · ⏰ Project quiz part 1 due 8/11 | — | — | |
+| Th 12/11 | Project Q&A *(VCH)* | — | — | |
+| Mo 16/11 | **Company visit: Purifi** | — | — | |
+| Th 19/11 | Guest: **Toni Torras Rosell (DPA mics)** 9:15 · Project Q&A *(VCH)* | — | — | |
+| Mo 23/11 | Guest: **Peter H. Weis (Demant)** 13:00 · Project Q&A *(VCH)* | — | — | |
+| Th 26/11 | **Exam Q&A + evaluation** · guest lecture Bang & Olufsen | — | — | |
+| Mo 30/11 | Project Q&A *(VCH)* · ⏰ **Project quiz part 2 deadline** | — | — | |
 | Th 3/12 | **Project presentations and demonstrations** | — | — | |
 | **9–10/12** | 🎓 **ORAL EXAM (E2-A/B)** | — | — | |
 
