@@ -117,7 +117,7 @@ links to where the file actually lives in the vault.*
 
 ## Loudspeaker project
 
-- [[Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026.pdf|Project Guide]]
+- [[Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026 (2).pdf|Project Guide]]
 - [[Courses/34870 Electroacoustics/Project/Passive_Filters_And_Measurement_Data_in_LTspice.zip|Passive Filters and Measurement Data in LTspice]]
 - [[Courses/34870 Electroacoustics/Project/Digital_Filters_to_MiniDSP_&_LTspice.zip|Digital Filters to MiniDSP & LTspice]]
 - [[Courses/34870 Electroacoustics/Project/Project woofers datasheets.pdf|Project woofers datasheets]]

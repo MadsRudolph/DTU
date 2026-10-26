@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-10-26 — Lecture 8 - Loudspeakers
+
+Tomorrow I will give a introduction lecture to loudspeakers.
+I've uploaded a video lecture as well in two parts: 
+34840_Lecture8_part1.mp4 :  First part of the lecture
+31200_Lecture8_part2+MH.mp4 : Lecture recording from a few years ago. Contains both the last part of the slides and a guest lecture from Morten Halvorsen who works in Purifi (www.purifi-audio.com) who make some of the best speakers in the world in terms of linearity.
+Unfortunately Morten could not give the guest lecture this year, but if you are interested in learning a bit more about what he is working on in Purifi its worth checking out.
+Finn
+
 ## 2026-10-19 — Lecture 7. Sound absorbers
 
 Dear all

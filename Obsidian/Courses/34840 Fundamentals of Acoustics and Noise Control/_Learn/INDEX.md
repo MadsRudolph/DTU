@@ -75,3 +75,9 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/7 - sound absorbers/34840-Sound Absorber 2026.pdf|34840-Sound Absorber 2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_soundabsorbers7.pdf|34840_Problems_soundabsorbers7]]
+
+## 8 - Loudspeakers
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture8_2026.pdf|34840_Lecture8_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture8_2026.pptx|34840_Lecture8_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_8.pdf|34840_Problems_8]]

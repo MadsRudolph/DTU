@@ -1,7 +1,7 @@
 {
   "announcements": {
     "34654": "189841",
-    "34840": "190085",
+    "34840": "190639",
     "34870": "190535",
     "62755": "190531"
   },
@@ -842,10 +842,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/Passive_Filters_And_Measurement_Data_in_LTspice.zip"
     },
     "1285755": {
-      "revision": "2026-10-01T15:49:07.390Z",
-      "sha256": "e9e2b5ac2c37f8b3a91ebd23defc6e9299054e6312581108e875777137597e09",
-      "synced_at": "2026-10-08T10:06:22+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026.pdf"
+      "revision": "2026-10-26T12:57:08.200Z",
+      "sha256": "08315abcd7bed6570e8c9f893c87cfdda030a4b49da75147fa04762508eb75a7",
+      "synced_at": "2026-10-26T14:04:04+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Project/34870_Project_Guide_2026 (2).pdf"
     },
     "1289831": {
       "revision": "2026-10-09T08:48:46.673Z",
@@ -996,6 +996,24 @@
       "sha256": "b5dfb988f59fa07e5b7763f8c8863bd48b494be64ddbf1c50c8ad857c3f727ca",
       "synced_at": "2026-10-24T19:03:02+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Labs/test_phaseunwrap.zip"
+    },
+    "1294853": {
+      "revision": "2026-10-26T13:37:12.893Z",
+      "sha256": "111edf7deb04d7c7bc4f70daa10ae254d09c88cd73e4182b432467f7347b1423",
+      "synced_at": "2026-10-26T14:03:46+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture8_2026.pdf"
+    },
+    "1294854": {
+      "revision": "2026-10-26T13:37:15.320Z",
+      "sha256": "96491cbf484f36e4e189c9ec10e7b8c575bda6ffc3a2376f88701ce08a7ebc85",
+      "synced_at": "2026-10-26T14:03:58+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture8_2026.pptx"
+    },
+    "1294855": {
+      "revision": "2026-10-26T13:37:15.950Z",
+      "sha256": "3244c33e4823dc46c488545b6616728b9e732c138f9f3549d80d8d6aa7300ad3",
+      "synced_at": "2026-10-26T14:03:58+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_8.pdf"
     }
   }
 }
