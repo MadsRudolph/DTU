@@ -64,12 +64,12 @@ function diagMap() {
   root.innerHTML = svgWrap(980, 250, [
     // spine
     `<path d="M40 125 H955" stroke="var(--rule-2)" stroke-width="2"/>`,
-    ...[[50, "0", "The rules", "why circuits", "lecture 0"], [147, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [244, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [341, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [438, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [535, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [632, "6", "Calibration", "scattering · GUM", "lecture 6"], [729, "7", "Loudspeakers", "T-S · η · excursion", "lecture 7"], [826, "8", "Enclosures", "closed · bass reflex", "lecture 8"], [923, "9", "Systems", "crossovers · LR", "lecture 9"]].map(([x, n, t, s, e], i) => `
+    ...[[50, "0", "The rules", "why circuits", "lecture 0"], [147, "1", "Analogies", "R · L · C in three worlds", "lecture 1"], [244, "2", "Mechanical", "mass, spring, damper", "lecture 2"], [341, "3", "Acoustic", "tube = mass, box = spring", "lecture 3"], [438, "4", "Transducers", "Bl and S join the worlds", "lecture 4"], [535, "5", "Microphones", "band-pass · low-pass · polar", "lecture 5"], [632, "6", "Calibration", "scattering · GUM", "lecture 6"], [729, "7", "Loudspeakers", "T-S · η · excursion", "lecture 7"], [826, "8", "Enclosures", "closed · bass reflex", "lecture 8"], [923, "9", "Systems", "crossovers · LR", "lecture 9"], [0, "10", "Mixed models", "LEM · TMM · FEM", "lecture 10"]].map(([x0, n, t, s, e], i) => { const x = 50 + i * 87; return `
       <circle cx="${x}" cy="125" r="20" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
       <text x="${x}" y="130" text-anchor="middle" font-family="var(--font-mono)" font-size="14" fill="var(--ink)">${n}</text>
-      <text x="${x}" y="${i % 2 ? 74 : 178}" text-anchor="middle" font-family="var(--font-display)" font-size="18" font-weight="600" fill="var(--ink)">${t}</text>
+      <text x="${x}" y="${i % 2 ? 74 : 178}" text-anchor="middle" font-family="var(--font-display)" font-size="16.5" font-weight="600" fill="var(--ink)">${t}</text>
       <text x="${x}" y="${i % 2 ? 94 : 198}" text-anchor="middle" font-family="var(--font-body)" font-size="12.5" fill="var(--ink-2)">${s}</text>
-      <line x1="${x}" y1="${i % 2 ? 100 : 150}" x2="${x}" y2="${i % 2 ? 105 : 145}" stroke="var(--rule-2)"/>`),
+      <line x1="${x}" y1="${i % 2 ? 100 : 150}" x2="${x}" y2="${i % 2 ? 105 : 145}" stroke="var(--rule-2)"/>`; }),
     // domain bands
     `<rect x="150" y="222" width="290" height="6" rx="3" fill="var(--el)"/><rect x="290" y="222" width="360" height="6" rx="3" fill="var(--me)" opacity="0.9"/><rect x="440" y="222" width="480" height="6" rx="3" fill="var(--ac)" opacity="0.85"/>`,
     `<text x="160" y="244" font-family="var(--font-mono)" font-size="11" fill="var(--el)">electrical</text><text x="420" y="244" font-family="var(--font-mono)" font-size="11" fill="var(--me)">mechanical</text><text x="720" y="244" font-family="var(--font-mono)" font-size="11" fill="var(--ac)">acoustical</text>`,

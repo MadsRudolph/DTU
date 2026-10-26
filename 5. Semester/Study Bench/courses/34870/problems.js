@@ -385,6 +385,73 @@ window.PROBLEMS = {
       bench: "#bench-ventbox", benchLabel: "vented-box bench, move f_B",
     },
   ],
+  "LEM": [
+    {
+      id: "LEM · 1", title: "Size a bottle", tag: "C_A 7.16×10⁻⁹ m⁵/N · M_A 188 kg/m⁴ · 137 Hz (121 Hz corrected)",
+      given: `A 1 L bottle has a neck 5 cm long with radius 1 cm. ρ = 1.18 kg/m³, c = 344 m/s. a) Find the acoustic compliance of the cavity and the acoustic mass of the neck (no end correction). b) Find the resonance. c) Repeat with end corrections 0.85a (inner, flanged) + 0.61a (outer).`,
+      hint: `Cavity: <span class="m">C_A = V/(\\rho c^2)</span>. Neck: <span class="m">M_A = \\rho l/S</span>. They form a series L–C in the impedance analogy.`,
+      sol: `<p><b>a)</b> <span class="m">C_A = 10^{-3}/(1.18\\cdot 344^2) = 7.16\\cdot10^{-9}</span> m⁵/N. <span class="m">S = \\pi(0.01)^2 = 3.14\\cdot10^{-4}</span> m², <span class="m">M_A = 1.18\\cdot0.05/3.14\\cdot10^{-4} = 188</span> kg/m⁴.</p><p><b>b)</b> <span class="m">f_0 = 1/(2\\pi\\sqrt{M_AC_A}) = 137</span> Hz.</p><p><b>c)</b> l* = 5 + 0.85 + 0.61 = 6.46 cm → M<sub>A</sub> = 243 kg/m⁴ → <b>121 Hz</b>. A short neck is a big fraction end correction. λ at 121 Hz is 2.8 m, so the bottle (≈ 10 cm) is well below λ/10: the lumped model is allowed.</p>`,
+      bench: "#bench-helmholtz", benchLabel: "Helmholtz bottle bench (lecture 3), l = 5, a = 1, V = 1",
+    },
+    {
+      id: "LEM · 2", title: "Draw it both ways: the hanging mass", tag: "mobility: 3 elements in parallel · impedance: series RLC",
+      given: `A mass M hangs from the ceiling on a spring k, with a damper R between the mass and the ceiling. A force f acts on the mass. Draw the mobility and the impedance circuit and write the velocity u.`,
+      hint: `How many different velocities? The ceiling is ground. What does each element connect?`,
+      sol: `<p>One velocity (the mass's), ceiling = ground. Mobility: node u, and between u and ground the mass (capacitor M), the spring (inductor C<sub>M</sub> = 1/k) and the damper (resistor 1/R), all in parallel, fed by a current source f. Impedance analogy (dual): one loop: voltage source f in series with L = M, C = 1/k and R.</p><p><span class="m">u = \\frac{f}{j\\omega M + \\frac{k}{j\\omega} + R}</span>, resonance <span class="m">f_0 = \\frac{1}{2\\pi}\\sqrt{k/M}</span>. Gravity only sets the static sag; it does not enter the AC circuit.</p>`,
+      bench: "#bench-recipe", benchLabel: "sketch → circuit, mass on a spring",
+    },
+    {
+      id: "LEM · 3", title: "Springs end to end", tag: "C = C₁ + C₂ · imp.: C's in parallel · mob.: L's in series",
+      given: `Two springs, k₁ = 2000 N/m and k₂ = 500 N/m, are hooked end to end between a wall and a mass. Find the total compliance, and say how the two springs appear in each analogy.`,
+      hint: `What do the two springs share: force or velocity?`,
+      sol: `<p>They carry the <b>same force</b> and their deflections add → compliances add: <span class="m">C = 1/2000 + 1/500 = 2.5</span> mm/N (k = 400 N/m, softer than either spring).</p><p>Impedance analogy: same force = same voltage → the capacitors are in <b>parallel</b> (C₁ + C₂, as capacitors in parallel add). Mobility analogy: same force = same current → inductors in <b>series</b> (L₁ + L₂ = C₁ + C₂). Mobility looks like the sketch; impedance looks opposite. Same answer both ways.</p>`,
+      bench: "#bench-recipe", benchLabel: "compare with the shaker table's spring ∥ damper",
+    },
+    {
+      id: "LEM · 4", title: "Read the curve back to values", tag: "series RLC · C = 79.6 µF · L = 7.96 mH · R = 2 Ω",
+      given: `An electrical |Z| falls at −20 dB/decade with |Z| = 100 Ω at 20 Hz, dips to 2 Ω at 200 Hz and rises at +20 dB/decade above. Name the network and find its values.`,
+      hint: `Low end: which element dominates? The dip value is what is left when the reactances cancel.`,
+      sol: `<p>Spring slope → mass slope with a dip: <b>series R-L-C</b>. Low end: <span class="m">|Z| \\approx 1/(\\omega C)</span> → <span class="m">C = 1/(2\\pi\\cdot20\\cdot100) = 79.6</span> µF. Resonance: <span class="m">L = 1/(\\omega_0^2C) = 7.96</span> mH. At the dip only R is left: <b>R = 2 Ω</b>. Q = √(L/C)/R = 5.0.</p>`,
+      bench: "#bench-zread", benchLabel: "impedance reader, electrical, series RLC",
+    },
+    {
+      id: "LEM · 5", title: "The 315 SWR seen from its terminals", tag: "box 0.080 mm/N · 10.7 mH · (Bl)²/R_MS = 41.4 Ω · |Z|max 46.9 Ω",
+      given: `The 315 SWR (Problems 7): Bl = 11.6 T·m, S_D = 519 cm², M_MD = 74.6 g, C_MS = 0.55 mm/N, R_MS = 3.25 Ns/m, R_e = 5.46 Ω. a) What is a 30 L box at the cone, and at the terminals? b) What do mass, suspension and damping become at the terminals? c) The height of the impedance peak in free air.`,
+      hint: `Transformer: <span class="m">C_M = C_A/S^2</span>. Gyrator: <span class="m">Z_E = (Bl)^2/Z_M</span>.`,
+      sol: `<p><b>a)</b> <span class="m">C_A = V/\\rho c^2 = 2.15\\cdot10^{-7}</span> m⁵/N → <span class="m">C_M = C_A/S^2 = 0.080</span> mm/N (7× stiffer than the suspension) → inductor <span class="m">(Bl)^2C_M = 10.7</span> mH.</p><p><b>b)</b> Mass → capacitor <span class="m">M/(Bl)^2 = 0.554</span> mF; suspension → inductor <span class="m">(Bl)^2C_{MS} = 74.0</span> mH; damping → resistor <span class="m">(Bl)^2/R_{MS} = 41.4</span> Ω, all in parallel.</p><p><b>c)</b> At resonance the tank is just its resistor: <span class="m">|Z|_{max} = R_e + 41.4 = 46.9</span> Ω.</p>`,
+      bench: "#bench-cross", benchLabel: "transducer-crossing bench, try each element",
+    },
+    {
+      id: "LEM · 6", title: "How far does lumped go?", tag: "tube 1.15 kHz · insulation 1.7 kHz · air gap 3.4 kHz",
+      given: `Using λ/10, estimate the highest frequency at which these can be lumped: a 3 cm air tube (c = 344), 3 cm of insulation (c = 500 m/s), a 1 cm air gap (c = 343). What happens above?`,
+      hint: `f = c/(10·l).`,
+      sol: `<p>Tube 344/0.3 = <b>1.15 kHz</b>, insulation 500/0.3 = <b>1.7 kHz</b>, air gap 343/0.1 = <b>3.4 kHz</b>. Above that, waves fit inside the part: the tube's impedance departs from ωM<sub>A</sub> and peaks at λ/4; the layers get thickness resonances at c/2l (8.3 kHz for the insulation, 17 kHz for the gap). That is exactly where the lecture-10 wall's lumped model fails, and why the fix is to make those two layers transmission lines.</p>`,
+      bench: "#bench-wall", benchLabel: "five-layer wall, LEM vs TMM",
+    },
+  ],
+  "10": [
+    {
+      id: "Slide 2", title: "The lumped ear drum", tag: "1191 Hz, Q 1.39 · 3502 Hz, Q 0.70 · 1.99×10⁹ at 20 Hz · 0.56 cm³",
+      given: `Two series R-L-C branches in parallel (acoustic): R₁ = 50.6 MΩ, C₁ = 1.9 pF, L₁ = 9400 H; R₂ = 31.1 MΩ, C₂ = 2.1 pF, L₂ = 983.8 H. Find the branch resonances and Q, |Z| at 20 Hz, and the equivalent air volume at low frequency.`,
+      hint: `<span class="m">f_i = 1/(2\\pi\\sqrt{L_iC_i})</span>, <span class="m">Q_i = \\sqrt{L_i/C_i}/R_i</span>. At low f both branches are capacitors, and capacitors in parallel add.`,
+      sol: `<p><span class="m">f_1 = 1191</span> Hz, <span class="m">Q_1 = 1.39</span>; <span class="m">f_2 = 3502</span> Hz, <span class="m">Q_2 = 0.70</span>: broad, shallow dips. At 20 Hz <span class="m">|Z| \\approx 1/(\\omega(C_1+C_2)) = 1.99\\cdot10^9</span> Pa·s/m³. Equivalent volume <span class="m">V = (C_1+C_2)\\rho c^2 = 0.56</span> cm³. Below 1 kHz the drum is a spring; above 3.5 kHz mass-controlled.</p>`,
+      bench: "#bench-eardrum", benchLabel: "ear-drum bench",
+    },
+    {
+      id: "Slides 4–6", title: "Five-layer wall: lumped values and the mass law", tag: "m'' 123 kg/m² · −31.5 dB at 20 Hz · 189 Hz · 2723 Hz (2378 corrected)",
+      given: `Drywall 1 cm (600 kg/m³, 6000 m/s) | insulation 3 cm (200, 500) | brick 5 cm (2000, 3600) | air 1 cm (1.2, 343) | wood 2 cm (550, 4000). Normal incidence, air behind (ρ₀c₀ = 411.6 Pa·s/m). a) The lumped elements. b) The transmission at 20 Hz. c) The first two resonances by hand.`,
+      hint: `Stiff layers: mass ρl per m². Soft layers: compliance l/(ρc²). A compliance between two masses resonates at <span class="m">\\frac{1}{2\\pi}\\sqrt{\\frac{1}{C}\\left(\\frac{1}{M_a}+\\frac{1}{M_b}\\right)}</span>.`,
+      sol: `<p><b>a)</b> M₁ = 6, M₃ = 100, M₅ = 11 kg/m²; C₂ = 6.0·10⁻¹⁰, C₄ = 7.08·10⁻⁸ m/Pa.</p><p><b>b)</b> Mass law: <span class="m">|p_{out}/p_{in}| \\approx \\rho_0c_0/(\\omega m'')</span> with m'' = 123 kg/m² → <b>−31.5 dB</b> (LEM −31.0 because it leaves out the insulation's mass, TMM −31.4).</p><p><b>c)</b> The soft air gap between (drywall + brick) and wood: <b>189 Hz</b>, same in all three models. The stiff insulation between drywall and (brick + wood): <b>2723 Hz</b> (LEM 2731, TMM 2393). Add a third of the insulation's 6 kg/m² to the drywall: <b>2378 Hz</b>. Above that the TMM shows the insulation's thickness resonances (≈ 9.1 and 17.1 kHz) that no lumped model can.</p>`,
+      bench: "#bench-wall", benchLabel: "five-layer wall bench",
+    },
+    {
+      id: "Slide 18", title: "Locally resonant chain: where is the gap?", tag: "μ = 1, ω_R = 0.5ω₀ → gap 0.484 … 0.707 ω₀ (Bragg would be 2ω₀)",
+      given: `A chain of masses m (springs k, period d) carries in each cell a resonator m_R on k_R. Take μ = m_R/m = 1 and ω_R = 0.5 ω₀ (illustrative; the slide gives no numbers). Find the band gap.`,
+      hint: `Write W = (ω/ω₀)², a = 2(1 − cos kd): <span class="m">W^2/\\Omega_R^2 - W(1+\\mu+a/\\Omega_R^2) + a = 0</span>. Top of the lower branch at kd = π, bottom of the upper branch at k = 0.`,
+      sol: `<p>kd = π → a = 4: <span class="m">4W^2 - 18W + 4 = 0</span> → W = 0.234 → <b>ω = 0.484 ω₀</b>. k = 0 → a = 0: <span class="m">W = \\Omega_R^2(1+\\mu) = 0.5</span> → <b>ω = 0.707 ω₀</b>. The gap (37 % relative width) sits around ω<sub>R</sub>, far below the Bragg limit 2ω₀: a sub-wavelength gap. It exists because <span class="m">m_{eff}/m = 1 + \\mu/(1-\\omega^2/\\omega_R^2)</span> is negative there.</p>`,
+      bench: "#bench-meta", benchLabel: "band-gap bench",
+    },
+  ],
 };
 
 /* ---------- renderer ---------- */
@@ -393,7 +460,7 @@ function renderProblems() {
     const root = document.getElementById(`problems-${lec}`);
     if (!root) continue;
     root.classList.add("problems");
-    root.append(h("h3", {}, h("span", { class: "eyebrow" }, `Problems · ${/^\d+$/.test(lec) ? "lecture" : "lab"} ${lec}`), "Problems and solutions"));
+    root.append(h("h3", {}, h("span", { class: "eyebrow" }, `Problems · ${/^\d+$/.test(lec) ? "lecture " + lec : lec === "LEM" ? "crash course" : "lab " + lec}`), "Problems and solutions"));
     root.append(h("p", { class: "small" }, "Open a problem, try it, then open the hint before the solution. Answers in the header are the official ones."));
     for (const p of list) {
       const body = h("div", { class: "pbody" });

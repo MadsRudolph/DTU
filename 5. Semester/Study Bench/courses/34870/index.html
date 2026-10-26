@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Analogy Bench</title>
-<meta name="description" content="34870 Electroacoustics, lectures 0–8 and Labs A–E, explained visually: play with the circuits instead of reading about them.">
+<meta name="description" content="34870 Electroacoustics, lectures 0–10 and Labs A–E, explained visually: play with the circuits instead of reading about them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,600;9..144,700,0..100&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–8 · problems · Labs A–E</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–10 · problems · Labs A–E</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -31,6 +31,8 @@
     <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Moving-coil loudspeakers<span class="sub">T-S parameters, η, excursion</span></span></a></li>
     <li><a href="#l8" data-quiz="8"><span class="n">L8</span><span>Loudspeaker enclosures<span class="sub">closed box, bass reflex</span></span></a></li>
     <li><a href="#l9" data-quiz="9"><span class="n">L9</span><span>Loudspeaker systems<span class="sub">crossovers, LR, project</span></span></a></li>
+    <li><a href="#lumped" data-quiz="LEM"><span class="n">LEM</span><span>Lumped elements, crash course<span class="sub">sketch → circuit → curve</span></span></a></li>
+    <li><a href="#l10" data-quiz="10"><span class="n">L10</span><span>Mixed models &amp; metamaterials<span class="sub">LEM · TMM · FEM · band gaps</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
@@ -683,6 +685,167 @@
   <div id="quiz-9"></div>
 </section>
 
+<!-- ============================== Crash course: lumped elements ============================== -->
+<section class="lecture" id="lumped">
+  <div class="lec-head">
+    <div class="eyebrow">Crash course · before lecture 10 · lectures 1–4 in one pass</div>
+    <h2>Lumped elements, from the ground up</h2>
+    <div class="meta">the method behind every circuit in the course · Beranek ch. 3 · Leach ch. 2–4 · slides 34870_Lecture1–4</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>If a part is small compared with the wavelength it moves as one piece, and then it can only be one of three things: a <b>mass</b>, a <b>spring</b> or a <b>loss</b>. Drawing the circuit is just bookkeeping of which parts share a <b>velocity</b> and which share a <b>force</b>.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Step 0</span>Two variables per domain, and their ratio</h3>
+    <p>Every domain has one quantity you measure <b>between</b> two points (the <i>across</i> variable) and one you measure <b>through</b> a point (the <i>through</i> variable). Their product is power. The ratio across/through at one frequency is the <b>impedance</b>, and that is the only thing a lumped element is: a rule for that ratio.</p>
+    <div class="table-wrap"><table>
+      <tr><th></th><th>across (push)</th><th>through (flow)</th><th>power</th><th>impedance and its unit</th></tr>
+      <tr><td class="el">electrical</td><td>voltage v [V]</td><td>current i [A]</td><td>v·i</td><td><span class="m">Z_E = v/i</span> [Ω]</td></tr>
+      <tr><td class="me">mechanical</td><td>force f [N]</td><td>velocity u [m/s]</td><td>f·u</td><td><span class="m">Z_M = f/u</span> [N·s/m] (mechanical ohm)</td></tr>
+      <tr><td class="ac">acoustical</td><td>pressure p [Pa]</td><td>volume velocity U = S·u [m³/s]</td><td>p·U</td><td><span class="m">Z_A = p/U</span> [Pa·s/m³] (acoustic ohm)</td></tr>
+    </table></div>
+    <p class="small">Mechanics is the odd one out: physically, velocity is measured <em>across</em> a spring (the difference between its two ends) and force goes <em>through</em> it. That is why there are two analogies for mechanics, and only one in common use for acoustics.</p>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The three elements</span>What each one is, how big it is, and what it does to the curve</h3>
+    <div class="tri">
+      <div class="dom el"><h4>Mass-like (jω) <span class="u">stores motion</span></h4><div class="eq"><span class="m">\text{across} = j\omega K\cdot\text{through}</span></div><p><b>Mechanical:</b> a mass, <span class="m">M_M = \rho V</span> [kg]. <b>Acoustical:</b> the air plug in a short open tube, <span class="m">M_A = \rho l^*/S</span> [kg/m⁴], l* = length + end corrections. <b>Electrical:</b> an inductor. |Z| rises <b>+20 dB/decade</b>, phase +90°. Impedance analogy: inductor.</p></div>
+      <div class="dom ac"><h4>Spring-like (1/jω) <span class="u">stores squeeze</span></h4><div class="eq"><span class="m">\text{across} = \dfrac{\text{through}}{j\omega K}</span></div><p><b>Mechanical:</b> a spring's compliance, <span class="m">C_M = 1/k</span> [m/N]. <b>Acoustical:</b> a closed volume of air, <span class="m">C_A = V/(\rho c^2)</span> [m⁵/N], always to ground. <b>Electrical:</b> a capacitor. |Z| falls <b>−20 dB/decade</b>, phase −90°.</p></div>
+      <div class="dom me"><h4>Loss (real) <span class="u">burns energy</span></h4><div class="eq"><span class="m">\text{across} = K\cdot\text{through}</span></div><p><b>Mechanical:</b> a damper R<sub>M</sub> [N·s/m] (in mobility drawn as <b>1/R<sub>M</sub></b>). <b>Acoustical:</b> felt, cloth, a narrow slit, R<sub>A</sub> [Pa·s/m³]. <b>Electrical:</b> a resistor. Flat |Z|, phase 0°. It sets how <b>sharp</b> a resonance is, never <b>where</b> it is.</p></div>
+    </div>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">why mass ↔ inductor (impedance analogy)</span><div class="M">f = M_M\frac{du}{dt} \;\leftrightarrow\; v = L\frac{di}{dt}</div><p>Same equation, so the same element. Spring: <span class="m">f = \frac{1}{C_M}\int u\,dt \leftrightarrow v = \frac{1}{C}\int i\,dt</span>.</p></div>
+      <div class="fcard"><span class="eyebrow">one resonance, every domain</span><div class="M">f_0 = \frac{1}{2\pi\sqrt{M C}}, \qquad Q = \frac{1}{R}\sqrt{\frac{M}{C}}</div><p>M is whichever element is jω, C whichever is 1/jω, in matching units.</p></div>
+      <div class="fcard"><span class="eyebrow">the Helmholtz bottle as one line</span><div class="M">f_0 = \frac{c}{2\pi}\sqrt{\frac{S}{l^* V}}</div><p>ρ cancels: geometry and c only. 1 L bottle, neck 5 cm × Ø 2 cm: 137 Hz bare, 121 Hz with end corrections.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-recipe"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The two topology rules</span>All you need to place the elements</h3>
+    <div class="table-wrap"><table>
+      <tr><th>what the elements share</th><th>mobility analogy (u = voltage)</th><th>impedance analogy (f, p = voltage)</th><th>example</th></tr>
+      <tr><td>the <b>same velocity</b> (attached to the same body)</td><td>same node → <b>parallel</b></td><td>same loop current → <b>series</b></td><td>mass, spring top and damper top on one body</td></tr>
+      <tr><td>the <b>same force</b> (one pushes the next)</td><td>series</td><td><b>parallel</b></td><td>a spring and the mass it drives; two springs end to end</td></tr>
+      <tr><td>side by side between the same two bodies</td><td>parallel (looks like the sketch)</td><td><b>series</b> (looks opposite!)</td><td>a spring ∥ damper suspension</td></tr>
+      <tr><td>a mass</td><td colspan="2">always has one terminal at <b>ground</b>: Newton measures acceleration against the fixed world</td><td></td></tr>
+      <tr><td>a closed volume</td><td colspan="2">always a capacitor <b>to ground</b>: its pressure is measured against the atmosphere</td><td></td></tr>
+    </table></div>
+    <p>The mobility analogy keeps the <b>shape of the sketch</b> (that is why it is the course's default for mechanics); the impedance analogy keeps the <b>element types</b> (pressure = voltage, so acoustics is always drawn this way). They are duals: nodes ↔ loops, series ↔ parallel, L ↔ C, R ↔ 1/R, voltage source ↔ current source.</p>
+  </div>
+
+  <div id="bench-zread"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Crossing domains</span>Two constants join the three worlds</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">diaphragm: transformer, ratio S</span><div class="M">f = S\,p, \quad U = S\,u \;\Rightarrow\; Z_M = S^2 Z_A</div><p>Keeps the element type: a box stays a spring <span class="m">C_M = C_A/S^2</span>, an air load stays a mass <span class="m">M_M = S^2 M_A</span>.</p></div>
+      <div class="fcard"><span class="eyebrow">voice coil: gyrator, constant Bl</span><div class="M">f = Bl\,i, \quad v = Bl\,u \;\Rightarrow\; Z_E = \frac{(Bl)^2}{Z_M}</div><p>Flips the type: mass → C = M/(Bl)², compliance → L = (Bl)²C<sub>M</sub>, damper → R = (Bl)²/R<sub>M</sub>. Series resonance → parallel resonance: the impedance <b>peak</b>.</p></div>
+      <div class="fcard"><span class="eyebrow">in LTspice</span><div class="M">\text{E, F, G, H sources}</div><p>Each coupling is two controlled sources, one per direction. Lecture 4's bench picks the letter from the pair of variables.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-cross"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">When is it allowed?</span>The size rule, which is what lecture 10 is about</h3>
+    <p>A lumped element assumes every point of it moves (or is pressed) together. That holds while it is <b>smaller than about λ/10</b> in its own medium. Past that, waves fit inside it: a tube has standing waves, a layer has thickness resonances, a cone breaks up.</p>
+    <div class="table-wrap"><table>
+      <tr><th>part</th><th>size</th><th>wave speed</th><th>λ/10 reached at</th></tr>
+      <tr><td class="ac">air tube</td><td>3 cm long</td><td>344 m/s</td><td>1.15 kHz</td></tr>
+      <tr><td class="ac">air gap in a wall</td><td>1 cm</td><td>343 m/s</td><td>3.4 kHz</td></tr>
+      <tr><td class="me">mineral-wool insulation</td><td>3 cm</td><td>500 m/s</td><td>1.7 kHz</td></tr>
+      <tr><td class="me">brick</td><td>5 cm</td><td>3600 m/s</td><td>7.2 kHz (but first resonance c/2l = 36 kHz)</td></tr>
+    </table></div>
+    <p>Lecture 3's tube bench shows the break visually. Lecture 10 adds the cure: replace <i>only</i> the part that breaks by a transmission line or FEM, and keep the rest lumped.</p>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The six traps</span><ol>
+    <li><b>Stiffness is not compliance.</b> The circuit wants C<sub>M</sub> = 1/k. Springs end to end: compliances add.</li>
+    <li><b>A mobility damper is 1/R<sub>M</sub>.</b> Put R<sub>M</sub> in the resistor and the Q comes out inverted.</li>
+    <li><b>Check the analogy before reading a value.</b> A capacitor to ground is a mass in mobility, a volume in acoustics.</li>
+    <li><b>Physically side by side ≠ electrically parallel</b> in the impedance analogy. Ask "same velocity or same force?", never "does it look parallel?".</li>
+    <li><b>Ground every mass and every volume.</b> A floating mass in a circuit means you lost the fixed world.</li>
+    <li><b>A gyrator flips, a transformer scales.</b> The 30 L box is an <i>inductor</i> at the loudspeaker terminals.</li>
+  </ol></div>
+
+  <div class="callout real"><span class="eyebrow">Say it in 60 seconds (oral-exam version)</span><p>"A lumped element is a part much smaller than the wavelength, so it behaves as a single mass, compliance or resistance. I pick across and through variables, force and velocity, pressure and volume velocity, and every element relates them by jω, 1/jω or a constant. In the impedance analogy force is voltage, so a mass is an inductor and parts sharing a velocity are in series; in the mobility analogy velocity is voltage and the circuit keeps the shape of the mechanical sketch. Domains are joined by a transformer, the area S, and a gyrator, Bl, which turns the mechanical resonance into the electrical impedance peak. It is valid up to about λ/10; above that I need a transmission line or FEM for that part."</p></div>
+
+  <div id="problems-LEM"></div>
+  <div id="quiz-LEM"></div>
+</section>
+
+<!-- ============================== L10 ============================== -->
+<section class="lecture" id="l10">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 10 · Mon 26 Oct · FL · Advanced topics</div>
+    <h2>When lumped is not enough: mix the models</h2>
+    <div class="meta">deck 34870_AdvancedTopics_26102026 (26 slides) · no problem sheet: slides 2, 4–9 and 18 worked · p10.py (LTspice) · Lecture10_AdvancedTopics_MixedModels.m · written from the deck before the lecture</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Keep lumped whatever is small compared with its own wavelength, and give only the part that is not a transmission line (TMM) or FEM: <b>as complex as necessary, as simple as possible</b>. The same mass-spring thinking, made periodic, explains acoustic metamaterials.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Slide 2</span>The limits, and the first extension</h3>
+    <p>Lumped elements assume <b>dimensions ≪ λ</b> in every domain, <b>homogeneous</b> parts, and <b>ideal</b> behaviour (rigid bodies, sound-hard walls, no parasitics). A real boundary is not sound-hard: skin, an absorber, an ear drum. Describe it by a frequency-dependent <b>surface impedance</b> and use it to terminate the circuit.</p>
+  </div>
+
+  <div id="bench-eardrum"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Slide 3</span>Lumped, distributed, numerical</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">a uniform layer or tube, exactly (TMM)</span><div class="M">\begin{pmatrix}p_{in}\\ u_{in}\end{pmatrix} = \begin{pmatrix}\cos kl & jZ_0\sin kl\\ \frac{j}{Z_0}\sin kl & \cos kl\end{pmatrix}\begin{pmatrix}p_{out}\\ u_{out}\end{pmatrix}</div><p>Z<sub>0</sub> = ρc, k = ω/c. In LTspice: the lossless line <span class="mono">T</span> with T<sub>d</sub> = l/c.</p></div>
+      <div class="fcard"><span class="eyebrow">…and its lumped limit, kl ≪ 1</span><div class="M">\cos kl \approx 1,\quad \sin kl \approx kl</div><div class="M">\Rightarrow\; M = \rho l, \quad C = \frac{l}{\rho c^2}</div><p>Series mass plus shunt compliance. The lumped model <i>is</i> the first-order approximation of the line: a mass and a compliance.</p></div>
+      <div class="fcard"><span class="eyebrow">a chain of two-ports</span><div class="M">\frac{p_{out}}{p_{in}} = \frac{1}{A + B/R_{out}}, \quad \begin{pmatrix}1 & Z\\0 & 1\end{pmatrix}, \begin{pmatrix}1 & 0\\ Y & 1\end{pmatrix}</div><p>Multiply the layer matrices; series Z for a mass, shunt Y for a compliance.</p></div>
+      <div class="fcard"><span class="eyebrow">FEM, in one line</span><div class="M">(\mathbf K - \omega^2 \mathbf M)\,\mathbf p = \mathbf 0</div><p>Stiffness and mass matrices: the same mass-and-spring idea with 10⁵ degrees of freedom. BEM meshes only the surface (Lab B, Lab E's diffraction).</p></div>
+    </div>
+  </div>
+
+  <div id="bench-wall"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Slides 7–10</span>What the extra effort buys</h3>
+    <div class="table-wrap"><table>
+      <tr><th>model</th><th>size</th><th>run time</th><th>result for the wall</th></tr>
+      <tr><td>LEM (LTspice)</td><td>5 elements</td><td>&lt; 0.1 s</td><td>right to ≈ 1 kHz, misses the insulation modes</td></tr>
+      <tr><td>mixed LEM + TMM</td><td>3 masses + 2 lines</td><td>&lt; 0.1 s</td><td>= TMM within 0.08 dB below 2 kHz</td></tr>
+      <tr><td>1-D FEM</td><td>10⁵ DOF</td><td>9 s</td><td>= TMM</td></tr>
+      <tr><td>2-D FEM (acoustics + mechanics)</td><td>1510–1670 elements</td><td>0:18 – 1:05 min</td><td>= TMM</td></tr>
+      <tr><td>3-D FEM</td><td>8920–21 800 elements</td><td>2:55 – 21:28 min</td><td>= TMM</td></tr>
+    </table></div>
+    <div class="table-wrap"><table>
+      <tr><th>device</th><th>lumped</th><th>distributed (TMM)</th><th>numerical (FEM/BEM)</th></tr>
+      <tr><td>loudspeaker</td><td class="el">voice coil, magnet</td><td>—</td><td class="me">cone and suspension break-up (FEM), radiation and baffle diffraction (BEM)</td></tr>
+      <tr><td>in-ear device</td><td class="el">mics, receivers, ear drum</td><td class="ac">ear canal</td><td>the canal, if it is not a plain tube</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Slides 16–21</span>Acoustic metamaterials</h3>
+    <p>Periodic structures whose cells tune the <b>effective</b> density and bulk modulus. New physics: <b>band gaps</b> (no propagation at all) and <b>negative</b> effective properties (one negative: waves decay; both negative: negative refraction, lensing, cloaking).</p>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">Bragg: masses on a string</span><div class="M">\omega(k) = 2\omega_0\left|\sin\frac{kl}{2}\right|, \quad \omega_0^2 = \frac{T}{ml}</div><p>Group velocity <span class="m">\omega_0 l\cos(kl/2)</span> → 0 at kl = π; nothing propagates above 2ω₀. The gap needs cells ≈ λ/2.</p></div>
+      <div class="fcard"><span class="eyebrow">local resonance: a resonator in each cell</span><div class="M">2(1-\cos kd) = \left(\frac{\omega}{\omega_0}\right)^2\left(1 + \frac{m_R/m}{1-\omega^2/\omega_R^2}\right)</div><p>The bracket is m<sub>eff</sub>/m: negative just above ω<sub>R</sub>. The gap sits at the resonator, <b>sub-wavelength</b>.</p></div>
+      <div class="fcard"><span class="eyebrow">gap edges</span><div class="M">\omega_{top} = \omega_R\sqrt{1+\mu}, \quad \mu = \frac{m_R}{m}</div><p>Bottom: lower branch at kd = π. μ = 1, ω<sub>R</sub> = 0.5ω₀ → 0.484 … 0.707 ω₀.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-meta"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>"A layer must be ≪ λ to be lumped" is the rule of thumb, but what really decides is the layer's <b>own first resonance</b>. The brick is 0.28 λ thick at 20 kHz and can still be a lumped mass, because its thickness resonance c/2l = 36 kHz is above the band. The soft insulation is the problem: it resonates at 8.3 kHz, and long before that its own mass (6 kg/m², as much as the drywall) shifts the 2nd peak from 2731 to 2393 Hz. Add a third of its mass to the drywall and the lumped formula gives 2378 Hz.</p></div>
+
+  <div class="callout real"><span class="eyebrow">Outlook and courses on offer (slides 11–14, 22–25)</span><ul>
+    <li><b>34848</b> Challenges in Acoustic Microsystems: 3 weeks in January, a hearing-aid industry case in COMSOL. Collides with 34871 in the study plan.</li>
+    <li><b>34865</b> Numerical Acoustics: spring, OpenBEM + MATLAB PDE (FEM), project + oral. Fits the 6th semester.</li>
+    <li>Special course on acoustic metamaterials (3–5 students, 5 ECTS) and four MSc topics with FL (3-D lattices, tunable Helmholtz absorbers, phoxonic crystals, metaporous insulators).</li>
+    <li>This section was written from the deck before the lecture: check it against what FL says.</li>
+  </ul></div>
+
+  <div id="problems-10"></div>
+  <div id="quiz-10"></div>
+</section>
+
 <!-- ============================== Lab A ============================== -->
 <section class="lecture" id="labA">
   <div class="lec-head">
@@ -1165,12 +1328,13 @@
       <li>Check which analogy a circuit is drawn in before reading a single value.</li>
       <li>A transducer is two controlled sources; the reaction must oppose the motion.</li>
       <li>A diaphragm scales impedances by S²; a voice coil inverts them by (Bl)².</li>
+      <li>Lump what is small against its own wavelength; give only the part that resonates inside a line (TMM) or FEM.</li>
     </ol>
   </div>
 </section>
 
 <footer>
-  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Lab D added 5 Oct 2026 (before the lab): the benches run the synthetic woofer of test_labD.m and reproduce its numbers, f<sub>S</sub> 39.99 Hz, Q<sub>MS</sub> 4.01, Q<sub>ES</sub> 0.452, f<sub>C</sub> 59.88 Hz, V<sub>AS</sub> 25.00 L, f<sub>B</sub> 43.3 / 33.5 / 28.3 Hz. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Lab D added 5 Oct 2026 (before the lab): the benches run the synthetic woofer of test_labD.m and reproduce its numbers, f<sub>S</sub> 39.99 Hz, Q<sub>MS</sub> 4.01, Q<sub>ES</sub> 0.452, f<sub>C</sub> 59.88 Hz, V<sub>AS</sub> 25.00 L, f<sub>B</sub> 43.3 / 33.5 / 28.3 Hz. Lumped-element crash course and lecture 10 added 26 Oct 2026: ear drum 1191 / 3502 Hz and 1.99×10⁹ Pa·s/m³ at 20 Hz, five-layer wall −31.4 dB at 20 Hz, 189 Hz, 2731 Hz (LEM) vs 2393 Hz (TMM), local-resonance gap 0.484–0.707 ω₀, identical to p10.py and the MATLAB script. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>
@@ -1178,6 +1342,7 @@
 <script src="quiz.js"></script>
 <script src="diagrams.js"></script>
 <script src="benches.js"></script>
+<script src="l10.js"></script>
 <script src="labB_data.js"></script>
 <script src="labB_measured.js"></script>
 <script src="labC_measured.js"></script>
