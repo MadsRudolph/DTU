@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-10-27 — Next lecture on 'Hearing: Frequency selectivity and masking' (Tuesday, 3. November)
+
+Dear all, 
+Next Tuesday, I will be giving the first of two lectures on hearing as part of our Fundamentals course. The lecture will cover frequency selectivity and masking, followed directly by a problem-solving session. 
+The problem set will be uploaded shortly, and the lecture slides will be uploaded on Tuesday morning. 
+I look forward to seeing you on Tuesday. We will start promptly at 08:00. 
+Best,Torsten
+
 ## 2026-10-27 — Last call for siging up for the lab exercise
 
 Dear all
