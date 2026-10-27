@@ -1,7 +1,7 @@
 {
   "announcements": {
     "34654": "189841",
-    "34840": "190639",
+    "34840": "190715",
     "34870": "190535",
     "62755": "190531"
   },
@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-10-21T18:58:24.843Z",
-      "sha256": "0db73f89a297cbadc432f787f104821767681751f5416d95a5f4e71f4dcd423b",
-      "synced_at": "2026-10-21T19:07:28+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
+      "revision": "2026-10-27T10:17:37.370Z",
+      "sha256": "0f2eb17105db24b580d629be83652dc0d69459b05a5ba83542df477e1bc24613",
+      "synced_at": "2026-10-27T11:11:20+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
@@ -1014,6 +1014,12 @@
       "sha256": "3244c33e4823dc46c488545b6616728b9e732c138f9f3549d80d8d6aa7300ad3",
       "synced_at": "2026-10-26T14:03:58+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_8.pdf"
+    },
+    "1295339": {
+      "revision": "2026-10-27T10:55:48.017Z",
+      "sha256": "6ac828d299dab735393d0ec3bb1b817dc5f4eb31f9f4706fb9bd5e0b710e7893",
+      "synced_at": "2026-10-27T11:11:14+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions8_2026.pdf"
     }
   }
 }

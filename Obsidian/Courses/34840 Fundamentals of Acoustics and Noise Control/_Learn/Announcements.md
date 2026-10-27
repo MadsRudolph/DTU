@@ -1,5 +1,15 @@
 # Announcements
 
+## 2026-10-27 — Last call for siging up for the lab exercise
+
+Dear all
+Almost everybody has signed up for the lab exercise.
+if you havent done so yet (and didnt  participate in previous years) now is you last chance to sign up as it is a mandatory element and a requirement participate and submit a report to attend the exam.
+There are a few timeslot available tomorrow as well as next monday, if the remaining timeslots are conflicting with other courses then please contact Stefan asap (stgra@dtu.dk)
+br
+
+finn
+
 ## 2026-10-26 — Lecture 8 - Loudspeakers
 
 Tomorrow I will give a introduction lecture to loudspeakers.
