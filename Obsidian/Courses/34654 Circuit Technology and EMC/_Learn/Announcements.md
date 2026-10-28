@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-10-28 — Würth EMC workshop tonight - cancelled
+
+Dear all,
+🙅‍♂️ The Würth EMC workshop tonight is cancelled due to illness of the instructor. We'll let you know, if a new date for it comes up.
+All good
+Arnold
+
 ## 2026-10-13 — Wurth EMC workshop at DTU - again.
 
 Dear students,For those of you who missed it last time, or those that just want to go through it again, Würth is offering their EMC workshop again.
