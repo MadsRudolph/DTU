@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-10-27 — Labs available for the Loudspeaker Project - Important remarks
+
+Dear all,
+The lab facilities are now available for booking: Loudspeaker project lab schedule. Follow the rules in the spreadsheet.
+Important:
+
+You will need an explanation of the new equipment added to the labs. Book me the first time you use the labs for your project, for a quick update.
+Other than that, you are allowed to get to the labs on your own. If the doors are locked and we are not around, ask any of the teachers, PhDs or technicians to unlock for you.
+Lab quizzes: Loudspeaker project (part 1/2) and Loudspeaker project (part 2/2).
+
+Best regards,
+Vicente
+
 ## 2026-10-25 — Lectures on Monday 26-Oct and 2-Nov
 
 Dear all,
