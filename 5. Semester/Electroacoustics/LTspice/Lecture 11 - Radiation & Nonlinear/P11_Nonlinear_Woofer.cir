@@ -1,0 +1,22 @@
+* Lecture 11: nonlinear lumped loudspeaker (26W/8534G00, Lab D fit), written by p11.py
+* state variables as node voltages: V(psi) = flux linkage Le(x)*i, V(u) = velocity, V(x) = displacement
+.param RE=5.7 LE0=0.0015 BL0=8.28 MMS=0.04425096526250454 K0=851.7887563884158 RMS=0.61
+.param XOFF=0.0005 B2=6097.560975609756 K1=13.333333333333334 K2=9259.259259259257 L1=-33.333333333333336 Vpk=10 f0=20
+.func Bl(x) {BL0/(1+B2*(x-XOFF)**2)}
+.func Kms(x) {K0*(1+K1*x+K2*x**2)}
+.func Le(x) {LE0*(1+L1*x)}
+Vg  in 0 SINE(0 {Vpk} {f0})
+* electrical loop: d(psi)/dt = v_g - R_E i - Bl(x) u, i = psi/Le(x)
+Bpsi 0 psi I=V(in) - RE*V(psi)/Le(V(x)) - Bl(V(x))*V(u)
+Cpsi psi 0 1
+* mechanics: M_MS du/dt = Bl(x) i - R_MS u - K(x) x
+Bu   0 u  I=Bl(V(x))*V(psi)/Le(V(x)) - RMS*V(u) - Kms(V(x))*V(x)
+Cu   u 0  {MMS}
+* dx/dt = u
+Bx   0 x  I=V(u)
+Cx   x 0  1
+.ic V(psi)=0 V(u)=0 V(x)=0
+.tran 0 {2.5} {2.0} {2.44140625e-05} uic
+.save V(x) V(u)
+.options plotwinsize=0 numdgt=15 reltol=1e-6
+.end
