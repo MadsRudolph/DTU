@@ -452,6 +452,50 @@ window.PROBLEMS = {
       bench: "#bench-meta", benchLabel: "band-gap bench",
     },
   ],
+  "11": [
+    {
+      id: "11 · 1", title: "Why does the woofer beam?", tag: "pre-read (p11.py) · ka = 1 at 517 Hz · null at 90° above 1983 Hz · ±50/±35/±22°",
+      given: `The System D woofer has S<sub>D</sub> = 350 cm² (a = 105.5 mm), c = 343.2 m/s. a) At which frequency is ka = 1? b) Above which frequency is there a null at 90°? c) The −6 dB beamwidth at 1.5, 2 and 3 kHz. d) The level at 30° at 3 kHz, against Lab E's measured −15.6 dB.`,
+      hint: `<span class="m">p(\\theta)/p(0) = 2J_1(v)/v</span>, <span class="m">v = ka\\sin\\theta</span>. The first zero of J₁ is at v = 3.832. −6 dB means 2J₁(v)/v = 0.5, which happens at v ≈ 2.2.`,
+      sol: `<p><b>a)</b> <span class="m">f = c/(2\\pi a) = 343.2/(2\\pi\\cdot0.1055) = 517</span> Hz: the circumference equals the wavelength (66 cm). <b>b)</b> <span class="m">3.832 \\cdot 517 = 1983</span> Hz. <b>c)</b> ka = 2.90, 3.86, 5.80 → sin θ = 2.2/ka → <b>±50°, ±35°, ±22°</b>; at 1 kHz (ka 1.93) the level never falls 6 dB (−4.4 dB at 90°). <b>d)</b> ka sin 30° = 2.90 → <b>−11.7 dB</b>; the measurement is a few dB lower because a real cone is not a flat rigid piston. The project crosses at 325 Hz (ka = 0.63), so the woofer never works where it beams.</p>`,
+      bench: "#bench-piston", benchLabel: "piston directivity bench",
+    },
+    {
+      id: "11 · 2", title: "The air mass on the woofer", tag: "pre-read · M_A1 3.08 kg/m⁴ · 3.78 g per face · M_MS 44.3 g",
+      given: `Same woofer. a) The low-frequency radiation mass M<sub>A1</sub> of one face. b) Its mechanical equivalent. c) In an infinite baffle both faces carry it: the Lab D fit has M<sub>MD</sub> = 36.7 g. What is M<sub>MS</sub>?`,
+      hint: `<span class="m">M_{A1} = 8\\rho/(3\\pi^2 a)</span>, and a mass moves from acoustic to mechanical with S²: <span class="m">M_M = S_D^2 M_A</span>.`,
+      sol: `<p><b>a)</b> <span class="m">M_{A1} = 8\\cdot1.204/(3\\pi^2\\cdot0.1055) = 3.08</span> kg/m⁴. <b>b)</b> <span class="m">0.035^2\\cdot3.08 = 3.78</span> g of air per face. <b>c)</b> <span class="m">M_{MS} = 36.7 + 2\\cdot3.78 = 44.3</span> g, so f<sub>s</sub> in a baffle is 22.1 Hz.</p>`,
+      bench: "#bench-piston", benchLabel: "readout 'air mass per face'",
+    },
+    {
+      id: "11 · 3", title: "Walls, box and room", tag: "pre-read · +6/+12/+18 dB SPL, +3/+6/+9 dB power · 243 Hz · r_c 0.80/1.13/1.60 m",
+      given: `a) A small source with constant volume velocity is moved from free field to a wall, wall + floor, and a corner. SPL and power change? Why does the power go up? b) The baffle step of the System D box (front 0.45 m wide). c) A room of 100 m³ with T₆₀ = 0.5 s: A and the critical distance for Q = 1, 2, 4.`,
+      hint: `<span class="m">p = j\\omega\\rho U/(\\Omega r)</span>, <span class="m">R_A = \\rho c k^2/\\Omega</span>. Sabine: A = 0.161V/T.`,
+      sol: `<p><b>a)</b> SPL <span class="m">20\\log(4\\pi/\\Omega)</span> = <b>+6, +12, +18 dB</b>; power <span class="m">10\\log(4\\pi/\\Omega)</span> = <b>+3, +6, +9 dB</b>. The image source doubles the radiation resistance, so at constant U twice the power goes into half the space (only while the source is within about λ/4 of the boundary). <b>b)</b> <span class="m">c/(\\pi W) = 343.2/(\\pi\\cdot0.45) = 243</span> Hz; Lab E measured the box 5.7 dB under the screens at 250–600 Hz. <b>c)</b> A = 0.161·100/0.5 = <b>32.2 m²</b>; <span class="m">r_c = \\sqrt{QA/16\\pi}</span> = <b>0.80, 1.13, 1.60 m</b>. Beyond r<sub>c</sub> the listener hears the power response.</p>`,
+      bench: "#bench-space11", benchLabel: "solid angle, baffle step, room",
+    },
+    {
+      id: "11 · 4", title: "Why a phone has no bass", tag: "pre-read (illustrative values) · 2.45 mm at 200 Hz · 0.098 mm at 1 kHz · f_c 1057 Hz · f₀ 4306 Hz",
+      given: `A micro-speaker with S<sub>D</sub> = 1.21 cm² lies on a table (2π) and must give 90 dB SPL at 10 cm. a) The peak excursion needed at 100, 200, 500 Hz and 1 kHz. b) f<sub>s</sub> = 800 Hz, M<sub>MS</sub> = 0.11 g, back volume 1 cm³: V<sub>AS</sub> and f<sub>c</sub>. c) Front cavity 0.10 cm³, sound hole r = 0.6 mm, l = 0.8 mm (end correction 1.7a): the Helmholtz frequency.`,
+      hint: `<span class="m">U = p\\cdot 2\\pi r/(\\rho\\omega)</span> (rms), <span class="m">x_{peak} = \\sqrt2\\,U/(\\omega S_D)</span>. <span class="m">f_c = f_s\\sqrt{1+V_{AS}/V_B}</span>. <span class="m">M_{AH} = \\rho(l+1.7a)/\\pi a^2</span>, <span class="m">C_{AF} = V_F/\\rho c^2</span>.`,
+      sol: `<p><b>a)</b> p = 0.632 Pa rms. x<sub>peak</sub> = <b>9.79 mm, 2.45 mm, 0.392 mm, 0.098 mm</b>: ∝ 1/f². Micro-speakers move about ±0.3–0.5 mm, so the unit is excursion-limited below about 500 Hz (and thermally limited above); hence the smart amplifier that models x(t). <b>b)</b> <span class="m">C_{MS} = 1/(\\omega_s^2 M_{MS})</span>, <span class="m">V_{AS} = \\rho c^2 C_{MS} S_D^2 = 0.74</span> cm³, α = 0.74, <b>f<sub>c</sub> = 1057 Hz</b>. <b>c)</b> M<sub>AH</sub> = 1938 kg/m⁴, C<sub>AF</sub> = 7.05·10⁻¹³ m⁵/N, <b>f₀ = 4306 Hz</b>, at the top of the wanted band.</p>`,
+      bench: "#bench-microspk", benchLabel: "micro-speaker bench",
+    },
+    {
+      id: "11 · 5", title: "Name the nonlinearities, and where they matter", tag: "pre-read · X_max (18 − 6)/2 = 6 mm · 1.71 mm/V · X_max at 3.5 V",
+      given: `a) Name three loudspeaker nonlinearities and the frequency range where each matters. b) The 26W/8534G00 has an 18 mm coil in a 6 mm gap. X<sub>max</sub>? Why overhung? c) Below f<sub>s</sub>, how far does the cone move per volt (Bl 8.28 T·m, C<sub>MS</sub> 1.174 mm/N, R<sub>E</sub> 5.7 Ω), and at what drive is X<sub>max</sub> reached? d) How do you simulate it?`,
+      hint: `Below f<sub>s</sub> the suspension rules: x = Bl·i·C<sub>MS</sub> with i ≈ V/R<sub>E</sub>.`,
+      sol: `<p><b>a)</b> Bl(x) at low f (large x); K<sub>MS</sub>(x) below f<sub>s</sub>; Le(x) as HF modulated by LF (plus the reluctance force); also Le(i), thermal R<sub>E</sub>(T) (compression) and Doppler. <b>b)</b> X<sub>max</sub> = (18 − 6)/2 = <b>6 mm</b>, the data sheet's "linear excursion ±6 mm". Overhung keeps Bl constant over ±X<sub>max</sub> at the price of copper outside the gap (less efficient). <b>c)</b> <span class="m">Bl\\,C_{MS}/R_E = 8.28\\cdot1.174\\cdot10^{-3}/5.7 = 1.71</span> mm/V → 6/1.71 = <b>3.5 V</b> peak. <b>d)</b> In time (.TRAN), parameters as functions of x, B-sources; one tone for harmonics, two tones for IMD.</p>`,
+      bench: "#bench-nonlin", benchLabel: "nonlinear woofer bench",
+    },
+    {
+      id: "11 · 6", title: "Harmonics, DC offset and IMD of the woofer model", tag: "pre-read (p11.py) · 20 Hz 10 V: 8.97 mm, H3 36.7 %, THD 37.3 % · 40 Hz 10 V: THD 3.66 % · IMD 14.3 / 4.4 %",
+      given: `With the assumed shapes (Bl 82 % at ±6 mm centred 0.5 mm outward, C<sub>MS</sub> 71 %/80 % at ±X<sub>max</sub>, Le 1.80/1.20 mH), simulate the woofer in a baffle. a) 10 V at 20 Hz: x<sub>peak</sub>, DC offset, H2, H3, THD of the cone acceleration. b) 10 V at 40 Hz and at 100 Hz. c) 10 V at 40 Hz plus 2 V at 1 kHz: the sidebands.`,
+      hint: `The state is (ψ = Le·i, u, x). RK4, 256 samples per period, settle 40 periods, analyse 10. Harmonics of the acceleration, because that is the far-field pressure.`,
+      sol: `<p><b>a)</b> x<sub>peak</sub> = <b>8.97 mm</b>, DC −0.16 mm, H2 5.65 %, <b>H3 36.7 %</b>, <b>THD 37.3 %</b>: the symmetric Bl drop gives mainly odd harmonics. <b>b)</b> 40 Hz: 4.05 mm, H2 2.78 %, H3 2.36 %, <b>THD 3.66 %</b>; 100 Hz: 0.83 mm, THD 0.72 %. Distortion is a large-excursion, low-frequency problem. <b>c)</b> f₂ ± f₁ = <b>14.3 %</b>, f₂ ± 2f₁ = <b>4.4 %</b> of the 1 kHz line: the 4 mm excursion drags Bl and Le at 40 Hz and modulates the 1 kHz tone, the argument for a two-way system. LTspice (B-source netlist) agrees with the Python model to 0.000 dB.</p>`,
+      bench: "#bench-nonlin", benchLabel: "nonlinear woofer bench",
+    },
+  ],
 };
 
 /* ---------- renderer ---------- */

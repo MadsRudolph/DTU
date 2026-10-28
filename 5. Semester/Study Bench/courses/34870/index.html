@@ -18,7 +18,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Analogy Bench</div>
-    <div class="brand-sub">34870 Electroacoustics · lectures 0–10 · problems · Labs A–E</div>
+    <div class="brand-sub">34870 Electroacoustics · lectures 0–11 · problems · Labs A–E</div>
   </div>
   <ul class="wire">
     <li><a href="#l0"><span class="n">L0</span><span>The rules of the game<span class="sub">what this course actually is</span></span></a></li>
@@ -33,6 +33,7 @@
     <li><a href="#l9" data-quiz="9"><span class="n">L9</span><span>Loudspeaker systems<span class="sub">crossovers, LR, project</span></span></a></li>
     <li><a href="#lumped" data-quiz="LEM"><span class="n">LEM</span><span>Lumped elements, crash course<span class="sub">sketch → circuit → curve</span></span></a></li>
     <li><a href="#l10" data-quiz="10"><span class="n">L10</span><span>Mixed models &amp; metamaterials<span class="sub">LEM · TMM · FEM · band gaps</span></span></a></li>
+    <li><a href="#l11" data-quiz="11"><span class="n">L11</span><span>Radiation &amp; nonlinear models<span class="sub">beaming · walls · µ-speakers · Bl(x) · pre-read</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
@@ -846,6 +847,94 @@
   <div id="quiz-10"></div>
 </section>
 
+<!-- ============================== L11 ============================== -->
+<section class="lecture" id="l11">
+  <div class="lec-head">
+    <div class="eyebrow">Lecture 11 · Mon 2 Nov · FA · pre-read, check against the lecture</div>
+    <h2>Big pistons, real rooms, small speakers, large signals</h2>
+    <div class="meta">Beranek &amp; Mellow 2019 §13.7 (radiation), §8.1–8.3 (cell-phone transducers), §6.18 (nonlinearity) · no slides or problem sheet yet · p11.py (Python + LTspice B-source netlist) · written before Finn's lecture: <b>pre-read, check against the lecture</b></div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>The linear lumped loudspeaker of lectures 7–9 assumed a <b>small</b> piston in <b>free</b> space driven by a <b>linear</b> circuit; above ka ≈ 1 it beams, walls and boxes change both level and power, and at large excursion Bl, K and Le depend on x, which turns one tone into harmonics, a DC offset and intermodulation.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Three assumptions removed, and where they meet</h3>
+    <div class="table-wrap"><table>
+      <tr><th>assumption so far</th><th>what breaks it</th><th>consequence</th><th>section</th></tr>
+      <tr><td>the piston is small</td><td class="ac">ka &gt; 1 (circumference &gt; λ)</td><td>beaming, nulls, messy near field; radiated power falls</td><td>§1</td></tr>
+      <tr><td>the space is free (4π)</td><td class="ac">walls, floor, the box front, the room</td><td>+6 dB per halving of Ω; baffle step at c/πW; critical distance</td><td>§2</td></tr>
+      <tr><td>the circuit is linear</td><td class="el">x comparable to X<sub>max</sub></td><td>Bl(x), K(x), Le(x): harmonics, DC offset, IMD</td><td>§4</td></tr>
+      <tr><td colspan="3">the <b>micro-speaker</b> meets all three: a tiny piston, a phone-sized environment, an excursion limit that sets the bass</td><td>§3</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§1 · Beranek 13.7</span>Radiation from a piston in an infinite baffle</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">radiation impedance (repeat from L3)</span><div class="M">Z_{AR} = \frac{\rho c}{\pi a^2}\left[1 - \frac{J_1(2ka)}{ka} + j\,\frac{H_1(2ka)}{ka}\right]</div><p>ka ≪ 1: a mass <span class="m">M_{A1} = 8\rho/3\pi^2a</span> = 3.08 kg/m⁴ for the woofer, 3.78 g of air per face. ka ≫ 1: a resistor ρc/S.</p></div>
+      <div class="fcard"><span class="eyebrow">directivity, far field</span><div class="M">\frac{p(\theta)}{p(0)} = \frac{2J_1(ka\sin\theta)}{ka\sin\theta}</div><p>ka = 1 at <span class="m">f = c/2\pi a</span>; first null where ka sin θ = 3.83.</p></div>
+      <div class="fcard"><span class="eyebrow">near field on the axis</span><div class="M">|p(r)| = 2\rho c u\left|\sin\!\left(\tfrac{k}{2}\left(\sqrt{r^2+a^2}-r\right)\right)\right|</div><p>Last axial maximum at <span class="m">r = (a^2-\lambda^2/4)/\lambda</span>; 1/r law beyond the Rayleigh distance <span class="m">\pi a^2/\lambda</span> (some texts use a²/λ).</p></div>
+    </div>
+  </div>
+
+  <div id="bench-piston"></div>
+
+  <div class="callout real"><span class="eyebrow">Why a mass-controlled driver is flat, and when it stops</span><p>Below ka ≈ 1 the radiation resistance grows as ω² while the cone velocity of a mass-controlled driver falls as 1/ω: the power |U|²R<sub>A</sub> is flat. Above ka ≈ 1 R<sub>A</sub> stops growing and the <b>power falls</b>; the on-axis pressure holds up for a while only because the sound is squeezed forward. That is the reason for the crossover: System D crosses woofer → mid at 325 Hz (ka = 0.63), well before the woofer beams. Lab E measured −15.6 dB at 30° above 3 kHz against the formula's −11.7 dB (a real cone is not a rigid flat piston).</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§2</span>The acoustic environment</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">small source into a solid angle Ω</span><div class="M">p = \frac{j\omega\rho\,U}{\Omega\,r},\quad R_A = \frac{\rho c k^2}{\Omega},\quad W = |U|^2R_A</div><p>2π: +6 dB SPL, +3 dB power. π: +12 / +6. π/2: +18 / +9.</p></div>
+      <div class="fcard"><span class="eyebrow">baffle step</span><div class="M">f_{step} \approx \frac{c}{\pi W}</div><p>System D, W = 0.45 m: 243 Hz. Below it the box disappears and the driver radiates into 4π (−6 dB).</p></div>
+      <div class="fcard"><span class="eyebrow">in a room</span><div class="M">L_p = L_W + 10\log\!\left(\frac{Q}{4\pi r^2} + \frac{4}{A}\right),\quad r_c = \sqrt{\frac{QA}{16\pi}}</div><p>V = 100 m³, T₆₀ = 0.5 s → A = 32.2 m², r<sub>c</sub> = 0.80 / 1.13 / 1.60 m for Q = 1 / 2 / 4.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-space11"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>"A wall folds the same power into half the space" gives only +3 dB. The real answer is +6 dB: the <b>image source</b> sits on top of the real one, so at constant U the source sees <b>double the radiation resistance</b> and delivers <b>double the power</b>, into half the space. That holds only while the source is closer than about λ/4 to the boundary; further away the image is a separate source and you get comb filtering instead.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§3 · Beranek ch. 8</span>Micro-speakers in phones</h3>
+    <p>The closed-box circuit of L8 plus a <b>front chamber</b>: diaphragm (M<sub>AD</sub>, R<sub>AS</sub>, C<sub>AS</sub>) → node → back volume C<sub>AB</sub> (+ leak) to ground, and front cavity C<sub>AF</sub> → sound hole M<sub>AH</sub> + R<sub>AH</sub> (dust screen) → radiation or ear. Three things are new: the back volume is stiffer than the suspension (<b>acoustic suspension</b>, f<sub>s</sub> 800 Hz → f<sub>c</sub> 1.06 kHz), the front cavity and hole are a <b>Helmholtz low-pass</b> set at the top of the band, and for a receiver the ear load is unknown, so a <b>controlled leak</b> larger than any accidental one makes the response independent of how hard the phone is pressed.</p>
+  </div>
+
+  <div id="bench-microspk"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§4 · Beranek 6.18, Klippel</span>Nonlinear circuit models</h3>
+    <div class="table-wrap"><table>
+      <tr><th>nonlinearity</th><th>depends on</th><th>matters at</th><th>mechanism</th></tr>
+      <tr><td class="el">Bl(x)</td><td>displacement</td><td>low f (large x)</td><td>coil leaves the gap: force and back-EMF both change</td></tr>
+      <tr><td class="me">K<sub>MS</sub>(x) = 1/C<sub>MS</sub>(x)</td><td>displacement</td><td>below f<sub>s</sub></td><td>suspension hardens at the ends</td></tr>
+      <tr><td class="el">Le(x)</td><td>displacement</td><td>HF modulated by LF</td><td>coil in/out of the iron, plus the reluctance force ½i²dLe/dx</td></tr>
+      <tr><td class="el">Le(i)</td><td>current</td><td>HF</td><td>iron permeability (B–H curve)</td></tr>
+      <tr><td class="el">R<sub>E</sub>(T)</td><td>temperature</td><td>all</td><td>power compression: +100 K → R<sub>E</sub> × 1.39 → −2.9 dB</td></tr>
+      <tr><td class="ac">Doppler</td><td>displacement</td><td>HF modulated by LF</td><td>a moving source</td></tr>
+    </table></div>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">electrical loop</span><div class="M">u_g = R_E\,i + \frac{d}{dt}\big(L_e(x)\,i\big) + Bl(x)\,\dot x</div><p>Use the flux linkage ψ = L<sub>e</sub>(x)·i as the state, so d(L<sub>e</sub>i)/dt stays right when L<sub>e</sub> moves.</p></div>
+      <div class="fcard"><span class="eyebrow">mechanical loop</span><div class="M">Bl(x)\,i + \tfrac12 i^2\frac{dL_e}{dx} = M_{MS}\ddot x + R_{MS}\dot x + K_{MS}(x)\,x</div><p>The reluctance term is left out of p11.py and the bench.</p></div>
+      <div class="fcard"><span class="eyebrow">X<sub>max</sub>, overhung coil</span><div class="M">X_{max} = \frac{h_{coil} - h_{gap}}{2} = \frac{18 - 6}{2} = 6\ \text{mm}</div><p>Klippel: where Bl falls to 82 % or C<sub>MS</sub> to 75 % (or 10 % THD).</p></div>
+    </div>
+    <p>In LTspice this cannot be an .AC analysis: it is solved in time (.TRAN) with every x-dependent element a <b>B-source</b> reading the node that holds x (<span class="mono">P11_Nonlinear_Woofer.cir</span>, matched to the Python model to 0.000 dB). Even-order coefficients (symmetric) give mainly <b>odd</b> harmonics; odd-order (asymmetric) give <b>even</b> harmonics and a <b>DC offset</b>.</p>
+  </div>
+
+  <div id="bench-nonlin"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>Distortion is quoted on the <b>pressure</b>, which follows the cone <b>acceleration</b>, not the displacement. Harmonic n of x is weighted by n² in the acceleration, so below f<sub>s</sub> the pressure THD is larger than the displacement THD. And it is a <b>low-frequency</b> problem: the same 10 V gives 37 % THD at 20 Hz and 0.7 % at 100 Hz, because x is ten times smaller.</p></div>
+
+  <div class="callout real"><span class="eyebrow">Pre-read: questions for Finn</span><ul>
+    <li>Rayleigh distance as a²/λ or πa²/λ?</li>
+    <li>Which LTspice model: Le(x) with the reluctance force, or only Bl(x) and K(x)?</li>
+    <li>Is the micro-speaker part about phones (Beranek ch. 8) or about MEMS speakers?</li>
+    <li>How much of this is examinable, given that 34871 (January) covers it in depth?</li>
+    <li>This section was written before the lecture with no slides. The driver shapes Bl(x), K(x), Le(x) are assumptions (no Klippel data for this unit) and the micro-speaker values are illustrative.</li>
+  </ul></div>
+
+  <div id="problems-11"></div>
+  <div id="quiz-11"></div>
+</section>
+
 <!-- ============================== Lab A ============================== -->
 <section class="lecture" id="labA">
   <div class="lec-head">
@@ -1329,12 +1418,13 @@
       <li>A transducer is two controlled sources; the reaction must oppose the motion.</li>
       <li>A diaphragm scales impedances by S²; a voice coil inverts them by (Bl)².</li>
       <li>Lump what is small against its own wavelength; give only the part that resonates inside a line (TMM) or FEM.</li>
+      <li>A piston beams above ka = 1; every halving of the solid angle is +6 dB SPL and +3 dB power; large excursion makes Bl, K and Le functions of x, solved in time.</li>
     </ol>
   </div>
 </section>
 
 <footer>
-  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Lab D added 5 Oct 2026 (before the lab): the benches run the synthetic woofer of test_labD.m and reproduce its numbers, f<sub>S</sub> 39.99 Hz, Q<sub>MS</sub> 4.01, Q<sub>ES</sub> 0.452, f<sub>C</sub> 59.88 Hz, V<sub>AS</sub> 25.00 L, f<sub>B</sub> 43.3 / 33.5 / 28.3 Hz. Lumped-element crash course and lecture 10 added 26 Oct 2026: ear drum 1191 / 3502 Hz and 1.99×10⁹ Pa·s/m³ at 20 Hz, five-layer wall −31.4 dB at 20 Hz, 189 Hz, 2731 Hz (LEM) vs 2393 Hz (TMM), local-resonance gap 0.484–0.707 ω₀, identical to p10.py and the MATLAB script. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
+  Built from the 34870 lecture notes, slides and problem sets in the vault (Lecture 0–8 notes, Problems 4–8 (4–6 with official solutions), Lab A runthrough); last extended 1 Oct 2026 with lecture 8. Numbers in the benches reproduce the worked answers: Problem 4.4b 7.2 Ω at 50.3 Hz, Problems 4 design 126 Hz – 7.9 kHz at 1 mV/Pa, Problem 5.1 10.6 kHz, Q ≈ 2.4, 9.8 mV/Pa; Problems 7 on the 315 SWR −12.4 dB re 1 Pa/V, η = 0.47 %, 0.76 mm at 50 Hz; Lab C on the group's 29 Sep data, 4134 f<sub>s</sub> = 20.2 kHz, Q = 0.84, M<sub>AS</sub> = 420.5 kg/m⁴, 4133 f<sub>s</sub> = 22.9 kHz, Q = 0.34, model 11.14 mV/Pa. Labs B and C extended with the theory behind them on 29 Sep 2026. Lecture 8 added 1 Oct 2026: Problems 8 closed box 38.8 L / 51.2 Hz and 40 L 51.2 / 40.5 / 75.0 Hz; vented 90 L / 31 Hz and vent 9.8 cm (sheet 10.4). Lab D added 5 Oct 2026 (before the lab): the benches run the synthetic woofer of test_labD.m and reproduce its numbers, f<sub>S</sub> 39.99 Hz, Q<sub>MS</sub> 4.01, Q<sub>ES</sub> 0.452, f<sub>C</sub> 59.88 Hz, V<sub>AS</sub> 25.00 L, f<sub>B</sub> 43.3 / 33.5 / 28.3 Hz. Lumped-element crash course and lecture 10 added 26 Oct 2026: ear drum 1191 / 3502 Hz and 1.99×10⁹ Pa·s/m³ at 20 Hz, five-layer wall −31.4 dB at 20 Hz, 189 Hz, 2731 Hz (LEM) vs 2393 Hz (TMM), local-resonance gap 0.484–0.707 ω₀, identical to p10.py and the MATLAB script. Lecture 11 added 28 Oct 2026 as a pre-read (before the lecture, no slides): piston ka = 1 at 517 Hz, first 90° null 1983 Hz, beamwidth ±50/±35/±22° at 1.5/2/3 kHz; walls +6/+12/+18 dB, baffle step 243 Hz, r<sub>c</sub> 0.80 m; micro-speaker 2.45 mm at 200 Hz, 0.098 mm at 1 kHz, f<sub>c</sub> 1057 Hz, front Helmholtz 4306 Hz; nonlinear woofer RK4 20 Hz 10 V x 8.97 mm, H3 36.7 %, THD 37.3 %, 40 Hz 10 V THD 3.66 %, IMD 14.34/4.43 %, identical to p11.py. Theory beyond the slides follows Leach and Beranek &amp; Mellow; where the lecturer contradicted the books, the lecturer wins.
 </footer>
 </main>
 </div>
@@ -1343,6 +1433,7 @@
 <script src="diagrams.js"></script>
 <script src="benches.js"></script>
 <script src="l10.js"></script>
+<script src="l11.js"></script>
 <script src="labB_data.js"></script>
 <script src="labB_measured.js"></script>
 <script src="labC_measured.js"></script>
