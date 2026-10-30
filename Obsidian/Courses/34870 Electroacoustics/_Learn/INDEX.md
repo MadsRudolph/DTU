@@ -88,6 +88,11 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 10 - Advanced Topics/34870_AdvancedTopics_26102026 - Copy.pdf|34870_AdvancedTopics_26102026]]
 
+## Lecture 11 - Radiation, acoustic environment, µ-speakers / Nonlinear circuit models
+
+- [[Courses/34870 Electroacoustics/_Learn/Lecture 11 - Radiation, acoustic environment, µ-speakers - Nonlinear circuit models/17-Loudspeakers3_RoomInteraction_v3.pptx|17-Loudspeakers3_RoomInteraction_v3]]
+- [[Courses/34870 Electroacoustics/Exercises/34870-Problems11.pdf|34870-Problems11]]
+
 ## Lab A - Analogies
 
 - [[Courses/34870 Electroacoustics/Labs/34870 Lab A_2026.pdf|34870 Lab A_2026]]

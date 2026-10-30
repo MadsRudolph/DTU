@@ -1020,6 +1020,18 @@
       "sha256": "6ac828d299dab735393d0ec3bb1b817dc5f4eb31f9f4706fb9bd5e0b710e7893",
       "synced_at": "2026-10-27T11:11:14+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions8_2026.pdf"
+    },
+    "1296874": {
+      "revision": "2026-10-30T13:21:45.630Z",
+      "sha256": "48852b3d71bd41e0005aa3dcf6dd72629d4fa03df4ae97da78c27814f0ba9388",
+      "synced_at": "2026-10-30T14:09:26+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/_Learn/Lecture 11 - Radiation, acoustic environment, µ-speakers - Nonlinear circuit models/17-Loudspeakers3_RoomInteraction_v3.pptx"
+    },
+    "1296875": {
+      "revision": "2026-10-30T13:21:55.333Z",
+      "sha256": "2c1a150a9f07c1ca26384fe1c44b6e088b0d3c7ba646e2e7302da6d53c7437a3",
+      "synced_at": "2026-10-30T14:09:26+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870-Problems11.pdf"
     }
   }
 }
