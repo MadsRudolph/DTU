@@ -33,6 +33,8 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/62755 Power Electronics/_Learn/Lecture 6 Inverters/Inverters.pdf|Inverters]]
 - [[Courses/62755 Power Electronics/Exercises/Assignment 4.pdf|Assignment 4]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 6 Inverters/SVPWM.pdf|SVPWM]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 6 Inverters/invertes.zip|invertes]]
 
 ## Lecture 7 Thyristors and Thyristorized Converters
 

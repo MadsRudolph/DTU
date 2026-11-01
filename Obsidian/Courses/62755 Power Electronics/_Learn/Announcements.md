@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-11-01 — Tomorrow's lecture
+
+Dear all,
+Hi, I have uploaded the MATLAB files for our lecture tomorrow, where we will cover DC-AC inverters.
+On Monday (9th of November), we will conduct an experiment to evaluate the performance of different DC-DC converters (Lab 3).
+See you tomorrow at 8.30 AM.
+Best Regards
+Ashraf
+
 ## 2026-10-25 — Tomorrow's lecture
 
 Dear All,

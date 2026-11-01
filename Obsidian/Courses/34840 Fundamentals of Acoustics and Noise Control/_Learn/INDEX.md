@@ -82,3 +82,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Slides/34840_Lecture8_2026.pptx|34840_Lecture8_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems_8.pdf|34840_Problems_8]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions8_2026.pdf|34840_Solutions8_2026]]
+
+## 9 - Our hearing: Frequency selectivity and masking
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Psychological_Acoustics_Exercise_2026.pdf|34840_Psychological_Acoustics_Exercise_2026]]
