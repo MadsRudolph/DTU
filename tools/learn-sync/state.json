@@ -1050,6 +1050,12 @@
       "sha256": "e4910f7f2dd47316bf846642e26cad3c34b0dd939f1bbfe86761cdc6770a265f",
       "synced_at": "2026-11-01T20:03:22+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Psychological_Acoustics_Exercise_2026.pdf"
+    },
+    "1298357": {
+      "revision": "2026-11-02T12:22:56.600Z",
+      "sha256": "ffde0c39eec92fdd08e8093f219e02145531a2af436dd7d6ebc0f5ad55390bec",
+      "synced_at": "2026-11-02T14:04:56+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/hearing_2026.pdf"
     }
   }
 }

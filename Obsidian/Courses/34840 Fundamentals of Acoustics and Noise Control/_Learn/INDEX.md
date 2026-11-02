@@ -86,3 +86,4 @@ links to where the file actually lives in the vault.*
 ## 9 - Our hearing: Frequency selectivity and masking
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Psychological_Acoustics_Exercise_2026.pdf|34840_Psychological_Acoustics_Exercise_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/hearing_2026.pdf|hearing_2026]]
