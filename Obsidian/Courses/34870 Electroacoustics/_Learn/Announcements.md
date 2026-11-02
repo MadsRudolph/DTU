@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-11-02 — Lecture Thusday 9:30 + Project Q&A
+
+Dear all, 
+This Thursday 5th Nov. at 9:30, Peter Risby Andersen, from GN Jabra will give you a guest lecture. Peter is a former PhD / postdoc at our group. He is behind design optimization of many of the electroacoustic products of the company. 
+I will be around after Peter's lecture to answer your questions regarding the loudspeaker project and the upcoming quiz. I will also give feedback for Lab D&E.
+Best regards,
+Vicente
+
 ## 2026-10-27 — Labs available for the Loudspeaker Project - Important remarks
 
 Dear all,
