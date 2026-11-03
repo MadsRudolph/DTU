@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-11-03 — Lecture on 'Hearing' (Frequency selectivity and masking) uploaded
+
+Dear all, 
+I have uploaded today's lecture on 'Frequency selectivity and masking', including the ppt and pdf files and various sound files (see zip document). I have also included today's exercise (problem set and solutions). 
+Thanks for the nice interaction today during and around the lecture. 
+I look forward to next week's lecture on 'Physiological Acoustics'. 
+Best,Torsten
+
 ## 2026-10-27 — Next lecture on 'Hearing: Frequency selectivity and masking' (Tuesday, 3. November)
 
 Dear all, 

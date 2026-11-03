@@ -1,5 +1,140 @@
 # Announcements
 
+## 2026-11-03 — Slide deck from today's presentation
+
+Hey class,
+As promised, here are the slides for today, for your reference./content/enforced/325530-DTU_e26_34654/Decoupling_importance.pdf
+/Gabriel
+
+## 2026-11-03 — PCB design review group pairings
+
+Hey class,
+Here are the review pairings, based on today's lecture. Please respect the pairings and make sure to hand over the files to the other team as soon as possible. You can find the assignment details under Assignments > PCB Design
+
+
+
+Learn Group #
+Pair
+Status
+Project
+
+Status
+Meaning
+
+
+1
+18
+1
+Flyback
+
+1
+Barely started
+
+
+21
+13
+3
+µC
+
+2
+Well underway; will not finish today
+
+
+7
+3
+2
+Flyback
+
+3
+Will finish by EOD
+
+
+10
+6
+2
+Flyback
+
+
+
+
+
+3
+7
+2
+µC
+
+
+
+
+
+4
+15
+1
+Flyback
+
+
+
+
+
+18
+1
+1
+µC
+
+
+
+
+
+15
+4
+1
+µC
+
+
+
+
+
+6
+10
+2
+µC
+
+
+
+
+
+20
+19
+1
+µC
+
+
+
+
+
+19
+20
+1
+Flyback
+
+
+
+
+
+13
+21
+1
+µC
+
+
+
+
+
+
+
+Have fun!
+Gabriel
+
 ## 2026-10-28 — Würth EMC workshop tonight - cancelled
 
 Dear all,
