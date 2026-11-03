@@ -68,10 +68,10 @@
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf"
     },
     "1248761": {
-      "revision": "2026-10-27T10:17:37.370Z",
-      "sha256": "0f2eb17105db24b580d629be83652dc0d69459b05a5ba83542df477e1bc24613",
-      "synced_at": "2026-10-27T11:11:20+00:00",
-      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf"
+      "revision": "2026-11-03T10:15:37.433Z",
+      "sha256": "76af3793acd6a6e3c8bef5d09b494850974ef91cb54722c9d95a1fd020268cf6",
+      "synced_at": "2026-11-03T11:07:02+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf"
     },
     "1253835": {
       "revision": "2026-08-24T08:23:08.317Z",
@@ -1056,6 +1056,12 @@
       "sha256": "ffde0c39eec92fdd08e8093f219e02145531a2af436dd7d6ebc0f5ad55390bec",
       "synced_at": "2026-11-02T14:04:56+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/hearing_2026.pdf"
+    },
+    "1298814": {
+      "revision": "2026-11-03T09:46:05.670Z",
+      "sha256": "e96ab9fdb676a1a2b14f7dfcf9a4ea276856f5808e56eb67d96b9f3b465ac420",
+      "synced_at": "2026-11-03T11:07:03+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Exercises/34870Solutions11.pdf"
     }
   }
 }

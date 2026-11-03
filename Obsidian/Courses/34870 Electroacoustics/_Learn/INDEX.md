@@ -5,7 +5,7 @@ links to where the file actually lives in the vault.*
 
 ## Basic Material
 
-- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026 (2).pdf|34870 Course plan Fall 2026]]
+- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870 Course plan Fall2026.pdf|34870 Course plan Fall 2026]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/Fundamentals_of_acoustics.pdf|Fundamentals of Acoustics]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf|LTspice circuit simulator - Quick Guide]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf|34870 Lecture 0 E26 - Introduction to the course]]
@@ -92,6 +92,7 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34870 Electroacoustics/_Learn/Lecture 11 - Radiation, acoustic environment, µ-speakers - Nonlinear circuit models/17-Loudspeakers3_RoomInteraction_v3.pptx|17-Loudspeakers3_RoomInteraction_v3]]
 - [[Courses/34870 Electroacoustics/Exercises/34870-Problems11.pdf|34870-Problems11]]
+- [[Courses/34870 Electroacoustics/Exercises/34870Solutions11.pdf|34870Solutions11]]
 
 ## Lab A - Analogies
 
