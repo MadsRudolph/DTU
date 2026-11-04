@@ -1,7 +1,7 @@
 {
   "announcements": {
     "34654": "191313",
-    "34840": "191269",
+    "34840": "191419",
     "34870": "191172",
     "62755": "191089"
   },
@@ -1080,6 +1080,78 @@
       "sha256": "faab9f89eb8932a61cdf5ad43197df7f05f01710c0db514d5048f8695157b90c",
       "synced_at": "2026-11-03T14:18:18+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/frequency_selectivity.zip"
+    },
+    "1300292": {
+      "revision": "2026-11-04T13:11:28.917Z",
+      "sha256": "6f5438ab0a889bf1d03cae80278a25f55463f7fd50e90723f6d344a1471321ca",
+      "synced_at": "2026-11-04T14:04:56+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2022_part1.pdf"
+    },
+    "1300293": {
+      "revision": "2026-11-04T13:11:29.540Z",
+      "sha256": "451963d83945d662d9546a552ca8ab5942b4db10e0998344c61cb4d4329c457f",
+      "synced_at": "2026-11-04T14:04:58+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2022_part1_solution.pdf"
+    },
+    "1300294": {
+      "revision": "2026-11-04T13:11:30.143Z",
+      "sha256": "aad2548e97679e427df05013204067a9c850f5ed6cce3f6b28b2ba931a302bb7",
+      "synced_at": "2026-11-04T14:04:59+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2022_part2_MPC.pdf"
+    },
+    "1300295": {
+      "revision": "2026-11-04T13:11:30.827Z",
+      "sha256": "d87a72e18df603b3e675e208fc21faf49c51af849122aea83c216cb9663c64f6",
+      "synced_at": "2026-11-04T14:05:01+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2022_part2_solution.pdf"
+    },
+    "1300296": {
+      "revision": "2026-11-04T13:11:31.443Z",
+      "sha256": "1f94bf4686e15e37bc0a704c807b5239ee00d76d171745ad013a659d7e04f7d0",
+      "synced_at": "2026-11-04T14:05:02+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_exam_2023_part1.pdf"
+    },
+    "1300297": {
+      "revision": "2026-11-04T13:11:32.100Z",
+      "sha256": "9e759fb8e39e71ba737440e86e3a1ede0a52bc4288b492eb8e885393c713db40",
+      "synced_at": "2026-11-04T14:05:04+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2023_part1_Solution.pdf"
+    },
+    "1300298": {
+      "revision": "2026-11-04T13:11:32.730Z",
+      "sha256": "978993d69a42a5f580196910e8ae0fb9828c05580bf169d1129a0f4741202856",
+      "synced_at": "2026-11-04T14:05:05+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_exam_2023_part2_questions_answers.pdf"
+    },
+    "1300299": {
+      "revision": "2026-11-04T13:11:33.393Z",
+      "sha256": "88be3e847ad4b7760d989b3aa8ed29769da9d42516d4f212daec98939e54b2df",
+      "synced_at": "2026-11-04T14:05:07+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_exam_2023_part2_solution.pdf"
+    },
+    "1300300": {
+      "revision": "2026-11-04T13:11:33.997Z",
+      "sha256": "b9456f34b12ef031a02af0d4f4094930bbfee4e161efd773848e9873115d99d7",
+      "synced_at": "2026-11-04T14:05:08+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2024_part1.pdf"
+    },
+    "1300301": {
+      "revision": "2026-11-04T13:11:34.607Z",
+      "sha256": "06ad8def6f235cb9e62c5ac34cb908a921d68997aaf1eb867b76d3b08ca0b51b",
+      "synced_at": "2026-11-04T14:05:10+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2024_part1_solution.pdf"
+    },
+    "1300302": {
+      "revision": "2026-11-04T13:11:35.237Z",
+      "sha256": "c638b1016bf4b4bf44a6be31ea18d823a18f29813e022b61249d2bbded6cafb5",
+      "synced_at": "2026-11-04T14:05:11+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2024_part2_questions_w_answers.pdf"
+    },
+    "1300303": {
+      "revision": "2026-11-04T13:11:35.883Z",
+      "sha256": "ed377597753363a4939436d67c9540244eecdaee356676e873de0f96a404fc37",
+      "synced_at": "2026-11-04T14:05:13+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2024_part2_solution.pdf"
     }
   }
 }

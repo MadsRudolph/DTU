@@ -90,3 +90,18 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/hearing_2026.pptx|hearing_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Psychological_Acoustics_Solutions_2026.doc|34840_Psychological_Acoustics_Solutions_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/9 - Our hearing - Frequency selectivity and masking/frequency_selectivity.zip|frequency_selectivity]]
+
+## 000 - Old exams
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2022_part1.pdf|34840_Exam_2022_part1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2022_part1_solution.pdf|34840_Exam_2022_part1_solution]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2022_part2_MPC.pdf|34840_Exam_2022_part2_MPC]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2022_part2_solution.pdf|34840_Exam_2022_part2_solution]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_exam_2023_part1.pdf|34840_exam_2023_part1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2023_part1_Solution.pdf|34840_Exam_2023_part1_Solution]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_exam_2023_part2_questions_answers.pdf|34840_exam_2023_part2_questions_answers]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_exam_2023_part2_solution.pdf|34840_exam_2023_part2_solution]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2024_part1.pdf|34840_Exam_2024_part1]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2024_part1_solution.pdf|34840_Exam_2024_part1_solution]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/000 - Old exams/34840_Exam_2024_part2_questions_w_answers.pdf|34840_Exam_2024_part2_questions_w_answers]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2024_part2_solution.pdf|34840_Exam_2024_part2_solution]]

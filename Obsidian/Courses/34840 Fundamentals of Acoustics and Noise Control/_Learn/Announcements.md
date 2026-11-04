@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-11-04 — Old exams + solutions and exam info
+
+Dear all
+the exam will, as previous years, consist of a regular set of problem (similar to those for the handin) and a multiple choice part.
+For the first part you will need to submit a pdf with your solution.
+Should you wish to write your solution by hand you are welcome to do so, but as you are not allowed to bring electronic devices with broadband connection (5G etc), so you cannot use your phone to take a picture of your hand written solution.
+Please make sure that you have a device that is allowed at the exam to take a picture if you intend to write your solution by hand. 
+I've uploaded exams and solutions for 3 previous exams for you to practice on.
+
+finn
+
+Old exams and solutions are now available
+
 ## 2026-11-03 — Lecture on 'Hearing' (Frequency selectivity and masking) uploaded
 
 Dear all, 
