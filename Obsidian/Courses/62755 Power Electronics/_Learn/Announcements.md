@@ -1,5 +1,39 @@
 # Announcements
 
+## 2026-11-05 — The lab on Monday
+
+Dear All,
+Here is the lab schedule for Monday, the labs are T2.04, 05.
+
+
+
+8.30-10.30
+Group 1
+Group 2
+Group 3
+Group 4
+Group 5
+Group 6
+Group 7
+
+
+
+10.30-12.30
+Group 8
+Group 9
+Group 10
+Group 11
+Group 12
+Group 13
+Group 14
+Group 15
+
+
+
+Please bring your multimeters and BNC cables (it is the toolbox you borrowed).
+Best Regards
+Ashraf
+
 ## 2026-11-01 — Tomorrow's lecture
 
 Dear all,
