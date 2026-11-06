@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-11-06 — feedback on handin available
+
+Feedback on the handin is now available
+I've given each handin an overall evaluation according to following scale :
+A: Excellent
+B: Good
+C: Passed
+D: Not passed - does not qualify for the exam
+If the evaluation was close to another category I've added a + or a - .
+See the solution (available in the Individual hand-in) for more details on the solutions to each problem
+If you have additional question dont hesitate to contact me
+Finn
+
 ## 2026-11-04 — Old exams + solutions and exam info
 
 Dear all
