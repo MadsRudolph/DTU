@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-11-06 — Feedback Lab D&E published + upcoming guest lecture Monday
+
+Dear all,
+The feedback and marks for your Lab D&E quizzes is published: Lab D/E - Loudspeakers.
+Remember the interesting guest lecture on Monday at 13:00: Pierangelo Libianchi from the hearing aid manufacturer WS Audiology will tell you about electroacoustics in his company. Pierangelo is a former PhD student with us and has been involved with interesting projects.
+Best regards,
+Vicente
+
 ## 2026-11-02 — Lecture Thusday 9:30 + Project Q&A
 
 Dear all, 
