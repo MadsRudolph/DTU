@@ -1152,6 +1152,42 @@
       "sha256": "ed377597753363a4939436d67c9540244eecdaee356676e873de0f96a404fc37",
       "synced_at": "2026-11-04T14:05:13+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Exam_2024_part2_solution.pdf"
+    },
+    "1301269": {
+      "revision": "2026-11-06T21:16:57.137Z",
+      "sha256": "c9b69ba7b503b268d26937e653e897f84ea970e2d7ca121ba6062f3537a4bb06",
+      "synced_at": "2026-11-07T02:06:19+00:00",
+      "vault_path": "5. Semester/Power Electronics/Matlab/boost.m"
+    },
+    "1301270": {
+      "revision": "2026-11-06T21:16:57.730Z",
+      "sha256": "bce2f3043dd8b919d0e342149602d54638eccf35e90afe573e1d38063b5bcdb1",
+      "synced_at": "2026-11-07T02:06:22+00:00",
+      "vault_path": "5. Semester/Power Electronics/Simulink/Boost_converter_Lab.slx"
+    },
+    "1301271": {
+      "revision": "2026-11-06T21:16:58.270Z",
+      "sha256": "8f20e3185cc47529802bf94cecca756fbf7bce98ce351cf18f3682f80528416a",
+      "synced_at": "2026-11-07T02:06:22+00:00",
+      "vault_path": "5. Semester/Power Electronics/Simulink/Buck_Boost_converter_Lab.slx"
+    },
+    "1301272": {
+      "revision": "2026-11-06T21:16:58.807Z",
+      "sha256": "ddba77f720442c9fd51f6ba57513aedfa4b5f9cce3b53a508caa711c47b540fa",
+      "synced_at": "2026-11-07T02:06:24+00:00",
+      "vault_path": "5. Semester/Power Electronics/Simulink/Buck_converter_Lab.slx"
+    },
+    "1301273": {
+      "revision": "2026-11-06T21:16:59.337Z",
+      "sha256": "4571d78aa6675ca7ae8660fae811445c6f261430618c66d9210f070567da8086",
+      "synced_at": "2026-11-07T02:06:26+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/DC converters lab results.xlsx"
+    },
+    "1301274": {
+      "revision": "2026-11-06T21:17:00.287Z",
+      "sha256": "0eec11765e00f68298051c69a247ff30561ee6ca1f8839e94eb31a306a17fe61",
+      "synced_at": "2026-11-07T02:06:27+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Lab 3.pdf"
     }
   }
 }

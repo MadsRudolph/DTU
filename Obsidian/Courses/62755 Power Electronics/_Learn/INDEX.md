@@ -77,3 +77,12 @@ links to where the file actually lives in the vault.*
 - [[Courses/62755 Power Electronics/Labs/Diodebro_BR3510.pdf|Diodebro_BR3510]]
 - [[Courses/62755 Power Electronics/Labs/Ens_retter_boks_lab.pdf|Ens_retter_boks_lab]]
 - [[Courses/62755 Power Electronics/Labs/Kondensator_101102phrst.pdf|Kondensator_101102phrst]]
+
+## Lab 3
+
+- [[5. Semester/Power Electronics/Matlab/boost.m|boost]]
+- [[5. Semester/Power Electronics/Simulink/Boost_converter_Lab.slx|Boost_converter_Lab]]
+- [[5. Semester/Power Electronics/Simulink/Buck_Boost_converter_Lab.slx|Buck_Boost_converter_Lab]]
+- [[5. Semester/Power Electronics/Simulink/Buck_converter_Lab.slx|Buck_converter_Lab]]
+- [[Courses/62755 Power Electronics/Labs/DC converters lab results.xlsx|DC converters lab results]]
+- [[Courses/62755 Power Electronics/Labs/Lab 3.pdf|Lab 3]]
