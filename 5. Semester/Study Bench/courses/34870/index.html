@@ -1404,6 +1404,22 @@
     </div>
   </div>
 
+  <div class="block">
+    <h3><span class="eyebrow">Project quiz part 1 · submitted 8 Nov · no feedback yet</span>What we answered, and why</h3>
+    <table>
+      <tr><th>Q</th><th>We ticked</th><th>The reason</th></tr>
+      <tr><td>1 filling</td><td>damps box resonances; effective volume <b>larger</b></td><td>guide: filling slightly increases the effective volume and the damping</td></tr>
+      <tr><td>2 two vents</td><td>no extra radiation impedance if the total effective length is used; same length → narrower vent has more mass</td><td><span class="m">M_A = \rho L/S</span>; two open vents are masses in parallel, so <b>less</b> mass</td></tr>
+      <tr><td>3 tuning</td><td>impedance minimum between the peaks = box resonance; tune with the LTspice analogy</td><td>the guide: no standard alignment (QB3, B4, C4) is reachable with this box</td></tr>
+      <tr><td>4 near field</td><td>validates the analogy; far field from near field</td><td>T/S comes from the <span class="el">impedance</span>; the far-field sum needs area scaling and phase-coherent data (one run or the model)</td></tr>
+      <tr><td>6 phases</td><td>measure relative phases; unwrap and distance-correct</td><td>one <b>common</b> d = −1.15 m for all units, never one per unit</td></tr>
+      <tr><td>7 Zi</td><td>Zi matters for passive filters; woofer Zi not needed</td><td>an ideal amplifier holds its voltage whatever the load</td></tr>
+      <tr><td>8 passive in LTspice</td><td>smooth transition; digital/passive interaction; tolerances</td><td>it cannot check the Task 1 low end</td></tr>
+      <tr><td>9 the simulation</td><td>predicts the box as measured in the anechoic chamber; tolerances</td><td>Lab E data is only valid above ≈ 125 Hz; phase differences <b>are</b> shown</td></tr>
+    </table>
+    <p><b>Q5</b> (woofer box, 15 points): the lecture-style circuit with the fitted values, one vent at 160 mm (f<sub>B</sub> 24.6 Hz, f<sub>3</sub> 33 Hz against 37 Hz closed, +1.8 dB hump), validated against the Lab D near field and impedance. Two facts we had to get right: the free-air and closed-box runs were made <b>without</b> filling (lab brief 2b), the vented runs <b>with</b> it, so the fitted vent mass and losses describe the filled box; and "both vents open" was only ever simulated. <b>Q10</b> (crossover, 15 points): LR4 at 325 Hz in the MiniDSP with the woofer −4.5 dB, mid LP2 0.82 mH / 6.8 µF, tweeter HP2 5.6 µF / 0.22 mH plus an L-pad 4.7 / 3.3 Ω (−11 dB), all + polarity, ±2 dB from 150 Hz to 15 kHz. Full answers and figures: vault <span class="mono">Project/Project Quiz 1 - Submitted answers</span>.</p>
+  </div>
+
   <div class="callout trap"><span class="eyebrow">The trap</span><p><b>A peak in a velocity or pressure curve is a result, not a resonance.</b> It can come from a resonance, from the source's own impedance, or from something like <span class="m">R(\omega) + j\omega L</span>. Look at the impedance the source sees: dip = resonance, peak = anti-resonance. And at the soft-link "absorber" frequency, say what moves: the coil stands still, the outer cone swings against it.</p></div>
 
   <div class="callout real"><span class="eyebrow">From the graders</span><p>"Explain, not only describe": the full marks went to answers that gave a number <b>and</b> a physical reason (Lab A Q15, Q27; Lab B/C Q11; Lab E Q10). Lab B's 20/20 still came with a tip for the oral: the <b>area-averaged BEM</b> curve is the evidence for why the handbook's free-field peak sits higher than the scaled point value. The diaphragm averages the pressure over its face.</p></div>

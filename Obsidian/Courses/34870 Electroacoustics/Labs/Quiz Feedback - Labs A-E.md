@@ -10,7 +10,7 @@ Everything the teachers wrote back on the three lab quizzes (DTU Learn → Quizz
 | Lab A: Analogy circuits in LTspice | 20-Sep | **89 %** | phase missing, unit prefixes, plotted transfer functions instead of the requested variable, "resonance" used loosely |
 | Lab B/C: Microphones | 5-Oct | **98 %** | Q10: the LTspice match was "too good" (the alignment hid the model's bias) |
 | Lab D/E: Loudspeakers | 26-Oct | **98 %** | Q5: impedance peak height not explained with R_E + (Bl)²/R_MS, near-field curves summed although they are not phase-coherent |
-| Project part 1/2 | 8-Nov | – | submitted, no feedback yet: add it here when it arrives |
+| Project part 1/2 | 8-Nov | – | submitted, no feedback yet: add it here when it arrives. What we answered: [[Project Quiz 1 - Submitted answers]] |
 | Project part 2/2 | due 30-Nov | – | not started |
 
 Related: [[Lab A - Runthrough]] · [[Lab BC - Quiz model answers]] · [[Lab DE - Quiz model answers]] · the class-wide slides `34870_LabAfeedback (2).pdf` (the newer version; the first one is the 21-Sep draft).
