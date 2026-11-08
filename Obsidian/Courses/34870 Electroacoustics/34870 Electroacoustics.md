@@ -115,6 +115,8 @@ tags: [Electroacoustics, Audio, home]
 | **E** | Loudspeaker response — System D | **Tue 20/10 10:00–12:00**, b.354 r.028/025 | ⏰ **26/10** |
 | 🔧 | **Loudspeaker project** | 19/10 – 30/11 | ⏰ **30/11** |
 
+→ **Quiz feedback so far** (Lab A 89 %, B/C 98 %, D/E 98 %) and what it means for the oral: [[Quiz Feedback - Labs A-E]]
+
 → Group 10 slots from the *Lab schedule - Exercises B-C-D-E* sheet (22-Sep-2026). All four are Tuesday mornings and overlap the 34840 lecture (Tue 8–12).
 
 → Working folders: `5. Semester/Electroacoustics/Labs/` and `.../Project - Loudspeaker System/`

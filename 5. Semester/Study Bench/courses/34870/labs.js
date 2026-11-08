@@ -750,4 +750,36 @@ function benchLabEphase() {
   upd();
 }
 
-document.addEventListener("DOMContentLoaded", () => { benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); benchLabE(); benchLabEmeas(); benchLabEdir(); benchLabEsys(); benchLabEphase(); });
+// ---- Quiz feedback: acoustic element values written the way the graders want them
+function unitsLE(p) {
+  // p: {V (cm³), l (mm), a (mm)} → SI values of a chamber compliance and a tube mass
+  const V = p.V * 1e-6, l = p.l * 1e-3, a = p.a * 1e-3;
+  return { V, S: Math.PI * a * a, CA: V / (RHO * C0 * C0), MA: RHO * l / (Math.PI * a * a) };
+}
+function benchUnits() {
+  const b = bench("bench-fbunits", "Units drill · chamber and tube in powers of ten", "Quiz feedback · Lab A Q10, Q14, Q18");
+  if (!b) return;
+  const st = { V: 15.71, l: 25, a: 2 };
+  const sV = slider(b.ctl, { label: "chamber volume V", min: 1, max: 200, step: 0.01, value: st.V, unit: "cm³", dom: "ac", onchange: v => { st.V = v; upd(); } });
+  const sl = slider(b.ctl, { label: "tube length l", min: 5, max: 150, step: 1, value: st.l, unit: "mm", dom: "ac", onchange: v => { st.l = v; upd(); } });
+  const sa = slider(b.ctl, { label: "tube radius a", min: 0.5, max: 10, step: 0.1, value: st.a, unit: "mm", dom: "ac", onchange: v => { st.a = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "ca", label: "chamber compliance C<sub>A</sub>", dom: "ac" }, { id: "ma", label: "tube mass M<sub>A</sub>", dom: "ac" }]);
+  function upd() {
+    const r = unitsLE(st);
+    const ca = sci(r.CA, 4), ma = sci(r.MA, 4);
+    ro({ ca: ca + " m⁵/N", ma: ma + " kg/m⁴" });
+    const eC = Math.floor(Math.log10(r.CA)), wrongC = (r.CA * 1e12).toPrecision(4);
+    b.plot.innerHTML = `<table>
+      <tr><th>Step</th><th>Right</th><th>What lost the point</th></tr>
+      <tr><td>volume</td><td>${st.V} cm³ = ${st.V}·(10⁻² m)³ = <b>${sci(r.V, 4)} m³</b></td><td>"cm³ = 10⁻² m³" (the prefix is cubed too)</td></tr>
+      <tr><td>area</td><td>π·(${st.a}·10⁻³ m)² = <b>${sci(r.S, 4)} m²</b></td><td>1 mm² = 10⁻³ m² (it is 10⁻⁶)</td></tr>
+      <tr><td>compliance</td><td><b>${ca} m⁵/N</b></td><td>"${wrongC} p m⁵/N" reads as ${wrongC}·(1 pm)⁵ = 10⁻⁶⁰ m⁵; exponent here is ${eC}</td></tr>
+      <tr><td>mass</td><td><b>${ma} kg/m⁴</b></td><td>"${(r.MA / 1e3).toPrecision(4)} k kg/m⁴" (kkg does not exist)</td></tr>
+    </table>`;
+  }
+  b.note.innerHTML = `<p>LTspice happily takes <span class="mono">112.5p</span> and <span class="mono">2.348k</span>, but in a written answer the prefix belongs to the unit and is raised to its power, so "pm⁵" is (10⁻¹² m)⁵. For acoustic and mechanical elements write <b>powers of ten</b> and the SI unit: kg/m⁴, m⁵/N, Pa·s/m³, kg, m/N, N·s/m. Never H, F or Ω on a mechanical or acoustic element.</p>`
+    + `<p><b>Try:</b> it opens on Lab A's first chamber and first tube (1.125×10⁻¹⁰ m⁵/N, 2348 kg/m⁴, ρ = 1.18, c = 344). Set V = 100.5 cm³ and l = 100 mm to check two more rows of the silencer table (7.20×10⁻¹⁰ m⁵/N, the quiz used the unrounded volume, and 9390 kg/m⁴).</p>`;
+  upd();
+}
+
+document.addEventListener("DOMContentLoaded", () => { benchUnits(); benchLab1(); benchLab2(); benchLab4(); benchLabB(); benchLabBgap(); benchLabC(); benchLabCcapsule(); benchLabD(); benchLabDnear(); benchLabE(); benchLabEmeas(); benchLabEdir(); benchLabEsys(); benchLabEphase(); });

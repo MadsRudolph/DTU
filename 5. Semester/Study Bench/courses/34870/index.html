@@ -39,6 +39,7 @@
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
     <li><a href="#labD" data-quiz="D"><span class="n">Lab D</span><span>Loudspeaker impedance &amp; near field<span class="sub">6 Oct · T-S, V_AS, f_B</span></span></a></li>
     <li><a href="#labE" data-quiz="E"><span class="n">Lab E</span><span>Loudspeaker in free field<span class="sub">20 Oct · baffles, directivity, phase</span></span></a></li>
+    <li><a href="#feedback" data-quiz="FB"><span class="n">FB</span><span>Quiz feedback → oral drill<span class="sub">A 89 % · B/C 98 % · D/E 98 %</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -1367,6 +1368,47 @@
   <div class="callout real"><span class="eyebrow">In the lab</span><p>What went right this time: one tag per run, every dimension in <span class="mono">labE_dims.m</span> before we left, and all three units in one run. What we'd do differently: take the 60° system run, measure the driver diameters instead of relying on the data sheet, and note why a run was rejected (<span class="mono">system_30_bad</span> is up to 31 dB off the good one). The chamber is not anechoic at low frequency and the vent was plugged, so below about 100 Hz the system curves are the room, not the drivers: the woofer's low end comes from Lab D's near-field measurement instead.</p></div>
 
   <div id="quiz-E"></div>
+</section>
+
+<section class="lecture" id="feedback">
+  <div class="lec-head">
+    <div class="eyebrow">Quiz feedback · read 8 Nov 2026 · Lab A 89 %, Lab B/C 98 %, Lab D/E 98 % · oral exam 9–10 Dec</div>
+    <h2>What the graders wrote back, and what it means for the oral</h2>
+    <div class="meta">vault: Labs/Quiz Feedback - Labs A-E · class-wide slides: Labs/34870_LabAfeedback (2).pdf · project quiz part 1 submitted 8 Nov, no feedback yet</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Almost every lost point was the same three habits: <b>phase missing</b>, a <b>peak in a velocity or pressure plot called a resonance</b> (only the impedance decides that), and <b>unit prefixes</b> used like LTspice uses them. The physics was right; the way it was shown was not.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The picture</span>Where the points went</h3>
+    <table>
+      <tr><th>Quiz</th><th>Lost on</th><th>The fix</th></tr>
+      <tr><td>Lab A Q3, Q20</td><td>magnitude only; "absorber dip" without saying how the masses move</td><td>always magnitude <b>and</b> phase; at the <span class="me">anti-resonance</span> the coil stops and the outer cone swings in anti-phase</td></tr>
+      <tr><td>Lab A Q6 (0/1)</td><td>counted 2 for the soft link</td><td>Z<sub>M</sub> has <b>3</b>: resonance 51 Hz, anti-resonance 1.29 kHz, resonance 1.79 kHz</td></tr>
+      <tr><td>Lab A Q10, Q14, Q18</td><td>"112.5 p m⁵/N", "2.348 k kg/m⁴", "311 f m⁵/N"</td><td>powers of ten: 1.125×10⁻¹⁰ m⁵/N, 2.348×10³ kg/m⁴</td></tr>
+      <tr><td>Lab A Q12, Q20, Q23</td><td>plotted U<sub>out</sub>/U<sub>in</sub>, p/F, u/V</td><td>plot the <b>requested variable</b> for the given source, not a transfer function</td></tr>
+      <tr><td>Lab A Q18, Q22</td><td>H, F, Ω on mechanical and acoustic elements; front+back radiation merged in series</td><td>SI units of the domain; keep front and back <span class="ac">Z<sub>rad</sub></span> separate so the front pressure is a node</td></tr>
+      <tr><td>Lab A Q25</td><td>"electrical resonance" at 127 Hz and 1.4 kHz; 158.5 Hz peak value too low</td><td>no dip with a phase jump → no resonance; refine the sweep before reading a peak</td></tr>
+      <tr><td>Lab C Q10 (18/20)</td><td>LTspice "too good": both mics aligned at 1 kHz</td><td>show the model's bias (one diaphragm data set for two mics); sound calibrator = field check, pistonphone = lab</td></tr>
+      <tr><td>Lab D Q5 (18/20)</td><td>peak heights described, not explained; cone + vent summed</td><td><span class="m">|Z|_{max} = R_E + (Bl)^2/R_{MS}</span>; separate runs are not phase-coherent</td></tr>
+    </table>
+  </div>
+
+  <div id="bench-fbunits"></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">Formulas</span>The three the feedback kept pointing at</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">resonance, defined</span><div class="M">Z \text{ min} \Rightarrow \text{resonance},\quad Z \text{ max} \Rightarrow \text{anti-resonance}</div><p>read it at the phase zero crossing (or on a Nyquist plot), not at the visual peak of u or p</p></div>
+      <div class="fcard"><span class="eyebrow">the inversion</span><div class="M">Z_E = R_E + j\omega L_e + \frac{(Bl)^2}{Z_M}</div><p>mech. resonance → Z<sub>E</sub> peak (electrical anti-resonance, low current); mech. anti-resonance → (Bl)²/Z<sub>M</sub> ≈ 0, invisible</p></div>
+      <div class="fcard"><span class="eyebrow">peak height</span><div class="M">|Z|_{max} = R_E + \frac{(Bl)^2}{R_{MS}}</div><p>higher for larger R<sub>E</sub>, larger Bl, smaller suspension loss (lecture 7, slide 11)</p></div>
+    </div>
+  </div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p><b>A peak in a velocity or pressure curve is a result, not a resonance.</b> It can come from a resonance, from the source's own impedance, or from something like <span class="m">R(\omega) + j\omega L</span>. Look at the impedance the source sees: dip = resonance, peak = anti-resonance. And at the soft-link "absorber" frequency, say what moves: the coil stands still, the outer cone swings against it.</p></div>
+
+  <div class="callout real"><span class="eyebrow">From the graders</span><p>"Explain, not only describe": the full marks went to answers that gave a number <b>and</b> a physical reason (Lab A Q15, Q27; Lab B/C Q11; Lab E Q10). Lab B's 20/20 still came with a tip for the oral: the <b>area-averaged BEM</b> curve is the evidence for why the handbook's free-field peak sits higher than the scaled point value. The diaphragm averages the pressure over its face.</p></div>
+
+  <div id="quiz-FB"></div>
 </section>
 
 <section class="lecture" id="cheat">
