@@ -1188,6 +1188,18 @@
       "sha256": "0eec11765e00f68298051c69a247ff30561ee6ca1f8839e94eb31a306a17fe61",
       "synced_at": "2026-11-07T02:06:27+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/Labs/Lab 3.pdf"
+    },
+    "1301610": {
+      "revision": "2026-11-09T08:08:41.363Z",
+      "sha256": "6bb9d57899f672cdeab6d6d2a66f1efc686bce4ed674b782b13c10e9e9778e84",
+      "synced_at": "2026-11-09T11:06:59+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Exercise_2026.pdf"
+    },
+    "1301619": {
+      "revision": "2026-11-09T08:19:01.143Z",
+      "sha256": "fc524f539e5033317db3c4e905bf13461e64bca341f043fc6fcf707ab6dec0e3",
+      "synced_at": "2026-11-09T11:07:01+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pdf"
     }
   }
 }
