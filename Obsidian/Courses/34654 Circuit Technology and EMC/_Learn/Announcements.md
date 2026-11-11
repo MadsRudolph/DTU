@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-11-11 — Some extra material, for inspiration
+
+Hey class,
+Here is a video and an article that might help you with your designs.
+Top 5 Beginner PCB Design Mistakes (and how to fix them)
+PCB Routing Angle Myths: 45-degree Angle Vs 90-degree Angle
+Moreover, as promised I am attaching an example of a good PCB review checklist and handover.Good checklist and hand-in exampleCheers!Gabriel
+
 ## 2026-11-03 — Slide deck from today's presentation
 
 Hey class,

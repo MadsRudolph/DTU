@@ -1,5 +1,14 @@
 # Announcements
 
+## 2026-11-11 — Loudspeaker project Q&A tomorrow + Visit to Purifi on Monday
+
+Dear all,
+First, a reminder of the Q&A session tomorrow at 10:00 in the classroom. 
+Second, this Monday 16/11 we will visit the company Purifi (https://purifi-audio.com/). They design and manufacture high end loudspeaker units and amplifiers with extremely low distortion, all of it based on research and engineering. They will explain what they do and make demonstrations. A bus will depart from outside our building 352 at 13:00 and take us all there. The bus will be back to the same place before 17:00.
+If you prefer to get there by your own means, the address is: Lykkegårdsvej 3, 4000 Roskilde.
+Best regards,
+Vicente
+
 ## 2026-11-06 — Feedback Lab D&E published + upcoming guest lecture Monday
 
 Dear all,
