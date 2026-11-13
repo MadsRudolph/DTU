@@ -110,3 +110,6 @@ links to where the file actually lives in the vault.*
 
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Exercise_2026.pdf|34840_Physiological_Acoustics_Exercise_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pdf|physiological_acoustics_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pptx|physiological_acoustics_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics.zip|physiological_acoustics]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Solutions_2026.pdf|34840_Physiological_Acoustics_Solutions_2026]]

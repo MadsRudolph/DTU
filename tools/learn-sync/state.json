@@ -1,7 +1,7 @@
 {
   "announcements": {
     "34654": "191926",
-    "34840": "191591",
+    "34840": "192183",
     "34870": "191952",
     "62755": "191497"
   },
@@ -1200,6 +1200,24 @@
       "sha256": "fc524f539e5033317db3c4e905bf13461e64bca341f043fc6fcf707ab6dec0e3",
       "synced_at": "2026-11-09T11:07:01+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pdf"
+    },
+    "1304272": {
+      "revision": "2026-11-13T14:30:09.623Z",
+      "sha256": "8096ef3f2c3a249f74f4b0d617810846c422f83f922e409394f607e2ab17c18d",
+      "synced_at": "2026-11-13T17:02:33+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pptx"
+    },
+    "1304273": {
+      "revision": "2026-11-13T14:30:24.703Z",
+      "sha256": "8ab1a5bdc27373de9a0de19fe00247126038fe8c04ef4344e7ec78f235b0eaff",
+      "synced_at": "2026-11-13T17:02:43+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics.zip"
+    },
+    "1304274": {
+      "revision": "2026-11-13T14:32:24.987Z",
+      "sha256": "ec57299c1a289e2007460dbaf88f4929514c6325f9b701b66421c49160ac3858",
+      "synced_at": "2026-11-13T17:02:44+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Solutions_2026.pdf"
     }
   }
 }

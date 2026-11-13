@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-11-13 — Physiological Acoustics - Lecture and solutions to problem set uploaded
+
+Dear all, 
+I have uploaded our last lecture on 'Physiological Acoustics' (including all demo files) as well as the solutions to the problem set. Thank your for the nice and interesting interaction during the lecture (as well as in the breaks and afterwards). 
+Best,Torsten
+
 ## 2026-11-06 — feedback on handin available
 
 Feedback on the handin is now available
