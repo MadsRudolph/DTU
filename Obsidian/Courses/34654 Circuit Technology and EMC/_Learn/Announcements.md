@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-11-16 — Last time for the PCB design part
+
+Hey class,
+Tomorrow is our last meeting and we will use the time for help and feedback on your designs, for those of you who want it. My expectation is that you all are able to hand in your assignments (your feedback to the team you are paired up with, as well as your own design with the received feedback implemented) by end of day, tomorrow.
+The TAs will be present from 13:00 to answer your questions and provide feedback. I will be present from 13:30.
+See you tomorrow!/Gabriel
+
 ## 2026-11-11 — Some extra material, for inspiration
 
 Hey class,
