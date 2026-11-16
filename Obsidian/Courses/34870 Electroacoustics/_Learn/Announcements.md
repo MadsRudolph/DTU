@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-11-16 — Loudspeaker nonlinearities
+
+Dear all
+I hope that you enjoyed the visit to Purifi today.
+A lot (not all) of what the guys there talked about was related to the inherent nonlinear behaviour of the loudspeaker and its components. These aspects are only briefly touched upon in this course as it focusses on linear models and behaviour.
+If you find the nonlinear behaviour and limitations interesting you should consider the 3 week course on Nonlinear Transducers :
+https://kurser.dtu.dk/course/34871
+it runs in january, as a natural continuation from the Electroacoustics course.
+Its introduces the nonlinear mechanisms, as well as the relevant modelling and measurement techniques. In the course you will be developing your on nonlinear time domain model for the loudspeaker, doing measurements of harmonic and intermodulation distortion and using system identification algorithms to estimate the nonlinearities of drivers in the lab.
+This course is also a very good foundation for doing a MSc thesis project related to loudspeakers.
+Dont hesitate to ask if you have any questions  
+Finn
+
 ## 2026-11-11 — Loudspeaker project Q&A tomorrow + Visit to Purifi on Monday
 
 Dear all,

@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-11-16 — Lecture on Structure-borne Sound and Vibration Isolation
+
+Hi!
+Tomorrow Tuesday I will have my first of two lectures in this course. This one is on Structure-borne sound and vibration isolation. The lecture materials are uploaded and available: 11 - Structure borne sound & vibration isolation.
+Regards,
+\Jonas
+
 ## 2026-11-13 — Physiological Acoustics - Lecture and solutions to problem set uploaded
 
 Dear all, 

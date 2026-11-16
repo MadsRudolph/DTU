@@ -1,8 +1,8 @@
 {
   "announcements": {
     "34654": "191926",
-    "34840": "192183",
-    "34870": "191952",
+    "34840": "192304",
+    "34870": "192331",
     "62755": "191497"
   },
   "schema": 1,
@@ -1218,6 +1218,48 @@
       "sha256": "ec57299c1a289e2007460dbaf88f4929514c6325f9b701b66421c49160ac3858",
       "synced_at": "2026-11-13T17:02:44+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Solutions_2026.pdf"
+    },
+    "1304716": {
+      "revision": "2026-11-16T13:07:23.623Z",
+      "sha256": "fbd387e1453293a6b9df32330a9153ff9b20fdfe15c3ed2a232f9b5cef600860",
+      "synced_at": "2026-11-16T20:09:27+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/11 - Structure borne sound & vibration isolation/34840_vibration_2026.pdf"
+    },
+    "1304717": {
+      "revision": "2024-11-11T15:01:11.430Z",
+      "sha256": "5296538888176128b57964e716d960853edc402a70cf27eb6e5898e13e1c488b",
+      "synced_at": "2026-11-16T20:09:27+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/31200_Problems_8_2022.pdf"
+    },
+    "1304718": {
+      "revision": "2024-11-11T15:01:22.050Z",
+      "sha256": "02efe728cb4fbd1499ea69997d6872b8136610549072a8a231361f63d0695908",
+      "synced_at": "2026-11-16T20:09:28+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/31200_Solutions_8_2022.pdf"
+    },
+    "1304719": {
+      "revision": "2025-11-24T13:37:53.327Z",
+      "sha256": "d81c62a53c52c08087a2f2029d7bd1369f72c6ff9a6a68f3e6978b078861b131",
+      "synced_at": "2026-11-16T20:24:01+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/12 - Sound insulation/34840_sound_insulation_2025.pdf"
+    },
+    "1304720": {
+      "revision": "2022-11-14T14:28:10.697Z",
+      "sha256": "38518fa1ca2faef2c89032f304b42f71ad43bc90d324c87a3ccc7a2f7c0aae22",
+      "synced_at": "2026-11-16T20:24:02+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems 11.pdf"
+    },
+    "1304721": {
+      "revision": "2023-11-14T12:22:49.577Z",
+      "sha256": "209eecee40225e6cda919553ce0c9edf86ca2cb6ea246eff9cb9e3e4356b0d85",
+      "synced_at": "2026-11-16T20:24:05+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions 11_2023.pdf"
+    },
+    "1304724": {
+      "revision": "2023-11-07T09:57:52.633Z",
+      "sha256": "99760fb749b74c6be20a43375517689dee55fdb09e4907b480dee938e653f5b6",
+      "synced_at": "2026-11-16T20:23:47+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/11 - Structure borne sound & vibration isolation/Old videos/31200_structurebornesound_2020.mp4"
     }
   }
 }

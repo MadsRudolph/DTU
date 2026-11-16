@@ -113,3 +113,19 @@ links to where the file actually lives in the vault.*
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics_2026.pptx|physiological_acoustics_2026]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/10 - Physiological Acoustics/physiological_acoustics.zip|physiological_acoustics]]
 - [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Physiological_Acoustics_Solutions_2026.pdf|34840_Physiological_Acoustics_Solutions_2026]]
+
+## 11 - Structure borne sound & vibration isolation
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/11 - Structure borne sound & vibration isolation/34840_vibration_2026.pdf|34840_vibration_2026]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/31200_Problems_8_2022.pdf|31200_Problems_8_2024]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/31200_Solutions_8_2022.pdf|31200_Solutions_8_2024]]
+
+### Old videos
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/11 - Structure borne sound & vibration isolation/Old videos/31200_structurebornesound_2020.mp4|31200_structurebornesound_2020]]
+
+## 12 - Sound insulation
+
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/12 - Sound insulation/34840_sound_insulation_2025.pdf|34840_sound_insulation_2025]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems 11.pdf|34840_Problems 11]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions 11_2023.pdf|34840_Solutions 11]]
