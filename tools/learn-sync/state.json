@@ -1260,6 +1260,12 @@
       "sha256": "99760fb749b74c6be20a43375517689dee55fdb09e4907b480dee938e653f5b6",
       "synced_at": "2026-11-16T20:23:47+00:00",
       "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/11 - Structure borne sound & vibration isolation/Old videos/31200_structurebornesound_2020.mp4"
+    },
+    "1304725": {
+      "revision": "2021-11-01T12:48:54.593Z",
+      "sha256": "335238e78bfb63ea369c4c64d4204d3e0d39888770b1729a636394f2e38fe23b",
+      "synced_at": "2026-11-17T02:26:47+00:00",
+      "vault_path": "Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/12 - Sound insulation/Old videos/31200_soundinsulation_2020.mp4"
     }
   }
 }
