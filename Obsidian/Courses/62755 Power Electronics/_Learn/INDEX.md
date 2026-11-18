@@ -86,3 +86,7 @@ links to where the file actually lives in the vault.*
 - [[5. Semester/Power Electronics/Simulink/Buck_converter_Lab.slx|Buck_converter_Lab]]
 - [[Courses/62755 Power Electronics/Labs/DC converters lab results.xlsx|DC converters lab results]]
 - [[Courses/62755 Power Electronics/Labs/Lab 3.pdf|Lab 3]]
+
+## Lab 4
+
+- [[Courses/62755 Power Electronics/Labs/Lab 4.pdf|Lab 4]]

@@ -1,5 +1,12 @@
 # Announcements
 
+## 2026-11-18 — Guest lecture by DPA microphones - tomorrow 19/11 at 9:15
+
+Dear all,
+Tomorrow Thursday at 9:15 we will have Toni Torras Rosell from DPA microphones as guest. DPA is a Danish company producing high-end audio microphones. Toni, a former ACT student like you, will explain how they do it and you will have the chance to discuss possible projects with DPA.
+Best regards,
+Vicente
+
 ## 2026-11-16 — Loudspeaker nonlinearities
 
 Dear all
