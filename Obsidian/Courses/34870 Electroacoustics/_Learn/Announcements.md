@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-11-19 — Monday: Demant lecture + Course evaluation + Exam Q&A
+
+Dear all,
+Here is the plan for this Monday 23/11:
+
+Guest lecture by Peter Weis, microtransducer expert from Demant (Oticon), a large Danish hearing aid company. You will get a complete overview of small acoustic transducers used in hearables.
+Course evaluation: We want to have your feedback about the course, what you liked and what you feel can be improved. Note that the way the course is run today has been, in many cases, the result of student suggestions, which we take very seriously. Please fill out the course evaluation survey (you should have received a link).
+Exam Q&A: The oral exam is approaching and you will want to know how it is run, how to prepare and what to expect when you get there. Frieder and I will give an overview and answer your questions. 
+
+We hope to see you all at 13:00 on Monday. 
+Best regards,
+Vicente
+
 ## 2026-11-18 — Guest lecture by DPA microphones - tomorrow 19/11 at 9:15
 
 Dear all,
