@@ -1,5 +1,15 @@
 # Announcements
 
+## 2026-11-23 — Module "electronics environment" starts tomorrow
+
+Hello everyone,
+🧘‍♂️ Tomorrow, we'll start again - after a little break - with approximately 15 minutes of guided meditation. Feel free to skip it and I'll invite you in the room, when we are done.
+✨ Then we'll have a guest lecture on how to design electronics for use in space under radiation constraints.
+🔬 And we can kick off the last exercise - however the lab with the temperature chamber is not available before next week.
+I'm looking forward to seeing you tomorrow again.
+All good
+Arnold
+
 ## 2026-11-16 — Last time for the PCB design part
 
 Hey class,

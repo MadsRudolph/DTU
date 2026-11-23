@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-11-23 — Lecture on Sound Insulation
+
+Hi all,
+Tomorrow the lecture will be on sound insulation. The lecture materials are uploaded and available: 12 - Sound insulation. We start at 8.00 as usual.
+\J
+
 ## 2026-11-16 — Lecture on Structure-borne Sound and Vibration Isolation
 
 Hi!

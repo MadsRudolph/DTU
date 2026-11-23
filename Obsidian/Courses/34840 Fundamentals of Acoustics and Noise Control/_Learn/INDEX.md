@@ -126,9 +126,9 @@ links to where the file actually lives in the vault.*
 
 ## 12 - Sound insulation
 
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/12 - Sound insulation/34840_sound_insulation_2025.pdf|34840_sound_insulation_2025]]
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems 11.pdf|34840_Problems 11]]
-- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions 11_2023.pdf|34840_Solutions 11]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/_Learn/12 - Sound insulation/34840_sound_insulation_2026.pdf|34840_sound_insulation_2025]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Problems 11_2026.pdf|34840_Problems 11]]
+- [[Courses/34840 Fundamentals of Acoustics and Noise Control/Exercises/34840_Solutions 11_2026.pdf|34840_Solutions 11]]
 
 ### Old videos
 

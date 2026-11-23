@@ -38,7 +38,8 @@ links to where the file actually lives in the vault.*
 
 ## Lecture 7 Thyristors and Thyristorized Converters
 
-- [[Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/Controlled Rectifiers.pdf|Controlled Rectifiers]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/Controlled rectifier.pdf|Controlled rectifier]]
+- [[Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/elec_thyristor_dynamic.zip|elec_thyristor_dynamic]]
 
 ## Lab 1
 
