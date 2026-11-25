@@ -1,5 +1,18 @@
 # Announcements
 
+## 2026-11-25 — Thursday 26/11: Project Q&A (9:30) + Lecture Bang & Olufsen (10:00)
+
+Dear all,
+The plan for tomorrow, Thursday 26/11 is:
+
+Project Q&A (9:30): you are now completing your lab work and you may have come across issues. Also regarding the last upcoming quiz.
+Guest lecture Bang & Olufsen (10:00): Specialists from B&O in Struer, Jutland, will travel to DTU to present their legendary audio company (https://www.bang-olufsen.com/en/dk). They design some of the more sophisticated (and expensive) audio systems in the market (https://www.bang-olufsen.com/en/dk/speakers/filter/floor). And they want to contact you for collaboration! I attach the plan of the talk they have sent.
+
+
+I am really looking forward to this B&O presentation. It is their first time as guests in the course, as far as I can remember.
+Best regards,
+Vicente
+
 ## 2026-11-19 — Monday: Demant lecture + Course evaluation + Exam Q&A
 
 Dear all,
