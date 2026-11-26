@@ -39,7 +39,7 @@ $$u_r = \frac{p}{\rho c}\left(1 + \frac{1}{jkr}\right)$$
 - **Far field ($kr \gg 1$, i.e. $r \gg \lambda / 2\pi$):** The wave front looks locally like a **plane wave**: $p$ and $u$ are **in phase** ($p/u = \rho c$), sound power radiates freely, and $|p| \propto 1/r$ (−6 dB per doubling of distance).
 
 ### Meaning 2 — Geometry View ($r$ vs. cone size $a$ & Rayleigh distance $r_R$)
-A real loudspeaker diaphragm has radius $a$, so rays from the center ($r$) and the rim ($\sqrt{r^2 + a^2}$) travel different distances to an on-axis mic ([[Lecture 11 - Radiation, Environment, Micro-speakers & Nonlinear Models (pre-read)|Lecture 11 §1.3]]):
+A real loudspeaker diaphragm has radius $a$, so rays from the center ($r$) and the rim ($\sqrt{r^2 + a^2}$) travel different distances to an on-axis mic ([[Lecture 11 - Radiation, Environment, Micro-speakers & Nonlinear Models|Lecture 11 §1.3]]):
 $$|p(r)| = 2\rho c U\,\left|\sin\!\left(\frac{k}{2}\left(\sqrt{r^2+a^2}-r\right)\right)\right|$$
 
 - **Geometric near field (Fresnel zone, $r < r_R = \pi a^2/\lambda$):** At high frequencies ($ka \gtrsim 1$), the center and rim rays arrive out of phase, creating peaks and destructive nulls along the axis. At low frequencies ($ka < 1$), $\lambda$ is much larger than $2a$, so no nulls exist.

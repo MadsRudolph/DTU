@@ -12,11 +12,16 @@ tags: [Electroacoustics, Audio, home]
 > **Semester:** Autumn 2026 (5th semester), 13 weeks · **10 ECTS — the big one this term**
 > **Placement:** E2 — **Mon 13:00–17:00 + Thu 8:30–12:00**, Campus **Lyngby**
 > **First lecture:** **Monday 31 August, 13:00 — room 019, building 352**
-> **Exam:** **Oral, 30 min — 9–10 December 2026 (E2-A/B)**. Lab + project quizzes count **30 %**.
-> **Aids:** Written aids allowed · 7-step scale, **external** censor
+> **Exam:** **Oral, ~25 min per student — 9–10 December 2026, b.352 r.019**. One of 10 topics drawn at random. The oral counts **70 %** and the lab + project quizzes **30 %**. ⏰ **Book a slot by Fri 4 Dec** (sheet in Learn → Basic Material). → [[Oral Exam - Topic Map]]
+> **Aids:** **printed or handwritten only, nothing electronic** · 7-step scale, **external** censor
 > **Department:** 34 — Electrical and Photonics Engineering
 > **Prerequisites:** **34840** · 22050 · simple analog circuits (Bode plots, coupled resonant circuits, basic mechanical physics)
 > **Replaces:** 31220 (also point-blocking)
+
+> [!important] Oral exam prep → [[Oral Exam - Topic Map]]
+> The 10 topics from `Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf` (26-Nov), with the examiners' example questions and, for each one, the lecture/lab/project notes to read. **Print it**: no electronics in the exam.
+> - [ ] Book an oral slot before **Fri 4 Dec**
+> - [ ] Project quiz part 2, **Mon 30 Nov** · demo **Thu 3 Dec**
 
 > [!info] Teaching staff (all building 352)
 > | | Name | Room | Email |
@@ -84,7 +89,7 @@ tags: [Electroacoustics, Audio, home]
 | Th 22/10 | ~~Radiation … nonlinear circuit models (FA)~~ → moved to Mo 2/11; replaced by **Lab B/C feedback + Q&A** *(VCH, 10:00)* | — | — | |
 | Mo 26/10 | **Lecture 10 — Advanced topics** (mixed models, metamaterials) *(FL, ~2 h)* — [[Lecture 10 - Advanced Topics - Mixed Models & Metamaterials\|note]] · ⏰ **Lab D/E quiz due** | — | — | |
 | Th 29/10 | Project Q&A *(VCH)* | — | — | |
-| Mo 2/11 | **Lecture 11 — Radiation, acoustic environment, µ-speakers / Nonlinear circuit models** *(FA, 13:00, postponed from 22/10)* | 13.7, 8.2 | 2.13 | |
+| Mo 2/11 | **Lecture 11 — Radiation, acoustic environment, µ-speakers / Nonlinear circuit models** *(FA, 13:00, postponed from 22/10)* — [[Lecture 11 - Radiation, Environment, Micro-speakers & Nonlinear Models\|note]] (checked against the deck + Problems 11, 26-Nov) | 13.7, 8.2 | 2.13 | |
 | Th 5/11 | Guest: **Peter Risby Andersen (GN Jabra)** 9:30 · Project Q&A *(VCH)* | — | — | |
 | Mo 9/11 | Guest: **Pierangelo Libianchi (WS Audiology)** 13:00 · Project work · ⏰ Project quiz part 1 due 8/11 | — | — | |
 | Th 12/11 | Project Q&A *(VCH)* | — | — | |

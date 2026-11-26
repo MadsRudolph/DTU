@@ -495,6 +495,27 @@ window.PROBLEMS = {
       sol: `<p><b>a)</b> x<sub>peak</sub> = <b>8.97 mm</b>, DC −0.16 mm, H2 5.65 %, <b>H3 36.7 %</b>, <b>THD 37.3 %</b>: the symmetric Bl drop gives mainly odd harmonics. <b>b)</b> 40 Hz: 4.05 mm, H2 2.78 %, H3 2.36 %, <b>THD 3.66 %</b>; 100 Hz: 0.83 mm, THD 0.72 %. Distortion is a large-excursion, low-frequency problem. <b>c)</b> f₂ ± f₁ = <b>14.3 %</b>, f₂ ± 2f₁ = <b>4.4 %</b> of the 1 kHz line: the 4 mm excursion drags Bl and Le at 40 Hz and modulates the 1 kHz tone, the argument for a two-way system. LTspice (B-source netlist) agrees with the Python model to 0.000 dB.</p>`,
       bench: "#bench-nonlin", benchLabel: "nonlinear woofer bench",
     },
+    {
+      id: "11 · S1", title: "Problems 11.1: directivity of a 6 cm piston", tag: "sheet + official solution · ka 1.64 / 3.29 / 5.48 · −6 dB never / ±42° / ±24° · null 44° at 5 kHz",
+      given: `A bass/midrange unit with piston radius a = 6 cm (ρ = 1.2, c = 344). Compute the directivity at 1.5, 3 and 5 kHz with <span class="mono">besselj</span> and plot it in a polar plot with a dB radius. (The sheet is headed "Problems 10"; the official plots use 1.5, 3 and <b>6</b> kHz.)`,
+      hint: `<span class="m">D = 2J_1(ka\\sin\\theta)/(ka\\sin\\theta)</span>. A negative dB number as a radius flips the plot: add a dynamic range (40 dB) and clip at 0. −6 dB where ka sin θ = 2.215, null where it is 3.832.`,
+      sol: `<p>ka = 2πfa/c = <b>1.64, 3.29, 5.48</b>. At 1.5 kHz the level never falls 6 dB (−3.1 dB at 90°). At 3 kHz the −6 dB half-angle is <b>±42°</b>, no null yet (ka &lt; 3.83), −17 dB at 90°. At 5 kHz: <b>±24°</b>, first null at <b>44.4°</b>, then a side lobe at −17.6 dB. The official solution plots <span class="m">\\max(20\\log|D| + 40, 0)</span> at 1.5/3/6 kHz (6 kHz: ±20°, null at 35.6°). Directivity factor from the deck: Q = 3.1 / 10.4 / 29 (DI 5.0 / 10.2 / 14.6 dB).</p>`,
+      bench: "#bench-piston", benchLabel: "piston bench (set a = 60 mm)",
+    },
+    {
+      id: "11 · S2", title: "Problems 11.2: radiated power and efficiency", tag: "sheet + official solution · |U| = 1/ω · 84.4 dB re 1 pW flat · knee 614 Hz · η₀ 0.28 %",
+      given: `A driver in an infinite baffle: S<sub>D</sub> = 500 cm², Bl = 10 T·m, R<sub>E</sub> = 5 Ω, M<sub>MS</sub> = 100 g (incl. air load), L<sub>E</sub> ignored, 1 V. a) The volume velocity above resonance. b) The radiated power with the exact radiation resistance and with the network approximation; compare. c) The efficiency.`,
+      hint: `Mass control: i = V/R<sub>E</sub>, u = Bl·i/(jωM<sub>MS</sub>), U = S<sub>D</sub>u. Power <span class="m">P_A = \\tfrac12\\mathrm{Re}(Z_{AR})|U|^2</span>. Network: <span class="m">M_{A1}\\parallel[R_{A2} + (R_{A1}\\parallel C_{A1})]</span>.`,
+      sol: `<p><b>a)</b> <span class="m">U = \\frac{1}{5}\\cdot\\frac{10}{j\\omega\\,0.1}\\cdot0.05 = \\frac{1}{j\\omega}</span>, so |U| = 1/(2πf): constant volume acceleration (back-EMF negligible above (Bl)²/(2πR<sub>E</sub>M<sub>MS</sub>) = 32 Hz). <b>b)</b> Exact <span class="m">\\mathrm{Re}Z_{AR} = \\frac{\\rho c}{\\pi a^2}(1 - J_1(2ka)/ka)</span>, a = 12.6 cm. Below the knee <span class="m">\\mathrm{Re}Z \\approx \\rho\\omega^2/2\\pi c</span>, so <span class="m">P_A = \\rho/4\\pi c = 2.78\\cdot10^{-4}</span> W = <b>84.4 dB re 1 pW</b>, flat; above ka = √2 (<b>614 Hz</b>) it falls 6 dB/octave. The network (L3 values) stays within 0.36 dB below the knee and misses only the J₁ ripple above it, as the official plot shows. <b>c)</b> <span class="m">P_E = V^2/2R_E = 0.1</span> W → <span class="m">\\eta_0 = \\rho(Bl)^2S_D^2/(2\\pi cR_EM_{MS}^2)</span> = <b>0.28 %</b>, falling with the power above the knee (official: ≈ 3·10⁻³).</p>`,
+      bench: "#bench-power11", benchLabel: "power and directivity-factor bench",
+    },
+    {
+      id: "11 · S3", title: "Problems 11.3: cabinet diffraction with diffrac.m", tag: "sheet · no official solution · centred: +9.9 dB at 538 Hz, −1.3 dB at 1077 Hz · offset ripple 11.2 → 5.1 dB",
+      given: `a) A point source in the centre of a circular baffle, R = 30 cm; compare the response at 2 m at 0°, 30° and 60°. b) Move the source off centre (move the screen, since diffrac puts the source at (0,0)). c) Design and test your own baffle shapes.`,
+      hint: `The edge re-radiates an inverted, delayed copy. Extra path for the centred source on axis: <span class="m">\\Delta = R + \\sqrt{r^2+R^2} - r</span>. Peak at Δ = λ/2, dip at Δ = λ.`,
+      sol: `<p><b>a)</b> Δ = 0.322 m → predicted peak 532 Hz, dip 1064 Hz. diffrac: <b>+9.9 dB at 538 Hz</b>, <b>−1.3 dB at 1077 Hz</b>, then ripple around +6 dB; at 30° and 60° the rim arrivals spread in time and the ripple shrinks. Same geometry as Lab E's circle (measured dips 1059/2115 Hz). <b>b)</b> Circle moved by (10, 5) cm: rim distances 19–41 cm, the step stays, the 300 Hz–5 kHz ripple drops from <b>11.2 to 5.1 dB</b>: asymmetric placement works. <b>c)</b> 20 × 35 cm front, 5 cm piston: ripple 3.4 dB centred, 2.8 dB 3 cm off-centre, 2.8 dB with 5 cm chamfers. The offset helps; a chamfer does not in a thin-edge model (real roundovers work over a distance comparable to λ). Worked in the MATLAB live script <span class="mono">Lecture11_Radiation_Problems11</span>.</p>`,
+      bench: "#bench-edge11", benchLabel: "box-edge bench",
+    },
   ],
 };
 

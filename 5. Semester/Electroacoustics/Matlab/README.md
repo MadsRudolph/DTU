@@ -18,6 +18,7 @@ travels over Syncthing.
 | `Problems6_Metrology_Calibration` | Problems 6: GUM uncertainty, LTspice ±10 % runs, pistonphone and calibrator | `Problems 5-6 - Condenser Microphone/` |
 | `Lecture7_Loudspeakers_Problems7` | Problems 7: T-S parameters, 315 SWR, efficiency, excursion, lossy L_E | `Problems 7 - Loudspeaker/` |
 | `Lecture10_AdvancedTopics_MixedModels` | Lecture 10 (no problem sheet): the deck's own examples. Ear-drum impedance (slide 2), five-layer wall by LEM / LEM+TMM / full TMM (slides 4–9) with mass-law and resonance checks, 1-D Bragg and local-resonator dispersion (slide 18) | `Lecture 10 - Mixed Models/` (`p10.py`) |
+| `Lecture11_Radiation_Problems11` | Problems 11 (the sheet says "Problems 10"): 1 piston directivity a = 6 cm, polar plots; 2 radiated power, exact Re(Z_AR) vs the M_A1/R_A1/R_A2/C_A1 network, efficiency 0.28 %; 3 `diffrac.m`: centred and offset source on a 30 cm circle, own baffle shapes. Official solutions cover 1–2 only (their polar plot uses 6 kHz, the sheet 5 kHz) | `Lecture 11 - Radiation & Nonlinear/` (`p11.py`, the pre-read numbers) |
 | `LabD_Loudspeakers1_Study` | Lab D on our own data: impedance of the three units, Appendix B T-S parameters, V_AS, vented box, near field, room modes. Reads `../Labs/Lab D/data/` | — |
 | `LabE_Loudspeakers2_Study` | Lab E on our own data: baffle step, circle diffraction + `diffrac.m`, IEC directivity vs a piston, System D levels, phase compensation and relative phase. Reads `../Labs/Lab E/data/` | — |
 

@@ -1,6 +1,6 @@
 /* The Analogy Bench — lecture 11 (radiation, acoustic environment, micro-speakers,
-   nonlinear lumped models). Pre-read: written before the lecture from Beranek & Mellow
-   13.7 / 8.1–8.3 / 6.18 and p11.py. Physics first (pure functions), then the benches, then the boot. */
+   nonlinear lumped models). §1–4 pre-read from Beranek & Mellow 13.7 / 8.1–8.3 / 6.18 and p11.py;
+   §5–6 from the deck (checked 26-Nov) and Problems 11. Physics first (pure functions), then the benches, then the boot. */
 "use strict";
 
 /* ===== L11 · physics ===== */
@@ -257,7 +257,101 @@ function benchNonlinear() {
   b.note.innerHTML = `<p>The System D woofer (Scan-Speak 26W/8534G00, Lab D fit: Bl 8.28 T·m, M<sub>MS</sub> 44.3 g in a baffle, C<sub>MS</sub> 1.174 mm/N, f<sub>s</sub> 22.1 Hz) with <b>assumed</b> shapes: Bl falls to 82 % at ±6 mm (centred 0.5 mm outward), C<sub>MS</sub> to 71 % outward and 80 % inward, Le 1.80 mH inward, 1.20 mH outward. The state is (ψ = Le·i, u, x), integrated with RK4 exactly as p11.py does: 256 samples per period, 4 sub-steps, 40 periods to settle, 10 analysed. It reproduces the script: <b>20 Hz, 10 V → x 8.97 mm, H3 36.7 %, THD 37.3 %</b>; <b>40 Hz, 10 V → THD 3.66 %</b>; the two-tone 10 V at 40 Hz + 2 V at 1 kHz gives sidebands of <b>14.3 %</b> (±40 Hz) and <b>4.4 %</b> (±80 Hz): switch on the second tone and set f = 40 Hz.</p><p><b>Try:</b> keep 10 V and go from 20 to 100 Hz: x shrinks ten-fold and the distortion goes with it. Distortion is a large-excursion, low-frequency problem. Below f<sub>s</sub> the cone moves 1.71 mm per volt, so X<sub>max</sub> is reached at only 3.5 V. The symmetric Bl drop gives mostly H3; the offsets and Le(x) give H2 and pull the mean position inward (negative DC).</p>`;
 }
 
+
+/* ===== L11 · from the lecture (deck checked 26-Nov) + Problems 11 ===== */
+const P11S = { rho: 1.2, c: 344 };                  // the Problems 11 sheet's air
+function pistonQ(ka) {                               // deck p. 21: Q_S = (ka)² / (1 − J1(2ka)/ka) → 2 at low ka
+  if (ka < 1e-3) return 2;
+  return ka * ka / (1 - l11J1(2 * ka) / ka);
+}
+function coverage6(ka) {                             // −6 dB half-angle (deg), null when never reached: 2J1(v)/v = 0.5 at v = 2.2151
+  return ka > 2.2151 ? Math.asin(2.2151 / ka) * 180 / Math.PI : null;
+}
+function p11Power(f, p) {                            // Problem 2: mass-controlled driver in an infinite baffle, L_E ignored
+  const rho = p.rho ?? P11S.rho, c = p.c ?? P11S.c;
+  const a = Math.sqrt(p.Sd / Math.PI), w = TAU * f, ka = w / c * a;
+  const U = p.Sd * p.Bl * p.V / (p.Mms * p.Re * w);          // |U| = S_D Bl V / (ω M_MS R_E)
+  const R0 = rho * c / (Math.PI * a * a);
+  const reExact = R0 * (1 - l11J1(2 * ka) / ka);
+  const MA1 = 8 * rho / (3 * Math.PI * Math.PI * a), RA1 = 0.441 * R0, RA2 = R0, CA1 = 5.94 * a ** 3 / (rho * c * c);
+  const Zrc = par(ZR(RA1), ZC(f, CA1)), Zm = ZL(f, MA1);
+  const Znet = cdiv(cmul(Zm, cadd(ZR(RA2), Zrc)), cadd(Zm, cadd(ZR(RA2), Zrc)));
+  const PE = p.V * p.V / (2 * p.Re);
+  const Pex = 0.5 * reExact * U * U, Pnet = 0.5 * Znet.re * U * U;
+  return { a, ka, U, Pex, Pnet, PE, eta: Pex / PE, PLF: rho / (4 * Math.PI * c) * (p.Sd * p.Bl * p.V / (p.Mms * p.Re)) ** 2,
+    fknee: Math.SQRT2 * c / (TAU * a), femf: p.Bl * p.Bl / (p.Re * p.Mms) / TAU };
+}
+const dBW = (P) => 10 * Math.log10(P / 1e-12);
+
+/* simple edge-wave model of a circular baffle: H = 2 − mean over the rim of e^{−jkΔ_i}
+   (direct sound doubled by the baffle, each rim point sends back an inverted copy delayed by its extra path) */
+function edgeModel(f, R, off, r, thDeg, n = 180, c = 343) {
+  const th = thDeg * Math.PI / 180, P = [r * Math.sin(th), 0, r * Math.cos(th)], k = TAU * f / c;
+  let re = 0, im = 0;
+  for (let i = 0; i < n; i++) {
+    const ph = TAU * (i + 0.5) / n, ex = off[0] + R * Math.cos(ph), ey = off[1] + R * Math.sin(ph);
+    const ds = Math.hypot(ex, ey), dr = Math.hypot(P[0] - ex, P[1] - ey, P[2]);
+    const D = ds + dr - r; re += Math.cos(k * D); im -= Math.sin(k * D);
+  }
+  return dB(Math.hypot(2 - re / n, -im / n));
+}
+
+function benchPower11() {
+  const b = bench("bench-power11", "Power response and directivity factor: Problems 11.1–11.2", "lecture 11 · §5 · deck p. 9, 19–22");
+  if (!b) return;
+  const st = { Sd: 500e-4, Bl: 10, Re: 5, Mms: 0.100, V: 1, f: 3000 };
+  const sS = slider(b.ctl, { label: "cone area <b>S<sub>D</sub></b>", min: 5, max: 1000, value: 500, log: true, unit: "cm²", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.Sd = v * 1e-4; upd(); } });
+  slider(b.ctl, { label: "moving mass <b>M<sub>MS</sub></b>", min: 2, max: 200, value: 100, log: true, unit: "g", dom: "me", fmt: v => v.toFixed(1), onchange: v => { st.Mms = v / 1000; upd(); } });
+  slider(b.ctl, { label: "force factor <b>Bl</b>", min: 1, max: 20, step: 0.1, value: 10, unit: "T·m", dom: "el", fmt: v => v.toFixed(1), onchange: v => { st.Bl = v; upd(); } });
+  slider(b.ctl, { label: "cursor <b>f</b>", min: 50, max: 20000, value: st.f, log: true, dom: "ac", fmt: v => hz(v), onchange: v => { st.f = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "u", label: "|U| above f_s (1 V)", dom: "ac" }, { id: "plf", label: "flat power ρ/4πc·(…)²" }, { id: "knee", label: "knee ka = √2 at" }, { id: "eta", label: "efficiency η₀ = P_A/P_E" }, { id: "dev", label: "network vs exact, below knee" }, { id: "q", label: "Q / DI at f", dom: "ac" }, { id: "cov", label: "−6 dB coverage at f" }]);
+  const pp = new Plot(b.plot, { h: 250, xmin: 20, xmax: 20000, ymin: 40, ymax: 95, ylabel: "P_A (dB re 1 pW)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  const pq = new Plot(b.plot, { h: 200, xmin: 20, xmax: 20000, ymin: 0, ymax: 20, ylabel: "DI = 10 log Q (dB)", yfmt: v => v.toFixed(1), yunit: " dB" });
+  function upd() {
+    const fs = logspace(20, 20000, 400), r = fs.map(f => [f, p11Power(f, st)]);
+    const n = p11Power(st.f, st), Q = pistonQ(n.ka), cv = coverage6(n.ka);
+    let dev = 0; for (const [f, x] of r) if (f < x.fknee) dev = Math.max(dev, Math.abs(10 * Math.log10(x.Pnet / x.Pex)));
+    const pl = dBW(n.PLF);
+    pp.set({ ymin: Math.floor(pl - 45), ymax: Math.ceil(pl + 6), series: [{ name: "exact Re Z_AR (Bessel)", color: DOMC.ac, pts: r.map(([f, x]) => [f, dBW(x.Pex)]) }, { name: "network M_A1, R_A1, R_A2, C_A1", color: DOMC.el, dash: "5 4", pts: r.map(([f, x]) => [f, dBW(x.Pnet)]) }],
+      vlines: [{ x: n.fknee, label: "ka = √2", color: DOMC.warn }, { x: st.f, label: "f", color: DOMC.ink }] });
+    pq.set({ series: [{ name: "DI of this piston", color: DOMC.ac, pts: fs.map(f => [f, 10 * Math.log10(pistonQ(TAU * f / P11S.c * n.a))]) }],
+      vlines: [{ x: st.f, label: "f", color: DOMC.ink }] });
+    ro({ u: `${sci(n.U * TAU * st.f)}/ω m³/s`, plf: `${pl.toFixed(1)} dB re 1 pW`, knee: hz(n.fknee), eta: `${(n.PLF / n.PE * 100).toFixed(3)} %`, dev: `${dev.toFixed(2)} dB`,
+      q: `${Q.toFixed(2)} / ${(10 * Math.log10(Q)).toFixed(1)} dB (ka ${n.ka.toFixed(2)})`, cov: cv === null ? "wider than ±90°" : `±${cv.toFixed(0)}°` });
+  }
+  upd();
+  b.note.innerHTML = `<p>Start values: Problem 11.2 (S<sub>D</sub> 500 cm², Bl 10 T·m, R<sub>E</sub> 5 Ω, M<sub>MS</sub> 100 g, 1 V, ρ 1.2, c 344). Above resonance the cone is mass controlled, so <span class="m">|U| = S_DBlV/(\\omega M_{MS}R_E) = 1/\\omega</span>: a constant volume acceleration. With <span class="m">\\mathrm{Re}\\,Z_{AR}\\approx\\rho\\omega^2/2\\pi c</span> below the knee the ω's cancel and the power is flat at <b>ρ/4πc = 84.4 dB re 1 pW</b>; above <b>ka = √2 (614 Hz)</b> it falls 6 dB/octave. The lumped network of L3 stays within <b>0.36 dB</b> below the knee. Efficiency <b>η₀ = 0.28 %</b>. All as the official solution and the MATLAB live script. The lower plot is the deck's directivity factor <span class="m">Q = (ka)^2/(1-J_1(2ka)/ka)</span>: 2 (3 dB, half space) at low f, ≈ (ka)² high up.</p><p><b>Try:</b> make the cone small (25 cm²): the knee moves up an octave and a half and the flat power drops (S<sub>D</sub>² in η₀). That is the trade a tweeter makes. Then read Q at 3 kHz for a 6 cm piston (S<sub>D</sub> ≈ 113 cm²): 10.4, coverage ±42°: <b>narrow coverage = high Q = long reach in a room</b> (r<sub>c</sub> = √(QA/16π)).</p>`;
+  if (typeof renderMath === "function") renderMath(b.note);
+}
+
+function benchEdge11() {
+  const b = bench("bench-edge11", "Box edges: a circular baffle, a source, and its inverted edge echo", "lecture 11 · §6 · deck p. 28–39 · Problem 11.3");
+  if (!b) return;
+  const st = { R: 0.30, dx: 0, dy: 0, th: 0, r: 2 };
+  const chips = h("div", { class: "chips" });
+  const presets = [["Problem 3a: centred", 0, 0], ["Problem 3b: (10, 5) cm off", 0.10, 0.05]];
+  for (const [n, x, y] of presets) chips.append(h("button", { type: "button", class: "chip ac" + (x === 0 ? " on" : ""), onclick: (e) => { st.dx = x; st.dy = y; sx.set(x * 100); sy.set(y * 100); $$(".chip", chips).forEach(z => z.classList.toggle("on", z === e.target)); upd(); } }, n));
+  b.ctl.append(chips);
+  slider(b.ctl, { label: "baffle radius <b>R</b>", min: 5, max: 60, step: 1, value: 30, unit: "cm", dom: "me", fmt: v => v.toFixed(0), onchange: v => { st.R = v / 100; upd(); } });
+  const sx = slider(b.ctl, { label: "source offset <b>x</b>", min: 0, max: 20, step: 1, value: 0, unit: "cm", dom: "me", fmt: v => v.toFixed(0), onchange: v => { st.dx = v / 100; upd(); } });
+  const sy = slider(b.ctl, { label: "source offset <b>y</b>", min: 0, max: 20, step: 1, value: 0, unit: "cm", dom: "me", fmt: v => v.toFixed(0), onchange: v => { st.dy = v / 100; upd(); } });
+  slider(b.ctl, { label: "listening angle <b>θ</b>", min: 0, max: 60, step: 5, value: 0, unit: "°", dom: "ac", fmt: v => v.toFixed(0), onchange: v => { st.th = v; upd(); } });
+  const ro = readouts(b.ctl, [{ id: "d", label: "on-axis extra path Δ (centred)" }, { id: "pk", label: "peak Δ = λ/2 / dip Δ = λ", dom: "ac" }, { id: "st", label: "baffle step c/πW (W = 2R)" }, { id: "rip", label: "ripple 300 Hz – 5 kHz" }]);
+  const pp = new Plot(b.plot, { h: 280, xmin: 50, xmax: 20000, ymin: -6, ymax: 13, ylabel: "dB re free field", yfmt: v => v.toFixed(1), yunit: " dB" });
+  function upd() {
+    const fs = logspace(50, 20000, 700);
+    const H = fs.map(f => [f, edgeModel(f, st.R, [st.dx, st.dy], st.r, st.th)]);
+    const D = st.R + Math.hypot(st.r, st.R) - st.r;
+    const band = H.filter(([f]) => f > 300 && f < 5000).map(([, v]) => v);
+    pp.set({ series: [{ name: `θ = ${st.th}°`, color: DOMC.ac, pts: H }], regions: [{ from: 50, to: 343 / (Math.PI * 2 * st.R), label: "box gone: 4π", color: "var(--me-soft)" }],
+      vlines: [{ x: 343 / (2 * D), label: "λ/2", color: DOMC.warn }, { x: 343 / D, label: "λ", color: DOMC.ink3 }] });
+    ro({ d: `${(D * 100).toFixed(1)} cm`, pk: `${hz(343 / (2 * D))} / ${hz(343 / D)}`, st: hz(343 / (Math.PI * 2 * st.R)), rip: `${(Math.max(...band) - Math.min(...band)).toFixed(1)} dB` });
+  }
+  upd();
+  b.note.innerHTML = `<p>A monopole on a thin circular baffle (Problem 11.3: R = 30 cm, heard at 2 m). The baffle doubles the direct sound (+6 dB); every rim point sends back an <b>inverted, delayed</b> copy (deck p. 29). Centred and on axis all rim points arrive together: Δ = 32.2 cm, so a peak at Δ = λ/2 (<b>532 Hz, +9.5 dB here</b>; course <span class="mono">diffrac.m</span> gives +9.9 dB at 538 Hz) and a dip at Δ = λ (<b>1064 Hz</b>; diffrac 1077 Hz, −1.3 dB). That is exactly Lab E's circle, measured dips 1059/2115 Hz. Below about c/πW the box disappears and the level falls to the 4π value: the <b>baffle step</b>.</p><p><b>Try:</b> press "(10, 5) cm off": the rim distances now spread from 19 to 41 cm, the echoes smear out and the ripple roughly halves (diffrac: 11.2 → 5.1 dB). Same with θ = 30° or 60°. That is the deck's p. 39 advice: <b>asymmetric driver placement</b> (and rounded edges, which this thin-edge model, like diffrac, cannot show). <i>Simplification:</i> this model gives every rim point the same strength, so it keeps the full centred ripple to the top of the band where diffrac's slowly shrinks; the frequencies are right, the high-frequency depth is not.</p>`;
+}
+
 /* ===== boot ===== */
 document.addEventListener("DOMContentLoaded", () => {
-  benchPiston(); benchSpace(); benchMicroSpk(); benchNonlinear();
+  benchPiston(); benchSpace(); benchMicroSpk(); benchNonlinear(); benchPower11(); benchEdge11();
 });

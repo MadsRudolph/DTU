@@ -33,13 +33,14 @@
     <li><a href="#l9" data-quiz="9"><span class="n">L9</span><span>Loudspeaker systems<span class="sub">crossovers, LR, project</span></span></a></li>
     <li><a href="#lumped" data-quiz="LEM"><span class="n">LEM</span><span>Lumped elements, crash course<span class="sub">sketch → circuit → curve</span></span></a></li>
     <li><a href="#l10" data-quiz="10"><span class="n">L10</span><span>Mixed models &amp; metamaterials<span class="sub">LEM · TMM · FEM · band gaps</span></span></a></li>
-    <li><a href="#l11" data-quiz="11"><span class="n">L11</span><span>Radiation &amp; nonlinear models<span class="sub">beaming · walls · µ-speakers · Bl(x) · pre-read</span></span></a></li>
+    <li><a href="#l11" data-quiz="11"><span class="n">L11</span><span>Radiation &amp; nonlinear models<span class="sub">beaming · power &amp; Q · box edges · Bl(x)</span></span></a></li>
     <li><a href="#labA" data-quiz="A"><span class="n">Lab A</span><span>Analogy circuits in LTspice<span class="sub">4 parts, quiz due 20 Sep</span></span></a></li>
     <li><a href="#labB" data-quiz="B"><span class="n">Lab B</span><span>Microphone scattering<span class="sub">theory, BEM, measured 22 Sep</span></span></a></li>
     <li><a href="#labC" data-quiz="C"><span class="n">Lab C</span><span>Microphone calibration<span class="sub">measured 29 Sep, f_s and Q, LTspice</span></span></a></li>
     <li><a href="#labD" data-quiz="D"><span class="n">Lab D</span><span>Loudspeaker impedance &amp; near field<span class="sub">6 Oct · T-S, V_AS, f_B</span></span></a></li>
     <li><a href="#labE" data-quiz="E"><span class="n">Lab E</span><span>Loudspeaker in free field<span class="sub">20 Oct · baffles, directivity, phase</span></span></a></li>
     <li><a href="#feedback" data-quiz="FB"><span class="n">FB</span><span>Quiz feedback → oral drill<span class="sub">A 89 % · B/C 98 % · D/E 98 %</span></span></a></li>
+    <li><a href="#oral"><span class="n">Oral</span><span>The ten exam topics<span class="sub">9–10 Dec · book by 4 Dec</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
   <div class="rail-foot">
@@ -851,9 +852,9 @@
 <!-- ============================== L11 ============================== -->
 <section class="lecture" id="l11">
   <div class="lec-head">
-    <div class="eyebrow">Lecture 11 · Mon 2 Nov · FA · pre-read, check against the lecture</div>
+    <div class="eyebrow">Lecture 11 · Mon 2 Nov · FA · checked against the deck 26 Nov · oral topic 10</div>
     <h2>Big pistons, real rooms, small speakers, large signals</h2>
-    <div class="meta">Beranek &amp; Mellow 2019 §13.7 (radiation), §8.1–8.3 (cell-phone transducers), §6.18 (nonlinearity) · no slides or problem sheet yet · p11.py (Python + LTspice B-source netlist) · written before Finn's lecture: <b>pre-read, check against the lecture</b></div>
+    <div class="meta">Beranek &amp; Mellow 2019 §13.7 (radiation), §8.1–8.3 (cell-phone transducers), §6.18 (nonlinearity) · p11.py (Python + LTspice B-source netlist) · deck <span class="mono">17-Loudspeakers3_RoomInteraction_v3</span> (63 p.) · Problems 11 + official solutions (1–2) · MATLAB Lecture11_Radiation_Problems11 · §1–4 written before the lecture, <b>§5–6 from the deck</b></div>
   </div>
   <div class="one-idea"><span class="eyebrow">The one idea</span>The linear lumped loudspeaker of lectures 7–9 assumed a <b>small</b> piston in <b>free</b> space driven by a <b>linear</b> circuit; above ka ≈ 1 it beams, walls and boxes change both level and power, and at large excursion Bl, K and Le depend on x, which turns one tone into harmonics, a DC offset and intermodulation.</div>
 
@@ -924,12 +925,51 @@
 
   <div class="callout trap"><span class="eyebrow">The trap</span><p>Distortion is quoted on the <b>pressure</b>, which follows the cone <b>acceleration</b>, not the displacement. Harmonic n of x is weighted by n² in the acceleration, so below f<sub>s</sub> the pressure THD is larger than the displacement THD. And it is a <b>low-frequency</b> problem: the same 10 V gives 37 % THD at 20 Hz and 0.7 % at 100 Hz, because x is ten times smaller.</p></div>
 
-  <div class="callout real"><span class="eyebrow">Pre-read: questions for Finn</span><ul>
+
+  <div class="callout real"><span class="eyebrow">What the lecture actually weighted (deck, checked 26 Nov)</span><p>Finn's deck is titled <i>Radiation and acoustic environment</i>. Most of it is the <b>room</b> (modes at low f, direct vs reverberant at high f), <b>directivity and power response</b>, and <b>box diffraction</b>. Headphones, micro-speakers and balanced-armature receivers came from a guest; <b>nonlinearity got one slide</b> ("covered in detail in 34871"). So §3 and §4 above are background; §5 and §6 below are the core of <b>oral topic 10: directivity, box diffraction, room interaction</b>.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§5 · deck p. 4–27</span>The room, the power response and the directivity factor</h3>
+    <div class="table-wrap"><table>
+      <tr><th>region</th><th>what the room is</th><th>what decides the level</th></tr>
+      <tr><td class="ac">low f</td><td><b>modes</b>: <span class="m">f_N = \frac{c}{2}\sqrt{(n_x/l_x)^2+(n_y/l_y)^2+(n_z/l_z)^2}</span></td><td>source <b>and</b> listener position through the mode shapes <span class="m">\psi_m(r_0)\psi_m(r)</span>; a corner source excites every mode (about 15 dB above the centre on the slide)</td></tr>
+      <tr><td class="ac">high f</td><td>many overlapping modes: a diffuse field, ray tracing works</td><td>the reverberant level is set by the <b>power</b>: <span class="m">p^2_{dif} = 4\rho c\,P_a/A</span>; the direct sound by the on-axis response</td></tr>
+    </table></div>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">power from volume velocity (p. 9)</span><div class="M">P_a = \tfrac12\,\mathrm{Re}(Z_a)\,|U|^2,\quad \mathrm{Re}(Z_a) = \frac{\rho\omega^2}{4\pi c}\ \text{(free monopole)}</div><p>Constant power needs constant <b>volume acceleration</b>: a mass-controlled driver. Beolab 5 measures Re(Z<sub>a</sub>) in the room and inverts it (up to 24 modes) → constant power, independent of where the <i>speaker</i> stands, not of where you sit.</p></div>
+      <div class="fcard"><span class="eyebrow">directivity factor, baffled piston (p. 21)</span><div class="M">Q_S(f) = \frac{I_{S,\text{axis}}}{I_{\text{omni},\text{axis}}}\Big|_{\text{same }P} = \frac{(ka)^2}{1 - J_1(2ka)/ka}</div><p>→ 2 at low f (half space), ≈ (ka)² high up. <b>DI = 10 log Q</b>: monopole on a baffle 3 dB, cardioid 4.7, hypercardioid 6, dipole 4.8 dB (p. 22).</p></div>
+      <div class="fcard"><span class="eyebrow">D, Q and coverage, related</span><div class="M">Q = \frac{4\pi}{\oint D^2(\theta,\varphi)\,d\Omega},\qquad r_c = \sqrt{\frac{QA}{16\pi}}</div><p><b>D(θ)</b> is the shape, <b>Q</b> one number per frequency, <b>coverage</b> the angle where D stays above −6 dB (common convention; the deck lists only what to consider). Narrow coverage ⇒ high Q ⇒ longer reach before the reverberant field takes over.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-power11"></div>
+
+  <div class="callout trap"><span class="eyebrow">The trap</span><p>"It measures flat on axis, so it is balanced." Not in a room. As the piston beams, a flat on-axis response means <b>falling power</b> (deck p. 20: a 12 cm piston EQ'd flat on axis loses power above about 500 Hz), and beyond the critical distance you hear the power. The deck's conclusion, word for word: <b>"Power response is just as important as on-axis response."</b> Room correction follows the same logic: a smooth correction averaged over several seats, never an exact EQ for one point.</p></div>
+
+  <div class="block">
+    <h3><span class="eyebrow">§6 · deck p. 28–39</span>Box edges: diffraction, and why it is the microphone's free-field correction backwards</h3>
+    <div class="formulas">
+      <div class="fcard"><span class="eyebrow">edge echo (p. 29)</span><div class="M">\Delta = \tfrac{\lambda}{2} \Rightarrow \text{peak (up to +6 dB over baffled)},\quad \Delta = \lambda \Rightarrow \text{dip}</div><p>Each edge re-radiates an <b>inverted, delayed</b> copy. Centred source, circle R, listener at r on axis: <span class="m">\Delta = R + \sqrt{r^2+R^2} - r</span>.</p></div>
+      <div class="fcard"><span class="eyebrow">Terai / diffrac.m (p. 32, 38)</span><div class="M">\texttt{diffrac(corners, r, angles, src\_radius, fs)}</div><p>Thin baffle, source at (0,0), returns dB re free field: 0 dB at low f (box gone), +6 dB with ripple above. The function of Lab E and Problem 11.3.</p></div>
+      <div class="fcard"><span class="eyebrow">reciprocity (p. 35)</span><div class="M">\text{source}\leftrightarrow\text{receiver}:\ \text{same response}</div><p>Diffraction causes both the <b>free-field correction of a microphone</b> and the <b>baffle response of a monopole</b>. Lab B (mock-up +8.6 dB at 1155 Hz) and Lab E (circle dips 1059/2115 Hz) are one phenomenon from two ends: a good oral link.</p></div>
+    </div>
+  </div>
+
+  <div id="bench-edge11"></div>
+
+  <div class="callout real"><span class="eyebrow">Also in the deck, briefly</span><ul>
+    <li><b>Placement</b> (p. 14): far from walls → reflections later, less comb filtering; near boundaries → more bass (higher radiation impedance, modes driven harder).</li>
+    <li><b>Minimising diffraction</b> (p. 39): rounded edges, asymmetric driver placement. Line arrays (p. 42): a delay and an EQ per unit steer the beam.</li>
+    <li><b>Headphones</b> (p. 47): a small closed volume is a compliance <span class="m">C_A = V/\rho c^2</span>, so the response is flat <b>below f<sub>s</sub></b>, if there is no leak. Cylinder cross modes <span class="m">f_{10} = 1.84c/\pi D</span>, <span class="m">f_{01} = 3.83c/\pi D</span>, plus the ear canal.</li>
+    <li><b>Micro-speakers</b> (p. 48–50): one-piece plastic diaphragm and suspension, no spider; B&amp;O A8: R<sub>e</sub> 18.7 Ω, f<sub>s</sub> 231 Hz, M<sub>ms</sub> 13 mg, Bl 0.36 N/A. <b>Balanced-armature receivers</b> (hearing aids, in-ears): a 5-mass model.</li>
+    <li>Not in the deck, from the pre-read: the Rayleigh distance (§1) and the phone-receiver circuit (§3). Keep them as background.</li>
+  </ul></div>
+  <div class="callout real"><span class="eyebrow">Pre-read questions, still open after the deck</span><ul>
     <li>Rayleigh distance as a²/λ or πa²/λ?</li>
     <li>Which LTspice model: Le(x) with the reluctance force, or only Bl(x) and K(x)?</li>
     <li>Is the micro-speaker part about phones (Beranek ch. 8) or about MEMS speakers?</li>
     <li>How much of this is examinable, given that 34871 (January) covers it in depth?</li>
-    <li>This section was written before the lecture with no slides. The driver shapes Bl(x), K(x), Le(x) are assumptions (no Klippel data for this unit) and the micro-speaker values are illustrative.</li>
+    <li>§1–4 were written before the lecture with no slides. The driver shapes Bl(x), K(x), Le(x) are assumptions (no Klippel data for this unit) and the micro-speaker values are illustrative.</li>
   </ul></div>
 
   <div id="problems-11"></div>
@@ -1425,6 +1465,41 @@
   <div class="callout real"><span class="eyebrow">From the graders</span><p>"Explain, not only describe": the full marks went to answers that gave a number <b>and</b> a physical reason (Lab A Q15, Q27; Lab B/C Q11; Lab E Q10). Lab B's 20/20 still came with a tip for the oral: the <b>area-averaged BEM</b> curve is the evidence for why the handbook's free-field peak sits higher than the scaled point value. The diaphragm averages the pressure over its face.</p></div>
 
   <div id="quiz-FB"></div>
+</section>
+
+<!-- ============================== ORAL ============================== -->
+<section class="lecture" id="oral">
+  <div class="lec-head">
+    <div class="eyebrow">Oral exam · 9–10 Dec 2026 · b.352 r.019 · ~25 min · book a slot by Fri 4 Dec</div>
+    <h2>Ten topics, one drawn at random</h2>
+    <div class="meta">Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf (VCH &amp; FL, Nov 2026) · vault: Exam Prep/Oral Exam - Topic Map · oral 70 %, exercises + project 30 % · aids: printed or handwritten only</div>
+  </div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>You draw one topic, develop it at the board, and the questions then follow your answers up or down; the examiners want <b>why</b>, the <b>connections</b> between topics, and your own <b>labs and project</b> as evidence.</div>
+
+  <div class="block">
+    <h3><span class="eyebrow">The map</span>Each topic, the sections to revisit, and one question they gave as an example</h3>
+    <div class="table-wrap"><table>
+      <tr><th>#</th><th>topic</th><th>on this site</th><th>an example question from the rules</th></tr>
+      <tr><td>1</td><td>Analogies: impedance and mobility</td><td><a href="#l1">L1</a> · <a href="#l2">L2</a> · <a href="#lumped">LEM</a> · <a href="#labA">Lab A</a></td><td>What is resonance and anti-resonance, and what is the impedance/admittance there?</td></tr>
+      <tr><td>2</td><td>Acoustic / mechanical elements and systems</td><td><a href="#l2">L2</a> · <a href="#l3">L3</a> · <a href="#l10">L10</a></td><td>When and why do we need a length correction, and how does it relate to the radiation impedance?</td></tr>
+      <tr><td>3</td><td>Coupling electrical, mechanical, acoustic</td><td><a href="#l4">L4</a> · <a href="#labA">Lab A</a> parts 3–4</td><td>Explain impedance conversion and how to combine coupled circuits.</td></tr>
+      <tr><td>4</td><td>Dynamic microphones</td><td><a href="#l4">L4</a> · <a href="#l5">L5</a></td><td>What is the proximity effect and what makes it more pronounced?</td></tr>
+      <tr><td>5</td><td>Condenser microphones</td><td><a href="#l5">L5</a> · <a href="#l6">L6</a> · <a href="#labB">Lab B</a></td><td>How does the microphone body affect the measured pressure, and how is it compensated?</td></tr>
+      <tr><td>6</td><td>Metrology, uncertainty, calibration</td><td><a href="#l6">L6</a> · <a href="#labC">Lab C</a></td><td>Explain uncertainty, traceability, repeatability and reproducibility.</td></tr>
+      <tr><td>7</td><td>The electrodynamic loudspeaker</td><td><a href="#l7">L7</a> · <a href="#labD">Lab D</a> · <a href="#l11">L11 §4</a></td><td>What are the T-S parameters and how are they measured? Main nonlinearities?</td></tr>
+      <tr><td>8</td><td>Enclosures: closed and vented</td><td><a href="#l8">L8</a> · <a href="#labD">Lab D</a></td><td>How do you get the far-field LF response of a vented box from near-field measurements?</td></tr>
+      <tr><td>9</td><td>Systems and crossover networks</td><td><a href="#l9">L9</a> · <a href="#labE">Lab E</a> part 2</td><td>Why must the measured phase of each unit be corrected, and how?</td></tr>
+      <tr><td>10</td><td>Directivity, box diffraction, room</td><td><a href="#l11">L11 §1, §5, §6</a> · <a href="#labE">Lab E</a> part 1</td><td>Define and relate the directivity function, directivity factor and coverage.</td></tr>
+    </table></div>
+  </div>
+
+  <div class="callout real"><span class="eyebrow">How they examine (rules, p. 2)</span><ul>
+    <li>Concepts, not slides: the notes are allowed, so they ask <i>why</i>.</li>
+    <li>Class problems, labs and the project are the practical side; use them as your examples.</li>
+    <li>See the connections: scattering on a mic body (L6, Lab B) = diffraction on a box (L11, Lab E) by reciprocity; the radiation mass of L3 returns in L7, L8 and L11.</li>
+    <li>Rehearse aloud, with a colleague or anyone. You will hit a question you can't answer; that is normal.</li>
+  </ul></div>
+  <div class="callout trap"><span class="eyebrow">Practical</span><p><b>No electronics</b> at the table: print the notes you want. Book a slot on the sheet under DTU Learn → Content → Basic Material <b>before Fri 4 Dec</b>, or you get a random one.</p></div>
 </section>
 
 <section class="lecture" id="cheat">
