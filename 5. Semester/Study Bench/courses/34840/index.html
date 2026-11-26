@@ -19,7 +19,7 @@
   <div class="brand">
     <a class="hub-link" href="../">← all courses</a>
     <div class="brand-name">The Sound Bench</div>
-    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–8</div>
+    <div class="brand-sub">34840 Acoustics &amp; Noise Control · lectures 1–12</div>
   </div>
   <ul class="wire">
     <li><a href="#l1" data-quiz="1"><span class="n">L1</span><span>Plane waves<span class="sub">pressure, particle velocity, the wave equation</span></span></a></li>
@@ -29,6 +29,11 @@
     <li><a href="#l5" data-quiz="5"><span class="n">L5</span><span>Radiation<span class="sub">monopole, wall, dipole, baffled piston</span></span></a></li>
     <li><a href="#l6" data-quiz="6"><span class="n">L6</span><span>Room modes &amp; diffuse field<span class="sub">modes, Sabine, Eyring, direct + reverberant</span></span></a></li>
     <li><a href="#l7" data-quiz="7"><span class="n">L7</span><span>Absorbers<span class="sub">porous, panel, perforated, α from Z</span></span></a></li>
+    <li><a href="#l8" data-quiz="8"><span class="n">L8</span><span>Loudspeakers<span class="sub">volume velocity, baffle, headphones</span></span></a></li>
+    <li><a href="#l9" data-quiz="9"><span class="n">L9</span><span>Hearing: selectivity &amp; masking<span class="sub">ERB, power-spectrum model, nonlinearity</span></span></a></li>
+    <li><a href="#l10" data-quiz="10"><span class="n">L10</span><span>Physiological acoustics<span class="sub">middle ear, place map, OAE, ABR</span></span></a></li>
+    <li><a href="#l11" data-quiz="11"><span class="n">L11</span><span>Vibration isolation<span class="sub">transmissibility, mobility, bending waves</span></span></a></li>
+    <li><a href="#l12" data-quiz="12"><span class="n">L12</span><span>Sound insulation<span class="sub">mass law, coincidence, double &amp; composite walls</span></span></a></li>
     <li><a href="#lab" data-quiz="LAB"><span class="n">Lab</span><span>Lab — room exercise<span class="sub">modes, T20/T30, sound power</span></span></a></li>
     <li><a href="#cheat"><span class="n">∑</span><span>One-page summary<span class="sub">what to remember</span></span></a></li>
   </ul>
@@ -414,6 +419,97 @@
   <div id="problems-8"></div><div id="quiz-8"></div>
 </section>
 
+<!-- ============================== L9 ============================== -->
+<section class="lecture" id="l9">
+  <div class="lec-head"><div class="eyebrow">Lecture 9 · Tue 3 Nov 2026 · Torsten Dau</div><h2>Our hearing: frequency selectivity and masking</h2><div class="meta">deck hearing_2026 (51 pages) · course text ch. 2 §2.4–2.6 · Psychological Acoustics exercise + official solutions · vault: Lecture 9 note, Week 9 · written from the deck (no recording)</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>The ear analyses sound with a bank of overlapping band-pass filters along the basilar membrane; a tone is masked by the noise that falls <b>inside its own filter</b>, and the filter width, the ERB, sets everything from masking to loudness.</div>
+  <div class="block"><h3>The picture: one place, one filter</h3><div class="table-wrap"><table>
+    <tr><th>Idea</th><th>Relation</th><th>Number to remember</th></tr>
+    <tr><td class="lv">filter width</td><td><span class="m">\mathrm{ERB}=24.7(4.37F+1)</span>, F in kHz</td><td>35.5 Hz at 100 Hz, 132.6 Hz at 1 kHz, 1104 Hz at 10 kHz</td></tr>
+    <tr><td class="lv">power-spectrum model</td><td><span class="m">P_s=k\int W(f)N(f)\,df</span></td><td>only the noise inside the filter counts</td></tr>
+    <tr><td class="pr">band widening</td><td>threshold +3 dB per doubling of the noise band, until it fills the filter</td><td>then flat</td></tr>
+    <tr><td class="pr">level dependence</td><td>filters broaden on the low side; excitation on the high side</td><td>upward spread of masking</td></tr>
+    <tr><td class="vel">cochlear nonlinearity</td><td>basilar-membrane compression about 5.6 : 1 at mid levels</td><td>creates combination tones <span class="m">f_1-n(f_2-f_1)</span></td></tr>
+  </table></div></div>
+  <div id="bench-erb9"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>ERB is not a third octave.</b> Above about 200 Hz the ERB is narrower (132.6 vs 231.6 Hz at 1 kHz).</li>
+    <li><b>Narrow noise masks the same everywhere.</b> If the noise band is narrower than the filter, frequency does not matter (exercise 1.3: 47.8 dB at all three).</li>
+    <li><b>Loudness sums across filters.</b> The same power spread over two filters is louder than inside one.</li>
+    <li><b>Units:</b> a noise density is W/(m²·Hz); the official 3.3 writes "mW/Hz" where it means pW/(m²·Hz).</li>
+    <li><b>Hearing loss is not just quieter:</b> outer-hair-cell loss broadens filters, removes compression, causes recruitment and weakens combination tones.</li>
+  </ul></div>
+  <div id="problems-9"></div><div id="quiz-9"></div>
+</section>
+
+<!-- ============================== L10 ============================== -->
+<section class="lecture" id="l10">
+  <div class="lec-head"><div class="eyebrow">Lecture 10 · Tue 10 Nov 2026 · Torsten Dau</div><h2>Physiological acoustics: from eardrum to auditory nerve</h2><div class="meta">deck physiological_acoustics_2026 · course text ch. 2.2 (outer and middle ear) · Physiological Acoustics exercise + official solutions · vault: Lecture 10 note, Week 10 · written from the deck (no recording)</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>The middle ear matches air to the cochlear fluid, the basilar membrane sorts frequency by <b>place</b> (high at the stiff base, low at the apex), outer hair cells amplify and inner hair cells sense, and both leave measurable traces: otoacoustic emissions and brainstem responses.</div>
+  <div class="block"><h3>The picture: the numbers along the path</h3><div class="table-wrap"><table>
+    <tr><th>Stage</th><th>Relation</th><th>Number</th></tr>
+    <tr><td class="pr">ear canal</td><td>quarter-wave resonator <span class="m">c/4L</span></td><td>3.4 kHz for 25 mm</td></tr>
+    <tr><td class="pr">air → fluid without a middle ear</td><td><span class="m">\tau=4Z_1Z_2/(Z_1+Z_2)^2</span></td><td>1.1·10⁻³ = −29.5 dB</td></tr>
+    <tr><td class="vel">middle ear</td><td>area ratio × lever</td><td>14 × 1.3 = 18.2 ≈ 25 dB back</td></tr>
+    <tr><td class="lv">place map</td><td><span class="m">F=20682\cdot10^{-61.765x}-140.6</span></td><td>20 541 Hz at the base, 23.7 Hz at the apex</td></tr>
+    <tr><td class="lv">ABR averaging</td><td>SNR + 10 log n</td><td>+3 dB per doubling of sweeps</td></tr>
+  </table></div></div>
+  <div id="bench-greenwood10"></div>
+  <div id="bench-abr10"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>High at the base.</b> The base (at the oval window) is narrow and stiff: high frequencies. The apex is wide and floppy: low.</li>
+    <li><b>Outer vs inner hair cells:</b> outer amplify (motors) and make OAEs; inner transduce to the nerve.</li>
+    <li><b>OAE latency is a round trip:</b> divide by 2 before you use the wave speed.</li>
+    <li><b>Average noise powers, not amplitudes:</b> a few loud sweeps dominate; reject them.</li>
+    <li><b>DPOAE at 2f₁ − f₂</b>, below both primaries.</li>
+  </ul></div>
+  <div id="problems-10"></div><div id="quiz-10"></div>
+</section>
+
+<!-- ============================== L11 ============================== -->
+<section class="lecture" id="l11">
+  <div class="lec-head"><div class="eyebrow">Lecture 11 · Tue 17 Nov 2026 · Jonas Brunskog</div><h2>Structure-borne sound and vibration isolation</h2><div class="meta">deck 34840_vibration_2026 (54 pages) · course text ch. 6 · problem set filed under module 11 (31200 Problems 8, Ohlrich) + solutions · vault: Lecture 11 note, Week 11 · written from the deck (no recording)</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>Put a machine on springs soft enough that its forcing frequency is well above <b>√2 times the mounting resonance</b>; then the force reaching the floor falls 12 dB per octave, and damping only matters on the way through the resonance.</div>
+  <div class="callout real"><span class="eyebrow">Which sheet is which</span><p>The file named <span class="mono">34840_Problems 11_2026.pdf</span> is the <b>sound-insulation</b> set, worked under lecture 12 below. The vibration problems are the older 31200 set Learn files under module 11.</p></div>
+  <div class="block"><h3>Formulas</h3><div class="formulas">
+    <div class="fcard"><span class="eyebrow">transmissibility</span><div class="M">T=\sqrt{\frac{1+(2\zeta\Omega)^2}{(1-\Omega^2)^2+(2\zeta\Omega)^2}},\quad \Omega=\frac f{f_0}</div><p>T = 1 at Ω = √2 for every ζ; peak ≈ 1/2ζ at resonance.</p></div>
+    <div class="fcard"><span class="eyebrow">from the static deflection</span><div class="M">f_0=\frac1{2\pi}\sqrt{\frac g{\xi_0}}\approx\frac{0.5}{\sqrt{\xi_0}}</div><p>10 mm → 4.98 Hz; isolation starts at 7.04 Hz.</p></div>
+    <div class="fcard"><span class="eyebrow">flexible floor</span><div class="M">E_{iso}=\left|1+\frac{j\omega/s}{Y_S+Y_R}\right|^2</div><p>The isolator must be far more mobile than source and floor together.</p></div>
+  </div></div>
+  <div id="bench-iso11"></div>
+  <div id="bench-bend11"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>Below √2·f₀ the mount amplifies.</b> A "stiff rubber pad" under a slow machine makes it worse.</li>
+    <li><b>Damping hurts above √2·f₀.</b> Ω = 10: −39.9 dB undamped, −19.9 dB at ζ = 0.5.</li>
+    <li><b>Spring between ceiling and floor is parallel</b>, not series (Problem 1d).</li>
+    <li><b>A soft floor spoils isolation:</b> compare mobilities, not stiffnesses alone.</li>
+    <li><b>34870 link:</b> the 1-DOF mount is an RLC circuit; T is a current divider in the mobility analogy.</li>
+  </ul></div>
+  <div id="problems-11"></div><div id="quiz-11"></div>
+</section>
+
+<!-- ============================== L12 ============================== -->
+<section class="lecture" id="l12">
+  <div class="lec-head"><div class="eyebrow">Lecture 12 · Tue 24 Nov 2026 · Jonas Brunskog</div><h2>Sound insulation</h2><div class="meta">deck 34840_sound_insulation_2026 · sheet "Problems 11_2026" (sound insulation) + official solution · exams 2022–24 part 2 · vault: Lecture 12 note, Week 12 · written from the deck (no recording)</div></div>
+  <div class="one-idea"><span class="eyebrow">The one idea</span>A single wall insulates by its <b>mass</b> (+6 dB per doubling of mass or frequency) until the bending wave in it matches the sound trace at the <b>critical frequency</b>, where it lets sound through; double walls beat the mass law above their mass-air-mass resonance, and the weakest part of a wall decides its total.</div>
+  <div class="block"><h3>Formulas</h3><div class="formulas">
+    <div class="fcard"><span class="eyebrow">mass law</span><div class="M">R_0=20\log\frac{\omega m}{2\rho c}\approx20\log(fm)-42.4</div><p>Field incidence ≈ R₀ − 5 dB; random incidence R₀ − 10 log(0.23R₀).</p></div>
+    <div class="fcard"><span class="eyebrow">critical frequency</span><div class="M">f_c=\frac{c^2}{2\pi}\sqrt{\frac mB},\quad B=\frac{Eh^3}{12(1-\nu^2)}</div><p>f_c ∝ 1/h. 10 cm concrete: 189 Hz; 15 cm: 126 Hz.</p></div>
+    <div class="fcard"><span class="eyebrow">two rooms, composite wall</span><div class="M">R=L_1-L_2+10\log\frac S{A_2},\quad R=-10\log\Big(\tfrac1S\sum S_i10^{-R_i/10}\Big)</div><p>Sabine: <span class="m">A_2=55.3V/(cT)</span>.</p></div>
+  </div></div>
+  <div id="bench-wall12"></div>
+  <div id="bench-double12"></div>
+  <div id="bench-comp12"></div>
+  <div class="callout trap"><span class="eyebrow">The traps</span><ul>
+    <li><b>Add τ·S, never R values.</b> A small leak or door dominates.</li>
+    <li><b>10 log(S/A₂) can be positive</b> when the receiving room has less absorption than the wall area.</li>
+    <li><b>Stacked loose plates keep f_c;</b> one bonded plate of double thickness halves it.</li>
+    <li><b>The double wall is worse than one leaf at f₀.</b> Put f₀ low: wide cavity, heavy leaves.</li>
+    <li><b>Damping matters only at and above f_c.</b> Below it, mass rules.</li>
+  </ul></div>
+  <div id="problems-12"></div><div id="quiz-12"></div>
+</section>
+
 <!-- ============================== LAB ============================== -->
 <section class="lecture" id="lab">
   <div class="lec-head"><div class="eyebrow">Lab exercise · weeks of lectures 8–11 (27 Oct – 17 Nov) · building 352, room 005</div><h2>Lab: room modes, reverberation time and sound power</h2><div class="meta">Lab guide 2026 (7 pages) · lectures 6–7 · course text §1.3, 1.5, 2.5, 3.1, 3.2 · group report, max 10 pages, due 2 weeks after the lab</div></div>
@@ -484,5 +580,6 @@
 <script src="quiz.js"></script>
 <script src="problems.js"></script>
 <script src="benches.js"></script>
+<script src="l9to12.js"></script>
 </body>
 </html>

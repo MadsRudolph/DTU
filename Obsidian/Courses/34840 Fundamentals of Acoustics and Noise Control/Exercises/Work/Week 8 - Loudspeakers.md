@@ -8,10 +8,13 @@ tags: [Acoustics, exercises, loudspeaker, monopole, baffle, sound-power, headpho
 ---
 # Week 8 — Loudspeakers
 
-Source: [[34840_Problems_8.pdf|Week 8 sheet (4 problems)]]. Official solutions: **not published yet**. Theory: [[Lecture 8 - Loudspeakers]]. MATLAB: `5. Semester/Acoustics and Noise Control/Matlab/Week8_Loudspeakers.m`. [Interactive problems and benches](https://study.madsrudolph.dev/34840/#l8).
+Source: [[34840_Problems_8.pdf|Week 8 sheet (4 problems)]]. Official solutions: [[34840_Solutions8_2026.pdf|Solutions week 8]] (arrived early Nov; checked 26-Nov). Theory: [[Lecture 8 - Loudspeakers]]. MATLAB: `5. Semester/Acoustics and Noise Control/Matlab/Week8_Loudspeakers.m`. [Interactive problems and benches](https://study.madsrudolph.dev/34840/#l8).
 
-> [!warning] Derived, not yet checked against official solutions
-> Every answer below is my own derivation, checked in Python and in `Week8_Loudspeakers.m`. All of them reproduce the answers printed on the sheet. The only gap is 0.02 dB in Problem 4.
+> [!success] Checked against the official solutions (26-Nov)
+> Every answer below agrees with `34840_Solutions8_2026.pdf`, which uses the same method in each problem: a monopole in 4π for Problems 1 and 4, 2π for Problem 2, and $Q=BlS\,e_g/(\omega MR_e)$ for Problem 3. There are two small differences, and both are typos or rounding in the official text:
+> - **Problem 2:** the solution writes "SPL = 85.85 dB", but its own $p=0.397$ Pa gives $20\log(0.397/20\,\mu\text{Pa})$ = **85.96 dB**, which is what the sheet prints and what I get.
+> - **Problem 4:** the solution rounds $Q$ to $0.445\times10^{-6}$ m³/s, then gets 53.4 µPa and prints 8.55 dB. Evaluated exactly, 53.4 µPa is **8.53 dB**, so my value stands. The method (a free-field monopole off the head, $4\pi r$) is confirmed, which closes question 1 in Lecture 8 §15.
+> - Problem 1 in the official solution uses $c=344$ in $L_I$ and 343 elsewhere. That does not change any printed digit.
 
 Constants: the printed answers come out with $\rho=1.2\ \mathrm{kg/m^3}$ and $c=343$ m/s, so $\rho c=411.6$ Pa·s/m. $p_{\rm ref}=20\ \mu$Pa, $I_0=W_0=10^{-12}$.
 
@@ -20,10 +23,10 @@ Constants: the printed answers come out with $\rho=1.2\ \mathrm{kg/m^3}$ and $c=
 | Question | Result | Printed on the sheet |
 |---|---|---|
 | 1 | $L_p=73.47$ dB, $L_I=73.34$ dB at 0.75 m; $W=1.527\times10^{-4}$ W, $L_W=81.84$ dB | 73.46 · 73.34 · 0.000153 W · 81.83 ✔ |
-| 2 | 85.96 dB SPL, 85.83 dB at 1 m; $W=2.41$ mW, $L_W=93.82$ dB | 85.96 · 85.83 · 0.0024 W · 93.82 ✔ |
+| 2 | 85.96 dB SPL, 85.83 dB at 1 m; $W=2.41$ mW, $L_W=93.82$ dB | 85.96 · 85.83 · 0.0024 W · 93.82 ✔ (official text has a typo, 85.85) |
 | 3.1 | $Q=1.344\times10^{-3}$ / $0.448\times10^{-3}$ m³/s; 81.65 dB at both | ✔ |
 | 3.2 | 67.49 dB at 30 Hz, 80.96 dB at 300 Hz | ✔ |
-| 4 | 8.53 dB SPL | 8.55 (0.02 dB off: the value of c) |
+| 4 | 8.53 dB SPL | 8.55 (official rounds Q to 0.445 µ; exact is 8.53) ✔ |
 
 ## Problem 1 — Small Bluetooth speaker in free space
 
@@ -103,7 +106,7 @@ $$p_{\rm free}=\frac{\rho\omega Q}{4\pi r}=\frac{1.2\cdot628.3\cdot4.45\times10^
 In one line, with $\rho$ cancelling:
 $$\frac{p_{\rm free}}{p_{\rm in}}=\frac{\omega^2V}{4\pi rc^2}=\frac{k^2V}{4\pi r}\ \Rightarrow\ -91.47\ \mathrm{dB}.$$
 
-The sheet prints 8.55: that needs $c\approx342.6$ m/s, so it is rounding. With $c=344$ it is 8.48. The 40 mm diameter is only there to check that the driver is small ($ka=0.037$). Off the head, the cavity's stiffness no longer multiplies the pressure: 100 dB becomes 8.5 dB. That is why a closed headphone hardly leaks, and why the seal matters so much.
+The sheet prints 8.55. The official solution shows why: it rounds $Q$ to $0.445\times10^{-6}$ m³/s before going on, while 53.4 µPa itself is 8.53 dB. With $c=344$ it is 8.48. The 40 mm diameter is only there to check that the driver is small ($ka=0.037$). Off the head, the cavity's stiffness no longer multiplies the pressure: 100 dB becomes 8.5 dB. That is why a closed headphone hardly leaks, and why the seal matters so much.
 
 ## Takeaways
 

@@ -226,7 +226,7 @@ Page 33 is the advert for **34870 Electroacoustic transducers and systems (E2)**
 
 ## 15. Questions for Tuesday
 
-1. Problem 4: does Finn intend the removed headphone as a monopole in free space ($4\pi r$)? The printed 8.55 dB fits that (I get 8.53 with $c=343$, 8.48 with 344). The baffled version would give 14.5 dB.
+1. ~~Problem 4: does Finn intend the removed headphone as a monopole in free space ($4\pi r$)?~~ **Answered by the official solution: yes, a free-field monopole.** The printed 8.55 dB fits that (I get 8.53 with $c=343$, 8.48 with 344). The baffled version would give 14.5 dB.
 2. Page 12: are the curves for $a=8.5$ cm with $c=343$ or 344? Read off the −3 dB points to check §4's table.
 3. Page 20: what box and port numbers produced the vented-box curves? Is $f_B$ set at $f_s$?
 4. Page 31: the measured headphone curves: which line is "sealed" and which is a leak?

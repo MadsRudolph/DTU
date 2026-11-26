@@ -244,3 +244,28 @@ QUIZZES["LAB"] = [
     "why": "L_W = L_p − 14 + 10 log V − 10 log T = 80 − 14 + 16.5 − 3.0 = 79.5 dB. Then add the A-weighting per band and sum the bands as powers."
   }
 ];
+
+QUIZZES["9"] = [
+  { q: "What is the ERB of the auditory filter at 1 kHz?", a: ["35.5 Hz", "132.6 Hz", "231.6 Hz", "1104 Hz"], c: 1, why: "24.7(4.37·1 + 1) = 132.6 Hz. 231.6 Hz is a third octave, which is wider than the auditory filter above about 200 Hz." },
+  { q: "A tone is just masked by 20 Hz wide noise at 40 dB/Hz (k = 0.3). Tone and noise move from 1 kHz to 10 kHz. The threshold…", a: ["rises by 9.2 dB", "falls by 9.2 dB", "stays at 47.8 dB", "rises by 10 dB"], c: 2, why: "20 Hz is narrower than the filter at both frequencies, so the noise power inside the filter is the same." },
+  { q: "With increasing level, auditory filters and excitation patterns broaden…", a: ["filters on the high side, excitation on the low side", "filters on the low side, excitation on the high side", "both on the high side", "not at all: the cochlea is linear"], c: 1, why: "The filters' low-frequency skirts widen, so filters above a loud masker pick it up: the upward spread of masking." },
+  { q: "Outer-hair-cell damage typically gives…", a: ["sharper tuning and stronger combination tones", "more cochlear compression", "broader filters, less compression, recruitment and weaker combination tones", "only a threshold shift"], c: 2, why: "The outer hair cells provide the compressive gain near CF; without them the cochlea is linear and broadly tuned." },
+];
+QUIZZES["10"] = [
+  { q: "Where on the basilar membrane does a 10 kHz tone peak?", a: ["Near the apex", "Near the base (stapes)", "In the middle", "At the round window"], c: 1, why: "The base is narrow and stiff, so its characteristic frequency is high; Greenwood puts 10 kHz about 5 mm from the base." },
+  { q: "An ABR is averaged over n sweeps. Doubling n changes the SNR by…", a: ["+6 dB", "+3 dB", "nothing", "+1.5 dB"], c: 1, why: "Independent noise falls as 1/√n, so the SNR rises 20 log √2 = 3 dB." },
+  { q: "Otoacoustic emissions mainly test…", a: ["inner hair cells", "auditory nerve fibres", "outer hair cells", "brainstem neurons"], c: 2, why: "OAEs come from the active cochlear mechanics driven by the electromotile outer hair cells." },
+  { q: "Primaries f₁ = 2000 Hz and f₂ = 2400 Hz. The usual DPOAE is measured at…", a: ["400 Hz", "1600 Hz", "2800 Hz", "4400 Hz"], c: 1, why: "2f₁ − f₂ = 1600 Hz, separate from both stimulus tones." },
+];
+QUIZZES["11"] = [
+  { q: "A machine sinks 10 mm into its spring mounts. Above which frequency do the mounts reduce the force on the floor?", a: ["5.0 Hz", "7.0 Hz", "10 Hz", "3.5 Hz"], c: 1, why: "f₀ = (1/2π)√(g/ξ₀) ≈ 5.0 Hz, and T < 1 only above √2·f₀ ≈ 7.0 Hz." },
+  { q: "An isolator works at Ω = f/f₀ = 10. Raising the damping ratio from 0.01 to 0.5 makes the force on the floor…", a: ["fall further", "stay the same", "rise by about 20 dB", "rise by about 6 dB"], c: 2, why: "T goes from about −40 dB to −19.9 dB: at high frequency the damper is a stiff path to the floor." },
+  { q: "A piezo-electric accelerometer delivers…", a: ["a voltage proportional to velocity", "a charge proportional to acceleration", "a current proportional to displacement", "a charge proportional to base force only at resonance"], c: 1, why: "The seismic mass presses on the crystal with F = m·a; a charge amplifier reads the charge." },
+  { q: "Which condition gives good isolation between a source and a flexible floor?", a: ["Y_I ≪ Y_S + Y_R", "Y_I = Y_S + Y_R", "Y_I = jω/s ≫ Y_S + Y_R", "Z_I ≫ Z_S + Z_R"], c: 2, why: "E_iso = |1 + Y_I/(Y_S + Y_R)|² is large only when the isolator is far more mobile than source and floor together." },
+];
+QUIZZES["12"] = [
+  { q: "Two loose plates, each with f_c = 3000 Hz, are stacked. The new f_c is…", a: ["1500 Hz", "2121 Hz", "3000 Hz", "6000 Hz"], c: 2, why: "B and m both double, so √(m/B) is unchanged. 1500 Hz would be one bonded plate of double thickness." },
+  { q: "A 20 m² wall of 45 dB gets a 1 m² window and the total drops to 40 dB. The window's R is about…", a: ["22.1 dB", "28.5 dB", "35.0 dB", "40.0 dB"], c: 1, why: "τ_w = 20·10⁻⁴ − 19·10⁻⁴·⁵ = 1.40·10⁻³ → 28.5 dB." },
+  { q: "Well above f_d = c/2πd, a double wall gives R ≈…", a: ["R of one wall of m₁+m₂", "R₁ + R₂ + 20 log 2kd", "R₁ + R₂ + 6 dB", "R₁ + R₂ − 6 dB"], c: 2, why: "Once the cavity is wide compared with the wavelength, sin kd is replaced by its maximum 1, giving R₁ + R₂ + 6." },
+  { q: "A concrete wall gets thicker. Its critical frequency…", a: ["rises ∝ h", "falls ∝ 1/h", "is unchanged", "falls ∝ 1/h²"], c: 1, why: "B grows as h³ and m as h, so f_c ∝ √(m/B) ∝ 1/h." },
+];

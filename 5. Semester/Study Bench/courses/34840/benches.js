@@ -890,6 +890,6 @@ function benchHeadphone8() {
     ro({ CA: `${sci(a.CA)} m⁵/N`, Q: `${sci(a.Q)} m³/s`, Lf: `${a.Lf.toFixed(2)} dB`, drop: `${a.drop.toFixed(2)} dB`, ka: a.ka.toFixed(3) });
   }
   upd();
-  b.note.innerHTML = `<p>Start values are Problem 4: 100 dB in 50 cm³ at 100 Hz needs only Q = 4.45×10⁻⁷ m³/s. The same Q in free space at 0.5 m gives <b>8.53 dB</b> (the sheet's 8.55 is c rounding), 91.5 dB down. In the cup, pressure follows volume <i>displacement</i> (p = Q/jωC_A). In free space it follows volume <i>acceleration</i>, so for the same in-cup level the outside rises 12 dB per octave. A stiffness-controlled diaphragm below its resonance has constant displacement, and that is why a sealed headphone has flat bass. Halve the volume and the same driver gives 6 dB more inside.</p>`;
+  b.note.innerHTML = `<p>Start values are Problem 4: 100 dB in 50 cm³ at 100 Hz needs only Q = 4.45×10⁻⁷ m³/s. The same Q in free space at 0.5 m gives <b>8.53 dB</b> (the official 8.55 comes from rounding Q), 91.5 dB down. In the cup, pressure follows volume <i>displacement</i> (p = Q/jωC_A). In free space it follows volume <i>acceleration</i>, so for the same in-cup level the outside rises 12 dB per octave. A stiffness-controlled diaphragm below its resonance has constant displacement, and that is why a sealed headphone has flat bass. Halve the volume and the same driver gives 6 dB more inside.</p>`;
 }
 document.addEventListener('DOMContentLoaded', () => { benchDriver8(); benchSpace8(); benchHeadphone8(); renderMath(); });

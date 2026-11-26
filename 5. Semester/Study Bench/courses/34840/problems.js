@@ -368,7 +368,7 @@ window.PROBLEMS["7"] = [
   }
 ];
 
-const DER8 = `<p class="small"><i>Derived; official solutions not out yet. The result matches the answer printed on the sheet (ρ = 1.2, c = 343, rms values).</i></p>`;
+const DER8 = `<p class="small"><i>Checked against the official solutions (26 Nov); ρ = 1.2, c = 343, rms values.</i></p>`;
 window.PROBLEMS["8"] = [
   {
     id: "1", title: "Problem 1 — Small Bluetooth speaker in free space", tag: "73.46 dB · 73.34 dB · 0.153 mW · 81.83 dB",
@@ -414,7 +414,7 @@ window.PROBLEMS["8"] = [
     hint: R5`<p>On the head the load is a pure compliance: <span class="m">p=Q/(j\omega C_A)</span>, <span class="m">C_A=V/\rho c^2</span>. That gives <span class="m">Q</span>. Off the head, keep the same <span class="m">Q</span> and treat it as a small monopole in free space.</p>`,
     sol: DER8 + R5`<div class="M">C_A=\frac{50\times10^{-6}}{1.2\cdot343^2}=3.54\times10^{-10}\ \mathrm{m^5/N},\qquad Q=\omega C_A\cdot2\ \mathrm{Pa}=4.45\times10^{-7}\ \mathrm{m^3/s}</div>
 <div class="M">p=\frac{\rho\omega Q}{4\pi r}=5.34\times10^{-5}\ \mathrm{Pa}\Rightarrow\boxed{8.53\ \mathrm{dB}}</div>
-<p>In one line, <span class="m">p_{\rm free}/p_{\rm in}=k^2V/(4\pi r)</span>: −91.5 dB, with ρ cancelling. The sheet's 8.55 corresponds to c ≈ 342.6. The 40 mm only confirms <span class="m">ka=0.037\ll1</span>.</p>`,
+<p>In one line, <span class="m">p_{\rm free}/p_{\rm in}=k^2V/(4\pi r)</span>: −91.5 dB, with ρ cancelling. The sheet and the official solution print 8.55 because the solution rounds Q to 0.445×10⁻⁶ m³/s first; 53.4 µPa itself is 8.53 dB. The 40 mm only confirms <span class="m">ka=0.037\ll1</span>.</p>`,
     bench: "#bench-headphone8", benchLabel: "start values"
   }
 ];
@@ -438,3 +438,109 @@ function renderProblems() {
   }
 }
 document.addEventListener("DOMContentLoaded", renderProblems);
+
+/* Weeks 9–12: worked in the vault notes (Exercises/Work/Week 9–12), checked against the official solutions. */
+const OFF = `<p class="small"><i>Checked against the official solution. Full working: the vault note for the week.</i></p>`;
+window.PROBLEMS["9"] = [
+  {
+    id: "1", title: "Exercise 1 — ERB and masked thresholds", tag: "35.5 / 132.6 / 1104 Hz · 50.3 / 56.0 / 65.2 dB · 47.8 dB",
+    given: R5`<p>1.1 Find the ERB at 0.1, 1 and 10 kHz. 1.2 Broadband noise of 40 dB/Hz, detection constant <span class="m">k=0.3</span>: the masked threshold of a tone at each frequency; where is it easiest to detect? 1.3 Same, but the noise is only 20 Hz wide.</p>`,
+    hint: R5`<p><span class="m">\mathrm{ERB}=24.7(4.37F+1)</span>, F in kHz. Power-spectrum model with a rectangular filter: <span class="m">L_s=N_0+10\log k+10\log\min(B,\mathrm{ERB})</span>.</p>`,
+    sol: OFF + R5`<div class="M">\mathrm{ERB}=35.5,\ 132.6,\ 1104\ \mathrm{Hz}</div><div class="M">L_s=40-5.23+10\log\mathrm{ERB}=\boxed{50.3,\ 56.0,\ 65.2\ \mathrm{dB}}</div><p>Easiest at 0.1 kHz (narrowest filter, least noise inside). 1.3: 20 Hz is narrower than every filter, so <span class="m">L_s=40-5.23+13.0=\boxed{47.8\ \mathrm{dB}}</span> at all three.</p>`,
+    bench: "#bench-erb9", benchLabel: "set the noise bandwidth"
+  },
+  {
+    id: "2", title: "Exercise 2 — Two noise bands, same intensity", tag: "100 Hz: 50 Hz band louder · 1 kHz: equally loud",
+    given: R5`<p>Two noise bands of equal intensity, 20 Hz and 50 Hz wide, centred at (2.1) 100 Hz and (2.2) 1 kHz. Which sounds louder?</p>`,
+    hint: R5`<p>Compare each bandwidth with the ERB at the centre. Loudness sums across filters.</p>`,
+    sol: OFF + R5`<p>At 100 Hz the ERB is 35.5 Hz: the 50 Hz band spills into neighbouring filters, and loudness summed over two channels (each compressed less) is larger: <b>the 50 Hz band is louder</b>. At 1 kHz (ERB 132.6 Hz) both fit inside one filter: <b>equally loud</b>.</p>`,
+    bench: "#bench-erb9", benchLabel: "compare ERB with the band"
+  },
+  {
+    id: "3", title: "Exercise 3 — Combination tones", tag: "900 / 800 / 700 Hz · 37.5 / 25 / 12.5 dB · N₀ = 21.9 dB/Hz",
+    given: R5`<p><span class="m">f_1=1</span> kHz, <span class="m">f_2=1.1</span> kHz, both 50 dB SPL. What creates combination tones? The three closest <span class="m">f_1-n(f_2-f_1)</span> and their levels (<span class="m">L_{CT}=L_1+125(f_{CT}-1)</span>, f in kHz). Which noise spectrum level just masks all three? What happens in sensorineural hearing loss?</p>`,
+    hint: R5`<p>The strongest tone (900 Hz) needs the most noise; its filter (ERB 121.8 Hz) does not include the others.</p>`,
+    sol: OFF + R5`<p>The basilar membrane's compressive nonlinearity (outer hair cells). Tones at <b>900, 800, 700 Hz</b> with <b>37.5, 25.0, 12.5 dB SPL</b>.</p><div class="M">N_0=37.5-10\log(0.3\cdot121.8)=\boxed{21.9\ \mathrm{dB/Hz}}=1.54\times10^{-10}\ \mathrm{W/(m^2Hz)}</div><p>Checks: thresholds 37.1 dB at 800 Hz and 36.7 dB at 700 Hz, both above the tones. The official text writes "153.9 mW/Hz": the number is right, the prefix should be pW/(m²·Hz). With outer-hair-cell loss the cochlea becomes more linear, so the combination tones get weaker.</p>`
+  }
+];
+window.PROBLEMS["10"] = [
+  {
+    id: "1", title: "Exercise 1 — Greenwood: highest and lowest frequency", tag: "20 541 Hz at the base · 23.7 Hz at the apex (official 24)",
+    given: R5`<p>Cochlea as a cascade of low-pass filters with cut-off <span class="m">F=20682\cdot10^{-61.765x}-140.6</span>, x in metres from the base, length 34 mm. Highest and lowest frequency, and where?</p>`,
+    hint: R5`<p>Put x = 0 and x = 0.034 m.</p>`,
+    sol: OFF + R5`<p>Base: <b>20 541 Hz</b>. Apex: <span class="m">20682\cdot10^{-2.1}-140.6=</span> <b>23.7 Hz</b>. High frequencies at the stiff narrow base, low at the apex.</p>`,
+    bench: "#bench-greenwood10", benchLabel: "the place map"
+  },
+  {
+    id: "2", title: "Exercise 2 — Averaging the ABR", tag: "−20 dB · +3 dB per doubling · 1000 sweeps/50 s · 10 900 vs 1111 sweeps",
+    given: R5`<p>EP = 0.3 µV in 3 µV of independent noise per sweep, 20 sweeps/s. a) SNR of one sweep, and the effect of doubling n. b) Sweeps for +10 dB. c) 10 % of sweeps have 30 µV of noise: sweeps and time with and without artefact rejection.</p>`,
+    hint: R5`<p>Noise power averages: <span class="m">P=\sum n_iN_i^2/\sum n_i</span>; after n sweeps the noise power is P/n.</p>`,
+    sol: OFF + R5`<p>a) <b>−20 dB</b>; doubling n gives <b>+3.01 dB</b>. b) <b>1000 sweeps, 50 s</b>. c) P = 98.1 µV², √P = 9.905 µV: <b>≈10 900 sweeps (545 s)</b> without rejection; reject the bad 10 % and you need <b>1111 sweeps (55.6 s)</b>, 9.8× faster.</p>`,
+    bench: "#bench-abr10", benchLabel: "start values"
+  },
+  {
+    id: "3", title: "Exercise 3 — Click-evoked OAE latency to frequency", tag: "1458 / 4505 / 6977 Hz",
+    given: R5`<p>Emission components at 12, 7 and 5 ms; travelling-wave speed 3 m/s. Which frequencies?</p>`,
+    hint: R5`<p>The latency is a round trip: <span class="m">x=v\,t/2</span>, then Greenwood.</p>`,
+    sol: OFF + R5`<p>x = 18, 10.5, 7.5 mm → <b>1458, 4505, 6977 Hz</b>. Later emissions come from further in, i.e. lower frequencies. (The model ignores the slowing wave and the middle-ear delay.)</p>`,
+    bench: "#bench-greenwood10", benchLabel: "OAE slider"
+  }
+];
+window.PROBLEMS["11"] = [
+  {
+    id: "1", title: "Problem 1 — Two springs, two masses", tag: "(1/2π)√(2s/m) · (1/2π)√(s/2m)",
+    given: R5`<p>Two springs of stiffness s and two masses m in four arrangements (springs in parallel or series, masses together). Natural frequency of each?</p>`,
+    hint: R5`<p>Parallel springs add (2s); series springs halve (s/2). Masses rigidly joined add (2m).</p>`,
+    sol: OFF + R5`<p>(a) two springs side by side, one mass: 2s → <span class="m">\frac1{2\pi}\sqrt{2s/m}</span>. (b) one spring, two masses: <span class="m">\frac1{2\pi}\sqrt{s/2m}</span>. (c) two springs in a chain: s/2 → <span class="m">\frac1{2\pi}\sqrt{s/2m}</span>. (d) mass between a spring to the ceiling and one to the floor: both push back, so it is <b>parallel</b> (2s) → <span class="m">\frac1{2\pi}\sqrt{2s/m}</span>. (d) looks like a chain but is not: the trap.</p>`
+  },
+  {
+    id: "2", title: "Problem 2 — A small vibration exciter", tag: "53 Hz · ξ = 0.98 mm, 15.2 Hz",
+    given: R5`<p>Four leaf springs of 500 N/m each carry a coil + table of 18 g. a) Natural frequency. b) A 200 g payload is added: static deflection and new natural frequency (g = 9.81).</p>`,
+    hint: R5`<p><span class="m">f_0=\frac1{2\pi}\sqrt{s/m}</span> with s = 2000 N/m; then <span class="m">f_0=\frac1{2\pi}\sqrt{g/\xi_0}</span>.</p>`,
+    sol: OFF + R5`<p>a) <b>53.05 Hz</b>. b) <span class="m">\xi=0.2\cdot9.81/2000=0.981</span> mm, <b>15.24 Hz</b>.</p>`,
+    bench: "#bench-iso11", benchLabel: "static deflection slider"
+  },
+  {
+    id: "3", title: "Problem 3 — A mass–spring driven by a force", tag: "20.05 Hz · 0.231 mm · 26.2 µm · 5.49 N / 0.625 N",
+    given: R5`<p>s = 23.8 kN/m, m = 1.5 kg, |F₀| = 5 N, no damping. a) f₀. b) ω = 37.8 rad/s and c) 378 rad/s: displacement, velocity, acceleration. d) Force on the foundation in both cases.</p>`,
+    hint: R5`<p><span class="m">\hat x=F_0/(s-\omega^2m)</span>; the foundation force is <span class="m">s\hat x</span>, i.e. <span class="m">F_0\,T</span> with <span class="m">T=1/|1-\Omega^2|</span>.</p>`,
+    sol: OFF + R5`<p>a) <b>20.05 Hz</b> (126 rad/s). b) 0.231 mm, 8.73 mm/s, 0.330 m/s². c) 26.2 µm, 9.92 mm/s, 3.75 m/s². d) <b>5.49 N</b> (+0.8 dB, below the resonance the spring passes everything) and <b>0.625 N</b> (−18.1 dB, Ω = 3).</p>`,
+    bench: "#bench-iso11", benchLabel: "transmissibility"
+  },
+  {
+    id: "4", title: "Problem 4 — An instrument on a vibrating train floor", tag: "s = 3365 N/m · 4.4 mm · avoid 7.54 Hz",
+    given: R5`<p>The floor moves with <span class="m">u_f</span>; the instrument m = 1.5 kg sits on a spring s. 4.1 The ratio u/u_f. 4.2 Find s for u/u_f = −0.1 at 25 Hz, the static deflection, and the frequency to avoid (g = 9.82).</p>`,
+    hint: R5`<p>Undamped base excitation: <span class="m">u/u_f=1/(1-(\omega/\omega_0)^2)</span>.</p>`,
+    sol: OFF + R5`<p><span class="m">1-(\omega/\omega_0)^2=-10\Rightarrow\omega_0=157.1/\sqrt{11}=47.4</span> rad/s, <b>s = 3365 N/m</b>, static deflection <b>4.4 mm</b>, avoid <b>7.54 Hz</b> (the resonance).</p>`,
+    bench: "#bench-iso11", benchLabel: "same T curve"
+  }
+];
+window.PROBLEMS["12"] = [
+  {
+    id: "1", title: "Sheet problem 1 — Radio music through a party wall", tag: "33.7 dB(A) ≈ 34",
+    given: R5`<p>15 m² wall, 50 m³ bedroom; octave bands 125–4000 Hz with R′ = 40/42/49/55/61/67 dB, L₁ = 70/77/78/78/79/75 dB, T₂ = 1.0/1.0/1.2/1.2/1.0/0.8 s. A-weighted level in the bedroom?</p>`,
+    hint: R5`<p>Per band <span class="m">L_2=L_1-R'+10\log(ST_2/0.16V)</span>, A-weight, add energies.</p>`,
+    sol: OFF + R5`<p>L₂ = 32.7 / 37.7 / 32.5 / 26.5 / 20.7 / 9.8 dB; A-weighted sum <b>33.7 dB(A)</b>. The bedroom has less absorption than the wall area, so 10 log(S/A) is positive.</p>`,
+    bench: "#bench-comp12", benchLabel: "two-room level"
+  },
+  {
+    id: "2", title: "Sheet problem 2 — Noise from factory windows", tag: "R = 21 dB",
+    given: R5`<p>Hall 16×16×14 m, T = 2.5 s, 89 dB(A) inside; 32 m² of windows with R = 17 dB; 43 dB(A) at 40 m, limit 40 dB(A); absorbing ceiling proposed. What R do the new windows need? (2.1: show <span class="m">L_2=L_1-R-10\log(8\pi r^2/S)</span>.)</p>`,
+    hint: R5`<p>Split the measured 43 dB into window and background; the ceiling (A 231 → 436 m²) lowers the inside level by 2.8 dB.</p>`,
+    sol: OFF + R5`<p>Windows 41.0 dB, background 38.7 dB, allowed window share 34.2 dB → 6.8 dB less needed; the ceiling gives 2.8 dB, so the windows must gain 4 dB: <b>R = 21 dB</b>.</p>`
+  },
+  {
+    id: "3", title: "Sheet problem 3 — A window cut into a wall", tag: "28.5 dB (sheet prints 28.4)",
+    given: R5`<p>A 20 m² wall with R = 45 dB gets a 1 m² window; the total is then 40 dB. R of the window?</p>`,
+    hint: R5`<p>Areas times transmission coefficients add: <span class="m">20\cdot10^{-4}=19\cdot10^{-4.5}+1\cdot\tau_w</span>.</p>`,
+    sol: OFF + R5`<p><span class="m">\tau_w=1.40\times10^{-3}</span> → <b>28.5 dB</b> (exact 28.54; the official solution says 28.5, the sheet prints 28.4).</p>`,
+    bench: "#bench-comp12", benchLabel: "composite wall"
+  },
+  {
+    id: "E", title: "Old exams — insulation questions 2022–24", tag: "37.9 dB · 40.5 dB · −63 Hz · 3000 Hz · +32.1 dB",
+    given: R5`<p>2023 Q8: 80 dB source room, 12 m² wall R = 40, 60 m³ room with T = 0.5 s → L₂? 2022 Q8: 25 m² must reach 50 dB, wall alone 55 dB, 2 m² window: minimum R? 2024 Q8: concrete 10 → 15 cm, change in f_c? 2022 Q9: two plates with f_c = 3000 Hz stacked, new f_c? 2024 Q11: double gypsum wall gain.</p>`,
+    hint: R5`<p>Two-room formula with Sabine; composite wall; <span class="m">f_c\propto1/h</span>; stacking (not bonding) keeps √(m/B).</p>`,
+    sol: OFF + R5`<p><b>37.9 dB</b> · <b>40.5 dB</b> · <b>−63 Hz</b> (189 → 126 Hz) · <b>3000 Hz</b> (unchanged) · <b>+32.1 dB</b>. All match the official exam solutions.</p>`,
+    bench: "#bench-wall12", benchLabel: "single wall"
+  }
+];

@@ -5,9 +5,10 @@
 % first written as an equation, then calculated in one plain MATLAB line.
 % Lines without a semicolon print their result.
 %
-% No official solutions yet: the answers are my own, DERIVED, NOT YET
-% CHECKED AGAINST OFFICIAL SOLUTIONS. The sheet prints final answers, and
-% they are written in the comments next to each result.
+% Checked 26-Nov against 34840_Solutions8_2026.pdf: all answers agree
+% (official 85.85 in P2 is a typo for 85.96; official 8.55 in P4 comes
+% from rounding Q). The sheet's printed answers are written in the
+% comments next to each result.
 %
 % Constants: rho = 1.2 kg/m^3, c = 343 m/s (these reproduce the sheet).
 
@@ -100,5 +101,5 @@ Q_hp = w100*C_A*p_in                  % 4.45e-7 m^3/s
 %
 % $$p_{free} = \frac{\rho\omega Q}{4\pi r}$$
 p_free = rho*w100*Q_hp/(4*pi*0.5)     % 5.34e-5 Pa
-Lp_free = 20*log10(p_free/p_ref)      % 8.53 dB (sheet: 8.55; c = 343 vs ~342.6)
+Lp_free = 20*log10(p_free/p_ref)      % 8.53 dB (sheet/official: 8.55, from rounding Q to 0.445e-6)
 ka4 = w100/c*0.02                     % 0.037, so a small monopole
