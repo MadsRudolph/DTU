@@ -1,0 +1,222 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,landscape,margin=8mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\definecolor{sec}{HTML}{1F4E79}
+\definecolor{trap}{HTML}{A61B1B}
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{0.2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+\setlist{nosep,leftmargin=8pt,labelsep=3pt}
+\titleformat{\section}{\color{sec}\bfseries\normalsize}{}{0pt}{}[\vspace{-1pt}\color{sec}\titlerule]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\subsection}{\color{sec}\bfseries\footnotesize}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{2pt}{0pt}
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{2.5pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\tiny 34840 cheat sheet --- page \thepage}
+\setlength{\footskip}{4mm}
+\newcommand{\T}[1]{\textcolor{sec}{\texttt{#1}}}
+\newcommand{\trap}[1]{\textcolor{trap}{#1}}
+\newcommand{\dB}{\,\mathrm{dB}}
+
+\begin{document}
+\small
+\begin{multicols*}{3}
+
+{\color{sec}\bfseries\large 34840 Acoustics \& Noise Control --- exam cheat sheet}\\
+{\scriptsize Exam Fri 11 Dec 2026, 4 h, all aids, no internet. Part 1 problems (40\,\%), part 2 MC (60\,\%). MATLAB: \texttt{Exam/toolkit/T01--T15}, \texttt{run\_all\_checks}.}
+
+\section{0. Constants and conventions}
+\begin{tabular}{@{}ll@{}}
+$\rho=1.2$ kg/m$^3$, $c=343$ m/s & every exam 2022--24 \\
+$\rho c=411.6$ (413/414 on sheets) & $\rho c^2=1.41\cdot10^5$ Pa \\
+Water $\rho c=1000\cdot1480=1.48\cdot10^6$ & $g=9.81$ \\
+$p_{ref}=20\,\mu$Pa (water $1\,\mu$Pa) & $I_{ref}=W_{ref}=10^{-12}$ \\
+$94\dB=1$ Pa, $74\dB=0.1$ Pa & $L_I=L_p-0.14\dB$ (plane) \\
+$c=20.05\sqrt{T_K}$, $c=\sqrt{\gamma R_sT}$ & $\gamma=1.4$, $R_s=287$ \\
+\end{tabular}
+
+$p(t)=\Re\{Pe^{j\omega t}\}$, capitals = \textbf{peak}, $p_{rms}=|P|/\sqrt2$. Peak values: $I,W$ carry $\tfrac12$. Room acoustics (L6, L12): \textbf{rms}, no $\tfrac12$. $\partial_t\to j\omega$.
+
+\section{Decision points}
+\begin{itemize}
+\item Same $f$ + fixed phase $\Rightarrow$ add complex $P$ (equal: $-\infty\ldots+6$). Different $f$/independent $\Rightarrow$ add $p^2_{rms}$ (equal: $+3$). Beat averaged over $\ge1/\Delta f$: incoherent.
+\item ``Amplitude'' = peak $\to/\sqrt2$. Voltages rms unless ``amplitude''.
+\item 20\,log: $p,u,v,F,Q$. 10\,log: $I,W,p^2,\tau,E$.
+\item Free/small box: $4\pi r$, $4\pi r^2$. Baffle/ground/rigid plane: $2\pi r$, $2\pi r^2$.
+\item Wall at $h$, $kh\ll1$: $p\times2$ (+6), $W\times2$ (+3). Two sources together: $p\times2$, $W\times4$.
+\item $kr<1$: near field, $u$ has $1/(jkr)$ term.
+\item $\bar\alpha<0.3$ Sabine, $>0.3$ Eyring (shorter).
+\item Loudspeaker below $f_s$: stiffness, $-12$\,dB/oct; above: mass, flat.
+\item Isolation only above $\sqrt2f_0$ (amplifies below).
+\item Wall below $f_c$: mass law ($-5$ field). Above: $+10\log(2\eta f/\pi f_c)$.
+\item Double wall: $<f_0$ one leaf $m_1+m_2$; $f_0..f_d$ 18\,dB/oct; $>f_d$ $R_1+R_2+6$.
+\item ``ERB'' $\Rightarrow 24.7(4.37F+1)$, $F$ in \textbf{kHz}.
+\item Porous: mid--high $f$; membrane: low ($<500$); resonator: narrow.
+\item Thicker plate: $f_c\downarrow$ ($\propto1/h$). Stacked loose: $f_c$ same.
+\end{itemize}
+
+\section{1. Plane waves, reflection, tubes \quad\T{T01 T02}}
+$\lambda=c/f$, $k=\omega/c$. $\partial_x^2p=c^{-2}\partial_t^2p$, $\nabla^2P+k^2P=0$, $j\omega\rho U=-\partial_xP$.\\
+Forward: $P=Ae^{-jkx}$, $U=P/\rho c$. $\Xi=U/j\omega$, $|\Xi|=|P|/\omega\rho c$. Cavity $p=-\gamma p_0\Delta V/V$.\\
+$P=P_ie^{-jkx}+P_re^{jkx}$,\; $U=(P_ie^{-jkx}\trap{-}P_re^{jkx})/\rho c$.\\
+$R=\dfrac{Z-\rho c}{Z+\rho c}$, $\alpha=1-|R|^2$. Rigid $R=+1$ ($p$ max at wall), soft $-1$.\\
+$|p|_{max,min}=|P_i|(1\pm|R|)$, $s=\frac{1+|R|}{1-|R|}$, $|R|=\frac{s-1}{s+1}$.\\
+Rigid end: $P=2P_i\cos kx$, $p$-nodes at $(2n+1)\lambda/4$.\\
+$I=|P_i|^2(1-|R|^2)/2\rho c$ (same at every $x$).\\
+\textbf{Two media:} $R_{12}=\frac{Z_2-Z_1}{Z_2+Z_1}$, $T_p=\frac{2Z_2}{Z_1+Z_2}$, $\tau=\frac{4Z_1Z_2}{(Z_1+Z_2)^2}$. Air$\leftrightarrow$water $\tau=1.1\cdot10^{-3}$ ($-29.5\dB$), $T_p\approx2$ into water. Bubbles: soft, $R<0$.\\
+\textbf{Tubes:} o--o, c--c $f_n=nc/2L$; c--o $f_n=(2n-1)c/4L$. Ear canal 25\,mm $\to3.4$\,kHz.\\
+\textbf{Driven end} (piston $U_0$ at $x=-L$, termination $x=0$):
+$A=\dfrac{\rho cU_0}{e^{jkL}-Re^{-jkL}}$, $p=A(e^{-jkx}+Re^{jkx})$. $R=0$: $|p|=\rho cU_0$. $R\approx1$: $p=2A\cos kx$, resonant where $\sin kL=0$.
+
+\section{2. Levels, $L_{eq}$, bands \quad\T{T03 T04}}
+$L_p=20\log\frac{p_{rms}}{p_{ref}}$. Different $f$: $p^2_{rms}=\sum|A_i|^2/2$. Same $f$: $p_{rms}=|A_1+A_2|/\sqrt2$. Equal tones, phase $\varphi$: $\Delta L=10\log(2+2\cos\varphi)$: $0^\circ\,{+6}$, $90^\circ\,{+3}$, $120^\circ\,0$, $180^\circ\,{-\infty}$.\\
+$L=10\log\sum10^{L_i/10}$; $N$ equal $+10\log N$; 6\,dB apart $+1$; 10 apart $+0.4$.\\
+Background: $L_s=10\log(10^{L_{tot}/10}-10^{L_{bg}/10})$ ($\Delta$3$\to-3.0$, 6$\to-1.3$, 10$\to-0.5$).\\
+$\boxed{L_{eq,T}=10\log\sum\frac{t_i}{T}10^{L_i/10}}$; on a fraction $d$: $L+10\log d$ ($\tfrac14\!-\!6.0$, $\tfrac13\!-\!4.8$, $\tfrac16\!-\!7.8$).\\
+$L_{eq,T}=L_{AE}+10\log n-10\log(T/1\mathrm{s})$. F 125 ms, S 1 s.\\
+\textbf{Bands} $f_{l,u}=f_c2^{\mp1/(2n)}$: octave $f_c/\sqrt2..f_c\sqrt2$ ($\Delta f=0.707f_c$); 1/3-oct $f_c2^{\mp1/6}$ ($0.232f_c$).\\
+Edges: 125: 88--177; 250: 177--354; 500: 354--707; 1k: 707--1414; 2k: 1414--2828; 4k: 2828--5657.\\
+\textbf{Recipe:} merge equal $f$ (complex) $\to$ sort into bands $\to\sum|P|^2/2\to10\log$. \trap{Empty band $=-\infty$, not 0\,dB.}\\
+White: +3\,dB/oct in octaves. Pink: flat. 3 thirds$\to$octave: $10\log\sum$.\\
+Centres: 20 25 31.5 40 50 \textbf{63} 80 100 \textbf{125} 160 200 \textbf{250} 315 400 \textbf{500} 630 800 \textbf{1k} 1250 1600 \textbf{2k} 2500 3150 \textbf{4k} 5k 6300 \textbf{8k} 10k 12.5k \textbf{16k} 20k.
+
+{\scriptsize
+\setlength{\tabcolsep}{2pt}\begin{tabular}{@{}l*{9}{r}@{}}
+\toprule
+$f$ & 31.5 & 63 & 125 & 250 & 500 & 1k & 2k & 4k & 8k\\\midrule
+\textbf{A} & $-39.4$ & $-26.2$ & $-16.1$ & $-8.6$ & $-3.2$ & 0 & $+1.2$ & $+1.0$ & $-1.1$\\
+C & $-3.0$ & $-0.8$ & $-0.2$ & 0 & 0 & 0 & $-0.2$ & $-0.8$ & $-3.0$\\\bottomrule
+\end{tabular}}\\
+{\scriptsize 16k: A $-6.6$, C $-8.5$.}
+{\scriptsize A thirds: 20 $-50.5$, 25 $-44.7$, 40 $-34.6$, 50 $-30.2$, 80 $-22.5$, 100 $-19.1$, 160 $-13.4$, 200 $-10.9$, 315 $-6.6$, \textbf{400 $-4.8$}, \textbf{630 $-1.9$}, 800 $-0.8$, 1250 $+0.6$, 1600 $+1.0$, 2500 $+1.3$, 3150 $+1.2$, 5k $+0.5$, 6300 $-0.1$, 10k $-2.5$, 12.5k $-4.3$, 20k $-9.3$.}\\
+Weight each tone/band first: $p_A=p_{rms}10^{K/20}$, then add $p^2$.
+
+\section{3. Impedance, intensity, power \quad\T{T05}}
+$z=P/U$, $Z_m=F/v$, $Z_a=P/Q$; $Q=SU$, $F=PS$, $Z_a=z/S=Z_m/S^2$.\\
+$Z_m=R+j(\omega M-K/\omega)$, $\omega_0=\sqrt{K/M}$. Closed tube $Z_{in}=-j\frac{\rho c}{S}\cot kl$. Cavity $C_a=V/\rho c^2$.\\
+Helmholtz $M_a=\rho l_{eff}/S$, $f_0=\frac{c}{2\pi}\sqrt{\frac{S}{Vl_{eff}}}$.\\
+$\boxed{I=\tfrac12\Re\{PU^*\}=p_{rms}u_{rms}\cos\phi}$. Plane: $p^2_{rms}/\rho c$. Monopole (any $r$): $|P|^2/2\rho c$.\\
+$W$: plane $IS$, sphere $4\pi r^2I$, hemisphere $2\pi r^2I$; port $\tfrac12|Q|^2\Re Z_a$.\\
+$\bar w_p=|P|^2/4\rho c^2$, $\bar w_k=\rho|U|^2/4$.\\
+\textbf{SWR:} $s=10^{(L_{max}-L_{min})/20}$, $\alpha=\frac{4s}{(s+1)^2}$ (s=2: 0.89, 3: 0.75, 10: 0.33). $p_i=\frac{p_{max}+p_{min}}2$, $p_r=\frac{p_{max}-p_{min}}2$, $W_{abs}=Sp_{max}p_{min}/\rho c$ (rms).
+
+\section{4. Radiation \quad\T{T06 T07}}
+\textbf{Monopole:} $P=\dfrac{j\omega\rho Q}{4\pi r}e^{-jkr}$, $U_r=\dfrac{P}{\rho c}\Big(1+\dfrac1{jkr}\Big)$, $Z_s=\frac{\rho c}{1+1/jkr}$.\\
+$p$ leads $u$ by $\arctan(1/kr)$ ($kr$=1: 45$^\circ$; 1.73: 30$^\circ$). $u$ decays faster than $1/r$ near the source.\\
+$\boxed{W=\rho ck^2|Q|^2/8\pi}$ (peak $Q$); generally $\rho ck^2|Q|^2/2\Omega$.\\
+Sphere: $Q=4\pi a^2U$, $Z_{a,r}=\frac{\rho c}{4\pi a^2}\frac{jka}{1+jka}$.\\
+\textbf{Two sources:} sum complex $P_i$. On the line $u_x=u_1\trap{-}u_2$. Cancel: equal $|p|$ + 180$^\circ$: $\Delta r=(2n+1)\lambda/2$, $f_n=(2n+1)f_0$; $Q_1/Q_2=x_c/(D-x_c)$.\\
+\textbf{Rigid wall at $h$:} $W=\frac{\rho ck^2|Q|^2}{8\pi}\big(1+\frac{\sin2kh}{2kh}\big)$. Line source$\to$wall: $I\approx(|p_1|^2-|p_2|^2)/2\rho c$, 0 at wall.\\
+\textbf{Dipole} ($2h$, antiphase): $W=\frac{\rho ck^2|Q|^2}{4\pi}\big(1-\frac{\sin2kh}{2kh}\big)\approx\frac{\rho ch^2k^4|Q|^2}{6\pi}$, $\cos\theta$, $\propto f^4$.\\
+\textbf{Piston:} $\frac{j\omega\rho Q}{2\pi r}\frac{2J_1(ka\sin\theta)}{ka\sin\theta}$: $-3$\,dB at 1.62, $-6$ at 2.22, null 3.83. $Q(f)\to2$ at low $f$. Air mass $8\rho a^3/3$ per side.
+
+\section{5. Room modes, diffuse field \quad\T{T09 T10}}
+$\boxed{f=\frac c2\sqrt{(\frac{n_x}{l_x})^2+(\frac{n_y}{l_y})^2+(\frac{n_z}{l_z})^2}}$ axial/tangential/oblique.
+Odd index $\to$ node in centre; all modes max in corners. Cube: permutations degenerate.\\
+$N\approx\frac{4\pi V}{3}(\frac fc)^3+\frac{\pi S}{4}(\frac fc)^2+\frac L8\frac fc$, $\frac{dN}{df}\approx\frac{4\pi Vf^2}{c^3}$, $f_S\approx2000\sqrt{T/V}$.\\
+Diffuse: $I_{inc}=p^2/4\rho c$, $w=p^2/\rho c^2$.\\
+$A=\sum S_i\alpha_i+\sum A_{obj}+4mV$, $\bar\alpha=A/S$, person 0.4--0.6\,m$^2$.\\
+$\boxed{T=\frac{55.3V}{cA}\approx\frac{0.16V}{A}}$, Eyring $\frac{0.16V}{-S\ln(1-\bar\alpha)}$, $l_m=4V/S$, decay $60/T$ dB/s.\\
+$p^2=4W\rho c/A$; $\boxed{L_p=L_W+10\log\big(\frac{Q}{4\pi r^2}+\frac4R\big)}$, $R=\frac{A}{1-\bar\alpha}\approx A$. $r_{rev}=\sqrt{QA/16\pi}\approx0.14\sqrt{QA}$.\\
+Reverb room: $L_W=\bar L_p+10\log V-10\log T-14$.\\
+ISO 354: $\alpha=\frac{0.16V}{S}(\frac1{T_2}-\frac1{T_1})$ (can be $>1$).\\
+Ceiling only: $T=0.16h/\alpha$ (real $T$ longer: not diffuse).\\
+$T_{20}=3(t_{-25}-t_{-5})$, $T_{30}=2(t_{-35}-t_{-5})$, EDT $=6t_{-10}$. Echo $>50$\,ms (17\,m).
+
+\section{6. Absorbers \quad\T{T11}}
+Porous: $f\gtrsim c/4d$ ($d$ from the \textbf{wall}); dip at $d=\lambda/2$.\\
+\textbf{Membrane} $f_r=\frac1{2\pi}\sqrt{\frac{\rho c^2}{mL}}\approx\frac{60}{\sqrt{mL}}$, $m$ kg/m$^2$; $L=\rho c^2/m\omega^2$.\\
+\textbf{Helmholtz} $f_0=\frac c{2\pi}\sqrt{\frac{s}{V(l+\delta)}}$, $s=\frac{\pi d^2}4$, $\delta\approx0.8d$; $V=\frac{s}{l_{eff}}(\frac{c}{2\pi f})^2$.\\
+\textbf{Perforated} $f_0=\frac c{2\pi}\sqrt{\frac{P}{L(l+\delta)}}$, $P=\frac{\pi d^2}{4a^2}$ (fraction); $L$ cavity, $l$ panel.\\
+\textbf{From $Z$:} $\zeta=Z/\rho c=r+jx$. $\alpha_n=1-|R|^2=\frac{4r}{(r+1)^2+x^2}$. Oblique: $Z\cos\theta$. Random $\alpha_r=\int_0^{\pi/2}\alpha(\theta)\sin2\theta\,d\theta$ = Paris closed form (T11). \trap{Normalise first.}\\
+$L_{refl}=L_{inc}+10\log(1-\alpha)$ (0.9: $-10$, 0.99: $-20$).
+
+\section{7. Loudspeakers \quad\T{T08}}
+$F=Bl\,e/R_e$, $Z_M=R_t+j(\omega M-K/\omega)$, $Q=SU=\dfrac{S\,Bl\,e}{R_eZ_M}$, $e=\sqrt2e_{rms}$.\\
+$R_t$ includes $(Bl)^2/R_e$. $f_s=\frac1{2\pi}\sqrt{K/M}$, $Q_t=\sqrt{KM}/R_t$.\\
+$|p|=\rho\omega|Q|/\Omega r$ ($\Omega=2\pi$ baffle, $4\pi$ box). $W=\Omega r^2|p|^2/2\rho c$.\\
+Mass-controlled: $p=\rho SBl\,e/(\Omega rR_eM)$, flat. Below $f_s$ $-12$\,dB/oct; vented $-24$.\\
+$x=U/j\omega$. $Z_e=R_e+j\omega L_e+(Bl)^2/Z_M$. Box $K_b=\rho c^2S^2/V$.\\
+Cavity (headphone): $C_A=V/\rho c^2$, $p=Q/j\omega C_A$ (follows displacement).
+
+\section{8. Hearing: masking \quad\T{T12}}
+$\boxed{\mathrm{ERB}=24.7(4.37F+1)}$, $F$ kHz: 0.1k 35.5, 0.5k 78.7, 1k 132.6, 2k 240.6, 4k 456.5, 10k 1104. Bark $25+75(1+1.4F^2)^{0.69}$. 1/3-oct $0.232f$.\\
+Power-spectrum model: $P_s=k\!\int\!W(f)N(f)\,df$, rectangular filter:\\
+\hspace*{6pt}$\boxed{L_s=N_{0,dB}+10\log k+10\log\min(\Delta f,\mathrm{ERB})}$\\
+CT ($f_1<f_2$): $f_1-n(f_2-f_1)$, strongest $2f_1-f_2$. One ERB $\to$ one beating tone.\\
+$N=2^{(L-40)/10}$ sone. Wider than ERB, same power $\to$ louder.\\
+roex $(1+pg)e^{-pg}$, ERB $=4f_c/p$. Notched noise: no off-frequency listening.\\
+\textbf{MC:} base = high $f$, apex = low. OHC amplify (compressive 5.6:1, near CF), IHC sense. Filters broaden on \textbf{low} side $\Rightarrow$ masking spreads \textbf{upward}. OHC loss: higher threshold, broad filters, less compression, \textbf{recruitment}, weaker CTs. Forward masking 200\,ms, backward 20\,ms.
+
+\section{9. Physiology \quad\T{T13}}
+Greenwood $F=A10^{-Gx}-B$, $A=20682$, $G=61.765$\,m$^{-1}$, $B=140.6$, $x$ \textbf{m from base}. $x=-\frac1G\log\frac{F+B}{A}$. 20.5\,kHz$\to$24\,Hz; 1\,kHz at 20.4\,mm; 4.9\,mm/oct.\\
+OAE $x=c_{BM}t_{rt}/2$. DPOAE at $2f_1-f_2$ (distortion, flat phase).\\
+ABR: $\mathrm{SNR}_n=20\log\frac{EP}{N}+10\log n$ (+3/doubling). $N^2_{eff}=\sum w_iN_i^2$. Rejection: $n/(1-\text{bad})$.\\
+Middle ear $20\log(14\cdot1.3)\approx25\dB$; air$\to$fluid $-29.5$. Reflex $>70$\,dB, slow.
+
+\section{10. Vibration isolation \quad\T{T14}}
+$\omega_0=\sqrt{s/m}$, $\zeta=\frac{r}{2\sqrt{ms}}$, $\eta=2\zeta$. $\boxed{f_0=\frac1{2\pi}\sqrt{\frac g{\xi_0}}\approx\frac{0.5}{\sqrt{\xi_0}}}$ (m): 1\,cm 5.0, 1.5\,cm 4.1.\\
+$x=\frac{F}{s-\omega^2m+j\omega r}$: below $f_0$ stiffness, at $f_0$ damping, above mass.\\
+$\boxed{T=\sqrt{\frac{1+(2\zeta\Omega)^2}{(1-\Omega^2)^2+(2\zeta\Omega)^2}}}$, $T(\sqrt2)=1$. Undamped $1/|1-\Omega^2|$: $\Omega$=3 $-18$, 10 $-40$\,dB. Damping hurts above $\sqrt2$.\\
+Isolation $=-20\log T=10\log E$. Base excitation same $T$ (negative above $f_0$).\\
+Parallel $s_1+s_2$, series $(1/s_1+1/s_2)^{-1}$. $Y$: mass $\frac1{j\omega m}$, spring $\frac{j\omega}s$, damper $\frac1r$.\\
+$F=v_{free}/(Y_S+Y_R)$; $E=|1+\frac{j\omega/s}{Y_S+Y_R}|^2$. Plate $Y=\frac1{8\sqrt{B'm''}}$. Accelerometer: \textbf{charge}.
+
+\section{11. Sound insulation \quad\T{T15}}
+$R=-10\log\tau$. \trap{Combine via $\tau$.}\\
+$\boxed{R_0=20\log\frac{\omega m}{2\rho c}\approx20\log fm-42.4}$, field $R_0-5$, random $R_0-10\log0.23R_0$.\\
+$\boxed{R=L_1-L_2+10\log\frac S{A_2}}$, $S$ wall, $A_2=0.16V_2/T_2$.\\
+$R_{res}=-10\log\frac{\sum S_i10^{-R_i/10}}{S}$; crack caps at $-10\log\frac{S_{ap}}S$.\\
+$R_x=-10\log\frac{S10^{-R_{res}/10}-S_{rest}10^{-R_{rest}/10}}{S_x}$.\\
+$\boxed{f_c=\frac{c^2}{2\pi}\sqrt{\frac mB}}$, $B=\frac{Eh^3}{12(1-\nu^2)}$, $m=\rho_Mh$ $\Rightarrow f_c\propto\frac1h$; $\approx\frac{c^2}{1.8c_Lh}$. Stacked: same. $f_{co}=f_c/\sin^2\theta$.\\
+$f>f_c$: $R_0+10\log\frac{2\eta f}{\pi f_c}$ (9\,dB/oct). Limit $20\log\frac{\rho_Mc_L}{2\rho c}$.\\
+\textbf{Double:} $f_0=\frac c{2\pi}\sqrt{\frac\rho d(\frac1{m_1}+\frac1{m_2})}$, $f_d=\frac c{2\pi d}$; $R_{1+2}$ $|$ $R_1+R_2+20\log2kd$ $|$ $R_1+R_2+6$.\\
+$R'=-10\log(10^{-R/10}+\sum10^{-R_{F}/10})$. $L_n=L_2+10\log\frac{A_2}{10}$. Enclosure $\Delta L=R+10\log\alpha$. Outside, half space: $L_2=L_1-R-10\log\frac{8\pi r^2}{S}$.
+
+\section{12. Traps}
+\begin{itemize}
+\item \trap{Peak vs rms} ($\sqrt2$ = 3\,dB). Never add dB directly.
+\item $Q$ = volume velocity (not quality/directivity factor).
+\item Reflected/opposite wave velocity: minus sign.
+\item Exact band edges; empty band $-\infty$; A-weight per component.
+\item $0.16=55.3/c$: SI units; don't mix 343/344.
+\item Membrane $m$ in kg/m$^2$; perforated $P$ fraction; $\delta=0.8d$ (diameter).
+\item Isolation from $\sqrt2f_0$; $\xi_0$ in m; damping hurts above.
+\item Greenwood in m from base; OAE roundtrip/2; ERB in kHz.
+\item Averaging $10\log n$; average noise \emph{powers}.
+\item $f_c\downarrow$ with $h$; stacking keeps $f_c$ (trap $f_c/2$).
+\item Double wall worse than one leaf near/below $f_0$.
+\end{itemize}
+
+\section{13. Old exams: where}
+{\scriptsize
+\begin{tabular}{@{}p{0.27\columnwidth}p{0.3\columnwidth}p{0.36\columnwidth}@{}}
+\toprule
+Topic & Part 1 & Part 2 (MC)\\\midrule
+Plane waves & 23 P1, 24 P1 & 22 Q1, 24 Q3\\
+Levels/bands & 22 P2, 23 P2, 24 P1.2 & 22 Q2--3, 23 Q1, 24 Q2\\
+Monopole/2 src/wall & 22 P3, 23 P3, 24 P2 & 23 Q2, Q4, 24 Q1\\
+Loudspeaker & 22 P1 & ---\\
+Modes & --- & 22 Q4, 23 Q3, 24 Q5\\
+Reverb./$L_p$ & --- & 22 Q5, Q7, 23 Q5, Q7, 24 Q4\\
+Absorbers & --- & 22 Q6, 23 Q6, 24 Q6--7\\
+Insulation & --- & 22 Q8--9, 23 Q8, Q10, 24 Q8, Q11\\
+Vibration & --- & 22 Q10--11, 23 Q9, Q11, 24 Q9--10\\
+Hearing & --- & last 3--4 each year\\\bottomrule
+\end{tabular}}
+
+\end{multicols*}
+\end{document}

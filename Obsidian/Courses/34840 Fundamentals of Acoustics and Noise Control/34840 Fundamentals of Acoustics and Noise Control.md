@@ -18,6 +18,12 @@ tags: [Acoustics, Noise, Audio, home]
 > **Prerequisites:** 01005 / 01007 Mathematics 1 (or equivalent)
 > **Replaces:** 31200 (also point-blocking)
 
+> [!example] Exam prep → 11 Dec 2026 (all aids, no internet)
+> - [[Cheat Sheet - 34840]] · [[Cheat Sheet - 34840.pdf|printable PDF (2 pages)]] (source `5. Semester/Acoustics and Noise Control/Exam/cheatsheet_34840.tex`)
+> - [[Exam Day Checklist - 34840]]: what to print, offline laptop test (MATLAB uses online licensing: test it with Wi-Fi off!), 4-hour time plan
+> - [[Old Exams 2022-2024 - Worked]]
+> - MATLAB toolkit `5. Semester/Acoustics and Noise Control/Exam/toolkit/`: T01–T15 fill-in templates, `run_all_checks` (116/116 pass)
+
 > [!info] Teaching staff
 > | | Name | Email | Phone |
 > |---|---|---|---|

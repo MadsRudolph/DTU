@@ -269,3 +269,14 @@ QUIZZES["12"] = [
   { q: "Well above f_d = c/2πd, a double wall gives R ≈…", a: ["R of one wall of m₁+m₂", "R₁ + R₂ + 20 log 2kd", "R₁ + R₂ + 6 dB", "R₁ + R₂ − 6 dB"], c: 2, why: "Once the cavity is wide compared with the wavelength, sin kd is replaced by its maximum 1, giving R₁ + R₂ + 6." },
   { q: "A concrete wall gets thicker. Its critical frequency…", a: ["rises ∝ h", "falls ∝ 1/h", "is unchanged", "falls ∝ 1/h²"], c: 1, why: "B grows as h³ and m as h, so f_c ∝ √(m/B) ∝ 1/h." },
 ];
+
+QUIZZES["EX"] = [
+  { q: "Two tuning forks give 0.18 and 0.14 Pa amplitude at 440.00 and 440.10 Hz. The rms pressure over 10 s with both on is…", a: ["0.141 Pa", "0.161 Pa", "0.181 Pa", "0.228 Pa"], c: 1, why: "Different frequencies: add the squares. √((0.18² + 0.14²)/2) = 0.161 Pa (2022)." },
+  { q: "At normal incidence, which surface impedance gives the smallest absorption coefficient?", a: ["1 Ns/m³", "100 Ns/m³", "1000 Ns/m³", "10000 Ns/m³"], c: 0, why: "α = 1 − |(Z − ρc)/(Z + ρc)|² gives 0.010 / 0.63 / 0.83 / 0.15: the furthest from ρc = 412 reflects most." },
+  { q: "A dipole is…", a: ["very effective: two sources raise the efficiency", "only a mathematical model", "very inefficient, the halves cancel especially at high frequencies", "very inefficient, the halves cancel especially at low frequencies"], c: 3, why: "When kd ≪ 1 the antiphase halves nearly cancel; power grows as f⁴." },
+  { q: "A monopole at 189 Hz. Phase between pressure and particle velocity at 50 cm?", a: ["0°", "30°", "60°", "90°"], c: 1, why: "kr = 1.73, phase = arctan(1/kr) = 30°. 60° is arctan(kr), the trap (the 2024 solution even prints it)." },
+  { q: "A 7.2 × 5.4 × 3.0 m room has its 50 Hz third-octave band 5 dB high. Which mode?", a: ["(1,0,0)", "(0,1,0)", "(1,1,0)", "(2,0,0)"], c: 3, why: "f₂₀₀ = 343/7.2 = 47.6 Hz is the only one inside the band (44.5–56.1 Hz)." },
+  { q: "A 5 × 8 × 3 m studio, floor α = 0.1, needs T = 0.4 s. Walls and ceiling need α ≈…", a: ["0.2", "0.4", "0.6", "0.8"], c: 1, why: "A = 0.16·120/0.4 = 48 m²; minus 4 m² from the floor leaves 44 m² over 118 m²: α = 0.37." },
+  { q: "Springs deflect 1 cm under a 100 kg machine. Isolation starts above…", a: ["10.1 Hz", "4.2 Hz", "7.0 Hz", "15.4 Hz"], c: 2, why: "f₀ = 0.5/√0.01 ≈ 5 Hz; isolation above √2·f₀ = 7.0 Hz." },
+  { q: "Tones at 850 and 900 Hz, 50 dB each, to a normal-hearing listener (rectangular filters):", a: ["one filter: heard as one tone beating at 50 Hz", "separate filters: two tones", "the middle ear's nonlinearity makes distortion", "a 950 Hz combination tone at about 25 dB"], c: 0, why: "ERB at 875 Hz ≈ 119 Hz > 50 Hz spacing, so they share a filter and beat. 2f₁ − f₂ is 800 Hz, not 950." },
+];
