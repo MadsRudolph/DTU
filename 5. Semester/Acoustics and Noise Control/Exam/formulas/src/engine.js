@@ -19,7 +19,7 @@
         for (let i = pos.length - 1; i >= 0; i--) pts.push(-pos[i]);
         pts.push(0); pts.push(...pos); break;
       }
-      default: logspan(-15, 15, 1500);
+      default: logspan(-15, 15, 6000);
     }
     return pts.sort((a, b) => a - b);
   }
