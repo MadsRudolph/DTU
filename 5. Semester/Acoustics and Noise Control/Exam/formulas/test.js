@@ -70,5 +70,12 @@ close(E.parseInput('10^(3/10)'), 1.9953, 1e-4, 'power');
 close(E.parseInput('4*pi'), 4 * Math.PI, 1e-12, 'pi');
 ok(Number.isNaN(E.parseInput('alert(1)')), 'rejects code');
 
+// 5. every Obsidian link points at an existing note
+const fs = require('fs');
+const { COURSE_DIR, EXAM_NOTES } = require('./src/formulas.js');
+for (const T of TOPICS) for (const [, rel] of T.notes || []) ok(fs.existsSync(COURSE_DIR + rel), `missing note ${rel}`);
+for (const [, rel] of EXAM_NOTES) ok(fs.existsSync(COURSE_DIR + rel), `missing note ${rel}`);
+ok(TOPICS.every(T => (T.notes || []).length), 'every topic has notes');
+
 console.log(`${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

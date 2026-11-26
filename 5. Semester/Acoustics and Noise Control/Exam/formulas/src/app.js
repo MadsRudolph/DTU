@@ -1,7 +1,8 @@
 // UI for the formula sheets. Plain DOM, no framework.
 (function () {
   'use strict';
-  const { TOPICS, CONSTANTS, aWeight } = window.FORMULAS;
+  const { TOPICS, CONSTANTS, aWeight, COURSE_DIR, EXAM_NOTES } = window.FORMULAS;
+  const obsidian = rel => 'obsidian://open?path=' + encodeURIComponent(COURSE_DIR + rel);
   const E = window.ENGINE;
   const $ = (sel, el = document) => el.querySelector(sel);
   const h = (tag, attrs = {}, ...kids) => {
@@ -44,6 +45,9 @@
     });
     const cbox = $('#consts');
     cbox.innerHTML = '';
+    const ex = $('#examnotes');
+    ex.innerHTML = '';
+    EXAM_NOTES.forEach(([label, rel]) => ex.append(h('a', { href: obsidian(rel) }, label)));
     cbox.append(h('button', { class: 'const-copy', title: 'Copy the constants as one MATLAB line', onclick: () => copyText(CONST_LINE(), 'Constants copied') }, 'Copy constants for MATLAB'));
     Object.entries(CONSTANTS).filter(([, c]) => c.editable).forEach(([k, c]) => {
       const inp = h('input', { value: store.consts[k] ?? String(c.value), 'aria-label': c.name, spellcheck: 'false' });
@@ -76,7 +80,8 @@
       h('header', { class: 'topic-head' },
         h('div', {},
           h('h1', {}, t.title),
-          h('p', { class: 'blurb' }, t.blurb)),
+          h('p', { class: 'blurb' }, t.blurb),
+          t.notes ? h('p', { class: 'notes' }, 'In Obsidian: ', ...t.notes.flatMap(([label, rel], j) => [j ? ' · ' : '', h('a', { href: obsidian(rel), title: rel.split('/').pop().replace(/\.md$/, '') }, label)])) : null),
         h('div', { class: 'actions' },
           h('button', { onclick: copyMatlab, title: 'Constants, your given values and the MATLAB line of every formula used, ready to paste into a live script' }, 'Copy as MATLAB'),
           h('button', { onclick: copyWorking, title: 'Copy the given values and every worked step as plain text' }, 'Copy working'),

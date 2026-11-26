@@ -136,6 +136,13 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
 .ml:hover .ml-copy { color: var(--accent); }
 .const-copy { align-self: flex-start; padding: 0; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; text-align: left; }
 .const-copy:hover { color: var(--accent); }
+
+.notes { margin: 6px 0 0; font-size: 13px; color: var(--faint); }
+.notes a { color: var(--muted); border-bottom: 1px solid var(--rule); }
+.notes a:hover { color: var(--accent); border-color: var(--accent); }
+#examnotes { display: flex; flex-direction: column; gap: 1px; padding-top: 10px; border-top: 1px solid var(--rule); }
+#examnotes a { padding: 3px 10px; font-size: 13px; color: var(--muted); }
+#examnotes a:hover { color: var(--fg); }
 </style>
 </head>
 <body>
@@ -144,6 +151,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     <div class="brand">Acoustics formulas<span>34840 · works offline</span></div>
     <input id="search" placeholder="Search  ( / )" spellcheck="false" autocomplete="off">
     <nav id="topics"></nav>
+    <nav id="examnotes" title="Opens in Obsidian"></nav>
     <div class="side-foot">
       <div id="consts"></div>
       <button id="theme">Dark</button>
@@ -190,6 +198,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
   const TOPICS = [
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 1', 'Lecture Notes/Lecture 1 - Introduction and Plane Waves.md'], ['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Lecture 4', 'Lecture Notes/Lecture 4 - Impedance Intensity and Sound Power.md'], ['Week 1 worked', 'Exercises/Work/Week 1 - Fundamental Concepts and Plane Waves.md'], ['Week 3 worked', 'Exercises/Work/Week 3 - Decibels Frequency Analysis and Measurements.md'], ['Week 4 worked', 'Exercises/Work/Week 4 - Impedance Intensity and Sound Power.md']],
       id: 'levels', title: 'Levels and waves',
       blurb: 'Pressure, intensity and power, and their decibel levels.',
       vars: {
@@ -217,6 +226,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 1', 'Lecture Notes/Lecture 1 - Introduction and Plane Waves.md'], ['Lecture 2', 'Lecture Notes/Lecture 2 - Plane Waves Reflection and Spherical Waves.md'], ['Lecture 4', 'Lecture Notes/Lecture 4 - Impedance Intensity and Sound Power.md'], ['Week 1 worked', 'Exercises/Work/Week 1 - Fundamental Concepts and Plane Waves.md'], ['Week 2 worked', 'Exercises/Work/Week 2 - Reflection and Spherical Waves.md'], ['Week 4 worked', 'Exercises/Work/Week 4 - Impedance Intensity and Sound Power.md']],
       id: 'plane', title: 'Plane waves and tubes',
       blurb: 'Reflection at a surface, standing waves, transmission between media, tube resonances.',
       vars: {
@@ -249,6 +259,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 2', 'Lecture Notes/Lecture 2 - Plane Waves Reflection and Spherical Waves.md'], ['Lecture 5', 'Lecture Notes/Lecture 5 - Radiation Monopoles Dipoles and Pistons.md'], ['Week 2 worked', 'Exercises/Work/Week 2 - Reflection and Spherical Waves.md'], ['Week 5 worked', 'Exercises/Work/Week 5 - Radiation Monopoles Dipoles and Pistons.md']],
       id: 'sources', title: 'Point sources',
       blurb: 'The monopole, its near field, directivity and distance.',
       vars: {
@@ -277,6 +288,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Lecture 5', 'Lecture Notes/Lecture 5 - Radiation Monopoles Dipoles and Pistons.md'], ['Week 5 worked', 'Exercises/Work/Week 5 - Radiation Monopoles Dipoles and Pistons.md']],
       id: 'interference', title: 'Two sources',
       blurb: 'Adding two tones, path differences, the dipole and a source above a floor.',
       vars: {
@@ -300,6 +312,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 6', 'Lecture Notes/Lecture 6 - Room Modes and the Diffuse Sound Field.md'], ['Week 6 worked', 'Exercises/Work/Week 6 - Room Modes and the Diffuse Sound Field.md']],
       id: 'modes', title: 'Room modes',
       blurb: 'Standing waves in a rectangular room, mode count and the Schroeder frequency.',
       vars: {
@@ -319,6 +332,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 6', 'Lecture Notes/Lecture 6 - Room Modes and the Diffuse Sound Field.md'], ['Lecture 7', 'Lecture Notes/Lecture 7 - Sound Absorption and Room Acoustic Design.md'], ['Week 6 worked', 'Exercises/Work/Week 6 - Room Modes and the Diffuse Sound Field.md'], ['Week 7 worked', 'Exercises/Work/Week 7 - Sound Absorbers.md']],
       id: 'reverb', title: 'Reverberation and the diffuse field',
       blurb: 'Absorption area, reverberation time, and the level in a room.',
       vars: {
@@ -345,6 +359,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 7', 'Lecture Notes/Lecture 7 - Sound Absorption and Room Acoustic Design.md'], ['Week 7 worked', 'Exercises/Work/Week 7 - Sound Absorbers.md']],
       id: 'absorbers', title: 'Absorbers',
       blurb: 'Panel, Helmholtz, perforated and porous absorbers.',
       vars: {
@@ -369,6 +384,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Week 3 worked', 'Exercises/Work/Week 3 - Decibels Frequency Analysis and Measurements.md']],
       id: 'bands', title: 'Frequency bands and weighting',
       blurb: 'Octave and third-octave bands, A- and C-weighting.',
       vars: {
@@ -389,6 +405,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 9', 'Lecture Notes/Lecture 9 - Hearing - Frequency Selectivity and Masking.md'], ['Lecture 10', 'Lecture Notes/Lecture 10 - Physiological Acoustics.md'], ['Week 9 worked', 'Exercises/Work/Week 9 - Psychological Acoustics.md'], ['Week 10 worked', 'Exercises/Work/Week 10 - Physiological Acoustics.md']],
       id: 'hearing', title: 'Hearing',
       blurb: 'Auditory filters, masking, loudness, the cochlear map and evoked responses.',
       vars: {
@@ -415,6 +432,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 11', 'Lecture Notes/Lecture 11 - Structure-borne Sound and Vibration Isolation.md'], ['Week 11 worked', 'Exercises/Work/Week 11 - Structure-borne Sound and Vibration Isolation.md']],
       id: 'vibration', title: 'Vibration isolation',
       blurb: 'A machine on springs: resonance, transmissibility and isolation.',
       vars: {
@@ -434,6 +452,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 12', 'Lecture Notes/Lecture 12 - Sound Insulation.md'], ['Week 12 worked', 'Exercises/Work/Week 12 - Sound Insulation.md']],
       id: 'insulation', title: 'Sound insulation',
       blurb: 'Mass law, coincidence, double walls and the level in the receiving room.',
       vars: {
@@ -461,6 +480,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 8', 'Lecture Notes/Lecture 8 - Loudspeakers.md'], ['Week 8 worked', 'Exercises/Work/Week 8 - Loudspeakers.md']],
       id: 'speaker', title: 'Loudspeakers',
       blurb: 'The driver as a mass on a spring, the closed box, and the radiated level.',
       vars: {
@@ -484,7 +504,9 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     },
   ];
 
-  const api = { TOPICS, CONSTANTS, aWeight, cWeight };
+  const COURSE_DIR = '/home/mads/DTU/Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/';
+  const EXAM_NOTES = [['Cheat sheet', 'Exam Prep/Cheat Sheet - 34840.md'], ['Old exams worked', 'Exam Prep/Old Exams 2022-2024 - Worked.md'], ['Exam-day checklist', 'Exam Prep/Exam Day Checklist - 34840.md']];
+  const api = { TOPICS, CONSTANTS, aWeight, cWeight, COURSE_DIR, EXAM_NOTES };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.FORMULAS = api;
 })(typeof self !== 'undefined' ? self : this);
@@ -665,7 +687,8 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
 <script>// UI for the formula sheets. Plain DOM, no framework.
 (function () {
   'use strict';
-  const { TOPICS, CONSTANTS, aWeight } = window.FORMULAS;
+  const { TOPICS, CONSTANTS, aWeight, COURSE_DIR, EXAM_NOTES } = window.FORMULAS;
+  const obsidian = rel => 'obsidian://open?path=' + encodeURIComponent(COURSE_DIR + rel);
   const E = window.ENGINE;
   const $ = (sel, el = document) => el.querySelector(sel);
   const h = (tag, attrs = {}, ...kids) => {
@@ -708,6 +731,9 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     });
     const cbox = $('#consts');
     cbox.innerHTML = '';
+    const ex = $('#examnotes');
+    ex.innerHTML = '';
+    EXAM_NOTES.forEach(([label, rel]) => ex.append(h('a', { href: obsidian(rel) }, label)));
     cbox.append(h('button', { class: 'const-copy', title: 'Copy the constants as one MATLAB line', onclick: () => copyText(CONST_LINE(), 'Constants copied') }, 'Copy constants for MATLAB'));
     Object.entries(CONSTANTS).filter(([, c]) => c.editable).forEach(([k, c]) => {
       const inp = h('input', { value: store.consts[k] ?? String(c.value), 'aria-label': c.name, spellcheck: 'false' });
@@ -740,7 +766,8 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       h('header', { class: 'topic-head' },
         h('div', {},
           h('h1', {}, t.title),
-          h('p', { class: 'blurb' }, t.blurb)),
+          h('p', { class: 'blurb' }, t.blurb),
+          t.notes ? h('p', { class: 'notes' }, 'In Obsidian: ', ...t.notes.flatMap(([label, rel], j) => [j ? ' · ' : '', h('a', { href: obsidian(rel), title: rel.split('/').pop().replace(/\.md$/, '') }, label)])) : null),
         h('div', { class: 'actions' },
           h('button', { onclick: copyMatlab, title: 'Constants, your given values and the MATLAB line of every formula used, ready to paste into a live script' }, 'Copy as MATLAB'),
           h('button', { onclick: copyWorking, title: 'Copy the given values and every worked step as plain text' }, 'Copy working'),

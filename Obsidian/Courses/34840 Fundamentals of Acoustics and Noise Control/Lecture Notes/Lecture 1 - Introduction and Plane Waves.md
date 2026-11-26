@@ -13,7 +13,7 @@ tags: [Acoustics, lecture-note, plane-waves, wave-equation, phasors]
 
 > [!info] Lecture Info
 > **Date:** Tuesday 1 September 2026, 08:00–12:00 · building 358, room 063 · **Finn Agerkvist**
-> **Main slides:** [[34840_Lecture1_2026_v1.pdf|PDF]] · [[34840_Lecture1_2026_v1.pptx|Open PowerPoint]]
+> **Main slides:** [[34840_Lecture1_2026_v2.pdf|PDF (v2, with symbol explanations)]] · [[34840_Lecture1_2026_v2.pptx|PowerPoint v2]] · original [[34840_Lecture1_2026_v1.pdf|v1 PDF]]
 > **Wave-equation supplement:** [[34840_Lecture1_waveequation_26.pdf|PDF derivation]] · [[34840_Lecture1_waveequation_26.pptx|Open PowerPoint derivation]]
 > **Reading:** [[Fundamentals_of_acoustics_2022.pdf|Course text]], printed pp. 1–8.
 > **Problems:** [[Week 1 - Fundamental Concepts and Plane Waves|Week 1 preparation + MATLAB]]

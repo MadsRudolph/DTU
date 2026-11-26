@@ -35,6 +35,7 @@
   const TOPICS = [
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 1', 'Lecture Notes/Lecture 1 - Introduction and Plane Waves.md'], ['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Lecture 4', 'Lecture Notes/Lecture 4 - Impedance Intensity and Sound Power.md'], ['Week 1 worked', 'Exercises/Work/Week 1 - Fundamental Concepts and Plane Waves.md'], ['Week 3 worked', 'Exercises/Work/Week 3 - Decibels Frequency Analysis and Measurements.md'], ['Week 4 worked', 'Exercises/Work/Week 4 - Impedance Intensity and Sound Power.md']],
       id: 'levels', title: 'Levels and waves',
       blurb: 'Pressure, intensity and power, and their decibel levels.',
       vars: {
@@ -62,6 +63,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 1', 'Lecture Notes/Lecture 1 - Introduction and Plane Waves.md'], ['Lecture 2', 'Lecture Notes/Lecture 2 - Plane Waves Reflection and Spherical Waves.md'], ['Lecture 4', 'Lecture Notes/Lecture 4 - Impedance Intensity and Sound Power.md'], ['Week 1 worked', 'Exercises/Work/Week 1 - Fundamental Concepts and Plane Waves.md'], ['Week 2 worked', 'Exercises/Work/Week 2 - Reflection and Spherical Waves.md'], ['Week 4 worked', 'Exercises/Work/Week 4 - Impedance Intensity and Sound Power.md']],
       id: 'plane', title: 'Plane waves and tubes',
       blurb: 'Reflection at a surface, standing waves, transmission between media, tube resonances.',
       vars: {
@@ -94,6 +96,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 2', 'Lecture Notes/Lecture 2 - Plane Waves Reflection and Spherical Waves.md'], ['Lecture 5', 'Lecture Notes/Lecture 5 - Radiation Monopoles Dipoles and Pistons.md'], ['Week 2 worked', 'Exercises/Work/Week 2 - Reflection and Spherical Waves.md'], ['Week 5 worked', 'Exercises/Work/Week 5 - Radiation Monopoles Dipoles and Pistons.md']],
       id: 'sources', title: 'Point sources',
       blurb: 'The monopole, its near field, directivity and distance.',
       vars: {
@@ -122,6 +125,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Lecture 5', 'Lecture Notes/Lecture 5 - Radiation Monopoles Dipoles and Pistons.md'], ['Week 5 worked', 'Exercises/Work/Week 5 - Radiation Monopoles Dipoles and Pistons.md']],
       id: 'interference', title: 'Two sources',
       blurb: 'Adding two tones, path differences, the dipole and a source above a floor.',
       vars: {
@@ -145,6 +149,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 6', 'Lecture Notes/Lecture 6 - Room Modes and the Diffuse Sound Field.md'], ['Week 6 worked', 'Exercises/Work/Week 6 - Room Modes and the Diffuse Sound Field.md']],
       id: 'modes', title: 'Room modes',
       blurb: 'Standing waves in a rectangular room, mode count and the Schroeder frequency.',
       vars: {
@@ -164,6 +169,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 6', 'Lecture Notes/Lecture 6 - Room Modes and the Diffuse Sound Field.md'], ['Lecture 7', 'Lecture Notes/Lecture 7 - Sound Absorption and Room Acoustic Design.md'], ['Week 6 worked', 'Exercises/Work/Week 6 - Room Modes and the Diffuse Sound Field.md'], ['Week 7 worked', 'Exercises/Work/Week 7 - Sound Absorbers.md']],
       id: 'reverb', title: 'Reverberation and the diffuse field',
       blurb: 'Absorption area, reverberation time, and the level in a room.',
       vars: {
@@ -190,6 +196,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 7', 'Lecture Notes/Lecture 7 - Sound Absorption and Room Acoustic Design.md'], ['Week 7 worked', 'Exercises/Work/Week 7 - Sound Absorbers.md']],
       id: 'absorbers', title: 'Absorbers',
       blurb: 'Panel, Helmholtz, perforated and porous absorbers.',
       vars: {
@@ -214,6 +221,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 3', 'Lecture Notes/Lecture 3 - Decibels Frequency Analysis and Measurements.md'], ['Week 3 worked', 'Exercises/Work/Week 3 - Decibels Frequency Analysis and Measurements.md']],
       id: 'bands', title: 'Frequency bands and weighting',
       blurb: 'Octave and third-octave bands, A- and C-weighting.',
       vars: {
@@ -234,6 +242,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 9', 'Lecture Notes/Lecture 9 - Hearing - Frequency Selectivity and Masking.md'], ['Lecture 10', 'Lecture Notes/Lecture 10 - Physiological Acoustics.md'], ['Week 9 worked', 'Exercises/Work/Week 9 - Psychological Acoustics.md'], ['Week 10 worked', 'Exercises/Work/Week 10 - Physiological Acoustics.md']],
       id: 'hearing', title: 'Hearing',
       blurb: 'Auditory filters, masking, loudness, the cochlear map and evoked responses.',
       vars: {
@@ -260,6 +269,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 11', 'Lecture Notes/Lecture 11 - Structure-borne Sound and Vibration Isolation.md'], ['Week 11 worked', 'Exercises/Work/Week 11 - Structure-borne Sound and Vibration Isolation.md']],
       id: 'vibration', title: 'Vibration isolation',
       blurb: 'A machine on springs: resonance, transmissibility and isolation.',
       vars: {
@@ -279,6 +289,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 12', 'Lecture Notes/Lecture 12 - Sound Insulation.md'], ['Week 12 worked', 'Exercises/Work/Week 12 - Sound Insulation.md']],
       id: 'insulation', title: 'Sound insulation',
       blurb: 'Mass law, coincidence, double walls and the level in the receiving room.',
       vars: {
@@ -306,6 +317,7 @@
     },
     // ------------------------------------------------------------------
     {
+      notes: [['Lecture 8', 'Lecture Notes/Lecture 8 - Loudspeakers.md'], ['Week 8 worked', 'Exercises/Work/Week 8 - Loudspeakers.md']],
       id: 'speaker', title: 'Loudspeakers',
       blurb: 'The driver as a mass on a spring, the closed box, and the radiated level.',
       vars: {
@@ -329,7 +341,9 @@
     },
   ];
 
-  const api = { TOPICS, CONSTANTS, aWeight, cWeight };
+  const COURSE_DIR = '/home/mads/DTU/Obsidian/Courses/34840 Fundamentals of Acoustics and Noise Control/';
+  const EXAM_NOTES = [['Cheat sheet', 'Exam Prep/Cheat Sheet - 34840.md'], ['Old exams worked', 'Exam Prep/Old Exams 2022-2024 - Worked.md'], ['Exam-day checklist', 'Exam Prep/Exam Day Checklist - 34840.md']];
+  const api = { TOPICS, CONSTANTS, aWeight, cWeight, COURSE_DIR, EXAM_NOTES };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.FORMULAS = api;
 })(typeof self !== 'undefined' ? self : this);

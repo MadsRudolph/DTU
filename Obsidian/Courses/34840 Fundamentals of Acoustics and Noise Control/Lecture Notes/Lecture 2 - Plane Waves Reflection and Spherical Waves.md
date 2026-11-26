@@ -13,7 +13,7 @@ tags: [Acoustics, lecture-note, standing-waves, reflection, spherical-waves]
 
 > [!info] Lecture Info
 > **Date:** Tuesday 8 September 2026, 08:00–12:00 · building 358, room 063 · **Finn Agerkvist**
-> **Slides:** [[34840_Lecture2_2026.pdf|PDF slides]] · [[34840_Lecture2_2026.pptx|Open original PowerPoint]]
+> **Slides:** [[34840_Lecture2_2026_v2.pdf|PDF slides (v2, with symbol explanations)]] · [[34840_Lecture2_2026_v2.pptx|PowerPoint v2]] (also split as [[34840_Lecture2_part1_2026v2.pptx|part 1]], [[34840_Lecture2_part2_2026v2.pptx|part 2]], [[34840_Lecture2_part3_2026v2.pptx|part 3]]) · original [[34840_Lecture2_2026.pdf|v1 PDF]]
 > **Reading:** [[Fundamentals_of_acoustics_2022.pdf|Course text]], printed pp. 8–15 (§1.2; plane-wave recap pp. 6–7).
 > **Problems:** [[Week 2 - Reflection and Spherical Waves|Week 2 preparation]] · [[34840_Problems2.pdf|Original problem sheet]]
 > **Previous:** [[Lecture 1 - Introduction and Plane Waves|Lecture 1]] · **Course:** [[34840 Fundamentals of Acoustics and Noise Control]]

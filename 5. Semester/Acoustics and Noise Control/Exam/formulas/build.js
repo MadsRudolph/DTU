@@ -31,6 +31,7 @@ const html = `<!DOCTYPE html>
     <div class="brand">Acoustics formulas<span>34840 · works offline</span></div>
     <input id="search" placeholder="Search  ( / )" spellcheck="false" autocomplete="off">
     <nav id="topics"></nav>
+    <nav id="examnotes" title="Opens in Obsidian"></nav>
     <div class="side-foot">
       <div id="consts"></div>
       <button id="theme">Dark</button>

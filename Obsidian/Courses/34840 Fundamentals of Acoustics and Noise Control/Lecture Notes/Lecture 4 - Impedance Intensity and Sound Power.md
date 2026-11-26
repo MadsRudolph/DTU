@@ -14,7 +14,7 @@ tags: [Acoustics, lecture-note, impedance, intensity, absorption]
 > [!abstract] The idea
 > Impedance tells us how pressure drives motion. Only the part of that motion in phase with pressure transports energy on average.
 
-**Tuesday 22 September 2026 · Finn Agerkvist.** Sources: [[34840_Lecture4_2026.pdf|Lecture 4 slides (36 pages)]] · [[34840_Lecture4_2026.pptx|PowerPoint]] · [[Fundamentals_of_acoustics_2022.pdf|course text, sections on impedance and sound energy]]. Practice: [[Week 4 - Impedance Intensity and Sound Power|fully worked Week 4 problems]]. Interactive version: [Sound Bench, Lecture 4](https://study.madsrudolph.dev/34840/#l4).
+**Tuesday 22 September 2026 · Finn Agerkvist.** Sources: [[34840_Lecture4_2026_v2.pdf|Lecture 4 slides (v2, with symbol explanations)]] · [[34840_Lecture4_2026_v2.pptx|PowerPoint v2]] · original [[34840_Lecture4_2026.pdf|v1 PDF (36 pages)]] · [[Fundamentals_of_acoustics_2022.pdf|course text, sections on impedance and sound energy]]. Practice: [[Week 4 - Impedance Intensity and Sound Power|fully worked Week 4 problems]]. Interactive version: [Sound Bench, Lecture 4](https://study.madsrudolph.dev/34840/#l4).
 
 ## 1. Three impedances, three different velocities
 
