@@ -43,6 +43,7 @@ const html = `<!DOCTYPE html>
 <script>${safeJs(read(path.join(KATEX, 'katex.min.js')))}</script>
 <script>${safeJs(read(path.join(ROOT, 'src', 'formulas.js')))}</script>
 <script>${safeJs(read(path.join(ROOT, 'src', 'engine.js')))}</script>
+<script>${safeJs(read(path.join(ROOT, 'src', 'inverses.js')))}</script>
 <script>${safeJs(read(path.join(ROOT, 'src', 'app.js')))}</script>
 </body>
 </html>

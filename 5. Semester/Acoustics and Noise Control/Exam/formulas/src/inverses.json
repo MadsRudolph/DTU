@@ -1,0 +1,491 @@
+{
+  "levels_0": {
+    "w": "2*f_v*pi",
+    "f": "w_v/(2*pi)"
+  },
+  "levels_1": {
+    "lam": "c_v/f_v",
+    "f": "c_v/lam_v"
+  },
+  "levels_2": {
+    "k": "w_v/c_v",
+    "w": "c_v*k_v"
+  },
+  "levels_3": {
+    "p": "(2^(1/2)*pk_v)/2",
+    "pk": "2^(1/2)*p_v"
+  },
+  "levels_4": {
+    "Lp": "-(20*(log(p0_v) - log(p_v)))/log(10)",
+    "p": "10^(Lp_v/20)*p0_v"
+  },
+  "levels_5": {
+    "I": "p_v^2/(c_v*rho_v)",
+    "p": "I_v^(1/2)*c_v^(1/2)*rho_v^(1/2)"
+  },
+  "levels_6": {
+    "LI": "-(10*(log(I0_v) - log(I_v)))/log(10)",
+    "I": "10^(LI_v/10)*I0_v"
+  },
+  "levels_7": {
+    "u": "p_v/(c_v*rho_v)",
+    "p": "c_v*rho_v*u_v"
+  },
+  "levels_8": {
+    "W": "I_v*S_v",
+    "I": "W_v/S_v",
+    "S": "W_v/I_v"
+  },
+  "levels_9": {
+    "LW": "-(10*(log(W0_v) - log(W_v)))/log(10)",
+    "W": "10^(LW_v/10)*W0_v"
+  },
+  "plane_0": {
+    "R": "(Z_v - c_v*rho_v)/(Z_v + c_v*rho_v)",
+    "Z": "-(c_v*rho_v*(R_v + 1))/(R_v - 1)"
+  },
+  "plane_1": {
+    "alpha": "1 - R_v^2",
+    "R": "(1 - alpha_v)^(1/2)"
+  },
+  "plane_2": {
+    "k": "(2*f_v*pi)/c_v",
+    "f": "(c_v*k_v)/(2*pi)"
+  },
+  "plane_3": {
+    "pd": "pi__v*(2*R_v*cos(2*d_v*k_v) + R_v^2 + 1)^(1/2)",
+    "pi_": "pd_v/(2*R_v*cos(2*d_v*k_v) + R_v^2 + 1)^(1/2)",
+    "R": "-(pi__v*cos(2*d_v*k_v) - (pi__v^2*cos(2*d_v*k_v)^2 + pd_v^2 - pi__v^2)^(1/2))/pi__v",
+    "k": "(pi - acos((R_v^2/2 - pd_v^2/(2*pi__v^2) + 1/2)/R_v))/(2*d_v)",
+    "d": "(pi - acos((R_v^2/2 - pd_v^2/(2*pi__v^2) + 1/2)/R_v))/(2*k_v)"
+  },
+  "plane_4": {
+    "dL": "Lmax_v - Lmin_v",
+    "Lmax": "Lmin_v + dL_v",
+    "Lmin": "Lmax_v - dL_v"
+  },
+  "plane_5": {
+    "s": "10^(dL_v/20)",
+    "dL": "(20*log(s_v))/log(10)"
+  },
+  "plane_6": {
+    "alpha": "(4*s_v)/(s_v + 1)^2",
+    "s": "(2*(1 - alpha_v)^(1/2) - alpha_v + 2)/alpha_v"
+  },
+  "plane_7": {
+    "tau": "(4*Z1_v*Z2_v)/(Z1_v + Z2_v)^2",
+    "Z1": "-(Z2_v*(tau_v + 2*(1 - tau_v)^(1/2) - 2))/tau_v",
+    "Z2": "(Z1_v*(2*(1 - tau_v)^(1/2) - tau_v + 2))/tau_v"
+  },
+  "plane_8": {
+    "TL": "-(10*log(tau_v))/log(10)",
+    "tau": "1/10^(TL_v/10)"
+  },
+  "plane_9": {
+    "fn": "(c_v*n_v)/(2*Lt_v)",
+    "Lt": "(c_v*n_v)/(2*fn_v)"
+  },
+  "plane_10": {
+    "fq": "(c_v*(2*n_v - 1))/(4*Lt_v)",
+    "Lt": "(c_v*(2*n_v - 1))/(4*fq_v)"
+  },
+  "plane_11": {
+    "dmin": "c_v/(4*f_v)",
+    "f": "c_v/(4*dmin_v)"
+  },
+  "sources_0": {
+    "k": "(2*f_v*pi)/c_v",
+    "f": "(c_v*k_v)/(2*pi)"
+  },
+  "sources_1": {
+    "kr": "k_v*r_v",
+    "k": "kr_v/r_v",
+    "r": "kr_v/k_v"
+  },
+  "sources_2": {
+    "phi": "(180*(pi/2 - atan(kr_v)))/pi",
+    "kr": "1/tan((phi_v*pi)/180)"
+  },
+  "sources_3": {
+    "zr": "kr_v/(kr_v^2 + 1)^(1/2)",
+    "kr": "zr_v/(1 - zr_v^2)^(1/2)"
+  },
+  "sources_4": {
+    "p": "(Qv_v*c_v*k_v*rho_v)/(4*r_v*pi)",
+    "k": "(4*p_v*r_v*pi)/(Qv_v*c_v*rho_v)",
+    "Qv": "(4*p_v*r_v*pi)/(c_v*k_v*rho_v)",
+    "r": "(Qv_v*c_v*k_v*rho_v)/(4*p_v*pi)"
+  },
+  "sources_5": {
+    "W": "(Qv_v^2*c_v*k_v^2*rho_v)/(4*pi)",
+    "k": "(2*W_v^(1/2)*pi^(1/2))/(Qv_v*c_v^(1/2)*rho_v^(1/2))",
+    "Qv": "(2*W_v^(1/2)*pi^(1/2))/(c_v^(1/2)*k_v*rho_v^(1/2))"
+  },
+  "sources_6": {
+    "I": "(Q_v*W_v)/(4*r_v^2*pi)",
+    "Q": "(4*I_v*r_v^2*pi)/W_v",
+    "W": "(4*I_v*r_v^2*pi)/Q_v",
+    "r": "(Q_v^(1/2)*W_v^(1/2))/(2*I_v^(1/2)*pi^(1/2))"
+  },
+  "sources_7": {
+    "Lp": "(10*log(Q_v/(4*r_v^2*pi)) + 10*log((W0_v*c_v*rho_v)/p0_v^2) + LW_v*log(10))/log(10)",
+    "LW": "Lp_v - (10*log(Q_v/(4*r_v^2*pi)))/log(10) - (10*log((W0_v*c_v*rho_v)/p0_v^2))/log(10)",
+    "Q": "(4*10^(Lp_v/10 - LW_v/10)*p0_v^2*r_v^2*pi)/(W0_v*c_v*rho_v)",
+    "r": "(10^(LW_v/20 - Lp_v/20)*Q_v^(1/2)*W0_v^(1/2)*c_v^(1/2)*rho_v^(1/2))/(2*p0_v*pi^(1/2))"
+  },
+  "sources_8": {
+    "Lp": "-(20*(log(p0_v) - log(p_v)))/log(10)",
+    "p": "10^(Lp_v/20)*p0_v"
+  },
+  "sources_9": {
+    "LW": "-(10*(log(W0_v) - log(W_v)))/log(10)",
+    "W": "10^(LW_v/10)*W0_v"
+  },
+  "sources_10": {
+    "DI": "(10*log(Q_v))/log(10)",
+    "Q": "10^(DI_v/10)"
+  },
+  "sources_11": {
+    "L2": "(20*log(r1_v) - 20*log(r2_v) + L1_v*log(10))/log(10)",
+    "L1": "(20*log(r2_v) - 20*log(r1_v) + L2_v*log(10))/log(10)",
+    "r2": "10^(L1_v/20 - L2_v/20)*r1_v",
+    "r1": "10^(L2_v/20 - L1_v/20)*r2_v"
+  },
+  "interference_0": {
+    "k": "(2*f_v*pi)/c_v",
+    "f": "(c_v*k_v)/(2*pi)"
+  },
+  "interference_1": {
+    "dphi": "(180*dr_v*k_v)/pi",
+    "k": "(dphi_v*pi)/(180*dr_v)",
+    "dr": "(dphi_v*pi)/(180*k_v)"
+  },
+  "interference_2": {
+    "a": "10^(L2_v/20 - L1_v/20)",
+    "L2": "L1_v + (20*log(a_v))/log(10)",
+    "L1": "L2_v - (20*log(a_v))/log(10)"
+  },
+  "interference_3": {
+    "Lc": "L1_v + (10*log(2*a_v*cos((dphi_v*pi)/180) + a_v^2 + 1))/log(10)",
+    "L1": "Lc_v - (10*log(2*a_v*cos((dphi_v*pi)/180) + a_v^2 + 1))/log(10)",
+    "a": "((10^(Lc_v/10) - 10^(L1_v/10) + 10^(L1_v/10)*cos((dphi_v*pi)/180)^2)^(1/2) - 10^(L1_v/20)*cos((dphi_v*pi)/180))/10^(L1_v/20)",
+    "dphi": "(180*(pi - acos((a_v^2 - 10^(Lc_v/10 - L1_v/10) + 1)/(2*a_v))))/pi"
+  },
+  "interference_4": {
+    "Li": "L1_v + (10*log(a_v^2 + 1))/log(10)",
+    "L1": "Li_v - (10*log(a_v^2 + 1))/log(10)",
+    "a": "(10^(Li_v/10) - 10^(L1_v/10))^(1/2)/10^(L1_v/20)"
+  },
+  "interference_5": {
+    "Wd": "(10*log(2 - (2*sin(d_v*k_v))/(d_v*k_v)))/log(10)"
+  },
+  "interference_6": {
+    "Wh": "(10*log(sin(2*h_v*k_v)/(2*h_v*k_v) + 1))/log(10)"
+  },
+  "modes_0": {
+    "fm": "(c_v*(Lx_v^2*Ly_v^2*nz_v^2 + Lx_v^2*Lz_v^2*ny_v^2 + Ly_v^2*Lz_v^2*nx_v^2)^(1/2))/(2*Lx_v*Ly_v*Lz_v)",
+    "Lx": "(Ly_v*Lz_v*c_v*nx_v)/(4*Ly_v^2*Lz_v^2*fm_v^2 - Ly_v^2*c_v^2*nz_v^2 - Lz_v^2*c_v^2*ny_v^2)^(1/2)",
+    "Ly": "(Lx_v*Lz_v*c_v*ny_v)/(4*Lx_v^2*Lz_v^2*fm_v^2 - Lx_v^2*c_v^2*nz_v^2 - Lz_v^2*c_v^2*nx_v^2)^(1/2)",
+    "Lz": "(Lx_v*Ly_v*c_v*nz_v)/(4*Lx_v^2*Ly_v^2*fm_v^2 - Lx_v^2*c_v^2*ny_v^2 - Ly_v^2*c_v^2*nx_v^2)^(1/2)"
+  },
+  "modes_1": {
+    "V": "Lx_v*Ly_v*Lz_v",
+    "Lx": "V_v/(Ly_v*Lz_v)",
+    "Ly": "V_v/(Lx_v*Lz_v)",
+    "Lz": "V_v/(Lx_v*Ly_v)"
+  },
+  "modes_2": {
+    "N": "(4*V_v*f_v^3*pi)/(3*c_v^3)",
+    "V": "(3*N_v*c_v^3)/(4*f_v^3*pi)",
+    "f": "(6^(1/3)*N_v^(1/3)*c_v)/(2*V_v^(1/3)*pi^(1/3))"
+  },
+  "modes_3": {
+    "fS": "(2000*T_v^(1/2))/V_v^(1/2)",
+    "T": "(V_v*fS_v^2)/4000000",
+    "V": "(4000000*T_v)/fS_v^2"
+  },
+  "reverb_0": {
+    "V": "Lx_v*Ly_v*Lz_v",
+    "Lx": "V_v/(Ly_v*Lz_v)",
+    "Ly": "V_v/(Lx_v*Lz_v)",
+    "Lz": "V_v/(Lx_v*Ly_v)"
+  },
+  "reverb_1": {
+    "S": "2*Lx_v*Ly_v + 2*Lx_v*Lz_v + 2*Ly_v*Lz_v",
+    "Lx": "(S_v - 2*Ly_v*Lz_v)/(2*(Ly_v + Lz_v))",
+    "Ly": "(S_v - 2*Lx_v*Lz_v)/(2*(Lx_v + Lz_v))",
+    "Lz": "(S_v - 2*Lx_v*Ly_v)/(2*(Lx_v + Ly_v))"
+  },
+  "reverb_2": {
+    "A": "S_v*alpha_v",
+    "S": "A_v/alpha_v",
+    "alpha": "A_v/S_v"
+  },
+  "reverb_3": {
+    "T": "(553*V_v)/(10*A_v*c_v)",
+    "V": "(10*A_v*T_v*c_v)/553",
+    "A": "(553*V_v)/(10*T_v*c_v)"
+  },
+  "reverb_4": {
+    "TE": "-(553*V_v)/(10*S_v*c_v*log(1 - alpha_v))",
+    "V": "-(10*S_v*TE_v*c_v*log(1 - alpha_v))/553",
+    "S": "-(553*V_v)/(10*TE_v*c_v*log(1 - alpha_v))",
+    "alpha": "1 - exp(-(553*V_v)/(10*S_v*TE_v*c_v))"
+  },
+  "reverb_5": {
+    "Lp": "LW_v + (10*log(4/A_v + Q_v/(4*r_v^2*pi)))/log(10)",
+    "LW": "Lp_v - (10*log(4/A_v + Q_v/(4*r_v^2*pi)))/log(10)",
+    "Q": "4*r_v^2*pi*(10^(Lp_v/10 - LW_v/10) - 4/A_v)",
+    "r": "Q_v^(1/2)/(2*pi^(1/2)*(10^(Lp_v/10 - LW_v/10) - 4/A_v)^(1/2))",
+    "A": "1/(10^(Lp_v/10 - LW_v/10)/4 - Q_v/(16*r_v^2*pi))"
+  },
+  "reverb_6": {
+    "Lr": "(20*log(2) - 10*log(A_v) + LW_v*log(10))/log(10)",
+    "LW": "(10*log(A_v) - 20*log(2) + Lr_v*log(10))/log(10)",
+    "A": "4*10^(LW_v/10 - Lr_v/10)"
+  },
+  "reverb_7": {
+    "rc": "(A_v^(1/2)*Q_v^(1/2))/(4*pi^(1/2))",
+    "Q": "(16*rc_v^2*pi)/A_v",
+    "A": "(16*rc_v^2*pi)/Q_v"
+  },
+  "reverb_8": {
+    "mfp": "(4*V_v)/S_v",
+    "V": "(S_v*mfp_v)/4",
+    "S": "(4*V_v)/mfp_v"
+  },
+  "reverb_9": {
+    "alpha_s": "-(553*V_v*(1/T1_v - 1/T2_v))/(10*Ss_v*c_v)",
+    "V": "(10*Ss_v*T1_v*T2_v*alpha_s_v*c_v)/(553*(T1_v - T2_v))",
+    "Ss": "(553*V_v*(T1_v - T2_v))/(10*T1_v*T2_v*alpha_s_v*c_v)",
+    "T2": "(553*T1_v*V_v)/(553*V_v + 10*Ss_v*T1_v*alpha_s_v*c_v)",
+    "T1": "(553*T2_v*V_v)/(553*V_v - 10*Ss_v*T2_v*alpha_s_v*c_v)"
+  },
+  "absorbers_0": {
+    "fp": "(c_v*rho_v^(1/2))/(2*Lc_v^(1/2)*m_v^(1/2)*pi)",
+    "m": "(c_v^2*rho_v)/(4*Lc_v*fp_v^2*pi^2)",
+    "Lc": "(c_v^2*rho_v)/(4*fp_v^2*m_v*pi^2)"
+  },
+  "absorbers_1": {
+    "fr": "60/(Lc_v^(1/2)*m_v^(1/2))",
+    "m": "3600/(Lc_v*fr_v^2)",
+    "Lc": "3600/(fr_v^2*m_v)"
+  },
+  "absorbers_2": {
+    "sN": "(Dn_v^2*pi)/4",
+    "Dn": "(2*sN_v^(1/2))/pi^(1/2)"
+  },
+  "absorbers_3": {
+    "leff": "(4*Dn_v)/5 + lneck_v",
+    "lneck": "leff_v - (4*Dn_v)/5",
+    "Dn": "(5*leff_v)/4 - (5*lneck_v)/4"
+  },
+  "absorbers_4": {
+    "fH": "(c_v*sN_v^(1/2))/(2*Vc_v^(1/2)*leff_v^(1/2)*pi)",
+    "sN": "(4*Vc_v*fH_v^2*leff_v*pi^2)/c_v^2",
+    "Vc": "(c_v^2*sN_v)/(4*fH_v^2*leff_v*pi^2)",
+    "leff": "(c_v^2*sN_v)/(4*Vc_v*fH_v^2*pi^2)"
+  },
+  "absorbers_5": {
+    "P": "(dh_v^2*pi)/(4*ah_v^2)",
+    "dh": "(2*P_v^(1/2)*ah_v)/pi^(1/2)",
+    "ah": "(dh_v*pi^(1/2))/(2*P_v^(1/2))"
+  },
+  "absorbers_6": {
+    "fperf": "(P_v^(1/2)*c_v)/(2*Lc_v^(1/2)*pi*((4*dh_v)/5 + t_v)^(1/2))",
+    "P": "(4*Lc_v*fperf_v^2*pi^2*((4*dh_v)/5 + t_v))/c_v^2",
+    "Lc": "(P_v*c_v^2)/(4*fperf_v^2*pi^2*((4*dh_v)/5 + t_v))",
+    "t": "(P_v*c_v^2)/(4*Lc_v*fperf_v^2*pi^2) - (4*dh_v)/5",
+    "dh": "(5*P_v*c_v^2)/(16*Lc_v*fperf_v^2*pi^2) - (5*t_v)/4"
+  },
+  "absorbers_7": {
+    "fq": "c_v/(4*Dp_v)",
+    "Dp": "c_v/(4*fq_v)"
+  },
+  "bands_0": {
+    "fl": "fc_v/2^(1/(2*b_v))",
+    "fc": "2^(1/(2*b_v))*fl_v"
+  },
+  "bands_1": {
+    "fu": "2^(1/(2*b_v))*fc_v",
+    "fc": "fu_v/2^(1/(2*b_v))"
+  },
+  "bands_2": {
+    "B": "fu_v - fl_v",
+    "fu": "B_v + fl_v",
+    "fl": "fu_v - B_v"
+  },
+  "bands_3": {},
+  "bands_4": {},
+  "bands_5": {
+    "La": "Aw_v + Lb_v",
+    "Lb": "La_v - Aw_v",
+    "Aw": "La_v - Lb_v"
+  },
+  "hearing_0": {
+    "ERB": "(107939*f_v)/1000000 + 247/10",
+    "f": "(1000000*ERB_v)/107939 - 100000/437"
+  },
+  "hearing_1": {
+    "CB": "(3*2^(43/50)*5^(17/100)*(7*f_v^2 + 5000000)^(69/100))/4000 + 25",
+    "f": "(200*7^(1/2)*(3^(38/69)*5^(7/69)*(CB_v - 25)^(100/69) - 1125)^(1/2))/21"
+  },
+  "hearing_2": {
+    "Ls": "(10*log(ERB_v) + 10*log(kdet_v) + N0_v*log(10))/log(10)",
+    "N0": "-(10*log(ERB_v) + 10*log(kdet_v) - Ls_v*log(10))/log(10)",
+    "kdet": "10^(Ls_v/10 - N0_v/10)/ERB_v",
+    "ERB": "10^(Ls_v/10 - N0_v/10)/kdet_v"
+  },
+  "hearing_3": {
+    "fct": "2*f1_v - f2_v",
+    "f1": "f2_v/2 + fct_v/2",
+    "f2": "2*f1_v - fct_v"
+  },
+  "hearing_4": {
+    "Ns": "2^(LN_v/10 - 4)",
+    "LN": "(10*log(Ns_v))/log(2) + 40"
+  },
+  "hearing_5": {
+    "Fg": "20682/10^((12353*x_v)/200000) - 703/5",
+    "x": "-(200000*log(Fg_v/20682 + 703/103410))/(12353*log(10))"
+  },
+  "hearing_6": {
+    "x": "(cBM_v*t_v)/2",
+    "cBM": "(2*x_v)/t_v",
+    "t": "(2*x_v)/cBM_v"
+  },
+  "hearing_7": {
+    "SNR1": "(20*(log(EP_v) - log(Nn_v)))/log(10)",
+    "EP": "10^(SNR1_v/20)*Nn_v",
+    "Nn": "EP_v/10^(SNR1_v/20)"
+  },
+  "hearing_8": {
+    "SNRn": "SNR1_v + (10*log(nav_v))/log(10)",
+    "SNR1": "SNRn_v - (10*log(nav_v))/log(10)",
+    "nav": "10^(SNRn_v/10 - SNR1_v/10)"
+  },
+  "vibration_0": {
+    "s": "(g_v*m_v)/dl_v",
+    "m": "(dl_v*s_v)/g_v",
+    "dl": "(g_v*m_v)/s_v"
+  },
+  "vibration_1": {
+    "f0": "s_v^(1/2)/(2*m_v^(1/2)*pi)",
+    "s": "4*f0_v^2*m_v*pi^2",
+    "m": "s_v/(4*f0_v^2*pi^2)"
+  },
+  "vibration_2": {
+    "r": "fv_v/f0_v",
+    "fv": "f0_v*r_v",
+    "f0": "fv_v/r_v"
+  },
+  "vibration_3": {
+    "T": "(4*r_v^2*zeta_v^2 + 1)^(1/2)/(4*r_v^2*zeta_v^2 + (r_v^2 - 1)^2)^(1/2)",
+    "zeta": "(((T_v - T_v*r_v^2 + 1)*(T_v*r_v^2 - T_v + 1))/(T_v - 1))^(1/2)/(2*r_v*(T_v + 1)^(1/2))"
+  },
+  "vibration_4": {
+    "TdB": "(20*log(T_v))/log(10)",
+    "T": "10^(TdB_v/20)"
+  },
+  "vibration_5": {
+    "xi": "F_v/(s_v*abs(r_v^2 - 1))",
+    "F": "s_v*xi_v*abs(r_v^2 - 1)",
+    "s": "F_v/(xi_v*abs(r_v^2 - 1))",
+    "r": "(F_v + s_v*xi_v)^(1/2)/(s_v^(1/2)*xi_v^(1/2))"
+  },
+  "insulation_0": {
+    "R0": "(20*log((f_v*m_v*pi)/(c_v*rho_v)))/log(10)",
+    "f": "(10^(R0_v/20)*c_v*rho_v)/(m_v*pi)",
+    "m": "(10^(R0_v/20)*c_v*rho_v)/(f_v*pi)"
+  },
+  "insulation_1": {
+    "Rf": "R0_v - 5",
+    "R0": "Rf_v + 5"
+  },
+  "insulation_2": {
+    "m": "h_v*rhoM_v",
+    "rhoM": "m_v/h_v",
+    "h": "m_v/rhoM_v"
+  },
+  "insulation_3": {
+    "Bp": "-(E_v*h_v^3)/(12*(nu_v^2 - 1))",
+    "E": "-(Bp_v*(12*nu_v^2 - 12))/h_v^3",
+    "h": "(12^(1/3)*Bp_v^(1/3)*(1 - nu_v^2)^(1/3))/E_v^(1/3)",
+    "nu": "(3^(1/2)*(12*Bp_v - E_v*h_v^3)^(1/2))/(6*Bp_v^(1/2))"
+  },
+  "insulation_4": {
+    "fc": "(c_v^2*m_v^(1/2))/(2*Bp_v^(1/2)*pi)",
+    "m": "(4*Bp_v*fc_v^2*pi^2)/c_v^4",
+    "Bp": "(c_v^4*m_v)/(4*fc_v^2*pi^2)"
+  },
+  "insulation_5": {
+    "Rc": "R0_v + (10*log((2*eta_v*f_v)/(fc_v*pi)))/log(10)",
+    "R0": "Rc_v - (10*log((2*eta_v*f_v)/(fc_v*pi)))/log(10)",
+    "eta": "(10^(Rc_v/10 - R0_v/10)*fc_v*pi)/(2*f_v)",
+    "f": "(10^(Rc_v/10 - R0_v/10)*fc_v*pi)/(2*eta_v)",
+    "fc": "(2*10^(R0_v/10 - Rc_v/10)*eta_v*f_v)/pi"
+  },
+  "insulation_6": {
+    "f0": "(c_v*rho_v^(1/2)*(m1_v + m2_v)^(1/2))/(2*d_v^(1/2)*m1_v^(1/2)*m2_v^(1/2)*pi)",
+    "d": "(c_v^2*rho_v*(1/m1_v + 1/m2_v))/(4*f0_v^2*pi^2)",
+    "m1": "-(c_v^2*m2_v*rho_v)/(c_v^2*rho_v - 4*d_v*f0_v^2*m2_v*pi^2)",
+    "m2": "-(c_v^2*m1_v*rho_v)/(c_v^2*rho_v - 4*d_v*f0_v^2*m1_v*pi^2)"
+  },
+  "insulation_7": {
+    "L2": "-(10*log(A2_v) - 10*log(S_v) - L1_v*log(10) + R_v*log(10))/log(10)",
+    "L1": "(10*log(A2_v) - 10*log(S_v) + L2_v*log(10) + R_v*log(10))/log(10)",
+    "R": "-(10*log(A2_v) - 10*log(S_v) - L1_v*log(10) + L2_v*log(10))/log(10)",
+    "S": "10^(L2_v/10 - L1_v/10 + R_v/10)*A2_v",
+    "A2": "10^(L1_v/10 - L2_v/10 - R_v/10)*S_v"
+  },
+  "insulation_8": {
+    "A2": "(553*V2_v)/(10*T2_v*c_v)",
+    "V2": "(10*A2_v*T2_v*c_v)/553",
+    "T2": "(553*V2_v)/(10*A2_v*c_v)"
+  },
+  "speaker_0": {
+    "Sd": "a_v^2*pi",
+    "a": "Sd_v^(1/2)/pi^(1/2)"
+  },
+  "speaker_1": {
+    "fs": "K_v^(1/2)/(2*M_v^(1/2)*pi)",
+    "K": "4*M_v*fs_v^2*pi^2",
+    "M": "K_v/(4*fs_v^2*pi^2)"
+  },
+  "speaker_2": {
+    "Qt": "(K_v^(1/2)*M_v^(1/2))/Rt_v",
+    "K": "(Qt_v^2*Rt_v^2)/M_v",
+    "M": "(Qt_v^2*Rt_v^2)/K_v",
+    "Rt": "(K_v^(1/2)*M_v^(1/2))/Qt_v"
+  },
+  "speaker_3": {
+    "Kb": "(Sd_v^2*c_v^2*rho_v)/Vb_v",
+    "Sd": "(Kb_v^(1/2)*Vb_v^(1/2))/(c_v*rho_v^(1/2))",
+    "Vb": "(Sd_v^2*c_v^2*rho_v)/Kb_v"
+  },
+  "speaker_4": {
+    "fcb": "(K_v + Kb_v)^(1/2)/(2*M_v^(1/2)*pi)",
+    "K": "4*M_v*fcb_v^2*pi^2 - Kb_v",
+    "Kb": "4*M_v*fcb_v^2*pi^2 - K_v",
+    "M": "(K_v + Kb_v)/(4*fcb_v^2*pi^2)"
+  },
+  "speaker_5": {
+    "p": "(Bl_v*Sd_v*eg_v*rho_v)/(M_v*Om_v*Re_v*r_v)",
+    "Sd": "(M_v*Om_v*Re_v*p_v*r_v)/(Bl_v*eg_v*rho_v)",
+    "Bl": "(M_v*Om_v*Re_v*p_v*r_v)/(Sd_v*eg_v*rho_v)",
+    "eg": "(M_v*Om_v*Re_v*p_v*r_v)/(Bl_v*Sd_v*rho_v)",
+    "Om": "(Bl_v*Sd_v*eg_v*rho_v)/(M_v*Re_v*p_v*r_v)",
+    "r": "(Bl_v*Sd_v*eg_v*rho_v)/(M_v*Om_v*Re_v*p_v)",
+    "Re": "(Bl_v*Sd_v*eg_v*rho_v)/(M_v*Om_v*p_v*r_v)",
+    "M": "(Bl_v*Sd_v*eg_v*rho_v)/(Om_v*Re_v*p_v*r_v)"
+  },
+  "speaker_6": {
+    "ka": "(2*a_v*f_v*pi)/c_v",
+    "f": "(c_v*ka_v)/(2*a_v*pi)",
+    "a": "(c_v*ka_v)/(2*f_v*pi)"
+  },
+  "speaker_7": {
+    "th": "(180*asin(383/(100*ka_v)))/pi",
+    "ka": "383/(100*sin((th_v*pi)/180))"
+  }
+}

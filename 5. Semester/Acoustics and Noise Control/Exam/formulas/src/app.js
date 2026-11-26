@@ -117,7 +117,7 @@
     return h('section', { class: 'formula', id: `f-${t.id}-${i}`, 'data-i': i },
       h('h3', {}, F.name),
       h('div', { class: 'tex', html: tex(F.tex, true) }),
-      matlabLine(E.toMatlab(F)),
+      matlabBox(t, F, i),
       h('div', { class: 'fields' }, fields),
       h('p', { class: 'where' }, ...F.vars.flatMap((k, j) => {
         const [sym, unit, name] = t.vars[k];
@@ -163,6 +163,8 @@
           inp.title = '';
         }
       });
+      const mb = $('.mlbox', sec);
+      if (mb) mb._auto(row.solved);
       const work = $('.work', sec);
       work.innerHTML = '';
       work.className = 'work';
@@ -217,11 +219,36 @@
     const used = Object.keys(CONSTANTS).filter(k => new RegExp('\\b' + k + '\\b').test(F.txt));
     return used.flatMap(k => [h('span', { class: 'sep' }, ' · '), h('span', { html: tex(CONSTANTS[k].sym) }), ` ${CONSTANTS[k].name} = ${E.fmt(constValues()[k])} ${CONSTANTS[k].unit}`]);
   }
-  function matlabLine(code) {
+  // MATLAB line for the chosen unknown: the page's own result picks it, or click a symbol
+  const INV = window.INVERSES || {};
+  function matlabLine(t, F, i, key) {
+    const lines = INV[`${t.id}_${i}`] || {};
+    const line = lines[key] || (key === F.vars[0] ? E.toMatlab(F) : null);
+    if (!line) return null;
+    const v = lastResult && lastResult.values[key];
+    return line.replace('GUESS', Number.isFinite(v) ? E.fmt(v) : '1');
+  }
+  function matlabBox(t, F, i) {
+    const lines = INV[`${t.id}_${i}`] || {};
+    const keys = F.vars.filter(k => lines[k] || k === F.vars[0]);
+    const code = h('code', {});
     const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
-    const el = h('div', { class: 'ml' }, h('code', {}, code), btn);
-    el.addEventListener('click', () => copyText(code, 'MATLAB line copied'));
-    return el;
+    const chips = h('span', { class: 'ml-for' });
+    const box = h('div', { class: 'mlbox' }, h('div', { class: 'ml' }, code, btn), chips);
+    let sel = F.vars[0], manual = false;
+    const show = () => {
+      code.textContent = matlabLine(t, F, i, sel) || '';
+      chips.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === sel));
+    };
+    if (keys.length > 1) {
+      chips.append(h('span', { class: 'lab' }, 'MATLAB for '));
+      keys.forEach(k => chips.append(h('button', { 'data-k': k, html: tex(t.vars[k][0]), title: `Line that gives ${t.vars[k][2]}`,
+        onclick: () => { sel = k; manual = true; show(); } })));
+    }
+    $('.ml', box).addEventListener('click', () => copyText(code.textContent, 'MATLAB line copied'));
+    box._auto = k => { if (!manual) sel = k && keys.includes(k) ? k : F.vars[0]; show(); };
+    show();
+    return box;
   }
   const CONST_LINE = () => { const c = constValues(); return `rho = ${c.rho}; c = ${c.c}; p0 = 20e-6; I0 = 1e-12; W0 = 1e-12; g = 9.81;`; };
 
@@ -234,8 +261,8 @@
     const solved = Object.entries(res.info).sort((a, b) => a[1].order - b[1].order);
     solved.forEach(([k, inf]) => {
       const F = t.formulas[inf.from];
-      if (k === F.vars[0]) lines.push(E.toMatlab(F));
-      else lines.push(`% ${k} from: ${E.toMatlab(F)}   (rearrange, or fzero)`, `${k} = ${E.fmt(res.values[k])}`);
+      const line = matlabLine(t, F, inf.from, k);
+      lines.push(line || `${k} = ${E.fmt(res.values[k])}   % from ${E.toMatlab(F)}`);
     });
     if (!solved.length) lines.push('% Nothing worked out yet: every formula line on this page:', ...t.formulas.map(F => E.toMatlab(F)));
     copyText(lines.join('\n'), 'MATLAB copied');

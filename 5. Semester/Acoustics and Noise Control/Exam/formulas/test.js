@@ -19,8 +19,9 @@ for (const T of TOPICS) T.formulas.forEach((F, i) => {
     if (T.id === 'hearing' && F.vars[0] === 'fct') { vals.f1 = 800; vals.f2 = 900; }
     if (T.id === 'vibration' && F.vars[0] === 'xi') vals.r = 2 + Math.random();
     if (F.vars[0] === 'Wd') { vals.k = 0.5 + Math.random(); vals.d = 0.1 + Math.random(); }   // kd < 2: where the formula is used
-    if (F.vars[0] === 'als') vals.T2 = vals.T1 * 0.7;
+    if (F.vars[0] === 'alpha_s') vals.T2 = vals.T1 * 0.7;
     if (F.vars[0] === 'B') vals.fu = vals.fl * 2;
+    if (F.vars[0] === 'pd') { vals.k = 0.5 + Math.random(); vals.d = 0.2 + 0.5 * Math.random(); }   // 2kd < 2.2: one branch
     if (F.vars[0] === 'P') vals.dh = vals.ah * 0.3;
     if (F.vars[0] === 'tau') vals.Z2 = vals.Z1 * 5;   // tau = 1 (Z1 = Z2) is a double root
     const lhs = F.vars[0];
@@ -46,10 +47,10 @@ close(run('hearing', { f: 1000 }).ERB, 132.639, 1e-4, 'ERB 1 kHz');
 close(run('vibration', { m: 100, dl: 0.01 }).f0, 4.985, 1e-3, 'f0 from 1 cm deflection');
 close(run('sources', { f: 189, r: 0.5 }).phi, 30, 0.02, 'monopole phase 2024 MC');
 close(run('modes', { Lx: 7.2, Ly: 5.4, Lz: 3, nx: 2, ny: 0, nz: 0 }).fm, 47.64, 1e-3, 'mode (2,0,0)');
-close(run('plane', { Z: 1 }).al, 0.0097, 0.02, 'α for Z = 1');
+close(run('plane', { Z: 1 }).alpha, 0.0097, 0.02, 'α for Z = 1');
 close(aWeight(1000), 0, 0.01, 'A(1 kHz)');
 close(aWeight(100), -19.1, 0.01, 'A(100 Hz)');
-close(run('reverb', { V: 120, S: 158, T: 0.4, LW: 90, Q: 1, r: 2 }).al, 48.36 / 158, 2e-3, 'mean α from T');
+close(run('reverb', { V: 120, S: 158, T: 0.4, LW: 90, Q: 1, r: 2 }).alpha, 48.36 / 158, 2e-3, 'mean α from T');
 close(run('levels', { p: 1 }).Lp, 93.98, 1e-4, 'Lp of 1 Pa');
 close(run('insulation', { f: 500, m: 230 }).R0, 20 * Math.log10(2 * Math.PI * 500 * 230 / (2 * 411.6)), 1e-6, 'mass law');
 close(run('absorbers', { Dn: 0.05, lneck: 0.02, leff: 0.02, fH: 140 }).Vc, (Math.PI * 0.05 ** 2 / 4) / 0.02 * (343 / (2 * Math.PI * 140)) ** 2, 1e-5, 'Helmholtz V back (2024 MC6)');

@@ -128,7 +128,13 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
   .shell { display: block; }
 }
 
-.ml { display: flex; align-items: center; gap: 10px; margin: -4px 0 12px; cursor: copy; max-width: 100%; }
+.mlbox { margin: -4px 0 12px; }
+.ml { display: flex; align-items: center; gap: 10px; cursor: copy; max-width: 100%; }
+.ml-for { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 4px; margin-top: 5px; font-size: 12px; color: var(--faint); }
+.ml-for button { padding: 0 5px; border-radius: 4px; color: var(--muted); font-size: 12px; }
+.ml-for button:hover { color: var(--fg); background: var(--side); }
+.ml-for button.on { color: var(--accent); background: var(--accent-soft); }
+.ml-for .katex { font-size: 1em; }
 .ml code { font: 12.5px/1.5 var(--mono); color: var(--muted); background: var(--side); border: 1px solid var(--rule);
   padding: 3px 8px; border-radius: 5px; overflow-x: auto; white-space: nowrap; min-width: 0; }
 .ml:hover code { color: var(--fg); border-color: var(--faint); }
@@ -235,7 +241,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       blurb: 'Reflection at a surface, standing waves, transmission between media, tube resonances.',
       vars: {
         Z: ['Z', 'Pa·s/m', 'surface impedance p/u at the surface (real)'], R: ['R', '', 'pressure reflection coefficient p_r/p_i', 'sym'],
-        al: ['\\alpha', '', 'absorption coefficient', 'unit'],
+        alpha: ['\\alpha', '', 'absorption coefficient', 'unit'],
         Lmax: ['L_{\\max}', 'dB', 'level at a maximum', 'db'], Lmin: ['L_{\\min}', 'dB', 'level at a minimum', 'db'],
         dL: ['\\Delta L', 'dB', 'max − min', 'db'], s: ['s', '', 'standing wave ratio', 'ge1'],
         Z1: ['Z_1', 'Pa·s/m', 'impedance, medium 1'], Z2: ['Z_2', 'Pa·s/m', 'impedance, medium 2'],
@@ -244,16 +250,16 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         fn: ['f_n', 'Hz', 'resonance, both ends alike'], fq: ['f_n', 'Hz', 'resonance, one end open'],
         f: ['f', 'Hz', 'frequency'], dmin: ['d_{\\min}', 'm', 'first minimum from the wall'],
         k: ['k', 'rad/m', 'wavenumber'], d: ['d', 'm', 'distance in front of the surface'],
-        pin: ['|p_i|', 'Pa', 'incident amplitude'], pd: ['|p(d)|', 'Pa', 'total amplitude at d'],
+        pi_: ['|p_i|', 'Pa', 'incident amplitude'], pd: ['|p(d)|', 'Pa', 'total amplitude at d'],
       },
       formulas: [
         { name: 'Reflection coefficient', tex: 'R = \\dfrac{Z - \\rho c}{Z + \\rho c}', txt: 'R = (Z - rho*c)/(Z + rho*c)', vars: ['R', 'Z'], f: v => v.R - (v.Z - v.rho * v.c) / (v.Z + v.rho * v.c), note: 'Normal incidence, real impedance. Soft surface (Z < ρc) gives R < 0.' },
-        { name: 'Absorption coefficient', tex: '\\alpha = 1 - R^2', txt: 'al = 1 - R^2', vars: ['al', 'R'], f: v => v.al - (1 - v.R * v.R), prefer: () => 1, note: 'Two signs of R give the same α. The page takes R > 0 (hard, pressure maximum at the surface); type a negative R for a soft surface.' },
+        { name: 'Absorption coefficient', tex: '\\alpha = 1 - R^2', txt: 'alpha = 1 - R^2', vars: ['alpha', 'R'], f: v => v.alpha - (1 - v.R * v.R), prefer: () => 1, note: 'Two signs of R give the same α. The page takes R > 0 (hard, pressure maximum at the surface); type a negative R for a soft surface.' },
         { name: 'Wavenumber', tex: 'k = \\dfrac{2\\pi f}{c}', txt: 'k = 2*pi*f/c', vars: ['k', 'f'], f: v => v.k - 2 * PI * v.f / v.c },
-        { name: 'Pressure in front of a reflecting surface', tex: '|p(d)| = |p_i|\\sqrt{1 + R^2 + 2R\\cos(2kd)}', txt: 'pd = pin*sqrt(1 + R^2 + 2*R*cos(2*k*d))', vars: ['pd', 'pin', 'R', 'k', 'd'], f: v => v.pd - v.pin * sq(1 + v.R * v.R + 2 * v.R * Math.cos(2 * v.k * v.d)), note: 'Incident plus reflected plane wave, real R, normal incidence. From p(x) = p_i(e^{−jkx} + R e^{jkx}) at x = −d. For a complex amplitude like 0.4 + j0.4, use its magnitude: abs(0.4+0.4j). Peak in, peak out.' },
+        { name: 'Pressure in front of a reflecting surface', tex: '|p(d)| = |p_i|\\sqrt{1 + R^2 + 2R\\cos(2kd)}', txt: 'pd = pi_*sqrt(1 + R^2 + 2*R*cos(2*k*d))', vars: ['pd', 'pi_', 'R', 'k', 'd'], f: v => v.pd - v.pi_ * sq(1 + v.R * v.R + 2 * v.R * Math.cos(2 * v.k * v.d)), note: 'Incident plus reflected plane wave, real R, normal incidence. From p(x) = p_i(e^{−jkx} + R e^{jkx}) at x = −d. For a complex amplitude like 0.4 + j0.4, use its magnitude: abs(0.4+0.4j). Peak in, peak out.' },
         { name: 'Level difference in the standing wave', tex: '\\Delta L = L_{\\max} - L_{\\min}', txt: 'dL = Lmax - Lmin', vars: ['dL', 'Lmax', 'Lmin'], f: v => v.dL - (v.Lmax - v.Lmin) },
         { name: 'Standing wave ratio', tex: 's = 10^{\\Delta L/20}', txt: 's = 10^(dL/20)', vars: ['s', 'dL'], f: v => v.s - 10 ** (v.dL / 20) },
-        { name: 'Absorption from the standing wave ratio', tex: '\\alpha = \\dfrac{4s}{(s+1)^2}', txt: 'al = 4*s/(s + 1)^2', vars: ['al', 's'], f: v => v.al - 4 * v.s / (v.s + 1) ** 2 },
+        { name: 'Absorption from the standing wave ratio', tex: '\\alpha = \\dfrac{4s}{(s+1)^2}', txt: 'alpha = 4*s/(s + 1)^2', vars: ['alpha', 's'], f: v => v.alpha - 4 * v.s / (v.s + 1) ** 2 },
         { name: 'Transmission between two media', tex: '\\tau = \\dfrac{4Z_1Z_2}{(Z_1+Z_2)^2}', txt: 'tau = 4*Z1*Z2/(Z1 + Z2)^2', vars: ['tau', 'Z1', 'Z2'], f: v => v.tau - 4 * v.Z1 * v.Z2 / (v.Z1 + v.Z2) ** 2, note: 'Air ρc ≈ 412, water ≈ 1.48·10⁶ Pa·s/m.' },
         { name: 'Transmission loss', tex: '\\Delta L_\\tau = -10\\log_{10}\\tau', txt: 'TL = -10*log10(tau)', vars: ['TL', 'tau'], f: v => v.TL + 10 * L10(v.tau) },
         { name: 'Tube with both ends closed (or both open)', tex: 'f_n = \\dfrac{n\\,c}{2L}', txt: 'fn = n*c/(2*Lt)', vars: ['fn', 'n', 'Lt'], f: v => v.fn - v.n * v.c / (2 * v.Lt) },
@@ -278,7 +284,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       formulas: [
         { name: 'Wavenumber', tex: 'k = \\dfrac{2\\pi f}{c}', txt: 'k = 2*pi*f/c', vars: ['k', 'f'], f: v => v.k - 2 * PI * v.f / v.c },
         { name: 'Helmholtz number', tex: 'kr', txt: 'kr = k*r', vars: ['kr', 'k', 'r'], f: v => v.kr - v.k * v.r, note: 'kr ≪ 1 near field, kr ≫ 1 far field.' },
-        { name: 'Phase between pressure and particle velocity', tex: '\\varphi = \\arctan\\dfrac{1}{kr}', txt: 'phi = atan(1/kr)', matlab: 'phi = atand(1./kr)', vars: ['phi', 'kr'], f: v => v.phi - Math.atan(1 / v.kr) * 180 / PI, note: 'Not arctan(kr): that is the classic trap.' },
+        { name: 'Phase between pressure and particle velocity', tex: '\\varphi = \\arctan\\dfrac{1}{kr}', txt: 'phi = atan(1/kr)', matlab: 'phi = atand(1./kr)', sym: 'phi == atan(1/kr)*180/pi', vars: ['phi', 'kr'], f: v => v.phi - Math.atan(1 / v.kr) * 180 / PI, note: 'Not arctan(kr): that is the classic trap.' },
         { name: 'Specific impedance magnitude', tex: '\\dfrac{|Z_s|}{\\rho c} = \\dfrac{kr}{\\sqrt{1+(kr)^2}}', txt: 'zr = kr/sqrt(1 + kr^2)', vars: ['zr', 'kr'], f: v => v.zr - v.kr / sq(1 + v.kr * v.kr) },
         { name: 'Pressure of a monopole', tex: 'p_{\\rm rms} = \\dfrac{\\rho c k\\,Q_{\\rm rms}}{4\\pi r}', txt: 'p = rho*c*k*Qv/(4*pi*r)', vars: ['p', 'k', 'Qv', 'r'], f: v => v.p - v.rho * v.c * v.k * v.Qv / (4 * PI * v.r), note: 'Free field. Use peak Q for peak p.' },
         { name: 'Power of a monopole', tex: 'W = \\dfrac{\\rho c k^2 Q_{\\rm rms}^2}{4\\pi}', txt: 'W = rho*c*k^2*Qv^2/(4*pi)', vars: ['W', 'k', 'Qv'], f: v => v.W - v.rho * v.c * v.k * v.k * v.Qv * v.Qv / (4 * PI), note: 'With a peak Q it is 8π in the denominator.' },
@@ -308,7 +314,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         { name: 'Wavenumber', tex: 'k = \\dfrac{2\\pi f}{c}', txt: 'k = 2*pi*f/c', vars: ['k', 'f'], f: v => v.k - 2 * PI * v.f / v.c },
         { name: 'Phase from path difference', tex: '\\Delta\\varphi = k\\,\\Delta r', txt: 'dphi = k*dr*180/pi', vars: ['dphi', 'k', 'dr'], f: v => v.dphi - v.k * v.dr * 180 / PI, note: 'In degrees. Add the sources’ own phase difference if they are not in phase.' },
         { name: 'Amplitude ratio', tex: 'a = 10^{(L_2-L_1)/20}', txt: 'a = 10^((L2 - L1)/20)', vars: ['a', 'L2', 'L1'], f: v => v.a - 10 ** ((v.L2 - v.L1) / 20) },
-        { name: 'Coherent sum (same frequency)', tex: 'L_{\\rm coh} = L_1 + 10\\log_{10}\\left(1 + a^2 + 2a\\cos\\Delta\\varphi\\right)', txt: 'Lc = L1 + 10*log10(1 + a^2 + 2*a*cos(dphi))', matlab: 'Lc = L1 + 10*log10(1 + a.^2 + 2*a.*cosd(dphi))', vars: ['Lc', 'L1', 'a', 'dphi'], f: v => v.Lc - (v.L1 + 10 * L10(1 + v.a * v.a + 2 * v.a * Math.cos(v.dphi * PI / 180))), note: 'Equal sources: +6 dB in phase, total cancellation at 180°.' },
+        { name: 'Coherent sum (same frequency)', tex: 'L_{\\rm coh} = L_1 + 10\\log_{10}\\left(1 + a^2 + 2a\\cos\\Delta\\varphi\\right)', txt: 'Lc = L1 + 10*log10(1 + a^2 + 2*a*cos(dphi))', matlab: 'Lc = L1 + 10*log10(1 + a.^2 + 2*a.*cosd(dphi))', sym: 'Lc == L1 + 10*log10(1 + a^2 + 2*a*cos(dphi*pi/180))', vars: ['Lc', 'L1', 'a', 'dphi'], f: v => v.Lc - (v.L1 + 10 * L10(1 + v.a * v.a + 2 * v.a * Math.cos(v.dphi * PI / 180))), note: 'Equal sources: +6 dB in phase, total cancellation at 180°.' },
         { name: 'Incoherent sum (different frequencies, noise)', tex: 'L_{\\rm inc} = L_1 + 10\\log_{10}(1 + a^2)', txt: 'Li = L1 + 10*log10(1 + a^2)', vars: ['Li', 'L1', 'a'], f: v => v.Li - (v.L1 + 10 * L10(1 + v.a * v.a)), note: 'Two equal sources: +3 dB.' },
         { name: 'Dipole power', tex: '\\Delta L_W = 10\\log_{10}\\left[2\\left(1 - \\dfrac{\\sin kd}{kd}\\right)\\right] \\approx 10\\log_{10}\\dfrac{(kd)^2}{3}', txt: 'Wd = 10*log10(2*(1 - sin(k*d)/(k*d)))', vars: ['Wd', 'k', 'd'], f: v => v.Wd - 10 * L10(2 * (1 - Math.sin(v.k * v.d) / (v.k * v.d))), note: 'Two antiphase monopoles, relative to one of them alone. Very inefficient at low frequency (kd ≪ 1).' },
         { name: 'Monopole above a hard floor', tex: '\\Delta L_W = 10\\log_{10}\\left(1 + \\dfrac{\\sin 2kh}{2kh}\\right)', txt: 'Wh = 10*log10(1 + sin(2*k*h)/(2*k*h))', vars: ['Wh', 'k', 'h'], f: v => v.Wh - 10 * L10(1 + Math.sin(2 * v.k * v.h) / (2 * v.k * v.h)), note: 'Relative to the same source in free field: +3 dB when kh ≪ 1 (Q = 2).' },
@@ -341,24 +347,24 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       blurb: 'Absorption area, reverberation time, and the level in a room.',
       vars: {
         Lx: ['L_x', 'm', 'length'], Ly: ['L_y', 'm', 'width'], Lz: ['L_z', 'm', 'height'],
-        V: ['V', 'm³', 'volume'], S: ['S', 'm²', 'total surface'], al: ['\\bar\\alpha', '', 'mean absorption coefficient', 'unit'],
+        V: ['V', 'm³', 'volume'], S: ['S', 'm²', 'total surface'], alpha: ['\\bar\\alpha', '', 'mean absorption coefficient', 'unit'],
         A: ['A', 'm²', 'absorption area'], T: ['T', 's', 'reverberation time (Sabine)'], TE: ['T_E', 's', 'reverberation time (Eyring)'],
         LW: ['L_W', 'dB', 'sound power level', 'db'], Lp: ['L_p', 'dB', 'level at r', 'db'], Lr: ['L_{\\rm rev}', 'dB', 'reverberant level', 'db'],
         Q: ['Q', '', 'directivity factor'], r: ['r', 'm', 'distance'], rc: ['r_c', 'm', 'reverberation distance'],
         mfp: ['\\bar\\ell', 'm', 'mean free path'],
-        Ss: ['S_s', 'm²', 'sample area'], T1: ['T_1', 's', 'empty room'], T2: ['T_2', 's', 'with sample'], als: ['\\alpha_s', '', 'sample absorption coefficient'],
+        Ss: ['S_s', 'm²', 'sample area'], T1: ['T_1', 's', 'empty room'], T2: ['T_2', 's', 'with sample'], alpha_s: ['\\alpha_s', '', 'sample absorption coefficient'],
       },
       formulas: [
         { name: 'Volume', tex: 'V = L_x L_y L_z', txt: 'V = Lx*Ly*Lz', vars: ['V', 'Lx', 'Ly', 'Lz'], f: v => v.V - v.Lx * v.Ly * v.Lz },
         { name: 'Surface', tex: 'S = 2(L_xL_y + L_xL_z + L_yL_z)', txt: 'S = 2*(Lx*Ly + Lx*Lz + Ly*Lz)', vars: ['S', 'Lx', 'Ly', 'Lz'], f: v => v.S - 2 * (v.Lx * v.Ly + v.Lx * v.Lz + v.Ly * v.Lz) },
-        { name: 'Absorption area', tex: 'A = S\\,\\bar\\alpha = \\textstyle\\sum S_i\\alpha_i', txt: 'A = S*al', vars: ['A', 'S', 'al'], f: v => v.A - v.S * v.al, note: 'Mixed surfaces: type the sum straight into A, e.g. 40*0.1 + 118*0.3.' },
+        { name: 'Absorption area', tex: 'A = S\\,\\bar\\alpha = \\textstyle\\sum S_i\\alpha_i', txt: 'A = S*alpha', vars: ['A', 'S', 'alpha'], f: v => v.A - v.S * v.alpha, note: 'Mixed surfaces: type the sum straight into A, e.g. 40*0.1 + 118*0.3.' },
         { name: 'Sabine', tex: 'T = \\dfrac{55.3\\,V}{c\\,A} \\approx \\dfrac{0.161\\,V}{A}', txt: 'T = 55.3*V/(c*A)', vars: ['T', 'V', 'A'], f: v => v.T - 55.3 * v.V / (v.c * v.A), note: 'Fine when ᾱ is below about 0.3.' },
-        { name: 'Eyring', tex: 'T_E = \\dfrac{55.3\\,V}{-c\\,S\\ln(1-\\bar\\alpha)}', txt: 'TE = 55.3*V/(-c*S*ln(1 - al))', vars: ['TE', 'V', 'S', 'al'], f: v => v.TE - 55.3 * v.V / (-v.c * v.S * Math.log(1 - v.al)), note: 'Use for a well-damped room (large ᾱ). Always shorter than Sabine.' },
+        { name: 'Eyring', tex: 'T_E = \\dfrac{55.3\\,V}{-c\\,S\\ln(1-\\bar\\alpha)}', txt: 'TE = 55.3*V/(-c*S*ln(1 - alpha))', vars: ['TE', 'V', 'S', 'alpha'], f: v => v.TE - 55.3 * v.V / (-v.c * v.S * Math.log(1 - v.alpha)), note: 'Use for a well-damped room (large ᾱ). Always shorter than Sabine.' },
         { name: 'Level at a distance in a room', tex: 'L_p = L_W + 10\\log_{10}\\left(\\dfrac{Q}{4\\pi r^2} + \\dfrac{4}{A}\\right)', txt: 'Lp = LW + 10*log10(Q/(4*pi*r^2) + 4/A)', vars: ['Lp', 'LW', 'Q', 'r', 'A'], f: v => v.Lp - (v.LW + 10 * L10(v.Q / (4 * PI * v.r * v.r) + 4 / v.A)) },
         { name: 'Reverberant field only', tex: 'L_{\\rm rev} = L_W + 10\\log_{10}\\dfrac{4}{A}', txt: 'Lr = LW + 10*log10(4/A)', vars: ['Lr', 'LW', 'A'], f: v => v.Lr - (v.LW + 10 * L10(4 / v.A)), note: 'Also the way to get L_W from a reverberation-room measurement.' },
         { name: 'Reverberation distance', tex: 'r_c = \\sqrt{\\dfrac{Q\\,A}{16\\pi}}', txt: 'rc = sqrt(Q*A/(16*pi))', vars: ['rc', 'Q', 'A'], f: v => v.rc - sq(v.Q * v.A / (16 * PI)), note: 'Direct and reverberant fields are equal here.' },
         { name: 'Mean free path', tex: '\\bar\\ell = \\dfrac{4V}{S}', txt: 'mfp = 4*V/S', vars: ['mfp', 'V', 'S'], f: v => v.mfp - 4 * v.V / v.S },
-        { name: 'Absorption of a sample (ISO 354)', tex: '\\alpha_s = \\dfrac{55.3\\,V}{c\\,S_s}\\left(\\dfrac{1}{T_2} - \\dfrac{1}{T_1}\\right)', txt: 'als = 55.3*V/(c*Ss)*(1/T2 - 1/T1)', vars: ['als', 'V', 'Ss', 'T2', 'T1'], f: v => v.als - 55.3 * v.V / (v.c * v.Ss) * (1 / v.T2 - 1 / v.T1) },
+        { name: 'Absorption of a sample (ISO 354)', tex: '\\alpha_s = \\dfrac{55.3\\,V}{c\\,S_s}\\left(\\dfrac{1}{T_2} - \\dfrac{1}{T_1}\\right)', txt: 'alpha_s = 55.3*V/(c*Ss)*(1/T2 - 1/T1)', vars: ['alpha_s', 'V', 'Ss', 'T2', 'T1'], f: v => v.alpha_s - 55.3 * v.V / (v.c * v.Ss) * (1 / v.T2 - 1 / v.T1) },
       ],
     },
     // ------------------------------------------------------------------
@@ -503,7 +509,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         { name: 'Resonance in a closed box', tex: 'f_c = \\dfrac{1}{2\\pi}\\sqrt{\\dfrac{K + K_b}{M}}', txt: 'fcb = 1/(2*pi)*sqrt((K + Kb)/M)', vars: ['fcb', 'K', 'Kb', 'M'], f: v => v.fcb - sq((v.K + v.Kb) / v.M) / (2 * PI) },
         { name: 'Pressure in the mass-controlled range', tex: 'p_{\\rm rms} = \\dfrac{\\rho\\,S\\,Bl\\,e_{\\rm rms}}{\\Omega\\,r\\,R_e M}', txt: 'p = rho*Sd*Bl*eg/(Om*r*Re*M)', vars: ['p', 'Sd', 'Bl', 'eg', 'Om', 'r', 'Re', 'M'], f: v => v.p - v.rho * v.Sd * v.Bl * v.eg / (v.Om * v.r * v.Re * v.M), note: 'Flat response above f_s while ka < 1. Type 4*pi or 2*pi for Ω.' },
         { name: 'Size against wavelength', tex: 'ka = \\dfrac{2\\pi f a}{c}', txt: 'ka = 2*pi*f*a/c', vars: ['ka', 'f', 'a'], f: v => v.ka - 2 * PI * v.f * v.a / v.c, note: 'Omnidirectional below ka ≈ 1, beaming above.' },
-        { name: 'First null of a baffled piston', tex: '\\sin\\theta_1 = \\dfrac{3.83}{ka}', txt: 'th = asin(3.83/ka)', matlab: 'th = asind(3.83./ka)', vars: ['th', 'ka'], f: v => Math.sin(v.th * PI / 180) - 3.83 / v.ka, note: 'Only exists when ka > 3.83.' },
+        { name: 'First null of a baffled piston', tex: '\\sin\\theta_1 = \\dfrac{3.83}{ka}', txt: 'th = asin(3.83/ka)', matlab: 'th = asind(3.83./ka)', sym: 'sin(th*pi/180) == 3.83/ka', vars: ['th', 'ka'], f: v => Math.sin(v.th * PI / 180) - 3.83 / v.ka, note: 'Only exists when ka > 3.83.' },
       ],
     },
   ];
@@ -688,6 +694,511 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
   else root.ENGINE = api;
 })(typeof self !== 'undefined' ? self : this);
 </script>
+<script>// generated by gen_post.js from MATLAB's symbolic solve (gen_inverses.js) - do not edit by hand
+(function (root) { const INVERSES = {
+ "levels_0": {
+  "w": "w = 2*pi*f",
+  "f": "f = w/(2*pi)"
+ },
+ "levels_1": {
+  "lam": "lam = c./f",
+  "f": "f = c./lam"
+ },
+ "levels_2": {
+  "k": "k = w./c",
+  "w": "w = c.*k"
+ },
+ "levels_3": {
+  "p": "p = pk./sqrt(2)",
+  "pk": "pk = sqrt(2)*p"
+ },
+ "levels_4": {
+  "Lp": "Lp = 20*log10(p./p0)",
+  "p": "p = 10.^(Lp/20).*p0"
+ },
+ "levels_5": {
+  "I": "I = p.^2./(rho.*c)",
+  "p": "p = sqrt(I).*sqrt(c).*sqrt(rho)"
+ },
+ "levels_6": {
+  "LI": "LI = 10*log10(I./I0)",
+  "I": "I = 10.^(LI/10).*I0"
+ },
+ "levels_7": {
+  "u": "u = p./(rho.*c)",
+  "p": "p = c.*rho.*u"
+ },
+ "levels_8": {
+  "W": "W = I.*S",
+  "I": "I = W./S",
+  "S": "S = W./I"
+ },
+ "levels_9": {
+  "LW": "LW = 10*log10(W./W0)",
+  "W": "W = 10.^(LW/10).*W0"
+ },
+ "plane_0": {
+  "R": "R = (Z - rho.*c)./(Z + rho.*c)",
+  "Z": "Z = -c.*rho.*(R + 1)./(R - 1)"
+ },
+ "plane_1": {
+  "alpha": "alpha = 1 - R.^2",
+  "R": "R = sqrt(1 - alpha)"
+ },
+ "plane_2": {
+  "k": "k = 2*pi*f./c",
+  "f": "f = c.*k/(2*pi)"
+ },
+ "plane_3": {
+  "pd": "pd = pi_.*sqrt(1 + R.^2 + 2*R.*cos(2*k.*d))",
+  "pi_": "pi_ = pd./sqrt(2*R.*cos(2*d.*k) + R.^2 + 1)",
+  "R": "R = -(pi_.*cos(2*d.*k) - sqrt(pi_.^2.*cos(2*d.*k).^2 + pd.^2 - pi_.^2))./pi_",
+  "k": "k = (pi - acos((R.^2/2 - pd.^2./(2*pi_.^2) + 1/2)./R))./(2*d)",
+  "d": "d = (pi - acos((R.^2/2 - pd.^2./(2*pi_.^2) + 1/2)./R))./(2*k)"
+ },
+ "plane_4": {
+  "dL": "dL = Lmax - Lmin",
+  "Lmax": "Lmax = Lmin + dL",
+  "Lmin": "Lmin = Lmax - dL"
+ },
+ "plane_5": {
+  "s": "s = 10.^(dL./20)",
+  "dL": "dL = 20*log10(s)"
+ },
+ "plane_6": {
+  "alpha": "alpha = 4*s./(s + 1).^2",
+  "s": "s = (2*sqrt(1 - alpha) - alpha + 2)./alpha"
+ },
+ "plane_7": {
+  "tau": "tau = 4*Z1.*Z2./(Z1 + Z2).^2",
+  "Z1": "Z1 = -Z2.*(tau + 2*sqrt(1 - tau) - 2)./tau",
+  "Z2": "Z2 = Z1.*(2*sqrt(1 - tau) - tau + 2)./tau"
+ },
+ "plane_8": {
+  "TL": "TL = -10*log10(tau)",
+  "tau": "tau = 1./10.^(TL/10)"
+ },
+ "plane_9": {
+  "fn": "fn = n.*c./(2*Lt)",
+  "Lt": "Lt = c.*n./(2*fn)"
+ },
+ "plane_10": {
+  "fq": "fq = (2*n - 1).*c./(4*Lt)",
+  "Lt": "Lt = c.*(2*n - 1)./(4*fq)"
+ },
+ "plane_11": {
+  "dmin": "dmin = c./(4*f)",
+  "f": "f = c./(4*dmin)"
+ },
+ "sources_0": {
+  "k": "k = 2*pi*f./c",
+  "f": "f = c.*k/(2*pi)"
+ },
+ "sources_1": {
+  "kr": "kr = k.*r",
+  "k": "k = kr./r",
+  "r": "r = kr./k"
+ },
+ "sources_2": {
+  "phi": "phi = atand(1./kr)",
+  "kr": "kr = 1./tand(phi)"
+ },
+ "sources_3": {
+  "zr": "zr = kr./sqrt(1 + kr.^2)",
+  "kr": "kr = zr./sqrt(1 - zr.^2)"
+ },
+ "sources_4": {
+  "p": "p = rho.*c.*k.*Qv./(4*pi*r)",
+  "k": "k = 4*p.*r*pi./(Qv.*c.*rho)",
+  "Qv": "Qv = 4*p.*r*pi./(c.*k.*rho)",
+  "r": "r = Qv.*c.*k.*rho./(4*p*pi)"
+ },
+ "sources_5": {
+  "W": "W = rho.*c.*k.^2.*Qv.^2./(4*pi)",
+  "k": "k = 2*sqrt(W).*sqrt(pi)./(Qv.*sqrt(c).*sqrt(rho))",
+  "Qv": "Qv = 2*sqrt(W).*sqrt(pi)./(sqrt(c).*k.*sqrt(rho))"
+ },
+ "sources_6": {
+  "I": "I = Q.*W./(4*pi*r.^2)",
+  "Q": "Q = 4*I.*r.^2*pi./W",
+  "W": "W = 4*I.*r.^2*pi./Q",
+  "r": "r = sqrt(Q).*sqrt(W)./(2*sqrt(I).*sqrt(pi))"
+ },
+ "sources_7": {
+  "Lp": "Lp = LW + 10*log10(Q./(4*pi*r.^2)) + 10*log10(rho.*c.*W0./p0.^2)",
+  "LW": "LW = Lp - 10*log10(Q./(4*r.^2*pi)) - 10*log10(W0.*c.*rho./p0.^2)",
+  "Q": "Q = 4*10.^(Lp/10 - LW/10).*p0.^2.*r.^2*pi./(W0.*c.*rho)",
+  "r": "r = 10.^(LW/20 - Lp/20).*sqrt(Q).*sqrt(W0).*sqrt(c).*sqrt(rho)./(2*p0.*sqrt(pi))"
+ },
+ "sources_8": {
+  "Lp": "Lp = 20*log10(p./p0)",
+  "p": "p = 10.^(Lp/20).*p0"
+ },
+ "sources_9": {
+  "LW": "LW = 10*log10(W./W0)",
+  "W": "W = 10.^(LW/10).*W0"
+ },
+ "sources_10": {
+  "DI": "DI = 10*log10(Q)",
+  "Q": "Q = 10.^(DI/10)"
+ },
+ "sources_11": {
+  "L2": "L2 = L1 - 20*log10(r2./r1)",
+  "L1": "L1 = 20*log10(r2) - 20*log10(r1) + L2",
+  "r2": "r2 = 10.^(L1/20 - L2/20).*r1",
+  "r1": "r1 = 10.^(L2/20 - L1/20).*r2"
+ },
+ "interference_0": {
+  "k": "k = 2*pi*f./c",
+  "f": "f = c.*k/(2*pi)"
+ },
+ "interference_1": {
+  "dphi": "dphi = k.*dr.*180./pi",
+  "k": "k = dphi*pi./(180*dr)",
+  "dr": "dr = dphi*pi./(180*k)"
+ },
+ "interference_2": {
+  "a": "a = 10.^((L2 - L1)./20)",
+  "L2": "L2 = L1 + 20*log10(a)",
+  "L1": "L1 = L2 - 20*log10(a)"
+ },
+ "interference_3": {
+  "Lc": "Lc = L1 + 10*log10(1 + a.^2 + 2*a.*cosd(dphi))",
+  "L1": "L1 = Lc - 10*log10(2*a.*cosd(dphi) + a.^2 + 1)",
+  "a": "a = (sqrt(10.^(Lc/10) - 10.^(L1/10) + 10.^(L1/10).*cosd(dphi).^2) - 10.^(L1/20).*cosd(dphi))./10.^(L1/20)",
+  "dphi": "dphi = 180*(pi - acos((a.^2 - 10.^(Lc/10 - L1/10) + 1)./(2*a)))/pi"
+ },
+ "interference_4": {
+  "Li": "Li = L1 + 10*log10(1 + a.^2)",
+  "L1": "L1 = Li - 10*log10(a.^2 + 1)",
+  "a": "a = sqrt(10.^(Li/10) - 10.^(L1/10))./10.^(L1/20)"
+ },
+ "interference_5": {
+  "Wd": "Wd = 10*log10(2*(1 - sin(k.*d)./(k.*d)))",
+  "k": "k = fzero(@(k) 10*log10(2*(1 - sin(k.*d)./(k.*d))) - Wd, GUESS)",
+  "d": "d = fzero(@(d) 10*log10(2*(1 - sin(k.*d)./(k.*d))) - Wd, GUESS)"
+ },
+ "interference_6": {
+  "Wh": "Wh = 10*log10(1 + sin(2*k.*h)./(2*k.*h))",
+  "k": "k = fzero(@(k) 10*log10(1 + sin(2*k.*h)./(2*k.*h)) - Wh, GUESS)",
+  "h": "h = fzero(@(h) 10*log10(1 + sin(2*k.*h)./(2*k.*h)) - Wh, GUESS)"
+ },
+ "modes_0": {
+  "fm": "fm = c./2.*sqrt((nx./Lx).^2 + (ny./Ly).^2 + (nz./Lz).^2)",
+  "Lx": "Lx = Ly.*Lz.*c.*nx./sqrt(4*Ly.^2.*Lz.^2.*fm.^2 - Ly.^2.*c.^2.*nz.^2 - Lz.^2.*c.^2.*ny.^2)",
+  "Ly": "Ly = Lx.*Lz.*c.*ny./sqrt(4*Lx.^2.*Lz.^2.*fm.^2 - Lx.^2.*c.^2.*nz.^2 - Lz.^2.*c.^2.*nx.^2)",
+  "Lz": "Lz = Lx.*Ly.*c.*nz./sqrt(4*Lx.^2.*Ly.^2.*fm.^2 - Lx.^2.*c.^2.*ny.^2 - Ly.^2.*c.^2.*nx.^2)"
+ },
+ "modes_1": {
+  "V": "V = Lx.*Ly.*Lz",
+  "Lx": "Lx = V./(Ly.*Lz)",
+  "Ly": "Ly = V./(Lx.*Lz)",
+  "Lz": "Lz = V./(Lx.*Ly)"
+ },
+ "modes_2": {
+  "N": "N = 4*pi*V./3.*(f./c).^3",
+  "V": "V = 0.75*N.*c.^3./(f.^3*pi)",
+  "f": "f = 6^(1/3).*N.^(1/3).*c./(2*V.^(1/3).*pi.^(1/3))"
+ },
+ "modes_3": {
+  "fS": "fS = 2000*sqrt(T./V)",
+  "T": "T = V.*fS.^2/4000000",
+  "V": "V = 4000000*T./fS.^2"
+ },
+ "reverb_0": {
+  "V": "V = Lx.*Ly.*Lz",
+  "Lx": "Lx = V./(Ly.*Lz)",
+  "Ly": "Ly = V./(Lx.*Lz)",
+  "Lz": "Lz = V./(Lx.*Ly)"
+ },
+ "reverb_1": {
+  "S": "S = 2*(Lx.*Ly + Lx.*Lz + Ly.*Lz)",
+  "Lx": "Lx = (S - 2*Ly.*Lz)./(2*(Ly + Lz))",
+  "Ly": "Ly = (S - 2*Lx.*Lz)./(2*(Lx + Lz))",
+  "Lz": "Lz = (S - 2*Lx.*Ly)./(2*(Lx + Ly))"
+ },
+ "reverb_2": {
+  "A": "A = S.*alpha",
+  "S": "S = A./alpha",
+  "alpha": "alpha = A./S"
+ },
+ "reverb_3": {
+  "T": "T = 55.3*V./(c.*A)",
+  "V": "V = A.*T.*c/55.3",
+  "A": "A = 55.3*V./(T.*c)"
+ },
+ "reverb_4": {
+  "TE": "TE = 55.3*V./(-c.*S.*log(1 - alpha))",
+  "V": "V = -S.*TE.*c.*log(1 - alpha)/55.3",
+  "S": "S = -55.3*V./(TE.*c.*log(1 - alpha))",
+  "alpha": "alpha = 1 - exp(-55.3*V./(S.*TE.*c))"
+ },
+ "reverb_5": {
+  "Lp": "Lp = LW + 10*log10(Q./(4*pi*r.^2) + 4./A)",
+  "LW": "LW = Lp - 10*log10(4./A + Q./(4*r.^2*pi))",
+  "Q": "Q = 4*r.^2*pi*(10.^(Lp/10 - LW/10) - 4./A)",
+  "r": "r = sqrt(Q)./(2*sqrt(pi).*sqrt(10.^(Lp/10 - LW/10) - 4./A))",
+  "A": "A = 1./(10.^(Lp/10 - LW/10)/4 - Q./(16*r.^2*pi))"
+ },
+ "reverb_6": {
+  "Lr": "Lr = LW + 10*log10(4./A)",
+  "LW": "LW = 10*log10(A) - 20*log10(2) + Lr",
+  "A": "A = 4*10.^(LW/10 - Lr/10)"
+ },
+ "reverb_7": {
+  "rc": "rc = sqrt(Q.*A./(16*pi))",
+  "Q": "Q = 16*rc.^2*pi./A",
+  "A": "A = 16*rc.^2*pi./Q"
+ },
+ "reverb_8": {
+  "mfp": "mfp = 4*V./S",
+  "V": "V = S.*mfp/4",
+  "S": "S = 4*V./mfp"
+ },
+ "reverb_9": {
+  "alpha_s": "alpha_s = 55.3*V./(c.*Ss).*(1./T2 - 1./T1)",
+  "V": "V = Ss.*T1.*T2.*alpha_s.*c./(55.3*(T1 - T2))",
+  "Ss": "Ss = 55.3*V.*(T1 - T2)./(T1.*T2.*alpha_s.*c)",
+  "T2": "T2 = 553*T1.*V./(553*V + 10*Ss.*T1.*alpha_s.*c)",
+  "T1": "T1 = 553*T2.*V./(553*V - 10*Ss.*T2.*alpha_s.*c)"
+ },
+ "absorbers_0": {
+  "fp": "fp = 1./(2*pi).*sqrt(rho.*c.^2./(m.*Lc))",
+  "m": "m = c.^2.*rho./(4*Lc.*fp.^2.*pi.^2)",
+  "Lc": "Lc = c.^2.*rho./(4*fp.^2.*m.*pi.^2)"
+ },
+ "absorbers_1": {
+  "fr": "fr = 60./sqrt(m.*Lc)",
+  "m": "m = 3600./(Lc.*fr.^2)",
+  "Lc": "Lc = 3600./(fr.^2.*m)"
+ },
+ "absorbers_2": {
+  "sN": "sN = pi*Dn.^2./4",
+  "Dn": "Dn = 2*sqrt(sN)./sqrt(pi)"
+ },
+ "absorbers_3": {
+  "leff": "leff = lneck + 0.8*Dn",
+  "lneck": "lneck = leff - 0.8*Dn",
+  "Dn": "Dn = 1.25*leff - 1.25*lneck"
+ },
+ "absorbers_4": {
+  "fH": "fH = c./(2*pi).*sqrt(sN./(Vc.*leff))",
+  "sN": "sN = 4*Vc.*fH.^2.*leff.*pi.^2./c.^2",
+  "Vc": "Vc = c.^2.*sN./(4*fH.^2.*leff.*pi.^2)",
+  "leff": "leff = c.^2.*sN./(4*Vc.*fH.^2.*pi.^2)"
+ },
+ "absorbers_5": {
+  "P": "P = pi*dh.^2./(4*ah.^2)",
+  "dh": "dh = 2*sqrt(P).*ah./sqrt(pi)",
+  "ah": "ah = dh.*sqrt(pi)./(2*sqrt(P))"
+ },
+ "absorbers_6": {
+  "fperf": "fperf = c./(2*pi).*sqrt(P./(Lc.*(t + 0.8*dh)))",
+  "P": "P = 4*Lc.*fperf.^2.*pi.^2.*(0.8*dh + t)./c.^2",
+  "Lc": "Lc = P.*c.^2./(4*fperf.^2.*pi.^2.*(0.8*dh + t))",
+  "t": "t = P.*c.^2./(4*Lc.*fperf.^2.*pi.^2) - 0.8*dh",
+  "dh": "dh = 0.3125*P.*c.^2./(Lc.*fperf.^2.*pi.^2) - 1.25*t"
+ },
+ "absorbers_7": {
+  "fq": "fq = c./(4*Dp)",
+  "Dp": "Dp = c./(4*fq)"
+ },
+ "bands_0": {
+  "fl": "fl = fc.*2.^(-1./(2*b))",
+  "fc": "fc = 2.^(1./(2*b)).*fl"
+ },
+ "bands_1": {
+  "fu": "fu = fc.*2.^(1./(2*b))",
+  "fc": "fc = fu./2.^(1./(2*b))"
+ },
+ "bands_2": {
+  "B": "B = fu - fl",
+  "fu": "fu = B + fl",
+  "fl": "fl = fu - B"
+ },
+ "bands_3": {
+  "Aw": "Aw = 20*log10(12194^2*fc.^4./((fc.^2 + 20.6^2).*sqrt((fc.^2 + 107.7^2).*(fc.^2 + 737.9^2)).*(fc.^2 + 12194^2))) + 2.00",
+  "fc": "fc = fzero(@(fc) 20*log10(12194^2*fc.^4./((fc.^2 + 20.6^2).*sqrt((fc.^2 + 107.7^2).*(fc.^2 + 737.9^2)).*(fc.^2 + 12194^2))) + 2.00 - Aw, GUESS)"
+ },
+ "bands_4": {
+  "Cw": "Cw = 20*log10(12194^2*fc.^2./((fc.^2 + 20.6^2).*(fc.^2 + 12194^2))) + 0.06",
+  "fc": "fc = fzero(@(fc) 20*log10(12194^2*fc.^2./((fc.^2 + 20.6^2).*(fc.^2 + 12194^2))) + 0.06 - Cw, GUESS)"
+ },
+ "bands_5": {
+  "La": "La = Lb + Aw",
+  "Lb": "Lb = La - Aw",
+  "Aw": "Aw = La - Lb"
+ },
+ "hearing_0": {
+  "ERB": "ERB = 24.7*(4.37*f./1000 + 1)",
+  "f": "f = ERB/0.107939 - 1/0.00437"
+ },
+ "hearing_1": {
+  "CB": "CB = 25 + 75*(1 + 1.4*(f./1000).^2).^0.69",
+  "f": "f = sqrt(7)*sqrt(3^(38/69).*5^(7/69).*(CB - 25).^(1/0.69) - 1125)/0.105"
+ },
+ "hearing_2": {
+  "Ls": "Ls = N0 + 10*log10(kdet) + 10*log10(ERB)",
+  "N0": "N0 = -(10*log10(ERB) + 10*log10(kdet) - Ls)",
+  "kdet": "kdet = 10.^(Ls/10 - N0/10)./ERB",
+  "ERB": "ERB = 10.^(Ls/10 - N0/10)./kdet"
+ },
+ "hearing_3": {
+  "fct": "fct = 2*f1 - f2",
+  "f1": "f1 = f2/2 + fct/2",
+  "f2": "f2 = 2*f1 - fct"
+ },
+ "hearing_4": {
+  "Ns": "Ns = 2.^((LN - 40)./10)",
+  "LN": "LN = 10*log(Ns)/log(2) + 40"
+ },
+ "hearing_5": {
+  "Fg": "Fg = 20682*10.^(-0.061765*x) - 140.6",
+  "x": "x = -log10(Fg/20682 + 703/103410)/0.061765"
+ },
+ "hearing_6": {
+  "x": "x = cBM.*t./2",
+  "cBM": "cBM = 2*x./t",
+  "t": "t = 2*x./cBM"
+ },
+ "hearing_7": {
+  "SNR1": "SNR1 = 20*log10(EP./Nn)",
+  "EP": "EP = 10.^(SNR1/20).*Nn",
+  "Nn": "Nn = EP./10.^(SNR1/20)"
+ },
+ "hearing_8": {
+  "SNRn": "SNRn = SNR1 + 10*log10(nav)",
+  "SNR1": "SNR1 = SNRn - 10*log10(nav)",
+  "nav": "nav = 10.^(SNRn/10 - SNR1/10)"
+ },
+ "vibration_0": {
+  "s": "s = m.*g./dl",
+  "m": "m = dl.*s./g",
+  "dl": "dl = g.*m./s"
+ },
+ "vibration_1": {
+  "f0": "f0 = 1./(2*pi).*sqrt(s./m)",
+  "s": "s = 4*f0.^2.*m.*pi.^2",
+  "m": "m = s./(4*f0.^2.*pi.^2)"
+ },
+ "vibration_2": {
+  "r": "r = fv./f0",
+  "fv": "fv = f0.*r",
+  "f0": "f0 = fv./r"
+ },
+ "vibration_3": {
+  "T": "T = sqrt((1 + (2*zeta.*r).^2)./((1 - r.^2).^2 + (2*zeta.*r).^2))",
+  "zeta": "zeta = sqrt((T - T.*r.^2 + 1).*(T.*r.^2 - T + 1)./(T - 1))./(2*r.*sqrt(T + 1))",
+  "r": "r = fzero(@(r) sqrt((1 + (2*zeta.*r).^2)./((1 - r.^2).^2 + (2*zeta.*r).^2)) - T, GUESS)"
+ },
+ "vibration_4": {
+  "TdB": "TdB = 20*log10(T)",
+  "T": "T = 10.^(TdB/20)"
+ },
+ "vibration_5": {
+  "xi": "xi = F./(s.*abs(1 - r.^2))",
+  "F": "F = s.*xi.*abs(r.^2 - 1)",
+  "s": "s = F./(xi.*abs(r.^2 - 1))",
+  "r": "r = sqrt(F + s.*xi)./(sqrt(s).*sqrt(xi))"
+ },
+ "insulation_0": {
+  "R0": "R0 = 20*log10(2*pi*f.*m./(2*rho.*c))",
+  "f": "f = 10.^(R0/20).*c.*rho./(m*pi)",
+  "m": "m = 10.^(R0/20).*c.*rho./(f*pi)"
+ },
+ "insulation_1": {
+  "Rf": "Rf = R0 - 5",
+  "R0": "R0 = Rf + 5"
+ },
+ "insulation_2": {
+  "m": "m = rhoM.*h",
+  "rhoM": "rhoM = m./h",
+  "h": "h = m./rhoM"
+ },
+ "insulation_3": {
+  "Bp": "Bp = E.*h.^3./(12*(1 - nu.^2))",
+  "E": "E = -Bp.*(12*nu.^2 - 12)./h.^3",
+  "h": "h = 12^(1/3).*Bp.^(1/3).*(1 - nu.^2).^(1/3)./E.^(1/3)",
+  "nu": "nu = sqrt(3)*sqrt(12*Bp - E.*h.^3)./(6*sqrt(Bp))"
+ },
+ "insulation_4": {
+  "fc": "fc = c.^2./(2*pi).*sqrt(m./Bp)",
+  "m": "m = 4*Bp.*fc.^2.*pi.^2./c.^4",
+  "Bp": "Bp = c.^4.*m./(4*fc.^2.*pi.^2)"
+ },
+ "insulation_5": {
+  "Rc": "Rc = R0 + 10*log10(2*eta.*f./(pi*fc))",
+  "R0": "R0 = Rc - 10*log10(2*eta.*f./(fc*pi))",
+  "eta": "eta = 10.^(Rc/10 - R0/10).*fc*pi./(2*f)",
+  "f": "f = 10.^(Rc/10 - R0/10).*fc*pi./(2*eta)",
+  "fc": "fc = 2*10.^(R0/10 - Rc/10).*eta.*f/pi"
+ },
+ "insulation_6": {
+  "f0": "f0 = c./(2*pi).*sqrt(rho./d.*(1./m1 + 1./m2))",
+  "d": "d = c.^2.*rho.*(1./m1 + 1./m2)./(4*f0.^2.*pi.^2)",
+  "m1": "m1 = -c.^2.*m2.*rho./(c.^2.*rho - 4*d.*f0.^2.*m2.*pi.^2)",
+  "m2": "m2 = -c.^2.*m1.*rho./(c.^2.*rho - 4*d.*f0.^2.*m1.*pi.^2)"
+ },
+ "insulation_7": {
+  "L2": "L2 = L1 - R + 10*log10(S./A2)",
+  "L1": "L1 = 10*log10(A2) - 10*log10(S) + L2 + R",
+  "R": "R = -(10*log10(A2) - 10*log10(S) - L1 + L2)",
+  "S": "S = 10.^(L2/10 - L1/10 + R/10).*A2",
+  "A2": "A2 = 10.^(L1/10 - L2/10 - R/10).*S"
+ },
+ "insulation_8": {
+  "A2": "A2 = 55.3*V2./(c.*T2)",
+  "V2": "V2 = A2.*T2.*c/55.3",
+  "T2": "T2 = 55.3*V2./(A2.*c)"
+ },
+ "speaker_0": {
+  "Sd": "Sd = pi*a.^2",
+  "a": "a = sqrt(Sd)./sqrt(pi)"
+ },
+ "speaker_1": {
+  "fs": "fs = 1./(2*pi).*sqrt(K./M)",
+  "K": "K = 4*M.*fs.^2.*pi.^2",
+  "M": "M = K./(4*fs.^2.*pi.^2)"
+ },
+ "speaker_2": {
+  "Qt": "Qt = sqrt(K.*M)./Rt",
+  "K": "K = Qt.^2.*Rt.^2./M",
+  "M": "M = Qt.^2.*Rt.^2./K",
+  "Rt": "Rt = sqrt(K).*sqrt(M)./Qt"
+ },
+ "speaker_3": {
+  "Kb": "Kb = rho.*c.^2.*Sd.^2./Vb",
+  "Sd": "Sd = sqrt(Kb).*sqrt(Vb)./(c.*sqrt(rho))",
+  "Vb": "Vb = Sd.^2.*c.^2.*rho./Kb"
+ },
+ "speaker_4": {
+  "fcb": "fcb = 1./(2*pi).*sqrt((K + Kb)./M)",
+  "K": "K = 4*M.*fcb.^2.*pi.^2 - Kb",
+  "Kb": "Kb = 4*M.*fcb.^2.*pi.^2 - K",
+  "M": "M = (K + Kb)./(4*fcb.^2.*pi.^2)"
+ },
+ "speaker_5": {
+  "p": "p = rho.*Sd.*Bl.*eg./(Om.*r.*Re.*M)",
+  "Sd": "Sd = M.*Om.*Re.*p.*r./(Bl.*eg.*rho)",
+  "Bl": "Bl = M.*Om.*Re.*p.*r./(Sd.*eg.*rho)",
+  "eg": "eg = M.*Om.*Re.*p.*r./(Bl.*Sd.*rho)",
+  "Om": "Om = Bl.*Sd.*eg.*rho./(M.*Re.*p.*r)",
+  "r": "r = Bl.*Sd.*eg.*rho./(M.*Om.*Re.*p)",
+  "Re": "Re = Bl.*Sd.*eg.*rho./(M.*Om.*p.*r)",
+  "M": "M = Bl.*Sd.*eg.*rho./(Om.*Re.*p.*r)"
+ },
+ "speaker_6": {
+  "ka": "ka = 2*pi*f.*a./c",
+  "f": "f = c.*ka./(2*a*pi)",
+  "a": "a = c.*ka./(2*f*pi)"
+ },
+ "speaker_7": {
+  "th": "th = asind(3.83./ka)",
+  "ka": "ka = 3.83./sind(th)"
+ }
+};
+if (typeof module === 'object' && module.exports) module.exports = INVERSES; else root.INVERSES = INVERSES; })(typeof self !== 'undefined' ? self : this);
+</script>
 <script>// UI for the formula sheets. Plain DOM, no framework.
 (function () {
   'use strict';
@@ -807,7 +1318,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     return h('section', { class: 'formula', id: `f-${t.id}-${i}`, 'data-i': i },
       h('h3', {}, F.name),
       h('div', { class: 'tex', html: tex(F.tex, true) }),
-      matlabLine(E.toMatlab(F)),
+      matlabBox(t, F, i),
       h('div', { class: 'fields' }, fields),
       h('p', { class: 'where' }, ...F.vars.flatMap((k, j) => {
         const [sym, unit, name] = t.vars[k];
@@ -853,6 +1364,8 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
           inp.title = '';
         }
       });
+      const mb = $('.mlbox', sec);
+      if (mb) mb._auto(row.solved);
       const work = $('.work', sec);
       work.innerHTML = '';
       work.className = 'work';
@@ -907,11 +1420,36 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     const used = Object.keys(CONSTANTS).filter(k => new RegExp('\\b' + k + '\\b').test(F.txt));
     return used.flatMap(k => [h('span', { class: 'sep' }, ' · '), h('span', { html: tex(CONSTANTS[k].sym) }), ` ${CONSTANTS[k].name} = ${E.fmt(constValues()[k])} ${CONSTANTS[k].unit}`]);
   }
-  function matlabLine(code) {
+  // MATLAB line for the chosen unknown: the page's own result picks it, or click a symbol
+  const INV = window.INVERSES || {};
+  function matlabLine(t, F, i, key) {
+    const lines = INV[`${t.id}_${i}`] || {};
+    const line = lines[key] || (key === F.vars[0] ? E.toMatlab(F) : null);
+    if (!line) return null;
+    const v = lastResult && lastResult.values[key];
+    return line.replace('GUESS', Number.isFinite(v) ? E.fmt(v) : '1');
+  }
+  function matlabBox(t, F, i) {
+    const lines = INV[`${t.id}_${i}`] || {};
+    const keys = F.vars.filter(k => lines[k] || k === F.vars[0]);
+    const code = h('code', {});
     const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
-    const el = h('div', { class: 'ml' }, h('code', {}, code), btn);
-    el.addEventListener('click', () => copyText(code, 'MATLAB line copied'));
-    return el;
+    const chips = h('span', { class: 'ml-for' });
+    const box = h('div', { class: 'mlbox' }, h('div', { class: 'ml' }, code, btn), chips);
+    let sel = F.vars[0], manual = false;
+    const show = () => {
+      code.textContent = matlabLine(t, F, i, sel) || '';
+      chips.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === sel));
+    };
+    if (keys.length > 1) {
+      chips.append(h('span', { class: 'lab' }, 'MATLAB for '));
+      keys.forEach(k => chips.append(h('button', { 'data-k': k, html: tex(t.vars[k][0]), title: `Line that gives ${t.vars[k][2]}`,
+        onclick: () => { sel = k; manual = true; show(); } })));
+    }
+    $('.ml', box).addEventListener('click', () => copyText(code.textContent, 'MATLAB line copied'));
+    box._auto = k => { if (!manual) sel = k && keys.includes(k) ? k : F.vars[0]; show(); };
+    show();
+    return box;
   }
   const CONST_LINE = () => { const c = constValues(); return `rho = ${c.rho}; c = ${c.c}; p0 = 20e-6; I0 = 1e-12; W0 = 1e-12; g = 9.81;`; };
 
@@ -924,8 +1462,8 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     const solved = Object.entries(res.info).sort((a, b) => a[1].order - b[1].order);
     solved.forEach(([k, inf]) => {
       const F = t.formulas[inf.from];
-      if (k === F.vars[0]) lines.push(E.toMatlab(F));
-      else lines.push(`% ${k} from: ${E.toMatlab(F)}   (rearrange, or fzero)`, `${k} = ${E.fmt(res.values[k])}`);
+      const line = matlabLine(t, F, inf.from, k);
+      lines.push(line || `${k} = ${E.fmt(res.values[k])}   % from ${E.toMatlab(F)}`);
     });
     if (!solved.length) lines.push('% Nothing worked out yet: every formula line on this page:', ...t.formulas.map(F => E.toMatlab(F)));
     copyText(lines.join('\n'), 'MATLAB copied');
