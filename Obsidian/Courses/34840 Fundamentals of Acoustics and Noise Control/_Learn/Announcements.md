@@ -1,5 +1,11 @@
 # Announcements
 
+## 2026-11-26 — The course evaluation
+
+Hi!
+Please help us and do the course evaluation before it is too late: DTU Evaluering. We really need your feedback, and appreciate it a lot.   
+\Jonas
+
 ## 2026-11-23 — Lecture on Sound Insulation
 
 Hi all,
