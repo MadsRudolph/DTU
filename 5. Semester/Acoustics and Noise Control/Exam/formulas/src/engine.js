@@ -19,7 +19,7 @@
         for (let i = pos.length - 1; i >= 0; i--) pts.push(-pos[i]);
         pts.push(0); pts.push(...pos); break;
       }
-      default: logspan(-15, 15, 6000);
+      default: logspan(-15, -3, 600); logspan(-3, 4, 1400); logspan(4, 15, 550);
     }
     return pts.sort((a, b) => a - b);
   }
@@ -77,7 +77,7 @@
         if (unk.length !== 1) return;
         const key = unk[0];
         if (domainOf(key) === 'int') return;
-        const g = x => F.f(Object.assign({}, values, { [key]: x }));
+        const ctx = Object.assign({}, values), g = x => { ctx[key] = x; return F.f(ctx); };
         const roots = solve1(g, domainOf(key));
         if (!roots.length) { rows[i].noSolution = key; return; }
         const x = pick(roots, F.prefer ? F.prefer(values) : undefined);
@@ -97,7 +97,7 @@
       // re-solve one given (or computed) variable from the others and compare
       for (const key of F.vars) {
         if (domainOf(key) === 'int') continue;
-        const g = x => F.f(Object.assign({}, values, { [key]: x }));
+        const ctx = Object.assign({}, values), g = x => { ctx[key] = x; return F.f(ctx); };
         const roots = solve1(g, domainOf(key));
         if (!roots.length) { rows[i].mismatch = { key, value: undefined }; return; }
         const x = pick(roots, values[key]);
