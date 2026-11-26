@@ -10,6 +10,7 @@ links to where the file actually lives in the vault.*
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/LTspice circuit simulator - Quick Guide.pdf|LTspice circuit simulator - Quick Guide]]
 - [[Courses/34870 Electroacoustics/Slides/34870_Lecture0_E26.pdf|34870 Lecture 0 E26 - Introduction to the course]]
 - [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/Lab Etiquette.pdf|Lab Etiquette]]
+- [[Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf|Oral Exam Rules]]
 
 ## Lecture 1 - Analogies Introduction
 

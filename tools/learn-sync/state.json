@@ -2,7 +2,7 @@
   "announcements": {
     "34654": "192905",
     "34840": "192886",
-    "34870": "193093",
+    "34870": "193229",
     "62755": "191497"
   },
   "schema": 1,
@@ -1284,6 +1284,12 @@
       "sha256": "546817b8c47e2df4d4c12230ed9149e4fda449a46b3f6ea48bd7b4deb8de82c5",
       "synced_at": "2026-11-23T23:06:23+00:00",
       "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Lecture 7 Thyristors and Thyristorized Converters/elec_thyristor_dynamic.zip"
+    },
+    "1309582": {
+      "revision": "2026-11-25T19:49:40.740Z",
+      "sha256": "8733dac24b9490f4033489fd692edd9d4f44846a620f62be97a92bfec7dbdb52",
+      "synced_at": "2026-11-26T11:03:45+00:00",
+      "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf"
     }
   }
 }

@@ -1,5 +1,13 @@
 # Announcements
 
+## 2026-11-25 — Oral exam rules and schedule
+
+Dear all,
+As promised you may now access the Oral Exam Rules. The file also contains advice and example exam questions. It is the same details we discussed in the Q&A session last Monday.
+I will release the exam schedule for signing up on Monday 30/11 at 12:00. I give the warning so that it does not take you by surprise. You will find the schedule in the Basic Material content module.
+Best regards,
+Vicente
+
 ## 2026-11-25 — Thursday 26/11: Project Q&A (9:30) + Lecture Bang & Olufsen (10:00)
 
 Dear all,
