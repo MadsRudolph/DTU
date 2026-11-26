@@ -11,7 +11,7 @@ tags: [Electroacoustics, exam, oral, topic-map]
 > - **One topic drawn at random** from the ten below. You develop it on the blackboard and/or orally. The censor and the examiners then ask questions. Those start from the topic but can go anywhere in the course.
 > - **About 25 minutes per student**, including marking and changeover. **Classroom 019, building 352.**
 > - **Slots on Wed 9 and Thu 10 December**, first come first served. ⏰ **Sign up by Fri 4 December** on the booking sheet under DTU Learn → Content → Basic Material. If you don't book, you get a random slot.
-> - **Aids: printed or handwritten material only, nothing electronic.** Use it to consult, not to read from. So **print this map and the notes it points to.**
+> - **Aids: printed or handwritten material only, nothing electronic.** Use it to consult, not to read from. So **print this map and the notes it points to**, plus the 2-page **[[Oral Cheat Sheet - 34870.pdf|oral cheat sheet]]** (source: `5. Semester/Electroacoustics/Exam/cheatsheet_34870_oral.tex`, build with `~/.local/bin/tectonic`).
 > - **The oral counts 70 %; the exercises and project count 30 %.** The final mark is given right after the oral. Every exercise and the project must be passed.
 
 > [!tip] How the examiners say they examine (same PDF, page 2)

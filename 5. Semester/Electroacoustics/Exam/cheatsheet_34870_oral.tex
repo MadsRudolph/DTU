@@ -1,0 +1,152 @@
+\documentclass[8pt]{extarticle}
+\usepackage[a4paper,margin=9mm]{geometry}
+\usepackage{multicol,amsmath,amssymb,xcolor,enumitem,booktabs,tabularx}
+\usepackage[siunitx]{circuitikz}
+\usepackage{titlesec}
+\setlength{\columnsep}{5mm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5pt}
+\setlist{nosep,leftmargin=9pt,itemsep=0.5pt}
+\definecolor{el}{HTML}{B5651D}\definecolor{me}{HTML}{3A6EA5}\definecolor{ac}{HTML}{1F8A70}\definecolor{tr}{HTML}{B22222}
+\titleformat{\section}{\normalsize\bfseries\color{me}}{}{0pt}{}[\vspace{-2pt}\rule{\columnwidth}{0.4pt}]
+\titlespacing*{\section}{0pt}{5pt}{2pt}
+\newcommand{\sub}[1]{\par\smallskip{\bfseries\color{ac}#1}\par}
+\newcommand{\trap}[1]{\par{\color{tr}\bfseries Trap:} #1\par}
+\newcommand{\Q}[2]{\item \emph{#1} — #2}
+\pagestyle{empty}
+\begin{document}
+\begin{center}{\large\bfseries 34870 Electroacoustics — oral exam cheat sheet}\\[1pt]
+\small Wed 9 / Thu 10 Dec 2026 · b.352 r.019 · $\sim$25 min · one of 10 topics at random, at the board · \textbf{printed/handwritten aids only} · book a slot by Fri 4 Dec\\
+Examiners want \emph{why}, the \emph{connections}, and your own labs/project as evidence. Start every topic by drawing the system, then the circuit, then the curve.\end{center}
+\vspace{-4pt}
+\begin{multicols}{2}
+
+\section{1 · Analogies: impedance and mobility}
+\begin{tabularx}{\columnwidth}{@{}lXXX@{}}\toprule
+ & {\color{el}electrical} & {\color{me}mechanical} & {\color{ac}acoustic}\\\midrule
+across / through & $v$ / $i$ & $u$ (velocity) / $f$ & $p$ / $U$ (vol.\ vel.)\\
+power & $\tfrac12\mathrm{Re}\{v i^*\}$ & $\tfrac12\mathrm{Re}\{f u^*\}$ & $\tfrac12\mathrm{Re}\{p U^*\}$\\
+mass & & $f=j\omega M_M u$ & $p=j\omega M_A U$, $M_A=\rho l/S$\\
+compliance & & $f=u/j\omega C_M$, $C_M=1/k$ & $p=U/j\omega C_A$, $C_A=V/\rho c^2$\\
+resistance & & $f=R_M u$ & $p=R_A U$\\\bottomrule
+\end{tabularx}
+\textbf{Impedance analogy} ($f\!\leftrightarrow\! v$, $u\!\leftrightarrow\! i$): mass $\to L$, compliance $\to C$, $R_M\to R$; elements with the \emph{same velocity} in \emph{series}. Acoustic circuits always use it ($p\leftrightarrow v$).
+\textbf{Mobility analogy} ($u\!\leftrightarrow\! v$, $f\!\leftrightarrow\! i$): mass $\to C$ (one end to ground = inertial frame), compliance $\to L$, $R_M\to 1/R$; topology looks like the sketch. The two are duals.
+\sub{Resonance}
+Series $M,R,C$: $\omega_0=1/\sqrt{MC}$, $|Z|$ \textbf{min} $=R$, phase $0$; $Q=\omega_0M/R=\tfrac1R\sqrt{M/C}$, $-3$ dB bandwidth $f_0/Q$. Below $f_0$ compliance-controlled ($-90^\circ$), above mass-controlled ($+90^\circ$).
+Anti-resonance = parallel resonance: $|Z|$ \textbf{max}, phase through 0. In a velocity plot a peak alone does not decide it: \emph{look at the impedance and its phase}.
+\sub{Limits of lumped models}
+Every element $\ll\lambda$ (rule: $l<\lambda/10$, $kl\lesssim0.3$); linear (small amplitude); losses lumped into $R$; above that: transmission line/ABCD (L3 §4), FEM/BEM (L10).
+\trap{Lab A lost points on "resonance from a velocity peak", magnitude without phase, and $p$F/$\mu$H prefixes: write powers of ten and SI units of the domain.}
+
+\section{2 · Acoustic \& mechanical elements}
+\begin{itemize}
+\item Open tube $l\ll\lambda$: \textbf{mass} $M_A=\rho l'/S$. Closed volume: \textbf{compliance} $C_A=V/\rho c^2$ (+ small mass $\rho l/3S$). Both from $Z$ of the plane-wave tube, low-$kl$ expansion.
+\item End correction $l'=l+\Delta l$: flanged $0.85a=8a/3\pi$, unflanged $0.6133a$; a vent has both: $1.46a$.
+\item Helmholtz: $f_0=\frac{c}{2\pi}\sqrt{S/(Vl')}$. Mechanical: spring $C_M=1/k$, mass, dashpot.
+\item \textbf{Radiation impedance}, piston in a baffle: $Z_{AR}=\frac{\rho c}{\pi a^2}\big[1-\frac{J_1(2ka)}{ka}+j\frac{H_1(2ka)}{ka}\big]$. Low $ka$: mass $M_{A1}=\frac{8\rho}{3\pi^2a}$ + $R\approx\rho ck^2/2\pi$; high $ka$: $\rho c/S$.
+\item Lumped network: $M_{A1}\parallel[R_{A2}+(R_{A1}\parallel C_{A1})]$, $R_{A1}=0.441\frac{\rho c}{\pi a^2}$, $R_{A2}=\frac{\rho c}{\pi a^2}$, $C_{A1}=\frac{5.94a^3}{\rho c^2}$ (within 0.4 dB, Problems 11.2).
+\item \textbf{Why end correction = radiation impedance}: the low-$ka$ imaginary part $j\omega M_{A1}$ is an extra plug of air, $\Delta l=M_{A1}S/\rho=8a/3\pi$.
+\end{itemize}
+Own example: System D woofer $a=10.55$ cm: $M_{A1}=3.08$ kg/m$^4$ = 3.8 g of air per face.
+
+\section{3 · Coupling electrical–mechanical–acoustic}
+\begin{itemize}
+\item A transducer = two controlled sources (a two-port) with a constant factor; the reaction source \emph{opposes} the motion.
+\item Mechanical$\leftrightarrow$acoustic (area): $f=S\,p$, $U=S\,u$ — a \textbf{transformer}; $Z_M=S^2Z_A$ (front + back in series).
+\item Electrodynamic: $f=Bl\,i$, $e=Bl\,u$ — a \textbf{gyrator} in the impedance analogy (transformer in mobility); $Z_E=(Bl)^2/Z_M$: an \textbf{inversion} — mechanical series resonance $\to$ electrical \emph{peak}.
+\item Electrostatic (bias $E$, gap $x_0$): $e=\frac{i}{j\omega C_{E0}}+\frac{E}{j\omega x_0}u$, $f=-\frac{E}{j\omega x_0}i-\frac{u}{j\omega C_M}$; plus a negative "electrostatic spring".
+\item Source types: across$\to$across E, through$\to$through F, across$\to$through G, through$\to$across H.
+\end{itemize}
+Simplify: move everything to one domain (scale by $S^2$ or invert with $(Bl)^2$), then read totals $M_{MT},R_{MT},C_{MT}$.
+\begin{center}\begin{circuitikz}[scale=0.56,transform shape,american]
+\draw (0,0) to[sV,l=$e_g$] (0,2) to[R,l=$R_E$] (2,2) to[L,l=$L_E$] (4,2) -- (4.4,2);
+\draw (0,0) -- (4.4,0);
+\draw (4.4,0) rectangle (5.6,2); \node at (5,1) {$Bl$}; \node[font=\scriptsize] at (5,-0.3) {gyrator};
+\draw (5.6,2) to[L,l=$M_{MD}$] (7.4,2) to[C,l=$C_{MS}$] (9.2,2) to[R,l=$R_{MS}$] (11,2) -- (11.4,2);
+\draw (5.6,0) -- (11.4,0); \draw (11.4,0) rectangle (12.6,2); \node at (12,1) {$1\!:\!S_D$};
+\draw (12.6,2) to[L,l=$2M_{A1}$] (14.6,2) to[R,l=$R_{AR}$] (14.6,0) -- (12.6,0);
+\end{circuitikz}\\[-2pt]{\scriptsize moving-coil loudspeaker / dynamic mic (impedance analogy); box or back cavity replaces one $M_{A1}$}\end{center}
+
+\section{4 · Dynamic microphones}
+$\displaystyle \frac{e}{p}=\frac{-Bl\,S_D}{j\omega M_{MT}+R_{MT}+1/j\omega C_{MT}}$ — a 2nd-order \textbf{band-pass}, \textbf{damping-controlled} in its useful band (flat $=Bl S_D/R_{MT}$).
+$M_{MT}=M_{MD}+S_D^2M_{A1}$, $R_{MT}=R_{MS}+S_D^2R_{AF}+(Bl)^2/(R_E+R_L)$, $C_{MT}=1/(1/C_{MS}+S_D^2/C_{AB})$.
+\begin{itemize}
+\item \textbf{Sensitivity $\times$ bandwidth trade}: more $R_{MT}$ $\Rightarrow$ lower $Q$, wider band, lower sensitivity. $Q=\omega_0M_{MT}/R_{MT}$.
+\item Extend: split the back cavity (extra HF resonance with the moving mass), vent the big cavity (Helmholtz LF boost).
+\item \textbf{Proximity effect}: gradient mics sense $\partial p/\partial x$; a point source's gradient carries $(1+1/jkr)$, so the bass rises 6 dB/oct below $f=c/2\pi r$. Stronger for pure gradient (figure-8, ribbon) than cardioid, and the closer the source. Polar family $R(\theta)=(1+B\cos\theta)/(1+B)$.
+\end{itemize}
+
+\section{5 · Condenser microphones}
+\begin{itemize}
+\item Bias $E$ \emph{linearises} the electrostatic force ($\propto(E+e)^2$) and sets the sensitivity $\propto E/x_0$; without it the output would be at $2f$ and tiny. Electret = built-in charge.
+\item \textbf{Stiffness-controlled low-pass}: flat below $f_0=1/2\pi\sqrt{M_{MT}C_{MT}}$, sensitivity $\approx\frac{E}{x_0}S_D C_{MT}$ (no gyrator, so low-pass not band-pass).
+\item Damping: the thin air film/backplate holes; set for flat response ($Q\approx$0.5–1).
+\item Measurement mic: flat, stable, known sensitivity, small, high $f_0$, low noise. Audio: high sensitivity, low noise, directivity.
+\item \textbf{Body effect}: the mic scatters once $kR\gtrsim0.3$, up to +10 dB on axis at $kR\approx3$. Plane-reflection model $p_D=T(s)p_i$, $T=1+Z_{ar}/(\rho c/S)\to2$ (+6 dB). \emph{Free-field} mics compensate it (free-field correction), \emph{pressure} mics do not.
+\end{itemize}
+\textbf{Ours.} Lab C capsule: $S_D=62.9$ mm$^2$, $C_{MT}=18.4\,\mu$m/N, $C_{E0}=26.8$ pF, model 11.1 mV/Pa, bare $f_s$ 28.4 kHz. Lab B (0.25 m mock-up, UMIK at 2.8 m): \textbf{+8.6 dB at 1155 Hz} on axis (BEM +9.9 at 1345), 90° within +2 dB; above 2 kHz the 2–3 cm tip gap dominates.
+
+\section{6 · Metrology, uncertainty, calibration}
+\begin{itemize}
+\item \textbf{GUM}: $u_c^2(y)=\sum c_i^2u^2(x_i)$ (+ covariances), $c_i=\partial f/\partial x_i$; expanded $U=k\,u_c$, $k=2\approx95$\,\%. Type A = statistics, type B = other knowledge.
+\item \textbf{Traceability}: an unbroken chain of calibrations to the SI, each with a stated uncertainty. Primary $\to$ secondary $\to$ working $\to$ instrument.
+\item \textbf{Repeatability}: same conditions, short time. \textbf{Reproducibility}: changed conditions (operator, lab, setup).
+\item \textbf{Primary standard}: reciprocity calibration (three microphones in pairs, coupler or free field; DFM in the cellar of b.352). SI since 2019 = 7 defining constants.
+\item \textbf{Actuator}: electrostatic grid in front of the diaphragm drives it directly: gives the \emph{shape} (no scattering), not the absolute level. Level: calibrator 94 dB @ 1 kHz (field) or pistonphone 124 dB @ 250 Hz (lab).
+\item $f_s$, $Q$ from a measured response: $f_s$ where the phase has dropped 90°; $Q=|H(f_s)|/|H_{\text{low}}|$ (linear). Our least-squares fit of $G/(1-x^2+jx/Q)$ is exact; the slide recipe lands $\sim$2 \% high when the phase is referenced near 1 kHz.
+\end{itemize}
+\trap{Lab C feedback: don't align a model so well that its bias disappears; calibrator = field check, pistonphone = lab.}
+
+\section{7 · The electrodynamic loudspeaker}
+\begin{itemize}
+\item Dynamic mic reversed; far field $p\propto$ cone \emph{acceleration}: $p=\frac{\rho}{2\pi r}j\omega S_D u$ (baffle). Above $f_S$ \textbf{mass-controlled} $\Rightarrow$ flat: $p_{1\,\mathrm m}=\frac{\rho}{2\pi}\frac{Bl S_D}{R_EM_{MS}}e_g$; below: 2nd-order high-pass.
+\item $M_{MS}=M_{MD}+2S_D^2M_{A1}$ (baffle), $R_{MT}=R_{MS}+(Bl)^2/R_E$ (electrical damping dominates).
+\item \textbf{T-S}: $f_S=\frac1{2\pi\sqrt{M_{MS}C_{MS}}}$, $Q_{MS}=\frac{\omega_SM_{MS}}{R_{MS}}$, $Q_{ES}=\frac{R_E\omega_SM_{MS}}{(Bl)^2}$, $\frac1{Q_{TS}}=\frac1{Q_{MS}}+\frac1{Q_{ES}}$, $V_{AS}=\rho c^2S_D^2C_{MS}$.
+\item \textbf{Measure}: $R_E$ (multimeter), $|Z_E|$ sweep: peak $Z_{max}=R_E+(Bl)^2/R_{MS}$ at $f_S$; $r_0=Z_{max}/R_E$; $f_1,f_2$ at $\sqrt{R_EZ_{max}}$: $Q_{MS}=\frac{f_S\sqrt{r_0}}{f_2-f_1}$, $Q_{ES}=\frac{Q_{MS}}{r_0-1}$. Masses: added mass or \textbf{added box} (Lab D): $V_{AS}=V_B[(f_C/f_S)^2-1]$.
+\item $\eta=\frac{\rho}{2\pi cR_E}\big(\frac{BlS_D}{M_{MS}}\big)^2\approx1$\,\%. Excursion: low-pass, static $BlC_{MS}e_g/R_E$; bass = excursion.
+\item \textbf{Nonlinear}: $Bl(x)$ (coil leaves the gap; LF), $C_{MS}(x)$ (suspension hardens; below $f_S$), $L_E(x)$, $L_E(i)$ (iron; HF modulated by LF), $R_E(T)$ (+0.39 \%/K $\Rightarrow$ power compression), Doppler. Symmetric $\Rightarrow$ odd harmonics; asymmetric $\Rightarrow$ even + DC offset; two tones $\Rightarrow$ IMD. Overhung coil: $X_{max}=(h_{coil}-h_{gap})/2$. 34871 in January.
+\item Lossy $L_E$: eddy currents, $Z=L_E'(j\omega)^n$, $n<1$.
+\end{itemize}
+\textbf{Ours} (Scan-Speak 26W/8534G00, Lab D fit): $Bl$ 8.28 T·m, $M_{MD}$ 36.7 g, $C_{MS}$ 1.174 mm/N, $R_E$ 5.7 $\Omega$, $L_E$ 1.50 mH, $f_S$ 22.7 Hz, $X_{max}$ 6 mm (18 mm coil in 6 mm gap), $V_{AS}$ 204 L (data sheet 165). Free-air peak 117 $\Omega$.
+
+\section{8 · Enclosures: closed and vented}
+\textbf{Closed box} = baffle + extra spring $C_{AB}=V_{AB}/\rho c^2$ (filling: +10–20\,\%, isothermal).
+$\alpha=V_{AS}/V_{AB}$, $f_C=f_S\sqrt{1+\alpha}$, $Q_{TC}=Q_{TS}\sqrt{1+\alpha}$ (ratio $Q/f$ fixed by the driver). Lowest $f_3$ at $Q_{TC}=0.707$. 12 dB/oct.
+\textbf{Vented box}: Helmholtz resonator $M_{AP}=\frac{\rho}{S_P}(L_P+1.46a_P)$ with $C_{AB}$, tuned at $f_B$. At $f_B$ the cone barely moves (the vent radiates); \textbf{4th-order high-pass}, 24 dB/oct, cone and vent in antiphase below $f_B$. Alignments QB3 / B4 / C4 by $Q_{TS}$. Impedance: \textbf{two peaks, $f_B$ at the dip} ($|Z|\to R_E$). Losses $Q_L$ (leaks, port, filling).
+\textbf{Measured vs.\ model}: the pressure-response functions are ideal (infinite baffle, half space, no losses); real curves add the baffle step, diffraction, room, port losses and leaks.
+\textbf{Near field $\to$ far field} (Keele): $p_{near}\propto U/a$, so $p_{far}\propto a_D\,p_{cone}+a_P\,p_{vent}$ (\emph{complex}, phase-coherent, vent opposite sign); valid for $ka<1$; no anechoic room needed.
+\textbf{Ours}: 88 L box, closed $f_C$ 42.0 Hz; vent Ø6.5 cm: $f_B$ 23.4 / 22.8 / 21.5 Hz for 160 / 200 / 240 mm (moves half as much as the tube formula says: fitted $M_{AP}$). Design: 160 mm, $f_B$ 24.6, $f_3$ 33 Hz.
+\trap{Free air and closed box were measured \emph{without} filling; vented runs \emph{with}. Separate runs are not phase-coherent.}
+
+\section{9 · Systems and crossover networks}
+\begin{itemize}
+\item \textbf{Why}: no driver covers 20 Hz–20 kHz. Woofer beams above $ka\approx1$ (517 Hz for ours) and breaks up; tweeter can't move the air volume for bass (excursion, $f_s$ $\sim$1 kHz); IMD from big excursions.
+\item \textbf{Sums}: BW1 flat (90° apart); BW2 at $f_c$: 180° apart $\Rightarrow$ notch unless one is inverted, then +3 dB; LR2 inverted flat; \textbf{LR4 in phase sums flat} (allpass). Course \texttt{DigitalCrossover.m} makes Butterworth biquads.
+\item \textbf{Passive}: one amplifier; filter sees the driver's real (rising, peaky) impedance $\Rightarrow$ Zobel, L-pad ($R_s$ series, $R_p$ parallel) for level, notch for $f_s$; component losses. \textbf{Active/DSP}: amp per driver, exact slopes, delay, EQ, level, no impedance interaction.
+\item \textbf{Challenges}: sensitivity mismatch, acoustic centre offsets, driver phase/order, directivity match at crossover, baffle step, diffraction.
+\item \textbf{Phase}: measured phase contains the flight time $e^{-jkr}$; unwrap, then remove a common distance (ours $d=-1.15$ m) so all units share one reference $\Rightarrow$ only then can complex sums predict the system. Relative phase decides the polarity/order.
+\end{itemize}
+\textbf{Ours (System D)}: LR4 at 325 Hz in the DSP (woofer $-5.8$ dB on the day); mid LP2 0.82 mH / 6.8 $\mu$F; tweeter HP2 5.6 $\mu$F / 0.22 mH + L-pad 4.7/3.3 $\Omega$; all +; $\pm$2 dB on axis 150 Hz–15 kHz (model). Lab day: flip notches 315 Hz $-32$ dB / 4161 Hz $-28.6$ dB (well in phase); tweeter $\sim$2.7 dB low $\Rightarrow$ proposed $R_p$ 3.3 $\to$ 8.2 $\Omega$.
+
+\section{10 · Directivity, box diffraction, room}
+\begin{itemize}
+\item \textbf{Piston}: $D(\theta)=\frac{2J_1(ka\sin\theta)}{ka\sin\theta}$: omni below $ka\approx1$, $-6$ dB at $ka\sin\theta=2.215$, first null at 3.832.
+\item \textbf{Directivity factor} $Q=I_{\text{axis}}/I_{\text{omni, same power}}=4\pi/\oint D^2d\Omega$; piston: $Q=\frac{(ka)^2}{1-J_1(2ka)/ka}$: 2 at LF (half space, DI 3 dB), $\approx(ka)^2$ HF. DI $=10\log Q$: cardioid 4.7, hypercardioid 6, dipole 4.8 dB. \textbf{Coverage} = angle where $D>-6$ dB; narrow coverage $\Leftrightarrow$ high $Q$ $\Leftrightarrow$ longer reach $r_c=\sqrt{QA/16\pi}$.
+\item \textbf{Power response}: $P=\tfrac12\mathrm{Re}(Z_{AR})|U|^2$; flat on-axis $\Rightarrow$ power falls once it beams; the reverberant field is fed by power, $p^2_{dif}=4\rho cP/A$. "Power response is as important as on-axis."
+\item \textbf{Room, LF}: modes $f=\frac c2\sqrt{\sum(n_i/l_i)^2}$; source and listener positions through the mode shapes; corner excites all; near walls +6 dB per halving of $\Omega$ (image source doubles $\mathrm{Re}\,Z$). Beolab 5: measures $Z_{rad}$, keeps power constant.
+\item \textbf{Box diffraction}: each edge re-radiates an inverted, delayed copy; path difference $\lambda/2$ $\Rightarrow$ peak, $\lambda$ $\Rightarrow$ dip; below $c/\pi W$ the box vanishes: 6 dB \textbf{baffle step}. Fix: offset driver, rounded edges, baffle-step EQ. Terai model = \texttt{diffrac.m} (thin baffle).
+\item \textbf{Reciprocity}: mic free-field correction (topic 5, Lab B) and box diffraction are the same physics.
+\end{itemize}
+\textbf{Ours (Lab E)}: circle a = 0.30 m dips 1059/2115 Hz (formula 1078/2156, $\Delta$ = 0.318 m), circle$-$IEC vs \texttt{diffrac} 1.4 dB RMS; ripple box/circle/IEC 6/17/10 dB; box 5.7 dB under the screens at 250–600 Hz (baffle step, $c/\pi W$ = 243 Hz); woofer $-15.6$ dB at 30° above 3 kHz (piston $-11.7$); 3 cm piston: $-3$ dB at 3.45 kHz, null 7.96 kHz at 60°.
+
+\section{Connections to say out loud}
+\begin{itemize}
+\item Radiation mass (L3) $\to$ $M_{MS}$ (L7) $\to$ vent end correction (L8) $\to$ beaming (L11).
+\item Dynamic mic (band-pass, damping-controlled) vs.\ condenser (low-pass, stiffness-controlled) vs.\ loudspeaker (high-pass, mass-controlled): same circuit, different control region.
+\item Gyrator inversion: mechanical resonance = electrical impedance peak (Lab A part 4, Lab D).
+\item Scattering on a mic body = baffle diffraction (reciprocity).
+\item Near-field trick works only for $ka<1$: same $ka$ that decides directivity.
+\end{itemize}
+\end{multicols}
+\end{document}

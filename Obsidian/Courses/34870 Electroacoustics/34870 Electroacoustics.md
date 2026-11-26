@@ -20,6 +20,7 @@ tags: [Electroacoustics, Audio, home]
 
 > [!important] Oral exam prep → [[Oral Exam - Topic Map]]
 > The 10 topics from `Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf` (26-Nov), with the examiners' example questions and, for each one, the lecture/lab/project notes to read. **Print it**: no electronics in the exam.
+> Printable 2-page cheat sheet: [[Oral Cheat Sheet - 34870.pdf]] (all 10 topics: formulas, our lab/project numbers, connections).
 > - [ ] Book an oral slot before **Fri 4 Dec**
 > - [ ] Project quiz part 2, **Mon 30 Nov** · demo **Thu 3 Dec**
 
