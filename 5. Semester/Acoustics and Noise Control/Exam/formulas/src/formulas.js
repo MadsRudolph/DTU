@@ -67,7 +67,7 @@
       id: 'plane', title: 'Plane waves and tubes',
       blurb: 'Reflection at a surface, standing waves, transmission between media, tube resonances.',
       vars: {
-        Z: ['Z', 'Pa·s/m', 'surface impedance (real)'], R: ['R', '', 'pressure reflection coefficient', 'sym'],
+        Z: ['Z', 'Pa·s/m', 'surface impedance p/u at the surface (real)'], R: ['R', '', 'pressure reflection coefficient p_r/p_i', 'sym'],
         al: ['\\alpha', '', 'absorption coefficient', 'unit'],
         Lmax: ['L_{\\max}', 'dB', 'level at a maximum', 'db'], Lmin: ['L_{\\min}', 'dB', 'level at a minimum', 'db'],
         dL: ['\\Delta L', 'dB', 'max − min', 'db'], s: ['s', '', 'standing wave ratio', 'ge1'],

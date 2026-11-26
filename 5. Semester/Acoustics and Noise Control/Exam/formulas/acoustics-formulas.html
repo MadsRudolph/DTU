@@ -143,6 +143,10 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
 #examnotes { display: flex; flex-direction: column; gap: 1px; padding-top: 10px; border-top: 1px solid var(--rule); }
 #examnotes a { padding: 3px 10px; font-size: 13px; color: var(--muted); }
 #examnotes a:hover { color: var(--fg); }
+
+.where { margin: 10px 0 0; font-size: 12.5px; line-height: 1.7; color: var(--faint); }
+.where .katex { font-size: 1em; color: var(--muted); }
+.where .sep { color: var(--rule); }
 </style>
 </head>
 <body>
@@ -230,7 +234,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       id: 'plane', title: 'Plane waves and tubes',
       blurb: 'Reflection at a surface, standing waves, transmission between media, tube resonances.',
       vars: {
-        Z: ['Z', 'Pa·s/m', 'surface impedance (real)'], R: ['R', '', 'pressure reflection coefficient', 'sym'],
+        Z: ['Z', 'Pa·s/m', 'surface impedance p/u at the surface (real)'], R: ['R', '', 'pressure reflection coefficient p_r/p_i', 'sym'],
         al: ['\\alpha', '', 'absorption coefficient', 'unit'],
         Lmax: ['L_{\\max}', 'dB', 'level at a maximum', 'db'], Lmin: ['L_{\\min}', 'dB', 'level at a minimum', 'db'],
         dL: ['\\Delta L', 'dB', 'max − min', 'db'], s: ['s', '', 'standing wave ratio', 'ge1'],
@@ -805,6 +809,10 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       h('div', { class: 'tex', html: tex(F.tex, true) }),
       matlabLine(E.toMatlab(F)),
       h('div', { class: 'fields' }, fields),
+      h('p', { class: 'where' }, ...F.vars.flatMap((k, j) => {
+        const [sym, unit, name] = t.vars[k];
+        return [j ? h('span', { class: 'sep' }, ' · ') : '', h('span', { html: tex(sym) }), ` ${name}${unit ? ' (' + unit + ')' : ''}`];
+      }), ...whereConsts(F)),
       h('div', { class: 'work' }),
       F.note ? h('p', { class: 'note' }, F.note) : null);
   }
@@ -894,6 +902,11 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     return h('div', { class: 'line' }, workText(t, F, key, res, consts));
   }
 
+  // constants used by a formula, named once so every symbol on the row is explained
+  function whereConsts(F) {
+    const used = Object.keys(CONSTANTS).filter(k => new RegExp('\\b' + k + '\\b').test(F.txt));
+    return used.flatMap(k => [h('span', { class: 'sep' }, ' · '), h('span', { html: tex(CONSTANTS[k].sym) }), ` ${CONSTANTS[k].name} = ${E.fmt(constValues()[k])} ${CONSTANTS[k].unit}`]);
+  }
   function matlabLine(code) {
     const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
     const el = h('div', { class: 'ml' }, h('code', {}, code), btn);

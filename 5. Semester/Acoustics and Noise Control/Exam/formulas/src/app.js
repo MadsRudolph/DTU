@@ -119,6 +119,10 @@
       h('div', { class: 'tex', html: tex(F.tex, true) }),
       matlabLine(E.toMatlab(F)),
       h('div', { class: 'fields' }, fields),
+      h('p', { class: 'where' }, ...F.vars.flatMap((k, j) => {
+        const [sym, unit, name] = t.vars[k];
+        return [j ? h('span', { class: 'sep' }, ' · ') : '', h('span', { html: tex(sym) }), ` ${name}${unit ? ' (' + unit + ')' : ''}`];
+      }), ...whereConsts(F)),
       h('div', { class: 'work' }),
       F.note ? h('p', { class: 'note' }, F.note) : null);
   }
@@ -208,6 +212,11 @@
     return h('div', { class: 'line' }, workText(t, F, key, res, consts));
   }
 
+  // constants used by a formula, named once so every symbol on the row is explained
+  function whereConsts(F) {
+    const used = Object.keys(CONSTANTS).filter(k => new RegExp('\\b' + k + '\\b').test(F.txt));
+    return used.flatMap(k => [h('span', { class: 'sep' }, ' · '), h('span', { html: tex(CONSTANTS[k].sym) }), ` ${CONSTANTS[k].name} = ${E.fmt(constValues()[k])} ${CONSTANTS[k].unit}`]);
+  }
   function matlabLine(code) {
     const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
     const el = h('div', { class: 'ml' }, h('code', {}, code), btn);

@@ -135,3 +135,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
 #examnotes { display: flex; flex-direction: column; gap: 1px; padding-top: 10px; border-top: 1px solid var(--rule); }
 #examnotes a { padding: 3px 10px; font-size: 13px; color: var(--muted); }
 #examnotes a:hover { color: var(--fg); }
+
+.where { margin: 10px 0 0; font-size: 12.5px; line-height: 1.7; color: var(--faint); }
+.where .katex { font-size: 1em; color: var(--muted); }
+.where .sep { color: var(--rule); }
