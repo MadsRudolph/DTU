@@ -127,6 +127,15 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
   .side, .actions, .help { display: none; }
   .shell { display: block; }
 }
+
+.ml { display: flex; align-items: center; gap: 10px; margin: -4px 0 12px; cursor: copy; max-width: 100%; }
+.ml code { font: 12.5px/1.5 var(--mono); color: var(--muted); background: var(--side); border: 1px solid var(--rule);
+  padding: 3px 8px; border-radius: 5px; overflow-x: auto; white-space: nowrap; min-width: 0; }
+.ml:hover code { color: var(--fg); border-color: var(--faint); }
+.ml-copy { font-size: 12px; color: var(--faint); padding: 0; flex: none; }
+.ml:hover .ml-copy { color: var(--accent); }
+.const-copy { align-self: flex-start; padding: 0; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; text-align: left; }
+.const-copy:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -250,7 +259,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       formulas: [
         { name: 'Wavenumber', tex: 'k = \\dfrac{2\\pi f}{c}', txt: 'k = 2*pi*f/c', vars: ['k', 'f'], f: v => v.k - 2 * PI * v.f / v.c },
         { name: 'Helmholtz number', tex: 'kr', txt: 'kr = k*r', vars: ['kr', 'k', 'r'], f: v => v.kr - v.k * v.r, note: 'kr ≪ 1 near field, kr ≫ 1 far field.' },
-        { name: 'Phase between pressure and particle velocity', tex: '\\varphi = \\arctan\\dfrac{1}{kr}', txt: 'phi = atan(1/kr)', vars: ['phi', 'kr'], f: v => v.phi - Math.atan(1 / v.kr) * 180 / PI, note: 'Not arctan(kr): that is the classic trap.' },
+        { name: 'Phase between pressure and particle velocity', tex: '\\varphi = \\arctan\\dfrac{1}{kr}', txt: 'phi = atan(1/kr)', matlab: 'phi = atand(1./kr)', vars: ['phi', 'kr'], f: v => v.phi - Math.atan(1 / v.kr) * 180 / PI, note: 'Not arctan(kr): that is the classic trap.' },
         { name: 'Specific impedance magnitude', tex: '\\dfrac{|Z_s|}{\\rho c} = \\dfrac{kr}{\\sqrt{1+(kr)^2}}', txt: 'zr = kr/sqrt(1 + kr^2)', vars: ['zr', 'kr'], f: v => v.zr - v.kr / sq(1 + v.kr * v.kr) },
         { name: 'Pressure of a monopole', tex: 'p_{\\rm rms} = \\dfrac{\\rho c k\\,Q_{\\rm rms}}{4\\pi r}', txt: 'p = rho*c*k*Qv/(4*pi*r)', vars: ['p', 'k', 'Qv', 'r'], f: v => v.p - v.rho * v.c * v.k * v.Qv / (4 * PI * v.r), note: 'Free field. Use peak Q for peak p.' },
         { name: 'Power of a monopole', tex: 'W = \\dfrac{\\rho c k^2 Q_{\\rm rms}^2}{4\\pi}', txt: 'W = rho*c*k^2*Qv^2/(4*pi)', vars: ['W', 'k', 'Qv'], f: v => v.W - v.rho * v.c * v.k * v.k * v.Qv * v.Qv / (4 * PI), note: 'With a peak Q it is 8π in the denominator.' },
@@ -279,7 +288,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         { name: 'Wavenumber', tex: 'k = \\dfrac{2\\pi f}{c}', txt: 'k = 2*pi*f/c', vars: ['k', 'f'], f: v => v.k - 2 * PI * v.f / v.c },
         { name: 'Phase from path difference', tex: '\\Delta\\varphi = k\\,\\Delta r', txt: 'dphi = k*dr*180/pi', vars: ['dphi', 'k', 'dr'], f: v => v.dphi - v.k * v.dr * 180 / PI, note: 'In degrees. Add the sources’ own phase difference if they are not in phase.' },
         { name: 'Amplitude ratio', tex: 'a = 10^{(L_2-L_1)/20}', txt: 'a = 10^((L2 - L1)/20)', vars: ['a', 'L2', 'L1'], f: v => v.a - 10 ** ((v.L2 - v.L1) / 20) },
-        { name: 'Coherent sum (same frequency)', tex: 'L_{\\rm coh} = L_1 + 10\\log_{10}\\left(1 + a^2 + 2a\\cos\\Delta\\varphi\\right)', txt: 'Lc = L1 + 10*log10(1 + a^2 + 2*a*cos(dphi))', vars: ['Lc', 'L1', 'a', 'dphi'], f: v => v.Lc - (v.L1 + 10 * L10(1 + v.a * v.a + 2 * v.a * Math.cos(v.dphi * PI / 180))), note: 'Equal sources: +6 dB in phase, total cancellation at 180°.' },
+        { name: 'Coherent sum (same frequency)', tex: 'L_{\\rm coh} = L_1 + 10\\log_{10}\\left(1 + a^2 + 2a\\cos\\Delta\\varphi\\right)', txt: 'Lc = L1 + 10*log10(1 + a^2 + 2*a*cos(dphi))', matlab: 'Lc = L1 + 10*log10(1 + a.^2 + 2*a.*cosd(dphi))', vars: ['Lc', 'L1', 'a', 'dphi'], f: v => v.Lc - (v.L1 + 10 * L10(1 + v.a * v.a + 2 * v.a * Math.cos(v.dphi * PI / 180))), note: 'Equal sources: +6 dB in phase, total cancellation at 180°.' },
         { name: 'Incoherent sum (different frequencies, noise)', tex: 'L_{\\rm inc} = L_1 + 10\\log_{10}(1 + a^2)', txt: 'Li = L1 + 10*log10(1 + a^2)', vars: ['Li', 'L1', 'a'], f: v => v.Li - (v.L1 + 10 * L10(1 + v.a * v.a)), note: 'Two equal sources: +3 dB.' },
         { name: 'Dipole power', tex: '\\Delta L_W = 10\\log_{10}\\left[2\\left(1 - \\dfrac{\\sin kd}{kd}\\right)\\right] \\approx 10\\log_{10}\\dfrac{(kd)^2}{3}', txt: 'Wd = 10*log10(2*(1 - sin(k*d)/(k*d)))', vars: ['Wd', 'k', 'd'], f: v => v.Wd - 10 * L10(2 * (1 - Math.sin(v.k * v.d) / (v.k * v.d))), note: 'Two antiphase monopoles, relative to one of them alone. Very inefficient at low frequency (kd ≪ 1).' },
         { name: 'Monopole above a hard floor', tex: '\\Delta L_W = 10\\log_{10}\\left(1 + \\dfrac{\\sin 2kh}{2kh}\\right)', txt: 'Wh = 10*log10(1 + sin(2*k*h)/(2*k*h))', vars: ['Wh', 'k', 'h'], f: v => v.Wh - 10 * L10(1 + Math.sin(2 * v.k * v.h) / (2 * v.k * v.h)), note: 'Relative to the same source in free field: +3 dB when kh ≪ 1 (Q = 2).' },
@@ -368,8 +377,8 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         { name: 'Lower band edge', tex: 'f_l = f_c\\,2^{-1/(2b)}', txt: 'fl = fc*2^(-1/(2*b))', vars: ['fl', 'fc', 'b'], f: v => v.fl - v.fc * 2 ** (-1 / (2 * v.b)) },
         { name: 'Upper band edge', tex: 'f_u = f_c\\,2^{1/(2b)}', txt: 'fu = fc*2^(1/(2*b))', vars: ['fu', 'fc', 'b'], f: v => v.fu - v.fc * 2 ** (1 / (2 * v.b)) },
         { name: 'Bandwidth', tex: 'B = f_u - f_l', txt: 'B = fu - fl', vars: ['B', 'fu', 'fl'], f: v => v.B - (v.fu - v.fl), note: 'Octave ≈ 0.71 f_c, third octave ≈ 0.23 f_c.' },
-        { name: 'A-weighting', tex: 'A(f) \\;\\text{(IEC 61672)}', txt: 'Aw = A(fc)', vars: ['Aw', 'fc'], f: v => v.Aw - aWeight(v.fc), note: 'The exam’s table rounds to 0.1 dB; the band table below uses the table values.' },
-        { name: 'C-weighting', tex: 'C(f) \\;\\text{(IEC 61672)}', txt: 'Cw = C(fc)', vars: ['Cw', 'fc'], f: v => v.Cw - cWeight(v.fc) },
+        { name: 'A-weighting', tex: 'A(f) \\;\\text{(IEC 61672)}', txt: 'Aw = A(fc)', matlab: 'Aw = 20*log10(12194^2*fc.^4./((fc.^2 + 20.6^2).*sqrt((fc.^2 + 107.7^2).*(fc.^2 + 737.9^2)).*(fc.^2 + 12194^2))) + 2.00', vars: ['Aw', 'fc'], f: v => v.Aw - aWeight(v.fc), note: 'The exam’s table rounds to 0.1 dB; the band table below uses the table values.' },
+        { name: 'C-weighting', tex: 'C(f) \\;\\text{(IEC 61672)}', txt: 'Cw = C(fc)', matlab: 'Cw = 20*log10(12194^2*fc.^2./((fc.^2 + 20.6^2).*(fc.^2 + 12194^2))) + 0.06', vars: ['Cw', 'fc'], f: v => v.Cw - cWeight(v.fc) },
         { name: 'A-weighted band level', tex: 'L_A = L + A(f_c)', txt: 'La = Lb + Aw', vars: ['La', 'Lb', 'Aw'], f: v => v.La - (v.Lb + v.Aw) },
       ],
       widgets: ['bandtable'],
@@ -466,7 +475,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
         { name: 'Resonance in a closed box', tex: 'f_c = \\dfrac{1}{2\\pi}\\sqrt{\\dfrac{K + K_b}{M}}', txt: 'fcb = 1/(2*pi)*sqrt((K + Kb)/M)', vars: ['fcb', 'K', 'Kb', 'M'], f: v => v.fcb - sq((v.K + v.Kb) / v.M) / (2 * PI) },
         { name: 'Pressure in the mass-controlled range', tex: 'p_{\\rm rms} = \\dfrac{\\rho\\,S\\,Bl\\,e_{\\rm rms}}{\\Omega\\,r\\,R_e M}', txt: 'p = rho*Sd*Bl*eg/(Om*r*Re*M)', vars: ['p', 'Sd', 'Bl', 'eg', 'Om', 'r', 'Re', 'M'], f: v => v.p - v.rho * v.Sd * v.Bl * v.eg / (v.Om * v.r * v.Re * v.M), note: 'Flat response above f_s while ka < 1. Type 4*pi or 2*pi for Ω.' },
         { name: 'Size against wavelength', tex: 'ka = \\dfrac{2\\pi f a}{c}', txt: 'ka = 2*pi*f*a/c', vars: ['ka', 'f', 'a'], f: v => v.ka - 2 * PI * v.f * v.a / v.c, note: 'Omnidirectional below ka ≈ 1, beaming above.' },
-        { name: 'First null of a baffled piston', tex: '\\sin\\theta_1 = \\dfrac{3.83}{ka}', txt: 'th = asin(3.83/ka)', vars: ['th', 'ka'], f: v => Math.sin(v.th * PI / 180) - 3.83 / v.ka, note: 'Only exists when ka > 3.83.' },
+        { name: 'First null of a baffled piston', tex: '\\sin\\theta_1 = \\dfrac{3.83}{ka}', txt: 'th = asin(3.83/ka)', matlab: 'th = asind(3.83./ka)', vars: ['th', 'ka'], f: v => Math.sin(v.th * PI / 180) - 3.83 / v.ka, note: 'Only exists when ka > 3.83.' },
       ],
     },
   ];
@@ -629,7 +638,22 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     }).replace(/\*/g, '·').replace(/\bpi\b/g, 'π').replace(/sqrt/g, '√');
   }
 
-  const api = { solve1, propagate, parseInput, fmt, substitute };
+  // MATLAB line for a formula, element-wise so vectors work: Lp = 20*log10(p./p0)
+  function toMatlab(F) {
+    if (F.matlab) return F.matlab;
+    const eq = F.txt.indexOf('=');
+    const lhs = F.txt.slice(0, eq).trim();
+    let rhs = F.txt.slice(eq + 1).trim();
+    rhs = rhs.replace(/\bln\(/g, 'log(');
+    // a number or pi that starts a term keeps a plain * (2*pi*f); everything else is element-wise
+    let prev;
+    do { prev = rhs; rhs = rhs.replace(/(^|[\s(+\-\u0001])(\d+(?:\.\d+)?(?:e-?\d+)?|pi)\s*\*/g, '$1$2\u0001'); } while (rhs !== prev);
+    rhs = rhs.replace(/\*/g, '.*').replace(/\u0001/g, '*')
+      .replace(/\//g, './').replace(/\^/g, '.^');
+    return `${lhs} = ${rhs}`;
+  }
+
+  const api = { solve1, propagate, parseInput, fmt, substitute, toMatlab };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.ENGINE = api;
 })(typeof self !== 'undefined' ? self : this);
@@ -680,6 +704,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     });
     const cbox = $('#consts');
     cbox.innerHTML = '';
+    cbox.append(h('button', { class: 'const-copy', title: 'Copy the constants as one MATLAB line', onclick: () => copyText(CONST_LINE(), 'Constants copied') }, 'Copy constants for MATLAB'));
     Object.entries(CONSTANTS).filter(([, c]) => c.editable).forEach(([k, c]) => {
       const inp = h('input', { value: store.consts[k] ?? String(c.value), 'aria-label': c.name, spellcheck: 'false' });
       inp.addEventListener('input', () => {
@@ -713,6 +738,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
           h('h1', {}, t.title),
           h('p', { class: 'blurb' }, t.blurb)),
         h('div', { class: 'actions' },
+          h('button', { onclick: copyMatlab, title: 'Constants, your given values and the MATLAB line of every formula used, ready to paste into a live script' }, 'Copy as MATLAB'),
           h('button', { onclick: copyWorking, title: 'Copy the given values and every worked step as plain text' }, 'Copy working'),
           h('button', { onclick: clearTopic }, 'Clear'))),
       h('p', { class: 'help' }, 'Type what you know. Whatever follows from it appears in blue, with the working underneath. Fields accept arithmetic, like 2*(5*8 + 5*3) or 4*pi.')
@@ -746,6 +772,7 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     return h('section', { class: 'formula', id: `f-${t.id}-${i}`, 'data-i': i },
       h('h3', {}, F.name),
       h('div', { class: 'tex', html: tex(F.tex, true) }),
+      matlabLine(E.toMatlab(F)),
       h('div', { class: 'fields' }, fields),
       h('div', { class: 'work' }),
       F.note ? h('p', { class: 'note' }, F.note) : null);
@@ -836,6 +863,34 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
     return h('div', { class: 'line' }, workText(t, F, key, res, consts));
   }
 
+  function matlabLine(code) {
+    const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
+    const el = h('div', { class: 'ml' }, h('code', {}, code), btn);
+    el.addEventListener('click', () => copyText(code, 'MATLAB line copied'));
+    return el;
+  }
+  const CONST_LINE = () => { const c = constValues(); return `rho = ${c.rho}; c = ${c.c}; p0 = 20e-6; I0 = 1e-12; W0 = 1e-12; g = 9.81;`; };
+
+  // Paste-ready MATLAB: constants, given values, then each formula used, in the order it was solved.
+  function copyMatlab() {
+    const t = current, res = lastResult, raws = store.topics[t.id] || {};
+    const lines = [`%% ${t.title}`, CONST_LINE()];
+    const given = Object.keys(raws).filter(k => Number.isFinite(E.parseInput(raws[k])));
+    given.forEach(k => lines.push(`${k} = ${raws[k].trim()};${' '.repeat(Math.max(1, 14 - k.length - raws[k].trim().length))}% ${t.vars[k][2]}${t.vars[k][1] ? ', ' + t.vars[k][1] : ''}`));
+    const solved = Object.entries(res.info).sort((a, b) => a[1].order - b[1].order);
+    solved.forEach(([k, inf]) => {
+      const F = t.formulas[inf.from];
+      if (k === F.vars[0]) lines.push(E.toMatlab(F));
+      else lines.push(`% ${k} from: ${E.toMatlab(F)}   (rearrange, or fzero)`, `${k} = ${E.fmt(res.values[k])}`);
+    });
+    if (!solved.length) lines.push('% Nothing worked out yet: every formula line on this page:', ...t.formulas.map(F => E.toMatlab(F)));
+    copyText(lines.join('\n'), 'MATLAB copied');
+  }
+  function copyText(text, msg) {
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => toast(msg || 'Copied'), () => fallbackCopy(text, msg));
+    else fallbackCopy(text, msg);
+  }
+
   function copyWorking() {
     const t = current, res = lastResult, consts = constValues();
     const raws = store.topics[t.id] || {};
@@ -847,15 +902,12 @@ button.x { color: var(--faint); font-size: 15px; line-height: 1; }
       const F = t.formulas[inf.from];
       lines.push(`${F.name}: ${workText(t, F, k, res, consts)}`);
     });
-    const text = lines.join('\n');
-    const done = () => toast('Copied');
-    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text));
-    else fallbackCopy(text);
+    copyText(lines.join('\n'), 'Working copied');
   }
-  function fallbackCopy(text) {
+  function fallbackCopy(text, msg) {
     const ta = h('textarea', {}, text);
     document.body.append(ta); ta.select();
-    try { document.execCommand('copy'); toast('Copied'); } catch (e) { toast('Copy failed'); }
+    try { document.execCommand('copy'); toast(msg || 'Copied'); } catch (e) { toast('Copy failed'); }
     ta.remove();
   }
   function clearTopic() {

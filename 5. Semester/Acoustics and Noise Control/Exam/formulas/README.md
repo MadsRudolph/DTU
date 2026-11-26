@@ -7,6 +7,9 @@ results chain. Fields take arithmetic (`2*(5*8+5*3)`, `4*pi`, `10^(3/10)`, `2k`)
 
 - **Open:** double-click `acoustics-formulas.html`. No internet, no install. Inputs are kept in the browser between visits.
 - **Keys:** `/` search, Enter opens the first hit, Esc clears a field.
+- **MATLAB:** every formula shows its MATLAB line (element-wise, so vectors work); click it to copy.
+  **Copy as MATLAB** (top of each page) copies the constants, your given values and every formula used, in order,
+  ready to paste into a live script. The sidebar copies the constants line alone.
 - **Copy working:** copies the given values and each worked step as plain text for the hand-in.
 - **Topics:** levels, plane waves and tubes, point sources, two sources, room modes, reverberation,
   absorbers, bands and weighting, hearing, vibration isolation, sound insulation, loudspeakers.
@@ -17,3 +20,4 @@ Edit the formulas in `src/formulas.js` (residual form, one line each), then:
 
     node build.js    # writes acoustics-formulas.html (KaTeX inlined from ../app/vendor/katex)
     node test.js     # every formula solved for every variable, plus toolkit spot values
+    node matlab_check.js > check_matlab_lines.m && matlab -batch check_matlab_lines   # every MATLAB line = the page (99/99)

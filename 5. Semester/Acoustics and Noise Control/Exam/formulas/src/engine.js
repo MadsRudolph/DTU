@@ -151,7 +151,22 @@
     }).replace(/\*/g, '·').replace(/\bpi\b/g, 'π').replace(/sqrt/g, '√');
   }
 
-  const api = { solve1, propagate, parseInput, fmt, substitute };
+  // MATLAB line for a formula, element-wise so vectors work: Lp = 20*log10(p./p0)
+  function toMatlab(F) {
+    if (F.matlab) return F.matlab;
+    const eq = F.txt.indexOf('=');
+    const lhs = F.txt.slice(0, eq).trim();
+    let rhs = F.txt.slice(eq + 1).trim();
+    rhs = rhs.replace(/\bln\(/g, 'log(');
+    // a number or pi that starts a term keeps a plain * (2*pi*f); everything else is element-wise
+    let prev;
+    do { prev = rhs; rhs = rhs.replace(/(^|[\s(+\-\u0001])(\d+(?:\.\d+)?(?:e-?\d+)?|pi)\s*\*/g, '$1$2\u0001'); } while (rhs !== prev);
+    rhs = rhs.replace(/\*/g, '.*').replace(/\u0001/g, '*')
+      .replace(/\//g, './').replace(/\^/g, '.^');
+    return `${lhs} = ${rhs}`;
+  }
+
+  const api = { solve1, propagate, parseInput, fmt, substitute, toMatlab };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.ENGINE = api;
 })(typeof self !== 'undefined' ? self : this);

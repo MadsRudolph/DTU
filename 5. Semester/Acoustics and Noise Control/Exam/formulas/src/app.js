@@ -44,6 +44,7 @@
     });
     const cbox = $('#consts');
     cbox.innerHTML = '';
+    cbox.append(h('button', { class: 'const-copy', title: 'Copy the constants as one MATLAB line', onclick: () => copyText(CONST_LINE(), 'Constants copied') }, 'Copy constants for MATLAB'));
     Object.entries(CONSTANTS).filter(([, c]) => c.editable).forEach(([k, c]) => {
       const inp = h('input', { value: store.consts[k] ?? String(c.value), 'aria-label': c.name, spellcheck: 'false' });
       inp.addEventListener('input', () => {
@@ -77,6 +78,7 @@
           h('h1', {}, t.title),
           h('p', { class: 'blurb' }, t.blurb)),
         h('div', { class: 'actions' },
+          h('button', { onclick: copyMatlab, title: 'Constants, your given values and the MATLAB line of every formula used, ready to paste into a live script' }, 'Copy as MATLAB'),
           h('button', { onclick: copyWorking, title: 'Copy the given values and every worked step as plain text' }, 'Copy working'),
           h('button', { onclick: clearTopic }, 'Clear'))),
       h('p', { class: 'help' }, 'Type what you know. Whatever follows from it appears in blue, with the working underneath. Fields accept arithmetic, like 2*(5*8 + 5*3) or 4*pi.')
@@ -110,6 +112,7 @@
     return h('section', { class: 'formula', id: `f-${t.id}-${i}`, 'data-i': i },
       h('h3', {}, F.name),
       h('div', { class: 'tex', html: tex(F.tex, true) }),
+      matlabLine(E.toMatlab(F)),
       h('div', { class: 'fields' }, fields),
       h('div', { class: 'work' }),
       F.note ? h('p', { class: 'note' }, F.note) : null);
@@ -200,6 +203,34 @@
     return h('div', { class: 'line' }, workText(t, F, key, res, consts));
   }
 
+  function matlabLine(code) {
+    const btn = h('button', { class: 'ml-copy', title: 'Copy this line' }, 'copy');
+    const el = h('div', { class: 'ml' }, h('code', {}, code), btn);
+    el.addEventListener('click', () => copyText(code, 'MATLAB line copied'));
+    return el;
+  }
+  const CONST_LINE = () => { const c = constValues(); return `rho = ${c.rho}; c = ${c.c}; p0 = 20e-6; I0 = 1e-12; W0 = 1e-12; g = 9.81;`; };
+
+  // Paste-ready MATLAB: constants, given values, then each formula used, in the order it was solved.
+  function copyMatlab() {
+    const t = current, res = lastResult, raws = store.topics[t.id] || {};
+    const lines = [`%% ${t.title}`, CONST_LINE()];
+    const given = Object.keys(raws).filter(k => Number.isFinite(E.parseInput(raws[k])));
+    given.forEach(k => lines.push(`${k} = ${raws[k].trim()};${' '.repeat(Math.max(1, 14 - k.length - raws[k].trim().length))}% ${t.vars[k][2]}${t.vars[k][1] ? ', ' + t.vars[k][1] : ''}`));
+    const solved = Object.entries(res.info).sort((a, b) => a[1].order - b[1].order);
+    solved.forEach(([k, inf]) => {
+      const F = t.formulas[inf.from];
+      if (k === F.vars[0]) lines.push(E.toMatlab(F));
+      else lines.push(`% ${k} from: ${E.toMatlab(F)}   (rearrange, or fzero)`, `${k} = ${E.fmt(res.values[k])}`);
+    });
+    if (!solved.length) lines.push('% Nothing worked out yet: every formula line on this page:', ...t.formulas.map(F => E.toMatlab(F)));
+    copyText(lines.join('\n'), 'MATLAB copied');
+  }
+  function copyText(text, msg) {
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => toast(msg || 'Copied'), () => fallbackCopy(text, msg));
+    else fallbackCopy(text, msg);
+  }
+
   function copyWorking() {
     const t = current, res = lastResult, consts = constValues();
     const raws = store.topics[t.id] || {};
@@ -211,15 +242,12 @@
       const F = t.formulas[inf.from];
       lines.push(`${F.name}: ${workText(t, F, k, res, consts)}`);
     });
-    const text = lines.join('\n');
-    const done = () => toast('Copied');
-    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text));
-    else fallbackCopy(text);
+    copyText(lines.join('\n'), 'Working copied');
   }
-  function fallbackCopy(text) {
+  function fallbackCopy(text, msg) {
     const ta = h('textarea', {}, text);
     document.body.append(ta); ta.select();
-    try { document.execCommand('copy'); toast('Copied'); } catch (e) { toast('Copy failed'); }
+    try { document.execCommand('copy'); toast(msg || 'Copied'); } catch (e) { toast('Copy failed'); }
     ta.remove();
   }
   function clearTopic() {
