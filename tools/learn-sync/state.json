@@ -1290,6 +1290,54 @@
       "sha256": "8733dac24b9490f4033489fd692edd9d4f44846a620f62be97a92bfec7dbdb52",
       "synced_at": "2026-11-26T11:03:45+00:00",
       "vault_path": "Obsidian/Courses/34870 Electroacoustics/Literature/00 - Basic Material/34870_Oral_Exam_Rules_2026.pdf"
+    },
+    "1310366": {
+      "revision": "2026-11-28T10:56:43.640Z",
+      "sha256": "4f00949d961defb7550679a1add017546acd5fb8039720d29b7ffc0547dd21a0",
+      "synced_at": "2026-11-28T11:07:40+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Exam samples/62755 Final Exam.pdf"
+    },
+    "1310367": {
+      "revision": "2026-11-28T10:56:44.287Z",
+      "sha256": "43c90c8db14882965e72b411c15ba57bcda9c5d3161b347d56b7f86a08e8e63f",
+      "synced_at": "2026-11-28T11:07:42+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Exam samples/Exam62755-9-912-2022.pdf"
+    },
+    "1310369": {
+      "revision": "2026-11-28T10:59:38.660Z",
+      "sha256": "b379c5a5099af157e221aec759c36b238d9586e8f3c6dc216804f1cc4631f775",
+      "synced_at": "2026-11-28T11:07:43+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 6.pdf"
+    },
+    "1310370": {
+      "revision": "2026-11-28T10:59:39.797Z",
+      "sha256": "0844128e599eb04487b0e7f9e87984bf8e33e576c8618a2a974a04fef208113c",
+      "synced_at": "2026-11-28T11:07:45+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 5.pdf"
+    },
+    "1310371": {
+      "revision": "2026-11-28T10:59:40.670Z",
+      "sha256": "9202e22cf4b85e9fba0793643c9f8d2c86afb8bd1f8882f0cf6ae625199cf837",
+      "synced_at": "2026-11-28T11:07:46+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 4.pdf"
+    },
+    "1310372": {
+      "revision": "2026-11-28T10:59:41.580Z",
+      "sha256": "a17746d67f9f85bdb6cdd82e5e3920caf61c53ad3c724d2117a26ffc247e3d85",
+      "synced_at": "2026-11-28T11:07:48+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 3.pdf"
+    },
+    "1310373": {
+      "revision": "2026-11-28T10:59:42.353Z",
+      "sha256": "4a53e19a67d6e28b02d22857ce475656760295cf4c62301df7756456b099a572",
+      "synced_at": "2026-11-28T11:07:49+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 2.pdf"
+    },
+    "1310374": {
+      "revision": "2026-11-28T10:59:43.203Z",
+      "sha256": "ca88f0670e9af1e7433132e3352cc37cf4fd23b0173824a3c962d48cdc065934",
+      "synced_at": "2026-11-28T11:07:51+00:00",
+      "vault_path": "Obsidian/Courses/62755 Power Electronics/_Learn/Revision/Part 1.pdf"
     }
   }
 }

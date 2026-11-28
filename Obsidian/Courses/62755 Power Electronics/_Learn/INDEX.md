@@ -91,3 +91,17 @@ links to where the file actually lives in the vault.*
 ## Lab 4
 
 - [[Courses/62755 Power Electronics/Labs/Lab 4.pdf|Lab 4]]
+
+## Exam samples
+
+- [[Courses/62755 Power Electronics/_Learn/Exam samples/62755 Final Exam.pdf|62755 Final Exam]]
+- [[Courses/62755 Power Electronics/_Learn/Exam samples/Exam62755-9-912-2022.pdf|Exam62755-9-912-2022]]
+
+## Revision
+
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 6.pdf|Part 6]]
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 5.pdf|Part 5]]
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 4.pdf|Part 4]]
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 3.pdf|Part 3]]
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 2.pdf|Part 2]]
+- [[Courses/62755 Power Electronics/_Learn/Revision/Part 1.pdf|Part 1]]
